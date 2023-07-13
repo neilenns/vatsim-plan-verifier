@@ -30,7 +30,7 @@ COPY --from=build /app/package*.json ./
 RUN npm ci --only=production
 
 # Expose the port on which your Express.js app listens
-EXPOSE 3001
+EXPOSE 4001
 
 # Set the entrypoint file
 CMD ["node", "dist/main.mjs"]
