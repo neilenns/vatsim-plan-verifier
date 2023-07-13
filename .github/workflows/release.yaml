@@ -1,0 +1,62 @@
+name: Create and publish Docker images
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - context: client
+            image: ghcr.io/neilenns/vatsim-plan-verifier-client
+          - context: server
+            image: ghcr.io/neilenns/vatsim-plan-verifier-server
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate Docker metadata
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            ${{ matrix.image }}
+          labels: |
+            org.opencontainers.image.title=Vatsim plan verifier ${{ matrix.context }}
+            org.opencontainers.image.description=${{ matrix.context }} for Vatsim plan verifier
+            org.opencontainers.image.source=https://github.com/neilenns/vatsim-plan-verifier
+            org.opencontainers.image.licenses=MIT
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+
+      - name: Build and push image
+        uses: docker/build-push-action@v4
+        with:
+          context: ${{ matrix.context }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=registry,ref=neilenns/vatsim-plan-verifier-${{ matrix.context }}:latest
+          cache-to: type=inline
