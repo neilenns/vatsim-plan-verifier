@@ -6,19 +6,16 @@ import { Typography } from "@mui/material";
 import FlightPlanDisplay from "./components/FlightPlanDisplay";
 import { useState } from "react";
 import IFlightPlan from "./interfaces/IFlightPlan.mts";
-
-const testFlightPlan = {
-  callSign: "BAW123",
-  aircraftType: "B738",
-  squawk: "1234",
-  departure: "EGLL",
-  arrival: "EHAM",
-  cruiseAltitude: "FL360",
-  route: "DCT DET DCT",
-} as IFlightPlan;
+import parseFlightPlan from "./utils/flightPlanParser";
 
 function App() {
   const [flightPlan, setFlightPlan] = useState<IFlightPlan>({} as IFlightPlan);
+
+  function handleSubmit(rawFlightPlan: string) {
+    const flightPlan = parseFlightPlan(rawFlightPlan);
+
+    setFlightPlan(flightPlan);
+  }
 
   return (
     <Grid container spacing={2}>
@@ -26,11 +23,7 @@ function App() {
         <Typography>Flight plan verifier</Typography>
       </Grid>
       <Grid xs={5}>
-        <FlightPlanEntryForm
-          onSubmit={() => {
-            setFlightPlan(testFlightPlan);
-          }}
-        />
+        <FlightPlanEntryForm onSubmit={handleSubmit} />
       </Grid>
       <Grid xs={7}>
         <FlightPlanDisplay flightPlan={flightPlan} />
