@@ -1,5 +1,5 @@
 export default interface IFlightPlan {
-  callSign?: string;
+  callsign?: string;
   aircraftType?: string;
   departure?: string;
   arrival?: string;
