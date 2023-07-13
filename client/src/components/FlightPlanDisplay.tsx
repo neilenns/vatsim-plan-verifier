@@ -10,7 +10,7 @@ const FlightPlanDisplay: React.FC<FlightPlanProps> = ({ flightPlan }) => {
     <Grid container spacing={2}>
       <Grid item xs={2} key="callsign">
         <Typography variant="subtitle1">Callsign</Typography>
-        <Typography variant="body1">{flightPlan.callSign}</Typography>
+        <Typography variant="body1">{flightPlan.callsign}</Typography>
       </Grid>
       <Grid item xs={2} key="aircraft">
         <Typography variant="subtitle1">Aircraft</Typography>
