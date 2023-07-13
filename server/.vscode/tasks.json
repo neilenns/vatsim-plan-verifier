@@ -1,0 +1,17 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build production (server)",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "build"],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": ["$tsc"]
+    }
+  ]
+}
