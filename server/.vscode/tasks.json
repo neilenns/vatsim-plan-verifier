@@ -1,0 +1,50 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build production (server)",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "build"],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": ["$tsc"]
+    },
+    {
+      "label": "docker-build: server",
+      "type": "docker-build",
+      "platform": "node",
+      "dockerBuild": {
+        "context": ".",
+        "dockerfile": "Dockerfile"
+      }
+    },
+    {
+      "label": "docker-run: server",
+      "type": "docker-run",
+      "dependsOn": ["docker-build: server"],
+      "dockerRun": {
+        "env": {
+          "DEBUG": "*",
+          "MONGO_DB_CONNECTION_STRING": "mongodb://tom:28018",
+          "MONGO_DB_NAME": "vatsim-plan-verifier",
+          "WHITELISTED_DOMAINS": "http://localhost:4000",
+          "PORT": "4001",
+          "CHOKIDAR_USEPOLLING": "true"
+        },
+        "ports": [
+          {
+            "containerPort": 4001,
+            "hostPort": 4001
+          }
+        ]
+      },
+      "node": {
+        "enableDebugging": true
+      }
+    }
+  ]
+}

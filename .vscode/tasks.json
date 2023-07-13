@@ -1,0 +1,48 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "npm",
+      "script": "start:dev",
+      "label": "run server",
+      "options": {
+        "cwd": "${workspaceFolder}/server"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "isBackground": true,
+      "problemMatcher": ["$tsc-watch"]
+    },
+    {
+      "type": "npm",
+      "script": "dev",
+      "label": "run client",
+      "options": {
+        "cwd": "${workspaceFolder}/client"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "isBackground": true,
+      "problemMatcher": [
+        {
+          "base": "$vite-esbuild",
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": "> vite",
+            "endsPattern": "ready"
+          }
+        }
+      ]
+    },
+    {
+      "label": "run server and client",
+      "dependsOrder": "sequence",
+      "dependsOn": ["run server", "run client"],
+      "problemMatcher": []
+    }
+  ]
+}
