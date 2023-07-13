@@ -3,7 +3,7 @@
   "tasks": [
     {
       "type": "npm",
-      "script": "dev",
+      "script": "start:dev",
       "label": "run server",
       "options": {
         "cwd": "${workspaceFolder}/server"

@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/main.mjs",
   "scripts": {
-    "dev": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node ./dist/main.mjs\"",
+    "start:dev": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node ./dist/main.mjs\"",
     "start": "node ./dist/main.mjs",
     "build": "tsc"
   },
