@@ -23,8 +23,6 @@ function removeSecondSquawkCode(flightPlan: string): string {
 export default function parseFlightPlan(rawFlightPlan: string) {
   rawFlightPlan = removeSecondSquawkCode(rawFlightPlan);
 
-  console.log(`Processed flight plan: ${rawFlightPlan}`);
-
   const [
     callsign,
     aircraftType,
@@ -48,8 +46,6 @@ export default function parseFlightPlan(rawFlightPlan: string) {
     cruiseAltitude,
     route: route.join(" "),
   } as IFlightPlan;
-
-  console.log(JSON.stringify(flightPlan));
 
   return flightPlan;
 }
