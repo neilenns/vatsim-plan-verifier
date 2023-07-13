@@ -1,35 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
+
+import FlightPlanEntryForm from "./components/FlightPlanEntry";
+import { Typography } from "@mui/material";
+import FlightPlanDisplay from "./components/FlightPlanDisplay";
+import { useState } from "react";
+import IFlightPlan from "./interfaces/IFlightPlan.mts";
+
+const testFlightPlan = {
+  callSign: "BAW123",
+  aircraftType: "B738",
+  squawk: "1234",
+  departure: "EGLL",
+  arrival: "EHAM",
+  cruiseAltitude: "FL360",
+  route: "DCT DET DCT",
+} as IFlightPlan;
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [flightPlan, setFlightPlan] = useState<IFlightPlan>({} as IFlightPlan);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Grid container spacing={2}>
+      <Grid xs={12}>
+        <Typography>Flight plan verifier</Typography>
+      </Grid>
+      <Grid xs={5}>
+        <FlightPlanEntryForm
+          onSubmit={() => {
+            setFlightPlan(testFlightPlan);
+          }}
+        />
+      </Grid>
+      <Grid xs={7}>
+        <FlightPlanDisplay flightPlan={flightPlan} />
+      </Grid>
+    </Grid>
+  );
 }
 
-export default App
+export default App;
