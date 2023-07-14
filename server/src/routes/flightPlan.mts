@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
-import FlightPlan, { IFlightPlan } from "../models/flightPlan.mjs";
+import FlightPlan from "../models/flightPlan.mjs";
+import IFlightPlan from "../interfaces/flightPlan.mjs";
 
 const router = express.Router();
 
@@ -9,10 +10,10 @@ router.post("/flightPlan", async (req: Request, res: Response) => {
     const flightPlanData: IFlightPlan = req.body;
 
     // Create a new instance of the FlightPlan model
-    const newFlightPlan: IFlightPlan = new FlightPlan(flightPlanData);
+    const newFlightPlan = new FlightPlan(flightPlanData);
 
     // Save the flight plan to the database
-    const savedFlightPlan: IFlightPlan = await newFlightPlan.save();
+    const savedFlightPlan = await newFlightPlan.save();
 
     res.status(201).json(savedFlightPlan);
   } catch (error) {
