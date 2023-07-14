@@ -1,44 +1,60 @@
-import { caching } from "cache-manager";
-import { IFlightPlan } from "../models/flightPlan.mjs";
-import { FlightAwareRoute } from "../interfaces/flightAware";
+import FlightPlan from "../interfaces/flightPlan.mjs";
+import { IFlightAwareRoute } from "../interfaces/flightAware.mjs";
 import axios, { AxiosResponse } from "axios";
+import FlightAwareRoute from "../models/flightAwareRoute.mjs";
 
-// Cache in memory for 10 minutes, max 500 items
-const cache = await caching("memory", { ttl: 10 * 60 * 1000, max: 500 });
+interface FlightAwareRoutesResponse {
+  routes: IFlightAwareRoute[];
+}
 
 export async function getFlightAwareRoutes({
   departure,
   arrival,
-}: IFlightPlan): Promise<FlightAwareRoute[]> {
-  const cacheKey = `flightRoutes:${departure}-${arrival}`;
+}: FlightPlan): Promise<IFlightAwareRoute[]> {
+  try {
+    const routes = await FlightAwareRoute.find({ departure, arrival });
 
-  const routes = await cache.get<FlightAwareRoute[]>(cacheKey);
-  if (routes) {
-    console.log(`Found cached routes for ${departure}-${arrival}`);
-    return routes;
+    if (routes && routes.length > 0) {
+      console.log(`Found cached routes for ${departure}-${arrival}`);
+      return routes;
+    }
+  } catch (error) {
+    console.log(
+      `Error fetching cached routes for ${departure}-${arrival}: ${error}`
+    );
   }
 
-  var fetchedRoutes: FlightAwareRoute[] = [];
+  // create a new FlightAwareRoutesResponse object and initialize the routes to an empty array
+  var fetchedRoutes: FlightAwareRoutesResponse = {
+    routes: [],
+  };
 
   try {
     fetchedRoutes = await fetchFlightRoutes(departure, arrival);
 
-    if (fetchedRoutes.length === 0) {
+    if (fetchedRoutes.routes.length === 0) {
       console.log(`No routes found for ${departure}-${arrival}`);
     }
 
-    await cache.set(cacheKey, fetchedRoutes);
+    fetchedRoutes.routes.map(async (route) => {
+      const newRoute = new FlightAwareRoute({
+        ...route,
+        departure,
+        arrival,
+      });
+      await newRoute.save();
+    });
   } catch (error) {
     console.error(error);
   }
 
-  return fetchedRoutes;
+  return fetchedRoutes.routes;
 }
 
 async function fetchFlightRoutes(
   departure: string,
   arrival: string
-): Promise<FlightAwareRoute[]> {
+): Promise<FlightAwareRoutesResponse> {
   if (!process.env.FLIGHTAWARE_API_KEY) {
     throw new Error("No FlightAware API key found");
   }
@@ -50,7 +66,7 @@ async function fetchFlightRoutes(
 
   try {
     const endpointUrl = `https://aeroapi.flightaware.com/aeroapi/airports/${departure}/routes/${arrival}`;
-    var response: AxiosResponse<FlightAwareRoute[]> = await axios.get(
+    var response: AxiosResponse<FlightAwareRoutesResponse> = await axios.get(
       endpointUrl,
       { headers }
     );

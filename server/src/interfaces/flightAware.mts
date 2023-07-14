@@ -1,4 +1,8 @@
-export interface FlightAwareRoute {
+import { Document } from "mongoose";
+
+export interface IFlightAwareRoute extends Document {
+  departure: string;
+  arrival: string;
   aircraft_types: string[];
   count: number;
   filed_altitude_max: number;

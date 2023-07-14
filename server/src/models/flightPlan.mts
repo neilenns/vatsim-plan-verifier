@@ -1,16 +1,8 @@
 import { Schema, model, Document } from "mongoose";
 
-export interface IFlightPlan extends Document {
-  callsign: string;
-  aircraftType: string;
-  departure: string;
-  arrival: string;
-  squawk: string;
-  cruiseAltitude: string;
-  route: string;
-}
+import FlightPlan from "../interfaces/flightPlan.mjs";
 
-const flightPlanSchema = new Schema<IFlightPlan>({
+const flightPlanSchema = new Schema<FlightPlan>({
   callsign: { type: String, required: true },
   aircraftType: { type: String, required: true },
   departure: { type: String, required: true },
@@ -20,6 +12,6 @@ const flightPlanSchema = new Schema<IFlightPlan>({
   route: { type: String, required: true },
 });
 
-const FlightPlan = model<IFlightPlan>("FlightPlan", flightPlanSchema);
+const FlightPlan = model<FlightPlan>("FlightPlan", flightPlanSchema);
 
 export default FlightPlan;
