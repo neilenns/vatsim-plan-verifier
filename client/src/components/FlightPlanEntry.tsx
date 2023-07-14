@@ -1,16 +1,36 @@
 import React, { useState } from "react";
-import { Box, Button, Grid, TextField } from "@mui/material";
+import { Box, Grid, TextField } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import IFlightPlan from "../interfaces/IFlightPlan.mts";
+import parseFlightPlan from "../utils/flightPlanParser";
+import { storeFlightPlan } from "../db/flightPlan.mts";
 
 interface FlightPlanProps {
-  onSubmit: (rawFlightPlan: string) => void;
+  onSubmit: (flightPlan: IFlightPlan) => void;
 }
 
 const FlightPlanEntryForm: React.FC<FlightPlanProps> = ({ onSubmit }) => {
   const [rawFlightPlan, setRawFlightPlan] = useState("");
+  const [submitErrorText, setSubmitErrorText] = useState("");
+  const [verifying, setVerifying] = React.useState(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSubmit(rawFlightPlan);
+    const flightPlan = parseFlightPlan(rawFlightPlan);
+
+    setVerifying(true);
+    storeFlightPlan(flightPlan)
+      .then(() => {
+        setSubmitErrorText("");
+        onSubmit(flightPlan);
+      })
+      .catch((error: Error) => {
+        setSubmitErrorText(error.message);
+        console.log(error.message);
+      })
+      .finally(() => {
+        setVerifying(false);
+      });
   };
 
   const handleTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -29,13 +49,21 @@ const FlightPlanEntryForm: React.FC<FlightPlanProps> = ({ onSubmit }) => {
             rows={4}
             value={rawFlightPlan}
             onChange={handleTextChange}
+            error={submitErrorText !== ""}
+            helperText={submitErrorText}
             style={{ width: "100%", flex: 1 }}
           />
         </Grid>
       </Grid>
-      <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+      <LoadingButton
+        loading={verifying}
+        type="submit"
+        variant="contained"
+        loadingPosition="end"
+        sx={{ mt: 3, mb: 2, width: "25%" }}
+      >
         Verify
-      </Button>
+      </LoadingButton>
     </Box>
   );
 };
