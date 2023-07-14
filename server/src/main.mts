@@ -1,6 +1,7 @@
 import "dotenv/config";
 
 import * as WebServer from "./server.mjs";
+import * as db from "./database.mjs";
 
 // If startup fails restart is reattempted 5 times every 30 seconds.
 const restartAttemptWaitTime = 30 * 1000;
@@ -10,7 +11,7 @@ var restartTimer: NodeJS.Timeout;
 
 async function startup() {
   try {
-    //    await db.connectToDatabase();
+    await db.connectToDatabase();
     WebServer.startServer();
 
     // At this point startup succeeded so reset the restart count. This is in case
@@ -44,7 +45,7 @@ async function shutdown() {
   console.log("Shutting down...");
   clearTimeout(restartTimer);
   await WebServer.stopServer();
-  // await db.disconnectFromDatabase();
+  await db.disconnectFromDatabase();
   console.log("Shutdown complete.");
 }
 

@@ -45,6 +45,13 @@
       "node": {
         "enableDebugging": true
       }
+    },
+    {
+      "type": "npm",
+      "script": "start:dev",
+      "problemMatcher": ["$tsc-watch"],
+      "label": "npm: start:dev",
+      "detail": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node ./dist/main.mjs\""
     }
   ]
 }
