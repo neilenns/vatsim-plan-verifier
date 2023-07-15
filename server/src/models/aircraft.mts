@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import IAircraft from "../interfaces/aircraft.mjs";
 
 const aircraftSchema = new Schema(
   {
@@ -18,7 +19,7 @@ const aircraftSchema = new Schema(
 );
 
 // Define the model
-const Aircraft = model("Aircraft", aircraftSchema);
+const Aircraft = model<IAircraft>("Aircraft", aircraftSchema);
 
 // Export the model
 module.exports = Aircraft;

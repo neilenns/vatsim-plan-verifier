@@ -1,11 +1,13 @@
 import { Grid, Typography } from "@mui/material";
-import IFlightPlan from "../interfaces/IFlightPlan.mts";
+import IFlightPlan from "../interfaces/flightPlan.mjs";
 
 interface FlightPlanProps {
   flightPlan: IFlightPlan;
 }
 
-const FlightPlanDisplay: React.FC<FlightPlanProps> = ({ flightPlan }) => {
+const FlightPlanDisplay: React.FC<FlightPlanProps> = ({
+  flightPlan,
+}: FlightPlanProps) => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={2} key="callsign">
@@ -14,7 +16,7 @@ const FlightPlanDisplay: React.FC<FlightPlanProps> = ({ flightPlan }) => {
       </Grid>
       <Grid item xs={2} key="aircraft">
         <Typography variant="subtitle1">Aircraft</Typography>
-        <Typography variant="body1">{flightPlan.aircraftType}</Typography>
+        <Typography variant="body1">{flightPlan.rawAircraftType}</Typography>
       </Grid>
       <Grid item xs={2} key="squawk">
         <Typography variant="subtitle1">Squawk code</Typography>

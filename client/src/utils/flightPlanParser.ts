@@ -1,4 +1,4 @@
-import IFlightPlan from "../interfaces/IFlightPlan.mts";
+import IFlightPlan from "../interfaces/flightPlan.mjs";
 
 // Cleans up flight plans that have two squawk codes in them by removing
 // the second one, which is the one the plane is currently squawking.
@@ -20,12 +20,12 @@ function removeSecondSquawkCode(flightPlan: string): string {
   return flightPlan; // If no match found, return the input as is
 }
 
-export default function parseFlightPlan(rawFlightPlan: string) {
+export default function parseFlightPlan(rawFlightPlan: string): IFlightPlan {
   rawFlightPlan = removeSecondSquawkCode(rawFlightPlan);
 
   const [
     callsign,
-    aircraftType,
+    rawAircraftType,
     assignedSquawk,
     departure,
     arrival,
@@ -37,15 +37,15 @@ export default function parseFlightPlan(rawFlightPlan: string) {
     .replace(/\n/g, " ") // Convert the newlines inserted by VRC to a single space
     .split(" ");
 
-  const flightPlan = {
+  const flightPlan: IFlightPlan = {
     callsign,
-    aircraftType,
+    rawAircraftType,
     squawk: assignedSquawk,
     departure,
     arrival,
     cruiseAltitude,
     route: route.join(" "),
-  } as IFlightPlan;
+  };
 
   return flightPlan;
 }

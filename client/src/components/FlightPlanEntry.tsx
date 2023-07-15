@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, Grid, TextField } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import IFlightPlan from "../interfaces/IFlightPlan.mts";
+import IFlightPlan from "../interfaces/flightPlan.mjs";
 import parseFlightPlan from "../utils/flightPlanParser";
 import { storeFlightPlan } from "../db/flightPlan.mts";
 
