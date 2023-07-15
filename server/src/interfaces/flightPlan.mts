@@ -10,6 +10,7 @@ interface IFlightPlan extends Document {
   squawk: string;
   cruiseAltitude: string;
   route: string;
+  directionOfFlight?: number;
 }
 
 export default IFlightPlan;

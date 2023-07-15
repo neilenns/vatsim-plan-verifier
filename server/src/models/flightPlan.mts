@@ -11,6 +11,7 @@ const flightPlanSchema = new Schema<FlightPlan>({
   squawk: { type: String, required: true },
   cruiseAltitude: { type: String, required: true },
   route: { type: String, required: true },
+  directionOfFlight: { type: Number, required: false },
 });
 
 flightPlanSchema.virtual("departureAirportInfo", {
