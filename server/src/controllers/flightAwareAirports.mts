@@ -1,4 +1,4 @@
-import FlightPlan from "../interfaces/flightPlan.mjs";
+import FlightPlan from "../interfaces/IFlightPlanDocument.mjs";
 import { IFlightAwareAirport } from "../interfaces/flightAware.mjs";
 import axios, { AxiosResponse } from "axios";
 import FlightAwareAirport from "../models/flightAwareAirport.mjs";

@@ -1,12 +1,12 @@
 import express, { Request, Response } from "express";
-import IFlightPlan from "../interfaces/flightPlan.mjs";
+import IFlightPlanDocument from "../interfaces/IFlightPlanDocument.mjs";
 import { getFlightPlan, putFlightPlan } from "../controllers/flightPlans.mjs";
 
 const router = express.Router();
 
 // POST route for storing a flight plan
 router.post("/flightPlan", async (req: Request, res: Response) => {
-  const flightPlanData: IFlightPlan = req.body;
+  const flightPlanData: IFlightPlanDocument = req.body;
 
   const result = await putFlightPlan(flightPlanData);
 

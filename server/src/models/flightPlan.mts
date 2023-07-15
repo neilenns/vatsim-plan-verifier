@@ -1,9 +1,12 @@
-import { Schema, model } from "mongoose";
+import { Model, Schema, model } from "mongoose";
+import IFlightPlanDocument from "../interfaces/IFlightPlanDocument.mjs";
 import autopopulate from "mongoose-autopopulate";
 
-import IFlightPlan from "../interfaces/flightPlan.mjs";
+export interface IFlightPlan extends IFlightPlanDocument {}
 
-const flightPlanSchema = new Schema<IFlightPlan>({
+export interface FlightPlanModelInterface extends Model<IFlightPlan> {}
+
+export const FlightPlanSchema = new Schema({
   callsign: { type: String, required: true },
   rawAircraftType: { type: String, required: true },
   equipmentCode: { type: String, required: false },
@@ -16,7 +19,7 @@ const flightPlanSchema = new Schema<IFlightPlan>({
   route: { type: String, required: true },
 });
 
-flightPlanSchema.virtual("equipmentInfo", {
+FlightPlanSchema.virtual("equipmentInfo", {
   ref: "aircraft",
   localField: "equipmentCode",
   foreignField: "equipmentCode",
@@ -24,7 +27,7 @@ flightPlanSchema.virtual("equipmentInfo", {
   autopopulate: true,
 });
 
-flightPlanSchema.virtual("departureAirportInfo", {
+FlightPlanSchema.virtual("departureAirportInfo", {
   ref: "FlightAwareAirport",
   localField: "departure",
   foreignField: "airportCode",
@@ -32,7 +35,7 @@ flightPlanSchema.virtual("departureAirportInfo", {
   autopopulate: true,
 });
 
-flightPlanSchema.virtual("departureAirportInfo", {
+FlightPlanSchema.virtual("departureAirportInfo", {
   ref: "FlightAwareAirport",
   localField: "departure",
   foreignField: "airportCode",
@@ -40,7 +43,7 @@ flightPlanSchema.virtual("departureAirportInfo", {
   autopopulate: true,
 });
 
-flightPlanSchema.virtual("arrivalAirportInfo", {
+FlightPlanSchema.virtual("arrivalAirportInfo", {
   ref: "FlightAwareAirport",
   localField: "arrival",
   foreignField: "airportCode",
@@ -48,9 +51,38 @@ flightPlanSchema.virtual("arrivalAirportInfo", {
   autopopulate: true,
 });
 
-flightPlanSchema.plugin(autopopulate);
-flightPlanSchema.set("toJSON", { virtuals: true });
+// Before save split apart the rawAircraftType into the isHeavy, equipmentCode and equipmentSuffix
+FlightPlanSchema.pre("save", function (next) {
+  try {
+    if (this.isModified("rawAircraftType")) {
+      var rawAircraftType = this.rawAircraftType;
 
-const FlightPlan = model<IFlightPlan>("FlightPlan", flightPlanSchema);
+      if (rawAircraftType.startsWith("/H")) {
+        this.isHeavy = true;
+        rawAircraftType = rawAircraftType.substring(2); // Strip off the leading "H/"
+      }
+
+      const codeMatch = rawAircraftType.match(/^([A-Z0-9]+)(\/([A-Z]))?$/);
+      if (codeMatch && codeMatch.length > 0) {
+        this.equipmentCode = codeMatch[1];
+        if (codeMatch.length > 2 && codeMatch[3]) {
+          this.equipmentSuffix = codeMatch[3];
+        }
+      }
+    }
+  } catch (error) {
+    console.error(`Unable to parse rawAircraftType: ${error}`);
+  }
+
+  next();
+});
+
+FlightPlanSchema.plugin(autopopulate);
+FlightPlanSchema.set("toJSON", { virtuals: true });
+
+const FlightPlan: FlightPlanModelInterface = model<
+  IFlightPlanDocument,
+  FlightPlanModelInterface
+>("FlightPlan", FlightPlanSchema);
 
 export default FlightPlan;

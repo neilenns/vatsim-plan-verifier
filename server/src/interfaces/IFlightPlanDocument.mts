@@ -1,7 +1,8 @@
 import IAircraft from "./aircraft.mjs";
 import { IFlightAwareAirport } from "./flightAware.mjs";
+import { Document } from "mongoose";
 
-interface IFlightPlan {
+interface IFlightPlanDocument extends Document {
   callsign: string;
   rawAircraftType: string;
   equipmentCode?: string;
@@ -17,4 +18,4 @@ interface IFlightPlan {
   route: string;
 }
 
-export default IFlightPlan;
+export default IFlightPlanDocument;

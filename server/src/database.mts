@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import "./models/aircraft.mjs";
-import "./models/flightPlan.mjs";
+import "./models/FlightPlan.mjs";
 import "./models/flightAwareAirport.mjs";
 import "./models/flightAwareRoute.mjs";
 
