@@ -19,7 +19,7 @@ const aircraftSchema = new Schema(
 );
 
 // Define the model
-const Aircraft = model<IAircraft>("Aircraft", aircraftSchema);
+const Aircraft = model<IAircraft>("aircraft", aircraftSchema);
 
 // Export the model
 export default Aircraft;

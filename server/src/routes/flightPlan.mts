@@ -6,11 +6,13 @@ const router = express.Router();
 
 // POST route for storing a flight plan
 router.post("/flightPlan", async (req: Request, res: Response) => {
-  try {
-    const flightPlanData: IFlightPlan = req.body;
+  const flightPlanData: IFlightPlan = req.body;
 
-    res.status(201).json(putFlightPlan(flightPlanData));
-  } catch (error) {
+  const result = await putFlightPlan(flightPlanData);
+
+  if (result.success) {
+    res.status(201).json(result.data);
+  } else {
     res.status(500).json({ error: "Failed to store the flight plan." });
   }
 });
