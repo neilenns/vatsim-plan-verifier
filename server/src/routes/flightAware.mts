@@ -1,6 +1,8 @@
 import express from "express";
 import { getFlightAwareRoutes } from "../controllers/flightAwareRoutes.mjs";
 import IFlightPlan from "../interfaces/flightPlan.mjs";
+import { getFlightAwareAirport } from "../controllers/flightAwareAirports.mjs";
+import { IFlightAwareAirport } from "../interfaces/flightAware.mjs";
 
 const router = express.Router();
 
@@ -13,6 +15,19 @@ router.get("/flightAwareRoutes/:departure/:arrival", async (req, res) => {
       arrival,
     } as IFlightPlan);
     res.json(routes);
+  } catch (error) {
+    res.status(500).json({ error: (error as Error).message });
+  }
+});
+
+router.get("/flightAwareAirport/:airportCode", async (req, res) => {
+  const { airportCode } = req.params;
+
+  try {
+    const airport = (await getFlightAwareAirport(
+      airportCode
+    )) as IFlightAwareAirport;
+    res.json(airport);
   } catch (error) {
     res.status(500).json({ error: (error as Error).message });
   }
