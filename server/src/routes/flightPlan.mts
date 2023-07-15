@@ -1,6 +1,10 @@
 import express, { Request, Response } from "express";
-import FlightPlan from "../models/flightPlan.mjs";
 import IFlightPlan from "../interfaces/flightPlan.mjs";
+import {
+  NotFoundError,
+  getFlightPlan,
+  putFlightPlan,
+} from "../controllers/flightPlans.mjs";
 
 const router = express.Router();
 
@@ -9,15 +13,25 @@ router.post("/flightPlan", async (req: Request, res: Response) => {
   try {
     const flightPlanData: IFlightPlan = req.body;
 
-    // Create a new instance of the FlightPlan model
-    const newFlightPlan = new FlightPlan(flightPlanData);
-
-    // Save the flight plan to the database
-    const savedFlightPlan = await newFlightPlan.save();
-
-    res.status(201).json(savedFlightPlan);
+    res.status(201).json(putFlightPlan(flightPlanData));
   } catch (error) {
     res.status(500).json({ error: "Failed to store the flight plan." });
+  }
+});
+
+// GET route for reading a flight plan from the database
+router.get("/flightPlan/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const result = await getFlightPlan(id);
+    res.json(result);
+  } catch (error) {
+    if (error instanceof NotFoundError) {
+      res.status(404).json({ error: `Flight plan ${id} not found.` });
+    } else {
+      res.status(500).json({ error: "Failed to get the flight plan." });
+    }
   }
 });
 
