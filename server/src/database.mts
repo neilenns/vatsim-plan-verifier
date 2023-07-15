@@ -3,6 +3,9 @@ import mongoose from "mongoose";
 export async function connectToDatabase() {
   const url = process.env.MONGO_DB_CONNECTION_STRING;
 
+  // Uncomment this to get mongoose query strings written into the console.
+  // mongoose.set("debug", true);
+
   if (!url) {
     console.log(
       `No database connection string provided for MONGO_DB_CONNECTION_STRING`

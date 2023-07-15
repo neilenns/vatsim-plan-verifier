@@ -1,10 +1,6 @@
 import express, { Request, Response } from "express";
 import IFlightPlan from "../interfaces/flightPlan.mjs";
-import {
-  NotFoundError,
-  getFlightPlan,
-  putFlightPlan,
-} from "../controllers/flightPlans.mjs";
+import { getFlightPlan, putFlightPlan } from "../controllers/flightPlans.mjs";
 
 const router = express.Router();
 
@@ -23,15 +19,17 @@ router.post("/flightPlan", async (req: Request, res: Response) => {
 router.get("/flightPlan/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  try {
-    const result = await getFlightPlan(id);
-    res.json(result);
-  } catch (error) {
-    if (error instanceof NotFoundError) {
-      res.status(404).json({ error: `Flight plan ${id} not found.` });
-    } else {
-      res.status(500).json({ error: "Failed to get the flight plan." });
-    }
+  const result = await getFlightPlan(id);
+
+  if (result.success) {
+    res.json(result.data);
+    return;
+  }
+
+  if (result.errorType === "FlightPlanNotFound") {
+    res.status(404).json({ error: `Flight plan ${id} not found.` });
+  } else {
+    res.status(500).json({ error: "Failed to get the flight plan." });
   }
 });
 
