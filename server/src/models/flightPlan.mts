@@ -17,7 +17,7 @@ const flightPlanSchema = new Schema<IFlightPlan>({
 });
 
 flightPlanSchema.virtual("equipmentInfo", {
-  ref: "Aircraft",
+  ref: "aircraft",
   localField: "equipmentCode",
   foreignField: "equipmentCode",
   justOne: true,

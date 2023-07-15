@@ -22,4 +22,4 @@ const aircraftSchema = new Schema(
 const Aircraft = model<IAircraft>("Aircraft", aircraftSchema);
 
 // Export the model
-module.exports = Aircraft;
+export default Aircraft;

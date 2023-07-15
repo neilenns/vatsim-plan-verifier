@@ -1,7 +1,7 @@
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 import { IFlightAwareAirport } from "../interfaces/flightAware.mjs";
 
-const flightAwareAirportSchema = new mongoose.Schema({
+const flightAwareAirportSchema = new Schema({
   airportCode: {
     type: String,
     required: true,
@@ -81,7 +81,7 @@ const flightAwareAirportSchema = new mongoose.Schema({
   },
 });
 
-const FlightAwareAirport = mongoose.model<IFlightAwareAirport>(
+const FlightAwareAirport = model<IFlightAwareAirport>(
   "FlightAwareAirport",
   flightAwareAirportSchema
 );

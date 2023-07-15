@@ -14,12 +14,44 @@ type FlightPlanFailureResult = {
 
 type GetFlightPlanResult = FlightPlanSuccessResult | FlightPlanFailureResult;
 
+type ParsedRawAircraftInfo = {
+  equipmentCode?: string;
+  equipmentSuffix?: string;
+  isHeavy?: boolean;
+};
+
+function parseRawAircraftType({
+  rawAircraftType,
+}: IFlightPlan): ParsedRawAircraftInfo {
+  const returnValue: ParsedRawAircraftInfo = {};
+
+  if (rawAircraftType.startsWith("/H")) {
+    returnValue.isHeavy = true;
+    rawAircraftType = rawAircraftType.substring(2); // Strip off the leading "H/"
+  }
+
+  const codeMatch = rawAircraftType.match(/^([A-Z0-9]+)(\/([A-Z]))?$/);
+  if (codeMatch && codeMatch.length > 0) {
+    returnValue.equipmentCode = codeMatch[1];
+    if (codeMatch.length > 2 && codeMatch[3]) {
+      returnValue.equipmentSuffix = codeMatch[3];
+    }
+  }
+
+  return returnValue;
+}
+
 export async function putFlightPlan(
   flightPlanData: IFlightPlan
 ): Promise<IFlightPlan> {
   try {
+    const parsedData = parseRawAircraftType(flightPlanData);
+
     // Create a new instance of the FlightPlan model
-    const newFlightPlan = new FlightPlan(flightPlanData);
+    const newFlightPlan = new FlightPlan({
+      ...flightPlanData,
+      ...parsedData,
+    });
 
     // Save the flight plan to the database
     const savedFlightPlan = await newFlightPlan.save();
