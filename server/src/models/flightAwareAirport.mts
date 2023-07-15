@@ -6,22 +6,27 @@ const flightAwareAirportSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
+    alias: "airport_code",
   },
   alternateIdent: {
     type: String,
     required: false,
+    alias: "alternate_ident",
   },
   icaoCode: {
     type: String,
     required: false,
+    alias: "code_icao",
   },
   iataCode: {
     type: String,
     required: false,
+    alias: "code_iata",
   },
   lidCode: {
     type: String,
     required: false,
+    alias: "code_lid",
   },
   name: {
     type: String,
@@ -58,14 +63,17 @@ const flightAwareAirportSchema = new mongoose.Schema({
   countryCode: {
     type: String,
     required: false,
+    alias: "country_code",
   },
   wikiUrl: {
     type: String,
     required: false,
+    alias: "wiki_url",
   },
   airportFlightsUrl: {
     type: String,
     required: false,
+    alias: "airport_flights_url",
   },
   alternatives: {
     type: [String],
