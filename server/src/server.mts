@@ -13,7 +13,6 @@ import debug from "debug";
 
 // Authentication
 import { Server } from "http";
-import { verify } from "crypto";
 
 const app = express();
 var server: https.Server | Server;
