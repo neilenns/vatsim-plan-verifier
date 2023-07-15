@@ -17,13 +17,18 @@ type GetFlightPlanResult = FlightPlanSuccessResult | FlightPlanFailureResult;
 export async function putFlightPlan(
   flightPlanData: IFlightPlan
 ): Promise<IFlightPlan> {
-  // Create a new instance of the FlightPlan model
-  const newFlightPlan = new FlightPlan(flightPlanData);
+  try {
+    // Create a new instance of the FlightPlan model
+    const newFlightPlan = new FlightPlan(flightPlanData);
 
-  // Save the flight plan to the database
-  const savedFlightPlan = await newFlightPlan.save();
+    // Save the flight plan to the database
+    const savedFlightPlan = await newFlightPlan.save();
 
-  return savedFlightPlan;
+    return savedFlightPlan;
+  } catch (error) {
+    console.error(`Unable to save flight plan: ${error}`);
+    throw error;
+  }
 }
 
 export async function getFlightPlan(id: string): Promise<GetFlightPlanResult> {
@@ -43,7 +48,7 @@ export async function getFlightPlan(id: string): Promise<GetFlightPlanResult> {
       data: flightPlan,
     };
   } catch (error) {
-    console.error(error);
+    console.error(`Unable to retrieve flight plan ${id}: ${error}`);
     return {
       success: false,
       errorType: "UnknownError",
