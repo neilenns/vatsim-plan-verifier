@@ -3,12 +3,12 @@ import { Document } from "mongoose";
 export default interface IFlightAwareRouteDocument extends Document {
   departure: string;
   arrival: string;
-  aircraft_types: string[];
+  aircraftTypes: string[];
   count: number;
-  filed_altitude_max: number;
-  filed_altitude_min: number;
-  last_departure_time: string;
+  filedAltitudeMax: number;
+  filedAltitudeMin: number;
+  lastDepartureTime: Date;
   route: string;
-  route_distance: string;
-  FiledAltitudesFormatted: string;
+  routeDistance: string;
+  filedAltitudesFormatted: string;
 }
