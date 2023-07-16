@@ -6,19 +6,12 @@ import { Typography } from "@mui/material";
 import FlightPlanDisplay from "./components/FlightPlanDisplay";
 import { useState } from "react";
 import IFlightPlan from "./interfaces/IFlightPlan.mjs";
-import { storeFlightPlan } from "./db/flightPlan.mts";
 
 function App() {
   const [flightPlan, setFlightPlan] = useState<IFlightPlan>({} as IFlightPlan);
 
   function handleSubmit(flightPlan: IFlightPlan) {
-    storeFlightPlan(flightPlan)
-      .then(() => {
-        setFlightPlan(flightPlan);
-      })
-      .catch((error: Error) => {
-        console.log(error.message);
-      });
+    setFlightPlan(flightPlan);
   }
 
   return (
