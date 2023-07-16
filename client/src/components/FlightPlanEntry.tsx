@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Grid, TextField } from "@mui/material";
+import { Box, CircularProgress, Grid, TextField } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 import parseFlightPlan from "../utils/flightPlanParser";
@@ -59,7 +59,6 @@ const FlightPlanEntryForm: React.FC<FlightPlanProps> = ({ onSubmit }) => {
         loading={verifying}
         type="submit"
         variant="contained"
-        loadingPosition="end"
         sx={{ mt: 3, mb: 2, width: "25%" }}
       >
         Verify
