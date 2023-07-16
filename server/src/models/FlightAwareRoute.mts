@@ -40,7 +40,7 @@ flightAwareRouteSchema.virtual("filedAltitudesFormatted").get(function () {
   )}-${formatAltitude(this.filedAltitudeMax)}`;
 });
 
-flightAwareRouteSchema.set("toJSON", { virtuals: true });
+flightAwareRouteSchema.set("toJSON", { virtuals: ["filedAltitudesFormatted"] });
 
 const FlightAwareRoute: FlightAwareRouteModelInterface = mongoose.model<
   IFlightAwareRoute,
