@@ -18,4 +18,5 @@ export default interface IFlightAwareAirportDocument extends Document {
   wikiUrl: string;
   airportFlightsUrl: string;
   alternatives: string[];
+  magneticDeclination?: number;
 }

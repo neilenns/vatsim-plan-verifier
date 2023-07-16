@@ -3,27 +3,52 @@ import FlightAwareAirport, {
   IFlightAwareAirport,
 } from "../models/FlightAwareAirport.mjs";
 
+type FlightAwareAirportSuccessResult = {
+  success: true;
+  data: IFlightAwareAirport;
+};
+
+type FlightAwareAirportFailureResult = {
+  success: false;
+  errorType: "AirportNotFound" | "UnknownError";
+  error: string;
+};
+
+type GetFlightAwareAirportResult =
+  | FlightAwareAirportSuccessResult
+  | FlightAwareAirportFailureResult;
+
 export async function getFlightAwareAirport(
   airportCode: string
-): Promise<IFlightAwareAirport | null> {
+): Promise<GetFlightAwareAirportResult> {
   try {
     const airport = await FlightAwareAirport.findOne({ airportCode });
 
     if (airport) {
       console.log(`Found cached airport for ${airportCode}`);
-      return airport;
+      return {
+        success: true,
+        data: airport,
+      };
     }
   } catch (error) {
-    console.log(`Error fetching cached airport for ${airportCode}: ${error}`);
+    return {
+      success: false,
+      errorType: "UnknownError",
+      error: `Error fetching cached airport for ${airportCode}: ${error}`,
+    };
   }
 
-  var fetchedAirport;
-
   try {
-    fetchedAirport = await fetchAirport(airportCode);
+    const fetchedAirport = await fetchAirport(airportCode);
 
     if (!fetchedAirport) {
       console.log(`No airport found for ${airportCode}`);
+      return {
+        success: false,
+        errorType: "AirportNotFound",
+        error: `No airport found for ${airportCode}`,
+      };
     }
 
     const airport = new FlightAwareAirport({
@@ -31,12 +56,18 @@ export async function getFlightAwareAirport(
     });
 
     await airport.save();
+    return {
+      success: true,
+      data: airport,
+    };
   } catch (error) {
-    fetchedAirport = null;
     console.error(error);
+    return {
+      success: false,
+      errorType: "UnknownError",
+      error: `${error}`,
+    };
   }
-
-  return fetchedAirport;
 }
 
 async function fetchAirport(airportCode: string): Promise<IFlightAwareAirport> {

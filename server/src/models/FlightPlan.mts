@@ -2,6 +2,9 @@ import mongoose, { Model, Schema, model } from "mongoose";
 import IFlightPlanDocument from "../interfaces/IFlightPlanDocument.mjs";
 import autopopulate from "mongoose-autopopulate";
 import { formatAltitude } from "../utils.mjs";
+import { getFlightAwareAirport } from "../controllers/flightAwareAirports.mjs";
+import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
+import { getMagneticDeclination } from "../controllers/magneticDeclination.mjs";
 
 export interface IFlightPlan extends IFlightPlanDocument {}
 export interface FlightPlanModelInterface extends Model<IFlightPlan> {}
@@ -21,6 +24,7 @@ export const flightPlanSchema = new Schema(
     squawk: { type: String, required: true },
     cruiseAltitude: { type: Number, required: true },
     route: { type: String, required: false, trim: true },
+    directionOfFlight: { type: Number, required: false },
   },
   { timestamps: true }
 );
@@ -62,6 +66,38 @@ flightPlanSchema.virtual("telephony", {
   localField: "airlineCode",
   foreignField: "airlineCode",
   autopopulate: true,
+});
+
+// Calculate the direction of flight and store it
+flightPlanSchema.pre("save", async function () {
+  // Only recalculate the direction of flight if the departure or arrival airport has changed
+  if (!this.isModified("departure") && !this.isModified("arrival")) {
+    return;
+  }
+
+  const departureAirport = await getFlightAwareAirport(this.departure);
+  const arrivalAirport = await getFlightAwareAirport(this.arrival);
+
+  if (!departureAirport.success || !arrivalAirport.success) {
+    return;
+  }
+
+  const origin = new LatLon(
+    departureAirport.data.latitude,
+    departureAirport.data.longitude
+  );
+  const destination = new LatLon(
+    arrivalAirport.data.latitude,
+    arrivalAirport.data.longitude
+  );
+
+  var rawBearing =
+    origin.initialBearingTo(destination) +
+    (departureAirport.data.magneticDeclination ?? 0);
+
+  // Force the final value to be between 0 and 359
+  this.directionOfFlight =
+    (rawBearing < 0 ? rawBearing + 360 : rawBearing) % 360;
 });
 
 // Before save split apart the rawAircraftType into the isHeavy, equipmentCode and equipmentSuffix
