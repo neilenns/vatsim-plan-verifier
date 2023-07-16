@@ -10,14 +10,14 @@ export interface FlightAwareRouteModelInterface
 const flightAwareRouteSchema = new mongoose.Schema({
   departure: String,
   arrival: String,
-  aircraft_types: [String],
+  aircraftTypes: { type: [String], alias: "aircraft_types" },
   count: Number,
-  filed_altitude_max: Number,
-  filed_altitude_min: Number,
-  last_departure_time: String,
+  filedAltitudeMax: { type: Number, alias: "filed_altitude_max" },
+  filedAltitudeMin: { type: Number, alias: "filed_altitude_min" },
+  lastDepartureTime: { type: Date, alias: "last_departure_time" },
   route: String,
-  route_distance: String,
-  FiledAltitudesFormatted: String,
+  routeDistance: { type: String, alias: "route_distance" },
+  filedAltitudesFormatted: String,
   createdAt: { type: Date, expires: "30d", default: Date.now },
 });
 
