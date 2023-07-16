@@ -59,7 +59,6 @@ const FlightPlanEntryForm: React.FC<FlightPlanProps> = ({ onSubmit }) => {
         loading={verifying}
         type="submit"
         variant="contained"
-        loadingPosition="end"
         sx={{ mt: 3, mb: 2, width: "25%" }}
       >
         Verify
