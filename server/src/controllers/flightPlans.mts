@@ -1,5 +1,4 @@
-import IFlightPlan from "../interfaces/flightPlan.mjs";
-import FlightPlan from "../models/flightPlan.mjs";
+import FlightPlan, { IFlightPlan } from "../models/FlightPlan.mjs";
 
 type FlightPlanSuccessResult = {
   success: true;
@@ -12,11 +11,11 @@ type FlightPlanFailureResult = {
   error: string;
 };
 
-type GetFlightPlanResult = FlightPlanSuccessResult | FlightPlanFailureResult;
+type FlightPlanResult = FlightPlanSuccessResult | FlightPlanFailureResult;
 
 export async function putFlightPlan(
   flightPlanData: IFlightPlan
-): Promise<IFlightPlan> {
+): Promise<FlightPlanResult> {
   try {
     // Create a new instance of the FlightPlan model
     const newFlightPlan = new FlightPlan(flightPlanData);
@@ -24,14 +23,22 @@ export async function putFlightPlan(
     // Save the flight plan to the database
     const savedFlightPlan = await newFlightPlan.save();
 
-    return savedFlightPlan;
+    return {
+      success: true,
+      data: savedFlightPlan,
+    };
   } catch (error) {
     console.error(`Unable to save flight plan: ${error}`);
-    throw error;
+
+    return {
+      success: false,
+      errorType: "UnknownError",
+      error: `Failed to save the flight plan: ${error}.`,
+    };
   }
 }
 
-export async function getFlightPlan(id: string): Promise<GetFlightPlanResult> {
+export async function getFlightPlan(id: string): Promise<FlightPlanResult> {
   try {
     const flightPlan = await FlightPlan.findById(id);
 

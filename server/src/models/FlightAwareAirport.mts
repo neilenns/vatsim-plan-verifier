@@ -1,7 +1,11 @@
-import mongoose from "mongoose";
-import { IFlightAwareAirport } from "../interfaces/flightAware.mjs";
+import { Model, Schema, model } from "mongoose";
+import IFlightAwareAirportDocument from "../interfaces/IFlightAwareAirportDocument.mjs";
 
-const flightAwareAirportSchema = new mongoose.Schema({
+export interface IFlightAwareAirport extends IFlightAwareAirportDocument {}
+export interface FlightAwareAirportModelInterface
+  extends Model<IFlightAwareAirport> {}
+
+const flightAwareAirportSchema = new Schema({
   airportCode: {
     type: String,
     required: true,
@@ -81,9 +85,9 @@ const flightAwareAirportSchema = new mongoose.Schema({
   },
 });
 
-const FlightAwareAirport = mongoose.model<IFlightAwareAirport>(
-  "FlightAwareAirport",
-  flightAwareAirportSchema
-);
+const FlightAwareAirport: FlightAwareAirportModelInterface = model<
+  IFlightAwareAirport,
+  FlightAwareAirportModelInterface
+>("FlightAwareAirport", flightAwareAirportSchema);
 
 export default FlightAwareAirport;

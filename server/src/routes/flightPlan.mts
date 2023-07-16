@@ -1,16 +1,18 @@
 import express, { Request, Response } from "express";
-import IFlightPlan from "../interfaces/flightPlan.mjs";
+import IFlightPlanDocument from "../interfaces/IFlightPlanDocument.mjs";
 import { getFlightPlan, putFlightPlan } from "../controllers/flightPlans.mjs";
 
 const router = express.Router();
 
 // POST route for storing a flight plan
 router.post("/flightPlan", async (req: Request, res: Response) => {
-  try {
-    const flightPlanData: IFlightPlan = req.body;
+  const flightPlanData: IFlightPlanDocument = req.body;
 
-    res.status(201).json(putFlightPlan(flightPlanData));
-  } catch (error) {
+  const result = await putFlightPlan(flightPlanData);
+
+  if (result.success) {
+    res.status(201).json(result.data);
+  } else {
     res.status(500).json({ error: "Failed to store the flight plan." });
   }
 });

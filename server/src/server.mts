@@ -7,6 +7,7 @@ import { createHttpTerminator, HttpTerminator } from "http-terminator";
 import defaultRouter from "./routes/default.mjs";
 import flightPlan from "./routes/flightPlan.mjs";
 import flightAwareRouter from "./routes/flightAware.mjs";
+import aircraftRouter from "./routes/aircraft.mjs";
 
 import https from "https";
 import debug from "debug";
@@ -46,6 +47,7 @@ export function startServer(): void {
   app.use(defaultRouter);
   app.use(flightPlan);
   app.use(flightAwareRouter);
+  app.use(aircraftRouter);
 
   server = app.listen(port, () => {
     console.log(`Listening on port ${port}`);

@@ -1,7 +1,7 @@
 import "dotenv/config";
 
-import * as WebServer from "./server.mjs";
 import * as db from "./database.mjs";
+import * as WebServer from "./server.mjs";
 
 // If startup fails restart is reattempted 5 times every 30 seconds.
 const restartAttemptWaitTime = 30 * 1000;
