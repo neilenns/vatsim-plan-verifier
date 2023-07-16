@@ -1,93 +1,29 @@
-import { Model, Schema, model } from "mongoose";
-import IFlightAwareAirportDocument from "../interfaces/IFlightAwareAirportDocument.mjs";
+import mongoose, { Model } from "mongoose";
+import IFlightAwareRouteDocument from "../interfaces/IFlightAwareRouteDocument.mjs";
 
-export interface IFlightAwareAirport extends IFlightAwareAirportDocument {}
-export interface FlightAwareAirportModelInterface
-  extends Model<IFlightAwareAirport> {}
+// This method for constructing models in typescript to allow adding custom functions later is
+// from https://stackoverflow.com/a/45675548/9206264.
+export interface IFlightAwareRoute extends IFlightAwareRouteDocument {}
+export interface FlightAwareRouteModelInterface
+  extends Model<IFlightAwareRoute> {}
 
-const flightAwareAirportSchema = new Schema({
-  airportCode: {
-    type: String,
-    required: true,
-    unique: true,
-    alias: "airport_code",
-  },
-  alternateIdent: {
-    type: String,
-    required: false,
-    alias: "alternate_ident",
-  },
-  icaoCode: {
-    type: String,
-    required: false,
-    alias: "code_icao",
-  },
-  iataCode: {
-    type: String,
-    required: false,
-    alias: "code_iata",
-  },
-  lidCode: {
-    type: String,
-    required: false,
-    alias: "code_lid",
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  type: {
-    type: String,
-    required: false,
-  },
-  elevation: {
-    type: Number,
-    required: false,
-  },
-  city: {
-    type: String,
-    required: false,
-  },
-  state: {
-    type: String,
-    required: false,
-  },
-  longitude: {
-    type: Number,
-    required: true,
-  },
-  latitude: {
-    type: Number,
-    required: true,
-  },
-  timezone: {
-    type: String,
-    required: false,
-  },
-  countryCode: {
-    type: String,
-    required: false,
-    alias: "country_code",
-  },
-  wikiUrl: {
-    type: String,
-    required: false,
-    alias: "wiki_url",
-  },
-  airportFlightsUrl: {
-    type: String,
-    required: false,
-    alias: "airport_flights_url",
-  },
-  alternatives: {
-    type: [String],
-    required: false,
-  },
+const flightAwareRouteSchema = new mongoose.Schema({
+  departure: String,
+  arrival: String,
+  aircraft_types: [String],
+  count: Number,
+  filed_altitude_max: Number,
+  filed_altitude_min: Number,
+  last_departure_time: String,
+  route: String,
+  route_distance: String,
+  FiledAltitudesFormatted: String,
+  createdAt: { type: Date, expires: "30d", default: Date.now },
 });
 
-const FlightAwareAirport: FlightAwareAirportModelInterface = model<
-  IFlightAwareAirport,
-  FlightAwareAirportModelInterface
->("FlightAwareAirport", flightAwareAirportSchema);
+const FlightAwareRoute: FlightAwareRouteModelInterface = mongoose.model<
+  IFlightAwareRoute,
+  FlightAwareRouteModelInterface
+>("FlightAwareRoute", flightAwareRouteSchema);
 
-export default FlightAwareAirport;
+export default FlightAwareRoute;
