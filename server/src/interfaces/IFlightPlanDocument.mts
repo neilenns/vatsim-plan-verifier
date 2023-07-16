@@ -4,6 +4,8 @@ import { Document } from "mongoose";
 
 export default interface IFlightPlanDocument extends Document {
   callsign: string;
+  airlineCode?: string;
+  telephony?: string[];
   rawAircraftType: string;
   equipmentCode?: string;
   equipmentInfo?: IAircraftDocument;

@@ -5,9 +5,12 @@ import autopopulate from "mongoose-autopopulate";
 export interface IFlightPlan extends IFlightPlanDocument {}
 export interface FlightPlanModelInterface extends Model<IFlightPlan> {}
 
+const AirlineCodeRegexPattern = /\b([A-Za-z]{3})(\d+)\b/;
+
 export const FlightPlanSchema = new Schema(
   {
     callsign: { type: String, required: true },
+    airlineCode: { type: String },
     rawAircraftType: { type: String, required: true },
     equipmentCode: { type: String, required: false },
     isHeavy: { type: Boolean, required: false, default: false },
@@ -37,19 +40,18 @@ FlightPlanSchema.virtual("departureAirportInfo", {
   autopopulate: true,
 });
 
-FlightPlanSchema.virtual("departureAirportInfo", {
-  ref: "FlightAwareAirport",
-  localField: "departure",
-  foreignField: "airportCode",
-  justOne: true,
-  autopopulate: true,
-});
-
 FlightPlanSchema.virtual("arrivalAirportInfo", {
   ref: "FlightAwareAirport",
   localField: "arrival",
   foreignField: "airportCode",
   justOne: true,
+  autopopulate: true,
+});
+
+FlightPlanSchema.virtual("telephony", {
+  ref: "airline",
+  localField: "airlineCode",
+  foreignField: "airlineCode",
   autopopulate: true,
 });
 
@@ -74,6 +76,17 @@ FlightPlanSchema.pre("save", function (next) {
     }
   } catch (error) {
     console.error(`Unable to parse rawAircraftType: ${error}`);
+  }
+
+  next();
+});
+
+// Extract the airline code from the callsign.
+FlightPlanSchema.pre("save", function (next) {
+  const regexMatch = this.callsign.match(AirlineCodeRegexPattern);
+
+  if (regexMatch && regexMatch.length > 0) {
+    this.airlineCode = regexMatch[1];
   }
 
   next();
