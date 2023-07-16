@@ -5,18 +5,21 @@ import autopopulate from "mongoose-autopopulate";
 export interface IFlightPlan extends IFlightPlanDocument {}
 export interface FlightPlanModelInterface extends Model<IFlightPlan> {}
 
-export const FlightPlanSchema = new Schema({
-  callsign: { type: String, required: true },
-  rawAircraftType: { type: String, required: true },
-  equipmentCode: { type: String, required: false },
-  isHeavy: { type: Boolean, required: false, default: false },
-  equipmentSuffix: { type: String, required: false },
-  departure: { type: String, required: true },
-  arrival: { type: String, required: true },
-  squawk: { type: String, required: true },
-  cruiseAltitude: { type: String, required: true },
-  route: { type: String, required: true },
-});
+export const FlightPlanSchema = new Schema(
+  {
+    callsign: { type: String, required: true },
+    rawAircraftType: { type: String, required: true },
+    equipmentCode: { type: String, required: false },
+    isHeavy: { type: Boolean, required: false, default: false },
+    equipmentSuffix: { type: String, required: false },
+    departure: { type: String, required: true },
+    arrival: { type: String, required: true },
+    squawk: { type: String, required: true },
+    cruiseAltitude: { type: String, required: true },
+    route: { type: String, required: true },
+  },
+  { timestamps: true }
+);
 
 FlightPlanSchema.virtual("equipmentInfo", {
   ref: "aircraft",
