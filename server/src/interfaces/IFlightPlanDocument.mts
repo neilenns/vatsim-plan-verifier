@@ -17,5 +17,5 @@ export default interface IFlightPlanDocument extends Document {
   isHeavy?: boolean;
   equipmentSuffix?: string;
   cruiseAltitude: string;
-  route: string;
+  route?: string;
 }
