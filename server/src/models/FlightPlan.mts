@@ -1,13 +1,14 @@
 import mongoose, { Model, Schema, model } from "mongoose";
 import IFlightPlanDocument from "../interfaces/IFlightPlanDocument.mjs";
 import autopopulate from "mongoose-autopopulate";
+import { formatAltitude } from "../utils.mjs";
 
 export interface IFlightPlan extends IFlightPlanDocument {}
 export interface FlightPlanModelInterface extends Model<IFlightPlan> {}
 
 const AirlineCodeRegexPattern = /\b([A-Za-z]{3})(\d+)\b/;
 
-export const FlightPlanSchema = new Schema(
+export const flightPlanSchema = new Schema(
   {
     callsign: { type: String, required: true },
     airlineCode: { type: String, required: false },
@@ -18,17 +19,21 @@ export const FlightPlanSchema = new Schema(
     departure: { type: String, required: true },
     arrival: { type: String, required: true },
     squawk: { type: String, required: true },
-    cruiseAltitude: { type: String, required: true },
+    cruiseAltitude: { type: Number, required: true },
     route: { type: String, required: false, trim: true },
   },
   { timestamps: true }
 );
 
-FlightPlanSchema.virtual("routeParts").get(function () {
+flightPlanSchema.virtual("cruiseAltitudeFormatted").get(function () {
+  return `${formatAltitude(this.cruiseAltitude)}`;
+});
+
+flightPlanSchema.virtual("routeParts").get(function () {
   return this.route?.split(" ") ?? [];
 });
 
-FlightPlanSchema.virtual("equipmentInfo", {
+flightPlanSchema.virtual("equipmentInfo", {
   ref: "aircraft",
   localField: "equipmentCode",
   foreignField: "equipmentCode",
@@ -36,7 +41,7 @@ FlightPlanSchema.virtual("equipmentInfo", {
   autopopulate: true,
 });
 
-FlightPlanSchema.virtual("departureAirportInfo", {
+flightPlanSchema.virtual("departureAirportInfo", {
   ref: "FlightAwareAirport",
   localField: "departure",
   foreignField: "airportCode",
@@ -44,7 +49,7 @@ FlightPlanSchema.virtual("departureAirportInfo", {
   autopopulate: true,
 });
 
-FlightPlanSchema.virtual("arrivalAirportInfo", {
+flightPlanSchema.virtual("arrivalAirportInfo", {
   ref: "FlightAwareAirport",
   localField: "arrival",
   foreignField: "airportCode",
@@ -52,7 +57,7 @@ FlightPlanSchema.virtual("arrivalAirportInfo", {
   autopopulate: true,
 });
 
-FlightPlanSchema.virtual("telephony", {
+flightPlanSchema.virtual("telephony", {
   ref: "airline",
   localField: "airlineCode",
   foreignField: "airlineCode",
@@ -60,7 +65,7 @@ FlightPlanSchema.virtual("telephony", {
 });
 
 // Before save split apart the rawAircraftType into the isHeavy, equipmentCode and equipmentSuffix
-FlightPlanSchema.pre("save", function (next) {
+flightPlanSchema.pre("save", function (next) {
   try {
     if (this.isModified("rawAircraftType")) {
       var rawAircraftType = this.rawAircraftType;
@@ -86,7 +91,7 @@ FlightPlanSchema.pre("save", function (next) {
 });
 
 // Extract the airline code from the callsign.
-FlightPlanSchema.pre("save", function (next) {
+flightPlanSchema.pre("save", function (next) {
   const regexMatch = this.callsign.match(AirlineCodeRegexPattern);
 
   if (regexMatch && regexMatch.length > 0) {
@@ -96,12 +101,12 @@ FlightPlanSchema.pre("save", function (next) {
   next();
 });
 
-FlightPlanSchema.plugin(autopopulate);
-FlightPlanSchema.set("toJSON", { virtuals: true });
+flightPlanSchema.plugin(autopopulate);
+flightPlanSchema.set("toJSON", { virtuals: true });
 
 const FlightPlan: FlightPlanModelInterface = model<
   IFlightPlanDocument,
   FlightPlanModelInterface
->("FlightPlan", FlightPlanSchema);
+>("FlightPlan", flightPlanSchema);
 
 export default FlightPlan;

@@ -7,8 +7,11 @@ import "./models/FlightAwareRoute.mjs";
 export async function connectToDatabase() {
   const url = process.env.MONGO_DB_CONNECTION_STRING;
 
-  // Uncomment this to get mongoose query strings written into the console.
-  mongoose.set("debug", true);
+  if (process.env.NODE_ENV === "development") {
+    mongoose.set("debug", true);
+  } else if (process.env.NODE_ENV === "production") {
+    mongoose.set("autoIndex", false);
+  }
 
   if (!url) {
     console.log(
