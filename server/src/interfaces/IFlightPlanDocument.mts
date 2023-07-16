@@ -1,21 +1,19 @@
-import IAircraft from "./aircraft.mjs";
-import { IFlightAwareAirport } from "./flightAware.mjs";
+import IAircraftDocument from "./IAircraftDocument.mjs";
+import IFlightAwareAirportDocument from "./IFlightAwareAirportDocument.mjs";
 import { Document } from "mongoose";
 
-interface IFlightPlanDocument extends Document {
+export default interface IFlightPlanDocument extends Document {
   callsign: string;
   rawAircraftType: string;
   equipmentCode?: string;
-  equipmentInfo?: IAircraft;
+  equipmentInfo?: IAircraftDocument;
   departure: string;
   arrival: string;
-  departureAirportInfo?: IFlightAwareAirport;
-  arrivalAirportInfo?: IFlightAwareAirport;
+  departureAirportInfo?: IFlightAwareAirportDocument;
+  arrivalAirportInfo?: IFlightAwareAirportDocument;
   squawk: string;
   isHeavy?: boolean;
   equipmentSuffix?: string;
   cruiseAltitude: string;
   route: string;
 }
-
-export default IFlightPlanDocument;

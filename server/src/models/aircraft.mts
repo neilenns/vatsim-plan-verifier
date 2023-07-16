@@ -1,7 +1,10 @@
-import { Schema, model } from "mongoose";
-import IAircraft from "../interfaces/aircraft.mjs";
+import { Model, Schema, model } from "mongoose";
+import IAircraftDocument from "../interfaces/IAircraftDocument.mjs";
 
-const aircraftSchema = new Schema(
+export interface IAircraft extends IAircraftDocument {}
+export interface AircraftModelInterface extends Model<IAircraft> {}
+
+const AircraftSchema = new Schema(
   {
     equipmentCode: { type: String, required: true },
     manufacturer: { type: String, required: true },
@@ -19,7 +22,10 @@ const aircraftSchema = new Schema(
 );
 
 // Define the model
-const Aircraft = model<IAircraft>("aircraft", aircraftSchema);
+const Aircraft: AircraftModelInterface = model<
+  IAircraftDocument,
+  AircraftModelInterface
+>("aircraft", AircraftSchema);
 
 // Export the model
 export default Aircraft;

@@ -3,7 +3,6 @@ import IFlightPlanDocument from "../interfaces/IFlightPlanDocument.mjs";
 import autopopulate from "mongoose-autopopulate";
 
 export interface IFlightPlan extends IFlightPlanDocument {}
-
 export interface FlightPlanModelInterface extends Model<IFlightPlan> {}
 
 export const FlightPlanSchema = new Schema({

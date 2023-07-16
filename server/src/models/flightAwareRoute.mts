@@ -1,5 +1,11 @@
-import mongoose from "mongoose";
-import { IFlightAwareRoute } from "../interfaces/flightAware.mjs";
+import mongoose, { Model } from "mongoose";
+import IFlightAwareRouteDocument from "../interfaces/IFlightAwareRouteDocument.mjs";
+
+// This method for constructing models in typescript to allow adding custom functions later is
+// from https://stackoverflow.com/a/45675548/9206264.
+export interface IFlightAwareRoute extends IFlightAwareRouteDocument {}
+export interface FlightAwareRouteModelInterface
+  extends Model<IFlightAwareRoute> {}
 
 const flightAwareRouteSchema = new mongoose.Schema({
   departure: String,
@@ -15,9 +21,9 @@ const flightAwareRouteSchema = new mongoose.Schema({
   createdAt: { type: Date, expires: "30d", default: Date.now },
 });
 
-const FlightAwareRoute = mongoose.model<IFlightAwareRoute>(
-  "FlightAwareRoute",
-  flightAwareRouteSchema
-);
+const FlightAwareRoute: FlightAwareRouteModelInterface = mongoose.model<
+  IFlightAwareRoute,
+  FlightAwareRouteModelInterface
+>("FlightAwareRoute", flightAwareRouteSchema);
 
 export default FlightAwareRoute;

@@ -1,7 +1,8 @@
 import FlightPlan from "../interfaces/IFlightPlanDocument.mjs";
-import { IFlightAwareRoute } from "../interfaces/flightAware.mjs";
 import axios, { AxiosResponse } from "axios";
-import FlightAwareRoute from "../models/flightAwareRoute.mjs";
+import FlightAwareRoute, {
+  IFlightAwareRoute,
+} from "../models/FlightAwareRoute.mjs";
 
 interface FlightAwareRoutesResponse {
   routes: IFlightAwareRoute[];

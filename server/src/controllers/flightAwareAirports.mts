@@ -1,7 +1,7 @@
-import FlightPlan from "../interfaces/IFlightPlanDocument.mjs";
-import { IFlightAwareAirport } from "../interfaces/flightAware.mjs";
 import axios, { AxiosResponse } from "axios";
-import FlightAwareAirport from "../models/flightAwareAirport.mjs";
+import FlightAwareAirport, {
+  IFlightAwareAirport,
+} from "../models/FlightAwareAirport.mjs";
 
 export async function getFlightAwareAirport(
   airportCode: string

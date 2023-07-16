@@ -1,5 +1,4 @@
-import IAircraft from "../interfaces/aircraft.mjs";
-import Aircraft from "../models/aircraft.mjs";
+import Aircraft, { IAircraft } from "../models/Aircraft.mjs";
 
 type AircraftSuccessResult = {
   success: true;

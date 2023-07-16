@@ -1,9 +1,8 @@
-import IFlightPlanDocument from "../interfaces/IFlightPlanDocument.mjs";
-import FlightPlan from "../models/FlightPlan.mjs";
+import FlightPlan, { IFlightPlan } from "../models/FlightPlan.mjs";
 
 type FlightPlanSuccessResult = {
   success: true;
-  data: IFlightPlanDocument;
+  data: IFlightPlan;
 };
 
 type FlightPlanFailureResult = {
@@ -15,7 +14,7 @@ type FlightPlanFailureResult = {
 type FlightPlanResult = FlightPlanSuccessResult | FlightPlanFailureResult;
 
 export async function putFlightPlan(
-  flightPlanData: IFlightPlanDocument
+  flightPlanData: IFlightPlan
 ): Promise<FlightPlanResult> {
   try {
     // Create a new instance of the FlightPlan model

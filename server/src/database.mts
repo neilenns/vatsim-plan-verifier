@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
-import "./models/aircraft.mjs";
+import "./models/Aircraft.mjs";
 import "./models/FlightPlan.mjs";
-import "./models/flightAwareAirport.mjs";
-import "./models/flightAwareRoute.mjs";
+import "./models/FlightAwareAirport.mjs";
+import "./models/FlightAwareRoute.mjs";
 
 export async function connectToDatabase() {
   const url = process.env.MONGO_DB_CONNECTION_STRING;

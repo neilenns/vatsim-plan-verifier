@@ -2,7 +2,7 @@ import express from "express";
 import { getFlightAwareRoutes } from "../controllers/flightAwareRoutes.mjs";
 import IFlightPlanDocument from "../interfaces/IFlightPlanDocument.mjs";
 import { getFlightAwareAirport } from "../controllers/flightAwareAirports.mjs";
-import { IFlightAwareAirport } from "../interfaces/flightAware.mjs";
+import { IFlightAwareAirport } from "../models/FlightAwareAirport.mjs";
 
 const router = express.Router();
 

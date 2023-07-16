@@ -1,4 +1,6 @@
-export default interface IAircraft {
+import { Document } from "mongoose";
+
+export default interface IAircraftDocument extends Document {
   equipmentCode: string;
   manufacturer: string;
   name: string;
