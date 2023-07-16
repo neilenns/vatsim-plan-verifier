@@ -3,7 +3,7 @@ import IAircraft from "./IAircraft.mjs";
 import IFlightAwareAirport from "./IFlightAwareAirport.mjs";
 
 interface IFlightPlan {
-  _id: Types.ObjectId;
+  _id?: Types.ObjectId;
   callsign: string;
   rawAircraftType: string;
   equipmentCode?: string;

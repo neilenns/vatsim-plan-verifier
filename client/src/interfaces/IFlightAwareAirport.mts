@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 
 export default interface IFlightAwareAirport {
-  _id: Types.ObjectId;
+  _id?: Types.ObjectId;
   airportCode: string;
   alternateIdent: string;
   icaoCode: string;

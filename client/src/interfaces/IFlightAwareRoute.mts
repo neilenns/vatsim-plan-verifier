@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 
 export default interface IFlightAwareRoute {
-  _id: Types.ObjectId;
+  _id?: Types.ObjectId;
   departure: string;
   arrival: string;
   aircraft_types: string[];

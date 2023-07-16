@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 
 export default interface IAircraft {
-  _id: Types.ObjectId;
+  _id?: Types.ObjectId;
   equipmentCode: string;
   manufacturer: string;
   name: string;
