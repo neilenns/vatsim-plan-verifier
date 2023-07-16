@@ -17,6 +17,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "geodesy": "^2.4.0",
     "http-terminator": "^3.2.0",
     "mongoose": "^7.3.4",
     "mongoose-autopopulate": "^1.0.1"
@@ -24,6 +25,7 @@
   "devDependencies": {
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
+    "@types/geodesy": "^2.2.3",
     "@types/node": "^20.4.2",
     "ts-node": "^10.9.1",
     "tsc-watch": "^6.0.4",

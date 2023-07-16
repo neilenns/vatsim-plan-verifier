@@ -1,5 +1,6 @@
 import { Model, Schema, model } from "mongoose";
 import IFlightAwareAirportDocument from "../interfaces/IFlightAwareAirportDocument.mjs";
+import { getMagneticDeclination } from "../controllers/magneticDeclination.mjs";
 
 export interface IFlightAwareAirport extends IFlightAwareAirportDocument {}
 export interface FlightAwareAirportModelInterface
@@ -83,6 +84,27 @@ const flightAwareAirportSchema = new Schema({
     type: [String],
     required: false,
   },
+  magneticDeclination: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
+});
+
+// Look up the magnetic declination for the airport on save so it can be used
+// repeatedly elsewhere without constantly making calls to the web service to
+// get the current value.
+flightAwareAirportSchema.pre("save", async function () {
+  const result = await getMagneticDeclination(this.latitude, this.longitude);
+
+  if (!result.success) {
+    return;
+  }
+
+  // As best I can tell the magnetic declination is returned as a positive
+  // number for west and a negative number for east. So we need to negate
+  // the result to get the correct value for math later on.
+  this.magneticDeclination = -result.data;
 });
 
 const FlightAwareAirport: FlightAwareAirportModelInterface = model<

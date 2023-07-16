@@ -24,10 +24,13 @@ router.get("/flightAwareAirport/:airportCode", async (req, res) => {
   const { airportCode } = req.params;
 
   try {
-    const airport = (await getFlightAwareAirport(
-      airportCode
-    )) as IFlightAwareAirport;
-    res.json(airport);
+    const result = await getFlightAwareAirport(airportCode);
+
+    if (!result.success) {
+      return res.status(404).json({ error: result.error });
+    }
+
+    res.json(result.data);
   } catch (error) {
     res.status(500).json({ error: (error as Error).message });
   }

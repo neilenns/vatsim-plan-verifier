@@ -8,6 +8,7 @@ declare global {
       MONGO_DB_CONNECTION_STRING: string;
       MONGO_DB_NAME: string;
       WHITELISTED_DOMAINS: string;
+      GEOMAG_API_KEY: string;
     }
   }
 }
