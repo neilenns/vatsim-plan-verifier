@@ -6,7 +6,7 @@ export interface AircraftModelInterface extends Model<IAircraft> {}
 
 const AircraftSchema = new Schema(
   {
-    equipmentCode: { type: String, required: true },
+    equipmentCode: { type: String, required: true, index: true },
     manufacturer: { type: String, required: true },
     name: { type: String, required: true },
     engineCount: { type: Number, required: true },
@@ -26,6 +26,14 @@ const Aircraft: AircraftModelInterface = model<
   IAircraftDocument,
   AircraftModelInterface
 >("aircraft", AircraftSchema);
+
+Aircraft.on("index", (error) => {
+  if (error) {
+    console.error("Aircraft index error:", error);
+  } else {
+    console.log("Aircraft index created");
+  }
+});
 
 // Export the model
 export default Aircraft;
