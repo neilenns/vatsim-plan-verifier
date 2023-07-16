@@ -91,9 +91,13 @@ flightPlanSchema.pre("save", async function () {
     arrivalAirport.data.longitude
   );
 
-  this.directionOfFlight =
+  var rawBearing =
     origin.initialBearingTo(destination) +
     (departureAirport.data.magneticDeclination ?? 0);
+
+  // Force the final value to be between 0 and 359
+  this.directionOfFlight =
+    (rawBearing < 0 ? rawBearing + 360 : rawBearing) % 360;
 });
 
 // Before save split apart the rawAircraftType into the isHeavy, equipmentCode and equipmentSuffix
