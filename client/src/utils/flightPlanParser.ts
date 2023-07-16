@@ -1,4 +1,4 @@
-import IFlightPlan from "../interfaces/flightPlan.mjs";
+import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 
 // Cleans up flight plans that have two squawk codes in them by removing
 // the second one, which is the one the plane is currently squawking.

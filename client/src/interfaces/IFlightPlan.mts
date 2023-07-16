@@ -1,7 +1,9 @@
-import IAircraft from "./aircraft.mjs";
-import { IFlightAwareAirport } from "./flightAware.mjs";
+import { Types } from "mongoose";
+import IAircraft from "./IAircraft.mjs";
+import IFlightAwareAirport from "./IFlightAwareAirport.mjs";
 
 interface IFlightPlan {
+  _id: Types.ObjectId;
   callsign: string;
   rawAircraftType: string;
   equipmentCode?: string;

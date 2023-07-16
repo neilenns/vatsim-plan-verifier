@@ -1,5 +1,5 @@
 import { Grid, Typography } from "@mui/material";
-import IFlightPlan from "../interfaces/flightPlan.mjs";
+import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 
 interface FlightPlanProps {
   flightPlan: IFlightPlan;

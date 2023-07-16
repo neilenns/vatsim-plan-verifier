@@ -5,7 +5,7 @@ import FlightPlanEntryForm from "./components/FlightPlanEntry";
 import { Typography } from "@mui/material";
 import FlightPlanDisplay from "./components/FlightPlanDisplay";
 import { useState } from "react";
-import IFlightPlan from "./interfaces/IFlightPlan.mts";
+import IFlightPlan from "./interfaces/IFlightPlan.mjs";
 import { storeFlightPlan } from "./db/flightPlan.mts";
 
 function App() {
