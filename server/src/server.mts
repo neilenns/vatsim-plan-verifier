@@ -9,6 +9,7 @@ import flightPlan from "./routes/flightPlan.mjs";
 import flightAwareRouter from "./routes/flightAware.mjs";
 import aircraftRouter from "./routes/aircraft.mjs";
 import airlineRouter from "./routes/airline.mjs";
+import magneticDeclinationRouter from "./routes/magneticDeclination.mjs";
 
 import https from "https";
 import debug from "debug";
@@ -50,6 +51,7 @@ export function startServer(): void {
   app.use(flightAwareRouter);
   app.use(aircraftRouter);
   app.use(airlineRouter);
+  app.use(magneticDeclinationRouter);
 
   server = app.listen(port, () => {
     console.log(`Listening on port ${port}`);
