@@ -4,12 +4,18 @@ import { LoadingButton } from "@mui/lab";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 import parseFlightPlan from "../utils/flightPlanParser";
 import { storeFlightPlan } from "../db/flightPlan.mts";
+import { runAllVerifiers } from "../db/runAllVerifiers.mts";
+import IVerifierResultDocument from "../interfaces/IVerifierResultDocument.mts";
 
 interface FlightPlanProps {
   onSubmit: (flightPlan: IFlightPlan) => void;
+  onVerify: (results: IVerifierResultDocument[]) => void;
 }
 
-const FlightPlanEntryForm: React.FC<FlightPlanProps> = ({ onSubmit }) => {
+const FlightPlanEntryForm: React.FC<FlightPlanProps> = ({
+  onSubmit,
+  onVerify,
+}) => {
   const [rawFlightPlan, setRawFlightPlan] = useState("");
   const [submitErrorText, setSubmitErrorText] = useState("");
   const [verifying, setVerifying] = React.useState(false);
@@ -18,15 +24,23 @@ const FlightPlanEntryForm: React.FC<FlightPlanProps> = ({ onSubmit }) => {
     event.preventDefault();
     const flightPlan = parseFlightPlan(rawFlightPlan);
 
+    setSubmitErrorText("");
     setVerifying(true);
+
     storeFlightPlan(flightPlan)
-      .then(() => {
-        setSubmitErrorText("");
-        onSubmit(flightPlan);
+      .then((storedFlightPlan) => {
+        onSubmit(storedFlightPlan);
+
+        runAllVerifiers(storedFlightPlan)
+          .then((result) => {
+            onVerify(result);
+          })
+          .catch((error: Error) => {
+            setSubmitErrorText(error.message);
+          });
       })
       .catch((error: Error) => {
         setSubmitErrorText(error.message);
-        console.log(error.message);
       })
       .finally(() => {
         setVerifying(false);

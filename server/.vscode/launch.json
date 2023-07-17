@@ -1,6 +1,15 @@
 {
   "configurations": [
     {
+      "name": "Attach to server",
+      "request": "attach",
+      "skipFiles": ["<node_internals>/**"],
+      "localRoot": "${workspaceFolder}/src",
+      "type": "node",
+      "preLaunchTask": "npm: start:dev",
+      "sourceMaps": true
+    },
+    {
       "type": "docker",
       "request": "launch",
       "platform": "node",
