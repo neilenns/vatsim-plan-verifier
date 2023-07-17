@@ -106,7 +106,7 @@ flightPlanSchema.pre("save", function (next) {
     if (this.isModified("rawAircraftType")) {
       var rawAircraftType = this.rawAircraftType;
 
-      if (rawAircraftType.startsWith("/H")) {
+      if (rawAircraftType.startsWith("H/")) {
         this.isHeavy = true;
         rawAircraftType = rawAircraftType.substring(2); // Strip off the leading "H/"
       }
