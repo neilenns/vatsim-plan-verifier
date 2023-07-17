@@ -1,10 +1,9 @@
-import mongoose, { Model, Schema, model } from "mongoose";
+import { Model, Schema, model } from "mongoose";
 import IFlightPlanDocument from "../interfaces/IFlightPlanDocument.mjs";
 import autopopulate from "mongoose-autopopulate";
 import { formatAltitude } from "../utils.mjs";
 import { getFlightAwareAirport } from "../controllers/flightAwareAirports.mjs";
 import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
-import { getMagneticDeclination } from "../controllers/magneticDeclination.mjs";
 
 export interface IFlightPlan extends IFlightPlanDocument {}
 export interface FlightPlanModelInterface extends Model<IFlightPlan> {}
@@ -97,7 +96,7 @@ flightPlanSchema.pre("save", async function () {
 
   // Force the final value to be between 0 and 359
   this.directionOfFlight =
-    (rawBearing < 0 ? rawBearing + 360 : rawBearing) % 360;
+    Math.round(rawBearing < 0 ? rawBearing + 360 : rawBearing) % 360;
 });
 
 // Before save split apart the rawAircraftType into the isHeavy, equipmentCode and equipmentSuffix
@@ -139,6 +138,7 @@ flightPlanSchema.pre("save", function (next) {
 
 flightPlanSchema.plugin(autopopulate);
 flightPlanSchema.set("toJSON", { virtuals: true, aliases: false });
+flightPlanSchema.set("toObject", { virtuals: true, aliases: false });
 
 const FlightPlan: FlightPlanModelInterface = model<
   IFlightPlanDocument,
