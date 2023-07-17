@@ -11,6 +11,9 @@ import aircraftRouter from "./routes/aircraft.mjs";
 import airlineRouter from "./routes/airline.mjs";
 import magneticDeclinationRouter from "./routes/magneticDeclination.mjs";
 
+// Verifier routes
+import hasEquipmentSuffix from "./routes/verifiers/hasEquipmentSuffix.mjs";
+
 import https from "https";
 import debug from "debug";
 
@@ -52,6 +55,9 @@ export function startServer(): void {
   app.use(aircraftRouter);
   app.use(airlineRouter);
   app.use(magneticDeclinationRouter);
+
+  // Verifier routes
+  app.use(hasEquipmentSuffix);
 
   server = app.listen(port, () => {
     console.log(`Listening on port ${port}`);
