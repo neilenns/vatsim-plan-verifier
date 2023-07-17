@@ -7,6 +7,7 @@ import VerifyAllResult from "../controllers/verifyAllResult.mjs";
 
 import { hasEquipmentSuffix } from "../controllers/verifiers/hasEquipmentSuffix.mjs";
 import { warnHeavyRunwayAssignment } from "../controllers/verifiers/warnHeavyRunwayAssignment.mjs";
+import { altitudeForDirectionOfFlight } from "../controllers/verifiers/altitudeForDirectionOfFlight.mjs";
 
 const router = express.Router();
 
@@ -23,6 +24,10 @@ type Verifier = {
 const verifiers: Verifier[] = [
   { name: "hasEquipmentSuffix", handler: hasEquipmentSuffix },
   { name: "warnHeavyRunwayAssignment", handler: warnHeavyRunwayAssignment },
+  {
+    name: "altitudeForDirectionOfFlight",
+    handler: altitudeForDirectionOfFlight,
+  },
 ];
 
 // Generic handler for verifier routes
