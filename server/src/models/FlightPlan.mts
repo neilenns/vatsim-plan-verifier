@@ -138,7 +138,7 @@ flightPlanSchema.pre("save", function (next) {
 });
 
 flightPlanSchema.plugin(autopopulate);
-flightPlanSchema.set("toJSON", { virtuals: true });
+flightPlanSchema.set("toJSON", { virtuals: true, aliases: false });
 
 const FlightPlan: FlightPlanModelInterface = model<
   IFlightPlanDocument,
