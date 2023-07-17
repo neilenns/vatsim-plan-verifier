@@ -2,14 +2,12 @@ import { IFlightPlan } from "../../models/FlightPlan.mjs";
 import VerifierResult, {
   IVerifierResult,
 } from "../../models/VerifierResult.mjs";
-import Result from "../../types/result.mjs";
-
-type HasEquipmentSuffixResult = Result<IVerifierResult, "UnknownError">;
+import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 
 export async function hasEquipmentSuffix(
   flightPlan: IFlightPlan
-): Promise<HasEquipmentSuffixResult> {
-  var result: HasEquipmentSuffixResult;
+): Promise<VerifierControllerResult> {
+  var result: VerifierControllerResult;
 
   try {
     if (!flightPlan.equipmentSuffix || flightPlan.equipmentSuffix === "") {
