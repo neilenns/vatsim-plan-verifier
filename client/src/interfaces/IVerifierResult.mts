@@ -1,6 +1,6 @@
 import { Document, Types } from "mongoose";
 
-export type StatusValue = "Ok" | "Warning" | "Error";
+export type StatusValue = "Ok" | "Information" | "Warning" | "Error";
 export type PriorityValue = 1 | 2 | 3 | 4 | 5;
 export type FlightPlanPartValue =
   | "callsign"
