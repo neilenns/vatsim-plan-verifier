@@ -3,8 +3,8 @@ import { getFlightPlan } from "../controllers/flightPlans.mjs";
 import { hasEquipmentSuffix } from "../controllers/verifiers/hasEquipmentSuffix.mjs";
 import { IFlightPlan } from "../models/FlightPlan.mjs";
 import VerifierControllerResult from "../types/verifierControllerResult.mjs";
-import { Handler } from "express-serve-static-core";
 import { IVerifierResult } from "../models/VerifierResult.mjs";
+import VerifyAllResult from "../controllers/verifyAllResult.mjs";
 
 const router = express.Router();
 
@@ -80,7 +80,7 @@ router.get("/verify/all/:id", async (req: Request, res: Response) => {
       }
     }
 
-    const results: IVerifierResult[] = [];
+    const verifyAllResult = new VerifyAllResult();
 
     // Loop across all registered verifiers and save all successful verification runs
     // to send back to the client.
@@ -88,11 +88,11 @@ router.get("/verify/all/:id", async (req: Request, res: Response) => {
       const result = await verifier.handler(flightPlan.data);
 
       if (result.success) {
-        results.push(result.data);
+        verifyAllResult.add(result.data);
       }
     }
 
-    return res.status(200).json(results);
+    return res.status(200).json(verifyAllResult);
   } catch (error) {
     return res.status(500).json({
       error: `Failed to run verifiers for flight plan ${id}.`,

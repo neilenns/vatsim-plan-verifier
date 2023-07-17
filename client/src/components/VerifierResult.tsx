@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography, Box, List, ListItem, ListItemText } from "@mui/material";
-import IVerifierResultDocument from "../interfaces/IVerifierResultDocument.mts";
+import IVerifierResultDocument from "../interfaces/IVerifierResult.mts";
 
 interface VerifierResultComponentProps {
   verifierResult: IVerifierResultDocument;
