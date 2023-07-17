@@ -34,10 +34,17 @@ const flightAwareRouteSchema = new mongoose.Schema({
   createdAt: { type: Date, expires: "30d", required: true, default: Date.now },
 });
 
+// Formats the min and max filed altitude for the route so it displays nicely.
+// If min and max are the same the result is something like "FL320".
+// If min and max are different the result is something like "FL320-FL340".
+// If the altitudes are below FL180 then they are shown in full thousands,
+// e.g. "10,000".
 flightAwareRouteSchema.virtual("filedAltitudesFormatted").get(function () {
-  return `${formatAltitude(
-    this.filedAltitudeMin
-  )}-${formatAltitude(this.filedAltitudeMax)}`;
+  return this.filedAltitudeMin === this.filedAltitudeMax
+    ? formatAltitude(this.filedAltitudeMin)
+    : `${formatAltitude(this.filedAltitudeMin)}-${formatAltitude(
+        this.filedAltitudeMax
+      )}`;
 });
 
 flightAwareRouteSchema.set("toJSON", { virtuals: ["filedAltitudesFormatted"] });
