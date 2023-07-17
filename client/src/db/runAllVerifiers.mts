@@ -1,11 +1,11 @@
 import axios from "axios";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 import { serverUrl } from "../configs/planVerifierServer.mjs";
-import IVerifierResultDocument from "../interfaces/IVerifierResultDocument.mts";
+import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
 
 export async function runAllVerifiers(
   flightPlan: IFlightPlan
-): Promise<IVerifierResultDocument[]> {
+): Promise<IVerifyAllResult> {
   if (!flightPlan || !flightPlan._id) {
     throw new Error("Flight plan is missing an ID.");
   }
@@ -17,7 +17,7 @@ export async function runAllVerifiers(
     );
 
     if (response.status === 200) {
-      return response.data as IVerifierResultDocument[];
+      return response.data as IVerifyAllResult;
     } else {
       throw new Error("Failed to run all verifiers");
     }

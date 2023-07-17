@@ -5,11 +5,11 @@ import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 import parseFlightPlan from "../utils/flightPlanParser";
 import { storeFlightPlan } from "../db/flightPlan.mts";
 import { runAllVerifiers } from "../db/runAllVerifiers.mts";
-import IVerifierResultDocument from "../interfaces/IVerifierResultDocument.mts";
+import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
 
 interface FlightPlanProps {
   onSubmit: (flightPlan: IFlightPlan) => void;
-  onVerify: (results: IVerifierResultDocument[]) => void;
+  onVerify: (result: IVerifyAllResult) => void;
 }
 
 const FlightPlanEntryForm: React.FC<FlightPlanProps> = ({

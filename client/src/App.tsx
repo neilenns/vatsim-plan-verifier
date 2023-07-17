@@ -6,21 +6,22 @@ import { Typography } from "@mui/material";
 import FlightPlanDisplay from "./components/FlightPlanDisplay";
 import { useState } from "react";
 import IFlightPlan from "./interfaces/IFlightPlan.mjs";
-import IVerifyResultDocument from "./interfaces/IVerifierResultDocument.mts";
+import IVerifyAllResult from "./interfaces/IVerifyAllResult.mts";
 import VerifierResults from "./components/VerifierResults";
 
 function App() {
   const [flightPlan, setFlightPlan] = useState<IFlightPlan>({} as IFlightPlan);
-  const [verifyResults, setVerifyResults] = useState<IVerifyResultDocument[]>(
-    []
+  const [verifyResults, setVerifyResults] = useState<IVerifyAllResult | null>(
+    null
   );
 
   function handleSubmit(flightPlan: IFlightPlan) {
     setFlightPlan(flightPlan);
   }
 
-  function handleVerify(results: IVerifyResultDocument[]) {
+  function handleVerify(results: IVerifyAllResult) {
     setVerifyResults(results);
+    console.log(results);
   }
 
   return (
@@ -35,7 +36,7 @@ function App() {
         <FlightPlanDisplay flightPlan={flightPlan} />
       </Grid>
       <Grid xs={12}>
-        <VerifierResults verifierResults={verifyResults} />
+        <VerifierResults verifierResults={verifyResults?.results} />
       </Grid>
     </Grid>
   );
