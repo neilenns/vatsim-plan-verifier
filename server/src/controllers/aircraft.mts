@@ -1,19 +1,9 @@
 import Aircraft, { IAircraft } from "../models/Aircraft.mjs";
+import Result from "../types/result.mjs";
 
-type AircraftSuccessResult = {
-  success: true;
-  data: IAircraft;
-};
+type AircraftResult = Result<IAircraft, "AircraftNotFound" | "UnknownError">;
 
-type AircraftFailureResult = {
-  success: false;
-  errorType: "AircraftNotFound" | "UnknownError";
-  error: string;
-};
-
-type GetAircraftResult = AircraftSuccessResult | AircraftFailureResult;
-
-export async function getAircraft(id: string): Promise<GetAircraftResult> {
+export async function getAircraft(id: string): Promise<AircraftResult> {
   try {
     const fetchedAircraft = await Aircraft.findById(id);
 

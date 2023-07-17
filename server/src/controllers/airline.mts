@@ -1,21 +1,9 @@
 import Airline, { IAirline } from "../models/Airline.mjs";
+import Result from "../types/result.mjs";
 
-type AirlineSuccessResult = {
-  success: true;
-  data: IAirline[];
-};
+type AircraftResult = Result<IAirline[], "AirlineNotFound" | "UnknownError">;
 
-type AirlineFailureResult = {
-  success: false;
-  errorType: "AirlineNotFound" | "UnknownError";
-  error: string;
-};
-
-type GetAircraftResult = AirlineSuccessResult | AirlineFailureResult;
-
-export async function getAirline(
-  airlineCode: string
-): Promise<GetAircraftResult> {
+export async function getAirline(airlineCode: string): Promise<AircraftResult> {
   try {
     const fetchedAirlines = await Airline.findByAirlineCode(airlineCode);
 

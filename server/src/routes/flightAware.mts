@@ -14,7 +14,12 @@ router.get("/flightAwareRoutes/:departure/:arrival", async (req, res) => {
       departure,
       arrival,
     } as IFlightPlanDocument);
-    res.json(routes);
+
+    if (routes.success === false) {
+      return res.status(404).json({ error: routes.error });
+    }
+
+    res.json(routes.data);
   } catch (error) {
     res.status(500).json({ error: (error as Error).message });
   }

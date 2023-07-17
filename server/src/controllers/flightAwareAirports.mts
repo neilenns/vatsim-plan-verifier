@@ -2,25 +2,16 @@ import axios, { AxiosResponse } from "axios";
 import FlightAwareAirport, {
   IFlightAwareAirport,
 } from "../models/FlightAwareAirport.mjs";
+import Result from "../types/result.mjs";
 
-type FlightAwareAirportSuccessResult = {
-  success: true;
-  data: IFlightAwareAirport;
-};
-
-type FlightAwareAirportFailureResult = {
-  success: false;
-  errorType: "AirportNotFound" | "UnknownError";
-  error: string;
-};
-
-type GetFlightAwareAirportResult =
-  | FlightAwareAirportSuccessResult
-  | FlightAwareAirportFailureResult;
+type FlightAwareAirportResult = Result<
+  IFlightAwareAirport,
+  "AirportNotFound" | "UnknownError"
+>;
 
 export async function getFlightAwareAirport(
   airportCode: string
-): Promise<GetFlightAwareAirportResult> {
+): Promise<FlightAwareAirportResult> {
   try {
     const airport = await FlightAwareAirport.findOne({ airportCode });
 
