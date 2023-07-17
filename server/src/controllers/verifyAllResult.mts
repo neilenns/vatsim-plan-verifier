@@ -2,10 +2,11 @@ import { Verify } from "crypto";
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mjs";
 import { IVerifierResult } from "../models/VerifierResult.mjs";
 import { WritableKeys } from "ts-essentials";
+import { Writable } from "stream";
 
-interface ErrorWarningCounts {
-  [key: string]: number;
-}
+// This magic ensures type safety when adding a result to the class,
+// when incrementing the appropriate error/warning count.
+type WritableVerifyAllResultKeys = WritableKeys<VerifyAllResult>;
 
 export default class VerifyAllResult implements IVerifyAllResult {
   results: IVerifierResult[];
@@ -117,41 +118,25 @@ export default class VerifyAllResult implements IVerifyAllResult {
   public add(result: IVerifierResult): void {
     this.results.push(result);
 
-    const partMappings: {
-      [key: string]: [
-        WritableKeys<VerifyAllResult>,
-        WritableKeys<VerifyAllResult>
-      ];
-    } = {
-      callsign: ["callsignErrorCount", "callsignWarningCount"],
-      rawAircraftType: [
-        "rawAircraftTypeErrorCount",
-        "rawAircraftTypeWarningCount",
-      ],
-      equipmentCode: ["equipmentCodeErrorCount", "equipmentCodeWarningCount"],
-      departure: ["departureErrorCount", "departureWarningCount"],
-      arrival: ["arrivalErrorCount", "arrivalWarningCount"],
-      squawk: ["squawkErrorCount", "squawkWarningCount"],
-      isHeavy: ["isHeavyErrorCount", "isHeavyWarningCount"],
-      cruiseAltitude: [
-        "cruiseAltitudeErrorCount",
-        "cruiseAltitudeWarningCount",
-      ],
-      route: ["routeErrorCount", "routeWarningCount"],
-    };
+    // Absolute typescript magic. Create the property names for the error and warning
+    // count properties based on the flight plan part that was verified. The
+    // WritableKeys type is used to let TypeScript know these should be ok. Then for
+    // runtime checking the "in this" test is done to make sure the property actually
+    // exists. Insanity. I can't believe this works.
+    const errorProp: WritableVerifyAllResultKeys = `${result.flightPlanPart}ErrorCount`;
+    const warningProp: WritableVerifyAllResultKeys = `${result.flightPlanPart}WarningCount`;
 
-    const mappings = partMappings[result.flightPlanPart];
-    if (mappings) {
-      const [errorsProp, warningsProp] = mappings;
-
-      // WritableKeys is the magic that makes this all work. Otherwise typescript throws errors
-      // about attempting to use errorsProp and warningsProp as keys on this.
-      if (result.status === "Error") {
+    if (result.status === "Error") {
+      if (errorProp in this) {
         this.errorCount++;
-        this[errorsProp]++;
-      } else if (result.status === "Warning") {
+        this[errorProp]++;
+      }
+    }
+
+    if (result.status === "Warning") {
+      if (warningProp in this) {
         this.warningCount++;
-        this[warningsProp]++;
+        this[warningProp]++;
       }
     }
   }
