@@ -1,25 +1,13 @@
 import axios, { AxiosResponse } from "axios";
 import MagneticVariationResponse from "../interfaces/IMagneticDeclinationResponse.mjs";
+import Result from "../types/result.mjs";
 
-type MagneticDeclinationSuccessResult = {
-  success: true;
-  data: number;
-};
-
-type MagneticDeclinationFailureResult = {
-  success: false;
-  errorType: "UnknownError";
-  error: string;
-};
-
-type GetMagneticDeclinationResult =
-  | MagneticDeclinationSuccessResult
-  | MagneticDeclinationFailureResult;
+type MagneticDeclinationResult = Result<number, "UnknownError">;
 
 export async function getMagneticDeclination(
   latitude: number,
   longitude: number
-): Promise<GetMagneticDeclinationResult> {
+): Promise<MagneticDeclinationResult> {
   if (!process.env.GEOMAG_API_KEY) {
     return {
       success: false,

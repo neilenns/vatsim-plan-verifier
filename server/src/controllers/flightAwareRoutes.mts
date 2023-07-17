@@ -3,6 +3,9 @@ import axios, { AxiosResponse } from "axios";
 import FlightAwareRoute, {
   IFlightAwareRoute,
 } from "../models/FlightAwareRoute.mjs";
+import Result from "../types/result.mjs";
+
+type FlightAwareRoutesResult = Result<IFlightAwareRoute[], "UnknownError">;
 
 interface FlightAwareRoutesResponse {
   routes: IFlightAwareRoute[];
@@ -11,16 +14,20 @@ interface FlightAwareRoutesResponse {
 export async function getFlightAwareRoutes({
   departure,
   arrival,
-}: FlightPlan): Promise<IFlightAwareRoute[]> {
+}: FlightPlan): Promise<FlightAwareRoutesResult> {
   try {
     const routes = await FlightAwareRoute.find({ departure, arrival });
 
     if (routes && routes.length > 0) {
       console.log(`Found cached routes for ${departure}-${arrival}`);
-      return routes;
+
+      return {
+        success: true,
+        data: routes,
+      };
     }
   } catch (error) {
-    console.log(
+    console.error(
       `Error fetching cached routes for ${departure}-${arrival}: ${error}`
     );
   }
@@ -29,6 +36,8 @@ export async function getFlightAwareRoutes({
   var fetchedRoutes: FlightAwareRoutesResponse = {
     routes: [],
   };
+
+  const resultRoutes: IFlightAwareRoute[] = [];
 
   try {
     fetchedRoutes = await fetchFlightRoutes(departure, arrival);
@@ -44,12 +53,21 @@ export async function getFlightAwareRoutes({
         arrival,
       });
       await newRoute.save();
+      resultRoutes.push(newRoute);
     });
   } catch (error) {
     console.error(error);
+    return {
+      success: false,
+      errorType: "UnknownError",
+      error: `${error}`,
+    };
   }
 
-  return fetchedRoutes.routes;
+  return {
+    success: true,
+    data: resultRoutes,
+  };
 }
 
 async function fetchFlightRoutes(
