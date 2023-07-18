@@ -102,6 +102,7 @@ describe("verifier: altitudeForDirectionOfFlight tests", () => {
     const data = (result as SuccessResult<IVerifierResult>).data;
 
     expect(data.status).to.equal("Information");
+    expect(data.flightPlanPart).to.equal("cruiseAltitude");
     expect(data.messageId).to.equal("altitudeValidForDirectionOfFlight");
   });
 
@@ -117,6 +118,7 @@ describe("verifier: altitudeForDirectionOfFlight tests", () => {
     const data = (result as SuccessResult<IVerifierResult>).data;
 
     expect(data.status).to.equal("Information");
+    expect(data.flightPlanPart).to.equal("cruiseAltitude");
     expect(data.messageId).to.equal("altitudeValidForDirectionOfFlight");
   });
 
@@ -132,6 +134,7 @@ describe("verifier: altitudeForDirectionOfFlight tests", () => {
     const data = (result as SuccessResult<IVerifierResult>).data;
 
     expect(data.status).to.equal("Error");
+    expect(data.flightPlanPart).to.equal("cruiseAltitude");
     expect(data.messageId).to.equal(
       "altitudeInvalidForEastboundDirectionOfFlight"
     );
@@ -149,6 +152,7 @@ describe("verifier: altitudeForDirectionOfFlight tests", () => {
     const data = (result as SuccessResult<IVerifierResult>).data;
 
     expect(data.status).to.equal("Error");
+    expect(data.flightPlanPart).to.equal("cruiseAltitude");
     expect(data.messageId).to.equal(
       "altitudeInvalidForWestboundDirectionOfFlight"
     );
@@ -166,6 +170,7 @@ describe("verifier: altitudeForDirectionOfFlight tests", () => {
     const data = (result as SuccessResult<IVerifierResult>).data;
 
     expect(data.status).to.equal("Error");
+    expect(data.flightPlanPart).to.equal("cruiseAltitude");
     expect(data.messageId).to.equal(
       "altitudeInvalidForEastboundAboveRVSMDirectionOfFlight"
     );
@@ -183,6 +188,7 @@ describe("verifier: altitudeForDirectionOfFlight tests", () => {
     const data = (result as SuccessResult<IVerifierResult>).data;
 
     expect(data.status).to.equal("Error");
+    expect(data.flightPlanPart).to.equal("cruiseAltitude");
     expect(data.messageId).to.equal(
       "altitudeInvalidForWestboundAboveRVSMDirectionOfFlight"
     );
