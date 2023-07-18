@@ -23,10 +23,12 @@ export default async function hasEquipmentSuffix({
     // This is the test the verifier is supposed to do.
     if (!equipmentSuffix || equipmentSuffix === "") {
       result.data.status = "Error";
+      result.data.messageId = "missingEquipmentSuffix";
       result.data.message = `Flight plan is missing an equipment suffix.`;
       result.data.priority = 3;
     } else {
       result.data.status = "Information";
+      result.data.messageId = "hasEquipmentSuffix";
       result.data.message = `Flight plan has an equipment suffix.`;
     }
 

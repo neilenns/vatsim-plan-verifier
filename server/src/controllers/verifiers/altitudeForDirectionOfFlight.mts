@@ -30,8 +30,9 @@ export default async function altitudeForDirectionOfFlight({
   try {
     // If the direction of flight wasn't calculated then bail early.
     if (!directionOfFlight) {
-      (result.data.status = "Warning"),
-        (result.data.message = `Direction of flight wasn't calculated between ${departure} and ${arrival}.`);
+      result.data.status = "Warning";
+      result.data.messageId = "directionOfFlightNotCalculated";
+      result.data.message = `Direction of flight wasn't calculated between ${departure} and ${arrival}.`;
     }
     // Since the direction of flight is available it can be tested against the cruise altitude.
     else {
@@ -42,6 +43,7 @@ export default async function altitudeForDirectionOfFlight({
 
       // Set up the success case now since the if statements for the failure are a nightmare.
       result.data.status = "Information";
+      result.data.messageId = "altitudeValidForDirectionOfFlight";
       result.data.message = `Cruise altitude ${cruiseAltitudeFormatted} is valid for the direction of flight (${paddedDirectionOfFlight}).`;
 
       // Check altitudes that are separated by 1000' first. This is anything that's in RVSM airspace or below.
@@ -49,6 +51,8 @@ export default async function altitudeForDirectionOfFlight({
         // If the direction is eastbound then it has to be an odd altitude
         if (directionOfFlight <= 179 && (cruiseAltitude / 10) % 2 === 0) {
           result.data.status = "Error";
+          result.data.messageId =
+            "altitudeInvalidForEastboundDirectionOfFlight";
           result.data.message = `Direction of flight is eastbound (${paddedDirectionOfFlight}) but ${cruiseAltitudeFormatted} is even. Offer ${formatAltitude(
             cruiseAltitude - 10
           )} or ${formatAltitude(cruiseAltitude + 10)}.`;
@@ -57,6 +61,8 @@ export default async function altitudeForDirectionOfFlight({
         // If the direction of flight is westbound then it has to be an even altitude.
         else if (directionOfFlight >= 180 && (cruiseAltitude / 10) % 2 !== 0) {
           result.data.status = "Error";
+          result.data.messageId =
+            "altitudeInvalidForWestboundDirectionOfFlight";
           result.data.message = `Direction of flight is westbound (${paddedDirectionOfFlight}) but ${cruiseAltitudeFormatted} is odd. Offer ${formatAltitude(
             cruiseAltitude - 10
           )} or ${formatAltitude(cruiseAltitude + 10)}.`;
@@ -71,6 +77,8 @@ export default async function altitudeForDirectionOfFlight({
           !eastboundRVSMAltitudes.includes(cruiseAltitude)
         ) {
           result.data.status = "Error";
+          result.data.messageId =
+            "altitudeInvalidForEastboundAboveRVSMDirectionOfFlight";
           result.data.message = `Direction of flight is eastbound (${paddedDirectionOfFlight}) but ${cruiseAltitudeFormatted} is not one of the eastbound RVSM altitudes. Offer ${eastboundRVSMAltitudes
             .map((altitude) => formatAltitude(altitude))
             .join(", ")}.`;
@@ -82,6 +90,8 @@ export default async function altitudeForDirectionOfFlight({
           !westboundRVSMAltiudes.includes(cruiseAltitude)
         ) {
           result.data.status = "Error";
+          result.data.messageId =
+            "altitudeInvalidForWestboundAboveRVSMDirectionOfFlight";
           result.data.message = `Direction of flight is westbound (${paddedDirectionOfFlight}) but ${cruiseAltitudeFormatted} is not one of the westbound RVSM altitudes. Offer ${westboundRVSMAltiudes
             .map((altitude) => formatAltitude(altitude))
             .join(", ")}.`;
