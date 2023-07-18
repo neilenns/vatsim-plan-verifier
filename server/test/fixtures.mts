@@ -1,20 +1,20 @@
+// From https://nodkz.github.io/mongodb-memory-server/docs/guides/integration-examples/test-runners/
+import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
-import * as db from "../src/database.mjs";
 
-var mongod: MongoMemoryServer;
+var mongoServer: MongoMemoryServer;
 
 export async function mochaGlobalSetup() {
-  mongod = await MongoMemoryServer.create();
+  mongoServer = await MongoMemoryServer.create();
 
-  const uri = mongod.getUri();
-  console.log(uri);
+  const mongoUri = mongoServer.getUri();
+  console.log(`Mongoose in-memory server created: ${mongoUri}`);
 
-  process.env.MONGO_DB_CONNECTION_STRING = mongod.getUri();
-
-  await db.connectToDatabase();
+  await mongoose.connect(mongoUri);
+  await mongoose.connection.db.dropDatabase();
 }
 
 export async function mochaGlobalTeardown() {
-  await db.disconnectFromDatabase();
-  await mongod.stop();
+  await mongoose.disconnect();
+  await mongoServer.stop();
 }
