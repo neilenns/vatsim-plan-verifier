@@ -55,6 +55,10 @@ const airports = [
 export default async function setup() {
   airports.map(async (airport) => {
     var record = new FlightAwareAirport(airport);
-    await record.save();
+    try {
+      await record.save();
+    } catch (err) {
+      console.log(err);
+    }
   });
 }

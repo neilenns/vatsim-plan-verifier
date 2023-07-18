@@ -46,6 +46,10 @@ const aircraft = [
 export default async function setup() {
   aircraft.map(async (aircraft) => {
     var record = new Aircraft(aircraft);
-    await record.save();
+    try {
+      await record.save();
+    } catch (err) {
+      console.log(err);
+    }
   });
 }

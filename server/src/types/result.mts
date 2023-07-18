@@ -1,9 +1,9 @@
-type SuccessResult<T> = {
+export type SuccessResult<T> = {
   success: true;
   data: T;
 };
 
-type FailureResult<T extends string> = {
+export type FailureResult<T extends string> = {
   success: false;
   errorType: T;
   error: string;

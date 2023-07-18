@@ -1,10 +1,9 @@
 import FlightPlan, { IFlightPlan } from "../models/FlightPlan.mjs";
 import Result from "../types/result.mjs";
 
-type FlightPlanResult = Result<
-  IFlightPlan,
-  "FlightPlanNotFound" | "UnknownError"
->;
+export type FlightPlanFailureErrorTypes = "FlightPlanNotFound" | "UnknownError";
+
+export type FlightPlanResult = Result<IFlightPlan, FlightPlanFailureErrorTypes>;
 
 export async function putFlightPlan(
   flightPlanData: IFlightPlan
