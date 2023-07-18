@@ -1,7 +1,6 @@
 // tests/calculator.spec.tx
 import { assert } from "chai";
 import { describe, it } from "mocha";
-import FlightPlan from "../src/models/FlightPlan.mjs";
 import { getFlightAwareAirport } from "../src/controllers/flightAwareAirports.mjs";
 
 describe("FlightAware airport tests", () => {

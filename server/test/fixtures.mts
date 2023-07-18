@@ -3,8 +3,9 @@ import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
-import flightAwareAirportMock from "./mocks/flightAwareAirport.mjs";
+// import flightAwareAirportMock from "./mocks/flightAwareAirport.mjs";
 import addAirports from "./databaseSetup/addAirports.mjs";
+import addAircraft from "./databaseSetup/addAircraft.mjs";
 
 var mongoServer: MongoMemoryServer;
 var mock = new MockAdapter(axios);
@@ -26,6 +27,7 @@ export async function mochaGlobalSetup() {
 
   // Populate the database
   addAirports();
+  addAircraft();
 }
 
 export async function mochaGlobalTeardown() {
