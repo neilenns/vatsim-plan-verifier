@@ -33,3 +33,4 @@ for all tests.
 |        ID         | Departure | Arrival |                       Notes                        |
 |:-----------------:|:--------------:|:--------------:|-------------------------------------------------|
 | 5f9f7b3b9d3b3c1b1c9b4b4b | KSEA     | KPDX      | Heavy aircraft with equipment suffix and correct direction of flight   |
+| 5f9f7b3b9d3b3c1b1c9b4b4c | KSEA     | KPDX      | C172 without equipment suffix and correct direction of flight   |
