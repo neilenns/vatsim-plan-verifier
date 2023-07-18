@@ -15,7 +15,11 @@ var mongoServer: MongoMemoryServer;
 var mock = new MockAdapter(axios);
 
 export async function mochaGlobalSetup() {
-  mongoServer = await MongoMemoryServer.create();
+  mongoServer = await MongoMemoryServer.create({
+    instance: {
+      port: 49427,
+    },
+  });
 
   const mongoUri = mongoServer.getUri();
   console.log(`Mongoose in-memory server created: ${mongoUri}`);

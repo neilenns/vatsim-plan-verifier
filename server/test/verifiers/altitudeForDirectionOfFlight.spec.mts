@@ -3,8 +3,12 @@ import { describe, it } from "mocha";
 import altitudeForDirectionOfFlight from "../../src/controllers/verifiers/altitudeForDirectionOfFlight.mjs";
 import { SuccessResult } from "../../src/types/result.mjs";
 import { getFlightPlan } from "../../src/controllers/flightPlans.mjs";
-import FlightPlan, { IFlightPlan } from "../../src/models/FlightPlan.mjs";
+import { IFlightPlan } from "../../src/models/FlightPlan.mjs";
 import { IVerifierResult } from "../../src/models/VerifierResult.mjs";
+import {
+  addFlightPlans,
+  removeFlightPlans,
+} from "../databaseSetup/manageFlightPlans.mjs";
 
 const testData = [
   // Wrong altitude for direction of flight (eastbound)
@@ -13,7 +17,7 @@ const testData = [
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
-    cruiseAltitude: "200",
+    cruiseAltitude: 200,
     rawAircraftType: "B738/L",
     route: "SEA8 SEA BUWZO KRATR2",
     squawk: "1234",
@@ -24,7 +28,7 @@ const testData = [
     callsign: "ASA42",
     departure: "KPDX",
     arrival: "KSEA",
-    cruiseAltitude: "210",
+    cruiseAltitude: 210,
     rawAircraftType: "B738/L",
     route: "SEA8 SEA BUWZO KRATR2",
     squawk: "1234",
@@ -35,7 +39,7 @@ const testData = [
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
-    cruiseAltitude: "440",
+    cruiseAltitude: 440,
     rawAircraftType: "B738/L",
     route: "SEA8 SEA BUWZO KRATR2",
     squawk: "1234",
@@ -46,7 +50,7 @@ const testData = [
     callsign: "ASA42",
     departure: "KPDX",
     arrival: "KSEA",
-    cruiseAltitude: "450",
+    cruiseAltitude: 450,
     rawAircraftType: "B738/L",
     route: "SEA8 SEA BUWZO KRATR2",
     squawk: "1234",
@@ -57,7 +61,7 @@ const testData = [
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
-    cruiseAltitude: "210",
+    cruiseAltitude: 210,
     rawAircraftType: "B738/L",
     route: "SEA8 SEA BUWZO KRATR2",
     squawk: "1234",
@@ -68,25 +72,24 @@ const testData = [
     callsign: "ASA42",
     departure: "KPDX",
     arrival: "KSEA",
-    cruiseAltitude: "200",
+    cruiseAltitude: 200,
     rawAircraftType: "B738/L",
     route: "SEA8 SEA BUWZO KRATR2",
     squawk: "1234",
   },
 ];
 
-describe("verifier: altitudeForDirectionOfFlight tests", () => {
-  before("Add flight plans for tests", async () => {
-    testData.map(async (data) => {
-      var record = new FlightPlan(data);
-      try {
-        await record.save();
-      } catch (err) {
-        console.log(err);
-      }
-    });
-  });
+before(
+  "Add flight plans for tests",
+  async () => await addFlightPlans(testData)
+);
 
+after(
+  "Remove flight plans for tests",
+  async () => await removeFlightPlans(testData)
+);
+
+describe("verifier: altitudeForDirectionOfFlight tests", () => {
   it("eastbound with eastbound altitude", async () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b5e");
     expect(flightPlan.success).to.equal(true);

@@ -5,6 +5,10 @@ import hasEquipmentSuffix from "../../src/controllers/verifiers/hasEquipmentSuff
 import FlightPlan, { IFlightPlan } from "../../src/models/FlightPlan.mjs";
 import { IVerifierResult } from "../../src/models/VerifierResult.mjs";
 import { SuccessResult } from "../../src/types/result.mjs";
+import {
+  addFlightPlans,
+  removeFlightPlans,
+} from "../databaseSetup/manageFlightPlans.mjs";
 
 const testData = [
   // Has equipment suffix
@@ -13,7 +17,7 @@ const testData = [
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
-    cruiseAltitude: "210",
+    cruiseAltitude: 210,
     rawAircraftType: "H/A388/L",
     route: "SEA8 SEA BUWZO KRATR2",
     squawk: "1234",
@@ -24,23 +28,36 @@ const testData = [
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
-    cruiseAltitude: "210",
+    cruiseAltitude: 210,
     rawAircraftType: "C172",
     route: "SEA8 SEA BUWZO KRATR2",
     squawk: "1234",
   },
 ];
 
+before(
+  "Add flight plans for tests",
+  async () => await addFlightPlans(testData)
+);
+
+after(
+  "Remove flight plans for tests",
+  async () => await removeFlightPlans(testData)
+);
+
 describe("verifier: hasEquipmentSuffix tests", () => {
-  before("Add flight plans for tests", async () => {
-    testData.map(async (data) => {
-      var record = new FlightPlan(data);
-      try {
-        await record.save();
-      } catch (err) {
-        console.log(err);
-      }
-    });
+  it("should not have an equipment suffix", async () => {
+    const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b4c");
+    expect(flightPlan.success).to.equal(true);
+
+    const result = await hasEquipmentSuffix(
+      (flightPlan as SuccessResult<IFlightPlan>).data
+    );
+
+    expect(result.success).to.equal(true);
+    expect((result as SuccessResult<IVerifierResult>).data.status).to.equal(
+      "Error"
+    );
   });
 
   it("should have equipment suffix", async () => {
@@ -54,20 +71,6 @@ describe("verifier: hasEquipmentSuffix tests", () => {
     expect(result.success).to.equal(true);
     expect((result as SuccessResult<IVerifierResult>).data.status).to.equal(
       "Information"
-    );
-  });
-
-  it("should not have an equipment suffix", async () => {
-    const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b4c");
-    expect(flightPlan.success).to.equal(true);
-
-    const result = await hasEquipmentSuffix(
-      (flightPlan as SuccessResult<IFlightPlan>).data
-    );
-
-    expect(result.success).to.equal(true);
-    expect((result as SuccessResult<IVerifierResult>).data.status).to.equal(
-      "Error"
     );
   });
 });

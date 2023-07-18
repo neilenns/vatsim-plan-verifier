@@ -20,4 +20,5 @@ export default interface IFlightPlanDocument extends Document {
   cruiseAltitudeFormatted: string;
   route?: string;
   directionOfFlight?: number;
+  routeParts?: string[];
 }
