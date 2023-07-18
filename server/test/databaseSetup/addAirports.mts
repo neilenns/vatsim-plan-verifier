@@ -24,6 +24,7 @@ const airports = [
     wikipedia:
       "http://en.wikipedia.org/wiki/Seattle-Tacoma_International_Airport",
     keywords: "SEA, KSEA, Seattle-Tacoma Intl, Boeing Field, King County Intl",
+    magneticDeclination: 15.23,
   },
   {
     airport_code: "KPDX",
@@ -47,6 +48,7 @@ const airports = [
     type: "large_airport",
     wikipedia: "http://en.wikipedia.org/wiki/Portland_International_Airport",
     keywords: "PDX, KPDX, Portland Intl",
+    magneticDeclination: 14.85,
   },
 ];
 

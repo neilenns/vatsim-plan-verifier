@@ -95,6 +95,14 @@ const flightAwareAirportSchema = new Schema({
 // repeatedly elsewhere without constantly making calls to the web service to
 // get the current value.
 flightAwareAirportSchema.pre("save", async function () {
+  // If the airport was created with a magnetic declination value then
+  // don't bother trying to request it from the web service. This is primarily
+  // for unit testing where the decliation will be provided as part of test
+  // setup.
+  if (this.magneticDeclination) {
+    return;
+  }
+
   const result = await getMagneticDeclination(this.latitude, this.longitude);
 
   if (!result.success) {
