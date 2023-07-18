@@ -2,8 +2,8 @@
 import { expect } from "chai";
 import { describe, it } from "mocha";
 import { getFlightAwareAirport } from "../src/controllers/flightAwareAirports.mjs";
-import { SuccessResult } from "../src/types/result.mjs";
 import { IFlightAwareAirport } from "../src/models/FlightAwareAirport.mjs";
+import { SuccessResult } from "../src/types/result.mjs";
 
 describe("FlightAware airport tests", () => {
   it("should return KSEA data", async () => {

@@ -1,8 +1,8 @@
 // From https://nodkz.github.io/mongodb-memory-server/docs/guides/integration-examples/test-runners/
-import mongoose from "mongoose";
-import { MongoMemoryServer } from "mongodb-memory-server";
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
+import { MongoMemoryServer } from "mongodb-memory-server";
+import mongoose from "mongoose";
 // import flightAwareAirportMock from "./mocks/flightAwareAirport.mjs";
 import addAircraft from "./databaseSetup/addAircraft.mjs";
 import addAirlines from "./databaseSetup/addAirlines.mjs";
