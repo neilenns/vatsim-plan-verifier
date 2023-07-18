@@ -34,6 +34,22 @@ describe("Flight plan tests", async () => {
     });
   });
 
+  describe("H/A388/L computed properties validation", async () => {
+    before("Load A388 flight plan", async function () {
+      result = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b4b");
+    });
+
+    it("should have a stored flight plan", () => {
+      assert.equal(result.success, true);
+    });
+
+    it("should have the correct direction of flight", () => {
+      const data = (result as SuccessResult<IFlightPlan>).data;
+
+      assert.equal(data.directionOfFlight, 171);
+    });
+  });
+
   describe("Non-existent flight plan validation", async () => {
     before("Load non-existent flight plan", async function () {
       result = await getFlightPlan("4f9f7b3b9d3b3c1b1c9b4b4b");

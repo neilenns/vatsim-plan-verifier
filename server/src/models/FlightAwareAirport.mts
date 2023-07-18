@@ -86,8 +86,7 @@ const flightAwareAirportSchema = new Schema({
   },
   magneticDeclination: {
     type: Number,
-    required: true,
-    default: 0,
+    required: false,
   },
 });
 
