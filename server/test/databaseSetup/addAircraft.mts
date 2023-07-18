@@ -25,7 +25,7 @@ const aircraft = [
     KPDXIfrAltitude: "3000",
     srsClass: "I",
     maxCruiseSpeed: "122",
-    commonEquipmentSuffix: "A G",
+    commonEquipmentSuffixes: ["A", "G"],
   },
   {
     _id: "5f9f7b9b9b3b3c1b3c1b3c1d",
@@ -39,7 +39,7 @@ const aircraft = [
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "470",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
 ];
 

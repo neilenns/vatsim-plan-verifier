@@ -35,16 +35,21 @@ export default async function checkEquipmentSuffixAgainstKnown({
       result.data.message = `Unable to verify equipment suffix as the flight plan didn't provide an equipment suffix.`;
     }
     // Not all aircraft have common equipment suffixes. If that's the case for this aircraf then skip running the verifier.
-    else if (!equipmentInfo.commonEquipmentSuffix) {
+    else if (
+      !equipmentInfo.commonEquipmentSuffixes ||
+      equipmentInfo.commonEquipmentSuffixes.length === 0
+    ) {
       result.data.status = "Information";
       result.data.messageId = "noCommonEquipmentSuffixAvailable";
       result.data.message = `Unable to verify equipment suffix as there is no known common suffix available for ${equipmentCode}.`;
     }
     // This is the actual check this verifier is supposed to do.
-    else if (equipmentInfo.commonEquipmentSuffix !== equipmentSuffix) {
+    else if (!equipmentInfo.commonEquipmentSuffixes.includes(equipmentSuffix)) {
       result.data.status = "Warning";
       result.data.messageId = "equipmentSuffixDoesNotMatchKnown";
-      result.data.message = `Equipment suffix ${equipmentSuffix} does not match the expected suffix for ${equipmentCode} (${equipmentInfo.commonEquipmentSuffix}).`;
+      result.data.message = `Equipment suffix ${equipmentSuffix} does not match the expected suffix for ${equipmentCode} (${equipmentInfo.commonEquipmentSuffixes.join(
+        ", "
+      )}).`;
       result.data.priority = 3;
     }
     // Success case is an information result since it is not useful to the controller to know that the suffix matches.
