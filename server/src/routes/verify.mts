@@ -5,9 +5,10 @@ import VerifierControllerResult from "../types/verifierControllerResult.mjs";
 import { IVerifierResult } from "../models/VerifierResult.mjs";
 import VerifyAllResult from "../controllers/verifyAllResult.mjs";
 
-import { hasEquipmentSuffix } from "../controllers/verifiers/hasEquipmentSuffix.mjs";
-import { warnHeavyRunwayAssignment } from "../controllers/verifiers/warnHeavyRunwayAssignment.mjs";
-import { altitudeForDirectionOfFlight } from "../controllers/verifiers/altitudeForDirectionOfFlight.mjs";
+import hasEquipmentSuffix from "../controllers/verifiers/hasEquipmentSuffix.mjs";
+import warnHeavyRunwayAssignment from "../controllers/verifiers/warnHeavyRunwayAssignment.mjs";
+import altitudeForDirectionOfFlight from "../controllers/verifiers/altitudeForDirectionOfFlight.mjs";
+import checkEquipmentSuffixAgainstKnown from "../controllers/verifiers/checkEquipmentSuffixAgainstKnown.mjs";
 
 const router = express.Router();
 
@@ -27,6 +28,10 @@ const verifiers: Verifier[] = [
   {
     name: "altitudeForDirectionOfFlight",
     handler: altitudeForDirectionOfFlight,
+  },
+  {
+    name: "checkEquipmentSuffixAgainstKnown",
+    handler: checkEquipmentSuffixAgainstKnown,
   },
 ];
 
