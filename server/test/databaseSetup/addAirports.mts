@@ -2,6 +2,7 @@ import FlightAwareAirport from "../../src/models/FlightAwareAirport.mjs";
 
 const airports = [
   {
+    _id: "5f9f7b3b9d3b3c1b1c9b4b4c",
     airport_code: "KSEA",
     name: "Seattle-Tacoma Intl",
     location: "Seattle, WA",
@@ -27,6 +28,7 @@ const airports = [
     magneticDeclination: -15.23,
   },
   {
+    _id: "5f9f7b3b9d3b3c1b1c9b4b4b",
     airport_code: "KPDX",
     name: "Portland Intl",
     location: "Portland, OR",
