@@ -29,14 +29,22 @@
       ".gitattributes": false
     },
     "sarif-viewer.connectToGithubCodeScanning": "off",
-    "debug.javascript.autoAttachFilter": "smart"
+    "debug.javascript.autoAttachFilter": "smart",
+    "mochaExplorer.logpanel": true,
+    "mochaExplorer.configFile": ".mocharc.jsonc",
+    "mochaExplorer.nodeArgv": [
+      "--loader=ts-node/esm",
+      "--no-warnings=ExperimentalWarning",
+      "--experimental-specifier-resolution=node"
+    ]
   },
   "extensions": {
     "recommendations": [
       "yzhang.markdown-all-in-one",
       "esbenp.prettier-vscode",
       "krysenlo.vite-plugin-eslint-problemmatcher",
-      "ms-azuretools.vscode-docker"
+      "ms-azuretools.vscode-docker",
+      "hbenl.vscode-mocha-test-adapter"
     ]
   }
 }
