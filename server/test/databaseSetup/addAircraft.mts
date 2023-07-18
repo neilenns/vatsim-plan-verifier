@@ -41,6 +41,20 @@ const aircraft = [
     maxCruiseSpeed: "470",
     commonEquipmentSuffixes: ["L"],
   },
+  {
+    _id: "5f9f7b9b9b3b3c1b3c1b3c1e",
+    equipmentCode: "TBM9",
+    manufacturer: "AEROSPATIALE (France)",
+    name: "TBM 900 !!! NO RNAV !!! !!! NO HAWKZ7 !!!",
+    engineCount: "1",
+    engineType: "T",
+    weightClass: "S",
+    KPDXVfrAltitude: "3500",
+    KPDXIfrAltitude: "3000",
+    srsClass: "I",
+    maxCruiseSpeed: "250",
+    commonEquipmentSuffix: "L",
+  },
 ];
 
 export default async function setup() {
