@@ -3,5 +3,6 @@
     "experimental-specifier-resolution=node",
     "loader=ts-node/esm"
   ],
-  "spec": "test/**/*.spec.mts"
+  "spec": "test/**/*.spec.mts",
+  "require": ["test/fixtures.mts"]
 }
