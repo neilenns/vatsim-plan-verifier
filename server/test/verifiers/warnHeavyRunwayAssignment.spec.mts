@@ -55,9 +55,10 @@ describe("verifier: warnHeavyRunwayAssignment tests", () => {
     );
 
     expect(result.success).to.equal(true);
-    expect((result as SuccessResult<IVerifierResult>).data.status).to.equal(
-      "Warning"
-    );
+
+    const data = (result as SuccessResult<IVerifierResult>).data;
+    expect(data.status).to.equal("Warning");
+    expect(data.messageId).to.equal("heavyRunwayAssignment");
   });
 
   it("should not have heavy runway assignment warning", async () => {
@@ -68,9 +69,8 @@ describe("verifier: warnHeavyRunwayAssignment tests", () => {
       (flightPlan as SuccessResult<IFlightPlan>).data
     );
 
-    expect(result.success).to.equal(true);
-    expect((result as SuccessResult<IVerifierResult>).data.status).to.equal(
-      "Information"
-    );
+    const data = (result as SuccessResult<IVerifierResult>).data;
+    expect(data.status).to.equal("Information");
+    expect(data.messageId).to.equal("notHeavyRunwayAssignment");
   });
 });

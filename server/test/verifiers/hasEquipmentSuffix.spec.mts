@@ -46,7 +46,7 @@ describe("verifier: hasEquipmentSuffix tests", () => {
     async () => await removeFlightPlans(testData)
   );
 
-  it("should not have an equipment suffix", async () => {
+  it("is missing an equipment suffix", async () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b4c");
     expect(flightPlan.success).to.equal(true);
 
@@ -55,9 +55,10 @@ describe("verifier: hasEquipmentSuffix tests", () => {
     );
 
     expect(result.success).to.equal(true);
-    expect((result as SuccessResult<IVerifierResult>).data.status).to.equal(
-      "Error"
-    );
+
+    const data = (result as SuccessResult<IVerifierResult>).data;
+    expect(data.status).to.equal("Error");
+    expect(data.messageId).to.equal("missingEquipmentSuffix");
   });
 
   it("should have equipment suffix", async () => {
@@ -69,8 +70,9 @@ describe("verifier: hasEquipmentSuffix tests", () => {
     );
 
     expect(result.success).to.equal(true);
-    expect((result as SuccessResult<IVerifierResult>).data.status).to.equal(
-      "Information"
-    );
+
+    const data = (result as SuccessResult<IVerifierResult>).data;
+    expect(data.status).to.equal("Information");
+    expect(data.messageId).to.equal("hasEquipmentSuffix");
   });
 });

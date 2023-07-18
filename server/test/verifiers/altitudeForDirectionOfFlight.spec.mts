@@ -102,9 +102,7 @@ describe("verifier: altitudeForDirectionOfFlight tests", () => {
     const data = (result as SuccessResult<IVerifierResult>).data;
 
     expect(data.status).to.equal("Information");
-    expect(data.message).to.equal(
-      "Cruise altitude FL210 is valid for the direction of flight (171)."
-    );
+    expect(data.messageId).to.equal("altitudeValidForDirectionOfFlight");
   });
 
   it("westbound with westbound altitude", async () => {
@@ -119,9 +117,7 @@ describe("verifier: altitudeForDirectionOfFlight tests", () => {
     const data = (result as SuccessResult<IVerifierResult>).data;
 
     expect(data.status).to.equal("Information");
-    expect(data.message).to.equal(
-      "Cruise altitude FL200 is valid for the direction of flight (351)."
-    );
+    expect(data.messageId).to.equal("altitudeValidForDirectionOfFlight");
   });
 
   it("eastbound with westbound altitude", async () => {
@@ -136,8 +132,8 @@ describe("verifier: altitudeForDirectionOfFlight tests", () => {
     const data = (result as SuccessResult<IVerifierResult>).data;
 
     expect(data.status).to.equal("Error");
-    expect(data.message).to.equal(
-      "Direction of flight is eastbound (171) but FL200 is even. Offer FL190 or FL210."
+    expect(data.messageId).to.equal(
+      "altitudeInvalidForEastboundDirectionOfFlight"
     );
   });
 
@@ -153,8 +149,8 @@ describe("verifier: altitudeForDirectionOfFlight tests", () => {
     const data = (result as SuccessResult<IVerifierResult>).data;
 
     expect(data.status).to.equal("Error");
-    expect(data.message).to.equal(
-      "Direction of flight is westbound (351) but FL210 is odd. Offer FL200 or FL220."
+    expect(data.messageId).to.equal(
+      "altitudeInvalidForWestboundDirectionOfFlight"
     );
   });
 
@@ -170,8 +166,8 @@ describe("verifier: altitudeForDirectionOfFlight tests", () => {
     const data = (result as SuccessResult<IVerifierResult>).data;
 
     expect(data.status).to.equal("Error");
-    expect(data.message).to.equal(
-      "Direction of flight is eastbound (171) but FL440 is not one of the eastbound RVSM altitudes. Offer FL450, FL490, FL530, FL570."
+    expect(data.messageId).to.equal(
+      "altitudeInvalidForEastboundAboveRVSMDirectionOfFlight"
     );
   });
 
@@ -187,8 +183,8 @@ describe("verifier: altitudeForDirectionOfFlight tests", () => {
     const data = (result as SuccessResult<IVerifierResult>).data;
 
     expect(data.status).to.equal("Error");
-    expect(data.message).to.equal(
-      "Direction of flight is westbound (351) but FL450 is not one of the westbound RVSM altitudes. Offer FL430, FL470, FL510, FL550, FL590."
+    expect(data.messageId).to.equal(
+      "altitudeInvalidForWestboundAboveRVSMDirectionOfFlight"
     );
   });
 });
