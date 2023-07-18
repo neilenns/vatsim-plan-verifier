@@ -58,6 +58,7 @@ describe("verifier: hasEquipmentSuffix tests", () => {
 
     const data = (result as SuccessResult<IVerifierResult>).data;
     expect(data.status).to.equal("Error");
+    expect(data.flightPlanPart).to.equal("rawAircraftType");
     expect(data.messageId).to.equal("missingEquipmentSuffix");
   });
 
@@ -73,6 +74,7 @@ describe("verifier: hasEquipmentSuffix tests", () => {
 
     const data = (result as SuccessResult<IVerifierResult>).data;
     expect(data.status).to.equal("Information");
+    expect(data.flightPlanPart).to.equal("rawAircraftType");
     expect(data.messageId).to.equal("hasEquipmentSuffix");
   });
 });

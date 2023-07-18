@@ -92,6 +92,7 @@ describe("verifier: checkEquipmentSuffixAgainstKnown tests", () => {
 
     const data = (result as SuccessResult<IVerifierResult>).data;
     expect(data.status).to.equal("Information");
+    expect(data.flightPlanPart).to.equal("rawAircraftType");
     expect(data.messageId).to.equal("equipmentSuffixMatchesKnown");
   });
 
@@ -108,6 +109,7 @@ describe("verifier: checkEquipmentSuffixAgainstKnown tests", () => {
 
     const data = (result as SuccessResult<IVerifierResult>).data;
     expect(data.status).to.equal("Information");
+    expect(data.flightPlanPart).to.equal("rawAircraftType");
     expect(data.messageId).to.equal("noAircraftInfoAvailable");
   });
 
@@ -124,6 +126,7 @@ describe("verifier: checkEquipmentSuffixAgainstKnown tests", () => {
 
     const data = (result as SuccessResult<IVerifierResult>).data;
     expect(data.status).to.equal("Information");
+    expect(data.flightPlanPart).to.equal("rawAircraftType");
     expect(data.messageId).to.equal("noCommonEquipmentSuffixAvailable");
   });
 
@@ -140,6 +143,7 @@ describe("verifier: checkEquipmentSuffixAgainstKnown tests", () => {
 
     const data = (result as SuccessResult<IVerifierResult>).data;
     expect(data.status).to.equal("Information");
+    expect(data.flightPlanPart).to.equal("rawAircraftType");
     expect(data.messageId).to.equal("noEquipmentSuffixProvided");
   });
 
@@ -156,6 +160,7 @@ describe("verifier: checkEquipmentSuffixAgainstKnown tests", () => {
 
     const data = (result as SuccessResult<IVerifierResult>).data;
     expect(data.status).to.equal("Warning");
+    expect(data.flightPlanPart).to.equal("rawAircraftType");
     expect(data.messageId).to.equal("equipmentSuffixDoesNotMatchKnown");
   });
 });
