@@ -1,5 +1,6 @@
 # Converts an aircraft_info.dat file into mongodb insert statements.
 import csv
+import json
 
 # Define the MongoDB collection name
 collection_name = "aircraft"
@@ -19,6 +20,12 @@ with open(filename, "r") as file:
     for row in reader:
         # Create a dictionary for each row using the header fields as keys
         doc = dict(zip(header, row))
+
+        # The common equipment suffixes column needs to get split into a json array.
+
+        if "commonEquipmentSuffixes" in doc:
+            doc["commonEquipmentSuffixes"] = doc["commonEquipmentSuffixes"].split()
+#            doc["commonEquipmentSuffixes"] = json.dumps(common_equipment_suffixes)
 
         # Add the document to the list
         documents.append(doc)

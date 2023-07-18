@@ -11,5 +11,5 @@ export default interface IAircraftDocument extends Document {
   KPDXIfrAltitude: number;
   srsClass: string;
   maxCruiseSpeed?: number;
-  commonEquipmentSuffix?: string;
+  commonEquipmentSuffixes?: string[];
 }
