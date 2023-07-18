@@ -79,17 +79,17 @@ const testData = [
   },
 ];
 
-before(
-  "Add flight plans for tests",
-  async () => await addFlightPlans(testData)
-);
-
-after(
-  "Remove flight plans for tests",
-  async () => await removeFlightPlans(testData)
-);
-
 describe("verifier: altitudeForDirectionOfFlight tests", () => {
+  before(
+    "Add flight plans for tests",
+    async () => await addFlightPlans(testData)
+  );
+
+  after(
+    "Remove flight plans for tests",
+    async () => await removeFlightPlans(testData)
+  );
+
   it("eastbound with eastbound altitude", async () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b5e");
     expect(flightPlan.success).to.equal(true);

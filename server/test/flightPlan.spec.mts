@@ -27,18 +27,17 @@ const testData = [
   },
 ];
 
-before(
-  "Add flight plans for tests",
-  async () => await addFlightPlans(testData)
-);
-
-after(
-  "Remove flight plans for tests",
-  async () => await removeFlightPlans(testData)
-);
-
 describe("Flight plan tests", async () => {
   var result: FlightPlanResult;
+  before(
+    "Add flight plans for tests",
+    async () => await addFlightPlans(testData)
+  );
+
+  after(
+    "Remove flight plans for tests",
+    async () => await removeFlightPlans(testData)
+  );
 
   describe("H/A388/L virtual property validation", async () => {
     before("Load A388 flight plan", async function () {

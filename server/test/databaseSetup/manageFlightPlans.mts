@@ -14,13 +14,9 @@ export async function addFlightPlans(testData: Partial<IFlightPlan>[]) {
 }
 
 export async function removeFlightPlans(testData: Partial<IFlightPlan>[]) {
-  await Promise.all(
-    testData.map(async (data) => {
-      try {
-        await FlightPlan.findByIdAndDelete(data._id);
-      } catch (err) {
-        console.log(err);
-      }
-    })
-  );
+  try {
+    await FlightPlan.deleteMany({});
+  } catch (err) {
+    console.log(err);
+  }
 }

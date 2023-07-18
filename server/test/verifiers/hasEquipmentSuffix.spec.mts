@@ -35,17 +35,17 @@ const testData = [
   },
 ];
 
-before(
-  "Add flight plans for tests",
-  async () => await addFlightPlans(testData)
-);
-
-after(
-  "Remove flight plans for tests",
-  async () => await removeFlightPlans(testData)
-);
-
 describe("verifier: hasEquipmentSuffix tests", () => {
+  before(
+    "Add flight plans for tests",
+    async () => await addFlightPlans(testData)
+  );
+
+  after(
+    "Remove flight plans for tests",
+    async () => await removeFlightPlans(testData)
+  );
+
   it("should not have an equipment suffix", async () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b4c");
     expect(flightPlan.success).to.equal(true);
