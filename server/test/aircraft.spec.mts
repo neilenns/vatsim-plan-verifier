@@ -1,50 +1,44 @@
 // tests/calculator.spec.tx
-import { assert } from "chai";
+import { expect } from "chai";
 import { describe, it } from "mocha";
 import { getAircraft } from "../src/controllers/aircraft.mjs";
+import { FailureResult, SuccessResult } from "../src/types/result.mjs";
+import { IAircraft } from "../src/models/Aircraft.mjs";
 
-describe("FlightAware airport tests", () => {
+describe("Aircraft tests", () => {
   it("should return C172 data", async () => {
     const result = await getAircraft("5f9f7b9b9b3b3c1b3c1b3c1c");
 
-    if (result.success) {
-      assert.equal(result.success, true);
-      assert.equal(result.data.equipmentCode, "C172");
-    } else {
-      assert.fail("result should have been returned by the database");
-    }
+    expect(result.success).to.equal(true);
+    expect((result as SuccessResult<IAircraft>).data.equipmentCode).to.equal(
+      "C172"
+    );
   });
 
   it("should return B737 data", async () => {
     const result = await getAircraft("5f9f7b9b9b3b3c1b3c1b3c1b");
 
-    if (result.success) {
-      assert.equal(result.success, true);
-      assert.equal(result.data.equipmentCode, "B737");
-    } else {
-      assert.fail("result should have been returned by the database");
-    }
+    expect(result.success).to.equal(true);
+    expect((result as SuccessResult<IAircraft>).data.equipmentCode).to.equal(
+      "B737"
+    );
   });
 
   it("should return A388 data", async () => {
     const result = await getAircraft("5f9f7b9b9b3b3c1b3c1b3c1d");
 
-    if (result.success) {
-      assert.equal(result.success, true);
-      assert.equal(result.data.equipmentCode, "A388");
-    } else {
-      assert.fail("result should have been returned by the database");
-    }
+    expect(result.success).to.equal(true);
+    expect((result as SuccessResult<IAircraft>).data.equipmentCode).to.equal(
+      "A388"
+    );
   });
 
   it("should return AircraftNotFound for invalid aircraft", async () => {
     const result = await getAircraft("4f9f7b9b9b3b3c1b3c1b3c1d");
 
-    if (result.success) {
-      assert.fail("result should not have been returned by the database");
-    } else {
-      assert.equal(result.success, false);
-      assert.equal(result.errorType, "AircraftNotFound");
-    }
+    expect(result.success).to.equal(false);
+    expect((result as FailureResult<"AircraftNotFound">).errorType).to.equal(
+      "AircraftNotFound"
+    );
   });
 });

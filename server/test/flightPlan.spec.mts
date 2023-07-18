@@ -1,5 +1,5 @@
 // tests/calculator.spec.tx
-import { assert } from "chai";
+import { expect } from "chai";
 import { describe, it } from "mocha";
 import {
   FlightPlanFailureErrorTypes,
@@ -18,19 +18,19 @@ describe("Flight plan tests", async () => {
     });
 
     it("should have a stored flight plan", () => {
-      assert.equal(result.success, true);
+      expect(result.success).to.equal(true);
     });
 
     it("should be heavy", () => {
       const data = (result as SuccessResult<IFlightPlan>).data;
 
-      assert.equal(data.isHeavy, true);
+      expect(data.isHeavy).to.equal(true);
     });
 
     it("should have an equipment suffix", () => {
       const data = (result as SuccessResult<IFlightPlan>).data;
 
-      assert.equal(data.equipmentSuffix, "L");
+      expect(data.equipmentSuffix).to.equal("L");
     });
   });
 
@@ -40,13 +40,13 @@ describe("Flight plan tests", async () => {
     });
 
     it("should have a stored flight plan", () => {
-      assert.equal(result.success, true);
+      expect(result.success).to.equal(true);
     });
 
     it("should have the correct direction of flight", () => {
       const data = (result as SuccessResult<IFlightPlan>).data;
 
-      assert.equal(data.directionOfFlight, 171);
+      expect(data.directionOfFlight).to.equal(171);
     });
   });
 
@@ -56,11 +56,10 @@ describe("Flight plan tests", async () => {
     });
 
     it("should not have a stored flight plan", () => {
-      assert.equal(result.success, false);
-      assert.equal(
-        (result as FailureResult<FlightPlanFailureErrorTypes>).errorType,
-        "FlightPlanNotFound"
-      );
+      expect(result.success).to.equal(false);
+      expect(
+        (result as FailureResult<FlightPlanFailureErrorTypes>).errorType
+      ).to.equal("FlightPlanNotFound");
     });
   });
 });

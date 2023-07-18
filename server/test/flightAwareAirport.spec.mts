@@ -1,28 +1,26 @@
 // tests/calculator.spec.tx
-import { assert } from "chai";
+import { expect } from "chai";
 import { describe, it } from "mocha";
 import { getFlightAwareAirport } from "../src/controllers/flightAwareAirports.mjs";
+import { SuccessResult } from "../src/types/result.mjs";
+import { IFlightAwareAirport } from "../src/models/FlightAwareAirport.mjs";
 
 describe("FlightAware airport tests", () => {
   it("should return KSEA data", async () => {
-    const airport = await getFlightAwareAirport("KSEA");
+    const result = await getFlightAwareAirport("KSEA");
 
-    if (airport.success) {
-      assert.equal(airport.success, true);
-      assert.equal(airport.data.airportCode, "KSEA");
-    } else {
-      assert.fail("Airport should have been returned by the mock");
-    }
+    expect(result.success).to.equal(true);
+    expect(
+      (result as SuccessResult<IFlightAwareAirport>).data.airportCode
+    ).to.equal("KSEA");
   });
 
   it("should return KPDX data", async () => {
-    const airport = await getFlightAwareAirport("KPDX");
+    const result = await getFlightAwareAirport("KPDX");
 
-    if (airport.success) {
-      assert.equal(airport.success, true);
-      assert.equal(airport.data.airportCode, "KPDX");
-    } else {
-      assert.fail("Airport should have been returned by the mock");
-    }
+    expect(result.success).to.equal(true);
+    expect(
+      (result as SuccessResult<IFlightAwareAirport>).data.airportCode
+    ).to.equal("KPDX");
   });
 });
