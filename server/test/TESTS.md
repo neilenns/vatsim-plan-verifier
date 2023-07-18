@@ -30,10 +30,6 @@ for all tests.
 
 ## Available flight plans
 
-|        ID         | Departure | Arrival |                       Notes                        |
-|:-----------------:|:--------------:|:--------------:|-------------------------------------------------|
-| 5f9f7b3b9d3b3c1b1c9b4b4b | KSEA     | KPDX      | Heavy aircraft with equipment suffix and correct direction of flight   |
-| 5f9f7b3b9d3b3c1b1c9b4b4c | KSEA     | KPDX      | C172 without equipment suffix and correct direction of flight   |
-| 5f9f7b3b9d3b3c1b1c9b4b4d | KSEA     | KPDX      | B737 with equipment suffix and correct direction of flight   |
-| 5f9f7b3b9d3b3c1b1c9b4b4e | KSEA     | KPDX      | B738 (not in database) with equipment suffix and correct direction of flight   |
-| 5f9f7b3b9d3b3c1b1c9b4b4f | KSEA     | KPDX      | C172 with a /L equipment suffix and correct direction of flight   |
+Flight plans should be added as part of the set up for each specific test. This is to ensure each test
+is robust and won't break because someone changed a global flight plan for some reason. See
+`verifiers/altitudeForDirectionOfFlight.spec.mts` for how to do this.

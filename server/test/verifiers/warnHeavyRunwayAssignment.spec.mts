@@ -1,13 +1,48 @@
-// tests/calculator.spec.tx
 import { expect } from "chai";
 import { describe, it } from "mocha";
 import { getFlightPlan } from "../../src/controllers/flightPlans.mjs";
 import warnHeavyRunwayAssignment from "../../src/controllers/verifiers/warnHeavyRunwayAssignment.mjs";
-import { IFlightPlan } from "../../src/models/FlightPlan.mjs";
+import FlightPlan, { IFlightPlan } from "../../src/models/FlightPlan.mjs";
 import { IVerifierResult } from "../../src/models/VerifierResult.mjs";
 import { SuccessResult } from "../../src/types/result.mjs";
 
+const testData = [
+  // Is heavy
+  {
+    _id: "5f9f7b3b9d3b3c1b1c9b4b4b",
+    callsign: "ASA42",
+    departure: "KSEA",
+    arrival: "KPDX",
+    cruiseAltitude: "210",
+    rawAircraftType: "H/A388/L",
+    route: "SEA8 SEA BUWZO KRATR2",
+    squawk: "1234",
+  },
+  // Is not heavy
+  {
+    _id: "5f9f7b3b9d3b3c1b1c9b4b4c",
+    callsign: "ASA42",
+    departure: "KSEA",
+    arrival: "KPDX",
+    cruiseAltitude: "210",
+    rawAircraftType: "C172",
+    route: "SEA8 SEA BUWZO KRATR2",
+    squawk: "1234",
+  },
+];
+
 describe("verifier: warnHeavyRunwayAssignment tests", () => {
+  before("Add flight plans for tests", async () => {
+    testData.map(async (data) => {
+      var record = new FlightPlan(data);
+      try {
+        await record.save();
+      } catch (err) {
+        console.log(err);
+      }
+    });
+  });
+
   it("should have heavy runway assignment warning", async () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b4b");
     expect(flightPlan.success).to.equal(true);
