@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import VerifierResult from "../models/VerifierResult.mjs";
+import { Types } from "mongoose";
+import VerifyAllResult from "../controllers/verifyAllResult.mjs";
 
 // Looks for existing verification results in the database based on the incoming flight plan ID
 // and verifier name. If some are found returns those instead of re-running the same verification
@@ -10,21 +12,33 @@ const findExistingResultsMiddleware =
     try {
       const { id } = req.params;
 
-      // Check if there are existing results for the given ID and endpoint name
-      const existingResults = verifier
-        ? await VerifierResult.find({
-            flightPlanId: id,
-            verifier,
-          })
-        : await VerifierResult.find({ flightPlanId: id });
+      // The shape of data returned varies depending on whether a single verifier
+      // was requested or all verifiers were requested.
 
-      if (existingResults && existingResults.length > 0) {
-        // Add a header indicating these were existing results to simplify
-        // unit testing later.
-        res.setHeader("X-Existing-Results", "true");
+      // Single verifier case
+      if (verifier) {
+        const existingResults = await VerifierResult.find({
+          flightPlanId: id,
+          verifier,
+        });
 
-        // If existing results are found, send them back as the response
-        return res.json(existingResults);
+        if (existingResults && existingResults.length > 0) {
+          res.setHeader("X-Existing-Results", "true");
+          return res.json(existingResults);
+        }
+      }
+
+      // All verifiers case
+      else {
+        const existingResults = await VerifierResult.find({ flightPlanId: id });
+
+        if (existingResults && existingResults.length > 0) {
+          const verifyAllResult = new VerifyAllResult();
+
+          verifyAllResult.addMany(existingResults);
+          res.setHeader("X-Existing-Results", "true");
+          return res.json(verifyAllResult);
+        }
       }
 
       // If no existing results are found, continue to the actual controller

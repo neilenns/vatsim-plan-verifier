@@ -2,7 +2,6 @@ import express, { Request, Response } from "express";
 import { getFlightPlan } from "../controllers/flightPlans.mjs";
 import { IFlightPlan } from "../models/FlightPlan.mjs";
 import VerifierControllerResult from "../types/verifierControllerResult.mjs";
-import { IVerifierResult } from "../models/VerifierResult.mjs";
 import VerifyAllResult from "../controllers/verifyAllResult.mjs";
 
 import hasEquipmentSuffix from "../controllers/verifiers/hasEquipmentSuffix.mjs";
