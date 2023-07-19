@@ -1,7 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import VerifierResult from "../models/VerifierResult.mjs";
 
-// Middleware function
+// Looks for existing verification results in the database based on the incoming flight plan ID
+// and verifier name. If some are found returns those instead of re-running the same verification
+// on the same flight plan ID.
 const findExistingResultsMiddleware =
   (verifier?: string) =>
   async (req: Request, res: Response, next: NextFunction) => {

@@ -2,13 +2,13 @@ import { expect } from "chai";
 import { describe, it } from "mocha";
 import { getFlightPlan } from "../../src/controllers/flightPlans.mjs";
 import hasEquipmentSuffix from "../../src/controllers/verifiers/hasEquipmentSuffix.mjs";
-import FlightPlan, { IFlightPlan } from "../../src/models/FlightPlan.mjs";
+import { IFlightPlan } from "../../src/models/FlightPlan.mjs";
 import { IVerifierResult } from "../../src/models/VerifierResult.mjs";
 import { SuccessResult } from "../../src/types/result.mjs";
 import {
   addFlightPlans,
   removeFlightPlans,
-} from "../databaseSetup/manageFlightPlans.mjs";
+} from "../setup/manageFlightPlans.mjs";
 
 const testData = [
   // Has equipment suffix
@@ -36,15 +36,13 @@ const testData = [
 ];
 
 describe("verifier: hasEquipmentSuffix tests", () => {
-  before(
-    "Add flight plans for tests",
-    async () => await addFlightPlans(testData)
-  );
+  before("Add flight plans for tests", async function () {
+    await addFlightPlans(testData);
+  });
 
-  after(
-    "Remove flight plans for tests",
-    async () => await removeFlightPlans(testData)
-  );
+  after("Remove flight plans for tests", async function () {
+    await removeFlightPlans(testData);
+  });
 
   it("should not have an equipment suffix", async () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b4c");
