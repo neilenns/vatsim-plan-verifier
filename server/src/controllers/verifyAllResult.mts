@@ -115,6 +115,12 @@ export default class VerifyAllResult implements IVerifyAllResult {
     return this.routeErrorCount > 0;
   }
 
+  public addMany(results: IVerifierResult[]): void {
+    for (const result of results) {
+      this.add(result);
+    }
+  }
+
   public add(result: IVerifierResult): void {
     this.results.push(result);
 
