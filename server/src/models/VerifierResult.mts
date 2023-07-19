@@ -22,6 +22,11 @@ const VerifierResultSchema = new Schema({
     type: String,
     required: true,
   },
+  messageId: {
+    type: String,
+    required: true,
+    default: "Unknown",
+  },
   extendedMessage: {
     type: [String],
     default: undefined,

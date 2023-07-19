@@ -1,4 +1,4 @@
-equipmentCode	manufacturer	name	engineCount	engineType	weightClass	KPDXVfrAltitude	KPDXIfrAltitude	srsClass	maxCruiseSpeed	commonEquipmentSuffix
+equipmentCode	manufacturer	name	engineCount	engineType	weightClass	KPDXVfrAltitude	KPDXIfrAltitude	srsClass	maxCruiseSpeed	commonEquipmentSuffixes
 A500	ADAM AIRCRAFT (USA)	A-500, CarbonAero	2	P	S	0	0	II
 AMX	AERMACCHI SpA (Italy)	AMX	1	J	S+	0	0	III
 FN33	AERMACCHI SpA (Italy)	FN-333 Riviera***	1	P	S	0	0	I

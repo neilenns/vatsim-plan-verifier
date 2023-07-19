@@ -90,9 +90,8 @@ describe("verifier: checkEquipmentSuffixAgainstKnown tests", function () {
 
     const data = (result as SuccessResult<IVerifierResult>).data;
     expect(data.status).to.equal("Information");
-    expect(data.message).to.equal(
-      "Equipment suffix L matches an expected suffix for A388."
-    );
+    expect(data.flightPlanPart).to.equal("rawAircraftType");
+    expect(data.messageId).to.equal("equipmentSuffixMatchesKnown");
   });
 
   it("should skip because no aircraft info available", async function () {
@@ -108,9 +107,8 @@ describe("verifier: checkEquipmentSuffixAgainstKnown tests", function () {
 
     const data = (result as SuccessResult<IVerifierResult>).data;
     expect(data.status).to.equal("Information");
-    expect(data.message).to.equal(
-      "Unable to verify equipment suffix as no aircraft equipment info was available."
-    );
+    expect(data.flightPlanPart).to.equal("rawAircraftType");
+    expect(data.messageId).to.equal("noAircraftInfoAvailable");
   });
 
   it("should skip because no known common equipment suffix", async function () {
@@ -126,9 +124,8 @@ describe("verifier: checkEquipmentSuffixAgainstKnown tests", function () {
 
     const data = (result as SuccessResult<IVerifierResult>).data;
     expect(data.status).to.equal("Information");
-    expect(data.message).to.equal(
-      "Unable to verify equipment suffix as there is no known common suffix available for B737."
-    );
+    expect(data.flightPlanPart).to.equal("rawAircraftType");
+    expect(data.messageId).to.equal("noCommonEquipmentSuffixAvailable");
   });
 
   it("should skip because no equipment suffix provided in flight plan", async function () {
@@ -144,9 +141,8 @@ describe("verifier: checkEquipmentSuffixAgainstKnown tests", function () {
 
     const data = (result as SuccessResult<IVerifierResult>).data;
     expect(data.status).to.equal("Information");
-    expect(data.message).to.equal(
-      "Unable to verify equipment suffix as the flight plan didn't provide an equipment suffix."
-    );
+    expect(data.flightPlanPart).to.equal("rawAircraftType");
+    expect(data.messageId).to.equal("noEquipmentSuffixProvided");
   });
 
   it("should warn because equipment suffix isn't common", async function () {
@@ -162,8 +158,7 @@ describe("verifier: checkEquipmentSuffixAgainstKnown tests", function () {
 
     const data = (result as SuccessResult<IVerifierResult>).data;
     expect(data.status).to.equal("Warning");
-    expect(data.message).to.equal(
-      "Equipment suffix L does not match the expected suffix for C172 (A G)."
-    );
+    expect(data.flightPlanPart).to.equal("rawAircraftType");
+    expect(data.messageId).to.equal("equipmentSuffixDoesNotMatchKnown");
   });
 });

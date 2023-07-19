@@ -16,7 +16,7 @@ const AircraftSchema = new Schema(
     KPDXIfrAltitude: { type: Number, required: true },
     srsClass: { type: String, required: true },
     maxCruiseSpeed: { type: Number, required: false },
-    commonEquipmentSuffix: { type: String, required: false },
+    commonEquipmentSuffixes: { type: [String], required: false },
   },
   { collection: "aircraft" }
 );

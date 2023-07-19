@@ -1,3 +1,8 @@
+// The current database to use.
+use("plan-verifier");
+
+db.aircraft.deleteMany({});
+
 db.aircraft.insertMany([
   {
     equipmentCode: "A500",
@@ -318,7 +323,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "447",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "A319",
@@ -331,7 +336,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "447",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "A320",
@@ -344,7 +349,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "447",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "A321",
@@ -357,7 +362,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "447",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "A3ST",
@@ -381,7 +386,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "470",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "A333",
@@ -394,7 +399,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "470",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "A342",
@@ -407,7 +412,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "470",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "A343",
@@ -420,7 +425,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "470",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "A345",
@@ -433,7 +438,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "470",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "A346",
@@ -446,7 +451,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "470",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "A388",
@@ -459,7 +464,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "470",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "BU20",
@@ -1770,7 +1775,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "0",
     srsClass: "III",
     maxCruiseSpeed: "487",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "A748",
@@ -1860,7 +1865,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "404",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "B462",
@@ -1873,7 +1878,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "404",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "B463",
@@ -1886,7 +1891,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "404",
-    commonEquipmentSuffix: "l",
+    commonEquipmentSuffixes: ["l"],
   },
   {
     equipmentCode: "JS31",
@@ -2180,7 +2185,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "424",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "CRJ2",
@@ -2193,7 +2198,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "424",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "CRJ7",
@@ -2206,7 +2211,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "473",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "CRJ9",
@@ -2219,7 +2224,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "470",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "T33",
@@ -2309,7 +2314,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "3000",
     srsClass: "I",
     maxCruiseSpeed: "122",
-    commonEquipmentSuffix: "A G",
+    commonEquipmentSuffixes: ["A", "G"],
   },
   {
     equipmentCode: "C72R",
@@ -2696,7 +2701,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "3000",
     srsClass: "II",
     maxCruiseSpeed: "235",
-    commonEquipmentSuffix: "G",
+    commonEquipmentSuffixes: ["G"],
   },
   {
     equipmentCode: "C14T",
@@ -2819,7 +2824,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "451",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "C526",
@@ -3261,7 +3266,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "270",
-    commonEquipmentSuffix: "G",
+    commonEquipmentSuffixes: ["G"],
   },
   {
     equipmentCode: "DH8B",
@@ -3274,7 +3279,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "289",
-    commonEquipmentSuffix: "G",
+    commonEquipmentSuffixes: ["G"],
   },
   {
     equipmentCode: "DH8C",
@@ -3287,7 +3292,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "287",
-    commonEquipmentSuffix: "G",
+    commonEquipmentSuffixes: ["G"],
   },
   {
     equipmentCode: "DH8D",
@@ -3300,7 +3305,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "300",
-    commonEquipmentSuffix: "G",
+    commonEquipmentSuffixes: ["G"],
   },
   {
     equipmentCode: "DOVE",
@@ -7422,7 +7427,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "470",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "A338",
@@ -7435,7 +7440,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "470",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "A339",
@@ -7448,7 +7453,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "470",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "A359",
@@ -7461,7 +7466,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "470",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "A35K",
@@ -7474,7 +7479,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "470",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "A388",
@@ -7487,7 +7492,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "470",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "A3ST",
@@ -7731,7 +7736,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "I",
     maxCruiseSpeed: "275",
-    commonEquipmentSuffix: "G",
+    commonEquipmentSuffixes: ["G"],
   },
   {
     equipmentCode: "E55P",
@@ -7744,7 +7749,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "464",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "TBM9",
@@ -7757,7 +7762,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "3000",
     srsClass: "I",
     maxCruiseSpeed: "250",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "E75L",
@@ -7781,7 +7786,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "280",
-    commonEquipmentSuffix: "G",
+    commonEquipmentSuffixes: ["G"],
   },
   {
     equipmentCode: "G2CA",
@@ -7794,7 +7799,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "3000",
     srsClass: "I",
     maxCruiseSpeed: "90",
-    commonEquipmentSuffix: "G",
+    commonEquipmentSuffixes: ["G"],
   },
   {
     equipmentCode: "R22",
@@ -7818,7 +7823,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "483",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "SF50",
@@ -7831,7 +7836,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "305",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "A20N",
@@ -7844,7 +7849,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "450",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "A21N",
@@ -7857,7 +7862,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "450",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "SG76",
@@ -7881,7 +7886,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "441",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "CC19",
@@ -7939,7 +7944,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "3000",
     srsClass: "I",
     maxCruiseSpeed: "210",
-    commonEquipmentSuffix: "G",
+    commonEquipmentSuffixes: ["G"],
   },
   {
     equipmentCode: "DA62",
@@ -7952,7 +7957,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "3000",
     srsClass: "I",
     maxCruiseSpeed: "171",
-    commonEquipmentSuffix: "G",
+    commonEquipmentSuffixes: ["G"],
   },
   {
     equipmentCode: "B37M",
@@ -7965,7 +7970,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "453",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "B38M",
@@ -7978,7 +7983,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "453",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "B39M",
@@ -7991,7 +7996,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "453",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "H60",
@@ -8004,7 +8009,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "I",
     maxCruiseSpeed: "152",
-    commonEquipmentSuffix: "G",
+    commonEquipmentSuffixes: ["G"],
   },
   {
     equipmentCode: "B77F",
@@ -8017,7 +8022,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "482",
-    commonEquipmentSuffix: "L",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "DA40",
@@ -8052,7 +8057,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "1165",
-    commonEquipmentSuffix: "W",
+    commonEquipmentSuffixes: ["W"],
   },
   {
     equipmentCode: "P06T",
@@ -8065,6 +8070,6 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "3500",
     srsClass: "I",
     maxCruiseSpeed: "155",
-    commonEquipmentSuffix: "G",
+    commonEquipmentSuffixes: ["G"],
   },
 ]);

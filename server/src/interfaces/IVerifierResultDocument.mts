@@ -17,6 +17,7 @@ export default interface IVerifierResultDocument extends Document {
   flightPlanId: Types.ObjectId;
   status: StatusValue;
   verifier: string;
+  messageId: string;
   message: string;
   extendedMessage?: string[];
   flightPlanPart: FlightPlanPartValue;
