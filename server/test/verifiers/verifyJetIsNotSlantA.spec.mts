@@ -8,7 +8,7 @@ import { SuccessResult } from "../../src/types/result.mjs";
 import {
   addFlightPlans,
   removeFlightPlans,
-} from "../databaseSetup/manageFlightPlans.mjs";
+} from "../setup/manageFlightPlans.mjs";
 
 const testData = [
   // Jet with /A
@@ -57,18 +57,16 @@ const testData = [
   },
 ];
 
-describe("verifier: verifyJetIsNotSlantA tests", () => {
-  before(
-    "Add flight plans for tests",
-    async () => await addFlightPlans(testData)
-  );
+describe("verifier: verifyJetIsNotSlantA tests", function () {
+  before("Add flight plans for tests", async function () {
+    await addFlightPlans(testData);
+  });
 
-  after(
-    "Remove flight plans for tests",
-    async () => await removeFlightPlans(testData)
-  );
+  after("Remove flight plans for tests", async function () {
+    await removeFlightPlans(testData);
+  });
 
-  it("should warn because jet with /A is not ok", async () => {
+  it("should warn because jet with /A is not ok", async function () {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b5b");
     expect(flightPlan.success).to.equal(true);
 
@@ -84,7 +82,7 @@ describe("verifier: verifyJetIsNotSlantA tests", () => {
     expect(data.messageId).to.equal("jetIsSlantA");
   });
 
-  it("should skip because jet with /L is ok", async () => {
+  it("should skip because jet with /L is ok", async function () {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b5c");
     expect(flightPlan.success).to.equal(true);
 
@@ -100,7 +98,7 @@ describe("verifier: verifyJetIsNotSlantA tests", () => {
     expect(data.messageId).to.equal("jetIsNotSlantA");
   });
 
-  it("should skip because it's a turboprop", async () => {
+  it("should skip because it's a turboprop", async function () {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b5e");
     expect(flightPlan.success).to.equal(true);
 
@@ -118,7 +116,7 @@ describe("verifier: verifyJetIsNotSlantA tests", () => {
     );
   });
 
-  it("should skip because it's a piston", async () => {
+  it("should skip because it's a piston", async function () {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b5d");
     expect(flightPlan.success).to.equal(true);
 
