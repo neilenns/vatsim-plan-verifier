@@ -14,7 +14,11 @@ interface FlightAwareRoutesResponse {
 export async function getFlightAwareRoutes({
   departure,
   arrival,
-}: FlightPlan): Promise<FlightAwareRoutesResult> {
+}: Partial<FlightPlan>): Promise<FlightAwareRoutesResult> {
+  if (!departure || !arrival) {
+    throw new Error("Missing departure or arrival");
+  }
+
   try {
     const routes = await FlightAwareRoute.find({ departure, arrival });
 
