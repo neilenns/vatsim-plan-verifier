@@ -16,7 +16,6 @@ export async function getFlightAwareAirport(
     const airport = await FlightAwareAirport.findOne({ airportCode });
 
     if (airport) {
-      console.log(`Found cached airport for ${airportCode}`);
       return {
         success: true,
         data: airport,
