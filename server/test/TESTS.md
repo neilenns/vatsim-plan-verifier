@@ -1,7 +1,7 @@
 # Automated testing
 
 The automated tests rely on existing data that gets pre-loaded into an in-memory MongoDB instance. To add additional data,
-such as flight plans, airports, etc., modify the scripts in the `databaseSetup` folder.
+such as flight plans, airports, etc., modify the scripts in the `setup` folder.
 
 If random 404 failures get returned during the tests it's because data wasn't found in the database and a call was attempted
 to an external web service. This isn't allowed in the automated tests. Make sure the necessary data is loaded into the database

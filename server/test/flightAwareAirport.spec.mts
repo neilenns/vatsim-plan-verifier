@@ -5,8 +5,8 @@ import { getFlightAwareAirport } from "../src/controllers/flightAwareAirports.mj
 import { IFlightAwareAirport } from "../src/models/FlightAwareAirport.mjs";
 import { SuccessResult } from "../src/types/result.mjs";
 
-describe("FlightAware airport tests", () => {
-  it("should return KSEA data", async () => {
+describe("FlightAware airport tests", function () {
+  it("should return KSEA data", async function () {
     const result = await getFlightAwareAirport("KSEA");
 
     expect(result.success).to.equal(true);
@@ -15,7 +15,7 @@ describe("FlightAware airport tests", () => {
     ).to.equal("KSEA");
   });
 
-  it("should return KPDX data", async () => {
+  it("should return KPDX data", async function () {
     const result = await getFlightAwareAirport("KPDX");
 
     expect(result.success).to.equal(true);

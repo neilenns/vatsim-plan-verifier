@@ -18,14 +18,13 @@ import debug from "debug";
 // Authentication
 import { Server } from "http";
 
-const app = express();
+export const app = express();
 var server: https.Server | Server;
 var httpTerminator: HttpTerminator;
 
 const logger = debug("access-code-map:server");
-const port = process.env.PORT || 4001;
 
-export function startServer(): void {
+export function startServer(port: number): void {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
 

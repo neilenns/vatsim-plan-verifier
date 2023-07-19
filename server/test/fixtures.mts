@@ -4,9 +4,9 @@ import MockAdapter from "axios-mock-adapter";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 // import flightAwareAirportMock from "./mocks/flightAwareAirport.mjs";
-import addAircraft from "./databaseSetup/addAircraft.mjs";
-import addAirlines from "./databaseSetup/addAirlines.mjs";
-import addAirports from "./databaseSetup/addAirports.mjs";
+import addAircraft from "./setup/addAircraft.mjs";
+import addAirlines from "./setup/addAirlines.mjs";
+import addAirports from "./setup/addAirports.mjs";
 
 var mongoServer: MongoMemoryServer;
 // This is to ensure any network calls made by the tests don't actually
@@ -29,9 +29,6 @@ export async function mochaGlobalSetup() {
 
   // Set a fake API key for FlightAware
   process.env.FLIGHTAWARE_API_KEY = "testkey";
-
-  // Register all the network mocks
-  // flightAwareAirportMock(mock);
 
   // Populate the database
   await addAirports();

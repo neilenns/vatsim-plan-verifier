@@ -6,7 +6,7 @@ import { IAircraft } from "../src/models/Aircraft.mjs";
 import { FailureResult, SuccessResult } from "../src/types/result.mjs";
 
 describe("Aircraft tests", () => {
-  it("should return C172 data", async () => {
+  it("should return C172 data", async function () {
     const result = await getAircraft("5f9f7b9b9b3b3c1b3c1b3c1c");
 
     expect(result.success).to.equal(true);
@@ -15,7 +15,7 @@ describe("Aircraft tests", () => {
     );
   });
 
-  it("should return B737 data", async () => {
+  it("should return B737 data", async function () {
     const result = await getAircraft("5f9f7b9b9b3b3c1b3c1b3c1b");
 
     expect(result.success).to.equal(true);
@@ -24,7 +24,7 @@ describe("Aircraft tests", () => {
     );
   });
 
-  it("should return A388 data", async () => {
+  it("should return A388 data", async function () {
     const result = await getAircraft("5f9f7b9b9b3b3c1b3c1b3c1d");
 
     expect(result.success).to.equal(true);
@@ -33,7 +33,7 @@ describe("Aircraft tests", () => {
     );
   });
 
-  it("should return AircraftNotFound for invalid aircraft", async () => {
+  it("should return AircraftNotFound for invalid aircraft", async function () {
     const result = await getAircraft("4f9f7b9b9b3b3c1b3c1b3c1d");
 
     expect(result.success).to.equal(false);

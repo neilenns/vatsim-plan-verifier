@@ -8,7 +8,7 @@ import { IVerifierResult } from "../../src/models/VerifierResult.mjs";
 import {
   addFlightPlans,
   removeFlightPlans,
-} from "../databaseSetup/manageFlightPlans.mjs";
+} from "../setup/manageFlightPlans.mjs";
 
 const testData = [
   // Wrong altitude for direction of flight (eastbound)
@@ -79,18 +79,16 @@ const testData = [
   },
 ];
 
-describe("verifier: altitudeForDirectionOfFlight tests", () => {
-  before(
-    "Add flight plans for tests",
-    async () => await addFlightPlans(testData)
-  );
+describe("verifier: altitudeForDirectionOfFlight tests", function () {
+  before("Add flight plans for tests", async function () {
+    await addFlightPlans(testData);
+  });
 
-  after(
-    "Remove flight plans for tests",
-    async () => await removeFlightPlans(testData)
-  );
+  after("Remove flight plans for tests", async function () {
+    await removeFlightPlans(testData);
+  });
 
-  it("eastbound with eastbound altitude", async () => {
+  it("eastbound with eastbound altitude", async function () {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b5e");
     expect(flightPlan.success).to.equal(true);
 
@@ -106,7 +104,7 @@ describe("verifier: altitudeForDirectionOfFlight tests", () => {
     expect(data.messageId).to.equal("altitudeValidForDirectionOfFlight");
   });
 
-  it("westbound with westbound altitude", async () => {
+  it("westbound with westbound altitude", async function () {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b5f");
     expect(flightPlan.success).to.equal(true);
 
@@ -122,7 +120,7 @@ describe("verifier: altitudeForDirectionOfFlight tests", () => {
     expect(data.messageId).to.equal("altitudeValidForDirectionOfFlight");
   });
 
-  it("eastbound with westbound altitude", async () => {
+  it("eastbound with westbound altitude", async function () {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b5a");
     expect(flightPlan.success).to.equal(true);
 
@@ -140,7 +138,7 @@ describe("verifier: altitudeForDirectionOfFlight tests", () => {
     );
   });
 
-  it("westbound with eastbound altitude", async () => {
+  it("westbound with eastbound altitude", async function () {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b5b");
     expect(flightPlan.success).to.equal(true);
 
@@ -158,7 +156,7 @@ describe("verifier: altitudeForDirectionOfFlight tests", () => {
     );
   });
 
-  it("eastbound with westbound altitude above RVSM", async () => {
+  it("eastbound with westbound altitude above RVSM", async function () {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b5c");
     expect(flightPlan.success).to.equal(true);
 
@@ -176,7 +174,7 @@ describe("verifier: altitudeForDirectionOfFlight tests", () => {
     );
   });
 
-  it("westbound with eastbound altitude above RVSM", async () => {
+  it("westbound with eastbound altitude above RVSM", async function () {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b5d");
     expect(flightPlan.success).to.equal(true);
 

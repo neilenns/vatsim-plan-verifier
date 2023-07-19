@@ -9,7 +9,7 @@ import { SuccessResult } from "../../src/types/result.mjs";
 import {
   addFlightPlans,
   removeFlightPlans,
-} from "../databaseSetup/manageFlightPlans.mjs";
+} from "../setup/manageFlightPlans.mjs";
 
 const testData = [
   // Known equipment suffix and suffix is present in flight plan.
@@ -69,18 +69,16 @@ const testData = [
   },
 ];
 
-describe("verifier: checkEquipmentSuffixAgainstKnown tests", () => {
-  before(
-    "Add flight plans for tests",
-    async () => await addFlightPlans(testData)
-  );
+describe("verifier: checkEquipmentSuffixAgainstKnown tests", function () {
+  before("Add flight plans for tests", async function () {
+    await addFlightPlans(testData);
+  });
 
-  after(
-    "Remove flight plans for tests",
-    async () => await removeFlightPlans(testData)
-  );
+  after("Remove flight plans for tests", async function () {
+    await removeFlightPlans(testData);
+  });
 
-  it("should match known equipment suffix", async () => {
+  it("should match known equipment suffix", async function () {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b4b");
     expect(flightPlan.success).to.equal(true);
 
@@ -96,7 +94,7 @@ describe("verifier: checkEquipmentSuffixAgainstKnown tests", () => {
     expect(data.messageId).to.equal("equipmentSuffixMatchesKnown");
   });
 
-  it("should skip because no aircraft info available", async () => {
+  it("should skip because no aircraft info available", async function () {
     // Flight plan for a B738. That aircraft isn't in the database.
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b4e");
     expect(flightPlan.success).to.equal(true);
@@ -113,7 +111,7 @@ describe("verifier: checkEquipmentSuffixAgainstKnown tests", () => {
     expect(data.messageId).to.equal("noAircraftInfoAvailable");
   });
 
-  it("should skip because no known common equipment suffix", async () => {
+  it("should skip because no known common equipment suffix", async function () {
     // Flight plan for a B737. No common equipment suffix is available for that plane.
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b4d");
     expect(flightPlan.success).to.equal(true);
@@ -130,7 +128,7 @@ describe("verifier: checkEquipmentSuffixAgainstKnown tests", () => {
     expect(data.messageId).to.equal("noCommonEquipmentSuffixAvailable");
   });
 
-  it("should skip because no equipment suffix provided in flight plan", async () => {
+  it("should skip because no equipment suffix provided in flight plan", async function () {
     // Flight plan for a C172 without an equipment suffix.
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b4c");
     expect(flightPlan.success).to.equal(true);
@@ -147,7 +145,7 @@ describe("verifier: checkEquipmentSuffixAgainstKnown tests", () => {
     expect(data.messageId).to.equal("noEquipmentSuffixProvided");
   });
 
-  it("should warn because equipment suffix isn't common", async () => {
+  it("should warn because equipment suffix isn't common", async function () {
     // Flight plan for a C172 with a /L suffix.
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b4f");
     expect(flightPlan.success).to.equal(true);

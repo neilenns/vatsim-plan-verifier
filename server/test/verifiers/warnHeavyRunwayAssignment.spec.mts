@@ -8,7 +8,7 @@ import { SuccessResult } from "../../src/types/result.mjs";
 import {
   addFlightPlans,
   removeFlightPlans,
-} from "../databaseSetup/manageFlightPlans.mjs";
+} from "../setup/manageFlightPlans.mjs";
 
 const testData = [
   // Is heavy
@@ -36,17 +36,14 @@ const testData = [
 ];
 
 describe("verifier: warnHeavyRunwayAssignment tests", () => {
-  before(
-    "Add flight plans for tests",
-    async () => await addFlightPlans(testData)
-  );
+  before("Add flight plans for tests", async function () {
+    await addFlightPlans(testData);
+  });
 
-  after(
-    "Remove flight plans for tests",
-    async () => await removeFlightPlans(testData)
-  );
-
-  it("should have heavy runway assignment warning", async () => {
+  after("Remove flight plans for tests", async function () {
+    await removeFlightPlans(testData);
+  });
+  it("should have heavy runway assignment warning", async function () {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b4b");
     expect(flightPlan.success).to.equal(true);
 
@@ -61,7 +58,7 @@ describe("verifier: warnHeavyRunwayAssignment tests", () => {
     expect(data.messageId).to.equal("heavyRunwayAssignment");
   });
 
-  it("should not have heavy runway assignment warning", async () => {
+  it("should not have heavy runway assignment warning", async function () {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b4c");
     expect(flightPlan.success).to.equal(true);
 
