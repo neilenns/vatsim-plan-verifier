@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import VerifierResult from "../models/VerifierResult.mjs";
+import { Types } from "mongoose";
 
 // Looks for existing verification results in the database based on the incoming flight plan ID
 // and verifier name. If some are found returns those instead of re-running the same verification
