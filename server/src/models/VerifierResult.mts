@@ -40,7 +40,6 @@ const VerifierResultSchema = new Schema({
       "departure",
       "arrival",
       "squawk",
-      "isHeavy",
       "cruiseAltitude",
       "route",
     ],

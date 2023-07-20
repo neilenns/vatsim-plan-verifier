@@ -9,7 +9,6 @@ export type FlightPlanPartValue =
   | "departure"
   | "arrival"
   | "squawk"
-  | "isHeavy"
   | "cruiseAltitude"
   | "route";
 

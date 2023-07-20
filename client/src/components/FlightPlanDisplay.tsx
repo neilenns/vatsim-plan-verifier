@@ -1,13 +1,23 @@
 import { Grid, Typography } from "@mui/material";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
+import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
+import "./flightPlanDisplay.css";
 
 interface FlightPlanProps {
   flightPlan: IFlightPlan;
+  verifierResults: IVerifyAllResult | null;
 }
 
 const FlightPlanDisplay: React.FC<FlightPlanProps> = ({
   flightPlan,
+  verifierResults,
 }: FlightPlanProps) => {
+  const testStyle = verifierResults?.hasRawAircraftTypeErrors
+    ? "hasErrors"
+    : verifierResults?.hasRawAircraftTypeWarnings
+    ? "hasWarnings"
+    : "";
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={2} key="callsign">
@@ -16,7 +26,9 @@ const FlightPlanDisplay: React.FC<FlightPlanProps> = ({
       </Grid>
       <Grid item xs={2} key="aircraft">
         <Typography variant="subtitle1">Aircraft</Typography>
-        <Typography variant="body1">{flightPlan.rawAircraftType}</Typography>
+        <Typography variant="body1" className={testStyle}>
+          {flightPlan.rawAircraftType}
+        </Typography>
       </Grid>
       <Grid item xs={2} key="squawk">
         <Typography variant="subtitle1">Squawk code</Typography>

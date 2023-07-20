@@ -1,50 +1,53 @@
 import React from "react";
 import { Typography, Box, List, ListItem, ListItemText } from "@mui/material";
 import IVerifierResultDocument from "../interfaces/IVerifierResult.mts";
+import IFlightPlan from "../interfaces/IFlightPlan.mts";
+import "./verifierResult.css";
 
 interface VerifierResultComponentProps {
   verifierResult: IVerifierResultDocument;
+  flightPlan: IFlightPlan;
 }
 
-const VerifierResult: React.FC<VerifierResultComponentProps> = ({
-  verifierResult,
-}) => {
-  const {
-    flightPlanId,
-    status,
-    verifier,
-    message,
-    extendedMessage,
-    flightPlanPart,
-    priority,
-  } = verifierResult;
+const maxExtendedMessages = 3;
+
+const VerifierResult: React.FC<VerifierResultComponentProps> = ({ verifierResult, flightPlan }) => {
+  const { message, extendedMessage, status } = verifierResult;
+  const { departure, arrival } = flightPlan;
+  const additionalItemsCount = Math.max(0, (extendedMessage?.length ?? 0) - maxExtendedMessages);
+  const flightAwareIFRRouteVerifierUrl = `https://flightaware.com/analysis/route.rvt?origin=${departure}&destination=${arrival}`;
+  const statusClass = `verifier-result ${status.toLowerCase()}`;
 
   return (
-    <Box>
-      <Typography variant="h6">
-        Flight Plan ID: {flightPlanId.toString()}
-      </Typography>
-      <Typography variant="body1">Status: {status}</Typography>
-      <Typography variant="body1">Verifier: {verifier}</Typography>
-      <Typography variant="body1">Message: {message}</Typography>
+    <Box className={statusClass}>
+      <Typography variant="body1">{message}</Typography>
 
       {extendedMessage && (
         <>
-          <Typography variant="subtitle1">Extended Message:</Typography>
           <List>
-            {extendedMessage.map((msg, index) => (
+            {extendedMessage.slice(0, maxExtendedMessages).map((msg, index) => (
               <ListItem key={index}>
                 <ListItemText primary={msg} />
               </ListItem>
             ))}
+            {additionalItemsCount > 0 && (
+              <ListItem>
+                <ListItemText
+                  primary={
+                    <a
+                      href={flightAwareIFRRouteVerifierUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {`and ${additionalItemsCount} more...`}
+                    </a>
+                  }
+                />
+              </ListItem>
+            )}
           </List>
         </>
       )}
-
-      <Typography variant="body1">
-        Flight Plan Part: {flightPlanPart}
-      </Typography>
-      <Typography variant="body1">Priority: {priority}</Typography>
     </Box>
   );
 };

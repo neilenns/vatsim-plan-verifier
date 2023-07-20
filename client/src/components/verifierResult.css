@@ -1,0 +1,18 @@
+@import "../assets/style.css";
+
+.verifier-result {
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.verifier-result.ok {
+  background-color: var(--status-ok-color);
+}
+
+.verifier-result.warning {
+  background-color: var(--status-warning-color);
+}
+
+.verifier-result.error {
+  background-color: var(--status-error-color);
+}

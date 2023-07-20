@@ -1,0 +1,9 @@
+@import "../assets/style.css";
+
+.hasWarnings {
+  background-color: var(--status-warning-color);
+}
+
+.hasErrors {
+  background-color: var(--status-error-color);
+}
