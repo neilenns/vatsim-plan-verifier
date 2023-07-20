@@ -10,6 +10,7 @@ export interface FlightPlanModelInterface extends Model<IFlightPlan> {}
 
 const RVSMEquipmentSuffixes = ["U", "W", "Z", "L"];
 const RNAVequipmentSuffixes = ["I", "Z", "G", "L"];
+const GNSSEquipmentSuffixes = ["G", "L"];
 
 const AirlineCodeRegexPattern = /\b([A-Za-z]{3})(\d+)\b/;
 
@@ -38,6 +39,10 @@ flightPlanSchema.virtual("routeHasNonRNAVAirways").get(function () {
 
 flightPlanSchema.virtual("isRNAVCapable").get(function () {
   return RNAVequipmentSuffixes.includes(this.equipmentSuffix ?? "");
+});
+
+flightPlanSchema.virtual("isGNSSCapable").get(function () {
+  return GNSSEquipmentSuffixes.includes(this.equipmentSuffix ?? "");
 });
 
 flightPlanSchema.virtual("isRVSMCapable").get(function () {
