@@ -3,5 +3,5 @@ export function formatAltitude(altitude: number): string {
     return `FL${altitude}`;
   }
 
-  return (altitude * 100).toLocaleString();
+  return `${(altitude * 100).toLocaleString()} feet`;
 }
