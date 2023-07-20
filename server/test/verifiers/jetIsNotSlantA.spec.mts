@@ -1,14 +1,11 @@
 import { expect } from "chai";
 import { describe, it } from "mocha";
 import { getFlightPlan } from "../../src/controllers/flightPlans.mjs";
-import verifyJetIsNotSlantA from "../../src/controllers/verifiers/verifyJetIsNotSlantA.mjs";
+import jetIsNotSlantA from "../../src/controllers/verifiers/jetIsNotSlantA.mjs";
 import { IFlightPlan } from "../../src/models/FlightPlan.mjs";
 import { IVerifierResult } from "../../src/models/VerifierResult.mjs";
 import { SuccessResult } from "../../src/types/result.mjs";
-import {
-  addFlightPlans,
-  removeFlightPlans,
-} from "../setup/manageFlightPlans.mjs";
+import { addFlightPlans, removeFlightPlans } from "../setup/manageFlightPlans.mjs";
 
 const testData = [
   // Jet with /A
@@ -57,7 +54,7 @@ const testData = [
   },
 ];
 
-describe("verifier: verifyJetIsNotSlantA tests", function () {
+describe("verifier: jetIsNotSlantA tests", function () {
   before("Add flight plans for tests", async function () {
     await addFlightPlans(testData);
   });
@@ -70,9 +67,7 @@ describe("verifier: verifyJetIsNotSlantA tests", function () {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b5b");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await verifyJetIsNotSlantA(
-      (flightPlan as SuccessResult<IFlightPlan>).data
-    );
+    const result = await jetIsNotSlantA((flightPlan as SuccessResult<IFlightPlan>).data);
 
     expect(result.success).to.equal(true);
 
@@ -86,9 +81,7 @@ describe("verifier: verifyJetIsNotSlantA tests", function () {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b5c");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await verifyJetIsNotSlantA(
-      (flightPlan as SuccessResult<IFlightPlan>).data
-    );
+    const result = await jetIsNotSlantA((flightPlan as SuccessResult<IFlightPlan>).data);
 
     expect(result.success).to.equal(true);
 
@@ -102,35 +95,27 @@ describe("verifier: verifyJetIsNotSlantA tests", function () {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b5e");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await verifyJetIsNotSlantA(
-      (flightPlan as SuccessResult<IFlightPlan>).data
-    );
+    const result = await jetIsNotSlantA((flightPlan as SuccessResult<IFlightPlan>).data);
 
     expect(result.success).to.equal(true);
 
     const data = (result as SuccessResult<IVerifierResult>).data;
     expect(data.flightPlanPart).to.equal("rawAircraftType");
     expect(data.status).to.equal("Information");
-    expect(data.messageId).to.equal(
-      "unableToVerifyJetIsNotSlantAEngineTypeNotJ"
-    );
+    expect(data.messageId).to.equal("unableToVerifJetIsNotSlantAEngineTypeNotJ");
   });
 
   it("should skip because it's a piston", async function () {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b5d");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await verifyJetIsNotSlantA(
-      (flightPlan as SuccessResult<IFlightPlan>).data
-    );
+    const result = await jetIsNotSlantA((flightPlan as SuccessResult<IFlightPlan>).data);
 
     expect(result.success).to.equal(true);
 
     const data = (result as SuccessResult<IVerifierResult>).data;
     expect(data.flightPlanPart).to.equal("rawAircraftType");
     expect(data.status).to.equal("Information");
-    expect(data.messageId).to.equal(
-      "unableToVerifyJetIsNotSlantAEngineTypeNotJ"
-    );
+    expect(data.messageId).to.equal("unableToVerifJetIsNotSlantAEngineTypeNotJ");
   });
 });
