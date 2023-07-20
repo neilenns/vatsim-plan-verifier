@@ -1,21 +1,33 @@
 import React from "react";
 import VerifierResultComponent from "./VerifierResult";
 import { Grid } from "@mui/material";
-import IVerifierResultDocument from "../interfaces/IVerifierResult.mts";
+import IVerifierResultDocument, { StatusValue } from "../interfaces/IVerifierResult.mts";
+import IFlightPlan from "../interfaces/IFlightPlan.mts";
 
 interface VerifierResultsProps {
   verifierResults: IVerifierResultDocument[] | undefined;
+  flightPlan: IFlightPlan;
 }
 
-const VerifierResults: React.FC<VerifierResultsProps> = ({
-  verifierResults,
-}) => {
+const statusOrder: Record<StatusValue, number> = {
+  Error: 0,
+  Warning: 1,
+  Ok: 2,
+  Information: 3,
+};
+
+const VerifierResults: React.FC<VerifierResultsProps> = ({ verifierResults, flightPlan }) => {
+  const filteredResults = verifierResults
+    ?.filter((result) => result.status !== "Information")
+    ?.sort((a, b) => statusOrder[a.status] - statusOrder[b.status])
+    ?.sort((a, b) => a.priority - b.priority);
+
   return (
-    verifierResults && (
+    filteredResults && (
       <Grid container spacing={2}>
-        {verifierResults.map((result, index) => (
+        {filteredResults.map((result, index) => (
           <Grid item xs={12} key={index}>
-            <VerifierResultComponent verifierResult={result} />
+            <VerifierResultComponent verifierResult={result} flightPlan={flightPlan} />
           </Grid>
         ))}
       </Grid>

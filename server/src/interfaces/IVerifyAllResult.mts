@@ -16,8 +16,6 @@ export default interface IVerifyAllResult {
   hasArrivalErrors: boolean;
   hasSquawkWarnings: boolean;
   hasSquawkErrors: boolean;
-  hasIsHeavyWarnings: boolean;
-  hasIsHeavyErrors: boolean;
   hasCruiseAltitudeWarnings: boolean;
   hasCruiseAltitudeErrors: boolean;
   hasRouteWarnings: boolean;
@@ -36,8 +34,6 @@ export default interface IVerifyAllResult {
   arrivalWarningCount: number;
   squawkErrorCount: number;
   squawkWarningCount: number;
-  isHeavyErrorCount: number;
-  isHeavyWarningCount: number;
   cruiseAltitudeErrorCount: number;
   cruiseAltitudeWarningCount: number;
   routeErrorCount: number;

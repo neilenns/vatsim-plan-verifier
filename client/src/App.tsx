@@ -11,9 +11,7 @@ import VerifierResults from "./components/VerifierResults";
 
 function App() {
   const [flightPlan, setFlightPlan] = useState<IFlightPlan>({} as IFlightPlan);
-  const [verifyResults, setVerifyResults] = useState<IVerifyAllResult | null>(
-    null
-  );
+  const [verifyResults, setVerifyResults] = useState<IVerifyAllResult | null>(null);
 
   function handleSubmit(flightPlan: IFlightPlan) {
     setFlightPlan(flightPlan);
@@ -33,10 +31,10 @@ function App() {
         <FlightPlanEntryForm onSubmit={handleSubmit} onVerify={handleVerify} />
       </Grid>
       <Grid xs={7}>
-        <FlightPlanDisplay flightPlan={flightPlan} />
+        <FlightPlanDisplay verifierResults={verifyResults} flightPlan={flightPlan} />
       </Grid>
       <Grid xs={12}>
-        <VerifierResults verifierResults={verifyResults?.results} />
+        <VerifierResults verifierResults={verifyResults?.results} flightPlan={flightPlan} />
       </Grid>
     </Grid>
   );

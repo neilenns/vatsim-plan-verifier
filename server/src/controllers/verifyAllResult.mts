@@ -1,8 +1,6 @@
-import { Verify } from "crypto";
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mjs";
 import { IVerifierResult } from "../models/VerifierResult.mjs";
 import { WritableKeys } from "ts-essentials";
-import { Writable } from "stream";
 
 // This magic ensures type safety when adding a result to the class,
 // when incrementing the appropriate error/warning count.
@@ -22,8 +20,6 @@ export default class VerifyAllResult implements IVerifyAllResult {
   arrivalWarningCount = 0;
   squawkErrorCount = 0;
   squawkWarningCount = 0;
-  isHeavyErrorCount = 0;
-  isHeavyWarningCount = 0;
   cruiseAltitudeErrorCount = 0;
   cruiseAltitudeWarningCount = 0;
   routeErrorCount = 0;
@@ -31,8 +27,10 @@ export default class VerifyAllResult implements IVerifyAllResult {
   errorCount = 0;
   warningCount = 0;
 
-  constructor() {
+  constructor(init?: Partial<IVerifyAllResult>) {
     this.results = [];
+
+    Object.assign(this, init);
   }
 
   public get hasErrors(): boolean {
@@ -91,14 +89,6 @@ export default class VerifyAllResult implements IVerifyAllResult {
     return this.squawkErrorCount > 0;
   }
 
-  public get hasIsHeavyWarnings(): boolean {
-    return this.isHeavyWarningCount > 0;
-  }
-
-  public get hasIsHeavyErrors(): boolean {
-    return this.isHeavyErrorCount > 0;
-  }
-
   public get hasCruiseAltitudeWarnings(): boolean {
     return this.cruiseAltitudeWarningCount > 0;
   }
@@ -145,5 +135,27 @@ export default class VerifyAllResult implements IVerifyAllResult {
         this[warningProp]++;
       }
     }
+  }
+
+  public toJSON() {
+    return {
+      ...this,
+      hasRawAircraftTypeWarnings: this.hasRawAircraftTypeWarnings,
+      hasRawAircraftTypeErrors: this.hasRawAircraftTypeErrors,
+      hasCallsignWarnings: this.hasCallsignWarnings,
+      hasCallsignErrors: this.hasCallsignErrors,
+      hasEquipmentCodeWarnings: this.hasEquipmentCodeWarnings,
+      hasEquipmentCodeErrors: this.hasEquipmentCodeErrors,
+      hasDepartureWarnings: this.hasDepartureWarnings,
+      hasDepartureErrors: this.hasDepartureErrors,
+      hasArrivalWarnings: this.hasArrivalWarnings,
+      hasArrivalErrors: this.hasArrivalErrors,
+      hasSquawkWarnings: this.hasSquawkWarnings,
+      hasSquawkErrors: this.hasSquawkErrors,
+      hasCruiseAltitudeWarnings: this.hasCruiseAltitudeWarnings,
+      hasCruiseAltitudeErrors: this.hasCruiseAltitudeErrors,
+      hasRouteWarnings: this.hasRouteWarnings,
+      hasRouteErrors: this.hasRouteErrors,
+    };
   }
 }

@@ -1,0 +1,6 @@
+/* Common variables */
+:root {
+	--status-error-color: rgb(252, 181, 181);
+	--status-warning-color: rgb(255, 255, 199);
+	--status-ok-color: rgb(212, 255, 212);
+}
