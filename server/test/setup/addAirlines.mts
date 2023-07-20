@@ -5,12 +5,14 @@ const airlines = [
 ];
 
 export default async function setup() {
-  airlines.map(async (airline) => {
-    var record = new Airline(airline);
-    try {
-      await record.save();
-    } catch (err) {
-      console.log(err);
-    }
-  });
+  await Promise.all(
+    airlines.map(async (airline) => {
+      var record = new Airline(airline);
+      try {
+        await record.save();
+      } catch (err) {
+        console.log(err);
+      }
+    })
+  );
 }
