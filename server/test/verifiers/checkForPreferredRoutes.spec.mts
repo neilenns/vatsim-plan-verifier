@@ -44,6 +44,28 @@ const testData = [
     route: "PTLD2 COUGA KRIEG HAWKZ7",
     squawk: "1234",
   },
+  // Wrong speed for preferred route
+  {
+    _id: "5f9f7b3b9d3b3c1b1c9b4b53",
+    callsign: "ASA42",
+    departure: "KPDX",
+    arrival: "KSEA",
+    cruiseAltitude: 200,
+    rawAircraftType: "C172/L",
+    route: "PTLD2 COUGA KRIEG HAWKZ7",
+    squawk: "1234",
+  },
+  // Wrong altitude for preferred route
+  {
+    _id: "5f9f7b3b9d3b3c1b1c9b4b54",
+    callsign: "ASA42",
+    departure: "KPDX",
+    arrival: "KSEA",
+    cruiseAltitude: 60,
+    rawAircraftType: "B737/L",
+    route: "PTLD2 COUGA KRIEG HAWKZ7",
+    squawk: "1234",
+  },
 ];
 
 describe("verifier: checkForPreferredRoutes tests", () => {
@@ -103,5 +125,38 @@ describe("verifier: checkForPreferredRoutes tests", () => {
     expect(data.status).to.equal("Ok");
     expect(data.flightPlanPart).to.equal("route");
     expect(data.messageId).to.equal("preferredRoute");
+  });
+
+  it("should not match a preferred route due to min speed", async () => {
+    const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b53");
+    expect(flightPlan.success).to.equal(true);
+
+    const result = await checkForPreferredRoutes(
+      (flightPlan as SuccessResult<IFlightPlan>).data
+    );
+
+    expect(result.success).to.equal(true);
+
+    const data = (result as SuccessResult<IVerifierResult>).data;
+    expect(data.status).to.equal("Error");
+    expect(data.flightPlanPart).to.equal("route");
+    expect(data.messageId).to.equal("notPreferredRoute");
+  });
+
+  it("should not match a preferred route due to min altitude", async () => {
+    const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b54");
+    expect(flightPlan.success).to.equal(true);
+
+    const result = await checkForPreferredRoutes(
+      (flightPlan as SuccessResult<IFlightPlan>).data
+    );
+
+    expect(result.success).to.equal(true);
+
+    const data = (result as SuccessResult<IVerifierResult>).data;
+    console.log(JSON.stringify(data, null, 2));
+    expect(data.status).to.equal("Error");
+    expect(data.flightPlanPart).to.equal("route");
+    expect(data.messageId).to.equal("notPreferredRoute");
   });
 });

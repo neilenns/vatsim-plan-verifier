@@ -55,7 +55,7 @@ export default async function checkForPreferredRoutes(
       return (
         route.route === flightPlan.route &&
         flightPlan.cruiseAltitude >= route.minimumRequiredAltitude &&
-        (flightPlan.equipmentInfo?.maxCruiseSpeed ?? 0) >=
+        (flightPlan.equipmentInfo?.maxCruiseSpeed ?? 999) >=
           route.minimumRequiredSpeed
       );
     });
@@ -68,12 +68,20 @@ export default async function checkForPreferredRoutes(
     }
     // This means there is a route for the aircraft but either their speed or altitue is wrong.
     else {
+      // Find routes that will work for the speed the aircraft can fly
+      const validPreferredRoutes = preferredRoutes.filter((route) => {
+        return (
+          (flightPlan.equipmentInfo?.maxCruiseSpeed ?? 999) >=
+          route.minimumRequiredSpeed
+        );
+      });
+
       result.data.status = "Error";
       result.data.message = `Filed route does not match a preferred route at the minimum required altitude and speed. Should be one of:`;
-      result.data.extendedMessage = preferredRoutes.map((route) => {
+      result.data.extendedMessage = validPreferredRoutes.map((route) => {
         return `${route.route} at ${formatAltitude(
           route.minimumRequiredAltitude
-        )} and ${route.minimumRequiredSpeed}kts`;
+        )} and ${route.minimumRequiredSpeed} kts`;
       });
 
       result.data.messageId = "notPreferredRoute";
