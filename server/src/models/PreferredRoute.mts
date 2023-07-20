@@ -1,5 +1,6 @@
-import { prop, getModelForClass } from "@typegoose/typegoose";
+import { prop, getModelForClass, ReturnModelType } from "@typegoose/typegoose";
 import { Types } from "mongoose";
+import { IFlightPlan } from "./FlightPlan.mjs";
 
 class PreferredRoute {
   @prop({ required: true })
@@ -22,6 +23,18 @@ class PreferredRoute {
 
   @prop({ type: String, required: true, default: [] })
   engineTypes!: Types.Array<string>;
+
+  public static async findByFlightPlan(
+    this: ReturnModelType<typeof PreferredRoute>,
+    flightPlan: IFlightPlan
+  ): Promise<PreferredRoute[]> {
+    return this.find({
+      departure: flightPlan.departure,
+      arrival: flightPlan.arrival,
+      equipmentSuffixes: { $in: flightPlan.equipmentSuffix },
+      engineTypes: { $in: flightPlan.equipmentInfo?.engineType },
+    });
+  }
 }
 
 const PreferredRouteModel = getModelForClass(PreferredRoute);
