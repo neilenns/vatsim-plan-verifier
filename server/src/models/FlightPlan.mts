@@ -8,6 +8,8 @@ import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
 export interface IFlightPlan extends IFlightPlanDocument {}
 export interface FlightPlanModelInterface extends Model<IFlightPlan> {}
 
+const RVSMEquipmentSuffixes = ["U", "W", "Z", "L"];
+
 const AirlineCodeRegexPattern = /\b([A-Za-z]{3})(\d+)\b/;
 
 export const flightPlanSchema = new Schema(
@@ -27,6 +29,10 @@ export const flightPlanSchema = new Schema(
   },
   { timestamps: true }
 );
+
+flightPlanSchema.virtual("isRVSMCapable").get(function () {
+  return RVSMEquipmentSuffixes.includes(this.equipmentSuffix ?? "");
+});
 
 flightPlanSchema.virtual("cruiseAltitudeFormatted").get(function () {
   return `${formatAltitude(this.cruiseAltitude)}`;
