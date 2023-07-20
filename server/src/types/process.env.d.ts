@@ -9,6 +9,8 @@ declare global {
       MONGO_DB_NAME: string;
       WHITELISTED_DOMAINS: string;
       GEOMAG_API_KEY: string;
+      API_RATE_LIMIT_MAX?: string;
+      API_RATE_LIMIT_MINUTE_WINDOW?: string;
     }
   }
 }
