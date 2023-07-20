@@ -1,6 +1,7 @@
 import { IFlightPlan } from "../../models/FlightPlan.mjs";
 import VerifierResult from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
+import hasEquipmentSuffix from "./hasEquipmentSuffix.mjs";
 
 const verifierName = "nonRVSMIsBelow290";
 
@@ -8,6 +9,7 @@ export default async function nonRVSMIsBelow290({
   _id,
   isRVSMCapable,
   cruiseAltitude,
+  equipmentSuffix,
 }: IFlightPlan): Promise<VerifierControllerResult> {
   // Set up the default result for a successful run of the verifier.
   var result: VerifierControllerResult = {
@@ -26,6 +28,12 @@ export default async function nonRVSMIsBelow290({
       result.data.status = "Information";
       result.data.message = `Plane is RVSM capable so no need to verify its altitude for RVSM compatibility.`;
       result.data.messageId = "RVSMCapable";
+    }
+    // Can't run check if there's no equipment suffix
+    else if (!equipmentSuffix) {
+      result.data.status = "Information";
+      result.data.message = `No equipment suffix available so unable to verify altitude for RVSM compatibility.`;
+      result.data.messageId = "noEquipmentSuffix";
     }
     // Plane isn't RVSM capable so make sure it isn't flying too high
     else if (cruiseAltitude >= 290) {

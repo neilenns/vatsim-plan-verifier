@@ -74,6 +74,17 @@ const testData = [
     route: "SEA8 SEA BUWZO KRATR2",
     squawk: "1234",
   },
+  // No equipment suffix
+  {
+    _id: "5f9f7b3b9d3b3c1b1c9b4b57",
+    callsign: "ASA42",
+    departure: "KPDX",
+    arrival: "KSEA",
+    cruiseAltitude: 290,
+    rawAircraftType: "B737",
+    route: "SEA8 SEA BUWZO KRATR2",
+    squawk: "1234",
+  },
 ];
 
 describe("verifier: nonRVSMIsBelow290 tests", () => {
@@ -163,5 +174,19 @@ describe("verifier: nonRVSMIsBelow290 tests", () => {
     expect(data.status).to.equal("Information");
     expect(data.flightPlanPart).to.equal("cruiseAltitude");
     expect(data.messageId).to.equal("nonRVSMBelow290");
+  });
+
+  it("should pass because plane has no equipment suffix", async () => {
+    const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b57");
+    expect(flightPlan.success).to.equal(true);
+
+    const result = await nonRVSMIsBelow290((flightPlan as SuccessResult<IFlightPlan>).data);
+
+    expect(result.success).to.equal(true);
+
+    const data = (result as SuccessResult<IVerifierResult>).data;
+    expect(data.status).to.equal("Information");
+    expect(data.flightPlanPart).to.equal("cruiseAltitude");
+    expect(data.messageId).to.equal("noEquipmentSuffix");
   });
 });
