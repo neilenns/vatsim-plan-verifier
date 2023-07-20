@@ -29,6 +29,12 @@ for all tests.
 |:-----------------:|:--------------:|:-------------------------------------------------:|
 | 64b409858f265c50318d9056 |      ASA      | ALASKA   |
 
+## Available routes
+
+| Departure | Arrival | Count |
+|-----------|---------|-------|
+| KSEA      | KPDX    | 6     |
+
 ## Available flight plans
 
 Flight plans should be added as part of the set up for each specific test. This is to ensure each test

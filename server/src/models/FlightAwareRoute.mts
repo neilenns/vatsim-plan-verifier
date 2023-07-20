@@ -1,6 +1,5 @@
-import mongoose, { Model } from "mongoose";
+import mongoose, { Model, pluralize } from "mongoose";
 import IFlightAwareRouteDocument from "../interfaces/IFlightAwareRouteDocument.mjs";
-import { format } from "path";
 import { formatAltitude } from "../utils.mjs";
 
 // This method for constructing models in typescript to allow adding custom functions later is

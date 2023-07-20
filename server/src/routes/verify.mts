@@ -9,6 +9,7 @@ import warnHeavyRunwayAssignment from "../controllers/verifiers/warnHeavyRunwayA
 import altitudeForDirectionOfFlight from "../controllers/verifiers/altitudeForDirectionOfFlight.mjs";
 import checkEquipmentSuffixAgainstKnown from "../controllers/verifiers/checkEquipmentSuffixAgainstKnown.mjs";
 import findExistingResultsMiddleware from "../middleware/findExistingResults.mjs";
+import verifyRouteWithFlightAware from "../controllers/verifiers/verifyRouteWithFlightAware.mjs";
 
 const router = express.Router();
 
@@ -33,6 +34,7 @@ const verifiers: Verifier[] = [
     name: "checkEquipmentSuffixAgainstKnown",
     handler: checkEquipmentSuffixAgainstKnown,
   },
+  { name: "verifyRouteWithFlightAware", handler: verifyRouteWithFlightAware },
 ];
 
 // Generic handler for verifier routes

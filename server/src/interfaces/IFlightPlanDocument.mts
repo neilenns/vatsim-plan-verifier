@@ -21,4 +21,5 @@ export default interface IFlightPlanDocument extends Document {
   route?: string;
   directionOfFlight?: number;
   routeParts?: string[];
+  cleanedRoute?: string;
 }

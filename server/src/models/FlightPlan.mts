@@ -36,6 +36,21 @@ flightPlanSchema.virtual("routeParts").get(function () {
   return this.route?.split(" ") ?? [];
 });
 
+flightPlanSchema.virtual("cleanedRoute").get(function () {
+  // Remove leading + that gets inserted by VRC if the route was modified
+  // Remove any " DCT" that the route might have since FlightAware never includes those
+  // Trim any remaining leading or trailing whitespace
+  return (
+    this.route
+      ?.replace(/^\+/, "") // leading + that gets inserted by VRC if the route was modified
+      .replace("PTLD2 ", "") // PTLD2 will never be in the FlightAware returned routes
+      .replace("SEA8 ", "") // SEA8 will never be in the FlightAware returned routes
+      .replace("MONTN2 ", "") // MONTN2 will never be in the FlightAware returned routes
+      .replace(" DCT", "") // DCTs are never in the FlightAware returned routes
+      .trim() ?? ""
+  );
+});
+
 flightPlanSchema.virtual("equipmentInfo", {
   ref: "aircraft",
   localField: "equipmentCode",
