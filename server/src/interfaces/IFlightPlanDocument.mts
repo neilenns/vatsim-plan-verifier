@@ -22,4 +22,5 @@ export default interface IFlightPlanDocument extends Document {
   directionOfFlight?: number;
   routeParts?: string[];
   cleanedRoute?: string;
+  isRVSMCapable: boolean;
 }
