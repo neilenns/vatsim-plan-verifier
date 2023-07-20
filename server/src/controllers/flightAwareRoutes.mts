@@ -15,6 +15,8 @@ export async function getFlightAwareRoutes({
   departure,
   arrival,
 }: Partial<FlightPlan>): Promise<FlightAwareRoutesResult> {
+  const resultRoutes: IFlightAwareRoute[] = [];
+
   if (!departure || !arrival) {
     throw new Error("Missing departure or arrival");
   }
@@ -41,8 +43,6 @@ export async function getFlightAwareRoutes({
     routes: [],
   };
 
-  const resultRoutes: IFlightAwareRoute[] = [];
-
   try {
     fetchedRoutes = await fetchFlightRoutes(departure, arrival);
 
@@ -50,15 +50,17 @@ export async function getFlightAwareRoutes({
       console.log(`No routes found for ${departure}-${arrival}`);
     }
 
-    fetchedRoutes.routes.map(async (route) => {
-      const newRoute = new FlightAwareRoute({
-        ...route,
-        departure,
-        arrival,
-      });
-      await newRoute.save();
-      resultRoutes.push(newRoute);
-    });
+    await Promise.all(
+      fetchedRoutes.routes.map(async (route) => {
+        const newRoute = new FlightAwareRoute({
+          ...route,
+          departure,
+          arrival,
+        });
+        await newRoute.save();
+        resultRoutes.push(newRoute);
+      })
+    );
   } catch (error) {
     console.error(error);
     return {
