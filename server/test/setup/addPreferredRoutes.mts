@@ -31,12 +31,14 @@ const data = [
 ];
 
 export default async function setup() {
-  data.map(async (item) => {
-    var record = new PreferredRouteModel(item);
-    try {
-      await record.save();
-    } catch (err) {
-      console.log(err);
-    }
-  });
+  await Promise.all(
+    data.map(async (item) => {
+      var record = new PreferredRouteModel(item);
+      try {
+        await record.save();
+      } catch (err) {
+        console.log(err);
+      }
+    })
+  );
 }

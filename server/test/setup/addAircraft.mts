@@ -58,12 +58,14 @@ const aircraft = [
 ];
 
 export default async function setup() {
-  aircraft.map(async (aircraft) => {
-    var record = new Aircraft(aircraft);
-    try {
-      await record.save();
-    } catch (err) {
-      console.log(err);
-    }
-  });
+  await Promise.all(
+    aircraft.map(async (aircraft) => {
+      var record = new Aircraft(aircraft);
+      try {
+        await record.save();
+      } catch (err) {
+        console.log(err);
+      }
+    })
+  );
 }
