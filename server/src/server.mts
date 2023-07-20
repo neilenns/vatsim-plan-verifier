@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors, { CorsOptions } from "cors";
 import { createHttpTerminator, HttpTerminator } from "http-terminator";
+import rateLimit from "express-rate-limit";
 
 // Routes
 import defaultRouter from "./routes/default.mjs";
@@ -22,6 +23,14 @@ import { Server } from "http";
 export const app = express();
 var server: https.Server | Server;
 var httpTerminator: HttpTerminator;
+
+const rateLimitWindow = process?.env?.API_RATE_LIMIT_MINUTE_WINDOW
+  ? parseInt(process.env.API_RATE_LIMIT_MINUTE_WINDOW) ?? 5
+  : 5;
+
+const rateLimitMax = process?.env?.API_RATE_LIMIT_MAX
+  ? parseInt(process.env.API_RATE_LIMIT_MAX) ?? 100
+  : 100;
 
 const logger = debug("access-code-map:server");
 
@@ -44,7 +53,16 @@ export function startServer(port: number): void {
     credentials: true,
   } as CorsOptions;
 
+  const rateLimiter = rateLimit({
+    windowMs: rateLimitWindow * 60 * 1000, // 5 minute default
+    max: rateLimitMax, // Limit each IP to 100 requests per window
+    standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  });
+
+  // Security
   app.use(cors(corsOptions));
+  app.use(rateLimiter);
 
   // Set up the routes
   app.use(defaultRouter);
