@@ -7,3 +7,7 @@
 .hasErrors {
   background-color: var(--status-error-color);
 }
+
+.isOk {
+  background-color: var(--status-ok-color);
+}

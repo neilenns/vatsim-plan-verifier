@@ -14,24 +14,18 @@ const getClassByStatus = (hasErrors?: boolean, hasWarnings?: boolean) => {
   } else if (hasWarnings) {
     return "hasWarnings";
   } else {
-    return "";
+    return "isOk";
   }
 };
 
-const FlightPlanDisplay: React.FC<FlightPlanProps> = ({
-  flightPlan,
-  verifierResults,
-}: FlightPlanProps) => {
+const FlightPlanDisplay: React.FC<FlightPlanProps> = ({ flightPlan, verifierResults }: FlightPlanProps) => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={2} key="callsign">
         <Typography variant="subtitle1">Callsign</Typography>
         <Typography
           variant="body1"
-          className={getClassByStatus(
-            verifierResults?.hasCallsignErrors,
-            verifierResults?.hasCallsignWarnings
-          )}
+          className={getClassByStatus(verifierResults?.hasCallsignErrors, verifierResults?.hasCallsignWarnings)}
         >
           {flightPlan.callsign}
         </Typography>
@@ -52,10 +46,7 @@ const FlightPlanDisplay: React.FC<FlightPlanProps> = ({
         <Typography variant="subtitle1">Squawk code</Typography>
         <Typography
           variant="body1"
-          className={getClassByStatus(
-            verifierResults?.hasSquawkErrors,
-            verifierResults?.hasSquawkWarnings
-          )}
+          className={getClassByStatus(verifierResults?.hasSquawkErrors, verifierResults?.hasSquawkWarnings)}
         >
           {flightPlan.squawk}
         </Typography>
@@ -64,10 +55,7 @@ const FlightPlanDisplay: React.FC<FlightPlanProps> = ({
         <Typography variant="subtitle1">Departure</Typography>
         <Typography
           variant="body1"
-          className={getClassByStatus(
-            verifierResults?.hasDepartureErrors,
-            verifierResults?.hasDepartureWarnings
-          )}
+          className={getClassByStatus(verifierResults?.hasDepartureErrors, verifierResults?.hasDepartureWarnings)}
         >
           {flightPlan.departure}
         </Typography>
@@ -76,10 +64,7 @@ const FlightPlanDisplay: React.FC<FlightPlanProps> = ({
         <Typography variant="subtitle1">Arrival</Typography>
         <Typography
           variant="body1"
-          className={getClassByStatus(
-            verifierResults?.hasArrivalErrors,
-            verifierResults?.hasArrivalWarnings
-          )}
+          className={getClassByStatus(verifierResults?.hasArrivalErrors, verifierResults?.hasArrivalWarnings)}
         >
           {flightPlan.arrival}
         </Typography>
@@ -100,10 +85,7 @@ const FlightPlanDisplay: React.FC<FlightPlanProps> = ({
         <Typography variant="subtitle1">Route</Typography>
         <Typography
           variant="body1"
-          className={getClassByStatus(
-            verifierResults?.hasRouteErrors,
-            verifierResults?.hasRouteWarnings
-          )}
+          className={getClassByStatus(verifierResults?.hasRouteErrors, verifierResults?.hasRouteWarnings)}
         >
           {flightPlan.route}
         </Typography>
