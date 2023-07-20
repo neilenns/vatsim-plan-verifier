@@ -9,6 +9,7 @@ export interface IFlightPlan extends IFlightPlanDocument {}
 export interface FlightPlanModelInterface extends Model<IFlightPlan> {}
 
 const RVSMEquipmentSuffixes = ["U", "W", "Z", "L"];
+const RNAVequipmentSuffixes = ["I", "Z", "G", "L"];
 
 const AirlineCodeRegexPattern = /\b([A-Za-z]{3})(\d+)\b/;
 
@@ -29,6 +30,15 @@ export const flightPlanSchema = new Schema(
   },
   { timestamps: true }
 );
+
+flightPlanSchema.virtual("routeHasNonRNAVAirways").get(function () {
+  // this.get is required because routeParts is a virtual and TypeScript doesn't konw it exists at this point.
+  return this.get("routeParts")?.some((part: string) => part.startsWith("V") || part.startsWith("J"));
+});
+
+flightPlanSchema.virtual("isRNAVCapable").get(function () {
+  return RNAVequipmentSuffixes.includes(this.equipmentSuffix ?? "");
+});
 
 flightPlanSchema.virtual("isRVSMCapable").get(function () {
   return RVSMEquipmentSuffixes.includes(this.equipmentSuffix ?? "");
@@ -102,22 +112,13 @@ flightPlanSchema.pre("save", async function () {
     return;
   }
 
-  const origin = new LatLon(
-    departureAirport.data.latitude,
-    departureAirport.data.longitude
-  );
-  const destination = new LatLon(
-    arrivalAirport.data.latitude,
-    arrivalAirport.data.longitude
-  );
+  const origin = new LatLon(departureAirport.data.latitude, departureAirport.data.longitude);
+  const destination = new LatLon(arrivalAirport.data.latitude, arrivalAirport.data.longitude);
 
-  var rawBearing =
-    origin.initialBearingTo(destination) +
-    (departureAirport.data.magneticDeclination ?? 0);
+  var rawBearing = origin.initialBearingTo(destination) + (departureAirport.data.magneticDeclination ?? 0);
 
   // Force the final value to be between 0 and 359
-  this.directionOfFlight =
-    Math.round(rawBearing < 0 ? rawBearing + 360 : rawBearing) % 360;
+  this.directionOfFlight = Math.round(rawBearing < 0 ? rawBearing + 360 : rawBearing) % 360;
 });
 
 // Before save split apart the rawAircraftType into the isHeavy, equipmentCode and equipmentSuffix
@@ -161,9 +162,9 @@ flightPlanSchema.plugin(autopopulate);
 flightPlanSchema.set("toJSON", { virtuals: true, aliases: false });
 flightPlanSchema.set("toObject", { virtuals: true, aliases: false });
 
-const FlightPlan: FlightPlanModelInterface = model<
-  IFlightPlanDocument,
-  FlightPlanModelInterface
->("FlightPlan", flightPlanSchema);
+const FlightPlan: FlightPlanModelInterface = model<IFlightPlanDocument, FlightPlanModelInterface>(
+  "FlightPlan",
+  flightPlanSchema
+);
 
 export default FlightPlan;

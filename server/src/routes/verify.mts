@@ -9,13 +9,15 @@ import warnHeavyRunwayAssignment from "../controllers/verifiers/warnHeavyRunwayA
 import altitudeForDirectionOfFlight from "../controllers/verifiers/altitudeForDirectionOfFlight.mjs";
 import checkEquipmentSuffixAgainstKnown from "../controllers/verifiers/checkEquipmentSuffixAgainstKnown.mjs";
 import findExistingResultsMiddleware from "../middleware/findExistingResults.mjs";
-import verifyRouteWithFlightAware from "../controllers/verifiers/verifyRouteWithFlightAware.mjs";
+import routeWithFlightAware from "../controllers/verifiers/routeWithFlightAware.mjs";
+import checkForPreferredRoutes from "../controllers/verifiers/checkForPreferredRoutes.mjs";
+import nonRVSMIsBelow290 from "../controllers/verifiers/nonRVSMIsBelow290.mjs";
+import jetIsNotSlantA from "../controllers/verifiers/jetIsNotSlantA.mjs";
+import nonRNAVHasAirways from "../controllers/verifiers/nonRNAVHasAirways.mjs";
 
 const router = express.Router();
 
-type HandlerFunction = (
-  flightPlan: IFlightPlan
-) => Promise<VerifierControllerResult>;
+type HandlerFunction = (flightPlan: IFlightPlan) => Promise<VerifierControllerResult>;
 
 type Verifier = {
   name: string;
@@ -34,7 +36,11 @@ const verifiers: Verifier[] = [
     name: "checkEquipmentSuffixAgainstKnown",
     handler: checkEquipmentSuffixAgainstKnown,
   },
-  { name: "verifyRouteWithFlightAware", handler: verifyRouteWithFlightAware },
+  { name: "routeWithFlightAware", handler: routeWithFlightAware },
+  { name: "checkForPreferredRoutes", handler: checkForPreferredRoutes },
+  { name: "nonRVSMIsBelow290", handler: nonRVSMIsBelow290 },
+  { name: "jetIsNotSlantA", handler: jetIsNotSlantA },
+  { name: "nonRNAVHasAirways", handler: nonRNAVHasAirways },
 ];
 
 // Generic handler for verifier routes
@@ -78,47 +84,43 @@ const handleVerifierRoute = async (routeName: string, handler: Function) => {
 };
 
 // Register the route to run all verifiers
-router.get(
-  "/verify/all/:id",
-  findExistingResultsMiddleware(),
-  async (req: Request, res: Response) => {
-    const { id } = req.params;
+router.get("/verify/all/:id", findExistingResultsMiddleware(), async (req: Request, res: Response) => {
+  const { id } = req.params;
 
-    try {
-      const flightPlan = await getFlightPlan(id);
+  try {
+    const flightPlan = await getFlightPlan(id);
 
-      if (!flightPlan.success) {
-        if (flightPlan.errorType === "FlightPlanNotFound") {
-          return res.status(404).json({
-            error: `Unable to run verifiers: flight plan ${id} not found.`,
-          });
-        } else {
-          return res.status(500).json({
-            error: `Failed to run verifiers for flight plan ${id}.`,
-          });
-        }
+    if (!flightPlan.success) {
+      if (flightPlan.errorType === "FlightPlanNotFound") {
+        return res.status(404).json({
+          error: `Unable to run verifiers: flight plan ${id} not found.`,
+        });
+      } else {
+        return res.status(500).json({
+          error: `Failed to run verifiers for flight plan ${id}.`,
+        });
       }
-
-      const verifyAllResult = new VerifyAllResult();
-
-      // Loop across all registered verifiers and save all successful verification runs
-      // to send back to the client.
-      for (const verifier of verifiers) {
-        const result = await verifier.handler(flightPlan.data);
-
-        if (result.success) {
-          verifyAllResult.add(result.data);
-        }
-      }
-
-      return res.status(200).json(verifyAllResult);
-    } catch (error) {
-      return res.status(500).json({
-        error: `Failed to run verifiers for flight plan ${id}.`,
-      });
     }
+
+    const verifyAllResult = new VerifyAllResult();
+
+    // Loop across all registered verifiers and save all successful verification runs
+    // to send back to the client.
+    for (const verifier of verifiers) {
+      const result = await verifier.handler(flightPlan.data);
+
+      if (result.success) {
+        verifyAllResult.add(result.data);
+      }
+    }
+
+    return res.status(200).json(verifyAllResult);
+  } catch (error) {
+    return res.status(500).json({
+      error: `Failed to run verifiers for flight plan ${id}.`,
+    });
   }
-);
+});
 
 // Register all the individual verifier routes
 for (const verifier of verifiers) {

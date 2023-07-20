@@ -2,9 +2,9 @@ import { IFlightPlan } from "../../models/FlightPlan.mjs";
 import VerifierResult from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 
-const verifierName = "verifyNonRVSMIsBelow290";
+const verifierName = "nonRVSMIsBelow290";
 
-export default async function verifyNonRVSMIsBelow290({
+export default async function nonRVSMIsBelow290({
   _id,
   isRVSMCapable,
   cruiseAltitude,

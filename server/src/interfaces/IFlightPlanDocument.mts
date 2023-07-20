@@ -23,4 +23,6 @@ export default interface IFlightPlanDocument extends Document {
   routeParts?: string[];
   cleanedRoute?: string;
   isRVSMCapable: boolean;
+  isRNAVCapable: boolean;
+  routeHasNonRNAVAirways: boolean;
 }

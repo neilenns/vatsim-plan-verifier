@@ -2,9 +2,9 @@ import { IFlightPlan } from "../../models/FlightPlan.mjs";
 import VerifierResult from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 
-const verifierName = "verifyJetIsNotSlantA";
+const verifierName = "jetIsNotSlantA";
 
-export default async function ({
+export default async function jetIsNotSlantA({
   _id,
   equipmentCode,
   equipmentSuffix,
@@ -34,7 +34,7 @@ export default async function ({
     // Don't run the test on non-jet aircraft
     else if (equipmentInfo.engineType !== "J") {
       result.data.status = "Information";
-      result.data.messageId = "unableToVerifyJetIsNotSlantAEngineTypeNotJ";
+      result.data.messageId = "unableToVerifJetIsNotSlantAEngineTypeNotJ";
       result.data.message = `Unable to verify jet is not slant A because the aircraft isn't a jet.`;
       result.data.priority = 5;
     }
