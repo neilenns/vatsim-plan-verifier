@@ -8,6 +8,7 @@ import addAircraft from "./setup/addAircraft.mjs";
 import addAirlines from "./setup/addAirlines.mjs";
 import addAirports from "./setup/addAirports.mjs";
 import addFlightAwareRoutes from "./setup/addFlightAwareRoutes.mjs";
+import addPreferredRoutes from "./setup/addPreferredRoutes.mjs";
 
 var mongoServer: MongoMemoryServer;
 // This is to ensure any network calls made by the tests don't actually
@@ -36,6 +37,7 @@ export async function mochaGlobalSetup() {
   await addAircraft();
   await addAirlines();
   await addFlightAwareRoutes();
+  await addPreferredRoutes();
 }
 
 export async function mochaGlobalTeardown() {
