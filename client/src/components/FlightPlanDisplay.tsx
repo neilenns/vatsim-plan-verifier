@@ -22,12 +22,6 @@ const FlightPlanDisplay: React.FC<FlightPlanProps> = ({
   flightPlan,
   verifierResults,
 }: FlightPlanProps) => {
-  const testStyle = verifierResults?.hasRawAircraftTypeErrors
-    ? "hasErrors"
-    : verifierResults?.hasRawAircraftTypeWarnings
-    ? "hasWarnings"
-    : "";
-
   return (
     <Grid container spacing={2}>
       <Grid item xs={2} key="callsign">
