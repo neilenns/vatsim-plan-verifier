@@ -17,6 +17,7 @@ interface FlightPlanTextFieldProps {
   value: string;
   hasErrors?: boolean;
   hasWarnings?: boolean;
+  onPaste: (text: string) => boolean;
 }
 
 const FlightPlanTextField: React.FC<FlightPlanTextFieldProps> = (props) => {
@@ -34,6 +35,13 @@ const FlightPlanTextField: React.FC<FlightPlanTextFieldProps> = (props) => {
     setHasWarnings(props.hasWarnings ?? false);
   }, [props.id, props.label, props.value, props.hasErrors, props.hasWarnings]);
 
+  const handlePaste = (event: React.ClipboardEvent<Element>) => {
+    const isValidFlightPlan = props.onPaste(event.clipboardData.getData("Text"));
+    if (isValidFlightPlan) {
+      event.preventDefault();
+    }
+  };
+
   return (
     <TextField
       fullWidth
@@ -41,6 +49,7 @@ const FlightPlanTextField: React.FC<FlightPlanTextFieldProps> = (props) => {
       label={label}
       value={value}
       InputLabelProps={{ shrink: value ? true : false }}
+      onPaste={handlePaste}
       multiline
       required
       // Setting the colour of the outline based on the status of the field

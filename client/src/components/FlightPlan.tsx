@@ -31,6 +31,11 @@ const FlightPlan: React.FC<FlightPlanProps> = ({
     setRoute(flightPlan.route);
   }, [flightPlan]);
 
+  const parsePastedFlightPlan = (text: string): boolean => {
+    console.log(text);
+    return true;
+  };
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={2} key="callsign">
@@ -38,6 +43,7 @@ const FlightPlan: React.FC<FlightPlanProps> = ({
           id="callsign"
           label="Callsign"
           value={callsign}
+          onPaste={parsePastedFlightPlan}
           hasErrors={verifierResults?.hasCallsignErrors}
           hasWarnings={verifierResults?.hasCallsignWarnings}
         />
@@ -47,6 +53,7 @@ const FlightPlan: React.FC<FlightPlanProps> = ({
           id="rawAircraftType"
           label="Aircraft type"
           value={rawAircraftType}
+          onPaste={parsePastedFlightPlan}
           hasErrors={verifierResults?.hasRawAircraftTypeErrors}
           hasWarnings={verifierResults?.hasRawAircraftTypeWarnings}
         />
@@ -56,6 +63,7 @@ const FlightPlan: React.FC<FlightPlanProps> = ({
           id="squawk"
           label="Squawk code"
           value={squawk}
+          onPaste={parsePastedFlightPlan}
           hasErrors={verifierResults?.hasSquawkErrors}
           hasWarnings={verifierResults?.hasSquawkWarnings}
         />
@@ -65,6 +73,7 @@ const FlightPlan: React.FC<FlightPlanProps> = ({
           id="departure"
           label="Departure"
           value={departure}
+          onPaste={parsePastedFlightPlan}
           hasErrors={verifierResults?.hasDepartureErrors}
           hasWarnings={verifierResults?.hasDepartureWarnings}
         />
@@ -74,6 +83,7 @@ const FlightPlan: React.FC<FlightPlanProps> = ({
           id="arrival"
           label="Arrival"
           value={arrival}
+          onPaste={parsePastedFlightPlan}
           hasErrors={verifierResults?.hasArrivalErrors}
           hasWarnings={verifierResults?.hasArrivalWarnings}
         />
@@ -83,6 +93,7 @@ const FlightPlan: React.FC<FlightPlanProps> = ({
           id="cruiseAltitude"
           label="Cruise altitude"
           value={cruiseAltitude}
+          onPaste={parsePastedFlightPlan}
           hasErrors={verifierResults?.hasCruiseAltitudeErrors}
           hasWarnings={verifierResults?.hasCruiseAltitudeWarnings}
         />
@@ -92,6 +103,7 @@ const FlightPlan: React.FC<FlightPlanProps> = ({
           id="route"
           label="Route"
           value={route}
+          onPaste={parsePastedFlightPlan}
           hasErrors={verifierResults?.hasRouteErrors}
           hasWarnings={verifierResults?.hasRouteWarnings}
         />
