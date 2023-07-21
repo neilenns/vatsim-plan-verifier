@@ -10,27 +10,16 @@ interface FlightPlanProps {
   verifierResults: IVerifyAllResult | null;
 }
 
-const FlightPlan: React.FC<FlightPlanProps> = ({
-  flightPlan,
-  verifierResults,
-}: FlightPlanProps) => {
-  const [callsign, setCallsign] = useState<string>(flightPlan.callsign);
-  const [rawAircraftType, setRawAircraftType] = useState<string>(flightPlan.rawAircraftType);
-  const [squawk, setSquawk] = useState<string>(flightPlan.squawk);
-  const [departure, setDeparture] = useState<string>(flightPlan.departure);
-  const [arrival, setArrival] = useState<string>(flightPlan.arrival);
-  const [cruiseAltitude, setCruiseAltitude] = useState<string>(flightPlan.cruiseAltitude);
-  const [route, setRoute] = useState<string>(flightPlan.route);
+const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
+  const [flightPlan, setFlightPlan] = useState<IFlightPlan>(props.flightPlan);
+  const [verifierResults, setVerifierResults] = useState<IVerifyAllResult | null>(
+    props.verifierResults
+  );
 
   useEffect(() => {
-    setCallsign(flightPlan.callsign);
-    setRawAircraftType(flightPlan.rawAircraftType);
-    setSquawk(flightPlan.squawk);
-    setDeparture(flightPlan.departure);
-    setArrival(flightPlan.arrival);
-    setCruiseAltitude(flightPlan.cruiseAltitude);
-    setRoute(flightPlan.route);
-  }, [flightPlan]);
+    setFlightPlan(props.flightPlan);
+    setVerifierResults(props.verifierResults);
+  }, [props.flightPlan, props.verifierResults]);
 
   const parsePastedFlightPlan = (text: string): boolean => {
     const pastedFlightPlan = parseFlightPlan(text);
@@ -41,7 +30,8 @@ const FlightPlan: React.FC<FlightPlanProps> = ({
     if (!isValidFlightPlan) {
       return false;
     }
-    console.log(text);
+
+    setFlightPlan(pastedFlightPlan);
     return true;
   };
 
@@ -51,7 +41,7 @@ const FlightPlan: React.FC<FlightPlanProps> = ({
         <FlightPlanTextField
           id="callsign"
           label="Callsign"
-          value={callsign}
+          value={flightPlan.callsign}
           onPaste={parsePastedFlightPlan}
           trim
           hasErrors={verifierResults?.hasCallsignErrors}
@@ -62,7 +52,7 @@ const FlightPlan: React.FC<FlightPlanProps> = ({
         <FlightPlanTextField
           id="rawAircraftType"
           label="Aircraft type"
-          value={rawAircraftType}
+          value={flightPlan.rawAircraftType}
           onPaste={parsePastedFlightPlan}
           hasErrors={verifierResults?.hasRawAircraftTypeErrors}
           hasWarnings={verifierResults?.hasRawAircraftTypeWarnings}
@@ -72,7 +62,7 @@ const FlightPlan: React.FC<FlightPlanProps> = ({
         <FlightPlanTextField
           id="squawk"
           label="Squawk code"
-          value={squawk}
+          value={flightPlan.squawk}
           onPaste={parsePastedFlightPlan}
           hasErrors={verifierResults?.hasSquawkErrors}
           hasWarnings={verifierResults?.hasSquawkWarnings}
@@ -82,7 +72,7 @@ const FlightPlan: React.FC<FlightPlanProps> = ({
         <FlightPlanTextField
           id="departure"
           label="Departure"
-          value={departure}
+          value={flightPlan.departure}
           onPaste={parsePastedFlightPlan}
           hasErrors={verifierResults?.hasDepartureErrors}
           hasWarnings={verifierResults?.hasDepartureWarnings}
@@ -92,7 +82,7 @@ const FlightPlan: React.FC<FlightPlanProps> = ({
         <FlightPlanTextField
           id="arrival"
           label="Arrival"
-          value={arrival}
+          value={flightPlan.arrival}
           onPaste={parsePastedFlightPlan}
           hasErrors={verifierResults?.hasArrivalErrors}
           hasWarnings={verifierResults?.hasArrivalWarnings}
@@ -102,7 +92,7 @@ const FlightPlan: React.FC<FlightPlanProps> = ({
         <FlightPlanTextField
           id="cruiseAltitude"
           label="Cruise altitude"
-          value={cruiseAltitude}
+          value={flightPlan.cruiseAltitude}
           onPaste={parsePastedFlightPlan}
           hasErrors={verifierResults?.hasCruiseAltitudeErrors}
           hasWarnings={verifierResults?.hasCruiseAltitudeWarnings}
@@ -112,7 +102,7 @@ const FlightPlan: React.FC<FlightPlanProps> = ({
         <FlightPlanTextField
           id="route"
           label="Route"
-          value={route}
+          value={flightPlan.route}
           onPaste={parsePastedFlightPlan}
           hasErrors={verifierResults?.hasRouteErrors}
           hasWarnings={verifierResults?.hasRouteWarnings}
