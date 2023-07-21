@@ -4,21 +4,12 @@ import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
 import "./flightPlan.css";
 import { useEffect, useState } from "react";
 import { ThemeProvider } from "@emotion/react";
+import FlightPlanTextField from "./FlightPlanTextField";
 
 interface FlightPlanProps {
   flightPlan: IFlightPlan;
   verifierResults: IVerifyAllResult | null;
 }
-
-const getColorByStatus = (hasErrors?: boolean, hasWarnings?: boolean) => {
-  if (hasErrors) {
-    return "error";
-  } else if (hasWarnings) {
-    return "warning";
-  } else if (!hasErrors === undefined && !hasWarnings === undefined) {
-    return "success";
-  }
-};
 
 const flightPlanTheme = createTheme({
   palette: {
@@ -54,114 +45,67 @@ const FlightPlan: React.FC<FlightPlanProps> = ({
     <ThemeProvider theme={flightPlanTheme}>
       <Grid container spacing={2}>
         <Grid item xs={2} key="callsign">
-          <TextField
+          <FlightPlanTextField
             id="callsign"
             label="Callsign"
             value={callsign}
-            // This nonsense is required to ensure the text moves up above the field when the prop is set. I have no idea
-            // why true is first and false is second, that seems backwards to me, but it's what works. Found from
-            // this: https://stackoverflow.com/questions/50955603/react-material-ui-label-overlaps-with-text
-            InputLabelProps={{ shrink: callsign ? true : false }}
-            required
-            color={getColorByStatus(
-              verifierResults?.hasCallsignErrors,
-              verifierResults?.hasCallsignWarnings
-            )}
-          >
-            {flightPlan.callsign}
-          </TextField>
+            hasErrors={verifierResults?.hasCallsignErrors}
+            hasWarnings={verifierResults?.hasCallsignWarnings}
+          />
         </Grid>
         <Grid item xs={2} key="aircraft">
-          <TextField
+          <FlightPlanTextField
             id="rawAircraftType"
             label="Aircraft type"
             value={rawAircraftType}
-            InputLabelProps={{ shrink: rawAircraftType ? true : false }}
-            required
-            color={getColorByStatus(
-              verifierResults?.hasRawAircraftTypeErrors,
-              verifierResults?.hasRawAircraftTypeWarnings
-            )}
-          >
-            {flightPlan.rawAircraftType}
-          </TextField>
+            hasErrors={verifierResults?.hasRawAircraftTypeErrors}
+            hasWarnings={verifierResults?.hasRawAircraftTypeWarnings}
+          />
         </Grid>
         <Grid item xs={2} key="squawk">
-          <TextField
+          <FlightPlanTextField
             id="squawk"
             label="Squawk code"
             value={squawk}
-            InputLabelProps={{ shrink: squawk ? true : false }}
-            required
-            color={getColorByStatus(
-              verifierResults?.hasSquawkErrors,
-              verifierResults?.hasSquawkWarnings
-            )}
-          >
-            {flightPlan.squawk}
-          </TextField>
+            hasErrors={verifierResults?.hasSquawkErrors}
+            hasWarnings={verifierResults?.hasSquawkWarnings}
+          />
         </Grid>
         <Grid item xs={2} key="departure">
-          <TextField
+          <FlightPlanTextField
             id="departure"
             label="Departure"
             value={departure}
-            InputLabelProps={{ shrink: departure ? true : false }}
-            required
-            color={getColorByStatus(
-              verifierResults?.hasDepartureErrors,
-              verifierResults?.hasDepartureWarnings
-            )}
-          >
-            {flightPlan.departure}
-          </TextField>
+            hasErrors={verifierResults?.hasDepartureErrors}
+            hasWarnings={verifierResults?.hasDepartureWarnings}
+          />
         </Grid>
         <Grid item xs={2} key="arrival">
-          <TextField
+          <FlightPlanTextField
             id="arrival"
             label="Arrival"
             value={arrival}
-            InputLabelProps={{ shrink: arrival ? true : false }}
-            required
-            color={getColorByStatus(
-              verifierResults?.hasArrivalErrors,
-              verifierResults?.hasArrivalWarnings
-            )}
-          >
-            {flightPlan.arrival}
-          </TextField>
+            hasErrors={verifierResults?.hasArrivalErrors}
+            hasWarnings={verifierResults?.hasArrivalWarnings}
+          />
         </Grid>
         <Grid item xs={2} key="altitude">
-          <TextField
+          <FlightPlanTextField
             id="cruiseAltitude"
             label="Cruise altitude"
             value={cruiseAltitude}
-            InputLabelProps={{ shrink: cruiseAltitude ? true : false }}
-            required
-            color={getColorByStatus(
-              verifierResults?.hasCruiseAltitudeErrors,
-              verifierResults?.hasCruiseAltitudeWarnings
-            )}
-          >
-            {flightPlan.cruiseAltitude}
-          </TextField>
+            hasErrors={verifierResults?.hasCruiseAltitudeErrors}
+            hasWarnings={verifierResults?.hasCruiseAltitudeWarnings}
+          />
         </Grid>
         <Grid item xs={12} key="route">
-          <TextField
-            fullWidth
+          <FlightPlanTextField
             id="route"
             label="Route"
             value={route}
-            InputLabelProps={{ shrink: route ? true : false }}
-            multiline
-            required
-            color={getColorByStatus(
-              verifierResults?.hasRouteErrors,
-              verifierResults?.hasRouteWarnings
-            )}
-          >
-            {flightPlan.route}
-          </TextField>
+            hasErrors={verifierResults?.hasRouteErrors}
+            hasWarnings={verifierResults?.hasRouteWarnings}
+          />
         </Grid>
       </Grid>
     </ThemeProvider>
