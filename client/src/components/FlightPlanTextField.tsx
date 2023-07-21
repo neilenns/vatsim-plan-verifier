@@ -19,14 +19,15 @@ interface FlightPlanTextFieldProps {
   hasWarnings?: boolean;
   trim?: boolean;
   onPaste: (text: string) => boolean;
+  onChange: (text: string) => void;
 }
 
 const FlightPlanTextField: React.FC<FlightPlanTextFieldProps> = (props) => {
   const [id, setId] = useState<string>(props.id);
   const [label, setLabel] = useState<string>(props.label);
   const [value, setValue] = useState<string>(props.value);
-  const [hasErrors, setHasErrors] = useState<boolean>(props.hasErrors ?? false);
-  const [hasWarnings, setHasWarnings] = useState<boolean>(props.hasWarnings ?? false);
+  const [hasErrors, setHasErrors] = useState<boolean | undefined>(props.hasErrors);
+  const [hasWarnings, setHasWarnings] = useState<boolean | undefined>(props.hasWarnings);
   const [trim, setTrim] = useState<boolean>(props.trim ?? false);
 
   useEffect(() => {
@@ -34,8 +35,8 @@ const FlightPlanTextField: React.FC<FlightPlanTextFieldProps> = (props) => {
     setLabel(props.label);
     setValue(props.value);
     setTrim(props.trim ?? false);
-    setHasErrors(props.hasErrors ?? false);
-    setHasWarnings(props.hasWarnings ?? false);
+    setHasErrors(props.hasErrors);
+    setHasWarnings(props.hasWarnings);
   }, [props.id, props.label, props.value, props.hasErrors, props.hasWarnings, props.trim]);
 
   const handlePaste = (event: React.ClipboardEvent<Element>) => {
@@ -51,6 +52,7 @@ const FlightPlanTextField: React.FC<FlightPlanTextFieldProps> = (props) => {
     }
 
     setValue(event.target.value);
+    props.onChange(event.target.value);
   };
 
   return (
@@ -58,7 +60,7 @@ const FlightPlanTextField: React.FC<FlightPlanTextFieldProps> = (props) => {
       fullWidth
       id={id}
       label={label}
-      value={value}
+      value={value ?? ""}
       InputLabelProps={{ shrink: value ? true : false }}
       onPaste={handlePaste}
       onChange={handleChange}
