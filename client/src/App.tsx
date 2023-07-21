@@ -3,7 +3,7 @@ import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 
 import FlightPlanEntryForm from "./components/FlightPlanEntry";
 import { Typography } from "@mui/material";
-import FlightPlanDisplay from "./components/FlightPlanDisplay";
+import FlightPlan from "./components/FlightPlan";
 import { useState } from "react";
 import IFlightPlan from "./interfaces/IFlightPlan.mjs";
 import IVerifyAllResult from "./interfaces/IVerifyAllResult.mts";
@@ -31,7 +31,7 @@ function App() {
         <FlightPlanEntryForm onSubmit={handleSubmit} onVerify={handleVerify} />
       </Grid>
       <Grid xs={7}>
-        <FlightPlanDisplay verifierResults={verifyResults} flightPlan={flightPlan} />
+        <FlightPlan verifierResults={verifyResults} flightPlan={flightPlan} />
       </Grid>
       <Grid xs={12}>
         <VerifierResults verifierResults={verifyResults?.results} flightPlan={flightPlan} />
