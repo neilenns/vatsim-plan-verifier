@@ -17,6 +17,7 @@ interface FlightPlanTextFieldProps {
   value: string;
   hasErrors?: boolean;
   hasWarnings?: boolean;
+  trim?: boolean;
   onPaste: (text: string) => boolean;
 }
 
@@ -26,20 +27,30 @@ const FlightPlanTextField: React.FC<FlightPlanTextFieldProps> = (props) => {
   const [value, setValue] = useState<string>(props.value);
   const [hasErrors, setHasErrors] = useState<boolean>(props.hasErrors ?? false);
   const [hasWarnings, setHasWarnings] = useState<boolean>(props.hasWarnings ?? false);
+  const [trim, setTrim] = useState<boolean>(props.trim ?? false);
 
   useEffect(() => {
     setId(props.id);
     setLabel(props.label);
     setValue(props.value);
+    setTrim(props.trim ?? false);
     setHasErrors(props.hasErrors ?? false);
     setHasWarnings(props.hasWarnings ?? false);
-  }, [props.id, props.label, props.value, props.hasErrors, props.hasWarnings]);
+  }, [props.id, props.label, props.value, props.hasErrors, props.hasWarnings, props.trim]);
 
   const handlePaste = (event: React.ClipboardEvent<Element>) => {
     const isValidFlightPlan = props.onPaste(event.clipboardData.getData("Text"));
     if (isValidFlightPlan) {
       event.preventDefault();
     }
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (trim) {
+      event.target.value = event.target.value.trim();
+    }
+
+    setValue(event.target.value);
   };
 
   return (
@@ -50,6 +61,7 @@ const FlightPlanTextField: React.FC<FlightPlanTextFieldProps> = (props) => {
       value={value}
       InputLabelProps={{ shrink: value ? true : false }}
       onPaste={handlePaste}
+      onChange={handleChange}
       multiline
       required
       // Setting the colour of the outline based on the status of the field

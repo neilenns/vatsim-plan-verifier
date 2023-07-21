@@ -3,6 +3,7 @@ import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
 import { useEffect, useState } from "react";
 import FlightPlanTextField from "./FlightPlanTextField";
+import { parseFlightPlan, validateFlightPlan } from "../utils/flightPlanParser";
 
 interface FlightPlanProps {
   flightPlan: IFlightPlan;
@@ -32,6 +33,14 @@ const FlightPlan: React.FC<FlightPlanProps> = ({
   }, [flightPlan]);
 
   const parsePastedFlightPlan = (text: string): boolean => {
+    const pastedFlightPlan = parseFlightPlan(text);
+    const isValidFlightPlan = validateFlightPlan(pastedFlightPlan);
+
+    // If it's not a valid flight plan then it's a paste of data just for the
+    // field so return false and the component will handle it.
+    if (!isValidFlightPlan) {
+      return false;
+    }
     console.log(text);
     return true;
   };
@@ -44,6 +53,7 @@ const FlightPlan: React.FC<FlightPlanProps> = ({
           label="Callsign"
           value={callsign}
           onPaste={parsePastedFlightPlan}
+          trim
           hasErrors={verifierResults?.hasCallsignErrors}
           hasWarnings={verifierResults?.hasCallsignWarnings}
         />

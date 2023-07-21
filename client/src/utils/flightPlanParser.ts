@@ -20,22 +20,29 @@ function removeSecondSquawkCode(flightPlan: string): string {
   return flightPlan; // If no match found, return the input as is
 }
 
-export default function parseFlightPlan(rawFlightPlan: string): IFlightPlan {
+// Does a sanity check on the flight plan values to see if it is plausibly valid after
+// parsing.
+export function validateFlightPlan(flightPlan: IFlightPlan): boolean {
+  const airportCodeRegex = /^[a-zA-Z]{3,4}$/;
+
+  return (
+    !Number.isNaN(Number(flightPlan.squawk)) && // Callsign is a number
+    !Number.isNaN(Number(flightPlan.cruiseAltitude)) && // Cruise altitude is a number
+    airportCodeRegex.test(flightPlan.departure) && // Departure airport is a valid ICAO code
+    airportCodeRegex.test(flightPlan.arrival) && // Arrival airport is a valid ICAO code
+    flightPlan.route.length > 0 // Route is not empty
+  );
+}
+
+export function parseFlightPlan(rawFlightPlan: string): IFlightPlan {
   rawFlightPlan = removeSecondSquawkCode(rawFlightPlan);
 
-  const [
-    callsign,
-    rawAircraftType,
-    assignedSquawk,
-    departure,
-    arrival,
-    cruiseAltitude,
-    ...route
-  ] = rawFlightPlan
-    .replace(/-/g, "") // Remove the dash between the departure and arrival airports
-    .replace(/\s+/g, " ") // Remove the extra spaces inserted by VRC between each field
-    .replace(/\n/g, " ") // Convert the newlines inserted by VRC to a single space
-    .split(" ");
+  const [callsign, rawAircraftType, assignedSquawk, departure, arrival, cruiseAltitude, ...route] =
+    rawFlightPlan
+      .replace(/-/g, "") // Remove the dash between the departure and arrival airports
+      .replace(/\s+/g, " ") // Remove the extra spaces inserted by VRC between each field
+      .replace(/\n/g, " ") // Convert the newlines inserted by VRC to a single space
+      .split(" ");
 
   const flightPlan: IFlightPlan = {
     callsign,

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, Grid, TextField } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
-import parseFlightPlan from "../utils/flightPlanParser";
+import { parseFlightPlan } from "../utils/flightPlanParser";
 import { storeFlightPlan } from "../db/flightPlan.mts";
 import { runAllVerifiers } from "../db/runAllVerifiers.mts";
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
@@ -12,10 +12,7 @@ interface FlightPlanProps {
   onVerify: (result: IVerifyAllResult) => void;
 }
 
-const FlightPlanEntryForm: React.FC<FlightPlanProps> = ({
-  onSubmit,
-  onVerify,
-}) => {
+const FlightPlanEntryForm: React.FC<FlightPlanProps> = ({ onSubmit, onVerify }) => {
   const [rawFlightPlan, setRawFlightPlan] = useState("");
   const [submitErrorText, setSubmitErrorText] = useState("");
   const [verifying, setVerifying] = React.useState(false);
