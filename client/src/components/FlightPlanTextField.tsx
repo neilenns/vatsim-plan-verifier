@@ -6,7 +6,7 @@ const getBorderColorByStatus = (hasErrors?: boolean, hasWarnings?: boolean) => {
     return "red";
   } else if (hasWarnings) {
     return "#9daa3d";
-  } else if (!hasErrors === undefined && !hasWarnings === undefined) {
+  } else if (!(hasErrors === undefined) && !(hasWarnings === undefined)) {
     return "green";
   }
 };
