@@ -1,4 +1,4 @@
-import { Box, Grid } from "@mui/material";
+import { Box, Button, Grid } from "@mui/material";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
 import { useEffect, useState } from "react";
@@ -169,15 +169,23 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
             hasWarnings={verifierResults?.hasRouteWarnings}
           />
         </Grid>
+        <Grid item xs={2} key="verify">
+          <LoadingButton fullWidth loading={verifying} type="submit" variant="contained">
+            Verify
+          </LoadingButton>
+        </Grid>
+        <Grid item xs={2} key="reset">
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={() => {
+              setFlightPlan({} as IFlightPlan);
+            }}
+          >
+            Reset
+          </Button>
+        </Grid>
       </Grid>
-      <LoadingButton
-        loading={verifying}
-        type="submit"
-        variant="contained"
-        sx={{ mt: 3, mb: 2, width: "25%" }}
-      >
-        Verify
-      </LoadingButton>
     </Box>
   );
 };

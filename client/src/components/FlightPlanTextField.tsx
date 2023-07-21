@@ -60,7 +60,7 @@ const FlightPlanTextField: React.FC<FlightPlanTextFieldProps> = (props) => {
       fullWidth
       id={id}
       label={label}
-      value={value}
+      value={value ?? ""}
       InputLabelProps={{ shrink: value ? true : false }}
       onPaste={handlePaste}
       onChange={handleChange}
