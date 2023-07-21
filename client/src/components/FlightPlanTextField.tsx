@@ -43,6 +43,9 @@ const FlightPlanTextField: React.FC<FlightPlanTextFieldProps> = (props) => {
       InputLabelProps={{ shrink: value ? true : false }}
       multiline
       required
+      // Setting the colour of the outline based on the status of the field
+      // when the field does NOT have focus is a pain. This comes from
+      // https://smartdevpreneur.com/override-textfield-border-color-in-material-ui/
       sx={{
         "& .MuiOutlinedInput-root": {
           "& fieldset": {
