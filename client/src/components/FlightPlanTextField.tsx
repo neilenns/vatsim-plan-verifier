@@ -19,6 +19,7 @@ interface FlightPlanTextFieldProps {
   hasWarnings?: boolean;
   trim?: boolean;
   onPaste: (text: string) => boolean;
+  onChange: (text: string) => void;
 }
 
 const FlightPlanTextField: React.FC<FlightPlanTextFieldProps> = (props) => {
@@ -51,6 +52,7 @@ const FlightPlanTextField: React.FC<FlightPlanTextFieldProps> = (props) => {
     }
 
     setValue(event.target.value);
+    props.onChange(event.target.value);
   };
 
   return (

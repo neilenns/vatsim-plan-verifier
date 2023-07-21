@@ -10,15 +10,20 @@ import VerifierResults from "./components/VerifierResults";
 
 function App() {
   const [flightPlan] = useState<IFlightPlan>({} as IFlightPlan);
-  const [verifyResults] = useState<IVerifyAllResult | null>(null);
+  const [verifyResults, setVerifyResults] = useState<IVerifyAllResult | null>(null);
 
   return (
     <Grid container spacing={2}>
       <Grid xs={12}>
         <Typography>Flight plan verifier</Typography>
       </Grid>
-      <Grid xs={7}>
-        <FlightPlan verifierResults={verifyResults} flightPlan={flightPlan} />
+      <Grid xs={12}>
+        <FlightPlan
+          onVerify={(results) => {
+            setVerifyResults(results);
+          }}
+          flightPlan={flightPlan}
+        />
       </Grid>
       <Grid xs={12}>
         <VerifierResults verifierResults={verifyResults?.results} flightPlan={flightPlan} />
