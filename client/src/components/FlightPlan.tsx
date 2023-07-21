@@ -57,8 +57,11 @@ const FlightPlan: React.FC<FlightPlanProps> = ({
           <TextField
             id="callsign"
             label="Callsign"
-            variant="outlined"
             value={callsign}
+            // This nonsense is required to ensure the text moves up above the field when the prop is set. I have no idea
+            // why true is first and false is second, that seems backwards to me, but it's what works. Found from
+            // this: https://stackoverflow.com/questions/50955603/react-material-ui-label-overlaps-with-text
+            InputLabelProps={{ shrink: callsign ? true : false }}
             required
             color={getColorByStatus(
               verifierResults?.hasCallsignErrors,
@@ -72,8 +75,8 @@ const FlightPlan: React.FC<FlightPlanProps> = ({
           <TextField
             id="rawAircraftType"
             label="Aircraft type"
-            variant="outlined"
             value={rawAircraftType}
+            InputLabelProps={{ shrink: rawAircraftType ? true : false }}
             required
             color={getColorByStatus(
               verifierResults?.hasRawAircraftTypeErrors,
@@ -87,8 +90,8 @@ const FlightPlan: React.FC<FlightPlanProps> = ({
           <TextField
             id="squawk"
             label="Squawk code"
-            variant="outlined"
             value={squawk}
+            InputLabelProps={{ shrink: squawk ? true : false }}
             required
             color={getColorByStatus(
               verifierResults?.hasSquawkErrors,
@@ -102,8 +105,8 @@ const FlightPlan: React.FC<FlightPlanProps> = ({
           <TextField
             id="departure"
             label="Departure"
-            variant="outlined"
             value={departure}
+            InputLabelProps={{ shrink: departure ? true : false }}
             required
             color={getColorByStatus(
               verifierResults?.hasDepartureErrors,
@@ -117,8 +120,8 @@ const FlightPlan: React.FC<FlightPlanProps> = ({
           <TextField
             id="arrival"
             label="Arrival"
-            variant="outlined"
             value={arrival}
+            InputLabelProps={{ shrink: arrival ? true : false }}
             required
             color={getColorByStatus(
               verifierResults?.hasArrivalErrors,
@@ -132,8 +135,8 @@ const FlightPlan: React.FC<FlightPlanProps> = ({
           <TextField
             id="cruiseAltitude"
             label="Cruise altitude"
-            variant="outlined"
             value={cruiseAltitude}
+            InputLabelProps={{ shrink: cruiseAltitude ? true : false }}
             required
             color={getColorByStatus(
               verifierResults?.hasCruiseAltitudeErrors,
@@ -149,7 +152,7 @@ const FlightPlan: React.FC<FlightPlanProps> = ({
             id="route"
             label="Route"
             value={route}
-            variant="outlined"
+            InputLabelProps={{ shrink: route ? true : false }}
             multiline
             required
             color={getColorByStatus(
