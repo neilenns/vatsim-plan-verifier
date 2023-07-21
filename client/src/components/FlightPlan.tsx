@@ -42,8 +42,8 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
           id="callsign"
           label="Callsign"
           value={flightPlan.callsign}
-          onPaste={parsePastedFlightPlan}
           trim
+          onPaste={parsePastedFlightPlan}
           hasErrors={verifierResults?.hasCallsignErrors}
           hasWarnings={verifierResults?.hasCallsignWarnings}
         />
@@ -53,6 +53,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
           id="rawAircraftType"
           label="Aircraft type"
           value={flightPlan.rawAircraftType}
+          trim
           onPaste={parsePastedFlightPlan}
           hasErrors={verifierResults?.hasRawAircraftTypeErrors}
           hasWarnings={verifierResults?.hasRawAircraftTypeWarnings}
@@ -63,6 +64,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
           id="squawk"
           label="Squawk code"
           value={flightPlan.squawk}
+          trim
           onPaste={parsePastedFlightPlan}
           hasErrors={verifierResults?.hasSquawkErrors}
           hasWarnings={verifierResults?.hasSquawkWarnings}
@@ -73,6 +75,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
           id="departure"
           label="Departure"
           value={flightPlan.departure}
+          trim
           onPaste={parsePastedFlightPlan}
           hasErrors={verifierResults?.hasDepartureErrors}
           hasWarnings={verifierResults?.hasDepartureWarnings}
@@ -83,6 +86,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
           id="arrival"
           label="Arrival"
           value={flightPlan.arrival}
+          trim
           onPaste={parsePastedFlightPlan}
           hasErrors={verifierResults?.hasArrivalErrors}
           hasWarnings={verifierResults?.hasArrivalWarnings}
@@ -93,6 +97,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
           id="cruiseAltitude"
           label="Cruise altitude"
           value={flightPlan.cruiseAltitude}
+          trim
           onPaste={parsePastedFlightPlan}
           hasErrors={verifierResults?.hasCruiseAltitudeErrors}
           hasWarnings={verifierResults?.hasCruiseAltitudeWarnings}
