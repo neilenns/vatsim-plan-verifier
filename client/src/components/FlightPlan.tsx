@@ -11,6 +11,7 @@ import { runAllVerifiers } from "../db/runAllVerifiers.mts";
 interface FlightPlanProps {
   flightPlan: IFlightPlan;
   onVerify: (result: IVerifyAllResult) => void;
+  onReset: () => void;
 }
 
 const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
@@ -53,6 +54,12 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
       .finally(() => {
         setVerifying(false);
       });
+  };
+
+  const handleReset = () => {
+    setFlightPlan({} as IFlightPlan);
+    setVerifierResults(null);
+    props.onReset();
   };
 
   const parsePastedFlightPlan = (text: string): boolean => {
@@ -175,13 +182,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
           </LoadingButton>
         </Grid>
         <Grid item xs={2} key="reset">
-          <Button
-            fullWidth
-            variant="contained"
-            onClick={() => {
-              setFlightPlan({} as IFlightPlan);
-            }}
-          >
+          <Button fullWidth variant="contained" onClick={handleReset}>
             Reset
           </Button>
         </Grid>
