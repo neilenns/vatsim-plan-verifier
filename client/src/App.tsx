@@ -9,8 +9,13 @@ import IVerifyAllResult from "./interfaces/IVerifyAllResult.mts";
 import VerifierResults from "./components/VerifierResults";
 
 function App() {
-  const [flightPlan] = useState<IFlightPlan>({} as IFlightPlan);
+  const [flightPlan, setFlightPlan] = useState<IFlightPlan>({} as IFlightPlan);
   const [verifyResults, setVerifyResults] = useState<IVerifyAllResult | null>(null);
+
+  const handleReset = () => {
+    setVerifyResults({} as IVerifyAllResult);
+    setFlightPlan({} as IFlightPlan);
+  };
 
   return (
     <Grid container spacing={2}>
@@ -19,9 +24,14 @@ function App() {
       </Grid>
       <Grid xs={12}>
         <FlightPlan
+          verifierResults={verifyResults}
+          onStoreFlightPlan={(flightPlan) => {
+            setFlightPlan(flightPlan);
+          }}
           onVerify={(results) => {
             setVerifyResults(results);
           }}
+          onReset={handleReset}
           flightPlan={flightPlan}
         />
       </Grid>

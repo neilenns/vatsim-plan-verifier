@@ -10,6 +10,8 @@ import { runAllVerifiers } from "../db/runAllVerifiers.mts";
 
 interface FlightPlanProps {
   flightPlan: IFlightPlan;
+  verifierResults: IVerifyAllResult | null;
+  onStoreFlightPlan: (flightPlan: IFlightPlan) => void;
   onVerify: (result: IVerifyAllResult) => void;
   onReset: () => void;
 }
@@ -21,7 +23,8 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
 
   useEffect(() => {
     setFlightPlan(props.flightPlan);
-  }, [props.flightPlan]);
+    setVerifierResults(props.verifierResults);
+  }, [props.flightPlan, props.verifierResults]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -37,11 +40,10 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
 
     storeFlightPlan(flightPlan)
       .then((storedFlightPlan) => {
-        setFlightPlan(storedFlightPlan);
+        props.onStoreFlightPlan(storedFlightPlan);
 
         runAllVerifiers(storedFlightPlan)
           .then((result) => {
-            setVerifierResults(result);
             props.onVerify(result);
           })
           .catch((error: Error) => {
@@ -54,12 +56,6 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
       .finally(() => {
         setVerifying(false);
       });
-  };
-
-  const handleReset = () => {
-    setFlightPlan({} as IFlightPlan);
-    setVerifierResults(null);
-    props.onReset();
   };
 
   const parsePastedFlightPlan = (text: string): boolean => {
@@ -182,7 +178,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
           </LoadingButton>
         </Grid>
         <Grid item xs={2} key="reset">
-          <Button fullWidth variant="contained" onClick={handleReset}>
+          <Button fullWidth variant="contained" onClick={props.onReset}>
             Reset
           </Button>
         </Grid>
