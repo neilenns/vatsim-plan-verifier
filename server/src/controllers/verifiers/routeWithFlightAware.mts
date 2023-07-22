@@ -50,13 +50,19 @@ export default async function routeWithFlightAware({
       result.data.messageId = "doesNotMatchFlightAwareRoutes";
       result.data.message = `No FlightAware routes found for ${departure} to ${arrival} matching ${cleanedRoute}. Possible valid routes:`;
       result.data.extendedMessage = flightAwareRoutes.data.map(
-        (route) => `${route.route} flown ${pluralize("time", route.count, true)} at ${route.filedAltitudesFormatted}`
+        (route) =>
+          `${route.route} flown ${pluralize("time", route.count, true)} at ${
+            route.filedAltitudesFormatted
+          }`
       );
       result.data.priority = 3;
     }
     // Matching routes found and the cruise altitude matches too.
-    else if (cruiseAltitude >= matchingRoute.filedAltitudeMin && cruiseAltitude <= matchingRoute.filedAltitudeMax) {
-      result.data.status = "Information";
+    else if (
+      cruiseAltitude >= matchingRoute.filedAltitudeMin &&
+      cruiseAltitude <= matchingRoute.filedAltitudeMax
+    ) {
+      result.data.status = "Ok";
       result.data.messageId = "matchesFlightAwareRouteAndAltitudes";
       result.data.message = `Route matches a FlightAware route flown ${pluralize(
         "time",
