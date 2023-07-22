@@ -3,7 +3,7 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2"; // Grid version 2
 
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
 import FlightPlan from "./components/FlightPlan";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import IFlightPlan from "./interfaces/IFlightPlan.mjs";
 import IVerifyAllResult from "./interfaces/IVerifyAllResult.mts";
 import VerifierResults from "./components/VerifierResults";
@@ -16,6 +16,14 @@ function App() {
     setVerifyResults({} as IVerifyAllResult);
     setFlightPlan({} as IFlightPlan);
   };
+
+  useEffect(() => {
+    if (!flightPlan.callsign) {
+      document.title = "Plan verifier";
+    } else {
+      document.title = `${flightPlan.callsign} (${flightPlan.departure}-${flightPlan.arrival})`;
+    }
+  }, [flightPlan]);
 
   return (
     <>
