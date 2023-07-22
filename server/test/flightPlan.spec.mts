@@ -55,6 +55,17 @@ const testData = [
     route: "CASCD2 SEA BTG T23 OLM Q42 SEA KRATR2",
     squawk: "1234",
   },
+  // Has a + in front of the route
+  {
+    _id: "5f9f7b3b9d3b3c1b1c9b4b54",
+    callsign: "ASA42",
+    departure: "KSEA",
+    arrival: "KPDX",
+    cruiseAltitude: 210,
+    rawAircraftType: "B738/L",
+    route: "+CASCD2 SEA BTG T23 OLM Q42 SEA KRATR2",
+    squawk: "1234",
+  },
 ];
 
 describe("Flight plan tests", function () {
@@ -66,6 +77,16 @@ describe("Flight plan tests", function () {
 
   after("Remove flight plans for tests", async function () {
     await removeFlightPlans(testData);
+  });
+
+  describe("Property cleanup", function () {
+    it("should not have a + on the route after save", async function () {
+      const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b54");
+      expect(flightPlan.success).to.equal(true);
+
+      const data = (flightPlan as SuccessResult<IFlightPlan>).data;
+      expect(data.route).to.not.satisfy((route: string) => route?.startsWith("+"));
+    });
   });
 
   describe("SID virtual property validation", function () {

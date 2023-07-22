@@ -66,8 +66,9 @@ flightPlanSchema.virtual("cleanedRoute").get(function () {
   // Remove any " DCT" that the route might have since FlightAware never includes those
   // Trim any remaining leading or trailing whitespace
   return (
+    // The leading + is already removed by the pre-save hook on the route property.
+    // Everything else gets cleaned up here.
     this.route
-      ?.replace(/^\+/, "") // leading + that gets inserted by VRC if the route was modified
       .replace("PTLD2 ", "") // PTLD2 will never be in the FlightAware returned routes
       .replace("SEA8 ", "") // SEA8 will never be in the FlightAware returned routes
       .replace("MONTN2 ", "") // MONTN2 will never be in the FlightAware returned routes
@@ -113,6 +114,14 @@ flightPlanSchema.virtual("SIDInformation", {
   foreignField: "SID",
   autopopulate: true,
   justOne: true,
+});
+
+// Always strip the + off the route before saving
+flightPlanSchema.pre("save", function (next) {
+  if (this.isModified("route")) {
+    this.route = this.route?.replace(/^\+/, "");
+  }
+  next();
 });
 
 // Calculate the direction of flight and store it
@@ -180,7 +189,7 @@ flightPlanSchema.pre("save", function (next) {
 // Extract the SID from the route
 flightPlanSchema.pre("save", function (next) {
   if (this.isModified("route")) {
-    const regexMatch = this.route.match(SIDRegExPattern);
+    const regexMatch = this.route?.match(SIDRegExPattern);
 
     if (regexMatch && regexMatch.length > 0) {
       this.SID = regexMatch[1];
