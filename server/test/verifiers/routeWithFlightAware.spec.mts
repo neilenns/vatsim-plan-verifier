@@ -83,7 +83,7 @@ describe("verifier: routeWithFlightAware tests", () => {
 
     const data = (result as SuccessResult<IVerifierResult>).data;
 
-    expect(data.status).to.equal("Information");
+    expect(data.status).to.equal("Ok");
     expect(data.flightPlanPart).to.equal("route");
     expect(data.messageId).to.equal("matchesFlightAwareRouteAndAltitudes");
   });
