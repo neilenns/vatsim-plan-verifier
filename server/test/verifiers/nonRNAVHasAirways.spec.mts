@@ -42,7 +42,6 @@ const testData = [
     route: "PTLD2 BTG AST",
     squawk: "1234",
   },
-
   // Non-RNAV with RNAV airways
   {
     _id: "5f9f7b3b9d3b3c1b1c9b4b54",
@@ -51,6 +50,17 @@ const testData = [
     arrival: "KSEA",
     cruiseAltitude: 100,
     rawAircraftType: "C172/A",
+    route: "PTLD2 BTG Q3 AST",
+    squawk: "1234",
+  },
+  // No equipment suffix
+  {
+    _id: "5f9f7b3b9d3b3c1b1c9b4b55",
+    callsign: "ASA42",
+    departure: "KPDX",
+    arrival: "KSEA",
+    cruiseAltitude: 100,
+    rawAircraftType: "C172",
     route: "PTLD2 BTG Q3 AST",
     squawk: "1234",
   },
@@ -115,5 +125,19 @@ describe("verifier: nonRNAVHasAirways tests", () => {
     expect(data.status).to.equal("Error");
     expect(data.flightPlanPart).to.equal("route");
     expect(data.messageId).to.equal("nonRNAVNoAirways");
+  });
+
+  it("should skip no equipment suffix", async () => {
+    const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b55");
+    expect(flightPlan.success).to.equal(true);
+
+    const result = await nonRNAVHasAirways((flightPlan as SuccessResult<IFlightPlan>).data);
+
+    expect(result.success).to.equal(true);
+
+    const data = (result as SuccessResult<IVerifierResult>).data;
+    expect(data.status).to.equal("Information");
+    expect(data.flightPlanPart).to.equal("route");
+    expect(data.messageId).to.equal("noEquipmentSuffix");
   });
 });
