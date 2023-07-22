@@ -27,18 +27,29 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
   }, [props.flightPlan, props.verifierResults]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    let planToSubmit: IFlightPlan;
     event.preventDefault();
 
-    // Handle the case where the flight plan was already verified
+    // Handle the case where the flight plan was already verified. This is gross
+    // and will be re-done later.
     if (flightPlan._id !== undefined) {
+      planToSubmit = {
+        callsign: flightPlan.callsign,
+        rawAircraftType: flightPlan.rawAircraftType,
+        squawk: flightPlan.squawk,
+        departure: flightPlan.departure,
+        arrival: flightPlan.arrival,
+        cruiseAltitude: flightPlan.cruiseAltitude,
+        route: flightPlan.route,
+      };
       console.log("Flight plan already verified, eventually this will do a nice reverification.");
-      flightPlan._id = undefined;
-      return;
+    } else {
+      planToSubmit = { ...flightPlan };
     }
 
     setVerifying(true);
 
-    storeFlightPlan(flightPlan)
+    storeFlightPlan(planToSubmit)
       .then((storedFlightPlan) => {
         props.onStoreFlightPlan(storedFlightPlan);
 

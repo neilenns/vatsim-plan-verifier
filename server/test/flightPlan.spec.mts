@@ -8,10 +8,7 @@ import {
 } from "../src/controllers/flightPlans.mjs";
 import { IFlightPlan } from "../src/models/FlightPlan.mjs";
 import { FailureResult, SuccessResult } from "../src/types/result.mjs";
-import {
-  addFlightPlans,
-  removeFlightPlans,
-} from "./setup/manageFlightPlans.mjs";
+import { addFlightPlans, removeFlightPlans } from "./setup/manageFlightPlans.mjs";
 
 const testData = [
   // A388 flight plan
@@ -25,6 +22,50 @@ const testData = [
     route: "SEA8 SEA BUWZO KRATR2",
     squawk: "1234",
   },
+  // No SID
+  {
+    _id: "5f9f7b3b9d3b3c1b1c9b4b51",
+    callsign: "ASA42",
+    departure: "KSEA",
+    arrival: "KPDX",
+    cruiseAltitude: 210,
+    rawAircraftType: "B738/L",
+    route: "SEA BTG T23 OLM Q42 SEA KRATR2",
+    squawk: "1234",
+  },
+  // Has a SID that is a known departure
+  {
+    _id: "5f9f7b3b9d3b3c1b1c9b4b52",
+    callsign: "ASA42",
+    departure: "KSEA",
+    arrival: "KPDX",
+    cruiseAltitude: 210,
+    rawAircraftType: "B738/L",
+    route: "SEA8 SEA BTG T23 OLM Q42 SEA KRATR2",
+    squawk: "1234",
+  },
+  // Has a SID that is not a known departure
+  {
+    _id: "5f9f7b3b9d3b3c1b1c9b4b53",
+    callsign: "ASA42",
+    departure: "KSEA",
+    arrival: "KPDX",
+    cruiseAltitude: 210,
+    rawAircraftType: "B738/L",
+    route: "CASCD2 SEA BTG T23 OLM Q42 SEA KRATR2",
+    squawk: "1234",
+  },
+  // Has a + in front of the route
+  {
+    _id: "5f9f7b3b9d3b3c1b1c9b4b54",
+    callsign: "ASA42",
+    departure: "KSEA",
+    arrival: "KPDX",
+    cruiseAltitude: 210,
+    rawAircraftType: "B738/L",
+    route: "+CASCD2 SEA BTG T23 OLM Q42 SEA KRATR2",
+    squawk: "1234",
+  },
 ];
 
 describe("Flight plan tests", function () {
@@ -36,6 +77,46 @@ describe("Flight plan tests", function () {
 
   after("Remove flight plans for tests", async function () {
     await removeFlightPlans(testData);
+  });
+
+  describe("Property cleanup", function () {
+    it("should not have a + on the route after save", async function () {
+      const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b54");
+      expect(flightPlan.success).to.equal(true);
+
+      const data = (flightPlan as SuccessResult<IFlightPlan>).data;
+      expect(data.route).to.not.satisfy((route: string) => route?.startsWith("+"));
+    });
+  });
+
+  describe("SID virtual property validation", function () {
+    it("should not have a SID or SID Information", async function () {
+      const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b51");
+      expect(flightPlan.success).to.equal(true);
+
+      const data = (flightPlan as SuccessResult<IFlightPlan>).data;
+      expect(data.SID).to.equal(undefined);
+      expect(data.SIDInformation).to.equal(null);
+    });
+
+    it("should have a SID and SID information", async function () {
+      const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b52");
+      expect(flightPlan.success).to.equal(true);
+
+      const data = (flightPlan as SuccessResult<IFlightPlan>).data;
+      expect(data.SID).to.equal("SEA8");
+      expect(data.SIDInformation).to.not.equal(null);
+      expect(data.SIDInformation?.SID).to.equal("SEA8");
+    });
+
+    it("should have a SID but no SID information", async function () {
+      const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b53");
+      expect(flightPlan.success).to.equal(true);
+
+      const data = (flightPlan as SuccessResult<IFlightPlan>).data;
+      expect(data.SID).to.equal("CASCD2");
+      expect(data.SIDInformation).to.equal(null);
+    });
   });
 
   describe("H/A388/L virtual property validation", function () {
@@ -114,9 +195,9 @@ describe("Flight plan tests", function () {
 
     it("should not have a stored flight plan", function () {
       expect(result.success).to.equal(false);
-      expect(
-        (result as FailureResult<FlightPlanFailureErrorTypes>).errorType
-      ).to.equal("FlightPlanNotFound");
+      expect((result as FailureResult<FlightPlanFailureErrorTypes>).errorType).to.equal(
+        "FlightPlanNotFound"
+      );
     });
   });
 });

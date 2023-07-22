@@ -5,6 +5,7 @@
 	- [Aircraft](#aircraft)
 	- [Airports](#airports)
 	- [Airlines](#airlines)
+	- [Departures](#departures)
 	- [FlightAware routes](#flightaware-routes)
 	- [Preferred routes](#preferred-routes)
 
@@ -43,6 +44,14 @@ Flight plans should be added as part of the set up for each specific test. This 
 |            ID            | Airline code | Telephony |
 | :----------------------: | :----------: | :-------: |
 | 64b409858f265c50318d9056 |     ASA      |  ALASKA   |
+
+## Departures
+
+|            ID            | Departure |
+| :----------------------: | :-------: |
+| 5f9f7b9b9b3b3c1b3c1b3c11 |   PTLD2   |
+| 5f9f7b9b9b3b3c1b3c1b3c12 |  HAROB6   |
+| 5f9f7b9b9b3b3c1b3c1b3c13 |   SEA8    |
 
 ## FlightAware routes
 

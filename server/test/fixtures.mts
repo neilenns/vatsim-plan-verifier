@@ -3,12 +3,12 @@ import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
-// import flightAwareAirportMock from "./mocks/flightAwareAirport.mjs";
 import addAircraft from "./setup/addAircraft.mjs";
 import addAirlines from "./setup/addAirlines.mjs";
 import addAirports from "./setup/addAirports.mjs";
 import addFlightAwareRoutes from "./setup/addFlightAwareRoutes.mjs";
 import addPreferredRoutes from "./setup/addPreferredRoutes.mjs";
+import addDepartures from "./setup/addDepartures.mjs";
 
 var mongoServer: MongoMemoryServer;
 // This is to ensure any network calls made by the tests don't actually
@@ -38,6 +38,7 @@ export async function mochaGlobalSetup() {
   await addAirlines();
   await addFlightAwareRoutes();
   await addPreferredRoutes();
+  await addDepartures();
 }
 
 export async function mochaGlobalTeardown() {

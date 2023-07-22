@@ -13,6 +13,7 @@ const RNAVequipmentSuffixes = ["I", "Z", "G", "L"];
 const GNSSEquipmentSuffixes = ["G", "L"];
 
 const AirlineCodeRegexPattern = /\b([A-Za-z]{3})(\d+)\b/;
+const SIDRegExPattern = /^([A-Za-z]{3,}\d)/;
 
 export const flightPlanSchema = new Schema(
   {
@@ -28,13 +29,16 @@ export const flightPlanSchema = new Schema(
     cruiseAltitude: { type: Number, required: true },
     route: { type: String, required: false, trim: true },
     directionOfFlight: { type: Number, required: false },
+    SID: { type: String, required: false },
   },
   { timestamps: true }
 );
 
 flightPlanSchema.virtual("routeHasNonRNAVAirways").get(function () {
   // this.get is required because routeParts is a virtual and TypeScript doesn't konw it exists at this point.
-  return this.get("routeParts")?.some((part: string) => part.startsWith("V") || part.startsWith("J"));
+  return this.get("routeParts")?.some(
+    (part: string) => part.startsWith("V") || part.startsWith("J")
+  );
 });
 
 flightPlanSchema.virtual("isRNAVCapable").get(function () {
@@ -62,8 +66,9 @@ flightPlanSchema.virtual("cleanedRoute").get(function () {
   // Remove any " DCT" that the route might have since FlightAware never includes those
   // Trim any remaining leading or trailing whitespace
   return (
+    // The leading + is already removed by the pre-save hook on the route property.
+    // Everything else gets cleaned up here.
     this.route
-      ?.replace(/^\+/, "") // leading + that gets inserted by VRC if the route was modified
       .replace("PTLD2 ", "") // PTLD2 will never be in the FlightAware returned routes
       .replace("SEA8 ", "") // SEA8 will never be in the FlightAware returned routes
       .replace("MONTN2 ", "") // MONTN2 will never be in the FlightAware returned routes
@@ -103,6 +108,22 @@ flightPlanSchema.virtual("telephony", {
   autopopulate: true,
 });
 
+flightPlanSchema.virtual("SIDInformation", {
+  ref: "departure",
+  localField: "SID",
+  foreignField: "SID",
+  autopopulate: true,
+  justOne: true,
+});
+
+// Always strip the + off the route before saving
+flightPlanSchema.pre("save", function (next) {
+  if (this.isModified("route")) {
+    this.route = this.route?.replace(/^\+/, "");
+  }
+  next();
+});
+
 // Calculate the direction of flight and store it
 flightPlanSchema.pre("save", async function () {
   // Only recalculate the direction of flight if the departure or arrival airport has changed
@@ -120,7 +141,8 @@ flightPlanSchema.pre("save", async function () {
   const origin = new LatLon(departureAirport.data.latitude, departureAirport.data.longitude);
   const destination = new LatLon(arrivalAirport.data.latitude, arrivalAirport.data.longitude);
 
-  var rawBearing = origin.initialBearingTo(destination) + (departureAirport.data.magneticDeclination ?? 0);
+  var rawBearing =
+    origin.initialBearingTo(destination) + (departureAirport.data.magneticDeclination ?? 0);
 
   // Force the final value to be between 0 and 359
   this.directionOfFlight = Math.round(rawBearing < 0 ? rawBearing + 360 : rawBearing) % 360;
@@ -154,10 +176,24 @@ flightPlanSchema.pre("save", function (next) {
 
 // Extract the airline code from the callsign.
 flightPlanSchema.pre("save", function (next) {
-  const regexMatch = this.callsign.match(AirlineCodeRegexPattern);
+  if (this.isModified("callsign")) {
+    const regexMatch = this.callsign.match(AirlineCodeRegexPattern);
 
-  if (regexMatch && regexMatch.length > 0) {
-    this.airlineCode = regexMatch[1];
+    if (regexMatch && regexMatch.length > 0) {
+      this.airlineCode = regexMatch[1];
+    }
+  }
+  next();
+});
+
+// Extract the SID from the route
+flightPlanSchema.pre("save", function (next) {
+  if (this.isModified("route")) {
+    const regexMatch = this.route?.match(SIDRegExPattern);
+
+    if (regexMatch && regexMatch.length > 0) {
+      this.SID = regexMatch[1];
+    }
   }
 
   next();

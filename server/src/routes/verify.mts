@@ -18,6 +18,8 @@ import validDepartureAirport from "../controllers/verifiers/validDepartureAirpor
 import validArrivalAirport from "../controllers/verifiers/validArrivalAirport.mjs";
 import checkForNonStandardEquipmentSuffix from "../controllers/verifiers/checkForNonStandardEquipmentSuffix.mjs";
 import airwaysForEquipmentSuffix from "../controllers/verifiers/airwaysForEquipmentSuffix.mjs";
+import hasSID from "../controllers/verifiers/hasSID.mjs";
+import hasValidFirstFix from "../controllers/verifiers/hasValidFirstFix.mjs";
 
 const router = express.Router();
 
@@ -49,6 +51,8 @@ const verifiers: Verifier[] = [
   { name: "validArrivalAirport", handler: validArrivalAirport },
   { name: "checkForNonStandardEquipmentSuffix", handler: checkForNonStandardEquipmentSuffix },
   { name: "airwaysForEquipmentSuffix", handler: airwaysForEquipmentSuffix },
+  { name: "hasSID", handler: hasSID },
+  { name: "hasValidFirstFix", handler: hasValidFirstFix },
 ];
 
 // Generic handler for verifier routes
@@ -92,43 +96,47 @@ const handleVerifierRoute = async (routeName: string, handler: Function) => {
 };
 
 // Register the route to run all verifiers
-router.get("/verify/all/:id", findExistingResultsMiddleware(), async (req: Request, res: Response) => {
-  const { id } = req.params;
+router.get(
+  "/verify/all/:id",
+  findExistingResultsMiddleware(),
+  async (req: Request, res: Response) => {
+    const { id } = req.params;
 
-  try {
-    const flightPlan = await getFlightPlan(id);
+    try {
+      const flightPlan = await getFlightPlan(id);
 
-    if (!flightPlan.success) {
-      if (flightPlan.errorType === "FlightPlanNotFound") {
-        return res.status(404).json({
-          error: `Unable to run verifiers: flight plan ${id} not found.`,
-        });
-      } else {
-        return res.status(500).json({
-          error: `Failed to run verifiers for flight plan ${id}.`,
-        });
+      if (!flightPlan.success) {
+        if (flightPlan.errorType === "FlightPlanNotFound") {
+          return res.status(404).json({
+            error: `Unable to run verifiers: flight plan ${id} not found.`,
+          });
+        } else {
+          return res.status(500).json({
+            error: `Failed to run verifiers for flight plan ${id}.`,
+          });
+        }
       }
-    }
 
-    const verifyAllResult = new VerifyAllResult();
+      const verifyAllResult = new VerifyAllResult();
 
-    // Loop across all registered verifiers and save all successful verification runs
-    // to send back to the client.
-    for (const verifier of verifiers) {
-      const result = await verifier.handler(flightPlan.data);
+      // Loop across all registered verifiers and save all successful verification runs
+      // to send back to the client.
+      for (const verifier of verifiers) {
+        const result = await verifier.handler(flightPlan.data);
 
-      if (result.success) {
-        verifyAllResult.add(result.data);
+        if (result.success) {
+          verifyAllResult.add(result.data);
+        }
       }
-    }
 
-    return res.status(200).json(verifyAllResult);
-  } catch (error) {
-    return res.status(500).json({
-      error: `Failed to run verifiers for flight plan ${id}.`,
-    });
+      return res.status(200).json(verifyAllResult);
+    } catch (error) {
+      return res.status(500).json({
+        error: `Failed to run verifiers for flight plan ${id}.`,
+      });
+    }
   }
-});
+);
 
 // Register all the individual verifier routes
 for (const verifier of verifiers) {

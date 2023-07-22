@@ -3,6 +3,7 @@ import "./models/Aircraft.mjs";
 import "./models/FlightPlan.mjs";
 import "./models/FlightAwareAirport.mjs";
 import "./models/FlightAwareRoute.mjs";
+import "./models/Departure.mjs";
 
 export async function connectToDatabase() {
   const url = process.env.MONGO_DB_CONNECTION_STRING;
@@ -14,9 +15,7 @@ export async function connectToDatabase() {
   }
 
   if (!url) {
-    console.log(
-      `No database connection string provided for MONGO_DB_CONNECTION_STRING`
-    );
+    console.log(`No database connection string provided for MONGO_DB_CONNECTION_STRING`);
     return;
   }
 
@@ -32,9 +31,7 @@ export async function connectToDatabase() {
     .catch((err) => {
       // Auto-reconnect logic from:
       // https://team.goodeggs.com/reconnecting-to-mongodb-when-mongoose-connect-fails-at-startup-83ca8496ca02
-      console.log(
-        `Failed to connect to mongo on startup - retrying in 5 secconds:\n${err}`
-      );
+      console.log(`Failed to connect to mongo on startup - retrying in 5 secconds:\n${err}`);
       setTimeout(connectToDatabase, 5000);
     });
 }
