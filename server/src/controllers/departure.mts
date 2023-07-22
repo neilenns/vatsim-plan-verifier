@@ -1,4 +1,4 @@
-import { Departure, DepartureModel } from "../models/Departure.mjs";
+import DepartureModel, { Departure } from "../models/Departure.mjs";
 import Result from "../types/result.mjs";
 
 type DepartureResult = Result<Departure, "DepartureNotFound" | "UnknownError">;

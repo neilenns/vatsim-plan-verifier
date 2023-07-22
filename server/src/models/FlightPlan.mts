@@ -13,6 +13,7 @@ const RNAVequipmentSuffixes = ["I", "Z", "G", "L"];
 const GNSSEquipmentSuffixes = ["G", "L"];
 
 const AirlineCodeRegexPattern = /\b([A-Za-z]{3})(\d+)\b/;
+const SIDRegExPattern = /^([A-Za-z]{3,}\d)/;
 
 export const flightPlanSchema = new Schema(
   {
@@ -28,6 +29,7 @@ export const flightPlanSchema = new Schema(
     cruiseAltitude: { type: Number, required: true },
     route: { type: String, required: false, trim: true },
     directionOfFlight: { type: Number, required: false },
+    SID: { type: String, required: false },
   },
   { timestamps: true }
 );
@@ -105,6 +107,14 @@ flightPlanSchema.virtual("telephony", {
   autopopulate: true,
 });
 
+flightPlanSchema.virtual("SIDInformation", {
+  ref: "departure",
+  localField: "SID",
+  foreignField: "SID",
+  autopopulate: true,
+  justOne: true,
+});
+
 // Calculate the direction of flight and store it
 flightPlanSchema.pre("save", async function () {
   // Only recalculate the direction of flight if the departure or arrival airport has changed
@@ -157,10 +167,24 @@ flightPlanSchema.pre("save", function (next) {
 
 // Extract the airline code from the callsign.
 flightPlanSchema.pre("save", function (next) {
-  const regexMatch = this.callsign.match(AirlineCodeRegexPattern);
+  if (this.isModified("callsign")) {
+    const regexMatch = this.callsign.match(AirlineCodeRegexPattern);
 
-  if (regexMatch && regexMatch.length > 0) {
-    this.airlineCode = regexMatch[1];
+    if (regexMatch && regexMatch.length > 0) {
+      this.airlineCode = regexMatch[1];
+    }
+  }
+  next();
+});
+
+// Extract the SID from the route
+flightPlanSchema.pre("save", function (next) {
+  if (this.isModified("route")) {
+    const regexMatch = this.route.match(SIDRegExPattern);
+
+    if (regexMatch && regexMatch.length > 0) {
+      this.SID = regexMatch[1];
+    }
   }
 
   next();

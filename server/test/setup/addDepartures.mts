@@ -1,4 +1,4 @@
-import { DepartureModel } from "../../src/models/Departure.mjs";
+import DepartureModel from "../../src/models/Departure.mjs";
 
 const departures = [
   {

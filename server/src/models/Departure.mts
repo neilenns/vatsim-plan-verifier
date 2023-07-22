@@ -1,10 +1,11 @@
-import { prop, getModelForClass } from "@typegoose/typegoose";
+import { prop, getModelForClass, modelOptions } from "@typegoose/typegoose";
 
-class Departure {
+@modelOptions({ options: { customName: "departure" } })
+export class Departure {
   @prop({ required: true })
   SID!: string;
 
-  @prop({ required: true })
+  @prop({ required: true, type: [String] })
   Fixes!: string[];
 
   @prop({ default: false })
@@ -22,4 +23,4 @@ class Departure {
 
 const DepartureModel = getModelForClass(Departure);
 
-export { Departure, DepartureModel };
+export default DepartureModel;

@@ -1,3 +1,4 @@
+import { Departure } from "../models/Departure.mjs";
 import IAircraftDocument from "./IAircraftDocument.mjs";
 import IFlightAwareAirportDocument from "./IFlightAwareAirportDocument.mjs";
 import { Document } from "mongoose";
@@ -26,4 +27,6 @@ export default interface IFlightPlanDocument extends Document {
   isRNAVCapable: boolean;
   isGNSSCapable: boolean;
   routeHasNonRNAVAirways: boolean;
+  SID?: string;
+  SIDInformation?: Departure;
 }
