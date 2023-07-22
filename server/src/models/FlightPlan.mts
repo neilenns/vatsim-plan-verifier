@@ -34,7 +34,9 @@ export const flightPlanSchema = new Schema(
 
 flightPlanSchema.virtual("routeHasNonRNAVAirways").get(function () {
   // this.get is required because routeParts is a virtual and TypeScript doesn't konw it exists at this point.
-  return this.get("routeParts")?.some((part: string) => part.startsWith("V") || part.startsWith("J"));
+  return this.get("routeParts")?.some(
+    (part: string) => part.startsWith("V") || part.startsWith("J")
+  );
 });
 
 flightPlanSchema.virtual("isRNAVCapable").get(function () {
@@ -120,7 +122,8 @@ flightPlanSchema.pre("save", async function () {
   const origin = new LatLon(departureAirport.data.latitude, departureAirport.data.longitude);
   const destination = new LatLon(arrivalAirport.data.latitude, arrivalAirport.data.longitude);
 
-  var rawBearing = origin.initialBearingTo(destination) + (departureAirport.data.magneticDeclination ?? 0);
+  var rawBearing =
+    origin.initialBearingTo(destination) + (departureAirport.data.magneticDeclination ?? 0);
 
   // Force the final value to be between 0 and 359
   this.directionOfFlight = Math.round(rawBearing < 0 ? rawBearing + 360 : rawBearing) % 360;
