@@ -19,6 +19,7 @@ import validArrivalAirport from "../controllers/verifiers/validArrivalAirport.mj
 import checkForNonStandardEquipmentSuffix from "../controllers/verifiers/checkForNonStandardEquipmentSuffix.mjs";
 import airwaysForEquipmentSuffix from "../controllers/verifiers/airwaysForEquipmentSuffix.mjs";
 import hasSID from "../controllers/verifiers/hasSID.mjs";
+import hasValidFirstFix from "../controllers/verifiers/hasValidFirstFix.mjs";
 
 const router = express.Router();
 
@@ -51,6 +52,7 @@ const verifiers: Verifier[] = [
   { name: "checkForNonStandardEquipmentSuffix", handler: checkForNonStandardEquipmentSuffix },
   { name: "airwaysForEquipmentSuffix", handler: airwaysForEquipmentSuffix },
   { name: "hasSID", handler: hasSID },
+  { name: "hasValidFirstFix", handler: hasValidFirstFix },
 ];
 
 // Generic handler for verifier routes
