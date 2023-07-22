@@ -8,6 +8,7 @@ export default async function nonRNAVHasAirways({
   _id,
   isRNAVCapable,
   routeHasNonRNAVAirways,
+  equipmentSuffix,
 }: IFlightPlan): Promise<VerifierControllerResult> {
   // Set up the default result for a successful run of the verifier.
   var result: VerifierControllerResult = {
@@ -21,8 +22,13 @@ export default async function nonRNAVHasAirways({
   };
 
   try {
+    if (!equipmentSuffix) {
+      result.data.status = "Information";
+      result.data.message = "No equipment suffix so no need to verify the route has airways.";
+      result.data.messageId = "noEquipmentSuffix";
+    }
     // No need to check RNAV capable planes
-    if (isRNAVCapable) {
+    else if (isRNAVCapable) {
       result.data.status = "Information";
       result.data.message = `Plane is RNAV capable so no need to verify the route has airways.`;
       result.data.messageId = "RNAVCapable";
