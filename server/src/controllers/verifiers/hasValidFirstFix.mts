@@ -40,8 +40,9 @@ export default async function hasValidFirstFix({
     // Finally have all the info necessary to verify the first fix
     else if (!SIDInformation.Fixes.includes(firstFix)) {
       result.data.status = "Error";
-      result.data.message = `First fix ${firstFix} is not in the list of fixes for ${SID}:`;
-      result.data.extendedMessage = [SIDInformation.Fixes.join(", ")];
+      result.data.message = `First fix ${firstFix} is not in the list of fixes for ${SID}: ${SIDInformation.Fixes.join(
+        ", "
+      )}`;
       result.data.messageId = "firstFixNotInSID";
       result.data.priority = 1;
     } else {
