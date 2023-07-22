@@ -1,11 +1,12 @@
 import { TextField } from "@mui/material";
 import { useEffect, useState } from "react";
+import StatusIndicator from "./StatusIndicator";
 
 const getBorderColorByStatus = (hasErrors?: boolean, hasWarnings?: boolean) => {
   if (hasErrors) {
     return "red";
   } else if (hasWarnings) {
-    return "#9daa3d";
+    return "gold";
   } else if (!(hasErrors === undefined) && !(hasWarnings === undefined)) {
     return "green";
   }
@@ -62,6 +63,9 @@ const FlightPlanTextField: React.FC<FlightPlanTextFieldProps> = (props) => {
       label={label}
       value={value ?? ""}
       InputLabelProps={{ shrink: value ? true : false }}
+      InputProps={{
+        endAdornment: <StatusIndicator hasErrors={hasErrors} hasWarnings={hasWarnings} />,
+      }}
       onPaste={handlePaste}
       onChange={handleChange}
       multiline
