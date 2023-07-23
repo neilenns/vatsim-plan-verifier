@@ -11,12 +11,34 @@ import "@fontsource/roboto/700.css";
 // Routes
 import ErrorPage from "./ErrorPage";
 import Root from "./routes/Root.tsx";
+import FlightPlan from "./routes/FlightPlan.tsx";
+
+// Loaders
+import { flightPlanLoader } from "./db/flightPlan.mts";
+
+const handler = () => {
+  console.log("Hi");
+};
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
     errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "flightPlan/:id",
+        element: (
+          <FlightPlan
+            onReset={handler}
+            onStoreFlightPlan={handler}
+            onVerify={handler}
+            verifierResults={null}
+          />
+        ),
+        loader: flightPlanLoader,
+      },
+    ],
   },
 ]);
 
