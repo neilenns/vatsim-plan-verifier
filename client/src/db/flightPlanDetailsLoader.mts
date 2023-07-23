@@ -15,14 +15,17 @@ interface Args extends ActionFunctionArgs {
 
 export const flightPlanDetailsLoader: LoaderFunction = async ({ params }: Args) => {
   if (params.id) {
-    const [flightPlan, verifierResults] = await Promise.all([
-      getFlightPlan(params.id),
-      getVerifyResults(params.id),
-    ]);
+    const flightPlan = await getFlightPlan(params.id);
+    const verifyResults = await getVerifyResults(params.id);
+
+    // const [flightPlan, verifierResults] = await Promise.all([
+    //   getFlightPlan(params.id),
+    //   getVerifyResults(params.id),
+    // ]);
 
     return {
       flightPlan,
-      verifierResults,
+      verifyResults,
     };
   }
 };
