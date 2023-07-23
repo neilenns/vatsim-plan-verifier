@@ -6,7 +6,7 @@ import { getVerifyResults } from "./verifyResults.mts";
 
 // https://stackoverflow.com/questions/75324193/react-router-6-how-to-strongly-type-the-params-option-in-route-loader
 const PathNames = {
-  id: "/flightflightPlan/:id",
+  id: "/flightPlan/:id",
 } as const;
 
 interface Args extends ActionFunctionArgs {
