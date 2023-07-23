@@ -2,8 +2,9 @@ import { redirect, type ActionFunction } from "react-router-dom";
 import IFlightPlan from "../interfaces/IFlightPlan.mts";
 import { storeFlightPlan } from "./flightPlan.mts";
 import { runAllVerifiers } from "./runAllVerifiers.mts";
+import { addActiveFlightPlan, removeActiveFlightPlan } from "./activeFlightPlan.mts";
 
-export const flightPlanVerifyAction: ActionFunction = async ({ request }) => {
+export const flightPlanVerifyAction: ActionFunction = async ({ params, request }) => {
   const formData = await request.formData();
 
   // Another place where typescript falls apart and can't be used to strongly type
@@ -23,6 +24,12 @@ export const flightPlanVerifyAction: ActionFunction = async ({ request }) => {
   if (!storedFlightPlan || !storedFlightPlan._id) {
     throw new Error("Failed to store flight plan");
   }
+
+  if (params.id) {
+    await removeActiveFlightPlan(params.id);
+  }
+
+  await addActiveFlightPlan(storedFlightPlan._id);
 
   const verifierResults = await runAllVerifiers(storedFlightPlan);
 

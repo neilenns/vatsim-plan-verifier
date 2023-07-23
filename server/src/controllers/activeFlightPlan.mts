@@ -27,6 +27,11 @@ export async function getActiveFlightPlans(controllerId: string): Promise<Active
           arrival: "$flightPlanDetails.arrival",
         },
       },
+      {
+        $sort: {
+          callsign: 1, // 1 for ascending order, -1 for descending order
+        },
+      },
     ]);
 
     if (fetchedPlans) {
@@ -59,6 +64,23 @@ export async function removeActiveFlightPlan(id: string): Promise<ActiveFlightPl
       success: false,
       errorType: "UnknownError",
       error: `Unable to remove active flight plan record ${id}.`,
+    };
+  }
+}
+
+export async function removeActiveFlightPlanByFlightPlanId(
+  controllerId: string,
+  flightPlanId: string
+): Promise<ActiveFlightPlanResult> {
+  try {
+    await ActiveFlightPlan.findOneAndDelete({ controllerId, flightPlan: flightPlanId });
+
+    return { success: true, data: [] };
+  } catch (error) {
+    return {
+      success: false,
+      errorType: "UnknownError",
+      error: `Unable to remove active flight plan ${flightPlanId}.`,
     };
   }
 }

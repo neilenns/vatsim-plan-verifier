@@ -3,6 +3,7 @@ import {
   addActiveFlightPlan,
   getActiveFlightPlans,
   removeActiveFlightPlan,
+  removeActiveFlightPlanByFlightPlanId,
 } from "../controllers/activeFlightPlan.mjs";
 
 const router = express.Router();
@@ -63,5 +64,25 @@ router.delete("/activeFlightPlans/:id", async (req: Request, res: Response) => {
     res.status(500).json({ error: "Failed to remove an active flight plan." });
   }
 });
+
+router.delete(
+  "/activeFlightPlans/:controllerId/:flightPlanId",
+  async (req: Request, res: Response) => {
+    const { controllerId, flightPlanId } = req.params;
+
+    const result = await removeActiveFlightPlanByFlightPlanId(controllerId, flightPlanId);
+
+    if (result.success) {
+      res.json(result.data);
+      return;
+    }
+
+    if (result.errorType === "UnknownError") {
+      res.status(404).json({ error: `Unable to remove active flight plan ${flightPlanId}` });
+    } else {
+      res.status(500).json({ error: "Failed to remove an active flight plan." });
+    }
+  }
+);
 
 export default router;
