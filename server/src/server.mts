@@ -13,6 +13,7 @@ import airlineRouter from "./routes/airline.mjs";
 import magneticDeclinationRouter from "./routes/magneticDeclination.mjs";
 import verifyRouter from "./routes/verify.mjs";
 import preferredRoutesRouter from "./routes/preferredRoutes.mjs";
+import activeFlightPlansRouter from "./routes/activeFlightPlans.mjs";
 
 import https from "https";
 import debug from "debug";
@@ -72,6 +73,7 @@ export function startServer(port: number): void {
   app.use(airlineRouter);
   app.use(magneticDeclinationRouter);
   app.use(preferredRoutesRouter);
+  app.use(activeFlightPlansRouter);
 
   // Verifier routes
   app.use(verifyRouter);

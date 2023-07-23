@@ -62,6 +62,10 @@ flightPlanSchema.virtual("routeParts").get(function () {
 });
 
 flightPlanSchema.virtual("cleanedRoute").get(function () {
+  if (!this.route) {
+    return "";
+  }
+
   // Remove leading + that gets inserted by VRC if the route was modified
   // Remove any " DCT" that the route might have since FlightAware never includes those
   // Trim any remaining leading or trailing whitespace
