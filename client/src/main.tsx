@@ -10,7 +10,7 @@ import "@fontsource/roboto/700.css";
 
 // Routes
 import ErrorPage from "./ErrorPage";
-import Root from "./routes/root.tsx";
+import Root from "./routes/Root.tsx";
 
 const router = createBrowserRouter([
   {
