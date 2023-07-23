@@ -27,5 +27,10 @@ export const flightPlanDetailsLoader: LoaderFunction = async ({ params }: Args) 
       flightPlan,
       verifyResults,
     };
+  } else {
+    return {
+      flightPlan: {},
+      verifyResults: null,
+    };
   }
 };

@@ -1,4 +1,6 @@
 import {
+  Box,
+  Button,
   Container,
   CssBaseline,
   IconButton,
@@ -11,7 +13,7 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2"; // Grid version 2
 import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Form, Link, Outlet } from "react-router-dom";
 import { Delete } from "@mui/icons-material";
 
 const defaultTheme = createTheme();
@@ -51,7 +53,14 @@ export default function Root() {
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
       <Grid container>
-        <Grid xs={2}>
+        <Grid xs={2} sx={{ mt: 2, ml: 2 }}>
+          <Form method="post">
+            <Box textAlign="center">
+              <Button variant="contained" component={Link} to="/flightPlan/new">
+                New
+              </Button>
+            </Box>
+          </Form>
           <List dense aria-label="Active flight plans">
             {activeFlightPlans.map((flightPlan) => {
               return (

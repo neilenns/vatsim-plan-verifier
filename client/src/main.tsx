@@ -27,6 +27,11 @@ const router = createBrowserRouter([
         element: <FlightPlanDetails />,
         loader: flightPlanDetailsLoader,
       },
+      {
+        path: "flightPlan/new",
+        element: <FlightPlanDetails />,
+        loader: flightPlanDetailsLoader,
+      },
     ],
   },
 ]);

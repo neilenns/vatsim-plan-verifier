@@ -78,7 +78,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
       return false;
     }
 
-    // setFlightPlan(pastedFlightPlan);
+    setFlightPlan(pastedFlightPlan);
     return true;
   };
 
@@ -184,7 +184,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
         </Grid>
         <Grid item xs={2} key="verify">
           <LoadingButton fullWidth loading={verifying} type="submit" variant="contained">
-            {flightPlan ? "Re-verify" : "Verify"}
+            {flightPlan._id ? "Re-verify" : "Verify"}
           </LoadingButton>
         </Grid>
       </Grid>
