@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import FlightPlanTextField from "../components/FlightPlanTextField";
 import { parseFlightPlan, validateFlightPlan } from "../utils/flightPlanParser";
 import { LoadingButton } from "@mui/lab";
-import { Form } from "react-router-dom";
+import { Form, useNavigation } from "react-router-dom";
 
 interface FlightPlanProps {
   flightPlan: IFlightPlan;
@@ -17,6 +17,7 @@ interface FlightPlanProps {
 const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
   const [flightPlan, setFlightPlan] = useState<IFlightPlan>(props.flightPlan);
   const [verifierResults, setVerifierResults] = useState<IVerifyAllResult | null>(null);
+  const navigation = useNavigation();
 
   useEffect(() => {
     setFlightPlan(props.flightPlan);
@@ -146,7 +147,12 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
             />
           </Grid>
           <Grid item xs={2} key="verify">
-            <LoadingButton fullWidth type="submit" variant="contained">
+            <LoadingButton
+              fullWidth
+              type="submit"
+              variant="contained"
+              loading={navigation.state === "submitting"}
+            >
               {flightPlan._id ? "Re-verify" : "Verify"}
             </LoadingButton>
           </Grid>
