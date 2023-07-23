@@ -1,35 +1,11 @@
-import {
-  Box,
-  Button,
-  Container,
-  CssBaseline,
-  IconButton,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  ThemeProvider,
-  createTheme,
-} from "@mui/material";
+import { Box, Button, Container, CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2"; // Grid version 2
-import React from "react";
-import { Form, Link, Outlet, useLoaderData } from "react-router-dom";
-import { Delete } from "@mui/icons-material";
-import IActiveFlightPlan from "../interfaces/IActiveFlightPlan.mts";
+import { Form, Link, Outlet } from "react-router-dom";
+import ActiveFlightPlans from "../components/ActiveFlightPlans";
 
 const defaultTheme = createTheme();
 
 export default function Root() {
-  const [selectedFlightPlanId, setSelectedFlightPlanId] = React.useState("");
-  const activeFlightPlans = useLoaderData() as IActiveFlightPlan[];
-
-  const handleListItemClick = (
-    _event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-    index: string
-  ) => {
-    setSelectedFlightPlanId(index);
-  };
-
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
@@ -42,52 +18,7 @@ export default function Root() {
               </Button>
             </Box>
           </Form>
-          <Form method="post">
-            <List dense aria-label="Active flight plans">
-              {activeFlightPlans.map((activePlan) => {
-                return (
-                  <ListItem
-                    key={activePlan.flightPlanId}
-                    disablePadding
-                    secondaryAction={
-                      <IconButton
-                        edge="end"
-                        aria-label="delete"
-                        type="submit"
-                        value={activePlan.flightPlanId}
-                        // This feels incredibly hacky but it works for getting the information
-                        // to the react router action to do the removal.
-                        onClick={() => {
-                          const hiddenInput = document.querySelector<HTMLInputElement>(
-                            'input[name="flightPlanId"]'
-                          );
-                          if (hiddenInput) {
-                            hiddenInput.value = activePlan.flightPlanId;
-                          }
-                        }}
-                      >
-                        <Delete />
-                      </IconButton>
-                    }
-                  >
-                    <ListItemButton
-                      component={Link}
-                      to={`/flightPlan/${activePlan.flightPlanId}`}
-                      selected={selectedFlightPlanId === activePlan.flightPlanId}
-                      onClick={(event) => handleListItemClick(event, activePlan.flightPlanId)}
-                    >
-                      <ListItemText
-                        primary={activePlan.callsign}
-                        secondary={`${activePlan.departure}-${activePlan.arrival}`}
-                      />
-                    </ListItemButton>
-                  </ListItem>
-                );
-              })}
-              <ListItem />
-            </List>
-            <input hidden name="flightPlanId" />
-          </Form>
+          <ActiveFlightPlans />
         </Grid>
         <Grid xs>
           <Container maxWidth="lg" sx={{ mt: 2, mb: 4 }}>
