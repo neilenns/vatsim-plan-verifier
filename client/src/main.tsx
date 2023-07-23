@@ -16,11 +16,13 @@ import FlightPlanDetails from "./routes/FlightPlanDetails.tsx";
 // Loaders
 import { flightPlanDetailsLoader } from "./db/flightPlanDetailsLoader.mts";
 import { flightPlanVerifyAction } from "./db/flightPlanVerifyAction.mts";
+import { activeFlightPlansLoader } from "./db/activeFlightPlansLoader.mts";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
+    loader: activeFlightPlansLoader,
     errorElement: <ErrorPage />,
     children: [
       {

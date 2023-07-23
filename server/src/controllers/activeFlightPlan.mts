@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import ActiveFlightPlan, { IActiveFlightPlan } from "../models/ActiveFlightPlan.mjs";
 import Result from "../types/result.mjs";
 
@@ -5,13 +6,28 @@ type ActiveFlightPlanResult = Result<IActiveFlightPlan[], "NoFlightPlansFound" |
 
 export async function getActiveFlightPlans(controllerId: string): Promise<ActiveFlightPlanResult> {
   try {
-    const fetchedPlans = await ActiveFlightPlan.find({ controllerId })
-      .populate({
-        path: "flightPlan",
-        select: "callsign departure arrival",
-      })
-      .lean() // Prevents virtuals
-      .exec();
+    const fetchedPlans = await ActiveFlightPlan.aggregate([
+      // Match documents based on the controllerId
+      { $match: { controllerId: new Types.ObjectId(controllerId) } },
+      // Perform a left join with the FlightPlan collection
+      {
+        $lookup: {
+          from: "flightplans", // The collection to join
+          localField: "flightPlan", // The field from the ActiveFlightPlan collection
+          foreignField: "_id", // The field from the FlightPlan collection
+          as: "flightPlanDetails", // The alias for the joined documents
+        },
+      },
+      { $unwind: "$flightPlanDetails" },
+      {
+        $project: {
+          flightPlanId: "$flightPlanDetails._id",
+          callsign: "$flightPlanDetails.callsign",
+          departure: "$flightPlanDetails.departure",
+          arrival: "$flightPlanDetails.arrival",
+        },
+      },
+    ]);
 
     if (fetchedPlans) {
       return { success: true, data: fetchedPlans };
