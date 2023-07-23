@@ -1,40 +1,76 @@
+import {
+  Container,
+  CssBaseline,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  ThemeProvider,
+  createTheme,
+} from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2/Grid2"; // Grid version 2
+import React from "react";
 import { Link, Outlet } from "react-router-dom";
 
+const defaultTheme = createTheme();
+
+const activeFlightPlans = [
+  {
+    _id: "64b3ff176ee86c992f24e3c1",
+    callsign: "NKS4292",
+    departure: "KPDX",
+    arrival: "KSMF",
+  },
+  {
+    _id: "64b34d5093b383ad3131d7ff",
+    callsign: "SWA1578",
+    departure: "KSEA",
+    arrival: "KOAK",
+  },
+];
+
 export default function Root() {
+  const [selectedFlightPlanId, setSelectedFlightPlanId] = React.useState("");
+
+  const handleListItemClick = (
+    _event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+    index: string
+  ) => {
+    setSelectedFlightPlanId(index);
+  };
+
   return (
-    <>
-      <div id="sidebar">
-        <h1>React Router Contacts</h1>
-        <div>
-          <form id="search-form" role="search">
-            <input
-              id="q"
-              aria-label="Search contacts"
-              placeholder="Search"
-              type="search"
-              name="q"
-            />
-            <div id="search-spinner" aria-hidden hidden={true} />
-            <div className="sr-only" aria-live="polite"></div>
-          </form>
-          <form method="post">
-            <button type="submit">New</button>
-          </form>
-        </div>
-        <nav>
-          <ul>
-            <li>
-              <Link to={`/flightPlan/64b89529614b990bb092266b`}>Your Name</Link>
-            </li>
-            <li>
-              <Link to={`/flightPlan/64b3ff176ee86c992f24e3c1`}>Your Friend</Link>
-            </li>
-          </ul>
-        </nav>
-      </div>
-      <div id="detail">
-        <Outlet />
-      </div>
-    </>
+    <ThemeProvider theme={defaultTheme}>
+      <CssBaseline />
+      <Grid container>
+        <Grid xs={1}>
+          <List dense aria-label="Active flight plans">
+            {activeFlightPlans.map((flightPlan) => {
+              return (
+                <ListItem key={flightPlan._id} disablePadding>
+                  <ListItemButton
+                    component={Link}
+                    to={`/flightPlan/${flightPlan._id}`}
+                    selected={selectedFlightPlanId === flightPlan._id}
+                    onClick={(event) => handleListItemClick(event, flightPlan._id)}
+                  >
+                    <ListItemText
+                      primary={flightPlan.callsign}
+                      secondary={`${flightPlan.departure}-${flightPlan.arrival}`}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              );
+            })}
+            <ListItem />
+          </List>
+        </Grid>
+        <Grid xs>
+          <Container maxWidth="lg" sx={{ mt: 2, mb: 4 }}>
+            <Outlet />
+          </Container>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
   );
 }

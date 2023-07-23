@@ -1,4 +1,4 @@
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
 import { useEffect, useState } from "react";
@@ -13,7 +13,6 @@ interface FlightPlanProps {
   verifierResults: IVerifyAllResult | null;
   onStoreFlightPlan: (flightPlan: IFlightPlan) => void;
   onVerify: (result: IVerifyAllResult) => void;
-  onReset: () => void;
 }
 
 const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
@@ -187,11 +186,6 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
           <LoadingButton fullWidth loading={verifying} type="submit" variant="contained">
             Verify
           </LoadingButton>
-        </Grid>
-        <Grid item xs={2} key="reset">
-          <Button fullWidth variant="contained" onClick={props.onReset}>
-            Reset
-          </Button>
         </Grid>
       </Grid>
     </Box>

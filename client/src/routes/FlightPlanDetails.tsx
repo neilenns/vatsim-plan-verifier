@@ -1,6 +1,6 @@
 import Grid from "@mui/material/Unstable_Grid2/Grid2"; // Grid version 2
 
-import { AppBar, Box, Button, Stack, Toolbar, Typography } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import FlightPlan from "./FlightPlan";
 import { useEffect, useState } from "react";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
@@ -19,10 +19,6 @@ function App() {
   const [skyVectorUrl, setSkyVectorUrl] = useState<string>("");
   const [flightAwareUrl, setFlightAwareUrl] = useState<string>("");
   const [viewAircraftUrl, setViewAircraftUrl] = useState<string>("");
-
-  const handleReset = () => {
-    console.log("Reset");
-  };
 
   useEffect(() => {
     if (!flightPlan.callsign) {
@@ -49,21 +45,6 @@ function App() {
 
   return (
     <>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar
-          position="absolute"
-          sx={{
-            margin: 0,
-            left: 0,
-            right: 0,
-          }}
-        >
-          <Typography variant="h6" sx={{ my: 2, marginLeft: 1 }}>
-            Plan Verifier
-          </Typography>
-        </AppBar>
-        <Toolbar />
-      </Box>
       <Grid container spacing={2}>
         <Grid xs={10}>
           <FlightPlan
@@ -75,7 +56,6 @@ function App() {
             onVerify={(results) => {
               console.log(results);
             }}
-            onReset={handleReset}
           />
         </Grid>
         <Grid xs={2} sx={{ mt: 1 }}>
