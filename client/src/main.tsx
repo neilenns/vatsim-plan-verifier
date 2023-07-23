@@ -11,14 +11,10 @@ import "@fontsource/roboto/700.css";
 // Routes
 import ErrorPage from "./ErrorPage";
 import Root from "./routes/Root.tsx";
-import FlightPlan from "./routes/FlightPlan.tsx";
+import FlightPlanDetails from "./routes/FlightPlanDetails.tsx";
 
 // Loaders
-import { flightPlanLoader } from "./db/flightPlan.mts";
-
-const handler = () => {
-  console.log("Hi");
-};
+import { flightPlanDetailsLoader } from "./db/flightPlanDetailsLoader.mts";
 
 const router = createBrowserRouter([
   {
@@ -28,15 +24,8 @@ const router = createBrowserRouter([
     children: [
       {
         path: "flightPlan/:id",
-        element: (
-          <FlightPlan
-            onReset={handler}
-            onStoreFlightPlan={handler}
-            onVerify={handler}
-            verifierResults={null}
-          />
-        ),
-        loader: flightPlanLoader,
+        element: <FlightPlanDetails />,
+        loader: flightPlanDetailsLoader,
       },
     ],
   },

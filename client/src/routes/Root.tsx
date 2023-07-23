@@ -24,7 +24,7 @@ export default function Root() {
         <nav>
           <ul>
             <li>
-              <Link to={`/flightPlan/64b34d5093b383ad3131d7ff`}>Your Name</Link>
+              <Link to={`/flightPlan/64b89529614b990bb092266b`}>Your Name</Link>
             </li>
             <li>
               <Link to={`/flightPlan/64b3ff176ee86c992f24e3c1`}>Your Friend</Link>

@@ -7,9 +7,9 @@ import { parseFlightPlan, validateFlightPlan } from "../utils/flightPlanParser";
 import { LoadingButton } from "@mui/lab";
 import { storeFlightPlan } from "../db/flightPlan.mts";
 import { runAllVerifiers } from "../db/runAllVerifiers.mts";
-import { useLoaderData } from "react-router-dom";
 
 interface FlightPlanProps {
+  flightPlan: IFlightPlan;
   verifierResults: IVerifyAllResult | null;
   onStoreFlightPlan: (flightPlan: IFlightPlan) => void;
   onVerify: (result: IVerifyAllResult) => void;
@@ -17,15 +17,14 @@ interface FlightPlanProps {
 }
 
 const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
-  const flightPlan = useLoaderData() as IFlightPlan;
-  // const [flightPlan, setFlightPlan] = useState<IFlightPlan>(props.flightPlan);
+  const [flightPlan, setFlightPlan] = useState<IFlightPlan>(props.flightPlan);
   const [verifying, setVerifying] = useState(false);
   const [verifierResults, setVerifierResults] = useState<IVerifyAllResult | null>(null);
 
   useEffect(() => {
-    // setFlightPlan(props.flightPlan);
+    setFlightPlan(props.flightPlan);
     setVerifierResults(props.verifierResults);
-  }, [props.verifierResults]);
+  }, [props.flightPlan, props.verifierResults]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     let planToSubmit: IFlightPlan;

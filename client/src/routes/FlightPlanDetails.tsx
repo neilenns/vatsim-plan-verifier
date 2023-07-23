@@ -1,24 +1,27 @@
-import "./App.css";
 import Grid from "@mui/material/Unstable_Grid2/Grid2"; // Grid version 2
 
 import { AppBar, Box, Button, Stack, Toolbar, Typography } from "@mui/material";
-import FlightPlan from "./routes/FlightPlan";
+import FlightPlan from "./FlightPlan";
 import { useEffect, useState } from "react";
-import IFlightPlan from "./interfaces/IFlightPlan.mjs";
-import IVerifyAllResult from "./interfaces/IVerifyAllResult.mts";
-import VerifierResults from "./components/VerifierResults";
+import IFlightPlan from "../interfaces/IFlightPlan.mjs";
+import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
+import VerifierResults from "../components/VerifierResults";
 import { OpenInNew } from "@mui/icons-material";
+import { useLoaderData } from "react-router-dom";
+
+type LoaderProps = {
+  flightPlan: IFlightPlan;
+  verifyResults: IVerifyAllResult;
+};
 
 function App() {
-  const [flightPlan, setFlightPlan] = useState<IFlightPlan>({} as IFlightPlan);
-  const [verifyResults, setVerifyResults] = useState<IVerifyAllResult | null>(null);
+  const { flightPlan, verifyResults } = useLoaderData() as LoaderProps;
   const [skyVectorUrl, setSkyVectorUrl] = useState<string>("");
   const [flightAwareUrl, setFlightAwareUrl] = useState<string>("");
   const [viewAircraftUrl, setViewAircraftUrl] = useState<string>("");
 
   const handleReset = () => {
-    setVerifyResults({} as IVerifyAllResult);
-    setFlightPlan({} as IFlightPlan);
+    console.log("Reset");
   };
 
   useEffect(() => {
@@ -64,15 +67,15 @@ function App() {
       <Grid container spacing={2}>
         <Grid xs={10}>
           <FlightPlan
+            flightPlan={flightPlan}
             verifierResults={verifyResults}
             onStoreFlightPlan={(flightPlan) => {
-              setFlightPlan(flightPlan);
+              console.log(flightPlan);
             }}
             onVerify={(results) => {
-              setVerifyResults(results);
+              console.log(results);
             }}
             onReset={handleReset}
-            flightPlan={flightPlan}
           />
         </Grid>
         <Grid xs={2} sx={{ mt: 1 }}>
