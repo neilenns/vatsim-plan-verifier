@@ -35,41 +35,59 @@ export default function Root() {
       <CssBaseline />
       <Grid container>
         <Grid xs={2} sx={{ mt: 2, ml: 2 }}>
-          <Form method="post">
+          <Form>
             <Box textAlign="center">
               <Button variant="contained" component={Link} to="/flightPlan/new">
                 New
               </Button>
             </Box>
           </Form>
-          <List dense aria-label="Active flight plans">
-            {activeFlightPlans.map((activePlan) => {
-              return (
-                <ListItem
-                  key={activePlan.flightPlanId}
-                  disablePadding
-                  secondaryAction={
-                    <IconButton edge="end" aria-label="delete">
-                      <Delete />
-                    </IconButton>
-                  }
-                >
-                  <ListItemButton
-                    component={Link}
-                    to={`/flightPlan/${activePlan.flightPlanId}`}
-                    selected={selectedFlightPlanId === activePlan.flightPlanId}
-                    onClick={(event) => handleListItemClick(event, activePlan.flightPlanId)}
+          <Form method="post">
+            <List dense aria-label="Active flight plans">
+              {activeFlightPlans.map((activePlan) => {
+                return (
+                  <ListItem
+                    key={activePlan.flightPlanId}
+                    disablePadding
+                    secondaryAction={
+                      <IconButton
+                        edge="end"
+                        aria-label="delete"
+                        type="submit"
+                        value={activePlan.flightPlanId}
+                        // This feels incredibly hacky but it works for getting the information
+                        // to the react router action to do the removal.
+                        onClick={() => {
+                          const hiddenInput = document.querySelector<HTMLInputElement>(
+                            'input[name="flightPlanId"]'
+                          );
+                          if (hiddenInput) {
+                            hiddenInput.value = activePlan.flightPlanId;
+                          }
+                        }}
+                      >
+                        <Delete />
+                      </IconButton>
+                    }
                   >
-                    <ListItemText
-                      primary={activePlan.callsign}
-                      secondary={`${activePlan.departure}-${activePlan.arrival}`}
-                    />
-                  </ListItemButton>
-                </ListItem>
-              );
-            })}
-            <ListItem />
-          </List>
+                    <ListItemButton
+                      component={Link}
+                      to={`/flightPlan/${activePlan.flightPlanId}`}
+                      selected={selectedFlightPlanId === activePlan.flightPlanId}
+                      onClick={(event) => handleListItemClick(event, activePlan.flightPlanId)}
+                    >
+                      <ListItemText
+                        primary={activePlan.callsign}
+                        secondary={`${activePlan.departure}-${activePlan.arrival}`}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                );
+              })}
+              <ListItem />
+            </List>
+            <input hidden name="flightPlanId" />
+          </Form>
         </Grid>
         <Grid xs>
           <Container maxWidth="lg" sx={{ mt: 2, mb: 4 }}>
