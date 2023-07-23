@@ -62,7 +62,6 @@ function App() {
           <Stack spacing={2}>
             <Button
               fullWidth
-              variant="contained"
               disabled={!flightPlan.departure || !flightPlan.arrival || !flightPlan.route}
               href={skyVectorUrl}
               target="_blank"
@@ -73,7 +72,6 @@ function App() {
             </Button>
             <Button
               fullWidth
-              variant="contained"
               disabled={!flightPlan.departure || !flightPlan.arrival || !flightPlan.route}
               href={flightAwareUrl}
               target="_blank"
@@ -84,7 +82,6 @@ function App() {
             </Button>
             <Button
               fullWidth
-              variant="contained"
               disabled={!flightPlan.equipmentCode}
               href={viewAircraftUrl}
               target="_blank"
