@@ -15,6 +15,7 @@ const getBorderColorByStatus = (hasErrors?: boolean, hasWarnings?: boolean) => {
 interface FlightPlanTextFieldProps {
   id: string;
   label: string;
+  name: string;
   value: string;
   hasErrors?: boolean;
   hasWarnings?: boolean;
@@ -24,21 +25,15 @@ interface FlightPlanTextFieldProps {
 }
 
 const FlightPlanTextField: React.FC<FlightPlanTextFieldProps> = (props) => {
-  const [id, setId] = useState<string>(props.id);
-  const [label, setLabel] = useState<string>(props.label);
   const [value, setValue] = useState<string>(props.value);
   const [hasErrors, setHasErrors] = useState<boolean | undefined>(props.hasErrors);
   const [hasWarnings, setHasWarnings] = useState<boolean | undefined>(props.hasWarnings);
-  const [trim, setTrim] = useState<boolean>(props.trim ?? false);
 
   useEffect(() => {
-    setId(props.id);
-    setLabel(props.label);
     setValue(props.value);
-    setTrim(props.trim ?? false);
     setHasErrors(props.hasErrors);
     setHasWarnings(props.hasWarnings);
-  }, [props.id, props.label, props.value, props.hasErrors, props.hasWarnings, props.trim]);
+  }, [props.value, props.hasErrors, props.hasWarnings]);
 
   const handlePaste = (event: React.ClipboardEvent<Element>) => {
     const isValidFlightPlan = props.onPaste(event.clipboardData.getData("Text"));
@@ -48,7 +43,7 @@ const FlightPlanTextField: React.FC<FlightPlanTextFieldProps> = (props) => {
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (trim) {
+    if (props.trim) {
       event.target.value = event.target.value.trim();
     }
 
@@ -59,8 +54,9 @@ const FlightPlanTextField: React.FC<FlightPlanTextFieldProps> = (props) => {
   return (
     <TextField
       fullWidth
-      id={id}
-      label={label}
+      id={props.id}
+      label={props.label}
+      name={props.name}
       value={value ?? ""}
       InputLabelProps={{ shrink: value ? true : false }}
       InputProps={{

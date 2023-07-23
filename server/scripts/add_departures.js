@@ -171,6 +171,7 @@ db.departures.insertMany([
     SID: "SEA8",
     IsRNAV: false,
     Fixes: [
+      "SEA",
       "TOU",
       "YYJ",
       "YVR",

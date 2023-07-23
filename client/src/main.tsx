@@ -15,6 +15,7 @@ import FlightPlanDetails from "./routes/FlightPlanDetails.tsx";
 
 // Loaders
 import { flightPlanDetailsLoader } from "./db/flightPlanDetailsLoader.mts";
+import { flightPlanVerifyAction } from "./db/flightPlanVerifyAction.mts";
 
 const router = createBrowserRouter([
   {
@@ -26,11 +27,13 @@ const router = createBrowserRouter([
         path: "flightPlan/:id",
         element: <FlightPlanDetails />,
         loader: flightPlanDetailsLoader,
+        action: flightPlanVerifyAction,
       },
       {
         path: "flightPlan/new",
         element: <FlightPlanDetails />,
         loader: flightPlanDetailsLoader,
+        action: flightPlanVerifyAction,
       },
     ],
   },
