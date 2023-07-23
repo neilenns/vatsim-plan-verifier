@@ -16,7 +16,6 @@ interface FlightPlanProps {
 
 const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
   const [flightPlan, setFlightPlan] = useState<IFlightPlan>(props.flightPlan);
-  const [verifying] = useState(false);
   const [verifierResults, setVerifierResults] = useState<IVerifyAllResult | null>(null);
 
   useEffect(() => {
@@ -147,7 +146,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
             />
           </Grid>
           <Grid item xs={2} key="verify">
-            <LoadingButton fullWidth loading={verifying} type="submit" variant="contained">
+            <LoadingButton fullWidth type="submit" variant="contained">
               {flightPlan._id ? "Re-verify" : "Verify"}
             </LoadingButton>
           </Grid>
