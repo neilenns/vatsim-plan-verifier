@@ -1,6 +1,7 @@
 import {
   Container,
   CssBaseline,
+  IconButton,
   List,
   ListItem,
   ListItemButton,
@@ -11,6 +12,7 @@ import {
 import Grid from "@mui/material/Unstable_Grid2/Grid2"; // Grid version 2
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
+import { Delete } from "@mui/icons-material";
 
 const defaultTheme = createTheme();
 
@@ -26,6 +28,12 @@ const activeFlightPlans = [
     callsign: "SWA1578",
     departure: "KSEA",
     arrival: "KOAK",
+  },
+  {
+    _id: "64b89529614b990bb092266b",
+    callsign: "ACA559",
+    departure: "KPDX",
+    arrival: "CYVR",
   },
 ];
 
@@ -43,11 +51,19 @@ export default function Root() {
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
       <Grid container>
-        <Grid xs={1}>
+        <Grid xs={2}>
           <List dense aria-label="Active flight plans">
             {activeFlightPlans.map((flightPlan) => {
               return (
-                <ListItem key={flightPlan._id} disablePadding>
+                <ListItem
+                  key={flightPlan._id}
+                  disablePadding
+                  secondaryAction={
+                    <IconButton edge="end" aria-label="delete">
+                      <Delete />
+                    </IconButton>
+                  }
+                >
                   <ListItemButton
                     component={Link}
                     to={`/flightPlan/${flightPlan._id}`}
