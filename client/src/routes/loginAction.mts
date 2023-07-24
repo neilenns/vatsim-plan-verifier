@@ -6,7 +6,7 @@ import ILoginResponse from "../interfaces/ILoginResponse.mts";
 export const loginAction: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
 
-  axios
+  await axios
     .post<ILoginResponse>(
       new URL("login", serverUrl).toString(),
       {

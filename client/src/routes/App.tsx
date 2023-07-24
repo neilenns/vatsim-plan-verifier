@@ -8,6 +8,7 @@ import { serverUrl } from "../configs/planVerifierServer.mts";
 import ILoginResponse from "../interfaces/ILoginResponse.mts";
 
 export default function App() {
+  // This works but feels like it should be done with a react router action and fetcher?
   const verifyUser = useCallback(() => {
     axios
       .post<ILoginResponse>(
@@ -25,7 +26,7 @@ export default function App() {
         setTimeout(verifyUser, 5 * 60 * 1000);
       })
       .catch(() => {
-        localStorage.setItem("token", "");
+        localStorage.removeItem("token");
       });
   }, []);
 
@@ -38,9 +39,14 @@ export default function App() {
       {/* AppBar */}
       <AppBar position="static" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
         <Toolbar>
-          <Typography variant="h6" component="div">
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Plan verifier
           </Typography>
+          <Form method="post">
+            <Button color="inherit" type="submit" name="intent" value="logout">
+              Logout
+            </Button>
+          </Form>
         </Toolbar>
       </AppBar>
 

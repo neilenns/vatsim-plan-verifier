@@ -18,18 +18,19 @@ import LoginRegister from "./routes/LoginRegister.tsx";
 import { flightPlanDetailsLoader } from "./routes/flightPlanDetailsLoader.mts";
 import { flightPlanVerifyAction } from "./routes/flightPlanVerifyAction.mts";
 import { activeFlightPlansLoader } from "./routes/activeFlightPlansLoader.mts";
-import { activeFlightPlansAction } from "./routes/activeFlightPlansAction.mts";
+import { appActions } from "./routes/appActions.mts";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme, CssBaseline } from "@mui/material";
 import { registerAction } from "./routes/registerAction.mts";
 import { loginAction } from "./routes/loginAction.mts";
+import { AuthenticationGuard } from "./routes/AuthenticationGuard.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <AuthenticationGuard component={<App />} />,
     loader: activeFlightPlansLoader,
-    action: activeFlightPlansAction,
+    action: appActions,
     errorElement: <ErrorPage />,
     children: [
       {
