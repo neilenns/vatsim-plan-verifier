@@ -20,6 +20,7 @@ import checkForNonStandardEquipmentSuffix from "../controllers/verifiers/checkFo
 import airwaysForEquipmentSuffix from "../controllers/verifiers/airwaysForEquipmentSuffix.mjs";
 import hasSID from "../controllers/verifiers/hasSID.mjs";
 import hasValidFirstFix from "../controllers/verifiers/hasValidFirstFix.mjs";
+import VerifierResult from "../models/VerifierResult.mjs";
 
 const router = express.Router();
 
@@ -94,6 +95,22 @@ const handleVerifierRoute = async (routeName: string, handler: Function) => {
     }
   );
 };
+
+// Register the route to get all the results for a past run
+router.get("/verify/results/:id", async (req: Request, res: Response) => {
+  try {
+    const rawResults = await VerifierResult.find({ flightPlanId: req.params.id });
+
+    const result = new VerifyAllResult();
+    result.addMany(rawResults);
+
+    return res.status(201).json(result);
+  } catch (error) {
+    return res.status(500).json({
+      error: `Failed to get results for flight plan ${req.params.id}.`,
+    });
+  }
+});
 
 // Register the route to run all verifiers
 router.get(
