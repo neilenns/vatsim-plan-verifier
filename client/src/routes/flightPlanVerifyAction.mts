@@ -3,7 +3,7 @@ import IFlightPlan from "../interfaces/IFlightPlan.mts";
 import { storeFlightPlan } from "../services/flightPlan.mts";
 import { runAllVerifiers } from "../services/runAllVerifiers.mts";
 import { addActiveFlightPlan, removeActiveFlightPlan } from "../services/activeFlightPlans.mts";
-
+import { removeVerifyResults } from "../services/verifyResults.mts";
 export const flightPlanVerifyAction: ActionFunction = async ({ params, request }) => {
   const formData = await request.formData();
 
@@ -26,7 +26,7 @@ export const flightPlanVerifyAction: ActionFunction = async ({ params, request }
   }
 
   if (params.id) {
-    await removeActiveFlightPlan(params.id);
+    await Promise.all([removeActiveFlightPlan(params.id), removeVerifyResults(params.id)]);
   }
 
   await addActiveFlightPlan(storedFlightPlan._id);
