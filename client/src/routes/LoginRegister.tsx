@@ -1,35 +1,25 @@
 import { Container, Card, Tabs, Tab, Box } from "@mui/material";
 import Register from "../components/Register";
 import Login from "../components/Login";
-import { useState } from "react";
+import { Link, useMatches } from "react-router-dom";
 
 const LoginRegister: React.FC = () => {
-  const [currentTab, setCurrentTab] = useState("login");
-
-  function handleTabChange(_event: React.SyntheticEvent, newValue: string) {
-    setCurrentTab(newValue);
-  }
+  const currentTab = useMatches()[0]!.id;
 
   return (
     <Box
       sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
+        position: "absolute",
+        top: "40px",
+        left: "50%",
+        transform: "translateX(-50%)",
       }}
     >
       <Container maxWidth="xs">
         <Card>
-          <Tabs
-            value={currentTab}
-            onChange={handleTabChange}
-            indicatorColor="primary"
-            textColor="primary"
-            centered
-          >
-            <Tab label="Login" value="login" />
-            <Tab label="Register" value="register" />
+          <Tabs value={currentTab} indicatorColor="primary" textColor="primary" centered>
+            <Tab label="Login" value="login" component={Link} to={"/login"} />
+            <Tab label="Register" value="register" component={Link} to={"/register"} />
           </Tabs>
           <Box p={3}>
             {currentTab === "login" && <Login />}
