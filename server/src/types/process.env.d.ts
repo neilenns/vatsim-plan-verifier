@@ -11,6 +11,10 @@ declare global {
       GEOMAG_API_KEY: string;
       API_RATE_LIMIT_MAX?: string;
       API_RATE_LIMIT_MINUTE_WINDOW?: string;
+      REFRESH_TOKEN_EXPIRY: string;
+      SESSION_EXPIRY: string;
+      JWT_SECRET: string;
+      REFRESH_TOKEN_SECRET: string;
     }
   }
 }
