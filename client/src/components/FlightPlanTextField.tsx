@@ -1,6 +1,7 @@
-import { TextField } from "@mui/material";
-import { useEffect, useState } from "react";
+import { FormGroup, IconButton, TextField } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import StatusIndicator from "./StatusIndicator";
+import { ContentCopy as ContentCopyIcon } from "@mui/icons-material";
 
 const getBorderColorByStatus = (hasErrors?: boolean, hasWarnings?: boolean) => {
   if (hasErrors) {
@@ -20,6 +21,7 @@ interface FlightPlanTextFieldProps {
   hasErrors?: boolean;
   hasWarnings?: boolean;
   trim?: boolean;
+  canCopy?: boolean;
   onPaste: (text: string) => boolean;
   onChange: (text: string) => void;
 }
@@ -51,32 +53,51 @@ const FlightPlanTextField: React.FC<FlightPlanTextFieldProps> = (props) => {
     props.onChange(event.target.value);
   };
 
+  const handleCopy = () => {
+    void navigator.clipboard.writeText(value);
+  };
+
   return (
-    <TextField
-      fullWidth
-      id={props.id}
-      label={props.label}
-      name={props.name}
-      value={value ?? ""}
-      InputLabelProps={{ shrink: value ? true : false }}
-      InputProps={{
-        endAdornment: <StatusIndicator hasErrors={hasErrors} hasWarnings={hasWarnings} />,
-      }}
-      onPaste={handlePaste}
-      onChange={handleChange}
-      multiline
-      required
-      // Setting the colour of the outline based on the status of the field
-      // when the field does NOT have focus is a pain. This comes from
-      // https://smartdevpreneur.com/override-textfield-border-color-in-material-ui/
-      sx={{
-        "& .MuiOutlinedInput-root": {
-          "& fieldset": {
-            borderColor: getBorderColorByStatus(hasErrors, hasWarnings),
+    <FormGroup row>
+      <TextField
+        fullWidth
+        id={props.id}
+        label={props.label}
+        name={props.name}
+        value={value ?? ""}
+        InputLabelProps={{ shrink: value ? true : false }}
+        InputProps={{
+          endAdornment: (
+            <>
+              <StatusIndicator hasErrors={hasErrors} hasWarnings={hasWarnings} />
+              {props.canCopy && (
+                <IconButton
+                  onClick={handleCopy}
+                  size="small"
+                  sx={{ paddingTop: 0, paddingBottom: 0, paddingRight: 0 }}
+                >
+                  <ContentCopyIcon />
+                </IconButton>
+              )}
+            </>
+          ),
+        }}
+        onPaste={handlePaste}
+        onChange={handleChange}
+        multiline
+        required
+        // Setting the colour of the outline based on the status of the field
+        // when the field does NOT have focus is a pain. This comes from
+        // https://smartdevpreneur.com/override-textfield-border-color-in-material-ui/
+        sx={{
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+              borderColor: getBorderColorByStatus(hasErrors, hasWarnings),
+            },
           },
-        },
-      }}
-    />
+        }}
+      />
+    </FormGroup>
   );
 };
 
