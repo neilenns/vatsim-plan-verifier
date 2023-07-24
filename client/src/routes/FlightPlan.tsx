@@ -35,6 +35,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
     }
 
     setFlightPlan(pastedFlightPlan);
+
     return true;
   };
 
@@ -137,6 +138,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               id="route"
               label="Route"
               name="route"
+              canCopy
               value={flightPlan.route}
               onPaste={parsePastedFlightPlan}
               onChange={(text) => {
