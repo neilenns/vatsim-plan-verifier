@@ -1,12 +1,13 @@
 import { useState } from "react";
 import IActiveFlightPlan from "../interfaces/IActiveFlightPlan.mts";
-import { Form, Link, useLoaderData } from "react-router-dom";
+import { Link, useFetcher, useLoaderData } from "react-router-dom";
 import { Delete } from "@mui/icons-material";
 import { List, ListItem, IconButton, ListItemButton, ListItemText } from "@mui/material";
 
 const ActiveFlightPlans: React.FC = () => {
   const [selectedFlightPlanId, setSelectedFlightPlanId] = useState("");
   const activeFlightPlans = useLoaderData() as IActiveFlightPlan[];
+  const fetcher = useFetcher();
 
   const handleListItemClick = (
     _event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
@@ -16,7 +17,7 @@ const ActiveFlightPlans: React.FC = () => {
   };
 
   return (
-    <Form method="post">
+    <fetcher.Form method="post">
       <List dense aria-label="Active flight plans">
         {activeFlightPlans.map((activePlan) => {
           return (
@@ -61,7 +62,7 @@ const ActiveFlightPlans: React.FC = () => {
         <ListItem />
       </List>
       <input hidden name="flightPlanId" />
-    </Form>
+    </fetcher.Form>
   );
 };
 
