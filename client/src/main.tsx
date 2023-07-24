@@ -35,13 +35,13 @@ const router = createBrowserRouter([
     children: [
       {
         path: "flightPlan/:id",
-        element: <FlightPlanDetails />,
+        element: <AuthenticationGuard component={<FlightPlanDetails />} />,
         loader: flightPlanDetailsLoader,
         action: flightPlanVerifyAction,
       },
       {
         path: "flightPlan/new",
-        element: <FlightPlanDetails />,
+        element: <AuthenticationGuard component={<FlightPlanDetails />} />,
         loader: flightPlanDetailsLoader,
         action: flightPlanVerifyAction,
       },
