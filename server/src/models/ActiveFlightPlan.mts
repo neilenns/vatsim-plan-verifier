@@ -10,7 +10,7 @@ export interface IActiveFlightPlan extends Document {
 const ActiveFlightPlanSchema = new Schema<IActiveFlightPlan>({
   controllerId: { type: Schema.Types.ObjectId, required: true },
   flightPlan: { type: Schema.Types.ObjectId, ref: "FlightPlan", required: true, unique: true },
-  createdAt: { type: Date, expires: 60, required: true, default: Date.now },
+  createdAt: { type: Date, expires: "2h", required: true, default: Date.now },
 });
 
 // Define the mode
