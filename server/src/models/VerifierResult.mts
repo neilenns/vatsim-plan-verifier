@@ -50,6 +50,7 @@ const VerifierResultSchema = new Schema({
     enum: [1, 2, 3, 4, 5],
     required: true,
   },
+  createdAt: { type: Date, expires: "1w", required: true, default: Date.now },
 });
 
 // Define the model
