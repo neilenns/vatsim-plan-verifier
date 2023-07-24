@@ -7,6 +7,7 @@ const verifierName = "hasEquipmentSuffix";
 export default async function hasEquipmentSuffix({
   _id,
   equipmentSuffix,
+  equipmentInfo,
 }: IFlightPlan): Promise<VerifierControllerResult> {
   // Set up the default result for a successful run of the verifier.
   var result: VerifierControllerResult = {
@@ -24,7 +25,17 @@ export default async function hasEquipmentSuffix({
     if (!equipmentSuffix || equipmentSuffix === "") {
       result.data.status = "Error";
       result.data.messageId = "missingEquipmentSuffix";
-      result.data.message = `Flight plan is missing an equipment suffix.`;
+      if (
+        equipmentInfo &&
+        equipmentInfo.commonEquipmentSuffixes &&
+        equipmentInfo.commonEquipmentSuffixes.length > 0
+      ) {
+        result.data.message = `Flight plan is missing an equipment suffix. It should probably be one of these: ${equipmentInfo.commonEquipmentSuffixes
+          .map((suffix) => `/${suffix}`)
+          .join(", ")}`;
+      } else {
+        result.data.message = `Flight plan is missing an equipment suffix.`;
+      }
       result.data.priority = 3;
     } else {
       result.data.status = "Information";
