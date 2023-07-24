@@ -5,8 +5,7 @@ import { formatAltitude } from "../utils.mjs";
 // This method for constructing models in typescript to allow adding custom functions later is
 // from https://stackoverflow.com/a/45675548/9206264.
 export interface IFlightAwareRoute extends IFlightAwareRouteDocument {}
-export interface FlightAwareRouteModelInterface
-  extends Model<IFlightAwareRoute> {}
+export interface FlightAwareRouteModelInterface extends Model<IFlightAwareRoute> {}
 
 const flightAwareRouteSchema = new mongoose.Schema({
   departure: { type: String, required: true },
@@ -41,9 +40,7 @@ const flightAwareRouteSchema = new mongoose.Schema({
 flightAwareRouteSchema.virtual("filedAltitudesFormatted").get(function () {
   return this.filedAltitudeMin === this.filedAltitudeMax
     ? formatAltitude(this.filedAltitudeMin)
-    : `${formatAltitude(this.filedAltitudeMin)}-${formatAltitude(
-        this.filedAltitudeMax
-      )}`;
+    : `${formatAltitude(this.filedAltitudeMin)} to ${formatAltitude(this.filedAltitudeMax)}`;
 });
 
 flightAwareRouteSchema.set("toJSON", { virtuals: true, aliases: false });
