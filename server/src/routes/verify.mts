@@ -112,6 +112,19 @@ router.get("/verify/results/:id", async (req: Request, res: Response) => {
   }
 });
 
+// Register the route to delete all the results for a past run
+router.delete("/verify/results/:id", async (req: Request, res: Response) => {
+  try {
+    await VerifierResult.deleteMany({ flightPlanId: req.params.id });
+
+    return res.status(200).json();
+  } catch (error) {
+    return res.status(500).json({
+      error: `Failed to delete results for flight plan ${req.params.id}.`,
+    });
+  }
+});
+
 // Register the route to run all verifiers
 router.get(
   "/verify/all/:id",
