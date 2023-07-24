@@ -2,8 +2,37 @@ import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2"; // Grid version 2
 import { Form, Link, Outlet } from "react-router-dom";
 import ActiveFlightPlans from "../components/ActiveFlightPlans";
+import { useCallback, useEffect } from "react";
+import axios from "axios";
+import { serverUrl } from "../configs/planVerifierServer.mts";
+import ILoginResponse from "../interfaces/ILoginResponse.mts";
 
-export default function Root() {
+export default function App() {
+  const verifyUser = useCallback(() => {
+    axios
+      .post<ILoginResponse>(
+        new URL("refreshToken", serverUrl).toString(),
+        {},
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+          },
+        }
+      )
+      .then((response) => {
+        localStorage.setItem("token", response.data.token);
+        setTimeout(verifyUser, 5 * 60 * 1000);
+      })
+      .catch(() => {
+        localStorage.setItem("token", "");
+      });
+  }, []);
+
+  useEffect(() => {
+    verifyUser();
+  }, [verifyUser]);
+
   return (
     <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       {/* AppBar */}
