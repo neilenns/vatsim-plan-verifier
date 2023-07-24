@@ -21,6 +21,8 @@ import { activeFlightPlansLoader } from "./routes/activeFlightPlansLoader.mts";
 import { activeFlightPlansAction } from "./routes/activeFlightPlansAction.mts";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme, CssBaseline } from "@mui/material";
+import { registerAction } from "./routes/registerAction.mts";
+import { loginAction } from "./routes/loginAction.mts";
 
 const router = createBrowserRouter([
   {
@@ -49,12 +51,14 @@ const router = createBrowserRouter([
     path: "/login",
     element: <LoginRegister />,
     errorElement: <ErrorPage />,
+    action: loginAction,
   },
   {
     id: "register",
     path: "/register",
     element: <LoginRegister />,
     errorElement: <ErrorPage />,
+    action: registerAction,
   },
 ]);
 

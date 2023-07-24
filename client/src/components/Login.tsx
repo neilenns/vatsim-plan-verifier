@@ -12,8 +12,10 @@ const Login = () => {
 
   return (
     <>
-      <Form className="auth-form">
+      <Form method="post">
         <TextField
+          id="email"
+          name="email"
           label="Email"
           required={true}
           variant="outlined"
@@ -26,6 +28,8 @@ const Login = () => {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
         />
         <TextField
+          id="password"
+          name="password"
           label="Password"
           required={true}
           variant="outlined"

@@ -8,6 +8,7 @@ type IUserState = {
 
 // Required so UserProvider doesn't throw a type error
 export interface IProviderProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   children?: any;
   defaultState?: IUserState;
 }
