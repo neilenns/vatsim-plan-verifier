@@ -10,19 +10,22 @@ import "@fontsource/roboto/700.css";
 
 // Routes
 import ErrorPage from "./ErrorPage";
-import Root from "./routes/Root.tsx";
+import App from "./routes/App.tsx";
 import FlightPlanDetails from "./routes/FlightPlanDetails.tsx";
+import LoginRegister from "./routes/LoginRegister.tsx";
 
 // Loaders
 import { flightPlanDetailsLoader } from "./routes/flightPlanDetailsLoader.mts";
 import { flightPlanVerifyAction } from "./routes/flightPlanVerifyAction.mts";
 import { activeFlightPlansLoader } from "./routes/activeFlightPlansLoader.mts";
 import { activeFlightPlansAction } from "./routes/activeFlightPlansAction.mts";
+import { ThemeProvider } from "@emotion/react";
+import { createTheme, CssBaseline } from "@mui/material";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root />,
+    element: <App />,
     loader: activeFlightPlansLoader,
     action: activeFlightPlansAction,
     errorElement: <ErrorPage />,
@@ -41,10 +44,25 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/login",
+    element: <LoginRegister />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/register",
+    element: <LoginRegister />,
+    errorElement: <ErrorPage />,
+  },
 ]);
+
+const defaultTheme = createTheme();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ThemeProvider theme={defaultTheme}>
+      <CssBaseline />
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </React.StrictMode>
 );
