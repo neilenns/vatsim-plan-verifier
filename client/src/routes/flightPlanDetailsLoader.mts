@@ -1,8 +1,8 @@
 // This nonsense for typing the params comes from
 
 import { ActionFunctionArgs, Params, ParamParseKey, LoaderFunction } from "react-router-dom";
-import { getFlightPlan } from "./flightPlan.mts";
-import { getVerifyResults } from "./verifyResults.mts";
+import { getFlightPlan } from "../services/flightPlan.mts";
+import { getVerifyResults } from "../services/verifyResults.mts";
 
 // https://stackoverflow.com/questions/75324193/react-router-6-how-to-strongly-type-the-params-option-in-route-loader
 const PathNames = {

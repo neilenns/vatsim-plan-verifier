@@ -1,5 +1,5 @@
 import { LoaderFunction } from "react-router-dom";
-import { getActiveFlightPlans } from "./activeFlightPlans.mjs";
+import { getActiveFlightPlans } from "../services/activeFlightPlans.mjs";
 
 export const activeFlightPlansLoader: LoaderFunction = async () => {
   try {

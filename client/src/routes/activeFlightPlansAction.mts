@@ -1,5 +1,5 @@
 import { type ActionFunction } from "react-router-dom";
-import { removeActiveFlightPlan } from "./activeFlightPlans.mts";
+import { removeActiveFlightPlan } from "../services/activeFlightPlans.mts";
 
 export const activeFlightPlansAction: ActionFunction = async ({ request }) => {
   const formData = await request.formData();

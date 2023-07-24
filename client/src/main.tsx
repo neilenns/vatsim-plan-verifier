@@ -14,10 +14,10 @@ import Root from "./routes/Root.tsx";
 import FlightPlanDetails from "./routes/FlightPlanDetails.tsx";
 
 // Loaders
-import { flightPlanDetailsLoader } from "./db/flightPlanDetailsLoader.mts";
-import { flightPlanVerifyAction } from "./db/flightPlanVerifyAction.mts";
-import { activeFlightPlansLoader } from "./db/activeFlightPlansLoader.mts";
-import { activeFlightPlansAction } from "./db/activeFlightPlansAction.mts";
+import { flightPlanDetailsLoader } from "./routes/flightPlanDetailsLoader.mts";
+import { flightPlanVerifyAction } from "./routes/flightPlanVerifyAction.mts";
+import { activeFlightPlansLoader } from "./routes/activeFlightPlansLoader.mts";
+import { activeFlightPlansAction } from "./routes/activeFlightPlansAction.mts";
 
 const router = createBrowserRouter([
   {

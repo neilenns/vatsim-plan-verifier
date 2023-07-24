@@ -1,8 +1,8 @@
 import { redirect, type ActionFunction } from "react-router-dom";
 import IFlightPlan from "../interfaces/IFlightPlan.mts";
-import { storeFlightPlan } from "./flightPlan.mts";
-import { runAllVerifiers } from "./runAllVerifiers.mts";
-import { addActiveFlightPlan, removeActiveFlightPlan } from "./activeFlightPlans.mts";
+import { storeFlightPlan } from "../services/flightPlan.mts";
+import { runAllVerifiers } from "../services/runAllVerifiers.mts";
+import { addActiveFlightPlan, removeActiveFlightPlan } from "../services/activeFlightPlans.mts";
 
 export const flightPlanVerifyAction: ActionFunction = async ({ params, request }) => {
   const formData = await request.formData();
