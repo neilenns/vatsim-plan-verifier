@@ -45,11 +45,13 @@ const router = createBrowserRouter([
     ],
   },
   {
+    id: "login",
     path: "/login",
     element: <LoginRegister />,
     errorElement: <ErrorPage />,
   },
   {
+    id: "register",
     path: "/register",
     element: <LoginRegister />,
     errorElement: <ErrorPage />,
