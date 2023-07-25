@@ -8,7 +8,7 @@ export default function Auth0ProviderLayout() {
       domain="dev-q5itijfspt3smgyw.us.auth0.com"
       clientId="SEuOg3vgIVRaf1Aka0ent4iTpzZHY88B"
       authorizationParams={{
-        redirect_uri: window.location.origin,
+        redirect_uri: "http://localhost:4000/callback",
       }}
     >
       <Outlet />

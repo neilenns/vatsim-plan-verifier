@@ -21,6 +21,7 @@ import { appActions } from "./routes/appActions.mts";
 import { ProtectedRoute } from "./components/ProtectedRoute.tsx";
 import Auth0ProviderLayout from "./components/Auth0ProviderLayout.tsx";
 import WelcomePage from "./routes/Welcome.tsx";
+import Auth0Callback from "./components/Auth0Callback.tsx";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <WelcomePage />,
+      },
+      {
+        path: "/callback",
+        element: <Auth0Callback />,
       },
       {
         path: "/app",
