@@ -17,12 +17,24 @@ import axios from "axios";
 import { serverUrl } from "../configs/planVerifierServer.mts";
 import ILoginResponse from "../interfaces/ILoginResponse.mts";
 import { DarkMode as DarkModeIcon, LightMode as LightModeIcon } from "@mui/icons-material";
+import { green, red, yellow } from "@mui/material/colors";
 
-const defaultTheme = createTheme();
+const defaultTheme = createTheme({
+  status: {
+    ok: green[100],
+    warning: yellow[100],
+    error: red[200],
+  },
+});
 
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
+  },
+  status: {
+    ok: green[900],
+    warning: yellow[900],
+    error: red[900],
   },
 });
 

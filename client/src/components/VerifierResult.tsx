@@ -1,8 +1,15 @@
-import React from "react";
-import { Typography, Box, List, ListItem, ListItemText } from "@mui/material";
+import React, { useEffect } from "react";
+import {
+  Typography,
+  Box,
+  List,
+  ListItem,
+  ListItemText,
+  useTheme,
+  CustomTheme,
+} from "@mui/material";
 import IVerifierResultDocument from "../interfaces/IVerifierResult.mts";
 import IFlightPlan from "../interfaces/IFlightPlan.mts";
-import "./verifierResult.css";
 
 interface VerifierResultComponentProps {
   verifierResult: IVerifierResultDocument;
@@ -12,14 +19,36 @@ interface VerifierResultComponentProps {
 const maxExtendedMessages = 3;
 
 const VerifierResult: React.FC<VerifierResultComponentProps> = ({ verifierResult, flightPlan }) => {
-  const { message, extendedMessage, status } = verifierResult;
+  const { message, extendedMessage } = verifierResult;
   const { departure, arrival } = flightPlan;
   const additionalItemsCount = Math.max(0, (extendedMessage?.length ?? 0) - maxExtendedMessages);
   const flightAwareIFRRouteVerifierUrl = `https://flightaware.com/analysis/route.rvt?origin=${departure}&destination=${arrival}`;
-  const statusClass = `verifier-result ${status.toLowerCase()}`;
+  const theme: CustomTheme = useTheme();
+
+  const getBackgroundColorForStatus = (status: string): string => {
+    switch (status.toLowerCase()) {
+      case "ok":
+        return theme.status.ok;
+      case "warning":
+        return theme.status.warning;
+      case "error":
+        return theme.status.error;
+      default:
+        return "#fff";
+    }
+  };
+  useEffect(() => {
+    // Nothing to do but reload the component when the theme changes.
+  }, [theme]);
 
   return (
-    <Box className={statusClass}>
+    <Box
+      sx={{
+        backgroundColor: getBackgroundColorForStatus(verifierResult.status),
+        padding: "10px",
+        border: "1px solid #ccc",
+      }}
+    >
       <Typography variant="body1">{message}</Typography>
 
       {extendedMessage && (
