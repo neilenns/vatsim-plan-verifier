@@ -29,7 +29,8 @@ const ActiveFlightPlans: React.FC = () => {
                   edge="end"
                   aria-label="delete"
                   type="submit"
-                  value={activePlan.flightPlanId}
+                  name="intent"
+                  value="removeFlightPlan"
                   // This feels incredibly hacky but it works for getting the information
                   // to the react router action to do the removal.
                   onClick={() => {

@@ -10,41 +10,66 @@ import "@fontsource/roboto/700.css";
 
 // Routes
 import ErrorPage from "./ErrorPage";
-import Root from "./routes/Root.tsx";
+import App from "./routes/App.tsx";
 import FlightPlanDetails from "./routes/FlightPlanDetails.tsx";
+import LoginRegister from "./routes/LoginRegister.tsx";
 
 // Loaders
 import { flightPlanDetailsLoader } from "./routes/flightPlanDetailsLoader.mts";
 import { flightPlanVerifyAction } from "./routes/flightPlanVerifyAction.mts";
 import { activeFlightPlansLoader } from "./routes/activeFlightPlansLoader.mts";
-import { activeFlightPlansAction } from "./routes/activeFlightPlansAction.mts";
+import { appActions } from "./routes/appActions.mts";
+import { ThemeProvider } from "@emotion/react";
+import { createTheme, CssBaseline } from "@mui/material";
+import { registerAction } from "./routes/registerAction.mts";
+import { loginAction } from "./routes/loginAction.mts";
+import { AuthenticationGuard } from "./routes/AuthenticationGuard.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root />,
+    element: <AuthenticationGuard component={<App />} />,
     loader: activeFlightPlansLoader,
-    action: activeFlightPlansAction,
+    action: appActions,
     errorElement: <ErrorPage />,
     children: [
       {
         path: "flightPlan/:id",
-        element: <FlightPlanDetails />,
+        element: <AuthenticationGuard component={<FlightPlanDetails />} />,
         loader: flightPlanDetailsLoader,
         action: flightPlanVerifyAction,
       },
       {
         path: "flightPlan/new",
-        element: <FlightPlanDetails />,
+        element: <AuthenticationGuard component={<FlightPlanDetails />} />,
         loader: flightPlanDetailsLoader,
         action: flightPlanVerifyAction,
       },
     ],
   },
+  {
+    id: "login",
+    path: "/login",
+    element: <LoginRegister />,
+    errorElement: <ErrorPage />,
+    action: loginAction,
+  },
+  {
+    id: "register",
+    path: "/register",
+    element: <LoginRegister />,
+    errorElement: <ErrorPage />,
+    action: registerAction,
+  },
 ]);
+
+const defaultTheme = createTheme();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ThemeProvider theme={defaultTheme}>
+      <CssBaseline />
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </React.StrictMode>
 );

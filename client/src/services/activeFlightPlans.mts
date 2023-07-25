@@ -8,7 +8,13 @@ export async function getActiveFlightPlans(): Promise<IActiveFlightPlan[] | unde
   try {
     // Send GET request to the Express.js route using Axios
     const response = await axios.get(
-      new URL(`activeFlightPlans/${controllerId}`, serverUrl).toString()
+      new URL(`activeFlightPlans/${controllerId}`, serverUrl).toString(),
+      {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+        },
+      }
     );
 
     if (response.status === 200) {
@@ -25,9 +31,15 @@ export async function addActiveFlightPlan(
   flightPlanId: string
 ): Promise<IActiveFlightPlan[] | undefined> {
   try {
-    // Send GET request to the Express.js route using Axios
     const response = await axios.post(
-      new URL(`activeFlightPlans/${controllerId}/${flightPlanId}`, serverUrl).toString()
+      new URL(`activeFlightPlans/${controllerId}/${flightPlanId}`, serverUrl).toString(),
+      {},
+      {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+        },
+      }
     );
 
     if (response.status === 200) {
@@ -46,7 +58,13 @@ export async function removeActiveFlightPlan(
   try {
     // Send GET request to the Express.js route using Axios
     const response = await axios.delete(
-      new URL(`activeFlightPlans/${controllerId}/${flightPlanId}`, serverUrl).toString()
+      new URL(`activeFlightPlans/${controllerId}/${flightPlanId}`, serverUrl).toString(),
+      {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+        },
+      }
     );
 
     if (response.status === 200) {

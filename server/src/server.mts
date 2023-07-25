@@ -1,8 +1,15 @@
 import express from "express";
 import bodyParser from "body-parser";
 import cors, { CorsOptions } from "cors";
+import passport from "passport";
 import { createHttpTerminator, HttpTerminator } from "http-terminator";
 import rateLimit from "express-rate-limit";
+import cookieParser from "cookie-parser";
+
+// Authentication
+import "./jwtStrategy.mjs";
+import "./LocalStrategy.mjs";
+import "./authenticate.mjs";
 
 // Routes
 import defaultRouter from "./routes/default.mjs";
@@ -14,6 +21,7 @@ import magneticDeclinationRouter from "./routes/magneticDeclination.mjs";
 import verifyRouter from "./routes/verify.mjs";
 import preferredRoutesRouter from "./routes/preferredRoutes.mjs";
 import activeFlightPlansRouter from "./routes/activeFlightPlans.mjs";
+import userRouter from "./routes/user.mjs";
 
 import https from "https";
 import debug from "debug";
@@ -38,6 +46,7 @@ const logger = debug("access-code-map:server");
 export function startServer(port: number): void {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
+  app.use(cookieParser(process.env.COOKIE_SECRET));
 
   const whitelist = process.env.WHITELISTED_DOMAINS
     ? process.env.WHITELISTED_DOMAINS.split(",")
@@ -65,6 +74,9 @@ export function startServer(port: number): void {
   app.use(cors(corsOptions));
   app.use(rateLimiter);
 
+  // Configure authentication
+  app.use(passport.initialize());
+
   // Set up the routes
   app.use(defaultRouter);
   app.use(flightPlan);
@@ -74,6 +86,7 @@ export function startServer(port: number): void {
   app.use(magneticDeclinationRouter);
   app.use(preferredRoutesRouter);
   app.use(activeFlightPlansRouter);
+  app.use(userRouter);
 
   // Verifier routes
   app.use(verifyRouter);

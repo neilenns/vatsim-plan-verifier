@@ -6,7 +6,13 @@ export async function getVerifyResults(flightPlanId: string): Promise<IVerifyAll
   try {
     // Send POST request to the Express.js route using Axios
     const response = await axios.get(
-      new URL(`verify/results/${flightPlanId}`, serverUrl).toString()
+      new URL(`verify/results/${flightPlanId}`, serverUrl).toString(),
+      {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+        },
+      }
     );
 
     if (response.status === 201) {
@@ -23,7 +29,13 @@ export async function removeVerifyResults(flightPlanId: string): Promise<void> {
   try {
     // Send POST request to the Express.js route using Axios
     const response = await axios.delete(
-      new URL(`verify/results/${flightPlanId}`, serverUrl).toString()
+      new URL(`verify/results/${flightPlanId}`, serverUrl).toString(),
+      {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+        },
+      }
     );
 
     if (response.status === 200) {
