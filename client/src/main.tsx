@@ -12,52 +12,41 @@ import "@fontsource/roboto/700.css";
 import ErrorPage from "./ErrorPage";
 import App from "./routes/App.tsx";
 import FlightPlanDetails from "./routes/FlightPlanDetails.tsx";
-import LoginRegister from "./routes/LoginRegister.tsx";
 
 // Loaders
 import { flightPlanDetailsLoader } from "./routes/flightPlanDetailsLoader.mts";
 import { flightPlanVerifyAction } from "./routes/flightPlanVerifyAction.mts";
 import { activeFlightPlansLoader } from "./routes/activeFlightPlansLoader.mts";
 import { appActions } from "./routes/appActions.mts";
-import { registerAction } from "./routes/registerAction.mts";
-import { loginAction } from "./routes/loginAction.mts";
-import { AuthenticationGuard } from "./routes/AuthenticationGuard.tsx";
+import { ProtectedRoute } from "./components/ProtectedRoute.tsx";
+import Auth0ProviderLayout from "./components/Auth0ProviderLayout.tsx";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <AuthenticationGuard component={<App />} />,
-    loader: activeFlightPlansLoader,
-    action: appActions,
-    errorElement: <ErrorPage />,
+    element: <Auth0ProviderLayout />,
     children: [
       {
-        path: "flightPlan/:id",
-        element: <AuthenticationGuard component={<FlightPlanDetails />} />,
-        loader: flightPlanDetailsLoader,
-        action: flightPlanVerifyAction,
-      },
-      {
-        path: "flightPlan/new",
-        element: <AuthenticationGuard component={<FlightPlanDetails />} />,
-        loader: flightPlanDetailsLoader,
-        action: flightPlanVerifyAction,
+        path: "/",
+        element: <ProtectedRoute component={<App />} />,
+        loader: activeFlightPlansLoader,
+        action: appActions,
+        errorElement: <ErrorPage />,
+        children: [
+          {
+            path: "flightPlan/:id",
+            element: <ProtectedRoute component={<FlightPlanDetails />} />,
+            loader: flightPlanDetailsLoader,
+            action: flightPlanVerifyAction,
+          },
+          {
+            path: "flightPlan/new",
+            element: <ProtectedRoute component={<FlightPlanDetails />} />,
+            loader: flightPlanDetailsLoader,
+            action: flightPlanVerifyAction,
+          },
+        ],
       },
     ],
-  },
-  {
-    id: "login",
-    path: "/login",
-    element: <LoginRegister />,
-    errorElement: <ErrorPage />,
-    action: loginAction,
-  },
-  {
-    id: "register",
-    path: "/register",
-    element: <LoginRegister />,
-    errorElement: <ErrorPage />,
-    action: registerAction,
   },
 ]);
 

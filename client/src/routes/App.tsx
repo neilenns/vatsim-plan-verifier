@@ -1,7 +1,9 @@
 import {
+  Alert,
   AppBar,
   Box,
   Button,
+  CircularProgress,
   CssBaseline,
   IconButton,
   ThemeProvider,
@@ -12,11 +14,9 @@ import {
 import Grid from "@mui/material/Unstable_Grid2/Grid2"; // Grid version 2
 import { Form, Link, Outlet } from "react-router-dom";
 import ActiveFlightPlans from "../components/ActiveFlightPlans";
-import { useCallback, useEffect, useState } from "react";
-import axios from "axios";
-import { serverUrl } from "../configs/planVerifierServer.mts";
-import ILoginResponse from "../interfaces/ILoginResponse.mts";
+import { useState } from "react";
 import { DarkMode as DarkModeIcon, LightMode as LightModeIcon } from "@mui/icons-material";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const defaultTheme = createTheme({});
 
@@ -28,37 +28,19 @@ const darkTheme = createTheme({
 
 export default function App() {
   const [darkMode, setDarkMode] = useState(false);
-
-  // This works but feels like it should be done with a react router action and fetcher?
-  const verifyUser = useCallback(() => {
-    axios
-      .post<ILoginResponse>(
-        new URL("refreshToken", serverUrl).toString(),
-        {},
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
-          },
-        }
-      )
-      .then((response) => {
-        localStorage.setItem("token", response.data.token);
-        setTimeout(verifyUser, 5 * 60 * 1000);
-      })
-      .catch(() => {
-        localStorage.removeItem("token");
-      });
-  }, []);
-
-  useEffect(() => {
-    verifyUser();
-  }, [verifyUser]);
+  const { isLoading, error } = useAuth0();
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
   };
 
+  if (isLoading) {
+    return <CircularProgress />;
+  }
+
+  if (error) {
+    return <Alert severity="error">{error.message}</Alert>;
+  }
   return (
     <ThemeProvider theme={darkMode ? darkTheme : defaultTheme}>
       <CssBaseline />
