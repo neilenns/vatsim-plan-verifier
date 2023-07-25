@@ -39,7 +39,7 @@ const StatusIndicator: React.FC<StatusIndicatorProps> = (props) => {
     // This comment exists to shut up es-lint
   }, [theme]);
 
-  if (hasWarnings === undefined && hasErrors === undefined && status === undefined) {
+  if (hasWarnings === undefined && hasErrors === undefined) {
     return <></>;
   }
 
