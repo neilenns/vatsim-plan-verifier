@@ -1,6 +1,7 @@
 import IActiveFlightPlan from "../interfaces/IActiveFlightPlan.mts";
 import axios from "axios";
 import { serverUrl } from "../configs/planVerifierServer.mjs";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const controllerId = "5f8a5fb7ebeb775e502b4e7f";
 
@@ -55,6 +56,8 @@ export async function addActiveFlightPlan(
 export async function removeActiveFlightPlan(
   flightPlanId: string
 ): Promise<IActiveFlightPlan[] | undefined> {
+  const { getTokenSilently } = useAuth0();
+
   try {
     // Send GET request to the Express.js route using Axios
     const response = await axios.delete(

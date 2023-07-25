@@ -17,7 +17,6 @@ import FlightPlanDetails from "./routes/FlightPlanDetails.tsx";
 import { flightPlanDetailsLoader } from "./routes/flightPlanDetailsLoader.mts";
 import { flightPlanVerifyAction } from "./routes/flightPlanVerifyAction.mts";
 import { activeFlightPlansLoader } from "./routes/activeFlightPlansLoader.mts";
-import { appActions } from "./routes/appActions.mts";
 import { ProtectedRoute } from "./components/ProtectedRoute.tsx";
 import Auth0ProviderLayout from "./components/Auth0ProviderLayout.tsx";
 import WelcomePage from "./routes/Welcome.tsx";
@@ -42,7 +41,6 @@ const router = createBrowserRouter([
         path: "/app",
         element: <ProtectedRoute component={App} />,
         loader: activeFlightPlansLoader,
-        action: appActions,
         children: [
           {
             path: "flightPlan/:id",

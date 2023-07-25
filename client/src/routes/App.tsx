@@ -81,7 +81,7 @@ export default function App() {
             <Grid xs={2} sx={{ mt: 2, ml: 2 }}>
               <Form>
                 <Box textAlign="center">
-                  <Button variant="contained" component={Link} to="/flightPlan/new">
+                  <Button variant="contained" component={Link} to="flightPlan/new">
                     New
                   </Button>
                 </Box>
