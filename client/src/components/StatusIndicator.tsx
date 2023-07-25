@@ -2,6 +2,9 @@ import { InputAdornment, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Warning, Error, CheckCircle } from "@mui/icons-material";
 
+// This component can take either hasErrors and hasWarnings from VerifyAllResults
+// or a status from a VerifyResult. If it has a status, it will override the other two
+// values.
 interface StatusIndicatorProps {
   hasErrors?: boolean;
   hasWarnings?: boolean;
