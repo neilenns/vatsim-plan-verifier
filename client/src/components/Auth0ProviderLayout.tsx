@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { Auth0ProviderWithRedirectCallback } from "./ProtectedRoute";
+import { Auth0ProviderWithRedirectCallback } from "./Auth0ProviderWithRedirectCallback";
 
 // From https://stackoverflow.com/a/73938067/9206264
 export default function Auth0ProviderLayout() {
