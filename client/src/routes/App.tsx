@@ -28,10 +28,18 @@ const darkTheme = createTheme({
 
 export default function App() {
   const [darkMode, setDarkMode] = useState(false);
-  const { isLoading, error } = useAuth0();
+  const { logout, isLoading, error } = useAuth0();
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
+  };
+
+  const handleLogout = () => {
+    void logout({
+      logoutParams: {
+        returnTo: window.location.origin,
+      },
+    });
   };
 
   if (isLoading) {
@@ -54,11 +62,15 @@ export default function App() {
             <IconButton onClick={toggleDarkMode}>
               {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
             </IconButton>
-            <Form method="post">
-              <Button color="inherit" type="submit" name="intent" value="logout">
-                Logout
-              </Button>
-            </Form>
+            <Button
+              color="inherit"
+              type="submit"
+              name="intent"
+              value="logout"
+              onClick={handleLogout}
+            >
+              Logout
+            </Button>
           </Toolbar>
         </AppBar>
 

@@ -20,19 +20,24 @@ import { activeFlightPlansLoader } from "./routes/activeFlightPlansLoader.mts";
 import { appActions } from "./routes/appActions.mts";
 import { ProtectedRoute } from "./components/ProtectedRoute.tsx";
 import Auth0ProviderLayout from "./components/Auth0ProviderLayout.tsx";
+import WelcomePage from "./routes/Welcome.tsx";
 
 const router = createBrowserRouter([
   {
     // This method of wrapping the Auth0Provider around the entire route comes from
     // https://stackoverflow.com/questions/73934043/how-to-use-auth0-provider-with-the-new-createbrowsererouter-in-v6-4.
     element: <Auth0ProviderLayout />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",
-        element: <App />,
+        element: <WelcomePage />,
+      },
+      {
+        path: "/app",
+        element: <ProtectedRoute component={App} />,
         loader: activeFlightPlansLoader,
         action: appActions,
-        errorElement: <ErrorPage />,
         children: [
           {
             path: "flightPlan/:id",
