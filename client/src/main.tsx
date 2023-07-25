@@ -19,8 +19,6 @@ import { flightPlanDetailsLoader } from "./routes/flightPlanDetailsLoader.mts";
 import { flightPlanVerifyAction } from "./routes/flightPlanVerifyAction.mts";
 import { activeFlightPlansLoader } from "./routes/activeFlightPlansLoader.mts";
 import { appActions } from "./routes/appActions.mts";
-import { ThemeProvider } from "@emotion/react";
-import { createTheme, CssBaseline } from "@mui/material";
 import { registerAction } from "./routes/registerAction.mts";
 import { loginAction } from "./routes/loginAction.mts";
 import { AuthenticationGuard } from "./routes/AuthenticationGuard.tsx";
@@ -63,13 +61,8 @@ const router = createBrowserRouter([
   },
 ]);
 
-const defaultTheme = createTheme();
-
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ThemeProvider theme={defaultTheme}>
-      <CssBaseline />
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
