@@ -6,10 +6,12 @@ import {
   ListItem,
   ListItemText,
   useTheme,
-  CustomTheme,
+  Paper,
+  Stack,
 } from "@mui/material";
 import IVerifierResultDocument from "../interfaces/IVerifierResult.mts";
 import IFlightPlan from "../interfaces/IFlightPlan.mts";
+import StatusIndicator from "./StatusIndicator";
 
 interface VerifierResultComponentProps {
   verifierResult: IVerifierResultDocument;
@@ -19,13 +21,13 @@ interface VerifierResultComponentProps {
 const maxExtendedMessages = 3;
 
 const VerifierResult: React.FC<VerifierResultComponentProps> = ({ verifierResult, flightPlan }) => {
-  const { message, extendedMessage } = verifierResult;
+  const { message, extendedMessage, status } = verifierResult;
   const { departure, arrival } = flightPlan;
   const additionalItemsCount = Math.max(0, (extendedMessage?.length ?? 0) - maxExtendedMessages);
   const flightAwareIFRRouteVerifierUrl = `https://flightaware.com/analysis/route.rvt?origin=${departure}&destination=${arrival}`;
-  const theme: CustomTheme = useTheme();
+  const theme = useTheme();
 
-  const getBackgroundColorForStatus = (status: string): string => {
+  const getColorForStatus = (status: string): string => {
     switch (status.toLowerCase()) {
       case "ok":
         return theme.palette.success.main;
@@ -42,42 +44,45 @@ const VerifierResult: React.FC<VerifierResultComponentProps> = ({ verifierResult
   }, [theme]);
 
   return (
-    <Box
-      sx={{
-        backgroundColor: getBackgroundColorForStatus(verifierResult.status),
-        padding: "10px",
-        border: "1px solid #ccc",
-      }}
+    <Paper
+      elevation={0}
+      variant="outlined"
+      sx={{ padding: "10px", borderColor: getColorForStatus(status) }}
     >
-      <Typography variant="body1">{message}</Typography>
+      <Stack direction="row" spacing={2} alignItems="center">
+        <StatusIndicator status={status} />
+        <Box>
+          <Typography variant="body1">{message}</Typography>
 
-      {extendedMessage && (
-        <>
-          <List>
-            {extendedMessage.slice(0, maxExtendedMessages).map((msg, index) => (
-              <ListItem key={index}>
-                <ListItemText primary={msg} />
-              </ListItem>
-            ))}
-            {additionalItemsCount > 0 && (
-              <ListItem>
-                <ListItemText
-                  primary={
-                    <a
-                      href={flightAwareIFRRouteVerifierUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {`and ${additionalItemsCount} more...`}
-                    </a>
-                  }
-                />
-              </ListItem>
-            )}
-          </List>
-        </>
-      )}
-    </Box>
+          {extendedMessage && (
+            <>
+              <List>
+                {extendedMessage.slice(0, maxExtendedMessages).map((msg, index) => (
+                  <ListItem key={index}>
+                    <ListItemText primary={msg} />
+                  </ListItem>
+                ))}
+                {additionalItemsCount > 0 && (
+                  <ListItem>
+                    <ListItemText
+                      primary={
+                        <a
+                          href={flightAwareIFRRouteVerifierUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {`and ${additionalItemsCount} more...`}
+                        </a>
+                      }
+                    />
+                  </ListItem>
+                )}
+              </List>
+            </>
+          )}
+        </Box>
+      </Stack>
+    </Paper>
   );
 };
 

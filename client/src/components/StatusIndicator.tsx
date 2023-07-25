@@ -5,6 +5,7 @@ import { Warning, Error, CheckCircle } from "@mui/icons-material";
 interface StatusIndicatorProps {
   hasErrors?: boolean;
   hasWarnings?: boolean;
+  status?: string;
 }
 
 const StatusIndicator: React.FC<StatusIndicatorProps> = (props) => {
@@ -13,15 +14,29 @@ const StatusIndicator: React.FC<StatusIndicatorProps> = (props) => {
   const theme = useTheme();
 
   useEffect(() => {
-    setHasErrors(props.hasErrors);
-    setHasWarnings(props.hasWarnings);
-  }, [props.hasErrors, props.hasWarnings]);
+    const status = props.status?.toLowerCase();
 
+    if (status === "ok") {
+      setHasErrors(false);
+      setHasWarnings(false);
+    } else if (status === "warning") {
+      setHasErrors(false);
+      setHasWarnings(true);
+    } else if (status === "error") {
+      setHasErrors(true);
+      setHasWarnings(false);
+    } else {
+      setHasErrors(props.hasErrors);
+      setHasWarnings(props.hasWarnings);
+    }
+  }, [props]);
+
+  // Redraw when the theme changes
   useEffect(() => {
     // This comment exists to shut up es-lint
   }, [theme]);
 
-  if (hasWarnings === undefined && hasErrors === undefined) {
+  if (hasWarnings === undefined && hasErrors === undefined && status === undefined) {
     return <></>;
   }
 
