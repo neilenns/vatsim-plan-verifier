@@ -28,11 +28,11 @@ const VerifierResult: React.FC<VerifierResultComponentProps> = ({ verifierResult
   const getBackgroundColorForStatus = (status: string): string => {
     switch (status.toLowerCase()) {
       case "ok":
-        return theme.status.ok;
+        return theme.palette.success.main;
       case "warning":
-        return theme.status.warning;
+        return theme.palette.warning.main;
       case "error":
-        return theme.status.error;
+        return theme.palette.error.main;
       default:
         return "#fff";
     }
