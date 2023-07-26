@@ -1,5 +1,4 @@
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
-import { serverUrl } from "../configs/planVerifierServer.mjs";
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
 import http from "../utils/http.mts";
 
