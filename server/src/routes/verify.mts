@@ -21,6 +21,7 @@ import airwaysForEquipmentSuffix from "../controllers/verifiers/airwaysForEquipm
 import hasSID from "../controllers/verifiers/hasSID.mjs";
 import hasValidFirstFix from "../controllers/verifiers/hasValidFirstFix.mjs";
 import VerifierResult from "../models/VerifierResult.mjs";
+import { verifyUser } from "../middleware/permissions.mjs";
 
 const router = express.Router();
 
@@ -60,6 +61,7 @@ const verifiers: Verifier[] = [
 const handleVerifierRoute = async (routeName: string, handler: Function) => {
   router.get(
     `/verify/${routeName}/:id`,
+    verifyUser,
     findExistingResultsMiddleware(routeName),
     async (req: Request, res: Response) => {
       const { id } = req.params;
@@ -97,7 +99,7 @@ const handleVerifierRoute = async (routeName: string, handler: Function) => {
 };
 
 // Register the route to get all the results for a past run
-router.get("/verify/results/:id", async (req: Request, res: Response) => {
+router.get("/verify/results/:id", verifyUser, async (req: Request, res: Response) => {
   try {
     const rawResults = await VerifierResult.find({ flightPlanId: req.params.id });
 
@@ -128,6 +130,7 @@ router.delete("/verify/results/:id", async (req: Request, res: Response) => {
 // Register the route to run all verifiers
 router.get(
   "/verify/all/:id",
+  verifyUser,
   findExistingResultsMiddleware(),
   async (req: Request, res: Response) => {
     const { id } = req.params;

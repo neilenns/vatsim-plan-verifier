@@ -3,10 +3,11 @@ import { getFlightAwareRoutes } from "../controllers/flightAwareRoutes.mjs";
 import IFlightPlanDocument from "../interfaces/IFlightPlanDocument.mjs";
 import { getFlightAwareAirport } from "../controllers/flightAwareAirports.mjs";
 import { IFlightAwareAirport } from "../models/FlightAwareAirport.mjs";
+import { verifyUser } from "../middleware/permissions.mjs";
 
 const router = express.Router();
 
-router.get("/flightAwareRoutes/:departure/:arrival", async (req, res) => {
+router.get("/flightAwareRoutes/:departure/:arrival", verifyUser, async (req, res) => {
   const { departure, arrival } = req.params;
 
   try {
@@ -25,7 +26,7 @@ router.get("/flightAwareRoutes/:departure/:arrival", async (req, res) => {
   }
 });
 
-router.get("/flightAwareAirport/:airportCode", async (req, res) => {
+router.get("/flightAwareAirport/:airportCode", verifyUser, async (req, res) => {
   const { airportCode } = req.params;
 
   try {

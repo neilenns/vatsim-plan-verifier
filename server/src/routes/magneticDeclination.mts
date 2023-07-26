@@ -1,11 +1,13 @@
 import express, { Request, Response } from "express";
 import { getMagneticDeclination } from "../controllers/magneticDeclination.mjs";
+import { verifyUser } from "../middleware/permissions.mjs";
 
 const router = express.Router();
 
 // GET route for reading a flight plan from the database
 router.get(
   "/magneticDeclination/:latitude/:longitude",
+  verifyUser,
   async (req: Request, res: Response) => {
     const { latitude, longitude } = req.params;
 
