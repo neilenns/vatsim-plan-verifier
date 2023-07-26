@@ -14,6 +14,14 @@ const ActiveFlightPlans: React.FC = () => {
     index: string
   ) => {
     setSelectedFlightPlanId(index);
+
+    // This is so dumb, I can't believe hidden input fields are the best way to do this.
+    const hiddenInput = document.querySelector<HTMLInputElement>(
+      'input[name="selectedFlightPlanId"]'
+    );
+    if (hiddenInput) {
+      hiddenInput.value = index;
+    }
   };
 
   return (
@@ -63,6 +71,7 @@ const ActiveFlightPlans: React.FC = () => {
         <ListItem />
       </List>
       <input hidden name="flightPlanId" />
+      <input hidden name="selectedFlightPlanId" />
     </fetcher.Form>
   );
 };
