@@ -6,8 +6,8 @@ import * as WebServer from "./server.mjs";
 // If startup fails restart is reattempted 5 times every 30 seconds.
 const restartAttemptWaitTime = 30 * 1000;
 const maxRestartAttempts = 5;
-var restartAttemptCount = 0;
-var restartTimer: NodeJS.Timeout;
+let restartAttemptCount = 0;
+let restartTimer: NodeJS.Timeout;
 
 const port = process?.env?.PORT ? parseInt(process.env.PORT) ?? 4001 : 4001;
 

@@ -30,8 +30,8 @@ import debug from "debug";
 import { Server } from "http";
 
 export const app = express();
-var server: https.Server | Server;
-var httpTerminator: HttpTerminator;
+let server: https.Server | Server;
+let httpTerminator: HttpTerminator;
 
 const rateLimitWindow = process?.env?.API_RATE_LIMIT_MINUTE_WINDOW
   ? parseInt(process.env.API_RATE_LIMIT_MINUTE_WINDOW) ?? 5

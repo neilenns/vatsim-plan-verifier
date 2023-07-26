@@ -1,8 +1,6 @@
 import FlightPlan from "../interfaces/IFlightPlanDocument.mjs";
 import axios, { AxiosResponse } from "axios";
-import FlightAwareRoute, {
-  IFlightAwareRoute,
-} from "../models/FlightAwareRoute.mjs";
+import FlightAwareRoute, { IFlightAwareRoute } from "../models/FlightAwareRoute.mjs";
 import Result from "../types/result.mjs";
 
 type FlightAwareRoutesResult = Result<IFlightAwareRoute[], "UnknownError">;
@@ -33,13 +31,11 @@ export async function getFlightAwareRoutes({
       };
     }
   } catch (error) {
-    console.error(
-      `Error fetching cached routes for ${departure}-${arrival}: ${error}`
-    );
+    console.error(`Error fetching cached routes for ${departure}-${arrival}: ${error}`);
   }
 
   // create a new FlightAwareRoutesResponse object and initialize the routes to an empty array
-  var fetchedRoutes: FlightAwareRoutesResponse = {
+  let fetchedRoutes: FlightAwareRoutesResponse = {
     routes: [],
   };
 
@@ -91,21 +87,16 @@ async function fetchFlightRoutes(
 
   try {
     const endpointUrl = `https://aeroapi.flightaware.com/aeroapi/airports/${departure}/routes/${arrival}`;
-    var response: AxiosResponse<FlightAwareRoutesResponse> = await axios.get(
-      endpointUrl,
-      { headers }
-    );
+    const response: AxiosResponse<FlightAwareRoutesResponse> = await axios.get(endpointUrl, {
+      headers,
+    });
 
     if (response.status === 200) {
       return response.data;
     } else {
-      throw new Error(
-        `Error fetching routes for ${departure}-${arrival}: ${response.status}`
-      );
+      throw new Error(`Error fetching routes for ${departure}-${arrival}: ${response.status}`);
     }
   } catch (error) {
-    throw new Error(
-      `Error fetching routes for ${departure}-${arrival}: ${error}`
-    );
+    throw new Error(`Error fetching routes for ${departure}-${arrival}: ${error}`);
   }
 }

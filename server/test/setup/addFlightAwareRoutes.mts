@@ -78,7 +78,7 @@ const routes = [
 export default async function setup() {
   await Promise.all(
     routes.map(async (route) => {
-      var record = new FlightAwareRoute(route);
+      const record = new FlightAwareRoute(route);
       try {
         await record.save();
       } catch (err) {

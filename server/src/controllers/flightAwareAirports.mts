@@ -1,13 +1,8 @@
 import axios, { AxiosResponse } from "axios";
-import FlightAwareAirport, {
-  IFlightAwareAirport,
-} from "../models/FlightAwareAirport.mjs";
+import FlightAwareAirport, { IFlightAwareAirport } from "../models/FlightAwareAirport.mjs";
 import Result from "../types/result.mjs";
 
-type FlightAwareAirportResult = Result<
-  IFlightAwareAirport,
-  "AirportNotFound" | "UnknownError"
->;
+type FlightAwareAirportResult = Result<IFlightAwareAirport, "AirportNotFound" | "UnknownError">;
 
 export async function getFlightAwareAirport(
   airportCode: string
@@ -72,21 +67,14 @@ async function fetchAirport(airportCode: string): Promise<IFlightAwareAirport> {
 
   try {
     const endpointUrl = `https://aeroapi.flightaware.com/aeroapi/airports/${airportCode}`;
-    var response: AxiosResponse<IFlightAwareAirport> = await axios.get(
-      endpointUrl,
-      { headers }
-    );
+    const response: AxiosResponse<IFlightAwareAirport> = await axios.get(endpointUrl, { headers });
 
     if (response.status === 200) {
       return response.data;
     } else {
-      throw new Error(
-        `Error fetching airport information for ${airportCode}: ${response.status}`
-      );
+      throw new Error(`Error fetching airport information for ${airportCode}: ${response.status}`);
     }
   } catch (error) {
-    throw new Error(
-      `Error fetching airport information for ${airportCode}: ${error}`
-    );
+    throw new Error(`Error fetching airport information for ${airportCode}: ${error}`);
   }
 }

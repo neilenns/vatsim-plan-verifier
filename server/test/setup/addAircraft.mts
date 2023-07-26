@@ -60,7 +60,7 @@ const aircraft = [
 export default async function setup() {
   await Promise.all(
     aircraft.map(async (aircraft) => {
-      var record = new Aircraft(aircraft);
+      const record = new Aircraft(aircraft);
       try {
         await record.save();
       } catch (err) {

@@ -33,7 +33,7 @@ const data = [
 export default async function setup() {
   await Promise.all(
     data.map(async (item) => {
-      var record = new PreferredRouteModel(item);
+      const record = new PreferredRouteModel(item);
       try {
         await record.save();
       } catch (err) {

@@ -1,8 +1,5 @@
 import { IFlightPlan } from "../../models/FlightPlan.mjs";
-import {
-  PreferredRoute,
-  PreferredRouteModel,
-} from "../../models/PreferredRoute.mjs";
+import { PreferredRoute, PreferredRouteModel } from "../../models/PreferredRoute.mjs";
 import VerifierResult from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import { formatAltitude } from "../../utils.mjs";
@@ -13,7 +10,7 @@ export default async function checkForPreferredRoutes(
   flightPlan: IFlightPlan
 ): Promise<VerifierControllerResult> {
   // Set up the default result for a successful run of the verifier.
-  var result: VerifierControllerResult = {
+  let result: VerifierControllerResult = {
     success: true,
     data: new VerifierResult({
       flightPlanId: flightPlan._id,
@@ -35,9 +32,7 @@ export default async function checkForPreferredRoutes(
   }
 
   try {
-    const preferredRoutes = await PreferredRouteModel.findByFlightPlan(
-      flightPlan
-    );
+    const preferredRoutes = await PreferredRouteModel.findByFlightPlan(flightPlan);
 
     // Bail early if there are no preferred routes
     if (preferredRoutes?.length === 0) {
@@ -51,12 +46,11 @@ export default async function checkForPreferredRoutes(
     }
 
     // Check for routes with a proper cruise altitude and speed
-    var matchingRoutes = preferredRoutes.filter((route) => {
+    const matchingRoutes = preferredRoutes.filter((route) => {
       return (
         route.route === flightPlan.route &&
         flightPlan.cruiseAltitude >= route.minimumRequiredAltitude &&
-        (flightPlan.equipmentInfo?.maxCruiseSpeed ?? 999) >=
-          route.minimumRequiredSpeed
+        (flightPlan.equipmentInfo?.maxCruiseSpeed ?? 999) >= route.minimumRequiredSpeed
       );
     });
 
@@ -70,18 +64,15 @@ export default async function checkForPreferredRoutes(
     else {
       // Find routes that will work for the speed the aircraft can fly
       const validPreferredRoutes = preferredRoutes.filter((route) => {
-        return (
-          (flightPlan.equipmentInfo?.maxCruiseSpeed ?? 999) >=
-          route.minimumRequiredSpeed
-        );
+        return (flightPlan.equipmentInfo?.maxCruiseSpeed ?? 999) >= route.minimumRequiredSpeed;
       });
 
       result.data.status = "Error";
       result.data.message = `Filed route does not match a preferred route at the minimum required altitude and speed. Should be one of:`;
       result.data.extendedMessage = validPreferredRoutes.map((route) => {
-        return `${route.route} at ${formatAltitude(
-          route.minimumRequiredAltitude
-        )} and ${route.minimumRequiredSpeed} kts`;
+        return `${route.route} at ${formatAltitude(route.minimumRequiredAltitude)} and ${
+          route.minimumRequiredSpeed
+        } kts`;
       });
 
       result.data.messageId = "notPreferredRoute";

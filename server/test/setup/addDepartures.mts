@@ -66,7 +66,7 @@ const departures = [
 export default async function setup() {
   await Promise.all(
     departures.map(async (departure) => {
-      var record = new DepartureModel(departure);
+      const record = new DepartureModel(departure);
       try {
         await record.save();
       } catch (err) {
