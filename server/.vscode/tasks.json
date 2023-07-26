@@ -19,7 +19,8 @@
       "platform": "node",
       "dockerBuild": {
         "context": ".",
-        "dockerfile": "Dockerfile"
+        "dockerfile": "Docker/Dockerfile",
+        "tag": "plan-verifier-server:localdev"
       }
     },
     {

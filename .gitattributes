@@ -1,0 +1,6 @@
+# This forces the .sh file to use LF line endings. Without this
+# the script file fails to run in Docker on Windows machines.
+# See https://stackoverflow.com/a/56791772/9206264 for how
+# found this solution and https://docs.github.com/en/get-started/getting-started-with-git/configuring-git-to-handle-line-endings
+# for how this configuration works.
+client/Docker/docker-entrypoint.sh text eol=lf
