@@ -1,7 +1,6 @@
-import axios from "axios";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
-import { serverUrl } from "../configs/planVerifierServer.mjs";
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
+import http from "../utils/http.mts";
 
 export async function runAllVerifiers(flightPlan: IFlightPlan): Promise<IVerifyAllResult> {
   if (!flightPlan || !flightPlan._id) {
@@ -10,15 +9,12 @@ export async function runAllVerifiers(flightPlan: IFlightPlan): Promise<IVerifyA
 
   try {
     // Send POST request to the Express.js route using Axios
-    const response = await axios.get(
-      new URL(`verify/all/${flightPlan._id.toString()}`, serverUrl).toString(),
-      {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
-        },
-      }
-    );
+    const response = await http.get(`verify/all/${flightPlan._id.toString()}`, {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+      },
+    });
 
     if (response.status === 200) {
       return response.data as IVerifyAllResult;
