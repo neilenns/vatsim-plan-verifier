@@ -27,7 +27,9 @@ const darkTheme = createTheme({
 });
 
 export default function App() {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState<boolean>(
+    localStorage.getItem("darkmode") === "true" ? true : false
+  );
 
   // This works but feels like it should be done with a react router action and fetcher?
   const verifyUser = useCallback(() => {
@@ -56,6 +58,7 @@ export default function App() {
   }, [verifyUser]);
 
   const toggleDarkMode = () => {
+    localStorage.setItem("darkmode", (!darkMode).toString());
     setDarkMode(!darkMode);
   };
 
