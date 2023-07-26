@@ -97,7 +97,6 @@ describe("verifier: routeWithFlightAware tests", () => {
     expect(result.success).to.equal(true);
 
     const data = (result as SuccessResult<IVerifierResult>).data;
-    console.log(JSON.stringify(data, null, 2));
 
     expect(data.status).to.equal("Warning");
     expect(data.flightPlanPart).to.equal("route");

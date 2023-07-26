@@ -34,13 +34,14 @@ export default async function validDepartureAirport({
     }
 
     await result.data.save();
-  } catch (error) {
-    console.log(`Error running validDepartureAirport: error`);
+  } catch (err) {
+    const error = err as Error;
+    console.log(`Error running validDepartureAirport: ${error.message}`);
 
     result = {
       success: false,
       errorType: "UnknownError",
-      error: `Error running validDepartureAirport: error`,
+      error: `Error running validDepartureAirport: ${error.message}`,
     };
   }
 

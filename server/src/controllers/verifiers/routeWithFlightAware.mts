@@ -84,13 +84,14 @@ export default async function routeWithFlightAware({
     }
 
     await result.data.save();
-  } catch (error) {
-    console.log(`Error running verifyRouteWithFlightAware: error`);
+  } catch (err) {
+    const error = err as Error;
+    console.log(`Error running verifyRouteWithFlightAware: ${error.message}}`);
 
     result = {
       success: false,
       errorType: "UnknownError",
-      error: `Error running verifyRouteWithFlightAware: error`,
+      error: `Error running verifyRouteWithFlightAware: ${error.message}`,
     };
   }
 
