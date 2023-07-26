@@ -58,8 +58,9 @@ export async function getFlightAwareRoutes({
         resultRoutes.push(newRoute);
       })
     );
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    const error = err as Error;
+    console.error(error.message);
     return {
       success: false,
       errorType: "UnknownError",

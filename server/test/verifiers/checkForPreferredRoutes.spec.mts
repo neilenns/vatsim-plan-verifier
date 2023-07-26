@@ -5,10 +5,7 @@ import checkForPreferredRoutes from "../../src/controllers/verifiers/checkForPre
 import { IFlightPlan } from "../../src/models/FlightPlan.mjs";
 import { IVerifierResult } from "../../src/models/VerifierResult.mjs";
 import { SuccessResult } from "../../src/types/result.mjs";
-import {
-  addFlightPlans,
-  removeFlightPlans,
-} from "../setup/manageFlightPlans.mjs";
+import { addFlightPlans, removeFlightPlans } from "../setup/manageFlightPlans.mjs";
 
 const testData = [
   // No preferred route
@@ -69,23 +66,15 @@ const testData = [
 ];
 
 describe("verifier: checkForPreferredRoutes tests", () => {
-  before(
-    "Add flight plans for tests",
-    async () => await addFlightPlans(testData)
-  );
+  before("Add flight plans for tests", async () => await addFlightPlans(testData));
 
-  after(
-    "Remove flight plans for tests",
-    async () => await removeFlightPlans(testData)
-  );
+  after("Remove flight plans for tests", async () => await removeFlightPlans(testData));
 
   it("should not have aircraft info", async () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b51");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await checkForPreferredRoutes(
-      (flightPlan as SuccessResult<IFlightPlan>).data
-    );
+    const result = await checkForPreferredRoutes((flightPlan as SuccessResult<IFlightPlan>).data);
 
     expect(result.success).to.equal(true);
 
@@ -99,9 +88,7 @@ describe("verifier: checkForPreferredRoutes tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b50");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await checkForPreferredRoutes(
-      (flightPlan as SuccessResult<IFlightPlan>).data
-    );
+    const result = await checkForPreferredRoutes((flightPlan as SuccessResult<IFlightPlan>).data);
 
     expect(result.success).to.equal(true);
 
@@ -115,9 +102,7 @@ describe("verifier: checkForPreferredRoutes tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b52");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await checkForPreferredRoutes(
-      (flightPlan as SuccessResult<IFlightPlan>).data
-    );
+    const result = await checkForPreferredRoutes((flightPlan as SuccessResult<IFlightPlan>).data);
 
     expect(result.success).to.equal(true);
 
@@ -131,9 +116,7 @@ describe("verifier: checkForPreferredRoutes tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b53");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await checkForPreferredRoutes(
-      (flightPlan as SuccessResult<IFlightPlan>).data
-    );
+    const result = await checkForPreferredRoutes((flightPlan as SuccessResult<IFlightPlan>).data);
 
     expect(result.success).to.equal(true);
 
@@ -147,14 +130,11 @@ describe("verifier: checkForPreferredRoutes tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b54");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await checkForPreferredRoutes(
-      (flightPlan as SuccessResult<IFlightPlan>).data
-    );
+    const result = await checkForPreferredRoutes((flightPlan as SuccessResult<IFlightPlan>).data);
 
     expect(result.success).to.equal(true);
 
     const data = (result as SuccessResult<IVerifierResult>).data;
-    console.log(JSON.stringify(data, null, 2));
     expect(data.status).to.equal("Error");
     expect(data.flightPlanPart).to.equal("route");
     expect(data.messageId).to.equal("notPreferredRoute");
