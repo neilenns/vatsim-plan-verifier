@@ -69,7 +69,7 @@ const testData = [
 ];
 
 describe("Flight plan tests", function () {
-  var result: FlightPlanResult;
+  let result: FlightPlanResult;
 
   before("Add flight plans for tests", async function () {
     await addFlightPlans(testData);

@@ -3,7 +3,7 @@ import FlightPlan, { IFlightPlan } from "../../src/models/FlightPlan.mjs";
 export async function addFlightPlans(testData: Partial<IFlightPlan>[]) {
   await Promise.all(
     testData.map(async (data) => {
-      var record = new FlightPlan(data);
+      const record = new FlightPlan(data);
       try {
         await record.save();
       } catch (err) {

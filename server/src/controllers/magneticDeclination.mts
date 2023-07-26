@@ -18,9 +18,7 @@ export async function getMagneticDeclination(
 
   try {
     const endpointUrl = `https://www.ngdc.noaa.gov/geomag-web/calculators/calculateDeclination?lat1=${latitude}&lon1=${longitude}&key=${process.env.GEOMAG_API_KEY}&resultFormat=json`;
-    var response: AxiosResponse<MagneticVariationResponse> = await axios.get(
-      endpointUrl
-    );
+    let response: AxiosResponse<MagneticVariationResponse> = await axios.get(endpointUrl);
 
     if (response.status === 200) {
       return {

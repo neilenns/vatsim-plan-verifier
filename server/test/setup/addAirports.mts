@@ -13,8 +13,7 @@ const airports = [
     elevation_ft: 433,
     classification: 1,
     active: true,
-    delay_index_url:
-      "https://flightaware.com/commercial/flightxml/data/airportdelays",
+    delay_index_url: "https://flightaware.com/commercial/flightxml/data/airportdelays",
     weather_url: "https://flightaware.com/commercial/flightxml/data/weather",
     satellite: true,
     site: "SEA",
@@ -22,8 +21,7 @@ const airports = [
     icao: "KSEA",
     faa: "SEA",
     type: "large_airport",
-    wikipedia:
-      "http://en.wikipedia.org/wiki/Seattle-Tacoma_International_Airport",
+    wikipedia: "http://en.wikipedia.org/wiki/Seattle-Tacoma_International_Airport",
     keywords: "SEA, KSEA, Seattle-Tacoma Intl, Boeing Field, King County Intl",
     magneticDeclination: -15.23,
   },
@@ -39,8 +37,7 @@ const airports = [
     elevation_ft: 31,
     classification: 1,
     active: true,
-    delay_index_url:
-      "https://flightaware.com/commercial/flightxml/data/airportdelays",
+    delay_index_url: "https://flightaware.com/commercial/flightxml/data/airportdelays",
     weather_url: "https://flightaware.com/commercial/flightxml/data/weather",
     satellite: false,
     site: "PDX",
@@ -57,7 +54,7 @@ const airports = [
 export default async function setup() {
   await Promise.all(
     airports.map(async (airport) => {
-      var record = new FlightAwareAirport(airport);
+      const record = new FlightAwareAirport(airport);
       try {
         await record.save();
       } catch (err) {

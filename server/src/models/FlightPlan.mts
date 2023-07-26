@@ -145,7 +145,7 @@ flightPlanSchema.pre("save", async function () {
   const origin = new LatLon(departureAirport.data.latitude, departureAirport.data.longitude);
   const destination = new LatLon(arrivalAirport.data.latitude, arrivalAirport.data.longitude);
 
-  var rawBearing =
+  const rawBearing =
     origin.initialBearingTo(destination) + (departureAirport.data.magneticDeclination ?? 0);
 
   // Force the final value to be between 0 and 359
@@ -156,7 +156,7 @@ flightPlanSchema.pre("save", async function () {
 flightPlanSchema.pre("save", function (next) {
   try {
     if (this.isModified("rawAircraftType")) {
-      var rawAircraftType = this.rawAircraftType;
+      let rawAircraftType = this.rawAircraftType;
 
       if (rawAircraftType.startsWith("H/")) {
         this.isHeavy = true;

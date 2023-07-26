@@ -11,7 +11,7 @@ export default async function hasValidFirstFix({
   SIDInformation,
 }: IFlightPlan): Promise<VerifierControllerResult> {
   // Set up the default result for a successful run of the verifier.
-  var result: VerifierControllerResult = {
+  let result: VerifierControllerResult = {
     success: true,
     data: new VerifierResult({
       flightPlanId: _id,

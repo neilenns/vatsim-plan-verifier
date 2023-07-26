@@ -10,11 +10,11 @@ import addFlightAwareRoutes from "./setup/addFlightAwareRoutes.mjs";
 import addPreferredRoutes from "./setup/addPreferredRoutes.mjs";
 import addDepartures from "./setup/addDepartures.mjs";
 
-var mongoServer: MongoMemoryServer;
+let mongoServer: MongoMemoryServer;
 // This is to ensure any network calls made by the tests don't actually
 // go anywhere and result in a 404. There's no need to actually mock
 // any of the REST API calls made by the server.
-var mock = new MockAdapter(axios);
+let mock = new MockAdapter(axios);
 
 export async function mochaGlobalSetup() {
   mongoServer = await MongoMemoryServer.create({

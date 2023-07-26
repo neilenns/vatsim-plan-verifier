@@ -14,7 +14,7 @@ export default async function routeWithFlightAware({
   cruiseAltitude,
 }: IFlightPlan): Promise<VerifierControllerResult> {
   // Set up the default result for a successful run of the verifier.
-  var result: VerifierControllerResult = {
+  let result: VerifierControllerResult = {
     success: true,
     data: new VerifierResult({
       flightPlanId: _id,
@@ -40,7 +40,7 @@ export default async function routeWithFlightAware({
   try {
     // Find the first matching route. The assumption is FlightAware won't return multiple
     // entries for the same route.
-    var matchingRoute = flightAwareRoutes.data.find((route) => {
+    let matchingRoute = flightAwareRoutes.data.find((route) => {
       return route.route === cleanedRoute;
     });
 
