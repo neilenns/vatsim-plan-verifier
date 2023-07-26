@@ -5,13 +5,15 @@ FROM node:18-alpine as build
 WORKDIR /app
 
 # Copy the package.json and package-lock.json files to the working directory
-COPY package*.json ./
+COPY ./package.json ./
+COPY ./package-lock.json ./
 
 # Install app dependencies
 RUN npm ci
 
-# Copy the TypeScript source code to the working directory
-COPY . ./
+# Copy the source code to the working directory
+COPY ./tsconfig.json ./
+COPY ./src ./src
 
 # Build the TypeScript app
 RUN npm run build
