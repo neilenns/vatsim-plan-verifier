@@ -7,7 +7,7 @@ const WelcomePage = () => {
   const handleLogin = () => {
     void loginWithRedirect({
       appState: {
-        returnTo: "/app",
+        returnTo: "/verifier",
       },
     });
   };
@@ -15,7 +15,7 @@ const WelcomePage = () => {
   const handleSignUp = () => {
     void loginWithRedirect({
       appState: {
-        returnTo: "/app",
+        returnTo: "/verifier",
       },
       authorizationParams: {
         screen_hint: "signup",

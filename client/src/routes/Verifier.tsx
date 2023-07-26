@@ -26,7 +26,7 @@ const darkTheme = createTheme({
   },
 });
 
-export default function App() {
+export default function Verifier() {
   const [darkMode, setDarkMode] = useState(false);
   const { logout, isLoading, error } = useAuth0();
 
