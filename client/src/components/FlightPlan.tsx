@@ -2,7 +2,7 @@ import { Box, Grid } from "@mui/material";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
 import { useEffect, useState } from "react";
-import FlightPlanTextField from "../components/FlightPlanTextField";
+import FlightPlanTextField from "./FlightPlanTextField";
 import { parseFlightPlan, validateFlightPlan } from "../utils/flightPlanParser.mts";
 import { LoadingButton } from "@mui/lab";
 import { Form, useNavigation } from "react-router-dom";

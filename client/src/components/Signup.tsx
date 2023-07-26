@@ -4,7 +4,7 @@ import { useFetcher } from "react-router-dom";
 
 import React, { useState } from "react";
 
-const Register = () => {
+const Signup = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -66,11 +66,11 @@ const Register = () => {
           loading={fetcher.state === "submitting"}
           variant="contained"
         >
-          Register
+          Sign up
         </LoadingButton>
       </fetcher.Form>
     </>
   );
 };
 
-export default Register;
+export default Signup;

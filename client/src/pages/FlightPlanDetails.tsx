@@ -1,7 +1,7 @@
 import Grid from "@mui/material/Unstable_Grid2/Grid2"; // Grid version 2
 
 import { Button, Stack } from "@mui/material";
-import FlightPlan from "./FlightPlan";
+import FlightPlan from "../components/FlightPlan";
 import { useEffect, useState } from "react";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
