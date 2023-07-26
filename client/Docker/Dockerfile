@@ -27,6 +27,10 @@ FROM nginx:alpine
 # for the website
 WORKDIR /usr/share/nginx/html
 
+# Copy the nginx configuration file
+COPY ./Docker/nginx.conf /etc/nginx/conf.d/nginx.conf
+RUN touch /etc/nginx/conf.d/ssl.conf
+
 # Create the folder where the docker-entrypoint.sh file will live
 RUN mkdir -p /usr/src/app
 
