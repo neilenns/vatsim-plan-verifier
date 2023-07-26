@@ -1,14 +1,11 @@
-import { ActionFunction, json } from "react-router-dom";
+import { ActionFunction, redirect } from "react-router-dom";
 import { serverUrl } from "../configs/planVerifierServer.mjs";
-import Result from "../types/result.mts";
 import axios from "axios";
 
-export type RegisterActionResult = Result<string, "UnknownError">;
-
-export const registerAction: ActionFunction = async ({ request }) => {
+export const signupAction: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
 
-  axios
+  await axios
     .post(
       new URL("signup", serverUrl).toString(),
       {
@@ -28,5 +25,5 @@ export const registerAction: ActionFunction = async ({ request }) => {
       console.log(error);
     });
 
-  return json({ success: true, data: "Success!" } as RegisterActionResult);
+  return redirect("/");
 };

@@ -22,7 +22,8 @@ export const loginAction: ActionFunction = async ({ request }) => {
     })
     .catch((error) => {
       console.log(error);
+      return redirect("/");
     });
 
-  return redirect("/");
+  return redirect("/verifier");
 };

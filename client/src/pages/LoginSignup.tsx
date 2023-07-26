@@ -1,9 +1,9 @@
 import { Container, Card, Tabs, Tab, Box } from "@mui/material";
-import Register from "../components/Register";
+import Signup from "../components/Signup";
 import Login from "../components/Login";
 import { Link, useMatches } from "react-router-dom";
 
-const LoginRegister: React.FC = () => {
+const LoginSignup: React.FC = () => {
   const currentTab = useMatches()[0]!.id;
 
   return (
@@ -19,11 +19,11 @@ const LoginRegister: React.FC = () => {
         <Card>
           <Tabs value={currentTab} indicatorColor="primary" textColor="primary" centered>
             <Tab label="Login" value="login" component={Link} to={"/login"} />
-            <Tab label="Register" value="register" component={Link} to={"/register"} />
+            <Tab label="Sign up" value="signup" component={Link} to={"/signup"} />
           </Tabs>
           <Box p={3}>
             {currentTab === "login" && <Login />}
-            {currentTab === "register" && <Register />}
+            {currentTab === "signup" && <Signup />}
           </Box>
         </Card>
       </Container>
@@ -31,4 +31,4 @@ const LoginRegister: React.FC = () => {
   );
 };
 
-export default LoginRegister;
+export default LoginSignup;

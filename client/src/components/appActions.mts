@@ -38,7 +38,7 @@ export const appActions: ActionFunction = async ({ request }) => {
     await removeFlightPlan(flightPlanId as string);
 
     if (flightPlanId === selectedFlightPlanId) {
-      return redirect("/");
+      return redirect("/verifier");
     }
     return null;
   } else if (intent === "logout") {

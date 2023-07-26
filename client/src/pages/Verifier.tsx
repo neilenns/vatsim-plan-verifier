@@ -26,7 +26,7 @@ const darkTheme = createTheme({
   },
 });
 
-export default function App() {
+export default function Verifier() {
   const [darkMode, setDarkMode] = useState<boolean>(
     localStorage.getItem("darkmode") === "true" ? true : false
   );
