@@ -37,5 +37,5 @@ export const flightPlanVerifyAction: ActionFunction = async ({ params, request }
     throw new Error("Failed to run verifiers");
   }
 
-  return redirect(`flightPlan/${storedFlightPlan._id.toString()}`);
+  return redirect(`/verifier/flightPlan/${storedFlightPlan._id.toString()}`);
 };
