@@ -1,10 +1,11 @@
 import express from "express";
 import passport from "passport";
 import { User } from "../models/User.mjs";
-import { getAuthToken, COOKIE_OPTIONS, getRefreshToken, verifyUser } from "../authenticate.mjs";
+import { getAuthToken, COOKIE_OPTIONS, getRefreshToken } from "../authenticate.mjs";
 import { Error as MongooseError } from "mongoose";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { ENV } from "../env.mjs";
+import { verifyUser } from "../middleware/permissions.mjs";
 
 const router = express.Router();
 

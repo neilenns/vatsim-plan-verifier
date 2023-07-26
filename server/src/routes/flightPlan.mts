@@ -1,11 +1,12 @@
 import express, { Request, Response } from "express";
 import IFlightPlanDocument from "../interfaces/IFlightPlanDocument.mjs";
 import { getFlightPlan, putFlightPlan } from "../controllers/flightPlans.mjs";
+import { verifyUser } from "../middleware/permissions.mjs";
 
 const router = express.Router();
 
 // POST route for storing a flight plan
-router.post("/flightPlan", async (req: Request, res: Response) => {
+router.post("/flightPlan", verifyUser, async (req: Request, res: Response) => {
   const flightPlanData: IFlightPlanDocument = req.body;
 
   const result = await putFlightPlan(flightPlanData);
@@ -18,7 +19,7 @@ router.post("/flightPlan", async (req: Request, res: Response) => {
 });
 
 // GET route for reading a flight plan from the database
-router.get("/flightPlan/:id", async (req: Request, res: Response) => {
+router.get("/flightPlan/:id", verifyUser, async (req: Request, res: Response) => {
   const { id } = req.params;
 
   const result = await getFlightPlan(id);

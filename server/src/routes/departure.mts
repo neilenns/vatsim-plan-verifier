@@ -1,10 +1,11 @@
 import express, { Request, Response } from "express";
 import { getDeparture } from "../controllers/departure.mjs";
+import { verifyUser } from "../middleware/permissions.mjs";
 
 const router = express.Router();
 
 // GET route for reading a departure from the database
-router.get("/departure/:id", async (req: Request, res: Response) => {
+router.get("/departure/:id", verifyUser, async (req: Request, res: Response) => {
   const { id } = req.params;
 
   const result = await getDeparture(id);

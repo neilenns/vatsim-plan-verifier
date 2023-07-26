@@ -1,11 +1,13 @@
 import express, { Request, Response } from "express";
 import { getPreferredRoutes } from "../controllers/preferredRoutes.mjs";
+import { verifyUser } from "../middleware/permissions.mjs";
 
 const router = express.Router();
 
 // GET route for reading a flight plan from the database
 router.get(
   "/preferredRoutes/:departure/:arrival",
+  verifyUser,
   async (req: Request, res: Response) => {
     const { departure, arrival } = req.params;
 

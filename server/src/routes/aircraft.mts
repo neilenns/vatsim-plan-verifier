@@ -1,10 +1,11 @@
 import express, { Request, Response } from "express";
 import { getAircraft } from "../controllers/aircraft.mjs";
+import { verifyUser } from "../middleware/permissions.mjs";
 
 const router = express.Router();
 
 // GET route for reading a flight plan from the database
-router.get("/aircraft/:id", async (req: Request, res: Response) => {
+router.get("/aircraft/:id", verifyUser, async (req: Request, res: Response) => {
   const { id } = req.params;
 
   const result = await getAircraft(id);

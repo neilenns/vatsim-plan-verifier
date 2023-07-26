@@ -25,5 +25,3 @@ export const getRefreshToken = (user: any): string => {
   });
   return refreshToken;
 };
-
-export const verifyUser = passport.authenticate("jwt", { session: false });
