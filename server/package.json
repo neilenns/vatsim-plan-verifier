@@ -7,7 +7,7 @@
     "start:dev": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node ./dist/main.mjs\"",
     "start": "node ./dist/main.mjs",
     "build": "tsc",
-    "test": "mocha"
+    "test": "cross-env DOTENV_CONFIG_PATH=./test/test.env mocha -r dotenv/config"
   },
   "keywords": [],
   "author": "",
@@ -49,6 +49,7 @@
     "@types/pluralize": "^0.0.30",
     "axios-mock-adapter": "^1.21.5",
     "chai": "^4.3.7",
+    "cross-env": "^7.0.3",
     "env-test": "^1.0.0",
     "mocha": "^10.2.0",
     "mongodb-memory-server": "^8.13.0",
