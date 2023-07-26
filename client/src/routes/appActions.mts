@@ -34,8 +34,12 @@ export const appActions: ActionFunction = async ({ request }) => {
 
   if (intent === "removeFlightPlan") {
     const flightPlanId = formData.get("flightPlanId");
+    const selectedFlightPlanId = formData.get("selectedFlightPlanId");
     await removeFlightPlan(flightPlanId as string);
 
+    if (flightPlanId === selectedFlightPlanId) {
+      return redirect("/");
+    }
     return null;
   } else if (intent === "logout") {
     await logout();
