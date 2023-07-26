@@ -1,4 +1,4 @@
-import "dotenv/config";
+import { ENV } from "./env.mjs";
 
 import * as db from "./database.mjs";
 import * as WebServer from "./server.mjs";
@@ -9,12 +9,10 @@ const maxRestartAttempts = 5;
 let restartAttemptCount = 0;
 let restartTimer: NodeJS.Timeout;
 
-const port = process?.env?.PORT ? parseInt(process.env.PORT) ?? 4001 : 4001;
-
 async function startup() {
   try {
     await db.connectToDatabase();
-    WebServer.startServer(port);
+    WebServer.startServer(ENV.PORT);
 
     // At this point startup succeeded so reset the restart count. This is in case
     // later hot reloads cause something to break, it should still support multiple

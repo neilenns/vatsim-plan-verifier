@@ -4,13 +4,14 @@ import "./models/FlightPlan.mjs";
 import "./models/FlightAwareAirport.mjs";
 import "./models/FlightAwareRoute.mjs";
 import "./models/Departure.mjs";
+import { ENV } from "./env.mjs";
 
 export async function connectToDatabase() {
-  const url = process.env.MONGO_DB_CONNECTION_STRING;
+  const url = ENV.MONGO_DB_CONNECTION_STRING;
 
-  if (process.env.NODE_ENV === "development") {
+  if (ENV.NODE_ENV === "development") {
     mongoose.set("debug", true);
-  } else if (process.env.NODE_ENV === "production") {
+  } else if (ENV.NODE_ENV === "production") {
     mongoose.set("autoIndex", false);
   }
 
@@ -21,7 +22,7 @@ export async function connectToDatabase() {
 
   console.log(`Connecting to database at ${url}...`);
   const connect = mongoose.connect(url, {
-    dbName: process.env.MONGO_DB_NAME,
+    dbName: ENV.MONGO_DB_NAME,
   });
 
   await connect

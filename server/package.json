@@ -7,7 +7,7 @@
     "start:dev": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node ./dist/main.mjs\"",
     "start": "node ./dist/main.mjs",
     "build": "tsc",
-    "test": "mocha"
+    "test": "cross-env DOTENV_CONFIG_PATH=./test/test.env mocha -r dotenv/config"
   },
   "keywords": [],
   "author": "",
@@ -31,7 +31,8 @@
     "passport-jwt": "^4.0.1",
     "passport-local-mongoose": "^8.0.0",
     "pluralize": "^8.0.0",
-    "ts-essentials": "^9.3.2"
+    "ts-essentials": "^9.3.2",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@types/chai": "^4.3.5",
@@ -48,6 +49,7 @@
     "@types/pluralize": "^0.0.30",
     "axios-mock-adapter": "^1.21.5",
     "chai": "^4.3.7",
+    "cross-env": "^7.0.3",
     "env-test": "^1.0.0",
     "mocha": "^10.2.0",
     "mongodb-memory-server": "^8.13.0",

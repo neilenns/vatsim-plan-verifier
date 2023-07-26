@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import FlightAwareAirport, { IFlightAwareAirport } from "../models/FlightAwareAirport.mjs";
 import Result from "../types/result.mjs";
+import { ENV } from "../env.mjs";
 
 type FlightAwareAirportResult = Result<IFlightAwareAirport, "AirportNotFound" | "UnknownError">;
 
@@ -56,13 +57,9 @@ export async function getFlightAwareAirport(
 }
 
 async function fetchAirport(airportCode: string): Promise<IFlightAwareAirport> {
-  if (!process.env.FLIGHTAWARE_API_KEY) {
-    throw new Error("No FlightAware API key found");
-  }
-
   const headers = {
     Accept: "application/json",
-    "x-apikey": process.env.FLIGHTAWARE_API_KEY,
+    "x-apikey": ENV.FLIGHTAWARE_API_KEY,
   };
 
   try {

@@ -28,29 +28,20 @@ import debug from "debug";
 
 // Authentication
 import { Server } from "http";
+import { ENV } from "./env.mjs";
 
 export const app = express();
 let server: https.Server | Server;
 let httpTerminator: HttpTerminator;
-
-const rateLimitWindow = process?.env?.API_RATE_LIMIT_MINUTE_WINDOW
-  ? parseInt(process.env.API_RATE_LIMIT_MINUTE_WINDOW) ?? 5
-  : 5;
-
-const rateLimitMax = process?.env?.API_RATE_LIMIT_MAX
-  ? parseInt(process.env.API_RATE_LIMIT_MAX) ?? 100
-  : 100;
 
 const logger = debug("access-code-map:server");
 
 export function startServer(port: number): void {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
-  app.use(cookieParser(process.env.COOKIE_SECRET));
+  app.use(cookieParser(ENV.COOKIE_SECRET));
 
-  const whitelist = process.env.WHITELISTED_DOMAINS
-    ? process.env.WHITELISTED_DOMAINS.split(",")
-    : [];
+  const whitelist = ENV.WHITELISTED_DOMAINS ? ENV.WHITELISTED_DOMAINS.split(",") : [];
 
   const corsOptions = {
     origin: function (origin, callback) {
@@ -64,8 +55,8 @@ export function startServer(port: number): void {
   } as CorsOptions;
 
   const rateLimiter = rateLimit({
-    windowMs: rateLimitWindow * 60 * 1000, // 5 minute default
-    max: rateLimitMax, // Limit each IP to 100 requests per window
+    windowMs: ENV.API_RATE_LIMIT_MINUTE_WINDOW * 60 * 1000, // 5 minute default
+    max: ENV.API_RATE_LIMIT_MAX, // Limit each IP to 100 requests per window
     standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
   });

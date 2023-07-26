@@ -29,9 +29,6 @@ export async function mochaGlobalSetup() {
   await mongoose.connect(mongoUri);
   await mongoose.connection.db.dropDatabase();
 
-  // Set a fake API key for FlightAware
-  process.env.FLIGHTAWARE_API_KEY = "testkey";
-
   // Populate the database
   await addAirports();
   await addAircraft();
