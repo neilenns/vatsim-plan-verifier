@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import MagneticVariationResponse from "../interfaces/IMagneticDeclinationResponse.mjs";
 import Result from "../types/result.mjs";
+import { ENV } from "../env.mjs";
 
 type MagneticDeclinationResult = Result<number, "UnknownError">;
 
@@ -8,16 +9,8 @@ export async function getMagneticDeclination(
   latitude: number,
   longitude: number
 ): Promise<MagneticDeclinationResult> {
-  if (!process.env.GEOMAG_API_KEY) {
-    return {
-      success: false,
-      errorType: "UnknownError",
-      error: "GEOMAG_API_KEY not set",
-    };
-  }
-
   try {
-    const endpointUrl = `https://www.ngdc.noaa.gov/geomag-web/calculators/calculateDeclination?lat1=${latitude}&lon1=${longitude}&key=${process.env.GEOMAG_API_KEY}&resultFormat=json`;
+    const endpointUrl = `https://www.ngdc.noaa.gov/geomag-web/calculators/calculateDeclination?lat1=${latitude}&lon1=${longitude}&key=${ENV.GEOMAG_API_KEY}&resultFormat=json`;
     let response: AxiosResponse<MagneticVariationResponse> = await axios.get(endpointUrl);
 
     if (response.status === 200) {

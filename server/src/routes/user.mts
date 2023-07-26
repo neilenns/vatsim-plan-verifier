@@ -4,6 +4,7 @@ import { User } from "../models/User.mjs";
 import { getAuthToken, COOKIE_OPTIONS, getRefreshToken, verifyUser } from "../authenticate.mjs";
 import { Error as MongooseError } from "mongoose";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import { ENV } from "../env.mjs";
 
 const router = express.Router();
 
@@ -89,7 +90,7 @@ router.post("/refreshToken", (req, res, next) => {
 
   if (refreshToken) {
     try {
-      const payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+      const payload = jwt.verify(refreshToken, ENV.REFRESH_TOKEN_SECRET);
       const userId = (payload as JwtPayload)._id;
       User.findOne({ _id: userId }).then(
         (user) => {

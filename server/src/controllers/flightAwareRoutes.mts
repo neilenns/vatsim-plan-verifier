@@ -2,6 +2,7 @@ import FlightPlan from "../interfaces/IFlightPlanDocument.mjs";
 import axios, { AxiosResponse } from "axios";
 import FlightAwareRoute, { IFlightAwareRoute } from "../models/FlightAwareRoute.mjs";
 import Result from "../types/result.mjs";
+import { ENV } from "../env.mjs";
 
 type FlightAwareRoutesResult = Result<IFlightAwareRoute[], "UnknownError">;
 
@@ -76,13 +77,9 @@ async function fetchFlightRoutes(
   departure: string,
   arrival: string
 ): Promise<FlightAwareRoutesResponse> {
-  if (!process.env.FLIGHTAWARE_API_KEY) {
-    throw new Error("No FlightAware API key found");
-  }
-
   const headers = {
     Accept: "application/json",
-    "x-apikey": process.env.FLIGHTAWARE_API_KEY,
+    "x-apikey": ENV.FLIGHTAWARE_API_KEY,
   };
 
   try {
