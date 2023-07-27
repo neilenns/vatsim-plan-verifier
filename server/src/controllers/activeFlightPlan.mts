@@ -42,6 +42,8 @@ export async function getActiveFlightPlans(controllerId: string): Promise<Active
       },
     };
 
+    // This can be added to the pipeline to filter out information results before sending to the client.
+    // Right now the client is filtering these out so it's not needed.
     const filterOutInformationResults = {
       $set: {
         verifierResults: {
@@ -136,6 +138,7 @@ export async function getActiveFlightPlans(controllerId: string): Promise<Active
       { $unwind: "$flightPlanDetails" },
       projectFlightPlanDetails,
       lookupVerifierResults,
+      // See comment on filterOutInfroamtionResults above.
       //      filterOutInformationResults,
       { $unwind: "$verifierResults" },
       groupResultsByStatus,
