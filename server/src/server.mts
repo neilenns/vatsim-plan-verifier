@@ -11,6 +11,7 @@ import { createHttpTerminator, HttpTerminator } from "http-terminator";
 import https from "https";
 import passport from "passport";
 import { ENV } from "./env.mjs";
+import compression from "compression";
 
 // Workaround for lodash being a CommonJS module
 import pkg from "lodash";
@@ -66,6 +67,7 @@ function readCertsSync() {
 }
 
 export function startServer(port: number): void {
+  app.use(compression());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
   app.use(cookieParser(ENV.COOKIE_SECRET));
