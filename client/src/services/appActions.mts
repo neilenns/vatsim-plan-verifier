@@ -1,9 +1,12 @@
 import { redirect, type ActionFunction } from "react-router-dom";
-import { removeActiveFlightPlan } from "../services/activeFlightPlans.mts";
-import { removeVerifyResults } from "../services/verifyResults.mts";
+import { removeActiveFlightPlan } from "./activeFlightPlans.mts";
+import { removeVerifyResults } from "./verifyResults.mts";
 import axios from "axios";
 import ILoginResponse from "../interfaces/ILoginResponse.mts";
 import { serverUrl } from "../configs/planVerifierServer.mts";
+import debug from "debug";
+
+const logger = debug("plan-verifier:appActions");
 
 async function removeFlightPlan(flightPlanId: string) {
   if (flightPlanId) {
@@ -20,7 +23,7 @@ async function logout() {
       },
     })
     .catch(() => {
-      console.log("User is already logged out.");
+      logger("User is already logged out.");
     }) // We don't have to do anything on errors.
     .finally(() => {
       localStorage.removeItem("token");

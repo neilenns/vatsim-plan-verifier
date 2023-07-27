@@ -4,7 +4,7 @@ import Result from "../types/result.mjs";
 import { ENV } from "../env.mjs";
 import debug from "debug";
 
-const logger = debug("plan-verifier:activeFlightPlanController");
+const logger = debug("plan-verifier:flightAwareAirports");
 type FlightAwareAirportResult = Result<IFlightAwareAirport, "AirportNotFound" | "UnknownError">;
 
 export async function getFlightAwareAirport(
@@ -50,7 +50,7 @@ export async function getFlightAwareAirport(
     };
   } catch (err) {
     const error = err as Error;
-    console.error(error.message);
+    logger(error.message);
     return {
       success: false,
       errorType: "UnknownError",

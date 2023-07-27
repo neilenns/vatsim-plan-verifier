@@ -18,7 +18,7 @@ import LoginSignup from "./pages/LoginSignup.tsx";
 import { flightPlanDetailsLoader } from "./services/flightPlanDetailsLoader.mts";
 import { flightPlanVerifyAction } from "./services/flightPlanVerifyAction.mts";
 import { activeFlightPlansLoader } from "./services/activeFlightPlansLoader.mts";
-import { appActions } from "./components/appActions.mts";
+import { appActions } from "./services/appActions.mts";
 import { signupAction } from "./services/signupAction.mts";
 import { loginAction } from "./services/loginAction.mts";
 import { AuthenticationGuard } from "./components/AuthenticationGuard.tsx";

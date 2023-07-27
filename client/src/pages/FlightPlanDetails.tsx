@@ -1,5 +1,4 @@
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
-
 import { Button, Stack } from "@mui/material";
 import FlightPlan from "../components/FlightPlan";
 import { useEffect, useState } from "react";
@@ -47,16 +46,7 @@ function App() {
     <>
       <Grid container spacing={2}>
         <Grid xs={10}>
-          <FlightPlan
-            flightPlan={flightPlan}
-            verifierResults={verifyResults}
-            onStoreFlightPlan={(flightPlan) => {
-              console.log(flightPlan);
-            }}
-            onVerify={(results) => {
-              console.log(results);
-            }}
-          />
+          <FlightPlan flightPlan={flightPlan} verifierResults={verifyResults} />
         </Grid>
         <Grid xs={2} sx={{ mt: 1 }}>
           <Stack spacing={2}>

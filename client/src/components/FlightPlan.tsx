@@ -10,8 +10,6 @@ import { Form, useNavigation } from "react-router-dom";
 interface FlightPlanProps {
   flightPlan: IFlightPlan;
   verifierResults: IVerifyAllResult | null;
-  onStoreFlightPlan: (flightPlan: IFlightPlan) => void;
-  onVerify: (result: IVerifyAllResult) => void;
 }
 
 const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {

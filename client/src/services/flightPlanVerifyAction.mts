@@ -4,6 +4,10 @@ import { storeFlightPlan } from "../services/flightPlan.mts";
 import { runAllVerifiers } from "../services/runAllVerifiers.mts";
 import { addActiveFlightPlan, removeActiveFlightPlan } from "../services/activeFlightPlans.mts";
 import { removeVerifyResults } from "../services/verifyResults.mts";
+import debug from "debug";
+
+const logger = debug("plan-verifier:flightPlanVerifyAction");
+
 export const flightPlanVerifyAction: ActionFunction = async ({ params, request }) => {
   const formData = await request.formData();
 
@@ -25,6 +29,8 @@ export const flightPlanVerifyAction: ActionFunction = async ({ params, request }
     throw new Error("Failed to store flight plan");
   }
 
+  logger(storedFlightPlan);
+
   if (params.id) {
     await Promise.all([removeActiveFlightPlan(params.id), removeVerifyResults(params.id)]);
   }
@@ -36,6 +42,8 @@ export const flightPlanVerifyAction: ActionFunction = async ({ params, request }
   if (!verifierResults) {
     throw new Error("Failed to run verifiers");
   }
+
+  logger(verifierResults);
 
   return redirect(`/verifier/flightPlan/${storedFlightPlan._id.toString()}`);
 };

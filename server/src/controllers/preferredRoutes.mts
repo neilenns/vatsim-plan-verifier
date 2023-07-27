@@ -1,17 +1,12 @@
-import {
-  PreferredRoute,
-  PreferredRouteModel,
-} from "../models/PreferredRoute.mjs";
+import { PreferredRoute, PreferredRouteModel } from "../models/PreferredRoute.mjs";
 import Result from "../types/result.mjs";
+import debug from "debug";
 
-export type PreferredRoutesFailureTypes =
-  | "NoPreferredRoutesFound"
-  | "UnknownError";
+const logger = debug("plan-verifier:preferredRoutes");
 
-export type PreferredRoutesResult = Result<
-  PreferredRoute[],
-  PreferredRoutesFailureTypes
->;
+export type PreferredRoutesFailureTypes = "NoPreferredRoutesFound" | "UnknownError";
+
+export type PreferredRoutesResult = Result<PreferredRoute[], PreferredRoutesFailureTypes>;
 
 export async function getPreferredRoutes(
   departure: string,
@@ -36,9 +31,7 @@ export async function getPreferredRoutes(
       data: preferredRoutes,
     };
   } catch (error) {
-    console.error(
-      `Unable to retrieve preferred routes for ${departure} to ${arrival}: ${error}`
-    );
+    logger(`Unable to retrieve preferred routes for ${departure} to ${arrival}: ${error}`);
     return {
       success: false,
       errorType: "UnknownError",

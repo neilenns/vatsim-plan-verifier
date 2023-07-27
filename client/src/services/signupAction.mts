@@ -1,6 +1,9 @@
 import { ActionFunction, redirect } from "react-router-dom";
 import { serverUrl } from "../configs/planVerifierServer.mjs";
 import axios from "axios";
+import debug from "debug";
+
+const logger = debug("plan-verifier:signupAction");
 
 export const signupAction: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
@@ -19,10 +22,10 @@ export const signupAction: ActionFunction = async ({ request }) => {
       }
     )
     .then(() => {
-      console.log("Success!");
+      logger("Success!");
     })
     .catch((error) => {
-      console.log(error);
+      logger(error);
     });
 
   return redirect("/");
