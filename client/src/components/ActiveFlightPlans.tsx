@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import IActiveFlightPlan from "../interfaces/IActiveFlightPlan.mts";
-import { Link, useFetcher, useLoaderData } from "react-router-dom";
+import { Link, useFetcher, useLoaderData, useParams } from "react-router-dom";
 import { Delete } from "@mui/icons-material";
 import { List, ListItem, IconButton, ListItemButton, ListItemText } from "@mui/material";
 
@@ -8,21 +8,22 @@ const ActiveFlightPlans: React.FC = () => {
   const [selectedFlightPlanId, setSelectedFlightPlanId] = useState("");
   const activeFlightPlans = useLoaderData() as IActiveFlightPlan[];
   const fetcher = useFetcher();
+  const { id } = useParams();
 
-  const handleListItemClick = (
-    _event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-    index: string
-  ) => {
-    setSelectedFlightPlanId(index);
+  // Handles setting the currently selected flight plan id based on the
+  // ID in the page URL.
+  useEffect(() => {
+    // Used by the page to render the selected flight plan as selected
+    setSelectedFlightPlanId(id ?? "");
 
-    // This is so dumb, I can't believe hidden input fields are the best way to do this.
+    // Used by the action to delete the selected flight plan
     const hiddenInput = document.querySelector<HTMLInputElement>(
       'input[name="selectedFlightPlanId"]'
     );
     if (hiddenInput) {
-      hiddenInput.value = index;
+      hiddenInput.value = id ?? "";
     }
-  };
+  }, [id]);
 
   return (
     <fetcher.Form method="post">
@@ -58,7 +59,6 @@ const ActiveFlightPlans: React.FC = () => {
                 component={Link}
                 to={`/verifier/flightPlan/${activePlan.flightPlanId}`}
                 selected={selectedFlightPlanId === activePlan.flightPlanId}
-                onClick={(event) => handleListItemClick(event, activePlan.flightPlanId)}
               >
                 <ListItemText
                   primary={activePlan.callsign}
