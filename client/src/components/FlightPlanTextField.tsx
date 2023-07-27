@@ -78,6 +78,7 @@ const FlightPlanTextField: React.FC<FlightPlanTextFieldProps> = ({
                 <IconButton
                   onClick={handleCopy}
                   size="small"
+                  aria-label="Copy text"
                   sx={{ paddingTop: 0, paddingBottom: 0, paddingRight: 0 }}
                 >
                   <ContentCopyIcon />

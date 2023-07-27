@@ -71,8 +71,8 @@ const ActiveFlightPlans: React.FC = () => {
         })}
         <ListItem />
       </List>
-      <input hidden name="flightPlanId" />
-      <input hidden name="selectedFlightPlanId" />
+      <input aria-label="hidden flight plan ID field" hidden name="flightPlanId" />
+      <input aria-label="hidden selected flight plan ID field" hidden name="selectedFlightPlanId" />
     </fetcher.Form>
   );
 };
