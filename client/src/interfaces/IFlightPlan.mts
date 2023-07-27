@@ -1,5 +1,6 @@
 import IAircraft from "./IAircraft.mjs";
 import IFlightAwareAirport from "./IFlightAwareAirport.mjs";
+import ITelephony from "./ITelephony.mts";
 
 interface IFlightPlan {
   _id?: string;
@@ -16,6 +17,7 @@ interface IFlightPlan {
   equipmentSuffix?: string;
   cruiseAltitude: string;
   route: string;
+  telephony?: ITelephony[];
 }
 
 export default IFlightPlan;
