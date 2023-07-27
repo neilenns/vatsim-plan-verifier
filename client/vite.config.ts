@@ -7,7 +7,9 @@ export default defineConfig({
   server: {
     port: 4000,
   },
+  // To fix errors about "styled_default" not being a function. See
+  // https://github.com/mui/material-ui/issues/32727#issuecomment-1653121350
   optimizeDeps: {
-    include: ["@mui/icons-material"],
+    include: ["@emotion/react", "@emotion/styled"],
   },
 });
