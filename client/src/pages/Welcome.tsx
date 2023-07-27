@@ -1,7 +1,13 @@
 import { Box, Typography, Button } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 const WelcomePage = () => {
+  const token = localStorage.getItem("token");
+
+  if (token !== null && token !== "") {
+    return <Navigate to="/verifier" />;
+  }
+
   return (
     <Box
       display="flex"

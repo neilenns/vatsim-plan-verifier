@@ -30,7 +30,6 @@ export default function Verifier() {
     localStorage.getItem("darkmode") === "true" ? true : false
   );
 
-  // This works but feels like it should be done with a react router action and fetcher?
   const verifyUser = useCallback(() => {
     http
       .post<ILoginResponse>(
