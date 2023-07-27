@@ -16,18 +16,10 @@ AirlineSchema.statics.findByAirlineCode = async function (airlineCode: string) {
 };
 
 // Define the model
-const Airline: AirlineModelInterface = model<
-  IAirlineDocument,
-  AirlineModelInterface
->("airline", AirlineSchema);
-
-Airline.on("index", (error) => {
-  if (error) {
-    console.error("Airline index error:", error);
-  } else {
-    console.log("Airline index created");
-  }
-});
+const Airline: AirlineModelInterface = model<IAirlineDocument, AirlineModelInterface>(
+  "airline",
+  AirlineSchema
+);
 
 // Export the model
 export default Airline;

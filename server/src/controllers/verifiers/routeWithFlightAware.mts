@@ -3,8 +3,10 @@ import VerifierResult from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import { getFlightAwareRoutes } from "../flightAwareRoutes.mjs";
 import pluralize from "pluralize";
+import debug from "debug";
 
 const verifierName = "routeWithFlightAware";
+const logger = debug(`plan-verifier:${verifierName}`);
 
 export default async function routeWithFlightAware({
   _id,
@@ -86,7 +88,7 @@ export default async function routeWithFlightAware({
     await result.data.save();
   } catch (err) {
     const error = err as Error;
-    console.log(`Error running verifyRouteWithFlightAware: ${error.message}}`);
+    logger(`Error running verifyRouteWithFlightAware: ${error.message}}`);
 
     result = {
       success: false,

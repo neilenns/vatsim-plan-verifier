@@ -1,5 +1,8 @@
 import Aircraft, { IAircraft } from "../models/Aircraft.mjs";
 import Result from "../types/result.mjs";
+import debug from "debug";
+
+const logger = debug("plan-verifier:activeFlightPlanController");
 
 type AircraftResult = Result<IAircraft, "AircraftNotFound" | "UnknownError">;
 
@@ -17,7 +20,7 @@ export async function getAircraft(id: string): Promise<AircraftResult> {
       };
     }
   } catch (error) {
-    console.log(`Error fetching aircraft ${id}: ${error}`);
+    logger(`Error fetching aircraft ${id}: ${error}`);
 
     return {
       success: false,

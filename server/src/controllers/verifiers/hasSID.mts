@@ -1,8 +1,10 @@
 import { IFlightPlan } from "../../models/FlightPlan.mjs";
 import VerifierResult from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
+import debug from "debug";
 
 const verifierName = "hasSID";
+const logger = debug(`plan-verifier:${verifierName}`);
 
 export default async function hasSID({ _id, SID }: IFlightPlan): Promise<VerifierControllerResult> {
   // Set up the default result for a successful run of the verifier.
@@ -31,7 +33,7 @@ export default async function hasSID({ _id, SID }: IFlightPlan): Promise<Verifie
 
     await result.data.save();
   } catch (error) {
-    console.log(`Error running hasSID: error`);
+    logger(`Error running hasSID: error`);
 
     result = {
       success: false,

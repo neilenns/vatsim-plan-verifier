@@ -1,8 +1,10 @@
 import { IFlightPlan } from "../../models/FlightPlan.mjs";
 import VerifierResult from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
+import debug from "debug";
 
 const verifierName = "warnHeavyRunwayAssignment";
+const logger = debug(`plan-verifier:${verifierName}`);
 
 export default async function warnHeavyRunwayAssignment({
   _id,
@@ -38,7 +40,7 @@ export default async function warnHeavyRunwayAssignment({
 
     await result.data.save();
   } catch (error) {
-    console.log(`Error running ${verifierName}: ${error}`);
+    logger(`Error running ${verifierName}: ${error}`);
 
     result = {
       success: false,

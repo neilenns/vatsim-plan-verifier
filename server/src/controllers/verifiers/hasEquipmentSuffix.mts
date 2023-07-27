@@ -1,8 +1,10 @@
 import { IFlightPlan } from "../../models/FlightPlan.mjs";
 import VerifierResult from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
+import debug from "debug";
 
 const verifierName = "hasEquipmentSuffix";
+const logger = debug(`plan-verifier:${verifierName}`);
 
 export default async function hasEquipmentSuffix({
   _id,
@@ -45,7 +47,7 @@ export default async function hasEquipmentSuffix({
 
     await result.data.save();
   } catch (error) {
-    console.log(`Error running hasEquipmentSuffix: ${error}`);
+    logger(`Error running hasEquipmentSuffix: ${error}`);
 
     result = {
       success: false,

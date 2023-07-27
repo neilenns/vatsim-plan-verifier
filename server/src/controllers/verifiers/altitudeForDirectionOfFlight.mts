@@ -2,8 +2,10 @@ import { IFlightPlan } from "../../models/FlightPlan.mjs";
 import VerifierResult from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import { formatAltitude } from "../../utils.mjs";
+import debug from "debug";
 
 const verifierName = "altitudeForDirectionOfFlight";
+const logger = debug(`plan-verifier:${verifierName}`);
 
 const eastboundRVSMAltitudes: number[] = [450, 490, 530, 570];
 const westboundRVSMAltiudes: number[] = [430, 470, 510, 550, 590];
@@ -90,7 +92,7 @@ export default async function altitudeForDirectionOfFlight({
 
     await result.data.save();
   } catch (error) {
-    console.log(`Error running ${verifierName}: ${error}`);
+    logger(`Error running ${verifierName}: ${error}`);
 
     result = {
       success: false,

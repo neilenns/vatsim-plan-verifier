@@ -22,18 +22,10 @@ const AircraftSchema = new Schema(
 );
 
 // Define the model
-const Aircraft: AircraftModelInterface = model<
-  IAircraftDocument,
-  AircraftModelInterface
->("aircraft", AircraftSchema);
-
-Aircraft.on("index", (error) => {
-  if (error) {
-    console.error("Aircraft index error:", error);
-  } else {
-    console.log("Aircraft index created");
-  }
-});
+const Aircraft: AircraftModelInterface = model<IAircraftDocument, AircraftModelInterface>(
+  "aircraft",
+  AircraftSchema
+);
 
 // Export the model
 export default Aircraft;

@@ -3,8 +3,10 @@ import { PreferredRoute, PreferredRouteModel } from "../../models/PreferredRoute
 import VerifierResult from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import { formatAltitude } from "../../utils.mjs";
+import debug from "debug";
 
 const verifierName = "checkForPreferredRoutes";
+const logger = debug(`plan-verifier:${verifierName}`);
 
 export default async function checkForPreferredRoutes(
   flightPlan: IFlightPlan
@@ -81,7 +83,7 @@ export default async function checkForPreferredRoutes(
 
     await result.data.save();
   } catch (error) {
-    console.log(`Error running checkForPreferredRoutes: error`);
+    logger(`Error running checkForPreferredRoutes: error`);
 
     result = {
       success: false,
