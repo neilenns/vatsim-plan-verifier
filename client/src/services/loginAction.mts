@@ -1,12 +1,13 @@
 import { ActionFunction, redirect } from "react-router-dom";
 import { serverUrl } from "../configs/planVerifierServer.mjs";
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import ILoginResponse from "../interfaces/ILoginResponse.mts";
+import http from "../utils/http.mts";
 
 export const loginAction: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
 
-  await axios
+  await http
     .post<ILoginResponse>(
       new URL("login", serverUrl).toString(),
       {
