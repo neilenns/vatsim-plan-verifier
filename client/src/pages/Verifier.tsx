@@ -13,8 +13,6 @@ import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import { Form, Link, Outlet } from "react-router-dom";
 import ActiveFlightPlans from "../components/ActiveFlightPlans";
 import { useCallback, useEffect, useState } from "react";
-import axios from "axios";
-import { serverUrl } from "../configs/planVerifierServer.mts";
 import ILoginResponse from "../interfaces/ILoginResponse.mts";
 import { DarkMode as DarkModeIcon, LightMode as LightModeIcon } from "@mui/icons-material";
 import http from "../utils/http.mts";
@@ -36,7 +34,7 @@ export default function Verifier() {
   const verifyUser = useCallback(() => {
     http
       .post<ILoginResponse>(
-        new URL("refreshToken", serverUrl).toString(),
+        "refreshToken",
         {},
         {
           withCredentials: true,
