@@ -70,7 +70,10 @@ export default function Verifier() {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Plan verifier
             </Typography>
-            <IconButton onClick={toggleDarkMode}>
+            <IconButton
+              onClick={toggleDarkMode}
+              aria-label={darkMode ? "Turndark mode off" : "Turn dark mode on"}
+            >
               {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
             </IconButton>
             <Form method="post">
