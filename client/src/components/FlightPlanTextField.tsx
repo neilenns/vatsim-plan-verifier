@@ -1,4 +1,4 @@
-import { FormGroup, IconButton, TextField } from "@mui/material";
+import { FormGroup, IconButton, StandardTextFieldProps, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import StatusIndicator from "./StatusIndicator";
 import { ContentCopy as ContentCopyIcon } from "@mui/icons-material";
@@ -13,10 +13,7 @@ const getBorderColorByStatus = (hasErrors?: boolean, hasWarnings?: boolean) => {
   }
 };
 
-interface FlightPlanTextFieldProps {
-  id: string;
-  label: string;
-  name: string;
+type FlightPlanTextFieldProps = {
   value: string;
   hasErrors?: boolean;
   hasWarnings?: boolean;
@@ -24,33 +21,42 @@ interface FlightPlanTextFieldProps {
   canCopy?: boolean;
   onPaste: (text: string) => boolean;
   onChange: (text: string) => void;
-}
+} & Omit<StandardTextFieldProps, "onPaste" | "onChange">;
 
-const FlightPlanTextField: React.FC<FlightPlanTextFieldProps> = (props) => {
-  const [value, setValue] = useState<string>(props.value);
-  const [hasErrors, setHasErrors] = useState<boolean | undefined>(props.hasErrors);
-  const [hasWarnings, setHasWarnings] = useState<boolean | undefined>(props.hasWarnings);
+const FlightPlanTextField: React.FC<FlightPlanTextFieldProps> = ({
+  value: propValue,
+  hasErrors: propHasErrors,
+  hasWarnings: propHasWarnings,
+  trim,
+  canCopy,
+  onPaste,
+  onChange,
+  ...textFieldProps
+}) => {
+  const [value, setValue] = useState<string>(propValue);
+  const [hasErrors, setHasErrors] = useState<boolean | undefined>(propHasErrors);
+  const [hasWarnings, setHasWarnings] = useState<boolean | undefined>(propHasWarnings);
 
   useEffect(() => {
-    setValue(props.value);
-    setHasErrors(props.hasErrors);
-    setHasWarnings(props.hasWarnings);
-  }, [props.value, props.hasErrors, props.hasWarnings]);
+    setValue(propValue);
+    setHasErrors(propHasErrors);
+    setHasWarnings(propHasWarnings);
+  }, [propHasErrors, propHasWarnings, propValue]);
 
   const handlePaste = (event: React.ClipboardEvent<Element>) => {
-    const isValidFlightPlan = props.onPaste(event.clipboardData.getData("Text"));
+    const isValidFlightPlan = onPaste(event.clipboardData.getData("Text"));
     if (isValidFlightPlan) {
       event.preventDefault();
     }
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (props.trim) {
+    if (trim) {
       event.target.value = event.target.value.trim();
     }
 
     setValue(event.target.value);
-    props.onChange(event.target.value);
+    onChange(event.target.value);
   };
 
   const handleCopy = () => {
@@ -60,17 +66,15 @@ const FlightPlanTextField: React.FC<FlightPlanTextFieldProps> = (props) => {
   return (
     <FormGroup row>
       <TextField
+        {...textFieldProps}
         fullWidth
-        id={props.id}
-        label={props.label}
-        name={props.name}
         value={value ?? ""}
         InputLabelProps={{ shrink: value ? true : false }}
         InputProps={{
           endAdornment: (
             <>
               <StatusIndicator hasErrors={hasErrors} hasWarnings={hasWarnings} />
-              {props.canCopy && (
+              {canCopy && (
                 <IconButton
                   onClick={handleCopy}
                   size="small"

@@ -49,6 +49,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               label="Callsign"
               name="callsign"
               value={flightPlan.callsign}
+              helperText={flightPlan?.telephony?.[0]?.telephony ?? " "}
               trim
               onPaste={parsePastedFlightPlan}
               onChange={(text) => {
@@ -64,6 +65,11 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               label="Aircraft type"
               name="rawAircraftType"
               value={flightPlan.rawAircraftType}
+              helperText={
+                flightPlan?.equipmentInfo?.name
+                  ? `${flightPlan.equipmentInfo.manufacturer} ${flightPlan.equipmentInfo.name}`
+                  : " "
+              }
               trim
               onPaste={parsePastedFlightPlan}
               onChange={(text) => {
@@ -94,6 +100,11 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               label="Departure"
               name="departure"
               value={flightPlan.departure}
+              helperText={
+                flightPlan?.departureAirportInfo?.name
+                  ? `${flightPlan.departureAirportInfo.name} Airport`
+                  : " "
+              }
               trim
               onPaste={parsePastedFlightPlan}
               onChange={(text) => {
@@ -109,6 +120,11 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               label="Arrival"
               name="arrival"
               value={flightPlan.arrival}
+              helperText={
+                flightPlan?.arrivalAirportInfo?.name
+                  ? `${flightPlan.arrivalAirportInfo.name} Airport`
+                  : " "
+              }
               trim
               onPaste={parsePastedFlightPlan}
               onChange={(text) => {
