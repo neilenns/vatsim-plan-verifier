@@ -62,6 +62,7 @@ const ActiveFlightPlans: React.FC = () => {
               >
                 <ListItemText
                   primary={activePlan.callsign}
+                  primaryTypographyProps={{ fontWeight: "bold" }}
                   secondary={`${activePlan.departure}-${activePlan.arrival}`}
                 />
               </ListItemButton>
