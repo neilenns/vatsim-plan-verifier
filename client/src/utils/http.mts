@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
-import { serverUrl } from "../configs/planVerifierServer.mts";
+import { serverUrl, apiKey } from "../configs/planVerifierServer.mts";
 
 class CustomHttp {
   private instance: AxiosInstance;
@@ -8,6 +8,8 @@ class CustomHttp {
     this.instance = axios.create({
       baseURL: serverUrl,
     });
+
+    this.instance.defaults.headers.common["x-api-key"] = apiKey;
   }
 
   authorized(token: string): AxiosInstance {
@@ -20,8 +22,8 @@ class CustomHttp {
     return this.instance.get(url, config);
   }
 
-  post(url: string, data?: unknown, config?: AxiosRequestConfig) {
-    return this.instance.post(url, data, config);
+  post<T>(url: string, data?: unknown, config?: AxiosRequestConfig) {
+    return this.instance.post<T>(url, data, config);
   }
 
   put(url: string, data?: unknown, config?: AxiosRequestConfig) {

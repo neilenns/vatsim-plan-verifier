@@ -11,6 +11,7 @@ echo "SERVER_URL=$SERVER_URL"
 
 cat <<EOF > /usr/share/nginx/html/env_vars.js
 window.SERVER_URL="$SERVER_URL";
+window.API_KEY="$API_KEY";
 EOF
 
 echo "Starting nginx..."

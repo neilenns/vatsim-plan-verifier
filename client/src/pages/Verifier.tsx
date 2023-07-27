@@ -13,10 +13,9 @@ import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import { Form, Link, Outlet } from "react-router-dom";
 import ActiveFlightPlans from "../components/ActiveFlightPlans";
 import { useCallback, useEffect, useState } from "react";
-import axios from "axios";
-import { serverUrl } from "../configs/planVerifierServer.mts";
 import ILoginResponse from "../interfaces/ILoginResponse.mts";
 import { DarkMode as DarkModeIcon, LightMode as LightModeIcon } from "@mui/icons-material";
+import http from "../utils/http.mts";
 
 const defaultTheme = createTheme({});
 
@@ -33,9 +32,9 @@ export default function Verifier() {
 
   // This works but feels like it should be done with a react router action and fetcher?
   const verifyUser = useCallback(() => {
-    axios
+    http
       .post<ILoginResponse>(
-        new URL("refreshToken", serverUrl).toString(),
+        "refreshToken",
         {},
         {
           withCredentials: true,
