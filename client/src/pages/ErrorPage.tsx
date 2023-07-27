@@ -1,4 +1,7 @@
 import { isRouteErrorResponse, useRouteError } from "react-router-dom";
+import debug from "debug";
+
+const logger = debug("plan-verifier:ErrorPage");
 
 // From https://github.com/remix-run/react-router/discussions/9628#discussioncomment-5555901
 function errorMessage(error: unknown): string {
@@ -9,14 +12,14 @@ function errorMessage(error: unknown): string {
   } else if (typeof error === "string") {
     return error;
   } else {
-    console.error(error);
+    logger(error);
     return "Unknown error";
   }
 }
 
 export default function ErrorPage() {
   const error = useRouteError();
-  console.error(error);
+  logger(error);
 
   return (
     <div id="error-page">

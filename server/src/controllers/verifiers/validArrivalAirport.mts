@@ -1,8 +1,10 @@
 import { IFlightPlan } from "../../models/FlightPlan.mjs";
 import VerifierResult from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
+import debug from "debug";
 
 const verifierName = "validArrivalAirport";
+const logger = debug(`plan-verifier:${verifierName}`);
 
 export default async function validArrivalAirport({
   _id,
@@ -36,7 +38,7 @@ export default async function validArrivalAirport({
     await result.data.save();
   } catch (err) {
     const error = err as Error;
-    console.log(`Error running validArrivalAirport: ${error.message}`);
+    logger(`Error running validArrivalAirport: ${error.message}`);
 
     result = {
       success: false,

@@ -1,9 +1,10 @@
 import { IFlightPlan } from "../../models/FlightPlan.mjs";
 import VerifierResult from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
-import hasEquipmentSuffix from "./hasEquipmentSuffix.mjs";
+import debug from "debug";
 
 const verifierName = "nonRVSMIsBelow290";
+const logger = debug(`plan-verifier:${verifierName}`);
 
 export default async function nonRVSMIsBelow290({
   _id,
@@ -51,7 +52,7 @@ export default async function nonRVSMIsBelow290({
 
     await result.data.save();
   } catch (error) {
-    console.log(`Error running verifyNonRVSMIsBelow290: error`);
+    logger(`Error running verifyNonRVSMIsBelow290: error`);
 
     result = {
       success: false,

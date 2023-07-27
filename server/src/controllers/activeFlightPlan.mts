@@ -1,7 +1,9 @@
 import { Types } from "mongoose";
 import ActiveFlightPlan, { IActiveFlightPlan } from "../models/ActiveFlightPlan.mjs";
 import Result from "../types/result.mjs";
-import { lookup } from "dns";
+import debug from "debug";
+
+const logger = debug("plan-verifier:activeFlightPlanController");
 
 type ActiveFlightPlanResult = Result<IActiveFlightPlan[], "NoFlightPlansFound" | "UnknownError">;
 
@@ -156,7 +158,7 @@ export async function getActiveFlightPlans(controllerId: string): Promise<Active
       };
     }
   } catch (error) {
-    console.log(`Error fetching flight plans for controller ${controllerId}: ${error}`);
+    logger(`Error fetching flight plans for controller ${controllerId}: ${error}`);
 
     return {
       success: false,
@@ -215,7 +217,7 @@ export async function addActiveFlightPlan(
       };
     }
   } catch (error) {
-    console.log(
+    logger(
       `Unable to save active flight plan ${flightPlanId} for controller ${controllerId}: ${error}`
     );
 

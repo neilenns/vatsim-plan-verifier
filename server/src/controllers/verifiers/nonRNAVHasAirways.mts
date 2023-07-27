@@ -1,8 +1,10 @@
 import { IFlightPlan } from "../../models/FlightPlan.mjs";
 import VerifierResult from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
+import debug from "debug";
 
 const verifierName = "nonRNAVHasAirways";
+const logger = debug(`plan-verifier:${verifierName}`);
 
 export default async function nonRNAVHasAirways({
   _id,
@@ -49,7 +51,7 @@ export default async function nonRNAVHasAirways({
 
     await result.data.save();
   } catch (error) {
-    console.log(`Error running verifyNonRNAVHasAirways: error`);
+    logger(`Error running verifyNonRNAVHasAirways: error`);
 
     result = {
       success: false,

@@ -1,8 +1,10 @@
 import { IFlightPlan } from "../../models/FlightPlan.mjs";
 import VerifierResult from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
+import debug from "debug";
 
 const verifierName = "hasValidFirstFix";
+const logger = debug(`plan-verifier:${verifierName}`);
 
 export default async function hasValidFirstFix({
   _id,
@@ -53,7 +55,7 @@ export default async function hasValidFirstFix({
 
     await result.data.save();
   } catch (error) {
-    console.log(`Error running hasValidFirstFix: error`);
+    logger(`Error running hasValidFirstFix: error`);
 
     result = {
       success: false,

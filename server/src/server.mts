@@ -48,11 +48,11 @@ const fullChainPath = "/certs/fullchain.pem";
 const certFilesExist = fs.existsSync(privateKeyPath) && fs.existsSync(fullChainPath);
 
 function reloadCertificates() {
-  console.log("Certificate files changed");
+  logger("Certificate files changed");
   if (server instanceof https.Server) {
-    console.log("Reloading SSL...");
+    logger("Reloading SSL...");
     server.setSecureContext(readCertsSync());
-    console.log("SSL reload complete!");
+    logger("SSL reload complete!");
   }
 }
 
@@ -118,13 +118,11 @@ export function startServer(port: number): void {
   if (certFilesExist) {
     server = https.createServer(readCertsSync(), app);
     server.listen(port, () => {
-      console.log("Certificate files exist, using HTTPS");
-      console.log(`Listening on port ${port}`);
+      logger("Certificate files exist, using HTTPS");
       logger(`Listening on port ${port}`);
     });
   } else {
     server = app.listen(port, () => {
-      console.log(`Listening on port ${port}`);
       logger(`Listening on port ${port}`);
     });
   }
@@ -139,7 +137,7 @@ startWatching();
 
 export async function stopServer() {
   if (server) {
-    console.log("Stopping web server...");
+    logger("Stopping web server...");
     await httpTerminator.terminate();
   }
 }
@@ -157,7 +155,7 @@ function startWatching() {
       awaitWriteFinish: true,
     })
     .on("change", debouncedReloadSSL);
-  console.log(`Watching for changes to ${fullChainPath} and ${privateKeyPath}`);
+  logger(`Watching for changes to ${fullChainPath} and ${privateKeyPath}`);
 }
 
 async function stopWatching() {

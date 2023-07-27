@@ -1,6 +1,8 @@
 import Airline, { IAirline } from "../models/Airline.mjs";
 import Result from "../types/result.mjs";
+import debug from "debug";
 
+const logger = debug("plan-verifier:activeFlightPlanController");
 type AircraftResult = Result<IAirline[], "AirlineNotFound" | "UnknownError">;
 
 export async function getAirline(airlineCode: string): Promise<AircraftResult> {
@@ -17,7 +19,7 @@ export async function getAirline(airlineCode: string): Promise<AircraftResult> {
       };
     }
   } catch (error) {
-    console.log(`Error fetching airlines ${airlineCode}: ${error}`);
+    logger(`Error fetching airlines ${airlineCode}: ${error}`);
 
     return {
       success: false,

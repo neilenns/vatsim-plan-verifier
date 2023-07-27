@@ -1,8 +1,10 @@
 import { IFlightPlan } from "../../models/FlightPlan.mjs";
 import VerifierResult from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
+import debug from "debug";
 
 const verifierName = "jetIsNotSlantA";
+const logger = debug(`plan-verifier:${verifierName}`);
 
 export default async function jetIsNotSlantA({
   _id,
@@ -47,7 +49,7 @@ export default async function jetIsNotSlantA({
 
     await result.data.save();
   } catch (error) {
-    console.log(`Error running : error`);
+    logger(`Error running : error`);
 
     result = {
       success: false,

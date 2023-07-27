@@ -1,13 +1,13 @@
 import FlightPlan, { IFlightPlan } from "../models/FlightPlan.mjs";
 import Result from "../types/result.mjs";
+import debug from "debug";
+
+const logger = debug("plan-verifier:flightPlans");
 
 export type FlightPlanFailureErrorTypes = "FlightPlanNotFound" | "UnknownError";
-
 export type FlightPlanResult = Result<IFlightPlan, FlightPlanFailureErrorTypes>;
 
-export async function putFlightPlan(
-  flightPlanData: IFlightPlan
-): Promise<FlightPlanResult> {
+export async function putFlightPlan(flightPlanData: IFlightPlan): Promise<FlightPlanResult> {
   try {
     // Create a new instance of the FlightPlan model
     const newFlightPlan = new FlightPlan(flightPlanData);
@@ -20,7 +20,7 @@ export async function putFlightPlan(
       data: savedFlightPlan,
     };
   } catch (error) {
-    console.error(`Unable to save flight plan: ${error}`);
+    logger(`Unable to save flight plan: ${error}`);
 
     return {
       success: false,
@@ -47,7 +47,7 @@ export async function getFlightPlan(id: string): Promise<FlightPlanResult> {
       data: flightPlan,
     };
   } catch (error) {
-    console.error(`Unable to retrieve flight plan ${id}: ${error}`);
+    logger(`Unable to retrieve flight plan ${id}: ${error}`);
     return {
       success: false,
       errorType: "UnknownError",

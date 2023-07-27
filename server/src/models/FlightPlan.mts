@@ -4,7 +4,9 @@ import autopopulate from "mongoose-autopopulate";
 import { formatAltitude } from "../utils.mjs";
 import { getFlightAwareAirport } from "../controllers/flightAwareAirports.mjs";
 import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
+import debug from "debug";
 
+const logger = debug("plan-verifier:flightPlan");
 export interface IFlightPlan extends IFlightPlanDocument {}
 export interface FlightPlanModelInterface extends Model<IFlightPlan> {}
 
@@ -172,7 +174,7 @@ flightPlanSchema.pre("save", function (next) {
       }
     }
   } catch (error) {
-    console.error(`Unable to parse rawAircraftType: ${error}`);
+    logger(`Unable to parse rawAircraftType: ${error}`);
   }
 
   next();
