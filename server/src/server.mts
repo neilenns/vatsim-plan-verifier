@@ -32,7 +32,7 @@ import magneticDeclinationRouter from "./routes/magneticDeclination.mjs";
 import preferredRoutesRouter from "./routes/preferredRoutes.mjs";
 import userRouter from "./routes/user.mjs";
 import verifyRouter from "./routes/verify.mjs";
-import myLogger from "./middleware/apikey.mjs";
+import apiKey from "./middleware/apikey.mjs";
 
 export const app = express();
 let server: https.Server | Server;
@@ -93,7 +93,7 @@ export function startServer(port: number): void {
   // Security
   app.use(cors(corsOptions));
   app.use(rateLimiter);
-  app.use(myLogger);
+  app.use(apiKey);
 
   // Configure authentication
   app.use(passport.initialize());
