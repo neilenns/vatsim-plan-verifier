@@ -45,6 +45,18 @@ const fullChainPath = "/certs/fullchain.pem";
 
 const certFilesExist = fs.existsSync(privateKeyPath) && fs.existsSync(fullChainPath);
 
+function reloadCertificates() {
+  console.log("Certificate files changed");
+  if (server instanceof https.Server) {
+    console.log("Reloading SSL...");
+    server.setSecureContext(readCertsSync());
+    console.log("SSL reload complete!");
+  }
+}
+
+// From https://stackoverflow.com/a/42455876/9206264
+const debouncedReloadSSL = debounce(reloadCertificates, 1000);
+
 function readCertsSync() {
   return {
     key: fs.readFileSync(privateKeyPath),
@@ -125,18 +137,6 @@ export async function stopServer() {
   if (server) {
     console.log("Stopping web server...");
     await httpTerminator.terminate();
-  }
-}
-
-// From https://stackoverflow.com/a/42455876/9206264
-const debouncedReloadSSL = debounce(reloadCertificates, 1000);
-
-function reloadCertificates() {
-  console.log("Certificate files changed");
-  if (server instanceof https.Server) {
-    console.log("Reloading SSL...");
-    server.setSecureContext(readCertsSync());
-    console.log("SSL reload complete!");
   }
 }
 
