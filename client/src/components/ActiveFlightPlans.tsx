@@ -56,7 +56,7 @@ const ActiveFlightPlans: React.FC = () => {
             >
               <ListItemButton
                 component={Link}
-                to={`/flightPlan/${activePlan.flightPlanId}`}
+                to={`/verifier/flightPlan/${activePlan.flightPlanId}`}
                 selected={selectedFlightPlanId === activePlan.flightPlanId}
                 onClick={(event) => handleListItemClick(event, activePlan.flightPlanId)}
               >
