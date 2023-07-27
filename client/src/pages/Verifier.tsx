@@ -9,7 +9,7 @@ import {
   Typography,
   createTheme,
 } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2/Grid2"; // Grid version 2
+import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import { Form, Link, Outlet } from "react-router-dom";
 import ActiveFlightPlans from "../components/ActiveFlightPlans";
 import { useCallback, useEffect, useState } from "react";
