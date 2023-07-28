@@ -56,7 +56,7 @@ const VerifierResult: React.FC<VerifierResultComponentProps> = ({ verifierResult
 
           {extendedMessage && (
             <>
-              <List>
+              <List dense>
                 {extendedMessage.slice(0, maxExtendedMessages).map((msg, index) => (
                   <ListItem key={index}>
                     <ListItemText primary={msg} />
