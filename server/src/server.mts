@@ -12,6 +12,7 @@ import https from "https";
 import passport from "passport";
 import { ENV } from "./env.mjs";
 import compression from "compression";
+import helmet from "helmet";
 
 // Workaround for lodash being a CommonJS module
 import pkg from "lodash";
@@ -95,6 +96,7 @@ export function startServer(port: number): void {
   // Security
   app.use(cors(corsOptions));
   app.use(rateLimiter);
+  app.use(helmet());
   app.use(apiKey);
 
   // Configure authentication
