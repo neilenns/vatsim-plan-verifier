@@ -41,7 +41,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
     <Box sx={{ mt: 1 }}>
       <Form method="post" id="verify-form">
         <Grid container spacing={2}>
-          <Grid item xs={2} key="callsign">
+          <Grid item xs={12} sm={6} md={4} lg={2} key="callsign">
             <FlightPlanTextField
               id="callsign"
               label="Callsign"
@@ -57,7 +57,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               hasWarnings={verifierResults?.hasCallsignWarnings}
             />
           </Grid>
-          <Grid item xs={2} key="aircraft">
+          <Grid item xs={12} sm={6} md={4} lg={2} key="aircraft">
             <FlightPlanTextField
               id="rawAircraftType"
               label="Aircraft type"
@@ -77,7 +77,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               hasWarnings={verifierResults?.hasRawAircraftTypeWarnings}
             />
           </Grid>
-          <Grid item xs={2} key="squawk">
+          <Grid item xs={12} sm={6} md={4} lg={2} key="squawk">
             <FlightPlanTextField
               id="squawk"
               label="Squawk code"
@@ -92,7 +92,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               hasWarnings={verifierResults?.hasSquawkWarnings}
             />
           </Grid>
-          <Grid item xs={2} key="departure">
+          <Grid item xs={12} sm={6} md={4} lg={2} key="departure">
             <FlightPlanTextField
               id="departure"
               label="Departure"
@@ -112,7 +112,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               hasWarnings={verifierResults?.hasDepartureWarnings}
             />
           </Grid>
-          <Grid item xs={2} key="arrival">
+          <Grid item xs={12} sm={6} md={4} lg={2} key="arrival">
             <FlightPlanTextField
               id="arrival"
               label="Arrival"
@@ -132,7 +132,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               hasWarnings={verifierResults?.hasArrivalWarnings}
             />
           </Grid>
-          <Grid item xs={2} key="altitude">
+          <Grid item xs={12} sm={6} md={4} lg={2} key="altitude">
             <FlightPlanTextField
               id="cruiseAltitude"
               label="Cruise altitude"
