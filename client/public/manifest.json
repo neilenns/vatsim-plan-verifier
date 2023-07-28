@@ -1,0 +1,41 @@
+{
+  "short_name": "Vatsim plan verifier",
+  "name": "Vatsim plan verifier",
+  "icons": [
+    {
+      "src": "appicon.ico",
+      "type": "image/x-icon",
+      "sizes": "256x256 128x128 96x96 64x64 32x32 24x24 16x16"
+    },
+    {
+      "src": "appicon.png",
+      "type": "image/png",
+      "sizes": "256x256"
+    },
+    {
+      "src": "appicon@0.5x.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "appicon@0.25x.png",
+      "type": "image/png",
+      "sizes": "64x64"
+    },
+    {
+      "src": "appicon@0.33x.png",
+      "type": "image/png",
+      "sizes": "84x84"
+    },
+    {
+      "src": "appicon@0.75x.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "appicon@2x.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
