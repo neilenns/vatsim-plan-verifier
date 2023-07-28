@@ -15,7 +15,7 @@ COPY ./tsconfig.json ./
 COPY ./tsconfig.node.json ./
 COPY ./vite.config.ts ./
 COPY ./src ./src
-COPY ./public ./
+COPY ./public ./public
 COPY ./index.html ./
 
 RUN npm run build
