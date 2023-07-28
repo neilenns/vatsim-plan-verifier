@@ -17,9 +17,16 @@ import ILoginResponse from "../interfaces/ILoginResponse.mts";
 import { DarkMode as DarkModeIcon, LightMode as LightModeIcon } from "@mui/icons-material";
 import http from "../utils/http.mts";
 
-const defaultTheme = createTheme({});
+const defaultTheme = createTheme({
+  typography: {
+    fontFamily: "Inter Variable",
+  },
+});
 
 const darkTheme = createTheme({
+  typography: {
+    fontFamily: "Inter Variable",
+  },
   palette: {
     mode: "dark",
   },
