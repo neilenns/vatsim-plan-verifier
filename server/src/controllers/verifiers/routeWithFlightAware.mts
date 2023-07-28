@@ -57,7 +57,7 @@ export default async function routeWithFlightAware({
             route.filedAltitudesFormatted
           }`
       );
-      result.data.priority = 3;
+      result.data.priority = 4;
     }
     // Matching routes found and the cruise altitude matches too.
     else if (
@@ -82,7 +82,7 @@ export default async function routeWithFlightAware({
         matchingRoute.count,
         true
       )} but the altitude is typically ${matchingRoute.filedAltitudesFormatted}.`;
-      result.data.priority = 3;
+      result.data.priority = 4;
     }
 
     await result.data.save();
