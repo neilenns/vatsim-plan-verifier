@@ -50,7 +50,7 @@ export default async function routeWithFlightAware({
     if (!matchingRoute) {
       result.data.status = "Warning";
       result.data.messageId = "doesNotMatchFlightAwareRoutes";
-      result.data.message = `No FlightAware routes found for ${departure} to ${arrival} matching ${cleanedRoute}. Possible valid routes:`;
+      result.data.message = `Route doesn't match any FlightAware routes. Common routes include:`;
       result.data.extendedMessage = flightAwareRoutes.data.map(
         (route) =>
           `${route.route} flown ${pluralize("time", route.count, true)} at ${
