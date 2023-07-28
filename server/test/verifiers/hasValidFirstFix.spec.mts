@@ -19,7 +19,7 @@ const testData = [
     route: "PTLD2 BTG V23 OLM J42 SEA KRATR2",
     squawk: "1234",
   },
-  // Valid SID invalid first fix
+  // Valid SID invalid first fix (RNAV)
   {
     _id: "5f9f7b3b9d3b3c1b1c9b4b52",
     callsign: "ASA42",
@@ -63,6 +63,17 @@ const testData = [
     route: "PTLD2",
     squawk: "1234",
   },
+  // Valid SID invalid first fix (non-RNAV)
+  {
+    _id: "5f9f7b3b9d3b3c1b1c9b4b56",
+    callsign: "ASA42",
+    departure: "KSEA",
+    arrival: "KPDX",
+    cruiseAltitude: 210,
+    rawAircraftType: "B738/A",
+    route: "PTLD2 ARRIE BTG V23 OLM J42 SEA KRATR2",
+    squawk: "1234",
+  },
 ];
 describe("verifier: hasValidFirstFix tests", () => {
   before("Add flight plans for tests", async () => await addFlightPlans(testData));
@@ -83,8 +94,22 @@ describe("verifier: hasValidFirstFix tests", () => {
     expect(data.messageId).to.equal("firstFixIsValid");
   });
 
-  it("should have an invalid first fix", async () => {
+  it("should have an invalid first fix (RNAV)", async () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b52");
+    expect(flightPlan.success).to.equal(true);
+
+    const result = await hasValidFirstFix((flightPlan as SuccessResult<IFlightPlan>).data);
+
+    expect(result.success).to.equal(true);
+
+    const data = (result as SuccessResult<IVerifierResult>).data;
+    expect(data.status).to.equal("Error");
+    expect(data.flightPlanPart).to.equal("route");
+    expect(data.messageId).to.equal("firstFixNotInRNAVSID");
+  });
+
+  it("should have an invalid first fix (non-RNAV)", async () => {
+    const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b56");
     expect(flightPlan.success).to.equal(true);
 
     const result = await hasValidFirstFix((flightPlan as SuccessResult<IFlightPlan>).data);
