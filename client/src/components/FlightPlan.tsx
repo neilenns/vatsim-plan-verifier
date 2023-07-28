@@ -1,4 +1,4 @@
-import { Box, Grid } from "@mui/material";
+import { Box, Button, Grid } from "@mui/material";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
 import { useEffect, useState } from "react";
@@ -6,6 +6,7 @@ import FlightPlanTextField from "./FlightPlanTextField";
 import { parseFlightPlan, validateFlightPlan } from "../utils/flightPlanParser.mts";
 import { LoadingButton } from "@mui/lab";
 import { Form, useNavigation } from "react-router-dom";
+import { OpenInNew } from "@mui/icons-material";
 
 interface FlightPlanProps {
   flightPlan: IFlightPlan;
@@ -15,12 +16,32 @@ interface FlightPlanProps {
 const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
   const [flightPlan, setFlightPlan] = useState<IFlightPlan>(props.flightPlan);
   const [verifierResults, setVerifierResults] = useState<IVerifyAllResult | null>(null);
+  const [skyVectorUrl, setSkyVectorUrl] = useState<string>("");
+  const [flightAwareUrl, setFlightAwareUrl] = useState<string>("");
+  const [viewAircraftUrl, setViewAircraftUrl] = useState<string>("");
   const navigation = useNavigation();
 
   useEffect(() => {
     setFlightPlan(props.flightPlan);
     setVerifierResults(props.verifierResults);
   }, [props.flightPlan, props.verifierResults]);
+
+  useEffect(() => {
+    if (flightPlan.departure && flightPlan.arrival && flightPlan.route) {
+      const flightPlanString = `${flightPlan.departure} ${flightPlan.route} ${flightPlan.arrival}`;
+      const skyVectorUrl = `https://skyvector.com/?fpl=${encodeURIComponent(flightPlanString)}`;
+
+      setSkyVectorUrl(skyVectorUrl);
+      setFlightAwareUrl(
+        `https://flightaware.com/analysis/route.rvt?origin=${flightPlan.departure}&destination=${flightPlan.arrival}`
+      );
+    }
+
+    if (flightPlan.equipmentCode) {
+      const searchString = `${flightPlan.equipmentCode} aircraft`;
+      setViewAircraftUrl(`http://www.bing.com/search?q=${encodeURIComponent(searchString)}`);
+    }
+  }, [flightPlan]);
 
   const parsePastedFlightPlan = (text: string): boolean => {
     const pastedFlightPlan = parseFlightPlan(text);
@@ -162,7 +183,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               hasWarnings={verifierResults?.hasRouteWarnings}
             />
           </Grid>
-          <Grid item xs={2} key="verify">
+          <Grid item xs={12} sm={6} md={3} lg={2} key="verify">
             <LoadingButton
               fullWidth
               type="submit"
@@ -171,6 +192,46 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
             >
               {flightPlan._id ? "Re-verify" : "Verify"}
             </LoadingButton>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3} lg={2} key="skyvector">
+            <Button
+              fullWidth
+              disabled={
+                !flightPlan.departure || !flightPlan.arrival || !flightPlan.route || !flightPlan._id
+              }
+              href={skyVectorUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              endIcon={<OpenInNew />}
+            >
+              SkyVector
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3} lg={2} key="flightaware">
+            <Button
+              fullWidth
+              disabled={
+                !flightPlan.departure || !flightPlan.arrival || !flightPlan.route || !flightPlan._id
+              }
+              href={flightAwareUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              endIcon={<OpenInNew />}
+            >
+              FlightAware
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3} lg={2} key="viewaircraft">
+            <Button
+              fullWidth
+              disabled={!flightPlan.equipmentCode || !flightPlan._id}
+              href={viewAircraftUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              endIcon={<OpenInNew />}
+            >
+              View aircraft
+            </Button>
           </Grid>
         </Grid>
       </Form>
