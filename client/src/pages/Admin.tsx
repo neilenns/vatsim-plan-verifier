@@ -1,6 +1,7 @@
 import {
   AppBar,
   Box,
+  IconButton,
   List,
   ListItemButton,
   ListItemIcon,
@@ -11,8 +12,18 @@ import {
 import { People as PeopleIcon } from "@mui/icons-material";
 import { Outlet } from "react-router-dom";
 import NavMenu from "../components/NavMenu";
+import { useContext } from "react";
+import { AppContext } from "../context/AppContext";
+import { DarkMode as DarkModeIcon, LightMode as LightModeIcon } from "@mui/icons-material";
 
 export default function AdminPage() {
+  const { darkMode, setDarkMode } = useContext(AppContext);
+
+  const toggleDarkMode = () => {
+    localStorage.setItem("darkmode", (!darkMode).toString());
+    setDarkMode(!darkMode);
+  };
+
   return (
     <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       {/* AppBar */}
@@ -21,6 +32,12 @@ export default function AdminPage() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Plan verifier administration
           </Typography>
+          <IconButton
+            onClick={toggleDarkMode}
+            aria-label={darkMode ? "Turndark mode off" : "Turn dark mode on"}
+          >
+            {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
+          </IconButton>
           <NavMenu />
         </Toolbar>
       </AppBar>
