@@ -23,6 +23,7 @@ import AdminPage from "./pages/Admin.tsx";
 import Users from "./pages/Users.tsx";
 import { usersLoader } from "./services/usersLoader.mts";
 import { logoutLoader } from "./services/logoutLoader.mts";
+import AppFramework from "./components/AppFramework.tsx";
 
 const router = createBrowserRouter([
   {
@@ -52,35 +53,40 @@ const router = createBrowserRouter([
     loader: logoutLoader,
   },
   {
-    path: "/verifier",
-    element: <AuthenticationGuard role="user" component={<Verifier />} />,
-    loader: activeFlightPlansLoader,
-    action: appActions,
-    errorElement: <ErrorPage />,
+    element: <AppFramework />,
     children: [
       {
-        path: "flightPlan/:id",
-        element: <AuthenticationGuard role="user" component={<FlightPlanDetails />} />,
-        loader: flightPlanDetailsLoader,
-        action: flightPlanVerifyAction,
+        path: "/verifier",
+        element: <AuthenticationGuard role="user" component={<Verifier />} />,
+        loader: activeFlightPlansLoader,
+        action: appActions,
+        errorElement: <ErrorPage />,
+        children: [
+          {
+            path: "flightPlan/:id",
+            element: <AuthenticationGuard role="user" component={<FlightPlanDetails />} />,
+            loader: flightPlanDetailsLoader,
+            action: flightPlanVerifyAction,
+          },
+          {
+            path: "flightPlan/new",
+            element: <AuthenticationGuard role="user" component={<FlightPlanDetails />} />,
+            loader: flightPlanDetailsLoader,
+            action: flightPlanVerifyAction,
+          },
+        ],
       },
       {
-        path: "flightPlan/new",
-        element: <AuthenticationGuard role="user" component={<FlightPlanDetails />} />,
-        loader: flightPlanDetailsLoader,
-        action: flightPlanVerifyAction,
-      },
-    ],
-  },
-  {
-    path: "/admin",
-    element: <AuthenticationGuard role="admin" component={<AdminPage />} />,
-    errorElement: <ErrorPage />,
-    children: [
-      {
-        path: "users",
-        element: <AuthenticationGuard role="admin" component={<Users />} />,
-        loader: usersLoader,
+        path: "/admin",
+        element: <AuthenticationGuard role="admin" component={<AdminPage />} />,
+        errorElement: <ErrorPage />,
+        children: [
+          {
+            path: "users",
+            element: <AuthenticationGuard role="admin" component={<Users />} />,
+            loader: usersLoader,
+          },
+        ],
       },
     ],
   },
