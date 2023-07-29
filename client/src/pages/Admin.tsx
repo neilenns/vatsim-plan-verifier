@@ -73,7 +73,7 @@ export default function AdminPage() {
           {/* Sidebar */}
           <Box sx={{ width: 200 }}>
             <List>
-              <ListItemButton component="a" href="users">
+              <ListItemButton component="a" href="/admin/users">
                 <ListItemIcon>
                   <PeopleIcon />
                 </ListItemIcon>

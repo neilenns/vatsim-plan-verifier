@@ -4,6 +4,7 @@ import debug from "debug";
 
 const logger = debug("plan-verifier:navaidController");
 type UsersResult = Result<IUser[], "UnknownError">;
+type UserResult = Result<IUser, "UnknownError">;
 
 export async function getUsers(): Promise<UsersResult> {
   try {
@@ -25,6 +26,30 @@ export async function getUsers(): Promise<UsersResult> {
       success: false,
       errorType: "UnknownError",
       error: `Error fetching users: ${error}`,
+    };
+  }
+}
+
+export async function updateUser(user: IUser): Promise<UserResult> {
+  try {
+    const updatedUser = await UserModel.findByIdAndUpdate(user._id, user, { new: true });
+
+    if (updatedUser) {
+      return { success: true, data: updatedUser };
+    } else {
+      return {
+        success: false,
+        errorType: "UnknownError",
+        error: `Unable to update user.`,
+      };
+    }
+  } catch (error) {
+    logger(`Error updating user: ${error}`);
+
+    return {
+      success: false,
+      errorType: "UnknownError",
+      error: `Error updating user: ${error}`,
     };
   }
 }

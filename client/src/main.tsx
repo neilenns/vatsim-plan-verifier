@@ -19,6 +19,8 @@ import { loginAction } from "./services/loginAction.mts";
 import { AuthenticationGuard } from "./components/AuthenticationGuard.tsx";
 import WelcomePage from "./pages/Welcome.tsx";
 import AdminPage from "./pages/Admin.tsx";
+import Users from "./pages/Users.tsx";
+import { usersLoader } from "./services/usersLoader.mts";
 
 const router = createBrowserRouter([
   {
@@ -65,6 +67,13 @@ const router = createBrowserRouter([
     path: "/admin",
     element: <AuthenticationGuard component={<AdminPage />} />,
     errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "users",
+        element: <AuthenticationGuard component={<Users />} />,
+        loader: usersLoader,
+      },
+    ],
   },
 ]);
 

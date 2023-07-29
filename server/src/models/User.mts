@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, Types, model } from "mongoose";
 import passportLocalMongoose from "passport-local-mongoose";
 
 export interface ISession {
@@ -7,6 +7,7 @@ export interface ISession {
 
 // Define the interface for the Location document
 export interface IUser {
+  _id: Types.ObjectId;
   username: string;
   firstName: string;
   lastName: string;
