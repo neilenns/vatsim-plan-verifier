@@ -8,9 +8,9 @@ import { updateUser } from "../services/users.mts";
 
 const columns: GridColDef[] = [
   { field: "_id" },
-  { field: "firstName", headerName: "First name", width: 150 },
-  { field: "lastName", headerName: "Last name", width: 150 },
-  { field: "username", headerName: "Username", width: 150 },
+  { field: "firstName", headerName: "First name", width: 150, editable: true },
+  { field: "lastName", headerName: "Last name", width: 150, editable: true },
+  { field: "username", headerName: "Username", width: 150, editable: true },
   {
     field: "isVerified",
     headerName: "Verified",
@@ -56,6 +56,7 @@ function Users() {
   return (
     <>
       <DataGrid
+        editMode="row"
         rows={users}
         columns={columns}
         getRowId={(row) => (row as IUser)._id}
