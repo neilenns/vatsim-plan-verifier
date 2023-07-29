@@ -2,7 +2,7 @@ import Aircraft, { IAircraft } from "../models/Aircraft.mjs";
 import Result from "../types/result.mjs";
 import debug from "debug";
 
-const logger = debug("plan-verifier:activeFlightPlanController");
+const logger = debug("plan-verifier:aircraftController");
 
 type AircraftResult = Result<IAircraft, "AircraftNotFound" | "UnknownError">;
 

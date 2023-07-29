@@ -2,7 +2,7 @@ import Airline, { IAirline } from "../models/Airline.mjs";
 import Result from "../types/result.mjs";
 import debug from "debug";
 
-const logger = debug("plan-verifier:activeFlightPlanController");
+const logger = debug("plan-verifier:airlineController");
 type AircraftResult = Result<IAirline[], "AirlineNotFound" | "UnknownError">;
 
 export async function getAirline(airlineCode: string): Promise<AircraftResult> {

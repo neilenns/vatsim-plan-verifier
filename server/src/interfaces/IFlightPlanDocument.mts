@@ -29,4 +29,5 @@ export default interface IFlightPlanDocument extends Document {
   routeHasNonRNAVAirways: boolean;
   SID?: string;
   SIDInformation?: Departure;
+  expandedRoute?: string;
 }

@@ -5,6 +5,7 @@ import { formatAltitude } from "../utils.mjs";
 import { getFlightAwareAirport } from "../controllers/flightAwareAirports.mjs";
 import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
 import debug from "debug";
+import NavaidModel from "./Navaid.mjs";
 
 const logger = debug("plan-verifier:flightPlan");
 export interface IFlightPlan extends IFlightPlanDocument {}
@@ -32,6 +33,7 @@ export const flightPlanSchema = new Schema(
     route: { type: String, required: false, trim: true },
     directionOfFlight: { type: Number, required: false },
     SID: { type: String, required: false },
+    expandedRoute: { type: String, required: false },
   },
   { timestamps: true }
 );
@@ -203,6 +205,27 @@ flightPlanSchema.pre("save", function (next) {
   }
 
   next();
+});
+
+flightPlanSchema.pre("save", async function () {
+  if (!this.isModified("route")) {
+    return;
+  }
+
+  const routeParts = this.route.replace(" DCT", "").trim().split(" ");
+
+  const expandedRouteArray = await Promise.all(
+    routeParts.map(async (part) => {
+      if (part.length === 3) {
+        const navaid = await NavaidModel.findOne({ ident: part });
+        return navaid ? navaid.name : part;
+      } else {
+        return part;
+      }
+    })
+  );
+
+  this.expandedRoute = expandedRouteArray.join(" ");
 });
 
 flightPlanSchema.plugin(autopopulate);

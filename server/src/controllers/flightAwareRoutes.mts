@@ -5,7 +5,7 @@ import Result from "../types/result.mjs";
 import { ENV } from "../env.mjs";
 import debug from "debug";
 
-const logger = debug("plan-verifier:activeFlightPlanController");
+const logger = debug("plan-verifier:flightAwareRoutesController");
 type FlightAwareRoutesResult = Result<IFlightAwareRoute[], "UnknownError">;
 
 interface FlightAwareRoutesResponse {
