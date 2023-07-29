@@ -32,7 +32,6 @@ const userSchema = new Schema<IUser>({
 });
 
 // Remove refreshToken from json responses for security
-//Remove refreshToken from the response
 userSchema.set("toJSON", {
   transform: function (doc, ret, options) {
     delete ret.refreshToken;
@@ -42,4 +41,6 @@ userSchema.set("toJSON", {
 
 userSchema.plugin(passportLocalMongoose);
 
-export const User = model<IUser>("User", userSchema);
+const UserModel = model<IUser>("User", userSchema);
+
+export default UserModel;

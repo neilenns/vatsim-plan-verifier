@@ -33,9 +33,10 @@ import flightAwareRouter from "./routes/flightAware.mjs";
 import flightPlan from "./routes/flightPlan.mjs";
 import magneticDeclinationRouter from "./routes/magneticDeclination.mjs";
 import preferredRoutesRouter from "./routes/preferredRoutes.mjs";
-import userRouter from "./routes/user.mjs";
+import authenticationRouter from "./routes/authentication.mjs";
 import verifyRouter from "./routes/verify.mjs";
 import navaidRouter from "./routes/navaid.mjs";
+import userRouter from "./routes/users.mjs";
 
 export const app = express();
 let server: https.Server | Server;
@@ -112,8 +113,9 @@ export function startServer(port: number): void {
   app.use(magneticDeclinationRouter);
   app.use(preferredRoutesRouter);
   app.use(activeFlightPlansRouter);
-  app.use(userRouter);
+  app.use(authenticationRouter);
   app.use(navaidRouter);
+  app.use(userRouter);
 
   // Verifier routes
   app.use(verifyRouter);
