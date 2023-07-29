@@ -16,6 +16,7 @@ import { useCallback, useEffect, useState } from "react";
 import ILoginResponse from "../interfaces/ILoginResponse.mts";
 import { DarkMode as DarkModeIcon, LightMode as LightModeIcon } from "@mui/icons-material";
 import http from "../utils/http.mts";
+import NavMenu from "../components/NavMenu";
 
 const defaultTheme = createTheme({
   typography: {
@@ -55,6 +56,7 @@ export default function Verifier() {
       })
       .catch(() => {
         localStorage.removeItem("token");
+        localStorage.removeItem("role");
       });
   }, []);
 
@@ -83,11 +85,7 @@ export default function Verifier() {
             >
               {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
             </IconButton>
-            <Form method="post">
-              <Button color="inherit" type="submit" name="intent" value="logout">
-                Logout
-              </Button>
-            </Form>
+            <NavMenu />
           </Toolbar>
         </AppBar>
 

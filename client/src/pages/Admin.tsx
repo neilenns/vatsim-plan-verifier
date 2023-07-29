@@ -17,6 +17,7 @@ import { Form, Outlet } from "react-router-dom";
 import { useCallback, useEffect } from "react";
 import ILoginResponse from "../interfaces/ILoginResponse.mts";
 import http from "../utils/http.mts";
+import NavMenu from "../components/NavMenu";
 
 const defaultTheme = createTheme({
   typography: {
@@ -43,6 +44,7 @@ export default function AdminPage() {
       })
       .catch(() => {
         localStorage.removeItem("token");
+        localStorage.removeItem("role");
       });
   }, []);
 
@@ -60,11 +62,7 @@ export default function AdminPage() {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Plan verifier administration
             </Typography>
-            <Form method="post">
-              <Button color="inherit" type="submit" name="intent" value="logout">
-                Logout
-              </Button>
-            </Form>
+            <NavMenu />
           </Toolbar>
         </AppBar>
 

@@ -8,6 +8,7 @@ import ErrorPage from "./pages/ErrorPage.tsx";
 import Verifier from "./pages/Verifier.tsx";
 import FlightPlanDetails from "./pages/FlightPlanDetails.tsx";
 import LoginSignup from "./pages/LoginSignup.tsx";
+import Logout from "./pages/Logout.tsx";
 
 // Loaders
 import { flightPlanDetailsLoader } from "./services/flightPlanDetailsLoader.mts";
@@ -21,6 +22,7 @@ import WelcomePage from "./pages/Welcome.tsx";
 import AdminPage from "./pages/Admin.tsx";
 import Users from "./pages/Users.tsx";
 import { usersLoader } from "./services/usersLoader.mts";
+import { logoutLoader } from "./services/logoutLoader.mts";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +43,13 @@ const router = createBrowserRouter([
     element: <LoginSignup />,
     errorElement: <ErrorPage />,
     action: signupAction,
+  },
+  {
+    id: "logout",
+    path: "/logout",
+    element: <Logout />,
+    errorElement: <ErrorPage />,
+    loader: logoutLoader,
   },
   {
     path: "/verifier",
