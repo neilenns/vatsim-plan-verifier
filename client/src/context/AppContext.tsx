@@ -10,8 +10,8 @@ type Props = {
 type AppContext = {
   darkMode: boolean;
   setDarkMode: Dispatch<SetStateAction<boolean>>;
-  user?: IUser;
-  setUser: Dispatch<SetStateAction<IUser | undefined>>;
+  user?: Partial<IUser>;
+  setUser: Dispatch<SetStateAction<Partial<IUser> | undefined>>;
 };
 
 const initialContext: AppContext = {
