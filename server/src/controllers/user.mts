@@ -6,6 +6,30 @@ const logger = debug("plan-verifier:navaidController");
 type UsersResult = Result<IUser[], "UnknownError">;
 type UserResult = Result<IUser, "UnknownError">;
 
+export async function getUser(id: string): Promise<UserResult> {
+  try {
+    const fetchedUser = await UserModel.findById(id);
+
+    if (fetchedUser) {
+      return { success: true, data: fetchedUser };
+    } else {
+      return {
+        success: false,
+        errorType: "UnknownError",
+        error: `Unable to fetch user ${id}.`,
+      };
+    }
+  } catch (error) {
+    logger(`Error fetching user ${id}: ${error}`);
+
+    return {
+      success: false,
+      errorType: "UnknownError",
+      error: `Error fetching user ${id}: ${error}`,
+    };
+  }
+}
+
 export async function getUsers(): Promise<UsersResult> {
   try {
     const fetchedUsers = await UserModel.find({});

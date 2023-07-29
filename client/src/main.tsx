@@ -44,20 +44,20 @@ const router = createBrowserRouter([
   },
   {
     path: "/verifier",
-    element: <AuthenticationGuard component={<Verifier />} />,
+    element: <AuthenticationGuard role="user" component={<Verifier />} />,
     loader: activeFlightPlansLoader,
     action: appActions,
     errorElement: <ErrorPage />,
     children: [
       {
         path: "flightPlan/:id",
-        element: <AuthenticationGuard component={<FlightPlanDetails />} />,
+        element: <AuthenticationGuard role="user" component={<FlightPlanDetails />} />,
         loader: flightPlanDetailsLoader,
         action: flightPlanVerifyAction,
       },
       {
         path: "flightPlan/new",
-        element: <AuthenticationGuard component={<FlightPlanDetails />} />,
+        element: <AuthenticationGuard role="user" component={<FlightPlanDetails />} />,
         loader: flightPlanDetailsLoader,
         action: flightPlanVerifyAction,
       },
@@ -65,12 +65,12 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <AuthenticationGuard component={<AdminPage />} />,
+    element: <AuthenticationGuard role="admin" component={<AdminPage />} />,
     errorElement: <ErrorPage />,
     children: [
       {
         path: "users",
-        element: <AuthenticationGuard component={<Users />} />,
+        element: <AuthenticationGuard role="admin" component={<Users />} />,
         loader: usersLoader,
       },
     ],

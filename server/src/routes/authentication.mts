@@ -73,7 +73,7 @@ router.post(
           .save()
           .then(() => {
             res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
-            res.send({ success: true, token: authToken });
+            res.send({ success: true, token: authToken, role: user.role });
           })
           .catch((err: MongooseError) => {
             res.statusCode = 500;
@@ -121,7 +121,7 @@ router.post("/refreshToken", (req, res, next) => {
                 .save()
                 .then(() => {
                   res.cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS);
-                  res.send({ success: true, token: authToken });
+                  res.send({ success: true, token: authToken, role: user.role });
                 })
                 .catch((error) => {
                   res.statusCode = 500;

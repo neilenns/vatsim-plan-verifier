@@ -1,6 +1,7 @@
 import { Navigate } from "react-router-dom";
 
 interface AuthenticationGuardProps {
+  role: "admin" | "user";
   component: React.ReactNode;
 }
 
