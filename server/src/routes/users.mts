@@ -5,15 +5,8 @@ import { IUser } from "../models/User.mjs";
 
 const router = express.Router();
 
-router.get("/users/:id", verifyUser, async (req: Request, res: Response) => {
-  // If the caller isn't an admin then they can only request the user information
-  // for themselves.
-  if (req.user?.role !== "admin" && req.user?._id?.toString() !== req.params.id) {
-    res.status(403).json({ error: "You are not authorized to access this resource." });
-    return;
-  }
-
-  const result = await getUser(req.params.id);
+router.get("/users/me", verifyUser, async (req: Request, res: Response) => {
+  const result = await getUser(req.user?._id?.toString() ?? "");
 
   if (result.success) {
     res.json(result.data);
