@@ -29,7 +29,7 @@ const AppContext = createContext<AppContext>(initialContext);
 
 const AppContextProvider = ({ children }: Props): JSX.Element => {
   const [darkMode, setDarkMode] = useState(false);
-  const [user, setUser] = useState<IUser>();
+  const [user, setUser] = useState<Partial<IUser>>();
 
   const value = useMemo(() => ({ darkMode, setDarkMode, user, setUser }), [darkMode, user]);
 
