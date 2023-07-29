@@ -18,6 +18,7 @@ interface IFlightPlan {
   cruiseAltitude: string;
   route: string;
   telephony?: ITelephony[];
+  expandedRoute?: string;
 }
 
 export default IFlightPlan;

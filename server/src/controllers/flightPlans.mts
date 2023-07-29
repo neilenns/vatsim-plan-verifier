@@ -2,7 +2,7 @@ import FlightPlan, { IFlightPlan } from "../models/FlightPlan.mjs";
 import Result from "../types/result.mjs";
 import debug from "debug";
 
-const logger = debug("plan-verifier:flightPlans");
+const logger = debug("plan-verifier:flightPlansController");
 
 export type FlightPlanFailureErrorTypes = "FlightPlanNotFound" | "UnknownError";
 export type FlightPlanResult = Result<IFlightPlan, FlightPlanFailureErrorTypes>;

@@ -22,6 +22,7 @@ const { debounce } = pkg;
 import "./authenticate.mjs";
 import "./jwtStrategy.mjs";
 import "./LocalStrategy.mjs";
+import apiKey from "./middleware/apikey.mjs";
 
 // Routes
 import activeFlightPlansRouter from "./routes/activeFlightPlans.mjs";
@@ -34,7 +35,7 @@ import magneticDeclinationRouter from "./routes/magneticDeclination.mjs";
 import preferredRoutesRouter from "./routes/preferredRoutes.mjs";
 import userRouter from "./routes/user.mjs";
 import verifyRouter from "./routes/verify.mjs";
-import apiKey from "./middleware/apikey.mjs";
+import navaidRouter from "./routes/navaid.mjs";
 
 export const app = express();
 let server: https.Server | Server;
@@ -112,6 +113,7 @@ export function startServer(port: number): void {
   app.use(preferredRoutesRouter);
   app.use(activeFlightPlansRouter);
   app.use(userRouter);
+  app.use(navaidRouter);
 
   // Verifier routes
   app.use(verifyRouter);

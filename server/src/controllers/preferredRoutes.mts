@@ -2,10 +2,9 @@ import { PreferredRoute, PreferredRouteModel } from "../models/PreferredRoute.mj
 import Result from "../types/result.mjs";
 import debug from "debug";
 
-const logger = debug("plan-verifier:preferredRoutes");
+const logger = debug("plan-verifier:preferredRoutesController");
 
 export type PreferredRoutesFailureTypes = "NoPreferredRoutesFound" | "UnknownError";
-
 export type PreferredRoutesResult = Result<PreferredRoute[], PreferredRoutesFailureTypes>;
 
 export async function getPreferredRoutes(

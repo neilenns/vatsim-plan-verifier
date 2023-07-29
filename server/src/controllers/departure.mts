@@ -2,7 +2,7 @@ import DepartureModel, { Departure } from "../models/Departure.mjs";
 import Result from "../types/result.mjs";
 import debug from "debug";
 
-const logger = debug("plan-verifier:activeFlightPlanController");
+const logger = debug("plan-verifier:departureController");
 type DepartureResult = Result<Departure, "DepartureNotFound" | "UnknownError">;
 
 export async function getDeparture(id: string): Promise<DepartureResult> {

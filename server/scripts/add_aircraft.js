@@ -6,7 +6,7 @@ db.aircraft.deleteMany({});
 db.aircraft.insertMany([
   {
     equipmentCode: "A500",
-    manufacturer: "ADAM AIRCRAFT (USA)",
+    manufacturer: "ADAM AIRCRAFT",
     name: "A-500, CarbonAero",
     engineCount: "2",
     engineType: "P",
@@ -17,7 +17,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AMX",
-    manufacturer: "AERMACCHI SpA (Italy)",
+    manufacturer: "AERMACCHI SpA",
     name: "AMX",
     engineCount: "1",
     engineType: "J",
@@ -28,7 +28,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "FN33",
-    manufacturer: "AERMACCHI SpA (Italy)",
+    manufacturer: "AERMACCHI SpA",
     name: "FN-333 Riviera***",
     engineCount: "1",
     engineType: "P",
@@ -39,7 +39,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "L90",
-    manufacturer: "AERMACCHI SpA (Italy)",
+    manufacturer: "AERMACCHI SpA",
     name: "MB-290TP Redigo",
     engineCount: "1",
     engineType: "T",
@@ -50,7 +50,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "M32",
-    manufacturer: "AERMACCHI SpA (Italy)",
+    manufacturer: "AERMACCHI SpA",
     name: "MB-326",
     engineCount: "1",
     engineType: "J",
@@ -61,7 +61,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "M339",
-    manufacturer: "AERMACCHI SpA (Italy)",
+    manufacturer: "AERMACCHI SpA",
     name: "MB-339",
     engineCount: "1",
     engineType: "J",
@@ -72,7 +72,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "S05F",
-    manufacturer: "AERMACCHI SpA (Italy)",
+    manufacturer: "AERMACCHI SpA",
     name: "SF-205-18F/20F",
     engineCount: "1",
     engineType: "P",
@@ -83,7 +83,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "S05R",
-    manufacturer: "AERMACCHI SpA (Italy)",
+    manufacturer: "AERMACCHI SpA",
     name: "SF-205-18R/20R/22R",
     engineCount: "1",
     engineType: "P",
@@ -94,7 +94,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "S208",
-    manufacturer: "AERMACCHI SpA (Italy)",
+    manufacturer: "AERMACCHI SpA",
     name: "S-208",
     engineCount: "1",
     engineType: "P",
@@ -105,7 +105,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "S211",
-    manufacturer: "AERMACCHI SpA (Italy)",
+    manufacturer: "AERMACCHI SpA",
     name: "S-211",
     engineCount: "1",
     engineType: "T",
@@ -116,7 +116,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F260",
-    manufacturer: "AERMACCHI SpA (Italy)",
+    manufacturer: "AERMACCHI SpA",
     name: "SF-260 A/B/C/D/E/F/M/W, Warrior",
     engineCount: "1",
     engineType: "P",
@@ -127,7 +127,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F26T",
-    manufacturer: "AERMACCHI SpA (Italy)",
+    manufacturer: "AERMACCHI SpA",
     name: "SF-260TP",
     engineCount: "1",
     engineType: "T",
@@ -138,7 +138,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F600",
-    manufacturer: "AERMACCHI SpA (Italy)",
+    manufacturer: "AERMACCHI SpA",
     name: "SF-600A, SF-600TP Canguero",
     engineCount: "2",
     engineType: "T",
@@ -149,7 +149,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "SGUP",
-    manufacturer: "AERO SPACELINES (USA)",
+    manufacturer: "AERO SPACELINES",
     name: "Super Guppy, Super Turbine Guppy",
     engineCount: "4",
     engineType: "T",
@@ -160,8 +160,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AT43",
-    manufacturer: "AEROSPATIALE (France)",
-    name: "ATR-42-200/300/320 !!! NO RNAV !!!",
+    manufacturer: "AEROSPATIALE",
+    name: "ATR-42-200/300/320",
     engineCount: "2",
     engineType: "T",
     weightClass: "L",
@@ -171,8 +171,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AT44",
-    manufacturer: "AEROSPATIALE (France)",
-    name: "ATR-42-400 !!! NO RNAV !!!",
+    manufacturer: "AEROSPATIALE",
+    name: "ATR-42-400",
     engineCount: "2",
     engineType: "T",
     weightClass: "L",
@@ -182,8 +182,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AT45",
-    manufacturer: "AEROSPATIALE (France)",
-    name: "ATR-42-500 !!! NO RNAV !!!",
+    manufacturer: "AEROSPATIALE",
+    name: "ATR-42-500",
     engineCount: "2",
     engineType: "T",
     weightClass: "L",
@@ -193,8 +193,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AT72",
-    manufacturer: "AEROSPATIALE (France)",
-    name: "ATR-72 !!! NO RNAV !!!",
+    manufacturer: "AEROSPATIALE",
+    name: "ATR-72",
     engineCount: "2",
     engineType: "T",
     weightClass: "L",
@@ -204,8 +204,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "RALL",
-    manufacturer: "AEROSPATIALE (France)",
-    name: "Rallye, Rallye Club, Super Rallye,Rallye Commodore, Minerva (MS-880to 894) !!! NO RNAV !!! ",
+    manufacturer: "AEROSPATIALE",
+    name: "Rallye, Rallye Club, Super Rallye,Rallye Commodore, Minerva (MS-880to 894) ",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -215,7 +215,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "S210",
-    manufacturer: "AEROSPATIALE (France)",
+    manufacturer: "AEROSPATIALE",
     name: "SE-210 Caravelle",
     engineCount: "2",
     engineType: "J",
@@ -226,7 +226,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "S601",
-    manufacturer: "AEROSPATIALE (France)",
+    manufacturer: "AEROSPATIALE",
     name: "SN-601 Corvette",
     engineCount: "2",
     engineType: "J",
@@ -237,8 +237,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "TAMP",
-    manufacturer: "AEROSPATIALE (France)",
-    name: "Tampico TB-9 !!! NO RNAV !!!",
+    manufacturer: "AEROSPATIALE",
+    name: "Tampico TB-9",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -248,8 +248,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "TBM7",
-    manufacturer: "AEROSPATIALE (France)",
-    name: "TBM TB-700 !!! NO RNAV !!!",
+    manufacturer: "AEROSPATIALE",
+    name: "TBM TB-700",
     engineCount: "1",
     engineType: "T",
     weightClass: "S",
@@ -259,8 +259,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "TOBA",
-    manufacturer: "AEROSPATIALE (France)",
-    name: "Tabago TB10C/200 !!! NO RNAV !!!",
+    manufacturer: "AEROSPATIALE",
+    name: "Tabago TB10C/200",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -270,8 +270,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "TRIN",
-    manufacturer: "AEROSPATIALE (France)",
-    name: "Trinidad TB-20/21 !!! NO RNAV !!!",
+    manufacturer: "AEROSPATIALE",
+    name: "Trinidad TB-20/21",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -281,7 +281,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A30B",
-    manufacturer: "AIRBUS INDUSTRIES (International)",
+    manufacturer: "AIRBUS INDUSTRIES",
     name: "A-300B2/4-1/2/100/200,A-300C4-200",
     engineCount: "2",
     engineType: "J",
@@ -292,7 +292,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A306",
-    manufacturer: "AIRBUS INDUSTRIES (International)",
+    manufacturer: "AIRBUS INDUSTRIES",
     name: "A-300B4 - 600",
     engineCount: "2",
     engineType: "J",
@@ -303,7 +303,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A310",
-    manufacturer: "AIRBUS INDUSTRIES (International)",
+    manufacturer: "AIRBUS INDUSTRIES",
     name: "A-310 (CC-150 Polaris) ",
     engineCount: "2",
     engineType: "J",
@@ -314,7 +314,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A318",
-    manufacturer: "AIRBUS INDUSTRIES (International)",
+    manufacturer: "AIRBUS INDUSTRIES",
     name: "A-318",
     engineCount: "2",
     engineType: "J",
@@ -327,7 +327,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A319",
-    manufacturer: "AIRBUS INDUSTRIES (International)",
+    manufacturer: "AIRBUS INDUSTRIES",
     name: "A-319, ACJ",
     engineCount: "2",
     engineType: "J",
@@ -340,7 +340,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A320",
-    manufacturer: "AIRBUS INDUSTRIES (International)",
+    manufacturer: "AIRBUS INDUSTRIES",
     name: "A-320",
     engineCount: "2",
     engineType: "J",
@@ -353,7 +353,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A321",
-    manufacturer: "AIRBUS INDUSTRIES (International)",
+    manufacturer: "AIRBUS INDUSTRIES",
     name: "A-321",
     engineCount: "2",
     engineType: "J",
@@ -366,7 +366,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A3ST",
-    manufacturer: "AIRBUS INDUSTRIES (International)",
+    manufacturer: "AIRBUS INDUSTRIES",
     name: "A-300ST Super Transporter, Beluga",
     engineCount: "2",
     engineType: "J",
@@ -377,7 +377,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A332",
-    manufacturer: "AIRBUS INDUSTRIES (International)",
+    manufacturer: "AIRBUS INDUSTRIES",
     name: "A-330-200",
     engineCount: "2",
     engineType: "J",
@@ -390,7 +390,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A333",
-    manufacturer: "AIRBUS INDUSTRIES (International)",
+    manufacturer: "AIRBUS INDUSTRIES",
     name: "A-330-300",
     engineCount: "2",
     engineType: "J",
@@ -403,7 +403,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A342",
-    manufacturer: "AIRBUS INDUSTRIES (International)",
+    manufacturer: "AIRBUS INDUSTRIES",
     name: "A-340-200",
     engineCount: "4",
     engineType: "J",
@@ -416,7 +416,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A343",
-    manufacturer: "AIRBUS INDUSTRIES (International)",
+    manufacturer: "AIRBUS INDUSTRIES",
     name: "A-340-300",
     engineCount: "4",
     engineType: "J",
@@ -429,7 +429,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A345",
-    manufacturer: "AIRBUS INDUSTRIES (International)",
+    manufacturer: "AIRBUS INDUSTRIES",
     name: "A-340-500",
     engineCount: "4",
     engineType: "J",
@@ -442,7 +442,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A346",
-    manufacturer: "AIRBUS INDUSTRIES (International)",
+    manufacturer: "AIRBUS INDUSTRIES",
     name: "A-340-600",
     engineCount: "4",
     engineType: "J",
@@ -455,7 +455,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A388",
-    manufacturer: "AIRBUS INDUSTRIES (International)",
+    manufacturer: "AIRBUS INDUSTRIES",
     name: "A-380-800",
     engineCount: "4",
     engineType: "J",
@@ -468,8 +468,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BU20",
-    manufacturer: "AIRCRAFT HYDRO-FORMING (USA)",
-    name: "Bushmaster 2000 !!! NO RNAV !!!",
+    manufacturer: "AIRCRAFT HYDRO-FORMING",
+    name: "Bushmaster 2000",
     engineCount: "3",
     engineType: "P",
     weightClass: "S+",
@@ -479,8 +479,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AT3P",
-    manufacturer: "AIR TRACTOR, INC. (USA)",
-    name: "AT-300/301/401 !!! NO RNAV !!!",
+    manufacturer: "AIR TRACTOR, INC.",
+    name: "AT-300/301/401",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -490,8 +490,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AT3T",
-    manufacturer: "AIR TRACTOR, INC. (USA)",
-    name: "AT-302/400/402 !!! NO RNAV !!!",
+    manufacturer: "AIR TRACTOR, INC.",
+    name: "AT-302/400/402",
     engineCount: "1",
     engineType: "T",
     weightClass: "S",
@@ -501,8 +501,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AT5P",
-    manufacturer: "AIR TRACTOR, INC. (USA)",
-    name: "AT-501 !!! NO RNAV !!!",
+    manufacturer: "AIR TRACTOR, INC.",
+    name: "AT-501",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -512,8 +512,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AT5T",
-    manufacturer: "AIR TRACTOR, INC. (USA)",
-    name: "AT-502/503 !!! NO RNAV !!!",
+    manufacturer: "AIR TRACTOR, INC.",
+    name: "AT-502/503",
     engineCount: "1",
     engineType: "T",
     weightClass: "S",
@@ -523,8 +523,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AT6T",
-    manufacturer: "AIR TRACTOR, INC. (USA)",
-    name: "AT-602 !!! NO RNAV !!!",
+    manufacturer: "AIR TRACTOR, INC.",
+    name: "AT-602",
     engineCount: "1",
     engineType: "T",
     weightClass: "S",
@@ -534,8 +534,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AT8T",
-    manufacturer: "AIR TRACTOR, INC. (USA)",
-    name: "AT-802 !!! NO RNAV !!!",
+    manufacturer: "AIR TRACTOR, INC.",
+    name: "AT-802",
     engineCount: "1",
     engineType: "T",
     weightClass: "S+",
@@ -545,8 +545,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AN2",
-    manufacturer: "ANTONOV (Russia)",
-    name: "An-2 !!! NO RNAV !!! ",
+    manufacturer: "ANTONOV",
+    name: "An-2 ",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -556,8 +556,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AN8",
-    manufacturer: "ANTONOV (Russia)",
-    name: "An-8 !!! NO RNAV !!!",
+    manufacturer: "ANTONOV",
+    name: "An-8",
     engineCount: "2",
     engineType: "T",
     weightClass: "L",
@@ -567,8 +567,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AN12",
-    manufacturer: "ANTONOV (Russia)",
-    name: "An-12 !!! NO RNAV !!!",
+    manufacturer: "ANTONOV",
+    name: "An-12",
     engineCount: "4",
     engineType: "T",
     weightClass: "L",
@@ -578,8 +578,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AN70",
-    manufacturer: "ANTONOV (Russia)",
-    name: "An-70 !!! NO RNAV !!!",
+    manufacturer: "ANTONOV",
+    name: "An-70",
     engineCount: "4",
     engineType: "T",
     weightClass: "H",
@@ -589,7 +589,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AN72",
-    manufacturer: "ANTONOV (Russia)",
+    manufacturer: "ANTONOV",
     name: "An-74-100/200",
     engineCount: "2",
     engineType: "J",
@@ -600,7 +600,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A124",
-    manufacturer: "ANTONOV (Russia)",
+    manufacturer: "ANTONOV",
     name: "An-124 Ruslan",
     engineCount: "4",
     engineType: "J",
@@ -611,8 +611,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A140",
-    manufacturer: "ANTONOV (Russia)",
-    name: "An-140 !!! NO RNAV !!!",
+    manufacturer: "ANTONOV",
+    name: "An-140",
     engineCount: "2",
     engineType: "T",
     weightClass: "L",
@@ -622,7 +622,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "ALBU",
-    manufacturer: "AVIATION DEVELOPMENT (USA)",
+    manufacturer: "AVIATION DEVELOPMENT",
     name: "Alaskan Bushmaster",
     engineCount: "1",
     engineType: "P",
@@ -633,7 +633,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AIRD",
-    manufacturer: "BEAGLE AIRCRAFT (UK)",
+    manufacturer: "BEAGLE AIRCRAFT",
     name: "A-109 Airedale",
     engineCount: "1",
     engineType: "P",
@@ -644,7 +644,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PUP",
-    manufacturer: "BEAGLE AIRCRAFT (UK)",
+    manufacturer: "BEAGLE AIRCRAFT",
     name: "B-121 Pup ",
     engineCount: "1",
     engineType: "P",
@@ -655,7 +655,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BDOG",
-    manufacturer: "BEAGLE AIRCRAFT (UK)",
+    manufacturer: "BEAGLE AIRCRAFT",
     name: "B-125 Bulldog",
     engineCount: "1",
     engineType: "P",
@@ -666,7 +666,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BASS",
-    manufacturer: "BEAGLE AIRCRAFT (UK)",
+    manufacturer: "BEAGLE AIRCRAFT",
     name: "B-206 Basset ",
     engineCount: "2",
     engineType: "P",
@@ -677,8 +677,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B190",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "1900 (C-12J) !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "1900 (C-12J)",
     engineCount: "2",
     engineType: "T",
     weightClass: "S+",
@@ -688,8 +688,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B350",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "B300 Super King Air 350 (/L) !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "B300 Super King Air 350",
     engineCount: "2",
     engineType: "T",
     weightClass: "S+",
@@ -699,8 +699,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BE10",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "100 King Air  (U-21F Ute) !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "100 King Air  (U-21F Ute)",
     engineCount: "2",
     engineType: "T",
     weightClass: "S",
@@ -710,8 +710,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BE17",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "17 Stagger Wing (UC-43 Traveler,YC-43 Traveler) !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "17 Stagger Wing (UC-43 Traveler,YC-43 Traveler)",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -721,8 +721,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BE18",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "Twin Beech 18/Super H18 !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "Twin Beech 18/Super H18",
     engineCount: "2",
     engineType: "P",
     weightClass: "S",
@@ -732,8 +732,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B18T",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "18 (turbine) !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "18 (turbine)",
     engineCount: "2",
     engineType: "T",
     weightClass: "S",
@@ -743,8 +743,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BE19",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "19 Musketeer Sport, Sport 1 !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "19 Musketeer Sport, Sport 1",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -754,8 +754,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BE20",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "200, 1300 Super King Air, Commuter !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "200, 1300 Super King Air, Commuter",
     engineCount: "2",
     engineType: "T",
     weightClass: "S+",
@@ -765,8 +765,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BE23",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "23 Musketeer, Sundowner !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "23 Musketeer, Sundowner",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -776,8 +776,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BE24",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "24 Musketeer Super, Sierra !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "24 Musketeer Super, Sierra",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -787,8 +787,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BE30",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "300 Super King Air !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "300 Super King Air",
     engineCount: "2",
     engineType: "T",
     weightClass: "S+",
@@ -798,8 +798,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BE33",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "33 Debonair, Bonanza (E-24) !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "33 Debonair, Bonanza (E-24)",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -809,8 +809,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BE35",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "35 Bonanza !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "35 Bonanza",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -820,8 +820,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BE36",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "36 Bonanza (piston) !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "36 Bonanza (piston)",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -831,8 +831,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B36T",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "36 Bonanza (turbine) !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "36 Bonanza (turbine)",
     engineCount: "1",
     engineType: "T",
     weightClass: "S",
@@ -842,7 +842,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BE40",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
     name: "400 Beechjet, Hawker 400 (T-1Jayhawk, T-400)",
     engineCount: "2",
     engineType: "J",
@@ -853,8 +853,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BE50",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "50 Twin Bonanza (U-8D/E/G, RU-8Seminole) !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "50 Twin Bonanza (U-8D/E/G, RU-8Seminole)",
     engineCount: "2",
     engineType: "P",
     weightClass: "S",
@@ -864,8 +864,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BE55",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "55 Baron (T-42 Chochise, C-55, E-20) !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "55 Baron (T-42 Chochise, C-55, E-20)",
     engineCount: "2",
     engineType: "P",
     weightClass: "S",
@@ -875,8 +875,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BE56",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "56 Turbo Baron !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "56 Turbo Baron",
     engineCount: "2",
     engineType: "P",
     weightClass: "S",
@@ -886,8 +886,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BE58",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "58 Baron !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "58 Baron",
     engineCount: "2",
     engineType: "P",
     weightClass: "S",
@@ -897,8 +897,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BE60",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "60 Duke !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "60 Duke",
     engineCount: "2",
     engineType: "P",
     weightClass: "S",
@@ -908,8 +908,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BE65",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "65 Queen Air (U-8F Seminole) !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "65 Queen Air (U-8F Seminole)",
     engineCount: "2",
     engineType: "P",
     weightClass: "S",
@@ -919,8 +919,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BE70",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "70 Queen Air !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "70 Queen Air",
     engineCount: "2",
     engineType: "P",
     weightClass: "S",
@@ -930,8 +930,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BE76",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "76 Duchess !!! NO RNAV !!! ",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "76 Duchess ",
     engineCount: "2",
     engineType: "P",
     weightClass: "S",
@@ -941,8 +941,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BE77",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "77 Skipper !!! NO RNAV !!! ",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "77 Skipper ",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -952,8 +952,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BE80",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "80 Queen Air (Zamir) !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "80 Queen Air (Zamir)",
     engineCount: "2",
     engineType: "P",
     weightClass: "S",
@@ -963,8 +963,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BE88",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "88 Queen Air !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "88 Queen Air",
     engineCount: "2",
     engineType: "P",
     weightClass: "S",
@@ -974,8 +974,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BE95",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "95 Travel Air !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "95 Travel Air",
     engineCount: "2",
     engineType: "P",
     weightClass: "S",
@@ -985,8 +985,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BE99",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "99 Airliner !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "99 Airliner",
     engineCount: "2",
     engineType: "T",
     weightClass: "S",
@@ -996,8 +996,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BE9L",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "90, A90 to E90 King Air (T-44 V-C6) !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "90, A90 to E90 King Air (T-44 V-C6)",
     engineCount: "2",
     engineType: "T",
     weightClass: "S",
@@ -1007,8 +1007,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BE9T",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "F90 King Air !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "F90 King Air",
     engineCount: "2",
     engineType: "T",
     weightClass: "S",
@@ -1018,8 +1018,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "STAR",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "2000 Starship !!! NO RNAV !!! ",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "2000 Starship ",
     engineCount: "2",
     engineType: "T",
     weightClass: "S+",
@@ -1029,7 +1029,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PRM1",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
     name: "Premier 1, 390",
     engineCount: "2",
     engineType: "J",
@@ -1040,8 +1040,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "T34P",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "T34A/B, E-17 Mentor (45) !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "T34A/B, E-17 Mentor (45)",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -1051,8 +1051,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "T34T",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "T-34C Turbo Mentor !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "T-34C Turbo Mentor",
     engineCount: "1",
     engineType: "T",
     weightClass: "S",
@@ -1062,8 +1062,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "TEX2",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "T-6A Texan II !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "T-6A Texan II",
     engineCount: "1",
     engineType: "T",
     weightClass: "S",
@@ -1073,8 +1073,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "U21",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "U-21A/G, EU-21, JU-21, RU-21, Ute(A90-1 to 4) !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "U-21A/G, EU-21, JU-21, RU-21, Ute(A90-1 to 4)",
     engineCount: "2",
     engineType: "T",
     weightClass: "S",
@@ -1084,8 +1084,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "U22",
-    manufacturer: "BEECH AIRCRAFT COMPANY (USA)",
-    name: "QU-22 (1074/1079) !!! NO RNAV !!!",
+    manufacturer: "BEECH AIRCRAFT COMPANY",
+    name: "QU-22 (1074/1079)",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -1095,7 +1095,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AR11",
-    manufacturer: "BELLANCA AIRCRAFT (USA)",
+    manufacturer: "BELLANCA AIRCRAFT",
     name: "Aeronca Chief/Super Chief, Pushpak",
     engineCount: "1",
     engineType: "P",
@@ -1106,7 +1106,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AR15",
-    manufacturer: "BELLANCA AIRCRAFT (USA)",
+    manufacturer: "BELLANCA AIRCRAFT",
     name: "Aeronca Sedan",
     engineCount: "1",
     engineType: "P",
@@ -1117,7 +1117,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B14A",
-    manufacturer: "BELLANCA AIRCRAFT (USA)",
+    manufacturer: "BELLANCA AIRCRAFT",
     name: "14 Junior, Cruiseair, Cruiseair Senior Cruisemaster ",
     engineCount: "1",
     engineType: "P",
@@ -1128,7 +1128,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B14C",
-    manufacturer: "BELLANCA AIRCRAFT (USA)",
+    manufacturer: "BELLANCA AIRCRAFT",
     name: "14 Bellanca 260/A/B/C",
     engineCount: "1",
     engineType: "P",
@@ -1139,7 +1139,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BL17",
-    manufacturer: "BELLANCA AIRCRAFT (USA)",
+    manufacturer: "BELLANCA AIRCRAFT",
     name: "17 Viking, Super Viking,Turbo Viking",
     engineCount: "1",
     engineType: "P",
@@ -1150,7 +1150,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BL19",
-    manufacturer: "BELLANCA AIRCRAFT (USA)",
+    manufacturer: "BELLANCA AIRCRAFT",
     name: "19 Skyrocket",
     engineCount: "1",
     engineType: "P",
@@ -1161,7 +1161,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BL8",
-    manufacturer: "BELLANCA AIRCRAFT (USA)",
+    manufacturer: "BELLANCA AIRCRAFT",
     name: "8 Decathlon,  Scout ",
     engineCount: "1",
     engineType: "P",
@@ -1172,7 +1172,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "CH40",
-    manufacturer: "BELLANCA AIRCRAFT (USA)",
+    manufacturer: "BELLANCA AIRCRAFT",
     name: "Champion Lancer 402",
     engineCount: "2",
     engineType: "P",
@@ -1183,7 +1183,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "CH7A",
-    manufacturer: "BELLANCA AIRCRAFT (USA)",
+    manufacturer: "BELLANCA AIRCRAFT",
     name: "7 ACA/ECA Champ, Citabria, ",
     engineCount: "1",
     engineType: "P",
@@ -1194,7 +1194,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "CH7B",
-    manufacturer: "BELLANCA AIRCRAFT (USA)",
+    manufacturer: "BELLANCA AIRCRAFT",
     name: "7 GCBC/KCAB  Citabria",
     engineCount: "1",
     engineType: "P",
@@ -1205,7 +1205,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "T250",
-    manufacturer: "BELLANCA AIRCRAFT (USA)",
+    manufacturer: "BELLANCA AIRCRAFT",
     name: "T-250 Aries",
     engineCount: "1",
     engineType: "P",
@@ -1216,7 +1216,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B52",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "B-52 Stratofortress",
     engineCount: "8",
     engineType: "J",
@@ -1227,7 +1227,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B701 ",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "707-100 (C-137B)",
     engineCount: "4",
     engineType: "J",
@@ -1238,7 +1238,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B703",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "707-300(C-18, C-137C, E-8J-Stars,EC-18, EC-137, KC-137, T-17)",
     engineCount: "4",
     engineType: "J",
@@ -1249,7 +1249,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B712",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "717-200",
     engineCount: "2",
     engineType: "J",
@@ -1260,7 +1260,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B720",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "720",
     engineCount: "4",
     engineType: "J",
@@ -1271,7 +1271,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B721",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "727-100 (C-22)",
     engineCount: "3",
     engineType: "J",
@@ -1282,7 +1282,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B722",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "727-200",
     engineCount: "3",
     engineType: "J",
@@ -1293,7 +1293,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "R721",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "727-100RE Super 27",
     engineCount: "3",
     engineType: "J",
@@ -1304,7 +1304,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "R722",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "727-200RE Super 27",
     engineCount: "3",
     engineType: "J",
@@ -1315,7 +1315,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B72Q",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "727 Stage 3 (-100 or -200)",
     engineCount: "3",
     engineType: "J",
@@ -1326,7 +1326,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B731",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "737-100",
     engineCount: "2",
     engineType: "J",
@@ -1337,7 +1337,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B732",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "737-200 (Surveiller, CT-43, VC-96)",
     engineCount: "2",
     engineType: "J",
@@ -1348,7 +1348,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B73Q",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "B737 Stage 3",
     engineCount: "2",
     engineType: "J",
@@ -1359,7 +1359,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B733",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "737-300",
     engineCount: "2",
     engineType: "J",
@@ -1370,7 +1370,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B734",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "737-400",
     engineCount: "2",
     engineType: "J",
@@ -1381,7 +1381,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B735",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "737-500",
     engineCount: "2",
     engineType: "J",
@@ -1392,7 +1392,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B736",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "737-600",
     engineCount: "2",
     engineType: "J",
@@ -1403,7 +1403,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B737",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "737-700, BBJ, C-40",
     engineCount: "2",
     engineType: "J",
@@ -1414,7 +1414,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B738",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "737-800, BBJ2",
     engineCount: "2",
     engineType: "J",
@@ -1425,7 +1425,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B739",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "737-900",
     engineCount: "2",
     engineType: "J",
@@ -1436,7 +1436,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B741",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "747-100",
     engineCount: "4",
     engineType: "J",
@@ -1447,7 +1447,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B742",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "747-200 (E-4, VC-25)",
     engineCount: "4",
     engineType: "J",
@@ -1458,7 +1458,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B743",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "747-300",
     engineCount: "4",
     engineType: "J",
@@ -1469,7 +1469,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B74D",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "747-400 (Domestic, no winglets)",
     engineCount: "4",
     engineType: "J",
@@ -1480,7 +1480,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B744",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "747-400 (International, winglets)",
     engineCount: "4",
     engineType: "J",
@@ -1491,7 +1491,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B74R",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "747SR",
     engineCount: "4",
     engineType: "J",
@@ -1502,7 +1502,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B74S",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "747SP",
     engineCount: "4",
     engineType: "J",
@@ -1513,7 +1513,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B752",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "757-200 (C-32)",
     engineCount: "2",
     engineType: "J",
@@ -1524,7 +1524,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B753",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "757-300",
     engineCount: "2",
     engineType: "J",
@@ -1535,7 +1535,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B762",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "767-200",
     engineCount: "2",
     engineType: "J",
@@ -1546,7 +1546,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B763",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "767-300",
     engineCount: "2",
     engineType: "J",
@@ -1557,7 +1557,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B764",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "767-400",
     engineCount: "2",
     engineType: "J",
@@ -1568,7 +1568,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B772",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "777-200",
     engineCount: "2",
     engineType: "J",
@@ -1579,7 +1579,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B773",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "777-300",
     engineCount: "2",
     engineType: "J",
@@ -1590,7 +1590,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BSCA",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "747SCA Shuttle Carrier",
     engineCount: "4",
     engineType: "J",
@@ -1601,7 +1601,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C135",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "C-135B/C/E/K Stratolifter (EC-135,NKC-135, OC-135, TC-135, WC-135)",
     engineCount: "4",
     engineType: "J",
@@ -1612,7 +1612,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C17",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "C-17 Globemaster 3",
     engineCount: "4",
     engineType: "J",
@@ -1623,8 +1623,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C97",
-    manufacturer: "BOEING COMPANY (USA)",
-    name: "C-97 Stratofreighter !!! NO RNAV !!!",
+    manufacturer: "BOEING COMPANY",
+    name: "C-97 Stratofreighter",
     engineCount: "4",
     engineType: "P",
     weightClass: "L",
@@ -1634,7 +1634,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "K35A",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "KC-135A Stratotanker (J57 engines)",
     engineCount: "4",
     engineType: "J",
@@ -1645,7 +1645,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "K35E",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "KC 135D/E Stratotanker (TF33engines)",
     engineCount: "4",
     engineType: "J",
@@ -1656,7 +1656,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "K35R",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "KC 135R/T, C-135FR, Stratotanker(CFM56 engines)",
     engineCount: "4",
     engineType: "J",
@@ -1667,7 +1667,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "KE3",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "KE-3",
     engineCount: "4",
     engineType: "J",
@@ -1678,7 +1678,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "R135",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "RC-135",
     engineCount: "4",
     engineType: "J",
@@ -1689,7 +1689,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "E3TF",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "E-3A (TF33), E-B/C, JE-3, Sentry ",
     engineCount: "4",
     engineType: "J",
@@ -1700,7 +1700,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "E3CF",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "E-3A (CFM56), E-3D/F, Sentry",
     engineCount: "4",
     engineType: "J",
@@ -1711,7 +1711,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "E6",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "E6 Mercury",
     engineCount: "4",
     engineType: "J",
@@ -1722,7 +1722,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "E767",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "E-767",
     engineCount: "2",
     engineType: "J",
@@ -1733,7 +1733,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "ST75",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "75 Kaydet (PT-13, PT-17, PT-18,PT-27, N2S)",
     engineCount: "1",
     engineType: "P",
@@ -1744,7 +1744,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "CL30",
-    manufacturer: "BOMBARDIER (Canada)",
+    manufacturer: "BOMBARDIER",
     name: "BD-100 Challenger 300",
     engineCount: "2",
     engineType: "J",
@@ -1755,7 +1755,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "GL5T",
-    manufacturer: "BOMBARDIER (Canada)",
+    manufacturer: "BOMBARDIER",
     name: "BD-700 Global 5000",
     engineCount: "2",
     engineType: "J",
@@ -1766,7 +1766,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "GLEX",
-    manufacturer: "BOMBARDIER (Canada)",
+    manufacturer: "BOMBARDIER",
     name: "BD-700 Global Express, Sentinel",
     engineCount: "2",
     engineType: "J",
@@ -1779,8 +1779,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A748",
-    manufacturer: "BRITISH AEROSPACE (BAe) (UK)",
-    name: "BAe 748 (Andover, C-91) !!! NO RNAV !!!",
+    manufacturer: "BRITISH AEROSPACE (BAe)",
+    name: "BAe 748 (Andover, C-91)",
     engineCount: "2",
     engineType: "T",
     weightClass: "L",
@@ -1790,8 +1790,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "ATP",
-    manufacturer: "BRITISH AEROSPACE (BAe) (UK)",
-    name: "ATP Advance Turboprop (ATP) !!! NO RNAV !!!",
+    manufacturer: "BRITISH AEROSPACE (BAe)",
+    name: "ATP Advance Turboprop (ATP)",
     engineCount: "2",
     engineType: "T",
     weightClass: "L",
@@ -1801,7 +1801,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BA11",
-    manufacturer: "BRITISH AEROSPACE (BAe) (UK)",
+    manufacturer: "BRITISH AEROSPACE (BAe)",
     name: "BAC-111 One-Eleven",
     engineCount: "2",
     engineType: "J",
@@ -1812,7 +1812,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "JPRO",
-    manufacturer: "BRITISH AEROSPACE (BAe) (UK)",
+    manufacturer: "BRITISH AEROSPACE (BAe)",
     name: "BAC-167 Strikemaster",
     engineCount: "1",
     engineType: "J",
@@ -1823,7 +1823,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "H25A",
-    manufacturer: "BRITISH AEROSPACE (BAe) (UK)",
+    manufacturer: "BRITISH AEROSPACE (BAe)",
     name: "BAe HS 125 Series 1/2/3/400/600 ",
     engineCount: "2",
     engineType: "J",
@@ -1834,7 +1834,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "H25B",
-    manufacturer: "BRITISH AEROSPACE (BAe) (UK)",
+    manufacturer: "BRITISH AEROSPACE (BAe)",
     name: "BAe-125-700/800 (C-29, U-125)",
     engineCount: "2",
     engineType: "J",
@@ -1845,7 +1845,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "H25C",
-    manufacturer: "BRITISH AEROSPACE (BAe) (UK)",
+    manufacturer: "BRITISH AEROSPACE (BAe)",
     name: "BAe-125-1000",
     engineCount: "2",
     engineType: "J",
@@ -1856,7 +1856,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B461",
-    manufacturer: "BRITISH AEROSPACE (BAe) (UK)",
+    manufacturer: "BRITISH AEROSPACE (BAe)",
     name: "BAe-146-100 Statesman",
     engineCount: "4",
     engineType: "J",
@@ -1869,7 +1869,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B462",
-    manufacturer: "BRITISH AEROSPACE (BAe) (UK)",
+    manufacturer: "BRITISH AEROSPACE (BAe)",
     name: "BAe-146-200 Quiet Trader, Statesman  ",
     engineCount: "4",
     engineType: "J",
@@ -1882,7 +1882,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B463",
-    manufacturer: "BRITISH AEROSPACE (BAe) (UK)",
+    manufacturer: "BRITISH AEROSPACE (BAe)",
     name: "BAe-146-300",
     engineCount: "4",
     engineType: "J",
@@ -1895,7 +1895,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "JS31",
-    manufacturer: "BRITISH AEROSPACE (BAe) (UK)",
+    manufacturer: "BRITISH AEROSPACE (BAe)",
     name: "BAe-3100 Jetstream 31 (T.Mk.3)",
     engineCount: "2",
     engineType: "T",
@@ -1906,7 +1906,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "JS32",
-    manufacturer: "BRITISH AEROSPACE (BAe) (UK)",
+    manufacturer: "BRITISH AEROSPACE (BAe)",
     name: "BAe-3200 Jetstream Super 31",
     engineCount: "2",
     engineType: "T",
@@ -1917,7 +1917,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "JS41",
-    manufacturer: "BRITISH AEROSPACE (BAe) (UK)",
+    manufacturer: "BRITISH AEROSPACE (BAe)",
     name: "BAe-4100 Jetstream 41",
     engineCount: "2",
     engineType: "T",
@@ -1928,7 +1928,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "HAR",
-    manufacturer: "BRITISH AEROSPACE (BAe) (UK)",
+    manufacturer: "BRITISH AEROSPACE (BAe)",
     name: "Harrier, Sea Harrier",
     engineCount: "1",
     engineType: "J",
@@ -1939,7 +1939,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "HAWK",
-    manufacturer: "BRITISH AEROSPACE (BAe) (UK)",
+    manufacturer: "BRITISH AEROSPACE (BAe)",
     name: "Hawk, T-45 Goshawk, CT-155 Hawk",
     engineCount: "1",
     engineType: "J",
@@ -1950,7 +1950,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "JS1",
-    manufacturer: "BRITISH AEROSPACE (BAe) (UK)",
+    manufacturer: "BRITISH AEROSPACE (BAe)",
     name: "Jetstream 1 ",
     engineCount: "2",
     engineType: "T",
@@ -1961,7 +1961,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "JS3",
-    manufacturer: "BRITISH AEROSPACE (BAe) (UK)",
+    manufacturer: "BRITISH AEROSPACE (BAe)",
     name: "Jetstream 3 ",
     engineCount: "2",
     engineType: "T",
@@ -1972,7 +1972,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "JS20",
-    manufacturer: "BRITISH AEROSPACE (BAe) (UK)",
+    manufacturer: "BRITISH AEROSPACE (BAe)",
     name: "Jetstream 200 ",
     engineCount: "2",
     engineType: "T",
@@ -1983,7 +1983,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "N1M",
-    manufacturer: "BRITISH AEROSPACE (BAe) (UK)",
+    manufacturer: "BRITISH AEROSPACE (BAe)",
     name: "Nimrod",
     engineCount: "4",
     engineType: "J",
@@ -1994,7 +1994,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "RJ70",
-    manufacturer: "BRITISH AEROSPACE (BAe) (UK)",
+    manufacturer: "BRITISH AEROSPACE (BAe)",
     name: "RJ-70",
     engineCount: "4",
     engineType: "J",
@@ -2005,7 +2005,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "RJ85",
-    manufacturer: "BRITISH AEROSPACE (BAe) (UK)",
+    manufacturer: "BRITISH AEROSPACE (BAe)",
     name: "RJ-85",
     engineCount: "4",
     engineType: "J",
@@ -2016,7 +2016,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "RJ1H",
-    manufacturer: "BRITISH AEROSPACE (BAe) (UK)",
+    manufacturer: "BRITISH AEROSPACE (BAe)",
     name: "RJ-100",
     engineCount: "4",
     engineType: "J",
@@ -2027,7 +2027,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "TOR",
-    manufacturer: "BRITISH AEROSPACE (BAe) (UK)",
+    manufacturer: "BRITISH AEROSPACE (BAe)",
     name: "Tornado",
     engineCount: "2",
     engineType: "J",
@@ -2038,8 +2038,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BN2P",
-    manufacturer:
-      "BRITTEN NORMAN LTD. (A subsidiary of Pilatus Aircraft LTD.) (UK)",
+    manufacturer: "BRITTEN NORMAN LTD. (A subsidiary of Pilatus Aircraft LTD.)",
     name: "BN-2, BN-2A/B Islander, Defender,Maritime Defender",
     engineCount: "2",
     engineType: "P",
@@ -2050,8 +2049,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BN2T",
-    manufacturer:
-      "BRITTEN NORMAN LTD. (A subsidiary of Pilatus Aircraft LTD.) (UK)",
+    manufacturer: "BRITTEN NORMAN LTD. (A subsidiary of Pilatus Aircraft LTD.)",
     name: "BN-2T Turbine Islander, Turbine Defender",
     engineCount: "2",
     engineType: "T",
@@ -2062,8 +2060,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "TRID",
-    manufacturer:
-      "BRITTEN NORMAN LTD. (A subsidiary of Pilatus Aircraft LTD.) (UK)",
+    manufacturer: "BRITTEN NORMAN LTD. (A subsidiary of Pilatus Aircraft LTD.)",
     name: "Trident",
     engineCount: "3",
     engineType: "J",
@@ -2074,8 +2071,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "TRIS",
-    manufacturer:
-      "BRITTEN NORMAN LTD. (A subsidiary of Pilatus Aircraft LTD.) (UK)",
+    manufacturer: "BRITTEN NORMAN LTD. (A subsidiary of Pilatus Aircraft LTD.)",
     name: "BN-2A Mk3 Trislander",
     engineCount: "3",
     engineType: "P",
@@ -2086,8 +2082,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "VC10",
-    manufacturer:
-      "BRITTEN NORMAN LTD. (A subsidiary of Pilatus Aircraft LTD.) (UK)",
+    manufacturer: "BRITTEN NORMAN LTD. (A subsidiary of Pilatus Aircraft LTD.)",
     name: "VC-10 ",
     engineCount: "4",
     engineType: "J",
@@ -2098,8 +2093,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "VISC",
-    manufacturer:
-      "BRITTEN NORMAN LTD. (A subsidiary of Pilatus Aircraft LTD.) (UK)",
+    manufacturer: "BRITTEN NORMAN LTD. (A subsidiary of Pilatus Aircraft LTD.)",
     name: "Viscount",
     engineCount: "4",
     engineType: "T",
@@ -2110,7 +2104,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "TNAV",
-    manufacturer: "CAMAIR AIRCRAFT CORP. (USA)",
+    manufacturer: "CAMAIR AIRCRAFT CORP.",
     name: "480 Twin Navion 480",
     engineCount: "2",
     engineType: "P",
@@ -2121,7 +2115,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "CL41",
-    manufacturer: "CANADAIR BOMBARDIER LTD. (Canada)",
+    manufacturer: "CANADAIR BOMBARDIER LTD.",
     name: "CL-41 Tutor (CT-114)",
     engineCount: "1",
     engineType: "J",
@@ -2132,7 +2126,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "CL44",
-    manufacturer: "CANADAIR BOMBARDIER LTD. (Canada)",
+    manufacturer: "CANADAIR BOMBARDIER LTD.",
     name: "CL-44 Forty Four",
     engineCount: "4",
     engineType: "T",
@@ -2143,7 +2137,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "CL4G",
-    manufacturer: "CANADAIR BOMBARDIER LTD. (Canada)",
+    manufacturer: "CANADAIR BOMBARDIER LTD.",
     name: "CL-44-O Guppy",
     engineCount: "4",
     engineType: "T",
@@ -2154,7 +2148,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "CVLT",
-    manufacturer: "CANADAIR BOMBARDIER LTD. (Canada)",
+    manufacturer: "CANADAIR BOMBARDIER LTD.",
     name: "CL-66, CV-580 (CC-109Cosmopolitan)",
     engineCount: "2",
     engineType: "T",
@@ -2165,7 +2159,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "CL60",
-    manufacturer: "CANADAIR BOMBARDIER LTD. (Canada)",
+    manufacturer: "CANADAIR BOMBARDIER LTD.",
     name: "CL-600/Challenger 699/601/604(CC-144, CE-144)",
     engineCount: "2",
     engineType: "J",
@@ -2176,7 +2170,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "CRJ1",
-    manufacturer: "CANADAIR BOMBARDIER LTD. (Canada)",
+    manufacturer: "CANADAIR BOMBARDIER LTD.",
     name: "CL-600 Regional Jet CRJ-100, RJ-100 ",
     engineCount: "2",
     engineType: "J",
@@ -2189,7 +2183,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "CRJ2",
-    manufacturer: "CANADAIR BOMBARDIER LTD. (Canada)",
+    manufacturer: "CANADAIR BOMBARDIER LTD.",
     name: "CL-600, Regional Jet CRJ-200,RJ-200",
     engineCount: "2",
     engineType: "J",
@@ -2202,7 +2196,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "CRJ7",
-    manufacturer: "CANADAIR BOMBARDIER LTD. (Canada)",
+    manufacturer: "CANADAIR BOMBARDIER LTD.",
     name: "CL-600 Regional Jet CRJ-700 ",
     engineCount: "2",
     engineType: "J",
@@ -2215,7 +2209,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "CRJ9",
-    manufacturer: "CANADAIR BOMBARDIER LTD. (Canada)",
+    manufacturer: "CANADAIR BOMBARDIER LTD.",
     name: "CL-600 Regional Jet CRJ-900 ",
     engineCount: "2",
     engineType: "J",
@@ -2228,7 +2222,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "T33",
-    manufacturer: "CANADAIR BOMBARDIER LTD. (Canada)",
+    manufacturer: "CANADAIR BOMBARDIER LTD.",
     name: "T-33, CT-133 Silver Star (CL-30) ",
     engineCount: "1",
     engineType: "J",
@@ -2239,7 +2233,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A37",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
     name: "A-37 Dragonfly (318D/E), OA-37",
     engineCount: "2",
     engineType: "J",
@@ -2250,8 +2244,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C120",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "120 !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "120",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -2261,7 +2255,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C140",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
     name: "140!!! NO RNAV !!!",
     engineCount: "1",
     engineType: "P",
@@ -2272,8 +2266,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C150",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "150, A150, Commuter, Aerobat !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "150, A150, Commuter, Aerobat",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -2283,8 +2277,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C152",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "152, A152, Aerobat !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "152, A152, Aerobat",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -2294,8 +2288,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C170",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "170 !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "170",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -2305,8 +2299,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C172",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "172, P172, R172, Skyhawk, Hawk XP, Cutlass (T-41, Mescalero) !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "172, P172, R172, Skyhawk, Hawk XP, Cutlass (T-41, Mescalero)",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -2318,8 +2312,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C72R",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "172RG, Cutlass RG !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "172RG, Cutlass RG",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -2329,8 +2323,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C175",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "175, Skylark !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "175, Skylark",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -2340,8 +2334,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C177",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "177, Cardinal !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "177, Cardinal",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -2351,8 +2345,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C77R",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "177, Cardinal !!! NO RNAV !!! RG",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "177, Cardinal RG",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -2362,8 +2356,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C180",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "180, Skywagon 180 (U-17C) !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "180, Skywagon 180 (U-17C)",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -2373,8 +2367,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C182",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "182, Skylane !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "182, Skylane",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -2384,8 +2378,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C82R",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "R182, TR182 (Turbo) Skylane RG !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "R182, TR182 (Turbo) Skylane RG",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -2395,8 +2389,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C185",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "185, A185 Skywagon, Skywagon 185,AgCarryall (U-17A/B) !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "185, A185 Skywagon, Skywagon 185,AgCarryall (U-17A/B)",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -2406,8 +2400,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C188",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "188, A188, T188 AgWagon, AgPickupAgTruck, AgHusky !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "188, A188, T188 AgWagon, AgPickupAgTruck, AgHusky",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -2417,41 +2411,41 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C190",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
     name: "190",
     engineCount: "1",
     engineType: "P",
-    weightClass: "S !!! NO RNAV !!!",
+    weightClass: "S",
     KPDXVfrAltitude: "3500",
     KPDXIfrAltitude: "3000",
     srsClass: "I",
   },
   {
     equipmentCode: "C195",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
     name: "195 (LC-126)",
     engineCount: "1",
     engineType: "P",
-    weightClass: "S !!! NO RNAV !!!",
+    weightClass: "S",
     KPDXVfrAltitude: "3500",
     KPDXIfrAltitude: "3000",
     srsClass: "I",
   },
   {
     equipmentCode: "C205",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
     name: "205",
     engineCount: "1",
     engineType: "P",
-    weightClass: "S !!! NO RNAV !!!",
+    weightClass: "S",
     KPDXVfrAltitude: "3500",
     KPDXIfrAltitude: "3000",
     srsClass: "I",
   },
   {
     equipmentCode: "C206",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "206 !!! NO RNAV !!! 6",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "206 6",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -2461,8 +2455,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C06T",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "206 (turbine) !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "206 (turbine)",
     engineCount: "1",
     engineType: "T",
     weightClass: "S",
@@ -2472,8 +2466,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C207",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "207 (Turbo) !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "207 (Turbo)",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -2483,8 +2477,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C07T",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "207 (turbine) !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "207 (turbine)",
     engineCount: "1",
     engineType: "T",
     weightClass: "S",
@@ -2494,8 +2488,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C208",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "208 Grand Caravan !!! NO RNAV !!! ",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "208 Grand Caravan ",
     engineCount: "1",
     engineType: "T",
     weightClass: "S",
@@ -2505,8 +2499,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C210",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "210, T210, (Turbo) Centurion !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "210, T210, (Turbo) Centurion",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -2516,8 +2510,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "P210",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "P210 Pressurized Centurion !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "P210 Pressurized Centurion",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -2527,8 +2521,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C10T",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "P210 (turbine) !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "P210 (turbine)",
     engineCount: "1",
     engineType: "T",
     weightClass: "S",
@@ -2538,7 +2532,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C303",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
     name: "T303 Crusader!!! NO RNAV !!! ",
     engineCount: "2",
     engineType: "P",
@@ -2549,7 +2543,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C310",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
     name: "310, T310 (U-3, L-27)!!! NO RNAV !!! ",
     engineCount: "2",
     engineType: "P",
@@ -2560,8 +2554,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C320",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "320 (Executive) Skyknight !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "320 (Executive) Skyknight",
     engineCount: "2",
     engineType: "P",
     weightClass: "S",
@@ -2571,8 +2565,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C335",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "335 !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "335",
     engineCount: "2",
     engineType: "P",
     weightClass: "S",
@@ -2582,8 +2576,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C336",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "336 Skymaster !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "336 Skymaster",
     engineCount: "2",
     engineType: "P",
     weightClass: "S",
@@ -2593,8 +2587,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C337",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "337, M337, MC337, T337B/C/D/E/F/H(Turbo) Super Skymaster (O-2) !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "337, M337, MC337, T337B/C/D/E/F/H(Turbo) Super Skymaster (O-2)",
     engineCount: "2",
     engineType: "P",
     weightClass: "S",
@@ -2604,8 +2598,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "P337",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "T337G, P337 Pressurized Skymaster !!! NO RNAV !!! ",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "T337G, P337 Pressurized Skymaster ",
     engineCount: "2",
     engineType: "P",
     weightClass: "S",
@@ -2615,8 +2609,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C340",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "340 !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "340",
     engineCount: "2",
     engineType: "P",
     weightClass: "S",
@@ -2626,8 +2620,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C402",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "401, 402, Utililiner, Businessliner !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "401, 402, Utililiner, Businessliner",
     engineCount: "2",
     engineType: "P",
     weightClass: "S",
@@ -2637,8 +2631,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C02T",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "402 (turbine) !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "402 (turbine)",
     engineCount: "2",
     engineType: "T",
     weightClass: "S",
@@ -2648,8 +2642,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C404",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "404 Titan !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "404 Titan",
     engineCount: "2",
     engineType: "P",
     weightClass: "S",
@@ -2659,8 +2653,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C04T",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "404 (turbine) !!! NO RNAV !!! ",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "404 (turbine) ",
     engineCount: "2",
     engineType: "T",
     weightClass: "S",
@@ -2670,8 +2664,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F406",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "F406 Caravan 2, Vigilant !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "F406 Caravan 2, Vigilant",
     engineCount: "2",
     engineType: "T",
     weightClass: "S",
@@ -2681,8 +2675,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C411",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "411 !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "411",
     engineCount: "2",
     engineType: "P",
     weightClass: "S",
@@ -2692,8 +2686,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C414",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "414, Chancellor 414 !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "414, Chancellor 414",
     engineCount: "2",
     engineType: "P",
     weightClass: "S",
@@ -2705,8 +2699,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C14T",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "414 (turbine) !!! NO RNAV !!! ",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "414 (turbine) ",
     engineCount: "2",
     engineType: "T",
     weightClass: "S",
@@ -2716,8 +2710,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C421",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "421, Golden Eagle, ExecutiveCommuter !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "421, Golden Eagle, ExecutiveCommuter",
     engineCount: "2",
     engineType: "P",
     weightClass: "S",
@@ -2727,8 +2721,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C21T",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "421 (turbine) !!! NO RNAV !!!",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "421 (turbine)",
     engineCount: "2",
     engineType: "T",
     weightClass: "S",
@@ -2738,8 +2732,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C425",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "425, Corsair, Conquest !!! NO RNAV !!! 1",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "425, Corsair, Conquest 1",
     engineCount: "2",
     engineType: "T",
     weightClass: "S",
@@ -2749,8 +2743,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C441",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "441 Conquest, Conquest !!! NO RNAV !!! 2",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "441 Conquest, Conquest 2",
     engineCount: "2",
     engineType: "T",
     weightClass: "S",
@@ -2760,7 +2754,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C500",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
     name: "5000 Citation, Citation 1",
     engineCount: "2",
     engineType: "J",
@@ -2771,7 +2765,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C501",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
     name: "501 Citation 1SP",
     engineCount: "2",
     engineType: "J",
@@ -2782,7 +2776,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C525",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
     name: "525 Citationjet Citation CJ1",
     engineCount: "2",
     engineType: "J",
@@ -2793,7 +2787,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C25A",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
     name: "525A Citation CJ2",
     engineCount: "2",
     engineType: "J",
@@ -2804,7 +2798,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C25B",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
     name: "525B Citation CJ3",
     engineCount: "2",
     engineType: "J",
@@ -2815,8 +2809,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C25C",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
-    name: "525C Citation CJ4 (/L)",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
+    name: "525C Citation CJ4",
     engineCount: "2",
     engineType: "J",
     weightClass: "S",
@@ -2828,7 +2822,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C526",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
     name: "526 Citationjet",
     engineCount: "2",
     engineType: "J",
@@ -2839,7 +2833,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C550",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
     name: "550, S550, 552 Citation 2/S2/Bravo(T-47, U-20)",
     engineCount: "2",
     engineType: "J",
@@ -2850,7 +2844,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C551",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
     name: "551 Citation 2SP",
     engineCount: "2",
     engineType: "J",
@@ -2861,7 +2855,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C560",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
     name: "560 Citation 5/5 Ultra/5Ultra Encore(UC-35, OT-47, TR-20)",
     engineCount: "2",
     engineType: "J",
@@ -2872,7 +2866,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C650",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
     name: "650 Citation 3/6/7",
     engineCount: "2",
     engineType: "J",
@@ -2883,7 +2877,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C680",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
     name: "680 Citation Sovereign",
     engineCount: "2",
     engineType: "J",
@@ -2894,7 +2888,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C750",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
     name: "750 Citation 10",
     engineCount: "2",
     engineType: "J",
@@ -2905,7 +2899,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "CAW",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
     name: "AW",
     engineCount: "1",
     engineType: "P",
@@ -2916,7 +2910,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "O1",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
     name: "O-1, TO-1, OE, L-19, TL-19 Bird Dog(305,321)",
     engineCount: "1",
     engineType: "P",
@@ -2927,7 +2921,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "T37",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
     name: "T37 (318A/B/C)",
     engineCount: "2",
     engineType: "J",
@@ -2938,7 +2932,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "T50",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
     name: "T-50 Bobcat (AT-8, AT-17, UC-78,Crane)",
     engineCount: "2",
     engineType: "P",
@@ -2949,7 +2943,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "CDC6",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
     name: "DC-6",
     engineCount: "1",
     engineType: "P",
@@ -2960,7 +2954,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "CMAS",
-    manufacturer: "CESSNA AIRCRAFT COMPANY (USA)",
+    manufacturer: "CESSNA AIRCRAFT COMPANY",
     name: "C-34/37/38/145/165, Airmaster",
     engineCount: "1",
     engineType: "P",
@@ -2971,7 +2965,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "HUSK",
-    manufacturer: "CHRISTEN INDUSTRIES, INC. (USA)",
+    manufacturer: "CHRISTEN INDUSTRIES, INC.",
     name: "A-1 Huskey",
     engineCount: "1",
     engineType: "P",
@@ -2982,8 +2976,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "SR20",
-    manufacturer: "CIRRUS (USA)",
-    name: "SR-20, SR-20 SRV !!! NO RNAV !!!, SRV",
+    manufacturer: "CIRRUS",
+    name: "SR-20, SR-20 SRV, SRV",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -2993,8 +2987,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "SR22",
-    manufacturer: "CIRRUS (USA)",
-    name: "SR-22 !!! NO RNAV !!!",
+    manufacturer: "CIRRUS",
+    name: "SR-22",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -3004,8 +2998,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "VK3P",
-    manufacturer: "CIRRUS (USA)",
-    name: "VK-30 Cirrus !!! NO RNAV !!!",
+    manufacturer: "CIRRUS",
+    name: "VK-30 Cirrus",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -3026,7 +3020,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C46",
-    manufacturer: "CURTISS-WRIGHT CORP. (USA)",
+    manufacturer: "CURTISS-WRIGHT CORP.",
     name: "C-46 Commando (CW-20)",
     engineCount: "2",
     engineType: "P",
@@ -3037,7 +3031,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "ATLA",
-    manufacturer: "DASSAULT-BREGUET (France)",
+    manufacturer: "DASSAULT-BREGUET",
     name: "1150 Atlantic, Altantique 2",
     engineCount: "2",
     engineType: "T",
@@ -3048,7 +3042,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AJET",
-    manufacturer: "DASSAULT-BREGUET (France)",
+    manufacturer: "DASSAULT-BREGUET",
     name: "Alpha Jet",
     engineCount: "2",
     engineType: "J",
@@ -3059,7 +3053,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "FA10",
-    manufacturer: "DASSAULT-BREGUET (France)",
+    manufacturer: "DASSAULT-BREGUET",
     name: "Falcon 10/100, Mystere 10/100",
     engineCount: "2",
     engineType: "J",
@@ -3070,7 +3064,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "FA20",
-    manufacturer: "DASSAULT-BREGUET (France)",
+    manufacturer: "DASSAULT-BREGUET",
     name: "Falcon 20/100, Mystere 20/200,Gardian (HU-25, (T-11, TM-11)",
     engineCount: "2",
     engineType: "J",
@@ -3081,7 +3075,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "FA50",
-    manufacturer: "DASSAULT-BREGUET (France)",
+    manufacturer: "DASSAULT-BREGUET",
     name: "Falcon 50, Mystere 50 (T-16)",
     engineCount: "3",
     engineType: "J",
@@ -3092,7 +3086,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F900",
-    manufacturer: "DASSAULT-BREGUET (France)",
+    manufacturer: "DASSAULT-BREGUET",
     name: "Falcon 900, Mystere 900 (T-18)",
     engineCount: "3",
     engineType: "J",
@@ -3103,7 +3097,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F2TH",
-    manufacturer: "DASSAULT-BREGUET (France)",
+    manufacturer: "DASSAULT-BREGUET",
     name: "Falcon 2000",
     engineCount: "2",
     engineType: "J",
@@ -3114,7 +3108,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "JAGR",
-    manufacturer: "DASSAULT-BREGUET (France)",
+    manufacturer: "DASSAULT-BREGUET",
     name: "Jaguar",
     engineCount: "2",
     engineType: "J",
@@ -3125,7 +3119,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "MIR2",
-    manufacturer: "DASSAULT-BREGUET (France)",
+    manufacturer: "DASSAULT-BREGUET",
     name: "Mirage 2000, Vajara",
     engineCount: "1",
     engineType: "J",
@@ -3136,7 +3130,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "MIRA",
-    manufacturer: "DASSAULT-BREGUET (France)",
+    manufacturer: "DASSAULT-BREGUET",
     name: "Mirage 3/5/50 (F-103)",
     engineCount: "1",
     engineType: "J",
@@ -3147,7 +3141,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "MRF1",
-    manufacturer: "DASSAULT-BREGUET (France)",
+    manufacturer: "DASSAULT-BREGUET",
     name: "Mirage F1 (C-14, CE-14)",
     engineCount: "1",
     engineType: "J",
@@ -3158,7 +3152,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "ETAR",
-    manufacturer: "DASSAULT-BREGUET (France)",
+    manufacturer: "DASSAULT-BREGUET",
     name: "Super Etendard",
     engineCount: "1",
     engineType: "J",
@@ -3169,7 +3163,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DHC2",
-    manufacturer: "DEHAVILLAND (Canada/UK)",
+    manufacturer: "DEHAVILLAND",
     name: "DHC-2 Mk1 Beaver (U-6, L-20)",
     engineCount: "1",
     engineType: "P",
@@ -3180,8 +3174,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DH2T",
-    manufacturer: "DEHAVILLAND (Canada/UK)",
-    name: "DHC-2 Mk3 Turbo Beaver !!! NO RNAV !!!",
+    manufacturer: "DEHAVILLAND",
+    name: "DHC-2 Mk3 Turbo Beaver",
     engineCount: "1",
     engineType: "T",
     weightClass: "S",
@@ -3191,8 +3185,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DHC3",
-    manufacturer: "DEHAVILLAND (Canada/UK)",
-    name: "DHC-3 Otter (U-1, NU-1, UC) !!! NO RNAV !!!",
+    manufacturer: "DEHAVILLAND",
+    name: "DHC-3 Otter (U-1, NU-1, UC)",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -3202,8 +3196,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DH3T",
-    manufacturer: "DEHAVILLAND (Canada/UK)",
-    name: "DHC-3 Turbo Otter !!! NO RNAV !!!",
+    manufacturer: "DEHAVILLAND",
+    name: "DHC-3 Turbo Otter",
     engineCount: "1",
     engineType: "T",
     weightClass: "S",
@@ -3213,8 +3207,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DHC4",
-    manufacturer: "DEHAVILLAND (Canada/UK)",
-    name: "DHC-4 Caribou (C-7, CV-2) !!! NO RNAV !!!",
+    manufacturer: "DEHAVILLAND",
+    name: "DHC-4 Caribou (C-7, CV-2)",
     engineCount: "2",
     engineType: "P",
     weightClass: "S+",
@@ -3224,8 +3218,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DHC5",
-    manufacturer: "DEHAVILLAND (Canada/UK)",
-    name: "DHC-5 (C-8, CV-7, CC-115, C-115) !!! NO RNAV !!!",
+    manufacturer: "DEHAVILLAND",
+    name: "DHC-5 (C-8, CV-7, CC-115, C-115)",
     engineCount: "2",
     engineType: "T",
     weightClass: "L",
@@ -3235,8 +3229,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DHC6",
-    manufacturer: "DEHAVILLAND (Canada/UK)",
-    name: "DHC-6 Twin Otter (UV-18, CC-138) !!! NO RNAV !!!",
+    manufacturer: "DEHAVILLAND",
+    name: "DHC-6 Twin Otter (UV-18, CC-138)",
     engineCount: "2",
     engineType: "T",
     weightClass: "S",
@@ -3246,8 +3240,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DHC7",
-    manufacturer: "DEHAVILLAND (Canada/UK)",
-    name: "DHC-7 Dash 7 (O-5, EO-5) !!! NO RNAV !!!",
+    manufacturer: "DEHAVILLAND",
+    name: "DHC-7 Dash 7 (O-5, EO-5)",
     engineCount: "4",
     engineType: "T",
     weightClass: "L",
@@ -3257,8 +3251,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DH8A",
-    manufacturer: "DEHAVILLAND (Canada/UK)",
-    name: "DHC8 - 100 Dash 8  (/G) !!! NO RNAV !!!",
+    manufacturer: "DEHAVILLAND",
+    name: "DHC8 - 100 Dash 8 ",
     engineCount: "2",
     engineType: "T",
     weightClass: "L",
@@ -3270,8 +3264,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DH8B",
-    manufacturer: "DEHAVILLAND (Canada/UK)",
-    name: "DHC8 - 200 Dash 8 (/G) !!! NO RNAV !!!",
+    manufacturer: "DEHAVILLAND",
+    name: "DHC8 - 200 Dash 8",
     engineCount: "2",
     engineType: "T",
     weightClass: "L",
@@ -3283,8 +3277,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DH8C",
-    manufacturer: "DEHAVILLAND (Canada/UK)",
-    name: "DHC8 - 300 Dash 8 (/G) !!! NO RNAV !!!",
+    manufacturer: "DEHAVILLAND",
+    name: "DHC8 - 300 Dash 8",
     engineCount: "2",
     engineType: "T",
     weightClass: "L",
@@ -3296,8 +3290,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DH8D",
-    manufacturer: "DEHAVILLAND (Canada/UK)",
-    name: "DHC8 - 400 Dash 8 (/G) !!! NO RNAV !!!",
+    manufacturer: "DEHAVILLAND",
+    name: "DHC8 - 400 Dash 8",
     engineCount: "2",
     engineType: "T",
     weightClass: "L",
@@ -3309,7 +3303,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DOVE",
-    manufacturer: "DEHAVILLAND (Canada/UK)",
+    manufacturer: "DEHAVILLAND",
     name: "DH-104 Dove, Sea Devon",
     engineCount: "2",
     engineType: "P",
@@ -3320,7 +3314,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "HERN",
-    manufacturer: "DEHAVILLAND (Canada/UK)",
+    manufacturer: "DEHAVILLAND",
     name: "DH-114 Heron",
     engineCount: "4",
     engineType: "P",
@@ -3331,7 +3325,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DV20",
-    manufacturer: "DIAMOND (Canada)",
+    manufacturer: "DIAMOND",
     name: "DA-20/22, DV-20 Katana, Speed Katana",
     engineCount: "1",
     engineType: "P",
@@ -3342,7 +3336,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DA42",
-    manufacturer: "DIAMOND (Canada)",
+    manufacturer: "DIAMOND",
     name: "DA-42 TwinStar",
     engineCount: "2",
     engineType: "P",
@@ -3353,7 +3347,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "D228",
-    manufacturer: "DORNIER GmbH (FRG)",
+    manufacturer: "DORNIER GmbH",
     name: "228",
     engineCount: "2",
     engineType: "T",
@@ -3364,7 +3358,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "D328",
-    manufacturer: "DORNIER GmbH (FRG)",
+    manufacturer: "DORNIER GmbH",
     name: "328",
     engineCount: "2",
     engineType: "T",
@@ -3375,7 +3369,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DO27",
-    manufacturer: "DORNIER GmbH (FRG)",
+    manufacturer: "DORNIER GmbH",
     name: "27",
     engineCount: "1",
     engineType: "P",
@@ -3386,7 +3380,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DO28",
-    manufacturer: "DORNIER GmbH (FRG)",
+    manufacturer: "DORNIER GmbH",
     name: "Do 28 A/B (Agur)",
     engineCount: "2",
     engineType: "P",
@@ -3397,7 +3391,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "D28D",
-    manufacturer: "DORNIER GmbH (FRG)",
+    manufacturer: "DORNIER GmbH",
     name: "Do 28D/D-1/D-2, 128-2 Skyservant",
     engineCount: "2",
     engineType: "P",
@@ -3408,7 +3402,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "D28T",
-    manufacturer: "DORNIER GmbH (FRG)",
+    manufacturer: "DORNIER GmbH",
     name: "Do-28D-6, 128-6 Turbo Skyservant",
     engineCount: "2",
     engineType: "T",
@@ -3419,7 +3413,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "EA50",
-    manufacturer: "ECLIPSE AVIATION (USA)",
+    manufacturer: "ECLIPSE AVIATION",
     name: "Eclipse 500",
     engineCount: "2",
     engineType: "J",
@@ -3430,8 +3424,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "VECT",
-    manufacturer: "EMBRAER (Brazil)",
-    name: "CBA-123 Vector !!! NO RNAV !!!",
+    manufacturer: "EMBRAER",
+    name: "CBA-123 Vector",
     engineCount: "2",
     engineType: "T",
     weightClass: "S+",
@@ -3441,8 +3435,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "E110",
-    manufacturer: "EMBRAER (Brazil)",
-    name: "EMB-110/111 Bandeirante (C-95,EC-95, P-95, R-95, SC-95) !!! NO RNAV !!!",
+    manufacturer: "EMBRAER",
+    name: "EMB-110/111 Bandeirante (C-95,EC-95, P-95, R-95, SC-95)",
     engineCount: "2",
     engineType: "T",
     weightClass: "S+",
@@ -3452,8 +3446,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "E120",
-    manufacturer: "EMBRAER (Brazil)",
-    name: "EMB-120 Brasilia (VC-97) !!! NO RNAV !!!",
+    manufacturer: "EMBRAER",
+    name: "EMB-120 Brasilia (VC-97)",
     engineCount: "2",
     engineType: "T",
     weightClass: "S+",
@@ -3463,8 +3457,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "E121",
-    manufacturer: "EMBRAER (Brazil)",
-    name: "EMB-121 Xingu (VU-9, EC-9) !!! NO RNAV !!!",
+    manufacturer: "EMBRAER",
+    name: "EMB-121 Xingu (VU-9, EC-9)",
     engineCount: "2",
     engineType: "T",
     weightClass: "S+",
@@ -3474,7 +3468,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "E135",
-    manufacturer: "EMBRAER (Brazil)",
+    manufacturer: "EMBRAER",
     name: "EMB-135, ERJ-135/140",
     engineCount: "2",
     engineType: "J",
@@ -3485,7 +3479,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "E145",
-    manufacturer: "EMBRAER (Brazil)",
+    manufacturer: "EMBRAER",
     name: "EMB-145, ERJ-145 (R-99)",
     engineCount: "2",
     engineType: "J",
@@ -3496,7 +3490,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "E45X",
-    manufacturer: "EMBRAER (Brazil)",
+    manufacturer: "EMBRAER",
     name: "EMB-145XR",
     engineCount: "2",
     engineType: "J",
@@ -3507,7 +3501,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "E170",
-    manufacturer: "EMBRAER (Brazil)",
+    manufacturer: "EMBRAER",
     name: "EMB-170/175",
     engineCount: "2",
     engineType: "J",
@@ -3518,7 +3512,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "E190",
-    manufacturer: "EMBRAER (Brazil)",
+    manufacturer: "EMBRAER",
     name: "EMB-190/195",
     engineCount: "2",
     engineType: "J",
@@ -3529,8 +3523,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "E200",
-    manufacturer: "EXTRA (FRG)",
-    name: "200 !!! NO RNAV !!!",
+    manufacturer: "EXTRA",
+    name: "200",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -3540,8 +3534,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "E230",
-    manufacturer: "EXTRA (FRG)",
-    name: "230 !!! NO RNAV !!!",
+    manufacturer: "EXTRA",
+    name: "230",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -3551,8 +3545,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "E300",
-    manufacturer: "EXTRA (FRG)",
-    name: "300, 350 !!! NO RNAV !!!",
+    manufacturer: "EXTRA",
+    name: "300, 350",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -3562,8 +3556,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "E400",
-    manufacturer: "EXTRA (FRG)",
-    name: "400 !!! NO RNAV !!!",
+    manufacturer: "EXTRA",
+    name: "400",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -3573,8 +3567,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "E500",
-    manufacturer: "EXTRA (FRG)",
-    name: "500 !!! NO RNAV !!!",
+    manufacturer: "EXTRA",
+    name: "500",
     engineCount: "1",
     engineType: "T",
     weightClass: "S",
@@ -3584,7 +3578,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "D228",
-    manufacturer: "FAIRCHILD DORNIER (USA/FRG)",
+    manufacturer: "FAIRCHILD DORNIER",
     name: "228",
     engineCount: "2",
     engineType: "T",
@@ -3595,7 +3589,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "D328",
-    manufacturer: "FAIRCHILD DORNIER (USA/FRG)",
+    manufacturer: "FAIRCHILD DORNIER",
     name: "328",
     engineCount: "2",
     engineType: "T",
@@ -3606,7 +3600,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "J328",
-    manufacturer: "FAIRCHILD DORNIER (USA/FRG)",
+    manufacturer: "FAIRCHILD DORNIER",
     name: "328JET, Envoy 3",
     engineCount: "2",
     engineType: "J",
@@ -3617,7 +3611,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "J728",
-    manufacturer: "FAIRCHILD DORNIER (USA/FRG)",
+    manufacturer: "FAIRCHILD DORNIER",
     name: "728JET, Envoy 7",
     engineCount: "2",
     engineType: "J",
@@ -3628,7 +3622,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A10",
-    manufacturer: "FAIRCHILD INDUSTRIES (USA)",
+    manufacturer: "FAIRCHILD INDUSTRIES",
     name: "A-10, OA-10 Thunderbolt 2",
     engineCount: "2",
     engineType: "J",
@@ -3639,7 +3633,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C119",
-    manufacturer: "FAIRCHILD INDUSTRIES (USA)",
+    manufacturer: "FAIRCHILD INDUSTRIES",
     name: "C-119, R4Q Flying Box Car (F-78)",
     engineCount: "2",
     engineType: "P",
@@ -3650,7 +3644,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C123",
-    manufacturer: "FAIRCHILD INDUSTRIES (USA)",
+    manufacturer: "FAIRCHILD INDUSTRIES",
     name: "C-123 Provider",
     engineCount: "2",
     engineType: "P",
@@ -3661,7 +3655,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F27",
-    manufacturer: "FAIRCHILD INDUSTRIES (USA)",
+    manufacturer: "FAIRCHILD INDUSTRIES",
     name: "F-27, FH-227",
     engineCount: "2",
     engineType: "T",
@@ -3672,7 +3666,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "FA62",
-    manufacturer: "FAIRCHILD INDUSTRIES (USA)",
+    manufacturer: "FAIRCHILD INDUSTRIES",
     name: "M-62 (PT-19/23/26, T-19 Cornell)",
     engineCount: "1",
     engineType: "P",
@@ -3683,7 +3677,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PC6P",
-    manufacturer: "FAIRCHILD INDUSTRIES (USA)",
+    manufacturer: "FAIRCHILD INDUSTRIES",
     name: "Pilatus/Peacemaker/Porter ",
     engineCount: "1",
     engineType: "P",
@@ -3694,7 +3688,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PC6T",
-    manufacturer: "FAIRCHILD INDUSTRIES (USA)",
+    manufacturer: "FAIRCHILD INDUSTRIES",
     name: "PC-6 Heli-Porter",
     engineCount: "1",
     engineType: "T",
@@ -3705,7 +3699,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "SW2",
-    manufacturer: "FAIRCHILD INDUSTRIES (USA)",
+    manufacturer: "FAIRCHILD INDUSTRIES",
     name: "Merlin 2 ",
     engineCount: "2",
     engineType: "T",
@@ -3716,7 +3710,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "SW3",
-    manufacturer: "FAIRCHILD INDUSTRIES (USA)",
+    manufacturer: "FAIRCHILD INDUSTRIES",
     name: "SA-226TB, SA-227TT Merlin 3, Fairchild 300",
     engineCount: "2",
     engineType: "T",
@@ -3727,7 +3721,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "SW4",
-    manufacturer: "FAIRCHILD INDUSTRIES (USA)",
+    manufacturer: "FAIRCHILD INDUSTRIES",
     name: "SA-226AC, SA-227AC/AT Metro,Merlin 4, Expediter ",
     engineCount: "2",
     engineType: "T",
@@ -3738,7 +3732,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F27",
-    manufacturer: "FOKKER BV (Netherlands)",
+    manufacturer: "FOKKER BV",
     name: "F-27 Friendship, Troopship, Maritime (C-31, D-2)",
     engineCount: "2",
     engineType: "T",
@@ -3749,7 +3743,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F28",
-    manufacturer: "FOKKER BV (Netherlands)",
+    manufacturer: "FOKKER BV",
     name: "F-28, Fellowship ",
     engineCount: "2",
     engineType: "J",
@@ -3760,7 +3754,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F50",
-    manufacturer: "FOKKER BV (Netherlands)",
+    manufacturer: "FOKKER BV",
     name: "50, Maritime Enforcer",
     engineCount: "2",
     engineType: "T",
@@ -3771,7 +3765,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F60",
-    manufacturer: "FOKKER BV (Netherlands)",
+    manufacturer: "FOKKER BV",
     name: "60",
     engineCount: "2",
     engineType: "T",
@@ -3782,7 +3776,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F70",
-    manufacturer: "FOKKER BV (Netherlands)",
+    manufacturer: "FOKKER BV",
     name: "70",
     engineCount: "2",
     engineType: "J",
@@ -3793,7 +3787,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F100",
-    manufacturer: "FOKKER BV (Netherlands)",
+    manufacturer: "FOKKER BV",
     name: "100",
     engineCount: "2",
     engineType: "J",
@@ -3804,7 +3798,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "NOMA",
-    manufacturer: "GAF (Australia)",
+    manufacturer: "GAF",
     name: "N2/22/24 Nomad, Floatmaster,Missionmaster, Searchmaster",
     engineCount: "2",
     engineType: "T",
@@ -3815,7 +3809,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "LJ23",
-    manufacturer: "GATES LEARJET CORP. (USA)",
+    manufacturer: "GATES LEARJET CORP.",
     name: "23",
     engineCount: "2",
     engineType: "J",
@@ -3826,7 +3820,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "LJ24",
-    manufacturer: "GATES LEARJET CORP. (USA)",
+    manufacturer: "GATES LEARJET CORP.",
     name: "24",
     engineCount: "2",
     engineType: "J",
@@ -3837,7 +3831,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "LJ25",
-    manufacturer: "GATES LEARJET CORP. (USA)",
+    manufacturer: "GATES LEARJET CORP.",
     name: "25",
     engineCount: "2",
     engineType: "J",
@@ -3848,7 +3842,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "LJ28",
-    manufacturer: "GATES LEARJET CORP. (USA)",
+    manufacturer: "GATES LEARJET CORP.",
     name: "28, 29",
     engineCount: "2",
     engineType: "J",
@@ -3859,7 +3853,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "LJ31",
-    manufacturer: "GATES LEARJET CORP. (USA)",
+    manufacturer: "GATES LEARJET CORP.",
     name: "31",
     engineCount: "2",
     engineType: "J",
@@ -3870,7 +3864,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "LJ35",
-    manufacturer: "GATES LEARJET CORP. (USA)",
+    manufacturer: "GATES LEARJET CORP.",
     name: "35, 36 (C-21, RC-35, RC-36, U-36)",
     engineCount: "2",
     engineType: "J",
@@ -3881,7 +3875,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "LJ40",
-    manufacturer: "GATES LEARJET CORP. (USA)",
+    manufacturer: "GATES LEARJET CORP.",
     name: "40",
     engineCount: "2",
     engineType: "J",
@@ -3892,7 +3886,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "LJ45",
-    manufacturer: "GATES LEARJET CORP. (USA)",
+    manufacturer: "GATES LEARJET CORP.",
     name: "45",
     engineCount: "2",
     engineType: "J",
@@ -3903,7 +3897,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "LJ55",
-    manufacturer: "GATES LEARJET CORP. (USA)",
+    manufacturer: "GATES LEARJET CORP.",
     name: "55",
     engineCount: "2",
     engineType: "J",
@@ -3914,7 +3908,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "LJ60",
-    manufacturer: "GATES LEARJET CORP. (USA)",
+    manufacturer: "GATES LEARJET CORP.",
     name: "60",
     engineCount: "2",
     engineType: "J",
@@ -3925,7 +3919,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "CAT",
-    manufacturer: "GENERAL DYNAMICS CORP. (USA)",
+    manufacturer: "GENERAL DYNAMICS CORP.",
     name: "Canso/Catalina***",
     engineCount: "2",
     engineType: "P",
@@ -3936,7 +3930,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "CVLP",
-    manufacturer: "GENERAL DYNAMICS CORP. (USA)",
+    manufacturer: "GENERAL DYNAMICS CORP.",
     name: "Convair 240/340/440, Liner, HC-131",
     engineCount: "2",
     engineType: "P",
@@ -3947,7 +3941,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "CVLT",
-    manufacturer: "GENERAL DYNAMICS CORP. (USA)",
+    manufacturer: "GENERAL DYNAMICS CORP.",
     name: "Convair 540/580/600/640",
     engineCount: "2",
     engineType: "T",
@@ -3958,7 +3952,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F111",
-    manufacturer: "GENERAL DYNAMICS CORP. (USA)",
+    manufacturer: "GENERAL DYNAMICS CORP.",
     name: "F-111, EF-111, (RF-111 Aardvark,Raven",
     engineCount: "2",
     engineType: "J",
@@ -3969,7 +3963,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F16",
-    manufacturer: "GENERAL DYNAMICS CORP. (USA)",
+    manufacturer: "GENERAL DYNAMICS CORP.",
     name: "F-16 A/B/C/D/N, NF-16, TF-16Fighting Falcon, Netz, Barak, Brakeet",
     engineCount: "1",
     engineType: "J",
@@ -3980,7 +3974,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F16X",
-    manufacturer: "GENERAL DYNAMICS CORP. (USA)",
+    manufacturer: "GENERAL DYNAMICS CORP.",
     name: "F-16XL Fighting Falcon",
     engineCount: "1",
     engineType: "J",
@@ -3991,7 +3985,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "VALI",
-    manufacturer: "GENERAL DYNAMICS CORP. (USA)",
+    manufacturer: "GENERAL DYNAMICS CORP.",
     name: "Valiant ",
     engineCount: "1",
     engineType: "P",
@@ -4002,7 +3996,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "G2T1",
-    manufacturer: "GREAT LAKES (USA)",
+    manufacturer: "GREAT LAKES",
     name: "2T-1 Sport Trainer, Sport",
     engineCount: "1",
     engineType: "P",
@@ -4013,7 +4007,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "G109",
-    manufacturer: "GROB (FRG)",
+    manufacturer: "GROB",
     name: "G109 Ranger (Vigilant)",
     engineCount: "1",
     engineType: "P",
@@ -4024,7 +4018,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "G115",
-    manufacturer: "GROB (FRG)",
+    manufacturer: "GROB",
     name: "G115 A/B/C/D/E, Bavarian (Heron),Tutoa",
     engineCount: "1",
     engineType: "P",
@@ -4035,7 +4029,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "G120",
-    manufacturer: "GROB (FRG)",
+    manufacturer: "GROB",
     name: "G-120",
     engineCount: "1",
     engineType: "P",
@@ -4046,7 +4040,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A6",
-    manufacturer: "GRUMMAN AEROSPACE CORP. (USA)",
+    manufacturer: "GRUMMAN AEROSPACE CORP.",
     name: "A-6, EA-6, KA-6 Intruder, Prowler (G-128)",
     engineCount: "2",
     engineType: "J",
@@ -4057,7 +4051,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AA1",
-    manufacturer: "GRUMMAN AEROSPACE CORP. (USA)",
+    manufacturer: "GRUMMAN AEROSPACE CORP.",
     name: "AA1 Trainer,Tr2, T-Cat, Lynx",
     engineCount: "1",
     engineType: "P",
@@ -4068,7 +4062,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AA5",
-    manufacturer: "GRUMMAN AEROSPACE CORP. (USA)",
+    manufacturer: "GRUMMAN AEROSPACE CORP.",
     name: "AA-5, Traveller, Cheetah Tiger",
     engineCount: "1",
     engineType: "P",
@@ -4079,7 +4073,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "G96",
-    manufacturer: "GRUMMAN AEROSPACE CORP. (USA)",
+    manufacturer: "GRUMMAN AEROSPACE CORP.",
     name: "C-1, TF Trader (G-96)",
     engineCount: "2",
     engineType: "P",
@@ -4090,7 +4084,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C2",
-    manufacturer: "GRUMMAN AEROSPACE CORP. (USA)",
+    manufacturer: "GRUMMAN AEROSPACE CORP.",
     name: "C-2 Greyhound",
     engineCount: "2",
     engineType: "T",
@@ -4101,7 +4095,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "E2",
-    manufacturer: "GRUMMAN AEROSPACE CORP. (USA)",
+    manufacturer: "GRUMMAN AEROSPACE CORP.",
     name: "E-2, TE-2, Hawkeye, Daya",
     engineCount: "2",
     engineType: "T",
@@ -4112,7 +4106,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F3F",
-    manufacturer: "GRUMMAN AEROSPACE CORP. (USA)",
+    manufacturer: "GRUMMAN AEROSPACE CORP.",
     name: "F-3F (G-11/32), Replica",
     engineCount: "1",
     engineType: "P",
@@ -4123,7 +4117,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "HCAT",
-    manufacturer: "GRUMMAN AEROSPACE CORP. (USA)",
+    manufacturer: "GRUMMAN AEROSPACE CORP.",
     name: "F-6F Hellcat (G-50)",
     engineCount: "1",
     engineType: "P",
@@ -4134,7 +4128,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "TCAT",
-    manufacturer: "GRUMMAN AEROSPACE CORP. (USA)",
+    manufacturer: "GRUMMAN AEROSPACE CORP.",
     name: "F-7F Tigercat (G-51)",
     engineCount: "2",
     engineType: "P",
@@ -4145,7 +4139,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F9F",
-    manufacturer: "GRUMMAN AEROSPACE CORP. (USA)",
+    manufacturer: "GRUMMAN AEROSPACE CORP.",
     name: "F-9F Panther (G-79)",
     engineCount: "1",
     engineType: "J",
@@ -4156,7 +4150,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F14",
-    manufacturer: "GRUMMAN AEROSPACE CORP. (USA)",
+    manufacturer: "GRUMMAN AEROSPACE CORP.",
     name: "F-14 Tomcat",
     engineCount: "2",
     engineType: "J",
@@ -4167,7 +4161,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "G164",
-    manufacturer: "GRUMMAN AEROSPACE CORP. (USA)",
+    manufacturer: "GRUMMAN AEROSPACE CORP.",
     name: "G-164 Ag-Cat, Super Ag-Cat",
     engineCount: "1",
     engineType: "P",
@@ -4178,7 +4172,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "G64T",
-    manufacturer: "GRUMMAN AEROSPACE CORP. (USA)",
+    manufacturer: "GRUMMAN AEROSPACE CORP.",
     name: "G164 Turbo Ag-Cat",
     engineCount: "1",
     engineType: "T",
@@ -4189,7 +4183,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "G21",
-    manufacturer: "GRUMMAN AEROSPACE CORP. (USA)",
+    manufacturer: "GRUMMAN AEROSPACE CORP.",
     name: "G-21 A/38/39 Goose (JRF)*** ",
     engineCount: "2",
     engineType: "P",
@@ -4200,7 +4194,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "G44",
-    manufacturer: "GRUMMAN AEROSPACE CORP. (USA)",
+    manufacturer: "GRUMMAN AEROSPACE CORP.",
     name: "G-44 Widgeon (J4F)***",
     engineCount: "2",
     engineType: "P",
@@ -4211,7 +4205,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "G73",
-    manufacturer: "GRUMMAN AEROSPACE CORP. (USA)",
+    manufacturer: "GRUMMAN AEROSPACE CORP.",
     name: "G-73 Mallard***",
     engineCount: "2",
     engineType: "P",
@@ -4222,7 +4216,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "G73T",
-    manufacturer: "GRUMMAN AEROSPACE CORP. (USA)",
+    manufacturer: "GRUMMAN AEROSPACE CORP.",
     name: "G-73T Turbo Mallard***",
     engineCount: "2",
     engineType: "T",
@@ -4233,7 +4227,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "GLF2",
-    manufacturer: "GRUMMAN AEROSPACE CORP. (USA)",
+    manufacturer: "GRUMMAN AEROSPACE CORP.",
     name: "G-1159, G-1159B Gulfstream2/2B/2SP (C-20J, VC-111)",
     engineCount: "2",
     engineType: "J",
@@ -4244,7 +4238,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "GA7",
-    manufacturer: "GRUMMAN AEROSPACE CORP. (USA)",
+    manufacturer: "GRUMMAN AEROSPACE CORP.",
     name: "GA-7 Cougar",
     engineCount: "2",
     engineType: "P",
@@ -4255,7 +4249,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "U16",
-    manufacturer: "GRUMMAN AEROSPACE CORP. (USA)",
+    manufacturer: "GRUMMAN AEROSPACE CORP.",
     name: "HU-16, SA-16, UF Albatross(G-64/111)***",
     engineCount: "2",
     engineType: "P",
@@ -4266,7 +4260,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "V1",
-    manufacturer: "GRUMMAN AEROSPACE CORP. (USA)",
+    manufacturer: "GRUMMAN AEROSPACE CORP.",
     name: "OV-1, RV-1, AO-1 Mohawk (G-134)",
     engineCount: "2",
     engineType: "T",
@@ -4277,7 +4271,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "S2P",
-    manufacturer: "GRUMMAN AEROSPACE CORP. (USA)",
+    manufacturer: "GRUMMAN AEROSPACE CORP.",
     name: "S-2, S2F, P-16 Tracker (G-89)",
     engineCount: "2",
     engineType: "P",
@@ -4288,7 +4282,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "S2T",
-    manufacturer: "GRUMMAN AEROSPACE CORP. (USA)",
+    manufacturer: "GRUMMAN AEROSPACE CORP.",
     name: "S-2 Turbo Tracker",
     engineCount: "2",
     engineType: "T",
@@ -4299,7 +4293,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "X29",
-    manufacturer: "GRUMMAN AEROSPACE CORP. (USA)",
+    manufacturer: "GRUMMAN AEROSPACE CORP.",
     name: "X-29 (712) ",
     engineCount: "1",
     engineType: "J",
@@ -4310,7 +4304,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AC90",
-    manufacturer: "GULFSTREAM AEROSPACE CORP. (USA)",
+    manufacturer: "GULFSTREAM AEROSPACE CORP.",
     name: "690 Jetprop Commander 840/900",
     engineCount: "2",
     engineType: "T",
@@ -4321,7 +4315,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AC95",
-    manufacturer: "GULFSTREAM AEROSPACE CORP. (USA)",
+    manufacturer: "GULFSTREAM AEROSPACE CORP.",
     name: "695 Jetprop Commander 980/1000",
     engineCount: "2",
     engineType: "T",
@@ -4332,7 +4326,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AA1",
-    manufacturer: "GULFSTREAM AEROSPACE CORP. (USA)",
+    manufacturer: "GULFSTREAM AEROSPACE CORP.",
     name: "AA-1 T-Cat, Lynx",
     engineCount: "1",
     engineType: "P",
@@ -4343,7 +4337,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AA5",
-    manufacturer: "GULFSTREAM AEROSPACE CORP. (USA)",
+    manufacturer: "GULFSTREAM AEROSPACE CORP.",
     name: "AA-5 Traveler, Cheetah, Tiger",
     engineCount: "1",
     engineType: "P",
@@ -4354,7 +4348,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "GA7",
-    manufacturer: "GULFSTREAM AEROSPACE CORP. (USA)",
+    manufacturer: "GULFSTREAM AEROSPACE CORP.",
     name: "GA-7 Cougar",
     engineCount: "2",
     engineType: "P",
@@ -4365,7 +4359,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "G159",
-    manufacturer: "GULFSTREAM AEROSPACE CORP. (USA)",
+    manufacturer: "GULFSTREAM AEROSPACE CORP.",
     name: "GAC 159-C, Gulfstream 1 ",
     engineCount: "2",
     engineType: "T",
@@ -4376,7 +4370,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "GLF2",
-    manufacturer: "GULFSTREAM AEROSPACE CORP. (USA)",
+    manufacturer: "GULFSTREAM AEROSPACE CORP.",
     name: "G-1159, G-1159B/TT Gulfstream2/2B/2SP/2TT",
     engineCount: "2",
     engineType: "J",
@@ -4387,7 +4381,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "GLF3",
-    manufacturer: "GULFSTREAM AEROSPACE CORP. (USA)",
+    manufacturer: "GULFSTREAM AEROSPACE CORP.",
     name: "G-1159A Gulfstream 3/SRA-1,SMA-3 (C20A/B/C/D/E)",
     engineCount: "2",
     engineType: "J",
@@ -4398,7 +4392,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "GLF4",
-    manufacturer: "GULFSTREAM AEROSPACE CORP. (USA)",
+    manufacturer: "GULFSTREAM AEROSPACE CORP.",
     name: "G-1159C Gulfstream 300/4/4SP/400/SRA-4 (C-20F/G/H, S102,Tp102, U-4)",
     engineCount: "2",
     engineType: "J",
@@ -4409,7 +4403,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "GLF5",
-    manufacturer: "GULFSTREAM AEROSPACE CORP. (USA)",
+    manufacturer: "GULFSTREAM AEROSPACE CORP.",
     name: "G-1159D Gulfstream 5/500/550(C-37)",
     engineCount: "2",
     engineType: "J",
@@ -4420,7 +4414,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B18T",
-    manufacturer: "HAMILTON AVIATION (USA)",
+    manufacturer: "HAMILTON AVIATION",
     name: "Westwind 2/3",
     engineCount: "2",
     engineType: "T",
@@ -4431,7 +4425,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BE18",
-    manufacturer: "HAMILTON AVIATION (USA)",
+    manufacturer: "HAMILTON AVIATION",
     name: "Little Liner",
     engineCount: "2",
     engineType: "P",
@@ -4442,7 +4436,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "T28",
-    manufacturer: "HAMILTON AVIATION (USA)",
+    manufacturer: "HAMILTON AVIATION",
     name: "T-28 Nomair",
     engineCount: "1",
     engineType: "P",
@@ -4453,7 +4447,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "JS1",
-    manufacturer: "HANDLEY PAGE (UK)",
+    manufacturer: "HANDLEY PAGE",
     name: "HP-137 Jetstream 1",
     engineCount: "2",
     engineType: "T",
@@ -4464,7 +4458,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "JS20",
-    manufacturer: "HANDLEY PAGE (UK)",
+    manufacturer: "HANDLEY PAGE",
     name: "HP-137 Jetstream 200 (T.Mk1/2)",
     engineCount: "2",
     engineType: "T",
@@ -4475,7 +4469,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "COUR",
-    manufacturer: "HELIO AIRCRAFT COMPANY (USA)",
+    manufacturer: "HELIO AIRCRAFT COMPANY",
     name: "H-391/392/395/250/295/700/800,HT-295 Courier, Strato-Courier, Super Courier (U-10)",
     engineCount: "1",
     engineType: "P",
@@ -4486,7 +4480,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "STLN",
-    manufacturer: "HELIO AIRCRAFT COMPANY (USA)",
+    manufacturer: "HELIO AIRCRAFT COMPANY",
     name: "HST-550 Stallion (AU-24)",
     engineCount: "1",
     engineType: "T",
@@ -4497,7 +4491,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "TCOU",
-    manufacturer: "HELIO AIRCRAFT COMPANY (USA)",
+    manufacturer: "HELIO AIRCRAFT COMPANY",
     name: "H-500 Twin Courier (U-5)",
     engineCount: "2",
     engineType: "P",
@@ -4508,7 +4502,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "HF20",
-    manufacturer: "HFB (FRG) ",
+    manufacturer: "HFB ",
     name: "HFB-320 Hansa",
     engineCount: "2",
     engineType: "J",
@@ -4519,7 +4513,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "L18",
-    manufacturer: "HOWARD (USA)",
+    manufacturer: "HOWARD",
     name: "250, 350",
     engineCount: "2",
     engineType: "P",
@@ -4530,7 +4524,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DG15",
-    manufacturer: "HOWARD (USA)",
+    manufacturer: "HOWARD",
     name: "DGA-15 (GH Nightingale, NH)",
     engineCount: "1",
     engineType: "P",
@@ -4541,7 +4535,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "ARVA",
-    manufacturer: "IAI (Israel)",
+    manufacturer: "IAI",
     name: "101 Avara, 102, 201, 202",
     engineCount: "2",
     engineType: "T",
@@ -4552,7 +4546,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "WW23",
-    manufacturer: "IAI (Israel)",
+    manufacturer: "IAI",
     name: "1123 Westwind",
     engineCount: "2",
     engineType: "J",
@@ -4563,7 +4557,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "WW24",
-    manufacturer: "IAI (Israel)",
+    manufacturer: "IAI",
     name: "1124 Westwind",
     engineCount: "2",
     engineType: "J",
@@ -4574,7 +4568,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "ASTR",
-    manufacturer: "IAI (Israel)",
+    manufacturer: "IAI",
     name: "1125 Gulfstream 100, (C-38)",
     engineCount: "2",
     engineType: "J",
@@ -4585,7 +4579,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "GALX",
-    manufacturer: "IAI (Israel)",
+    manufacturer: "IAI",
     name: "1126 Gulfstream 200",
     engineCount: "2",
     engineType: "J",
@@ -4596,7 +4590,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "G150",
-    manufacturer: "IAI (Israel)",
+    manufacturer: "IAI",
     name: "Gulfstream 150",
     engineCount: "2",
     engineType: "J",
@@ -4607,7 +4601,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A50",
-    manufacturer: "ILYUSHIN (Russia)",
+    manufacturer: "ILYUSHIN",
     name: "A-50, Be-976",
     engineCount: "4",
     engineType: "J",
@@ -4618,7 +4612,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "IL14",
-    manufacturer: "ILYUSHIN (Russia)",
+    manufacturer: "ILYUSHIN",
     name: "Il-14",
     engineCount: "2",
     engineType: "P",
@@ -4629,7 +4623,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "IL18",
-    manufacturer: "ILYUSHIN (Russia)",
+    manufacturer: "ILYUSHIN",
     name: "Il-18/20/22/24, Bizon, Zebra",
     engineCount: "4",
     engineType: "T",
@@ -4640,7 +4634,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "IL28",
-    manufacturer: "ILYUSHIN (Russia)",
+    manufacturer: "ILYUSHIN",
     name: "Il-28",
     engineCount: "2",
     engineType: "J",
@@ -4651,7 +4645,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "IL38",
-    manufacturer: "ILYUSHIN (Russia)",
+    manufacturer: "ILYUSHIN",
     name: "Il-38",
     engineCount: "4",
     engineType: "J",
@@ -4662,7 +4656,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "IL62",
-    manufacturer: "ILYUSHIN (Russia)",
+    manufacturer: "ILYUSHIN",
     name: "IL-62",
     engineCount: "4",
     engineType: "J",
@@ -4673,7 +4667,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "IL76",
-    manufacturer: "ILYUSHIN (Russia)",
+    manufacturer: "ILYUSHIN",
     name: "IL-76/78/82, Gajaraj",
     engineCount: "4",
     engineType: "J",
@@ -4684,7 +4678,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "IL86",
-    manufacturer: "ILYUSHIN (Russia)",
+    manufacturer: "ILYUSHIN",
     name: "Il-86/87",
     engineCount: "4",
     engineType: "J",
@@ -4695,7 +4689,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "IL96",
-    manufacturer: "ILYUSHIN (Russia)",
+    manufacturer: "ILYUSHIN",
     name: "Il-96",
     engineCount: "4",
     engineType: "J",
@@ -4706,7 +4700,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "I103",
-    manufacturer: "ILYUSHIN (Russia)",
+    manufacturer: "ILYUSHIN",
     name: "Il-103",
     engineCount: "1",
     engineType: "P",
@@ -4717,7 +4711,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "I114",
-    manufacturer: "ILYUSHIN (Russia)",
+    manufacturer: "ILYUSHIN",
     name: "Il-114",
     engineCount: "2",
     engineType: "T",
@@ -4728,7 +4722,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "LA25",
-    manufacturer: "LAKE AIRCRAFT (USA)",
+    manufacturer: "LAKE AIRCRAFT",
     name: "LA-250/270 (Turbo) Renegade,Seawolf, SeaFury***",
     engineCount: "1",
     engineType: "P",
@@ -4739,7 +4733,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "LA4",
-    manufacturer: "LAKE AIRCRAFT (USA)",
+    manufacturer: "LAKE AIRCRAFT",
     name: "LA-4/200, Buccaneer***",
     engineCount: "1",
     engineType: "P",
@@ -4750,7 +4744,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "L37",
-    manufacturer: "LOCKHEED CORP. (USA)",
+    manufacturer: "LOCKHEED CORP.",
     name: "B-34, PV Venture, Harpoon(L-15/137/237)",
     engineCount: "2",
     engineType: "P",
@@ -4761,7 +4755,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C5",
-    manufacturer: "LOCKHEED CORP. (USA)",
+    manufacturer: "LOCKHEED CORP.",
     name: "C-5 Galaxy (L-500)",
     engineCount: "4",
     engineType: "J",
@@ -4772,7 +4766,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C130",
-    manufacturer: "LOCKHEED CORP. (USA)",
+    manufacturer: "LOCKHEED CORP.",
     name: "C-130A/B/E/F/H, CC-130, DC-130,EC-130/E/G/H/Q, HC-130, JC-130,KC-130B/F/H/R/T, LC-130, MC-130,NC-130, RC-130, TC-130, VC-130,WC-130E/H, T-10, TK-10, TL-10,Tp84 Hercules, Spectre, Aya, Karnaf,Sapeer (L-100/182/282/382)",
     engineCount: "4",
     engineType: "T",
@@ -4783,7 +4777,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C141",
-    manufacturer: "LOCKHEED CORP. (USA)",
+    manufacturer: "LOCKHEED CORP.",
     name: "C-141 Starlifter (L-300)",
     engineCount: "4",
     engineType: "J",
@@ -4794,7 +4788,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "CONI",
-    manufacturer: "LOCKHEED CORP. (USA)",
+    manufacturer: "LOCKHEED CORP.",
     name: "L-049/749/1049 Constellation, Super Constellation, Starliner (C-121,RC-121, EC-121, VC-121, WV, R7V,Warning Star)",
     engineCount: "4",
     engineType: "P",
@@ -4805,7 +4799,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F22",
-    manufacturer: "LOCKHEED CORP. (USA)",
+    manufacturer: "LOCKHEED CORP.",
     name: "F-22 Raptor (L-645)",
     engineCount: "2",
     engineType: "J",
@@ -4816,7 +4810,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F104",
-    manufacturer: "LOCKHEED CORP. (USA)",
+    manufacturer: "LOCKHEED CORP.",
     name: "F-104, RF-104, TF-104  Starfighter(L583/683)",
     engineCount: "1",
     engineType: "J",
@@ -4827,7 +4821,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F117",
-    manufacturer: "LOCKHEED CORP. (USA)",
+    manufacturer: "LOCKHEED CORP.",
     name: "F-117 Nighthawk",
     engineCount: "2",
     engineType: "J",
@@ -4838,7 +4832,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "L101",
-    manufacturer: "LOCKHEED CORP. (USA)",
+    manufacturer: "LOCKHEED CORP.",
     name: "L-1011 Tri-Star (all series)",
     engineCount: "3",
     engineType: "J",
@@ -4849,7 +4843,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "L18",
-    manufacturer: "LOCKHEED CORP. (USA)",
+    manufacturer: "LOCKHEED CORP.",
     name: "L-18 Lodestar (C-56/57/59/60, R50,XR50)",
     engineCount: "2",
     engineType: "P",
@@ -4860,7 +4854,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "L188",
-    manufacturer: "LOCKHEED CORP. (USA)",
+    manufacturer: "LOCKHEED CORP.",
     name: "L-188 Electra",
     engineCount: "4",
     engineType: "T",
@@ -4871,7 +4865,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "L29A",
-    manufacturer: "LOCKHEED CORP. (USA)",
+    manufacturer: "LOCKHEED CORP.",
     name: "L-1329 Jetstar 6/8",
     engineCount: "4",
     engineType: "J",
@@ -4882,7 +4876,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "L29B",
-    manufacturer: "LOCKHEED CORP. (USA)",
+    manufacturer: "LOCKHEED CORP.",
     name: "L-1329-5 Jetstar 2/731",
     engineCount: "4",
     engineType: "J",
@@ -4893,7 +4887,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "P2",
-    manufacturer: "LOCKHEED CORP. (USA)",
+    manufacturer: "LOCKHEED CORP.",
     name: "P-2D to H, SP-2, P2V Neptune(L-426/726/826)",
     engineCount: "2",
     engineType: "P",
@@ -4904,7 +4898,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "P3",
-    manufacturer: "LOCKHEED CORP. (USA)",
+    manufacturer: "LOCKHEED CORP.",
     name: "P-3, AP-3, EP-3, NP-3, RP-3, TP-3,UP-3, VP-3, WP-3, CP-140 Orion,Aurora, Arcturus (L-85/285/685/785)",
     engineCount: "4",
     engineType: "T",
@@ -4915,7 +4909,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "P38",
-    manufacturer: "LOCKHEED CORP. (USA)",
+    manufacturer: "LOCKHEED CORP.",
     name: "P-38, F-5 Lightning (L-222/322/422)",
     engineCount: "2",
     engineType: "P",
@@ -4926,7 +4920,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "S3",
-    manufacturer: "LOCKHEED CORP. (USA)",
+    manufacturer: "LOCKHEED CORP.",
     name: "S-3, ES-3, US-3 Viking (L-394)",
     engineCount: "2",
     engineType: "J",
@@ -4937,7 +4931,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "SR71",
-    manufacturer: "LOCKHEED CORP. (USA)",
+    manufacturer: "LOCKHEED CORP.",
     name: "SR-71 Blackbird",
     engineCount: "2",
     engineType: "J",
@@ -4948,7 +4942,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "T33",
-    manufacturer: "LOCKHEED CORP. (USA)",
+    manufacturer: "LOCKHEED CORP.",
     name: "T-33, AT-33, NT-33, RT-33 ShootingStar, T-Bird (L-580)",
     engineCount: "2",
     engineType: "J",
@@ -4959,7 +4953,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "U2",
-    manufacturer: "LOCKHEED CORP. (USA)",
+    manufacturer: "LOCKHEED CORP.",
     name: "U-2, ER-2",
     engineCount: "1",
     engineType: "J",
@@ -4970,7 +4964,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "M404",
-    manufacturer: "MARTIN COMPANY (USA)",
+    manufacturer: "MARTIN COMPANY",
     name: "404",
     engineCount: "2",
     engineType: "P",
@@ -4981,7 +4975,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B26M",
-    manufacturer: "MARTIN COMPANY (USA)",
+    manufacturer: "MARTIN COMPANY",
     name: "B-26 Marauder (179)",
     engineCount: "2",
     engineType: "P",
@@ -4992,7 +4986,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "WB57",
-    manufacturer: "MARTIN COMPANY (USA)",
+    manufacturer: "MARTIN COMPANY",
     name: "WB-57 (272)",
     engineCount: "2",
     engineType: "J",
@@ -5003,7 +4997,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "M4",
-    manufacturer: "MAULE AIRCRAFT CORP. (USA)",
+    manufacturer: "MAULE AIRCRAFT CORP.",
     name: "M-4 Bee Dee, Jetasen, Rocket, Astro Rocket, Strata Rocket",
     engineCount: "1",
     engineType: "P",
@@ -5014,7 +5008,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "M5",
-    manufacturer: "MAULE AIRCRAFT CORP. (USA)",
+    manufacturer: "MAULE AIRCRAFT CORP.",
     name: "M-5, Strata Rocket,  Lunar Rocket, Patroller",
     engineCount: "1",
     engineType: "P",
@@ -5025,7 +5019,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "M6",
-    manufacturer: "MAULE AIRCRAFT CORP. (USA)",
+    manufacturer: "MAULE AIRCRAFT CORP.",
     name: "M-6 Super-Rocket",
     engineCount: "1",
     engineType: "P",
@@ -5036,7 +5030,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "M7",
-    manufacturer: "MAULE AIRCRAFT CORP. (USA)",
+    manufacturer: "MAULE AIRCRAFT CORP.",
     name: "M-7-235/260, MT-7-235/260,MX-7-160/180/235, MXT-7-160/180Super Rocket, Star Rocket, Comet,Star Craft, Orion, Sportplane",
     engineCount: "1",
     engineType: "P",
@@ -5047,7 +5041,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "M7T",
-    manufacturer: "MAULE AIRCRAFT CORP. (USA)",
+    manufacturer: "MAULE AIRCRAFT CORP.",
     name: "M-7-420, MT-7-240, MX-7-420,MXT-7-420 Star Craft",
     engineCount: "1",
     engineType: "T",
@@ -5058,7 +5052,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "M8",
-    manufacturer: "MAULE AIRCRAFT CORP. (USA)",
+    manufacturer: "MAULE AIRCRAFT CORP.",
     name: "M-8",
     engineCount: "1",
     engineType: "P",
@@ -5069,7 +5063,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A3",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "Skywarrior",
     engineCount: "2",
     engineType: "J",
@@ -5080,7 +5074,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A4",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "A-4, OA-4, TA-4 Skyhawk",
     engineCount: "1",
     engineType: "J",
@@ -5091,7 +5085,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B26",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "Invader",
     engineCount: "2",
     engineType: "P",
@@ -5102,7 +5096,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C15",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "YC-15",
     engineCount: "4",
     engineType: "J",
@@ -5113,7 +5107,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C17",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "C-17 Globemaster 3",
     engineCount: "4",
     engineType: "J",
@@ -5124,7 +5118,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DC10",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "DC-10 (KC-10 Extender, KDC-10,MD-10)",
     engineCount: "3",
     engineType: "J",
@@ -5135,7 +5129,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DC3",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "Skytrain (C-47, C-53, C-117 A/B/C,R4D 1 to 7)",
     engineCount: "2",
     engineType: "P",
@@ -5147,7 +5141,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DC3S",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "Super DC-3 (C-117D, R4D 8)",
     engineCount: "2",
     engineType: "P",
@@ -5159,7 +5153,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DC4",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "Skymaster",
     engineCount: "4",
     engineType: "P",
@@ -5171,7 +5165,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DC6",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "DC-6/B Liftmaster",
     engineCount: "4",
     engineType: "P",
@@ -5183,7 +5177,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DC7",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "DC-7/B/C Seven Seas",
     engineCount: "4",
     engineType: "P",
@@ -5195,7 +5189,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DC85",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "DC-8-50, Jet Trader",
     engineCount: "4",
     engineType: "J",
@@ -5206,7 +5200,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DC86",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "DC-8-60",
     engineCount: "4",
     engineType: "J",
@@ -5217,7 +5211,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DC87",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "DC-8-70",
     engineCount: "4",
     engineType: "J",
@@ -5228,7 +5222,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DC8Q",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "DC-8 Stage 3 (US Only) ",
     engineCount: "4",
     engineType: "J",
@@ -5239,7 +5233,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DC9Q",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "DC-9 Stage 3 (US Only) ",
     engineCount: "2",
     engineType: "J",
@@ -5250,7 +5244,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DC91",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "DC-9-10",
     engineCount: "2",
     engineType: "J",
@@ -5261,7 +5255,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DC92",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "DC-9-20",
     engineCount: "2",
     engineType: "J",
@@ -5272,7 +5266,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DC93",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "DC-9-30 (C-9, VC-9, Nightingale,Skytrain 2)",
     engineCount: "2",
     engineType: "J",
@@ -5283,7 +5277,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DC94",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "DC-9-40",
     engineCount: "2",
     engineType: "J",
@@ -5294,7 +5288,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DC95",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "DC-9-50",
     engineCount: "2",
     engineType: "J",
@@ -5305,7 +5299,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F15",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "F-15 Eagle, Baz, Akef, Ra'am",
     engineCount: "2",
     engineType: "J",
@@ -5316,7 +5310,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F18",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "FA-18, CF-18, CF-188, EF-18, C-15,CE-15, AF-18, ATF-18 Hornet, Super Hornet",
     engineCount: "2",
     engineType: "J",
@@ -5327,7 +5321,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F4",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "F-4, RF-4, QF-4 Phantom 2/2000,Kurnass",
     engineCount: "2",
     engineType: "J",
@@ -5338,7 +5332,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "MD11",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "MD-11",
     engineCount: "3",
     engineType: "J",
@@ -5349,7 +5343,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "MD81",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "MD-81",
     engineCount: "2",
     engineType: "J",
@@ -5360,7 +5354,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "MD82",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "MD-82",
     engineCount: "2",
     engineType: "J",
@@ -5371,7 +5365,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "MD83",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "MD-83",
     engineCount: "2",
     engineType: "J",
@@ -5382,7 +5376,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "MD87",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "MD-87",
     engineCount: "2",
     engineType: "J",
@@ -5393,7 +5387,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "MD88",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "MD-88",
     engineCount: "2",
     engineType: "J",
@@ -5404,7 +5398,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "MD90",
-    manufacturer: "MCDONNELL-DOUGLAS CORP. (USA)",
+    manufacturer: "MCDONNELL-DOUGLAS CORP.",
     name: "MD-90",
     engineCount: "2",
     engineType: "J",
@@ -5415,7 +5409,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "ME08",
-    manufacturer: "MESSERSCHMITT (FRG)",
+    manufacturer: "MESSERSCHMITT",
     name: "Bf-108 Taifun",
     engineCount: "1",
     engineType: "P",
@@ -5426,7 +5420,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "ME09",
-    manufacturer: "MESSERSCHMITT (FRG)",
+    manufacturer: "MESSERSCHMITT",
     name: "Bf-109",
     engineCount: "1",
     engineType: "P",
@@ -5437,7 +5431,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "ME62",
-    manufacturer: "MESSERSCHMITT (FRG)",
+    manufacturer: "MESSERSCHMITT",
     name: "Me-262, Replica",
     engineCount: "2",
     engineType: "J",
@@ -5448,7 +5442,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "S223",
-    manufacturer: "MESSERSCHMITT-BOLKOW (FRG)",
+    manufacturer: "MESSERSCHMITT-BOLKOW",
     name: "223 Flamingo",
     engineCount: "1",
     engineType: "P",
@@ -5459,7 +5453,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B209",
-    manufacturer: "MESSERSCHMITT-BOLKOW (FRG)",
+    manufacturer: "MESSERSCHMITT-BOLKOW",
     name: "BO-209 Monsun",
     engineCount: "1",
     engineType: "P",
@@ -5470,7 +5464,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "ZERO",
-    manufacturer: "MITSUBISHI AIRCRAFT INTERNATIONAL INC. (USA/Japan)",
+    manufacturer: "MITSUBISHI AIRCRAFT INTERNATIONAL INC.",
     name: "A6M Zero",
     engineCount: "1",
     engineType: "P",
@@ -5481,7 +5475,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F1",
-    manufacturer: "MITSUBISHI AIRCRAFT INTERNATIONAL INC. (USA/Japan)",
+    manufacturer: "MITSUBISHI AIRCRAFT INTERNATIONAL INC.",
     name: "F-1",
     engineCount: "2",
     engineType: "J",
@@ -5492,7 +5486,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F2",
-    manufacturer: "MITSUBISHI AIRCRAFT INTERNATIONAL INC. (USA/Japan)",
+    manufacturer: "MITSUBISHI AIRCRAFT INTERNATIONAL INC.",
     name: "F-2",
     engineCount: "1",
     engineType: "J",
@@ -5503,7 +5497,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F86",
-    manufacturer: "MITSUBISHI AIRCRAFT INTERNATIONAL INC. (USA/Japan)",
+    manufacturer: "MITSUBISHI AIRCRAFT INTERNATIONAL INC.",
     name: "F-86 Sabre",
     engineCount: "I",
     engineType: "J",
@@ -5514,7 +5508,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "MU2",
-    manufacturer: "MITSUBISHI AIRCRAFT INTERNATIONAL INC. (USA/Japan)",
+    manufacturer: "MITSUBISHI AIRCRAFT INTERNATIONAL INC.",
     name: "MU-2, Marquise, Solitaire (LR-1)",
     engineCount: "2",
     engineType: "T",
@@ -5525,7 +5519,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "MU30",
-    manufacturer: "MITSUBISHI AIRCRAFT INTERNATIONAL INC. (USA/Japan)",
+    manufacturer: "MITSUBISHI AIRCRAFT INTERNATIONAL INC.",
     name: "MU-300  Diamond",
     engineCount: "2",
     engineType: "J",
@@ -5536,7 +5530,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "MT2",
-    manufacturer: "MITSUBISHI AIRCRAFT INTERNATIONAL INC. (USA/Japan)",
+    manufacturer: "MITSUBISHI AIRCRAFT INTERNATIONAL INC.",
     name: "T-2",
     engineCount: "2",
     engineType: "J",
@@ -5547,7 +5541,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "ERCO",
-    manufacturer: "MOONEY AIRCRAFT CORP. (USA)",
+    manufacturer: "MOONEY AIRCRAFT CORP.",
     name: "A-2 Aircoupe",
     engineCount: "1",
     engineType: "P",
@@ -5558,7 +5552,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "M10",
-    manufacturer: "MOONEY AIRCRAFT CORP. (USA)",
+    manufacturer: "MOONEY AIRCRAFT CORP.",
     name: "M-10 Cadet",
     engineCount: "1",
     engineType: "P",
@@ -5569,7 +5563,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "MITE",
-    manufacturer: "MOONEY AIRCRAFT CORP. (USA)",
+    manufacturer: "MOONEY AIRCRAFT CORP.",
     name: "M-18  Mite, Wee Scotsman",
     engineCount: "1",
     engineType: "P",
@@ -5580,7 +5574,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "M20P",
-    manufacturer: "MOONEY AIRCRAFT CORP. (USA)",
+    manufacturer: "MOONEY AIRCRAFT CORP.",
     name: "M-20, M-20/A/B/C/D/E/F/G/J/L/R/S, Mark 21, Allegro, Eagle, Ranger, Master, Super 21, Chaparral, Executive, Statesman, Ovation, 201,202, 205, 220, ATS, MSE, PFM (nonturbocharged engine)",
     engineCount: "1",
     engineType: "P",
@@ -5591,7 +5585,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "M20T",
-    manufacturer: "MOONEY AIRCRAFT CORP. (USA)",
+    manufacturer: "MOONEY AIRCRAFT CORP.",
     name: "M-20K/M, Encore, Bravo,  231, 252,TLS, TSE (turbocharged engine)",
     engineCount: "1",
     engineType: "P",
@@ -5602,7 +5596,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "M22",
-    manufacturer: "MOONEY AIRCRAFT CORP. (USA)",
+    manufacturer: "MOONEY AIRCRAFT CORP.",
     name: "M-22, Mustang",
     engineCount: "1",
     engineType: "P",
@@ -5613,7 +5607,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "CP10",
-    manufacturer: "MUDRY (France)",
+    manufacturer: "MUDRY",
     name: "CAP-10",
     engineCount: "1",
     engineType: "P",
@@ -5624,7 +5618,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "CP20",
-    manufacturer: "MUDRY (France)",
+    manufacturer: "MUDRY",
     name: "CAP-20",
     engineCount: "1",
     engineType: "P",
@@ -5635,7 +5629,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "CP21",
-    manufacturer: "MUDRY (France)",
+    manufacturer: "MUDRY",
     name: "CAP-21",
     engineCount: "1",
     engineType: "P",
@@ -5646,7 +5640,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "CP23",
-    manufacturer: "MUDRY (France)",
+    manufacturer: "MUDRY",
     name: "CAP-230/231/232",
     engineCount: "1",
     engineType: "P",
@@ -5657,7 +5651,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "D140",
-    manufacturer: "MUDRY (France)",
+    manufacturer: "MUDRY",
     name: "D-140 Mousquetaire",
     engineCount: "1",
     engineType: "P",
@@ -5668,7 +5662,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "YS11",
-    manufacturer: "NAMC (Japan)",
+    manufacturer: "NAMC",
     name: "YS-11",
     engineCount: "2",
     engineType: "T",
@@ -5679,7 +5673,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "RANG",
-    manufacturer: "NAVION (USA)",
+    manufacturer: "NAVION",
     name: "Rangemaster",
     engineCount: "1",
     engineType: "P",
@@ -5690,7 +5684,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "NORS",
-    manufacturer: "NOORDYUN AVIATION LTD. (Canada)",
+    manufacturer: "NOORDYUN AVIATION LTD.",
     name: "Norseman Mk 4/5/6",
     engineCount: "1",
     engineType: "P",
@@ -5701,7 +5695,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C160",
-    manufacturer: "NORD (France)",
+    manufacturer: "NORD",
     name: "Transall C-160",
     engineCount: "2",
     engineType: "T",
@@ -5712,7 +5706,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "N260",
-    manufacturer: "NORD (France)",
+    manufacturer: "NORD",
     name: "260 Super Broussard",
     engineCount: "2",
     engineType: "T",
@@ -5723,7 +5717,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "N262",
-    manufacturer: "NORD (France)",
+    manufacturer: "NORD",
     name: "262, Fr???gate, Mohawk 298",
     engineCount: "2",
     engineType: "T",
@@ -5734,7 +5728,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "ME08",
-    manufacturer: "NORD (France)",
+    manufacturer: "NORD",
     name: "1000, 1001, 1002 Pingouin",
     engineCount: "1",
     engineType: "P",
@@ -5745,7 +5739,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "N110",
-    manufacturer: "NORD (France)",
+    manufacturer: "NORD",
     name: "1101, 1102, Noralpha, Ramier",
     engineCount: "1",
     engineType: "P",
@@ -5756,7 +5750,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "N120",
-    manufacturer: "NORD (France)",
+    manufacturer: "NORD",
     name: "1200 to 1204 Norecrin",
     engineCount: "1",
     engineType: "P",
@@ -5767,7 +5761,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "NORA",
-    manufacturer: "NORD (France)",
+    manufacturer: "NORD",
     name: "2501 to 2508 Noratlas",
     engineCount: "2",
     engineType: "P",
@@ -5778,7 +5772,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "N320",
-    manufacturer: "NORD (France)",
+    manufacturer: "NORD",
     name: "3202",
     engineCount: "1",
     engineType: "P",
@@ -5789,7 +5783,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "N340",
-    manufacturer: "NORD (France)",
+    manufacturer: "NORD",
     name: "3400",
     engineCount: "1",
     engineType: "P",
@@ -5800,7 +5794,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "SV4",
-    manufacturer: "NORD (France)",
+    manufacturer: "NORD",
     name: "SV-4",
     engineCount: "1",
     engineType: "P",
@@ -5811,7 +5805,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B2",
-    manufacturer: "NORTHROP CORP. (USA)",
+    manufacturer: "NORTHROP CORP.",
     name: "B-2 Spirit",
     engineCount: "4",
     engineType: "J",
@@ -5822,7 +5816,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C125",
-    manufacturer: "NORTHROP CORP. (USA)",
+    manufacturer: "NORTHROP CORP.",
     name: "C-125 Raider",
     engineCount: "3",
     engineType: "P",
@@ -5833,7 +5827,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "E2",
-    manufacturer: "NORTHROP CORP. (USA)",
+    manufacturer: "NORTHROP CORP.",
     name: "E-2 Hawkeye",
     engineCount: "2",
     engineType: "T",
@@ -5844,7 +5838,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F5",
-    manufacturer: "NORTHROP CORP. (USA)",
+    manufacturer: "NORTHROP CORP.",
     name: "F-5, RF-5 Freedom Fighter,  Tiger 2,Tigereye (N-156C/F)",
     engineCount: "2",
     engineType: "J",
@@ -5855,7 +5849,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "P61",
-    manufacturer: "NORTHROP CORP. (USA)",
+    manufacturer: "NORTHROP CORP.",
     name: "P-61 Black Widow",
     engineCount: "2",
     engineType: "P",
@@ -5866,7 +5860,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "T38",
-    manufacturer: "NORTHROP CORP. (USA)",
+    manufacturer: "NORTHROP CORP.",
     name: "T-38, AT-38 Talon (N-156T)",
     engineCount: "2",
     engineType: "J",
@@ -5877,7 +5871,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "P68T",
-    manufacturer: "PARTENAVIA (Italy)",
+    manufacturer: "PARTENAVIA",
     name: "AP-68TP-300 Spartacus",
     engineCount: "2",
     engineType: "T",
@@ -5888,7 +5882,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "VTOR",
-    manufacturer: "PARTENAVIA (Italy)",
+    manufacturer: "PARTENAVIA",
     name: "AP-68TP-600 Viator",
     engineCount: "2",
     engineType: "T",
@@ -5899,7 +5893,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "P57",
-    manufacturer: "PARTENAVIA (Italy)",
+    manufacturer: "PARTENAVIA",
     name: "P-57 Fachiro 2",
     engineCount: "1",
     engineType: "P",
@@ -5910,7 +5904,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "OSCR",
-    manufacturer: "PARTENAVIA (Italy)",
+    manufacturer: "PARTENAVIA",
     name: "P-64/66 Oscar, Charlie",
     engineCount: "1",
     engineType: "P",
@@ -5921,7 +5915,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "P68",
-    manufacturer: "PARTENAVIA (Italy)",
+    manufacturer: "PARTENAVIA",
     name: "P68,Victor, Observer",
     engineCount: "2",
     engineType: "P",
@@ -5932,8 +5926,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "P136",
-    manufacturer:
-      "PIAGGIO (Industrie Aeronautiche E Meccaniche Rinaldo Piaggio SpA) (Italy)",
+    manufacturer: "PIAGGIO (Industrie Aeronautiche E Meccaniche Rinaldo Piaggio SpA)",
     name: "P-136***",
     engineCount: "2",
     engineType: "P",
@@ -5944,8 +5937,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "P148",
-    manufacturer:
-      "PIAGGIO (Industrie Aeronautiche E Meccaniche Rinaldo Piaggio SpA) (Italy)",
+    manufacturer: "PIAGGIO (Industrie Aeronautiche E Meccaniche Rinaldo Piaggio SpA)",
     name: "P-148",
     engineCount: "1",
     engineType: "P",
@@ -5956,8 +5948,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "P149",
-    manufacturer:
-      "PIAGGIO (Industrie Aeronautiche E Meccaniche Rinaldo Piaggio SpA) (Italy)",
+    manufacturer: "PIAGGIO (Industrie Aeronautiche E Meccaniche Rinaldo Piaggio SpA)",
     name: "P-149",
     engineCount: "1",
     engineType: "P",
@@ -5968,8 +5959,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "P66P",
-    manufacturer:
-      "PIAGGIO (Industrie Aeronautiche E Meccaniche Rinaldo Piaggio SpA) (Italy)",
+    manufacturer: "PIAGGIO (Industrie Aeronautiche E Meccaniche Rinaldo Piaggio SpA)",
     name: "P-166, P-166A/B/C/DL2/M/S,Portofino, Albatross",
     engineCount: "2",
     engineType: "P",
@@ -5980,8 +5970,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "P66T",
-    manufacturer:
-      "PIAGGIO (Industrie Aeronautiche E Meccaniche Rinaldo Piaggio SpA) (Italy)",
+    manufacturer: "PIAGGIO (Industrie Aeronautiche E Meccaniche Rinaldo Piaggio SpA)",
     name: "P-166DL3/DP1",
     engineCount: "2",
     engineType: "T",
@@ -5992,8 +5981,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "P180",
-    manufacturer:
-      "PIAGGIO (Industrie Aeronautiche E Meccaniche Rinaldo Piaggio SpA) (Italy)",
+    manufacturer: "PIAGGIO (Industrie Aeronautiche E Meccaniche Rinaldo Piaggio SpA)",
     name: "P-180 Avanti",
     engineCount: "2",
     engineType: "T",
@@ -6004,8 +5992,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "P808",
-    manufacturer:
-      "PIAGGIO (Industrie Aeronautiche E Meccaniche Rinaldo Piaggio SpA) (Italy)",
+    manufacturer: "PIAGGIO (Industrie Aeronautiche E Meccaniche Rinaldo Piaggio SpA)",
     name: "PD-808",
     engineCount: "2",
     engineType: "J",
@@ -6016,7 +6003,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PP2",
-    manufacturer: "PILATUS FLUGZEUGWERKE AG (Switzerland)",
+    manufacturer: "PILATUS FLUGZEUGWERKE AG",
     name: "P-2",
     engineCount: "1",
     engineType: "P",
@@ -6027,7 +6014,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PP3",
-    manufacturer: "PILATUS FLUGZEUGWERKE AG (Switzerland)",
+    manufacturer: "PILATUS FLUGZEUGWERKE AG",
     name: "P-3",
     engineCount: "1",
     engineType: "P",
@@ -6038,7 +6025,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PC6P",
-    manufacturer: "PILATUS FLUGZEUGWERKE AG (Switzerland)",
+    manufacturer: "PILATUS FLUGZEUGWERKE AG",
     name: "PC-6 Porter",
     engineCount: "1",
     engineType: "P",
@@ -6049,7 +6036,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PC6T",
-    manufacturer: "PILATUS FLUGZEUGWERKE AG (Switzerland)",
+    manufacturer: "PILATUS FLUGZEUGWERKE AG",
     name: "PC-6A/B/C Turbo Porter (UV-20Chiricahua)",
     engineCount: "1",
     engineType: "T",
@@ -6060,7 +6047,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PC7",
-    manufacturer: "PILATUS FLUGZEUGWERKE AG (Switzerland)",
+    manufacturer: "PILATUS FLUGZEUGWERKE AG",
     name: "PC-7 Turbo Trainer (AT-92, Astra)",
     engineCount: "1",
     engineType: "T",
@@ -6071,7 +6058,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PC9",
-    manufacturer: "PILATUS FLUGZEUGWERKE AG (Switzerland)",
+    manufacturer: "PILATUS FLUGZEUGWERKE AG",
     name: "PC-9, Hudurnik",
     engineCount: "1",
     engineType: "T",
@@ -6082,7 +6069,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PC12",
-    manufacturer: "PILATUS FLUGZEUGWERKE AG (Switzerland)",
+    manufacturer: "PILATUS FLUGZEUGWERKE AG",
     name: "PC-12, Eagle",
     engineCount: "1",
     engineType: "T",
@@ -6093,7 +6080,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AEST",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "AP-60, Aerostar",
     engineCount: "2",
     engineType: "P",
@@ -6104,8 +6091,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "J2",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
-    name: "J-2 Cub !!! NO RNAV !!!",
+    manufacturer: "PIPER AIRCRAFT CORP.",
+    name: "J-2 Cub",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -6115,8 +6102,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "J3",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
-    name: "J-3 Cub (L-4, NE) !!! NO RNAV !!!",
+    manufacturer: "PIPER AIRCRAFT CORP.",
+    name: "J-3 Cub (L-4, NE)",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -6126,9 +6113,9 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "J4",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "J-4 Cub Coupe",
-    engineCount: "1 !!! NO RNAV !!!",
+    engineCount: "1",
     engineType: "P",
     weightClass: "S",
     KPDXVfrAltitude: "3500",
@@ -6137,8 +6124,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "J5",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
-    name: "J-5 Cub Cruiser !!! NO RNAV !!! (L-14, AE)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
+    name: "J-5 Cub Cruiser (L-14, AE)",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -6148,7 +6135,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PA11",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-11 Cub Special (L-18B)",
     engineCount: "1",
     engineType: "P",
@@ -6159,7 +6146,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PA12",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-12 Super Cruiser",
     engineCount: "1",
     engineType: "P",
@@ -6170,7 +6157,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PA14",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-14 Family Cruiser",
     engineCount: "1",
     engineType: "P",
@@ -6181,7 +6168,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PA15",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-15 Vagabond",
     engineCount: "1",
     engineType: "P",
@@ -6192,7 +6179,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PA16",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-16 Clipper",
     engineCount: "1",
     engineType: "P",
@@ -6203,7 +6190,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PA17",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-17 Vagabond, Vagabond Trainer",
     engineCount: "1",
     engineType: "P",
@@ -6214,7 +6201,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PA18",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-18 Super Cub (L-18C, L-21,U-7)",
     engineCount: "1",
     engineType: "P",
@@ -6225,7 +6212,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PA20",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-20 Pacer",
     engineCount: "1",
     engineType: "P",
@@ -6236,7 +6223,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PA22",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-22 Tri-Pacer, Caribbean, Colt",
     engineCount: "1",
     engineType: "P",
@@ -6247,7 +6234,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PA23",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-23-150/160 Apache",
     engineCount: "2",
     engineType: "P",
@@ -6258,7 +6245,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PA24",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-24 Comanche",
     engineCount: "1",
     engineType: "P",
@@ -6269,7 +6256,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PA25",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-25 Pawnee",
     engineCount: "1",
     engineType: "P",
@@ -6280,7 +6267,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PA27",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-23-235/250 Aztec, Turbo Aztec(U-11, E-19, UC-26)",
     engineCount: "2",
     engineType: "P",
@@ -6291,7 +6278,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "P28A",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-28-140/150/151/160/161/180/181Archer, Cadet, Cherokee, Cherokee Archer/Challenger/Chief/Cruiser/Flite Liner/Warrior",
     engineCount: "1",
     engineType: "P",
@@ -6302,7 +6289,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "P28B",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-28-201T/235/236 Cherokee,Cherokee Charger/Pathfinder, Dakota,Turbo Dakota",
     engineCount: "1",
     engineType: "P",
@@ -6313,7 +6300,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "P28R",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-28R-1802/3, Turbo Arrow3/200/201 Cherokee Arrow, Arrow",
     engineCount: "1",
     engineType: "P",
@@ -6324,7 +6311,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "P28T",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-28RT Arrow 4, Turbo Arrow 4",
     engineCount: "1",
     engineType: "P",
@@ -6335,7 +6322,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PA30",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-30/39 Twin Comanche, TwinComanche CR, Turbo Twin Comanche",
     engineCount: "2",
     engineType: "P",
@@ -6346,7 +6333,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PA31",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-31/31P Navajo, Navajo Chieftain,Chieftain, Pressurized Navajo,Mohave, T-1020",
     engineCount: "2",
     engineType: "P",
@@ -6357,7 +6344,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PA32",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-32 Cherokee Six, Six, Saratoga,Turbo Saratoga, 6, 6XT",
     engineCount: "1",
     engineType: "P",
@@ -6368,7 +6355,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "P32R",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-32R Cherokee Lance, Lance,Saratoga SP/2 HP/2TC, TurboSaratoga SP",
     engineCount: "1",
     engineType: "P",
@@ -6379,7 +6366,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "P32T",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-32RT Lance 2, Turbo Lance 2",
     engineCount: "1",
     engineType: "P",
@@ -6390,7 +6377,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PA34",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-34 Seneca",
     engineCount: "2",
     engineType: "P",
@@ -6401,7 +6388,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PA36",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-36  Pawnee Brave",
     engineCount: "1",
     engineType: "P",
@@ -6412,7 +6399,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PA38",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-38 Tomahawk",
     engineCount: "1",
     engineType: "P",
@@ -6423,7 +6410,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PA44",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-44, Seminole, Turbo Seminole",
     engineCount: "2",
     engineType: "P",
@@ -6434,7 +6421,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PA46",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-46 310P/350P Malibu, MalibuMirage",
     engineCount: "1",
     engineType: "P",
@@ -6445,7 +6432,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "P46T",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-46-500TP Malibu Meridian",
     engineCount: "1",
     engineType: "T",
@@ -6456,7 +6443,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PAT4",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-31T3-500 T-1040",
     engineCount: "1",
     engineType: "P",
@@ -6467,7 +6454,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PAY1",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-31T1-500 Cheyenne 1 ",
     engineCount: "2",
     engineType: "T",
@@ -6478,7 +6465,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PAY2",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-31T-620.T2-620 Cheyenne,Cheyenne 2",
     engineCount: "2",
     engineType: "T",
@@ -6489,7 +6476,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PAY3",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-42-720 Cheyenne 3",
     engineCount: "2",
     engineType: "T",
@@ -6500,7 +6487,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PAY4",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-42-1000 Cheyenne 400",
     engineCount: "2",
     engineType: "T",
@@ -6511,7 +6498,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PILL",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "PA-28R-300 Pill???n",
     engineCount: "1",
     engineType: "P",
@@ -6522,7 +6509,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "S108",
-    manufacturer: "PIPER AIRCRAFT CORP. (USA)",
+    manufacturer: "PIPER AIRCRAFT CORP.",
     name: "108 Voyager, Station Wagon 108",
     engineCount: "1",
     engineType: "P",
@@ -6533,8 +6520,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PTS1",
-    manufacturer:
-      "PITTS AEROBATICS (Manufactured by Christen Industries, Inc.)(USA)",
+    manufacturer: "PITTS AEROBATICS (Manufactured by Christen Industries, Inc.)(USA)",
     name: "S-1 Special",
     engineCount: "1",
     engineType: "P",
@@ -6545,8 +6531,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PTSS",
-    manufacturer:
-      "PITTS AEROBATICS (Manufactured by Christen Industries, Inc.)(USA)",
+    manufacturer: "PITTS AEROBATICS (Manufactured by Christen Industries, Inc.)(USA)",
     name: "S-1-11 Super Stinker",
     engineCount: "1",
     engineType: "P",
@@ -6557,8 +6542,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PTS2",
-    manufacturer:
-      "PITTS AEROBATICS (Manufactured by Christen Industries, Inc.)(USA)",
+    manufacturer: "PITTS AEROBATICS (Manufactured by Christen Industries, Inc.)(USA)",
     name: "S-2 Special",
     engineCount: "1",
     engineType: "P",
@@ -6569,8 +6553,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "PTMS",
-    manufacturer:
-      "PITTS AEROBATICS (Manufactured by Christen Industries, Inc.)(USA)",
+    manufacturer: "PITTS AEROBATICS (Manufactured by Christen Industries, Inc.)(USA)",
     name: "S-12 Macho Stinker, Super Stinker",
     engineCount: "1",
     engineType: "P",
@@ -6581,7 +6564,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "R100",
-    manufacturer: "ROBIN (France)",
+    manufacturer: "ROBIN",
     name: "R-1180 Aiglon",
     engineCount: "1",
     engineType: "P",
@@ -6592,7 +6575,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "R200",
-    manufacturer: "ROBIN (France)",
+    manufacturer: "ROBIN",
     name: "R-2100/2112/2120/2160, Alpha, AlphaSport, Super Club",
     engineCount: "1",
     engineType: "P",
@@ -6603,7 +6586,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "R300",
-    manufacturer: "ROBIN (France)",
+    manufacturer: "ROBIN",
     name: "R-300/3000/3100/3120/3140",
     engineCount: "1",
     engineType: "P",
@@ -6614,7 +6597,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "VO10",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "100 Commander 100",
     engineCount: "1",
     engineType: "P",
@@ -6625,7 +6608,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AC11",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "112, 114 Commander 112/114, AlpineCommander, Gran TurismoCommander",
     engineCount: "1",
     engineType: "P",
@@ -6636,7 +6619,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "M200",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "200 Commander 200",
     engineCount: "1",
     engineType: "P",
@@ -6647,7 +6630,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AC50",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "500 Shrike Commander ",
     engineCount: "2",
     engineType: "P",
@@ -6658,7 +6641,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AC52",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "Commander 520",
     engineCount: "2",
     engineType: "P",
@@ -6669,7 +6652,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AC56",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "560 Commander 560",
     engineCount: "2",
     engineType: "P",
@@ -6680,7 +6663,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AC68",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "680F, 680FP, Commander 680F/680FP",
     engineCount: "2",
     engineType: "P",
@@ -6691,7 +6674,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AC6L",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "680FL, Grand Commander,Commander 685",
     engineCount: "2",
     engineType: "P",
@@ -6702,7 +6685,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AC72",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "720 Alti-Cruiser",
     engineCount: "2",
     engineType: "P",
@@ -6713,7 +6696,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AC80",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "680T, 680V Turbo Commander ",
     engineCount: "2",
     engineType: "T",
@@ -6724,7 +6707,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AC90",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "690 Turbo Commander 690, Jetprop Commander 840",
     engineCount: "2",
     engineType: "T",
@@ -6735,7 +6718,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AC95",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "695 Jetprop Commander 980/1000",
     engineCount: "2",
     engineType: "P",
@@ -6746,7 +6729,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "RC70",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "700, 710 Commander 700/710",
     engineCount: "2",
     engineType: "P",
@@ -6757,7 +6740,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C130",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "AC-130 Spectre",
     engineCount: "4",
     engineType: "T",
@@ -6768,7 +6751,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B1",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "B-1 Lancer",
     engineCount: "4",
     engineType: "J",
@@ -6779,7 +6762,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "R2TH",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "FR-06 Fanranger, Ranger 2000",
     engineCount: "1",
     engineType: "J",
@@ -6790,7 +6773,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B25",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "Mitchell",
     engineCount: "2",
     engineType: "P",
@@ -6801,7 +6784,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "F86",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "Sabre ",
     engineCount: "1",
     engineType: "J",
@@ -6812,7 +6795,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "JCOM",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "Jet Commander 1121 ",
     engineCount: "2",
     engineType: "J",
@@ -6823,7 +6806,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "LARK",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "Lark 100 Commander ",
     engineCount: "1",
     engineType: "P",
@@ -6834,7 +6817,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "NAVI",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "Navion NA 145/154 ",
     engineCount: "1",
     engineType: "P",
@@ -6845,7 +6828,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "P51",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "Mustang ",
     engineCount: "1",
     engineType: "P",
@@ -6856,7 +6839,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "SBR1",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "NA-265 Sabre 40/60/65",
     engineCount: "2",
     engineType: "J",
@@ -6867,7 +6850,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "SBR2",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "NA-265 Sabre 75/80",
     engineCount: "2",
     engineType: "J",
@@ -6878,7 +6861,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "V10",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "OV-10 Bronco",
     engineCount: "2",
     engineType: "T",
@@ -6889,7 +6872,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "SS2P",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "S-2 Thrush Commander",
     engineCount: "1",
     engineType: "P",
@@ -6900,7 +6883,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "SSAB",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "Super Sabre F-100 ",
     engineCount: "1",
     engineType: "J",
@@ -6911,7 +6894,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "T2",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "T-2 Buckeye",
     engineCount: "2",
     engineType: "J",
@@ -6922,7 +6905,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "T28",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "Trojan, Nomair, Nomad",
     engineCount: "1",
     engineType: "P",
@@ -6933,7 +6916,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "T6",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "Texan, Harvard ",
     engineCount: "1",
     engineType: "P",
@@ -6944,7 +6927,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "VO10",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "Darter 100 ",
     engineCount: "1",
     engineType: "P",
@@ -6955,7 +6938,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "X31",
-    manufacturer: "ROCKWELL INTERNATIONAL CORP. (USA)",
+    manufacturer: "ROCKWELL INTERNATIONAL CORP.",
     name: "X-31",
     engineCount: "1",
     engineType: "J",
@@ -6966,7 +6949,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "R90F",
-    manufacturer: "RUSCHMEYER (FRG)",
+    manufacturer: "RUSCHMEYER",
     name: "R-90-230FG",
     engineCount: "1",
     engineType: "P",
@@ -6977,7 +6960,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "R90R",
-    manufacturer: "RUSCHMEYER (FRG)",
+    manufacturer: "RUSCHMEYER",
     name: "R-90-230RG, MF-85",
     engineCount: "1",
     engineType: "P",
@@ -6988,7 +6971,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "R90T",
-    manufacturer: "RUSCHMEYER (FRG)",
+    manufacturer: "RUSCHMEYER",
     name: "R-90-420AT",
     engineCount: "1",
     engineType: "T",
@@ -6999,7 +6982,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "SB29",
-    manufacturer: "SAAB (Sweden/USA)",
+    manufacturer: "SAAB",
     name: "29 (J29)",
     engineCount: "1",
     engineType: "J",
@@ -7010,7 +6993,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "SB32",
-    manufacturer: "SAAB (Sweden/USA)",
+    manufacturer: "SAAB",
     name: "32 Lansen (J32)",
     engineCount: "1",
     engineType: "J",
@@ -7021,7 +7004,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "SB35",
-    manufacturer: "SAAB (Sweden/USA)",
+    manufacturer: "SAAB",
     name: "35 Draken (J35, Sk35, F-35, RF-35,TF-35)",
     engineCount: "1",
     engineType: "J",
@@ -7032,7 +7015,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "SB37",
-    manufacturer: "SAAB (Sweden/USA)",
+    manufacturer: "SAAB",
     name: "37 Viggen (AJ37, AJS37, JA37, SP37,SH37, Sk37)",
     engineCount: "1",
     engineType: "J",
@@ -7043,7 +7026,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "SB39",
-    manufacturer: "SAAB (Sweden/USA)",
+    manufacturer: "SAAB",
     name: "39 Gripen (JAS39)",
     engineCount: "1",
     engineType: "J",
@@ -7054,7 +7037,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "SB91",
-    manufacturer: "SAAB (Sweden/USA)",
+    manufacturer: "SAAB",
     name: "91 Safir (Sk50)",
     engineCount: "1",
     engineType: "J",
@@ -7065,7 +7048,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "SB05",
-    manufacturer: "SAAB (Sweden/USA)",
+    manufacturer: "SAAB",
     name: "105 (Sk60) ",
     engineCount: "2",
     engineType: "J",
@@ -7076,7 +7059,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "SF34",
-    manufacturer: "SAAB (Sweden/USA)",
+    manufacturer: "SAAB",
     name: "340",
     engineCount: "2",
     engineType: "T",
@@ -7087,7 +7070,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "SB20",
-    manufacturer: "SAAB (Sweden/USA)",
+    manufacturer: "SAAB",
     name: "2000",
     engineCount: "2",
     engineType: "T",
@@ -7098,7 +7081,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "MF17",
-    manufacturer: "SAAB (Sweden/USA)",
+    manufacturer: "SAAB",
     name: "MFI-15/17 Safari, Supporter (T-17)",
     engineCount: "1",
     engineType: "P",
@@ -7109,7 +7092,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "SH33",
-    manufacturer: "SHORT BROTHERS LTD. (UK)",
+    manufacturer: "SHORT BROTHERS LTD.",
     name: "330, Sherpa (C-23), SD3-30",
     engineCount: "2",
     engineType: "T",
@@ -7120,7 +7103,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "SH36",
-    manufacturer: "SHORT BROTHERS LTD. (UK)",
+    manufacturer: "SHORT BROTHERS LTD.",
     name: "360, SD3-60",
     engineCount: "2",
     engineType: "T",
@@ -7131,7 +7114,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BELF",
-    manufacturer: "SHORT BROTHERS LTD. (UK)",
+    manufacturer: "SHORT BROTHERS LTD.",
     name: "SC-5 Belfast",
     engineCount: "4",
     engineType: "T",
@@ -7142,7 +7125,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "SC7",
-    manufacturer: "SHORT BROTHERS LTD. (UK)",
+    manufacturer: "SHORT BROTHERS LTD.",
     name: "SC7 Skyvan, Skyliner",
     engineCount: "2",
     engineType: "T",
@@ -7153,7 +7136,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "L8",
-    manufacturer: "SILVAIRE (USA)",
+    manufacturer: "SILVAIRE",
     name: "8 Silvaire",
     engineCount: "1",
     engineType: "P",
@@ -7164,7 +7147,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "S10",
-    manufacturer: "STINSON (USA)",
+    manufacturer: "STINSON",
     name: "10, 105, HW-75, HW-80, Voyager",
     engineCount: "1",
     engineType: "P",
@@ -7175,7 +7158,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "S108",
-    manufacturer: "STINSON (USA)",
+    manufacturer: "STINSON",
     name: "108 Voyager, Station Wagon ",
     engineCount: "1",
     engineType: "P",
@@ -7186,7 +7169,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "L5",
-    manufacturer: "STINSON (USA)",
+    manufacturer: "STINSON",
     name: "L-5, U-19, OY  Sentinel (V-76)",
     engineCount: "1",
     engineType: "P",
@@ -7197,7 +7180,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "RELI",
-    manufacturer: "STINSON (USA)",
+    manufacturer: "STINSON",
     name: "SR, V-77 Reliant (AT-19)",
     engineCount: "1",
     engineType: "P",
@@ -7208,7 +7191,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "TA15",
-    manufacturer: "TAYLORCRAFT AVIATION CORP. (USA)",
+    manufacturer: "TAYLORCRAFT AVIATION CORP.",
     name: "15 Tourist, Foursome",
     engineCount: "1",
     engineType: "P",
@@ -7219,7 +7202,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "TF19",
-    manufacturer: "TAYLORCRAFT AVIATION CORP. (USA)",
+    manufacturer: "TAYLORCRAFT AVIATION CORP.",
     name: "19, F-19 Sportsman",
     engineCount: "1",
     engineType: "P",
@@ -7230,7 +7213,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "TA20",
-    manufacturer: "TAYLORCRAFT AVIATION CORP. (USA)",
+    manufacturer: "TAYLORCRAFT AVIATION CORP.",
     name: "20 Ranchwagon, Topper, Seabird,Zephyr 400",
     engineCount: "1",
     engineType: "P",
@@ -7241,7 +7224,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "TAYA",
-    manufacturer: "TAYLORCRAFT AVIATION CORP. (USA)",
+    manufacturer: "TAYLORCRAFT AVIATION CORP.",
     name: "A",
     engineCount: "1",
     engineType: "P",
@@ -7252,7 +7235,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "TAYB",
-    manufacturer: "TAYLORCRAFT AVIATION CORP. (USA)",
+    manufacturer: "TAYLORCRAFT AVIATION CORP.",
     name: "BC, BF, BL, Ace, Sportsman, Traveller",
     engineCount: "1",
     engineType: "P",
@@ -7263,7 +7246,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "TAYD",
-    manufacturer: "TAYLORCRAFT AVIATION CORP. (USA)",
+    manufacturer: "TAYLORCRAFT AVIATION CORP.",
     name: "DC, DCO, DF, DL (O-57, L-2)",
     engineCount: "1",
     engineType: "P",
@@ -7274,7 +7257,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "TF21",
-    manufacturer: "TAYLORCRAFT AVIATION CORP. (USA)",
+    manufacturer: "TAYLORCRAFT AVIATION CORP.",
     name: "F-21",
     engineCount: "1",
     engineType: "P",
@@ -7285,7 +7268,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "TF22",
-    manufacturer: "TAYLORCRAFT AVIATION CORP. (USA)",
+    manufacturer: "TAYLORCRAFT AVIATION CORP.",
     name: "F-22 Classic, Tri-Classic, Ranger,Trooper, Tracker",
     engineCount: "1",
     engineType: "P",
@@ -7296,7 +7279,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AEST",
-    manufacturer: "TED SMITH AEROSTAR CORP. (USA)",
+    manufacturer: "TED SMITH AEROSTAR CORP.",
     name: "Aero Star",
     engineCount: "2",
     engineType: "P",
@@ -7307,8 +7290,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "VF14",
-    manufacturer:
-      "VFW-FOKKER (Zentralgesellschaft VFW-Fokker mbH (FRG/Netherlands))",
+    manufacturer: "VFW-FOKKER",
     name: "VFW 614",
     engineCount: "2",
     engineType: "J",
@@ -7319,7 +7301,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A7",
-    manufacturer: "VOUGHT CORP. (USA)",
+    manufacturer: "VOUGHT CORP.",
     name: "A-7, TA-7 Corsair",
     engineCount: "1",
     engineType: "J",
@@ -7330,7 +7312,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "GC1",
-    manufacturer: "VOUGHT CORP. (USA)",
+    manufacturer: "VOUGHT CORP.",
     name: "Swift",
     engineCount: "1",
     engineType: "P",
@@ -7341,7 +7323,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "YK40",
-    manufacturer: "YAKOVLEV (RUSSIA)",
+    manufacturer: "YAKOVLEV",
     name: "Yak-40",
     engineCount: "3",
     engineType: "J",
@@ -7352,7 +7334,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "CH60",
-    manufacturer: "ZENAIR (Canada)",
+    manufacturer: "ZENAIR",
     name: "CH-600/601 Zodiac, Super Zodiac",
     engineCount: "1",
     engineType: "P",
@@ -7363,7 +7345,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "CH62",
-    manufacturer: "ZENAIR (Canada)",
+    manufacturer: "ZENAIR",
     name: "CH-620 Gemini",
     engineCount: "2",
     engineType: "P",
@@ -7374,7 +7356,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "CH80",
-    manufacturer: "ZENAIR (Canada)",
+    manufacturer: "ZENAIR",
     name: "CH-801 Stol",
     engineCount: "1",
     engineType: "P",
@@ -7385,7 +7367,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "CH2T",
-    manufacturer: "ZENAIR (Canada)",
+    manufacturer: "ZENAIR",
     name: "CH-2000 Zenith",
     engineCount: "1",
     engineType: "P",
@@ -7396,7 +7378,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A225",
-    manufacturer: "ANTONOV (Russia)",
+    manufacturer: "ANTONOV",
     name: "An-225",
     engineCount: "6",
     engineType: "J",
@@ -7407,7 +7389,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AN22",
-    manufacturer: "ANTONOV (Russia)",
+    manufacturer: "ANTONOV",
     name: "An-22 Antheus",
     engineCount: "4",
     engineType: "T",
@@ -7418,7 +7400,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A337",
-    manufacturer: "AIRBUS INDUSTRIES (International)",
+    manufacturer: "AIRBUS INDUSTRIES",
     name: "A-330-700 Beluga XL",
     engineCount: "2",
     engineType: "J",
@@ -7431,7 +7413,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A338",
-    manufacturer: "AIRBUS INDUSTRIES (International)",
+    manufacturer: "AIRBUS INDUSTRIES",
     name: "A-330-800",
     engineCount: "2",
     engineType: "J",
@@ -7444,7 +7426,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A339",
-    manufacturer: "AIRBUS INDUSTRIES (International)",
+    manufacturer: "AIRBUS INDUSTRIES",
     name: "A-330-900",
     engineCount: "2",
     engineType: "J",
@@ -7457,7 +7439,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A359",
-    manufacturer: "AIRBUS INDUSTRIES (International)",
+    manufacturer: "AIRBUS INDUSTRIES",
     name: "A-350-900",
     engineCount: "2",
     engineType: "J",
@@ -7470,7 +7452,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A35K",
-    manufacturer: "AIRBUS INDUSTRIES (International)",
+    manufacturer: "AIRBUS INDUSTRIES",
     name: "A-350-1000",
     engineCount: "2",
     engineType: "J",
@@ -7483,7 +7465,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A388",
-    manufacturer: "AIRBUS INDUSTRIES (International)",
+    manufacturer: "AIRBUS INDUSTRIES",
     name: "A-380-800",
     engineCount: "4",
     engineType: "J",
@@ -7496,7 +7478,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A3ST",
-    manufacturer: "AIRBUS INDUSTRIES (International)",
+    manufacturer: "AIRBUS INDUSTRIES",
     name: "A-300ST Beluga",
     engineCount: "2",
     engineType: "J",
@@ -7507,7 +7489,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "A400",
-    manufacturer: "AIRBUS INDUSTRIES (International)",
+    manufacturer: "AIRBUS INDUSTRIES",
     name: "A-400M Atlas",
     engineCount: "4",
     engineType: "T",
@@ -7518,7 +7500,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B748",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "747-8",
     engineCount: "4",
     engineType: "J",
@@ -7529,7 +7511,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "BLCF",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "747-400LCF Dreamlifer",
     engineCount: "4",
     engineType: "J",
@@ -7540,7 +7522,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B778",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "777-8",
     engineCount: "2",
     engineType: "J",
@@ -7551,7 +7533,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B779",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "777-9",
     engineCount: "2",
     engineType: "J",
@@ -7562,7 +7544,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B77L",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "777-200LR",
     engineCount: "2",
     engineType: "J",
@@ -7573,7 +7555,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B77W",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "777-300LR",
     engineCount: "2",
     engineType: "J",
@@ -7584,7 +7566,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B788",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "787-8 Dreamliner",
     engineCount: "2",
     engineType: "J",
@@ -7595,7 +7577,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B789",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "787-9 Dreamliner",
     engineCount: "2",
     engineType: "J",
@@ -7606,7 +7588,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B78X",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "787-10 Dreamliner",
     engineCount: "2",
     engineType: "J",
@@ -7617,7 +7599,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "C5M",
-    manufacturer: "LOCKHEED CORP. (USA)",
+    manufacturer: "LOCKHEED CORP.",
     name: "C-5M Super Galaxy",
     engineCount: "4",
     engineType: "J",
@@ -7685,7 +7667,7 @@ db.aircraft.insertMany([
     equipmentCode: "TU95",
     manufacturer: "TUPOLEV",
     name: "Tu-95",
-    engineCount: "4 !!! NO RNAV !!!",
+    engineCount: "4",
     engineType: "T",
     weightClass: "H",
     KPDXVfrAltitude: "6000",
@@ -7706,7 +7688,7 @@ db.aircraft.insertMany([
   {
     equipmentCode: "EC45",
     manufacturer: "EUROCOPTER",
-    name: "EC145 !!! NO RNAV !!!",
+    name: "EC145",
     engineCount: "2",
     engineType: "T",
     weightClass: "S",
@@ -7728,7 +7710,7 @@ db.aircraft.insertMany([
   {
     equipmentCode: "V22",
     manufacturer: "BELL HELICOPTER",
-    name: "V-22 OSPREY !!! NO RNAV !!!",
+    name: "V-22 OSPREY",
     engineCount: "2",
     engineType: "T",
     weightClass: "L",
@@ -7753,8 +7735,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "TBM9",
-    manufacturer: "AEROSPATIALE (France)",
-    name: "TBM 900 !!! NO RNAV !!! !!! NO HAWKZ7 !!!",
+    manufacturer: "AEROSPATIALE",
+    name: "TBM 900",
     engineCount: "1",
     engineType: "T",
     weightClass: "S",
@@ -7766,7 +7748,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "E75L",
-    manufacturer: "EMBRAER (Brazil)",
+    manufacturer: "EMBRAER",
     name: "ERJ 170-200 (long wing)",
     engineCount: "2",
     engineType: "J",
@@ -7777,8 +7759,8 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "AT76",
-    manufacturer: "ATR (Aérospatiale/Alenia)",
-    name: "ATR-72-101/102 (/G) !!! NO RNAV !!!",
+    manufacturer: "ATR",
+    name: "ATR-72-101/102",
     engineCount: "2",
     engineType: "T",
     weightClass: "L",
@@ -7791,7 +7773,7 @@ db.aircraft.insertMany([
   {
     equipmentCode: "G2CA",
     manufacturer: "GUIMBAL",
-    name: "G-2 Cabri (/G) !!! NO RNAV !!!",
+    name: "G-2 Cabri",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -7804,7 +7786,7 @@ db.aircraft.insertMany([
   {
     equipmentCode: "R22",
     manufacturer: "ROBINSON HELICOPTER COMPANY",
-    name: "R22 !!! NO RNAV !!!",
+    name: "R22",
     engineCount: "1",
     engineType: "P",
     weightClass: "S",
@@ -7867,7 +7849,7 @@ db.aircraft.insertMany([
   {
     equipmentCode: "SG76",
     manufacturer: "SIKORSKY",
-    name: "S-76 !!! NO RNAV !!!",
+    name: "S-76",
     engineCount: "2",
     engineType: "T",
     weightClass: "S",
@@ -7878,7 +7860,7 @@ db.aircraft.insertMany([
   {
     equipmentCode: "C56X",
     manufacturer: "CESSNA",
-    name: "Citation Excel (/L)",
+    name: "Citation Excel",
     engineCount: "2",
     engineType: "J",
     weightClass: "S",
@@ -8013,7 +7995,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "B77F",
-    manufacturer: "BOEING COMPANY (USA)",
+    manufacturer: "BOEING COMPANY",
     name: "777 FREIGHTER",
     engineCount: "2",
     engineType: "J",
@@ -8026,7 +8008,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DA40",
-    manufacturer: "DIAMOND (Canada)",
+    manufacturer: "DIAMOND",
     name: "DA-40",
     engineCount: "2",
     engineType: "P",
@@ -8037,7 +8019,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "DA62",
-    manufacturer: "DIAMOND (Canada)",
+    manufacturer: "DIAMOND",
     name: "DA-62",
     engineCount: "2",
     engineType: "P",
@@ -8048,7 +8030,7 @@ db.aircraft.insertMany([
   },
   {
     equipmentCode: "CONC",
-    manufacturer: "AEROSPATIALE (France)",
+    manufacturer: "AEROSPATIALE",
     name: "Concorde",
     engineCount: "4",
     engineType: "J",
