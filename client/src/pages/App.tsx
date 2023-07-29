@@ -5,10 +5,9 @@ import { Outlet } from "react-router-dom";
 import ILoginResponse from "../interfaces/ILoginResponse.mts";
 import http from "../utils/http.mts";
 import { AppContext } from "../context/AppContext";
-import { Role } from "../interfaces/IUser.mts";
 
 const App = () => {
-  const { darkMode, setUser } = useContext(AppContext);
+  const { darkMode } = useContext(AppContext);
 
   const verifyUser = useCallback(() => {
     http
@@ -23,14 +22,10 @@ const App = () => {
         }
       )
       .then((response) => {
-        setUser({
-          role: response.data.role as Role,
-        });
         localStorage.setItem("token", response.data.token);
         setTimeout(verifyUser, 5 * 60 * 1000);
       })
       .catch(() => {
-        setUser(undefined);
         localStorage.removeItem("token");
         localStorage.removeItem("role");
       });
