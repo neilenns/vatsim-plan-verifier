@@ -18,6 +18,7 @@ import { signupAction } from "./services/signupAction.mts";
 import { loginAction } from "./services/loginAction.mts";
 import { AuthenticationGuard } from "./components/AuthenticationGuard.tsx";
 import WelcomePage from "./pages/Welcome.tsx";
+import AdminPage from "./pages/Admin.tsx";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +60,11 @@ const router = createBrowserRouter([
         action: flightPlanVerifyAction,
       },
     ],
+  },
+  {
+    path: "/admin",
+    element: <AuthenticationGuard component={<AdminPage />} />,
+    errorElement: <ErrorPage />,
   },
 ]);
 
