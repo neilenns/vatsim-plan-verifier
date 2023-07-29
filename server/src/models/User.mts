@@ -13,6 +13,7 @@ export interface IUser {
   lastName: string;
   authStrategy: string;
   isVerified: boolean;
+  role: "user" | "admin";
   refreshToken: ISession[];
 }
 
@@ -30,6 +31,7 @@ const userSchema = new Schema<IUser>({
   authStrategy: { type: String, default: "local" },
   refreshToken: { type: [Session] },
   isVerified: { type: Boolean, default: false },
+  role: { type: String, enum: ["user", "admin"], default: "user" },
 });
 
 // Remove refreshToken from json responses for security

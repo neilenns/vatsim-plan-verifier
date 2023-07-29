@@ -7,6 +7,11 @@ const router = express.Router();
 
 // GET route for reading all the users from the database
 router.get("/users", verifyUser, async (req: Request, res: Response) => {
+  if (req.user?.role !== "admin") {
+    res.status(403).json({ error: "You are not authorized to access this resource." });
+    return;
+  }
+
   const result = await getUsers();
 
   if (result.success) {
@@ -19,6 +24,11 @@ router.get("/users", verifyUser, async (req: Request, res: Response) => {
 
 // PUT route for updating a user
 router.put("/users", verifyUser, async (req: Request, res: Response) => {
+  if (req.user?.role !== "admin") {
+    res.status(403).json({ error: "You are not authorized to access this resource." });
+    return;
+  }
+
   const result = await updateUser(req.body as IUser);
 
   if (result.success) {
