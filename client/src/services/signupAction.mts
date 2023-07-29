@@ -1,14 +1,14 @@
 import { ActionFunction, redirect } from "react-router-dom";
 import { serverUrl } from "../configs/planVerifierServer.mjs";
-import axios from "axios";
 import debug from "debug";
+import http from "../utils/http.mts";
 
 const logger = debug("plan-verifier:signupAction");
 
 export const signupAction: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
 
-  await axios
+  await http
     .post(
       new URL("signup", serverUrl).toString(),
       {
