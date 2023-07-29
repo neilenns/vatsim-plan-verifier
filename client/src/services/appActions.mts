@@ -1,12 +1,6 @@
 import { redirect, type ActionFunction } from "react-router-dom";
 import { removeActiveFlightPlan } from "./activeFlightPlans.mts";
 import { removeVerifyResults } from "./verifyResults.mts";
-import axios from "axios";
-import ILoginResponse from "../interfaces/ILoginResponse.mts";
-import { serverUrl } from "../configs/planVerifierServer.mts";
-import debug from "debug";
-
-const logger = debug("plan-verifier:appActions");
 
 async function removeFlightPlan(flightPlanId: string) {
   if (flightPlanId) {
