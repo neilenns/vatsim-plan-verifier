@@ -18,6 +18,14 @@ const columns: GridColDef[] = [
     type: "boolean",
     editable: true,
   },
+  {
+    field: "role",
+    headerName: "Role",
+    width: 150,
+    type: "singleSelect",
+    valueOptions: ["admin", "user"],
+    editable: true,
+  },
 ];
 
 const useUpdateUser = () => {
