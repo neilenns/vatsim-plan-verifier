@@ -1,9 +1,9 @@
-// Define the interface for the Location document
+// Define the interface for the User
 export interface IUser {
+  _id: string;
   username: string;
   firstName: string;
   lastName: string;
-  canCreate: boolean;
-  canEdit: boolean;
-  canDelete: boolean;
+  isVerified: boolean;
+  role: "admin" | "user";
 }

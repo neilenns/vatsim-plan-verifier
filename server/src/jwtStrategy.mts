@@ -1,6 +1,6 @@
 import passport from "passport";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
-import { User } from "./models/User.mjs";
+import UserModel from "./models/User.mjs";
 import { ENV } from "./env.mjs";
 
 const opts: any = {};
@@ -18,7 +18,7 @@ if (ENV.NODE_ENV === "test") {
 // i.e., to fetch user details from the JWT.
 passport.use(
   new JwtStrategy(opts, (jwt_payload, done) => {
-    User.findOne({ _id: jwt_payload._id })
+    UserModel.findOne({ _id: jwt_payload._id })
       .then((user) => {
         if (user) {
           return done(null, user);

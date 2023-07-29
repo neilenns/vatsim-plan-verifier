@@ -23,6 +23,7 @@ export const loginAction: ActionFunction = async ({ request }) => {
     )
     .then((response: AxiosResponse<ILoginResponse>) => {
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("role", response.data.role);
     })
     .catch((error) => {
       logger(error);

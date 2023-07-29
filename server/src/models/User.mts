@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, Types, model } from "mongoose";
 import passportLocalMongoose from "passport-local-mongoose";
 
 export interface ISession {
@@ -7,11 +7,13 @@ export interface ISession {
 
 // Define the interface for the Location document
 export interface IUser {
+  _id: Types.ObjectId;
   username: string;
   firstName: string;
   lastName: string;
   authStrategy: string;
   isVerified: boolean;
+  role: "user" | "admin";
   refreshToken: ISession[];
 }
 
@@ -29,10 +31,10 @@ const userSchema = new Schema<IUser>({
   authStrategy: { type: String, default: "local" },
   refreshToken: { type: [Session] },
   isVerified: { type: Boolean, default: false },
+  role: { type: String, enum: ["user", "admin"], default: "user" },
 });
 
 // Remove refreshToken from json responses for security
-//Remove refreshToken from the response
 userSchema.set("toJSON", {
   transform: function (doc, ret, options) {
     delete ret.refreshToken;
@@ -42,4 +44,6 @@ userSchema.set("toJSON", {
 
 userSchema.plugin(passportLocalMongoose);
 
-export const User = model<IUser>("User", userSchema);
+const UserModel = model<IUser>("User", userSchema);
+
+export default UserModel;

@@ -1,6 +1,6 @@
 import express from "express";
 import passport from "passport";
-import { User } from "../models/User.mjs";
+import UserModel from "../models/User.mjs";
 import { getAuthToken, COOKIE_OPTIONS, getRefreshToken } from "../authenticate.mjs";
 import { Error as MongooseError } from "mongoose";
 import jwt, { JwtPayload } from "jsonwebtoken";
@@ -19,8 +19,8 @@ function logout(req: express.Request, res: express.Response, next: express.NextF
 }
 
 router.post("/signup", function (req, res) {
-  User.register(
-    new User({
+  UserModel.register(
+    new UserModel({
       username: req.body.username,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
@@ -55,7 +55,7 @@ router.post(
   (req, res, next) => {
     const authToken = getAuthToken({ _id: req.user!._id });
     const refreshToken = getRefreshToken({ _id: req.user!._id });
-    User.findById(req.user!._id).then(
+    UserModel.findById(req.user!._id).then(
       (user) => {
         if (!user) {
           throw new Error("User not found"); // Throw an error if user is null
@@ -73,7 +73,7 @@ router.post(
           .save()
           .then(() => {
             res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
-            res.send({ success: true, token: authToken });
+            res.send({ success: true, token: authToken, role: user.role });
           })
           .catch((err: MongooseError) => {
             res.statusCode = 500;
@@ -93,7 +93,7 @@ router.post("/refreshToken", (req, res, next) => {
     try {
       const payload = jwt.verify(refreshToken, ENV.REFRESH_TOKEN_SECRET);
       const userId = (payload as JwtPayload)._id;
-      User.findOne({ _id: userId }).then(
+      UserModel.findOne({ _id: userId }).then(
         (user) => {
           if (user) {
             // Unverified users aren't allowed to sign in.
@@ -121,7 +121,7 @@ router.post("/refreshToken", (req, res, next) => {
                 .save()
                 .then(() => {
                   res.cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS);
-                  res.send({ success: true, token: authToken });
+                  res.send({ success: true, token: authToken, role: user.role });
                 })
                 .catch((error) => {
                   res.statusCode = 500;
@@ -148,7 +148,7 @@ router.post("/refreshToken", (req, res, next) => {
 router.get("/logout", verifyUser, (req, res, next) => {
   const { signedCookies = {} } = req;
   const { refreshToken } = signedCookies;
-  User.findById(req.user!._id).then(
+  UserModel.findById(req.user!._id).then(
     (user) => {
       const tokenIndex = user!.refreshToken.findIndex((item) => item.refreshToken === refreshToken);
 
