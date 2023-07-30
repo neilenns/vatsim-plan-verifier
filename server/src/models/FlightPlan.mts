@@ -6,6 +6,8 @@ import { getFlightAwareAirport } from "../controllers/flightAwareAirports.mjs";
 import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
 import debug from "debug";
 import NavaidModel from "./Navaid.mjs";
+import { Departure } from "./Departure.mjs";
+import { IAircraft } from "./Aircraft.mjs";
 
 const logger = debug("plan-verifier:flightPlan");
 export interface IFlightPlan extends IFlightPlanDocument {}
@@ -17,6 +19,16 @@ const GNSSEquipmentSuffixes = ["G", "L"];
 
 const AirlineCodeRegexPattern = /\b([A-Za-z]{3})(\d+)\b/;
 const SIDRegExPattern = /^([A-Za-z]{3,}\d)/;
+
+function extractSID(route: string): string | undefined {
+  const regexMatch = route.match(SIDRegExPattern);
+
+  if (regexMatch && regexMatch.length > 0) {
+    return regexMatch[1];
+  }
+
+  return undefined;
+}
 
 export const flightPlanSchema = new Schema(
   {
@@ -83,6 +95,28 @@ flightPlanSchema.virtual("cleanedRoute").get(function () {
       .replace(" DCT", "") // DCTs are never in the FlightAware returned routes
       .trim() ?? ""
   );
+});
+
+flightPlanSchema.virtual("initialAltitude").get(function () {
+  const sid = this.get("SIDInformation") as Departure | undefined;
+  const equipmentInfo = this.get("equipmentInfo") as IAircraft | undefined;
+
+  if (!sid || !sid.InitialAltitudes || !equipmentInfo || !equipmentInfo.aircraftClass) {
+    return "Unknown";
+  }
+
+  try {
+    for (const initialAltitude of sid.InitialAltitudes) {
+      const regex = new RegExp(initialAltitude.AircraftClass);
+      if (regex.test(equipmentInfo.aircraftClass)) {
+        return formatAltitude(initialAltitude.Altitude, false);
+      }
+    }
+  } catch (error) {
+    logger(`Unable to calculate initial altitude: ${error}`);
+  }
+
+  return "Unknown";
 });
 
 flightPlanSchema.virtual("equipmentInfo", {
@@ -197,10 +231,10 @@ flightPlanSchema.pre("save", function (next) {
 // Extract the SID from the route
 flightPlanSchema.pre("save", function (next) {
   if (this.isModified("route")) {
-    const regexMatch = this.route?.match(SIDRegExPattern);
+    const sid = extractSID(this.route);
 
-    if (regexMatch && regexMatch.length > 0) {
-      this.SID = regexMatch[1];
+    if (sid) {
+      this.SID = sid;
     }
   }
 

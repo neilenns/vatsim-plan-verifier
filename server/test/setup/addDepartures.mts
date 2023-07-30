@@ -30,13 +30,32 @@ const departures = [
       "COUGA",
     ],
     IsRNAV: false,
+    InitialAltitudes: [
+      {
+        Altitude: 60,
+        AircraftClass: "J",
+      },
+      {
+        Altitude: 60,
+        AircraftClass: "L",
+      },
+      {
+        Altitude: 30,
+        AircraftClass: "S",
+      },
+    ],
   },
   {
     _id: "5f9f7b9b9b3b3c1b3c1b3c12",
     SID: "HAROB6",
     Fixes: ["HAROB", "HQM", "ERAVE", "HISKU"],
     ClimbViaSid: true,
-    InitialAltitude: "70",
+    InitialAltitudes: [
+      {
+        Altitude: 70,
+        AircraftClass: "*",
+      },
+    ],
     IsRNAV: true,
   },
   {
@@ -59,6 +78,12 @@ const departures = [
       "EUG",
       "AST",
       "HQM",
+    ],
+    InitialAltitudes: [
+      {
+        Altitude: 70,
+        AircraftClass: "*",
+      },
     ],
   },
 ];

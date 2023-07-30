@@ -12,4 +12,5 @@ export default interface IAircraftDocument extends Document {
   srsClass: string;
   maxCruiseSpeed?: number;
   commonEquipmentSuffixes?: string[];
+  aircraftClass?: "S" | "L" | "J";
 }

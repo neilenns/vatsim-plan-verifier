@@ -2308,6 +2308,7 @@ db.aircraft.insertMany([
     KPDXIfrAltitude: "3000",
     srsClass: "I",
     maxCruiseSpeed: "122",
+    aircraftClass: "S",
     commonEquipmentSuffixes: ["A", "G"],
   },
   {

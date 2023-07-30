@@ -17,6 +17,7 @@ const AircraftSchema = new Schema(
     srsClass: { type: String, required: true },
     maxCruiseSpeed: { type: Number, required: false },
     commonEquipmentSuffixes: { type: [String], required: false },
+    aircraftClass: { type: String, enum: ["S", "L", "J"] },
   },
   { collection: "aircraft" }
 );

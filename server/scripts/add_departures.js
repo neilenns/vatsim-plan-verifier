@@ -8,7 +8,12 @@ db.departures.insertMany([
     SID: "WW2",
     Fixes: ["PSC", "YKM", "MWH", "GEG", "PUW", "MQG"],
     ClimbViaSid: false,
-    InitialAltitude: "80",
+    InitialAltitudes: [
+      {
+        Altitude: 80,
+        AircraftClass: ".*",
+      },
+    ],
     ExpectTopAltitudeInMinutes: "10",
     IsRNAV: false,
   },
@@ -30,25 +35,47 @@ db.departures.insertMany([
       "HAROB",
       "ELMAA",
     ],
+    InitialAltitudes: [
+      {
+        Altitude: 21,
+        AircraftClass: ".*",
+      },
+    ],
     IsRNAV: true,
   },
   {
     SID: "KENT8",
-    ClimbViaSid: true,
-    InitialAltitude: "21",
+    ClimbViaSid: false,
     Fixes: ["YVR", "HUH", "YYJ", "PAE", "SEA", "OLM", "HQM", "BTG", "ELN", "YKM", "MWH", "EAT"],
     IsRNAV: false,
+    InitialAltitudes: [
+      {
+        Altitude: 20,
+        AircraftClass: ".*",
+      },
+    ],
   },
   {
     SID: "NEEDL1",
-    ClimbViaSid: true,
+    ClimbViaSid: false,
     Fixes: ["YVR", "HUH", "YYJ", "PAE", "SEA", "OLM", "HQM", "BTG", "ELN", "YKM", "MWH", "EAT"],
     IsRNAV: false,
+    InitialAltitudes: [
+      {
+        Altitude: 21,
+        AircraftClass: ".*",
+      },
+    ],
   },
   {
     SID: "NRVNA1",
-    ClimbViaSid: true,
-    InitialAltitude: "21",
+    ClimbViaSid: false,
+    InitialAltitudes: [
+      {
+        Altitude: 21,
+        AircraftClass: ".*",
+      },
+    ],
     Fixes: [
       "ARRIE",
       "PAE",
@@ -70,34 +97,59 @@ db.departures.insertMany([
     SID: "WHAMY4",
     Fixes: ["WHAMY", "IMB", "RIELY", "KOATA"],
     ClimbViaSid: false,
-    InitialAltitude: "70",
+    InitialAltitudes: [
+      {
+        Altitude: 70,
+        AircraftClass: ".*",
+      },
+    ],
     IsRNAV: true,
   },
   {
     SID: "CASCD2",
     Fixes: ["CHISM", "DSD", "JOGEN", "SMIGE", "PAWLI"],
     ClimbViaSid: false,
-    InitialAltitude: "70",
+    InitialAltitudes: [
+      {
+        Altitude: 70,
+        AircraftClass: ".*",
+      },
+    ],
     IsRNAV: true,
   },
   {
     SID: "HRMNS5",
     Fixes: ["HRMNS"],
     ClimbViaSid: false,
-    InitialAltitude: "70",
+    InitialAltitudes: [
+      {
+        Altitude: 70,
+        AircraftClass: ".*",
+      },
+    ],
     IsRNAV: true,
   },
   {
     SID: "LAVAA6",
     Fixes: ["LAVAA", "YKM", "PDT"],
-    InitialAltitude: "70",
+    InitialAltitudes: [
+      {
+        Altitude: 70,
+        AircraftClass: ".*",
+      },
+    ],
     IsRNAV: true,
   },
   {
     SID: "MINNE5",
     Fixes: ["MINNE", "EASON", "FAMUK", "HISKU"],
     ClimbViaSid: false,
-    InitialAltitude: "70",
+    InitialAltitudes: [
+      {
+        Altitude: 70,
+        AircraftClass: ".*",
+      },
+    ],
     IsRNAV: true,
   },
   {
@@ -128,33 +180,67 @@ db.departures.insertMany([
       "COUGA",
     ],
     IsRNAV: false,
+    InitialAltitudes: [
+      {
+        Altitude: 60,
+        AircraftClass: "J",
+      },
+      {
+        Altitude: 60,
+        AircraftClass: "L",
+      },
+      {
+        Altitude: 30,
+        AircraftClass: "S",
+      },
+    ],
   },
   {
     SID: "BANGR9",
     Fixes: ["BANGR", "PANGL", "ARRIE"],
     ClimbViaSid: true,
-    InitialAltitude: "70",
+    InitialAltitudes: [
+      {
+        Altitude: 70,
+        AircraftClass: ".*",
+      },
+    ],
     IsRNAV: true,
   },
   {
     SID: "ELMAA4",
     Fixes: ["ELMAA", "HQM", "CVO"],
     ClimbViaSid: true,
-    InitialAltitude: "70",
+    InitialAltitudes: [
+      {
+        Altitude: 70,
+        AircraftClass: ".*",
+      },
+    ],
     IsRNAV: true,
   },
   {
     SID: "HAROB6",
     Fixes: ["HAROB", "HQM", "ERAVE", "HISKU"],
     ClimbViaSid: true,
-    InitialAltitude: "70",
+    InitialAltitudes: [
+      {
+        Altitude: 70,
+        AircraftClass: ".*",
+      },
+    ],
     IsRNAV: true,
   },
   {
     SID: "JEFPO1",
     Fixes: ["ALPSE", "BANDR", "NORMY", "PAE", "ZADON"],
     ClimbViaSid: true,
-    InitialAltitude: "70",
+    InitialAltitudes: [
+      {
+        Altitude: 70,
+        AircraftClass: ".*",
+      },
+    ],
     IsRNAV: true,
   },
   {
@@ -164,7 +250,12 @@ db.departures.insertMany([
   {
     SID: "MONTN2",
     ClimbViaSid: true,
-    InitialAltitude: "70",
+    InitialAltitudes: [
+      {
+        Altitude: 70,
+        AircraftClass: ".*",
+      },
+    ],
     IsRNAV: true,
   },
   {
@@ -188,17 +279,33 @@ db.departures.insertMany([
       "AST",
       "HQM",
     ],
+    InitialAltitudes: [
+      {
+        Altitude: 70,
+        AircraftClass: ".*",
+      },
+    ],
   },
   {
     SID: "PAINE6",
     IsRNAV: false,
     Fixes: ["PAE", "SEA", "EAT", "ELN", "OLM", "HQM", "NUW"],
-    InitialAltitude: "20",
+    InitialAltitudes: [
+      {
+        Altitude: 20,
+        AircraftClass: ".*",
+      },
+    ],
   },
   {
     SID: "KIENO6",
     IsRNAV: false,
     Fixes: ["KIENO", "YVR", "YYJ", "CVV"],
-    InitialAltitude: "30",
+    InitialAltitudes: [
+      {
+        Altitude: 30,
+        AircraftClass: ".*",
+      },
+    ],
   },
 ]);
