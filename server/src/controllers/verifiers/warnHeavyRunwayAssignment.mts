@@ -29,6 +29,7 @@ export default async function warnHeavyRunwayAssignment({
       result.data.messageId = "heavyRunwayAssignment";
       result.data.message =
         "Aircraft is a heavy. Verify it is assigned to a runway that can accomodate a heavy.";
+      result.data.priority = 3;
     }
     // In all other cases there's nothing interesting to report back.
     else {
