@@ -22,7 +22,8 @@ import AdminPage from "./pages/Admin.tsx";
 import Users from "./pages/Users.tsx";
 import { usersLoader } from "./services/usersLoader.mts";
 import { logoutLoader } from "./services/logoutLoader.mts";
-import AppFramework from "./components/AppFramework.tsx";
+import { AppContextProvider } from "./context/AppContext.tsx";
+import App from "./pages/App.tsx";
 
 const router = createBrowserRouter([
   {
@@ -51,7 +52,7 @@ const router = createBrowserRouter([
     loader: logoutLoader,
   },
   {
-    element: <AppFramework />,
+    element: <App />,
     children: [
       {
         path: "/verifier",
@@ -92,6 +93,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AppContextProvider>
+      <RouterProvider router={router} />
+    </AppContextProvider>
   </React.StrictMode>
 );
