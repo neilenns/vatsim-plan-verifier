@@ -105,8 +105,8 @@ flightPlanSchema.virtual("initialAltitude").get(function () {
     return "Unknown";
   }
 
-  // KSLE is a special case
-  if (this.arrival === "KSLE") {
+  // KPDX-KSLE is a special case
+  if (this.departure === "KPDX" && this.arrival === "KSLE") {
     return formatAltitude(this.cruiseAltitude < 50 ? this.cruiseAltitude : 50, false);
   }
 
