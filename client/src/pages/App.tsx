@@ -1,15 +1,11 @@
-import { ThemeProvider } from "@emotion/react";
-import { CssBaseline, createTheme } from "@mui/material";
-import { useCallback, useContext, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import ILoginResponse from "../interfaces/ILoginResponse.mts";
 import http from "../utils/http.mts";
-import { AppContext } from "../context/AppContext";
 import { useNavigate } from "react-router-dom";
 
 const App = () => {
   const navigate = useNavigate();
-  const { darkMode } = useContext(AppContext);
 
   const verifyUser = useCallback(() => {
     http
@@ -56,27 +52,7 @@ const App = () => {
     };
   }, [syncLogout]);
 
-  const defaultTheme = createTheme({
-    typography: {
-      fontFamily: "Inter Variable",
-    },
-  });
-
-  const darkTheme = createTheme({
-    typography: {
-      fontFamily: "Inter Variable",
-    },
-    palette: {
-      mode: "dark",
-    },
-  });
-
-  return (
-    <ThemeProvider theme={darkMode ? darkTheme : defaultTheme}>
-      <CssBaseline />
-      <Outlet />
-    </ThemeProvider>
-  );
+  return <Outlet />;
 };
 
 export default App;
