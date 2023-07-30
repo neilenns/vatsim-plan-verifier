@@ -1,5 +1,5 @@
 {
-  "short_name": "Vatsim plan verifier",
+  "short_name": "plan-verify",
   "name": "Vatsim plan verifier",
   "start_url": ".",
   "display": "standalone",
