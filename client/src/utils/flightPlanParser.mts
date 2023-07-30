@@ -1,5 +1,15 @@
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 
+// Checks to see if the airport name ends in "Airport". If so, return
+// unmodified. If not, append " Airport" and return it.
+export function normalizeAirportName(airportName: string): string {
+  if (airportName.endsWith("Airport")) {
+    return airportName;
+  } else {
+    return `${airportName} Airport`;
+  }
+}
+
 // Cleans up flight plans that have two squawk codes in them by removing
 // the second one, which is the one the plane is currently squawking.
 // Unfortunately VRC will collapse the two codes down to one in the displayed
