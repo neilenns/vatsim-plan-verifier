@@ -7,4 +7,5 @@ export interface IUser {
   lastName: string;
   isVerified: boolean;
   role: Role;
+  token: string;
 }
