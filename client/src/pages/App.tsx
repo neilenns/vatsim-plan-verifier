@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 const App = () => {
   const navigate = useNavigate();
-  const { darkMode, setUser } = useContext(AppContext);
+  const { darkMode } = useContext(AppContext);
 
   const verifyUser = useCallback(() => {
     http
@@ -30,9 +30,8 @@ const App = () => {
       .catch(() => {
         localStorage.removeItem("token");
         localStorage.removeItem("role");
-        setUser(undefined);
       });
-  }, [setUser]);
+  }, []);
 
   useEffect(() => {
     verifyUser();
