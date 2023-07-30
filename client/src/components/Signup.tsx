@@ -1,19 +1,49 @@
 import { LoadingButton } from "@mui/lab";
-import { TextField } from "@mui/material";
-import { useFetcher } from "react-router-dom";
+import { TextField, Typography } from "@mui/material";
+import debug from "debug";
 
 import React, { useState } from "react";
+import http from "../utils/http.mts";
+import { AxiosError } from "axios";
 
 const Signup = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const fetcher = useFetcher();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
+
+  const logger = debug("plan-verifier:signup");
+
+  const genericErrorMessage = "Something went wrong, try again later.";
+
+  const formSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setError("");
+
+    http
+      .post("signup", {
+        username: email,
+        firstName: firstName,
+        lastName: lastName,
+        password: password,
+      })
+      .then(() => {
+        setError("Account created successfully. You'll be notified once it is activated.");
+        setIsSubmitting(false);
+      })
+      .catch((error: AxiosError) => {
+        logger(error);
+        setError(genericErrorMessage);
+      })
+      .finally(() => setIsSubmitting(false));
+  };
 
   return (
     <>
-      <fetcher.Form method="post">
+      <form onSubmit={formSubmitHandler}>
         <TextField
           id="firstName"
           name="firstName"
@@ -64,15 +94,11 @@ const Signup = () => {
           value={password}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
         />
-        <LoadingButton
-          type="submit"
-          color="primary"
-          loading={fetcher.state === "submitting"}
-          variant="contained"
-        >
+        {error && <Typography color="error">{error}</Typography>}
+        <LoadingButton type="submit" color="primary" loading={isSubmitting} variant="contained">
           Sign up
         </LoadingButton>
-      </fetcher.Form>
+      </form>
     </>
   );
 };
