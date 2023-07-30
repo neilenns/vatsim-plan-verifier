@@ -146,7 +146,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "AT43",
     "manufacturer": "AEROSPATIALE (France)",
-    "name": "ATR-42-200/300/320 !!! NO RNAV !!!",
+    "name": "ATR-42-200/300/320",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "L",
@@ -156,7 +156,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "AT44",
     "manufacturer": "AEROSPATIALE (France)",
-    "name": "ATR-42-400 !!! NO RNAV !!!",
+    "name": "ATR-42-400",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "L",
@@ -166,7 +166,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "AT45",
     "manufacturer": "AEROSPATIALE (France)",
-    "name": "ATR-42-500 !!! NO RNAV !!!",
+    "name": "ATR-42-500",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "L",
@@ -176,7 +176,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "AT72",
     "manufacturer": "AEROSPATIALE (France)",
-    "name": "ATR-72 !!! NO RNAV !!!",
+    "name": "ATR-72",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "L",
@@ -186,7 +186,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "RALL",
     "manufacturer": "AEROSPATIALE (France)",
-    "name": "Rallye, Rallye Club, Super Rallye,Rallye Commodore, Minerva (MS-880to 894) !!! NO RNAV !!! ",
+    "name": "Rallye, Rallye Club, Super Rallye,Rallye Commodore, Minerva (MS-880to 894) ",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -216,7 +216,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "TAMP",
     "manufacturer": "AEROSPATIALE (France)",
-    "name": "Tampico TB-9 !!! NO RNAV !!!",
+    "name": "Tampico TB-9",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -226,7 +226,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "TBM7",
     "manufacturer": "AEROSPATIALE (France)",
-    "name": "TBM TB-700 !!! NO RNAV !!!",
+    "name": "TBM TB-700",
     "engineCount": "1",
     "engineType": "T",
     "weightClass": "S",
@@ -236,7 +236,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "TOBA",
     "manufacturer": "AEROSPATIALE (France)",
-    "name": "Tabago TB10C/200 !!! NO RNAV !!!",
+    "name": "Tabago TB10C/200",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -246,7 +246,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "TRIN",
     "manufacturer": "AEROSPATIALE (France)",
-    "name": "Trinidad TB-20/21 !!! NO RNAV !!!",
+    "name": "Trinidad TB-20/21",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -450,7 +450,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "BU20",
     "manufacturer": "AIRCRAFT HYDRO-FORMING (USA)",
-    "name": "Bushmaster 2000 !!! NO RNAV !!!",
+    "name": "Bushmaster 2000",
     "engineCount": "3",
     "engineType": "P",
     "weightClass": "S+",
@@ -460,7 +460,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "AT3P",
     "manufacturer": "AIR TRACTOR, INC. (USA)",
-    "name": "AT-300/301/401 !!! NO RNAV !!!",
+    "name": "AT-300/301/401",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -470,7 +470,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "AT3T",
     "manufacturer": "AIR TRACTOR, INC. (USA)",
-    "name": "AT-302/400/402 !!! NO RNAV !!!",
+    "name": "AT-302/400/402",
     "engineCount": "1",
     "engineType": "T",
     "weightClass": "S",
@@ -480,7 +480,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "AT5P",
     "manufacturer": "AIR TRACTOR, INC. (USA)",
-    "name": "AT-501 !!! NO RNAV !!!",
+    "name": "AT-501",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -490,7 +490,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "AT5T",
     "manufacturer": "AIR TRACTOR, INC. (USA)",
-    "name": "AT-502/503 !!! NO RNAV !!!",
+    "name": "AT-502/503",
     "engineCount": "1",
     "engineType": "T",
     "weightClass": "S",
@@ -500,7 +500,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "AT6T",
     "manufacturer": "AIR TRACTOR, INC. (USA)",
-    "name": "AT-602 !!! NO RNAV !!!",
+    "name": "AT-602",
     "engineCount": "1",
     "engineType": "T",
     "weightClass": "S",
@@ -510,7 +510,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "AT8T",
     "manufacturer": "AIR TRACTOR, INC. (USA)",
-    "name": "AT-802 !!! NO RNAV !!!",
+    "name": "AT-802",
     "engineCount": "1",
     "engineType": "T",
     "weightClass": "S+",
@@ -520,7 +520,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "AN2",
     "manufacturer": "ANTONOV (Russia)",
-    "name": "An-2 !!! NO RNAV !!! ",
+    "name": "An-2 ",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -530,7 +530,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "AN8",
     "manufacturer": "ANTONOV (Russia)",
-    "name": "An-8 !!! NO RNAV !!!",
+    "name": "An-8",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "L",
@@ -540,7 +540,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "AN12",
     "manufacturer": "ANTONOV (Russia)",
-    "name": "An-12 !!! NO RNAV !!!",
+    "name": "An-12",
     "engineCount": "4",
     "engineType": "T",
     "weightClass": "L",
@@ -550,7 +550,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "AN70",
     "manufacturer": "ANTONOV (Russia)",
-    "name": "An-70 !!! NO RNAV !!!",
+    "name": "An-70",
     "engineCount": "4",
     "engineType": "T",
     "weightClass": "H",
@@ -580,7 +580,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "A140",
     "manufacturer": "ANTONOV (Russia)",
-    "name": "An-140 !!! NO RNAV !!!",
+    "name": "An-140",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "L",
@@ -640,7 +640,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "B190",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "1900 (C-12J) !!! NO RNAV !!!",
+    "name": "1900 (C-12J)",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "S+",
@@ -650,7 +650,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "B350",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "B300 Super King Air 350 (/L) !!! NO RNAV !!!",
+    "name": "B300 Super King Air 350 (/L)",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "S+",
@@ -660,7 +660,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "BE10",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "100 King Air  (U-21F Ute) !!! NO RNAV !!!",
+    "name": "100 King Air  (U-21F Ute)",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "S",
@@ -670,7 +670,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "BE17",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "17 Stagger Wing (UC-43 Traveler,YC-43 Traveler) !!! NO RNAV !!!",
+    "name": "17 Stagger Wing (UC-43 Traveler,YC-43 Traveler)",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -680,7 +680,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "BE18",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "Twin Beech 18/Super H18 !!! NO RNAV !!!",
+    "name": "Twin Beech 18/Super H18",
     "engineCount": "2",
     "engineType": "P",
     "weightClass": "S",
@@ -690,7 +690,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "B18T",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "18 (turbine) !!! NO RNAV !!!",
+    "name": "18 (turbine)",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "S",
@@ -700,7 +700,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "BE19",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "19 Musketeer Sport, Sport 1 !!! NO RNAV !!!",
+    "name": "19 Musketeer Sport, Sport 1",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -710,7 +710,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "BE20",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "200, 1300 Super King Air, Commuter !!! NO RNAV !!!",
+    "name": "200, 1300 Super King Air, Commuter",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "S+",
@@ -720,7 +720,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "BE23",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "23 Musketeer, Sundowner !!! NO RNAV !!!",
+    "name": "23 Musketeer, Sundowner",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -730,7 +730,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "BE24",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "24 Musketeer Super, Sierra !!! NO RNAV !!!",
+    "name": "24 Musketeer Super, Sierra",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -740,7 +740,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "BE30",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "300 Super King Air !!! NO RNAV !!!",
+    "name": "300 Super King Air",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "S+",
@@ -750,7 +750,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "BE33",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "33 Debonair, Bonanza (E-24) !!! NO RNAV !!!",
+    "name": "33 Debonair, Bonanza (E-24)",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -760,7 +760,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "BE35",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "35 Bonanza !!! NO RNAV !!!",
+    "name": "35 Bonanza",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -770,7 +770,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "BE36",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "36 Bonanza (piston) !!! NO RNAV !!!",
+    "name": "36 Bonanza (piston)",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -780,7 +780,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "B36T",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "36 Bonanza (turbine) !!! NO RNAV !!!",
+    "name": "36 Bonanza (turbine)",
     "engineCount": "1",
     "engineType": "T",
     "weightClass": "S",
@@ -800,7 +800,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "BE50",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "50 Twin Bonanza (U-8D/E/G, RU-8Seminole) !!! NO RNAV !!!",
+    "name": "50 Twin Bonanza (U-8D/E/G, RU-8Seminole)",
     "engineCount": "2",
     "engineType": "P",
     "weightClass": "S",
@@ -810,7 +810,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "BE55",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "55 Baron (T-42 Chochise, C-55, E-20) !!! NO RNAV !!!",
+    "name": "55 Baron (T-42 Chochise, C-55, E-20)",
     "engineCount": "2",
     "engineType": "P",
     "weightClass": "S",
@@ -820,7 +820,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "BE56",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "56 Turbo Baron !!! NO RNAV !!!",
+    "name": "56 Turbo Baron",
     "engineCount": "2",
     "engineType": "P",
     "weightClass": "S",
@@ -830,7 +830,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "BE58",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "58 Baron !!! NO RNAV !!!",
+    "name": "58 Baron",
     "engineCount": "2",
     "engineType": "P",
     "weightClass": "S",
@@ -840,7 +840,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "BE60",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "60 Duke !!! NO RNAV !!!",
+    "name": "60 Duke",
     "engineCount": "2",
     "engineType": "P",
     "weightClass": "S",
@@ -850,7 +850,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "BE65",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "65 Queen Air (U-8F Seminole) !!! NO RNAV !!!",
+    "name": "65 Queen Air (U-8F Seminole)",
     "engineCount": "2",
     "engineType": "P",
     "weightClass": "S",
@@ -860,7 +860,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "BE70",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "70 Queen Air !!! NO RNAV !!!",
+    "name": "70 Queen Air",
     "engineCount": "2",
     "engineType": "P",
     "weightClass": "S",
@@ -870,7 +870,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "BE76",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "76 Duchess !!! NO RNAV !!! ",
+    "name": "76 Duchess ",
     "engineCount": "2",
     "engineType": "P",
     "weightClass": "S",
@@ -880,7 +880,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "BE77",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "77 Skipper !!! NO RNAV !!! ",
+    "name": "77 Skipper ",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -890,7 +890,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "BE80",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "80 Queen Air (Zamir) !!! NO RNAV !!!",
+    "name": "80 Queen Air (Zamir)",
     "engineCount": "2",
     "engineType": "P",
     "weightClass": "S",
@@ -900,7 +900,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "BE88",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "88 Queen Air !!! NO RNAV !!!",
+    "name": "88 Queen Air",
     "engineCount": "2",
     "engineType": "P",
     "weightClass": "S",
@@ -910,7 +910,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "BE95",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "95 Travel Air !!! NO RNAV !!!",
+    "name": "95 Travel Air",
     "engineCount": "2",
     "engineType": "P",
     "weightClass": "S",
@@ -920,7 +920,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "BE99",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "99 Airliner !!! NO RNAV !!!",
+    "name": "99 Airliner",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "S",
@@ -930,7 +930,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "BE9L",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "90, A90 to E90 King Air (T-44 V-C6) !!! NO RNAV !!!",
+    "name": "90, A90 to E90 King Air (T-44 V-C6)",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "S",
@@ -940,7 +940,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "BE9T",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "F90 King Air !!! NO RNAV !!!",
+    "name": "F90 King Air",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "S",
@@ -950,7 +950,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "STAR",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "2000 Starship !!! NO RNAV !!! ",
+    "name": "2000 Starship ",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "S+",
@@ -970,7 +970,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "T34P",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "T34A/B, E-17 Mentor (45) !!! NO RNAV !!!",
+    "name": "T34A/B, E-17 Mentor (45)",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -980,7 +980,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "T34T",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "T-34C Turbo Mentor !!! NO RNAV !!!",
+    "name": "T-34C Turbo Mentor",
     "engineCount": "1",
     "engineType": "T",
     "weightClass": "S",
@@ -990,7 +990,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "TEX2",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "T-6A Texan II !!! NO RNAV !!!",
+    "name": "T-6A Texan II",
     "engineCount": "1",
     "engineType": "T",
     "weightClass": "S",
@@ -1000,7 +1000,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "U21",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "U-21A/G, EU-21, JU-21, RU-21, Ute(A90-1 to 4) !!! NO RNAV !!!",
+    "name": "U-21A/G, EU-21, JU-21, RU-21, Ute(A90-1 to 4)",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "S",
@@ -1010,7 +1010,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "U22",
     "manufacturer": "BEECH AIRCRAFT COMPANY (USA)",
-    "name": "QU-22 (1074/1079) !!! NO RNAV !!!",
+    "name": "QU-22 (1074/1079)",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -1500,7 +1500,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C97",
     "manufacturer": "BOEING COMPANY (USA)",
-    "name": "C-97 Stratofreighter !!! NO RNAV !!!",
+    "name": "C-97 Stratofreighter",
     "engineCount": "4",
     "engineType": "P",
     "weightClass": "L",
@@ -1644,7 +1644,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "A748",
     "manufacturer": "BRITISH AEROSPACE (BAe) (UK)",
-    "name": "BAe 748 (Andover, C-91) !!! NO RNAV !!!",
+    "name": "BAe 748 (Andover, C-91)",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "L",
@@ -1654,7 +1654,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "ATP",
     "manufacturer": "BRITISH AEROSPACE (BAe) (UK)",
-    "name": "ATP Advance Turboprop (ATP) !!! NO RNAV !!!",
+    "name": "ATP Advance Turboprop (ATP)",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "L",
@@ -2082,7 +2082,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C120",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "120 !!! NO RNAV !!!",
+    "name": "120",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -2102,7 +2102,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C150",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "150, A150, Commuter, Aerobat !!! NO RNAV !!!",
+    "name": "150, A150, Commuter, Aerobat",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -2112,7 +2112,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C152",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "152, A152, Aerobat !!! NO RNAV !!!",
+    "name": "152, A152, Aerobat",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -2122,7 +2122,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C170",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "170 !!! NO RNAV !!!",
+    "name": "170",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -2132,7 +2132,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C172",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "172, P172, R172, Skyhawk, Hawk XP, Cutlass (T-41, Mescalero) !!! NO RNAV !!!",
+    "name": "172, P172, R172, Skyhawk, Hawk XP, Cutlass (T-41, Mescalero)",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -2147,7 +2147,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C72R",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "172RG, Cutlass RG !!! NO RNAV !!!",
+    "name": "172RG, Cutlass RG",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -2157,7 +2157,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C175",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "175, Skylark !!! NO RNAV !!!",
+    "name": "175, Skylark",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -2167,7 +2167,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C177",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "177, Cardinal !!! NO RNAV !!!",
+    "name": "177, Cardinal",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -2177,7 +2177,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C77R",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "177, Cardinal !!! NO RNAV !!! RG",
+    "name": "177, Cardinal RG",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -2187,7 +2187,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C180",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "180, Skywagon 180 (U-17C) !!! NO RNAV !!!",
+    "name": "180, Skywagon 180 (U-17C)",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -2197,7 +2197,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C182",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "182, Skylane !!! NO RNAV !!!",
+    "name": "182, Skylane",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -2207,7 +2207,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C82R",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "R182, TR182 (Turbo) Skylane RG !!! NO RNAV !!!",
+    "name": "R182, TR182 (Turbo) Skylane RG",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -2217,7 +2217,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C185",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "185, A185 Skywagon, Skywagon 185,AgCarryall (U-17A/B) !!! NO RNAV !!!",
+    "name": "185, A185 Skywagon, Skywagon 185,AgCarryall (U-17A/B)",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -2227,7 +2227,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C188",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "188, A188, T188 AgWagon, AgPickupAgTruck, AgHusky !!! NO RNAV !!!",
+    "name": "188, A188, T188 AgWagon, AgPickupAgTruck, AgHusky",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -2240,7 +2240,7 @@ db.aircraft.insertMany([
     "name": "190",
     "engineCount": "1",
     "engineType": "P",
-    "weightClass": "S !!! NO RNAV !!!",
+    "weightClass": "S",
     "srsClass": "I",
     "aircraftClass": "S"
   },
@@ -2250,7 +2250,7 @@ db.aircraft.insertMany([
     "name": "195 (LC-126)",
     "engineCount": "1",
     "engineType": "P",
-    "weightClass": "S !!! NO RNAV !!!",
+    "weightClass": "S",
     "srsClass": "I",
     "aircraftClass": "S"
   },
@@ -2260,14 +2260,14 @@ db.aircraft.insertMany([
     "name": "205",
     "engineCount": "1",
     "engineType": "P",
-    "weightClass": "S !!! NO RNAV !!!",
+    "weightClass": "S",
     "srsClass": "I",
     "aircraftClass": "S"
   },
   {
     "equipmentCode": "C206",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "206 !!! NO RNAV !!! 6",
+    "name": "206 6",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -2277,7 +2277,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C06T",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "206 (turbine) !!! NO RNAV !!!",
+    "name": "206 (turbine)",
     "engineCount": "1",
     "engineType": "T",
     "weightClass": "S",
@@ -2287,7 +2287,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C207",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "207 (Turbo) !!! NO RNAV !!!",
+    "name": "207 (Turbo)",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -2297,7 +2297,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C07T",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "207 (turbine) !!! NO RNAV !!!",
+    "name": "207 (turbine)",
     "engineCount": "1",
     "engineType": "T",
     "weightClass": "S",
@@ -2307,7 +2307,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C208",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "208 Grand Caravan !!! NO RNAV !!! ",
+    "name": "208 Grand Caravan ",
     "engineCount": "1",
     "engineType": "T",
     "weightClass": "S",
@@ -2317,7 +2317,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C210",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "210, T210, (Turbo) Centurion !!! NO RNAV !!!",
+    "name": "210, T210, (Turbo) Centurion",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -2327,7 +2327,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "P210",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "P210 Pressurized Centurion !!! NO RNAV !!!",
+    "name": "P210 Pressurized Centurion",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -2337,7 +2337,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C10T",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "P210 (turbine) !!! NO RNAV !!!",
+    "name": "P210 (turbine)",
     "engineCount": "1",
     "engineType": "T",
     "weightClass": "S",
@@ -2367,7 +2367,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C320",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "320 (Executive) Skyknight !!! NO RNAV !!!",
+    "name": "320 (Executive) Skyknight",
     "engineCount": "2",
     "engineType": "P",
     "weightClass": "S",
@@ -2377,7 +2377,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C335",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "335 !!! NO RNAV !!!",
+    "name": "335",
     "engineCount": "2",
     "engineType": "P",
     "weightClass": "S",
@@ -2387,7 +2387,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C336",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "336 Skymaster !!! NO RNAV !!!",
+    "name": "336 Skymaster",
     "engineCount": "2",
     "engineType": "P",
     "weightClass": "S",
@@ -2397,7 +2397,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C337",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "337, M337, MC337, T337B/C/D/E/F/H(Turbo) Super Skymaster (O-2) !!! NO RNAV !!!",
+    "name": "337, M337, MC337, T337B/C/D/E/F/H(Turbo) Super Skymaster (O-2)",
     "engineCount": "2",
     "engineType": "P",
     "weightClass": "S",
@@ -2407,7 +2407,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "P337",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "T337G, P337 Pressurized Skymaster !!! NO RNAV !!! ",
+    "name": "T337G, P337 Pressurized Skymaster ",
     "engineCount": "2",
     "engineType": "P",
     "weightClass": "S",
@@ -2417,7 +2417,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C340",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "340 !!! NO RNAV !!!",
+    "name": "340",
     "engineCount": "2",
     "engineType": "P",
     "weightClass": "S",
@@ -2427,7 +2427,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C402",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "401, 402, Utililiner, Businessliner !!! NO RNAV !!!",
+    "name": "401, 402, Utililiner, Businessliner",
     "engineCount": "2",
     "engineType": "P",
     "weightClass": "S",
@@ -2437,7 +2437,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C02T",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "402 (turbine) !!! NO RNAV !!!",
+    "name": "402 (turbine)",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "S",
@@ -2447,7 +2447,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C404",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "404 Titan !!! NO RNAV !!!",
+    "name": "404 Titan",
     "engineCount": "2",
     "engineType": "P",
     "weightClass": "S",
@@ -2457,7 +2457,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C04T",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "404 (turbine) !!! NO RNAV !!! ",
+    "name": "404 (turbine) ",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "S",
@@ -2467,7 +2467,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "F406",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "F406 Caravan 2, Vigilant !!! NO RNAV !!!",
+    "name": "F406 Caravan 2, Vigilant",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "S",
@@ -2477,7 +2477,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C411",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "411 !!! NO RNAV !!!",
+    "name": "411",
     "engineCount": "2",
     "engineType": "P",
     "weightClass": "S",
@@ -2487,7 +2487,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C414",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "414, Chancellor 414 !!! NO RNAV !!!",
+    "name": "414, Chancellor 414",
     "engineCount": "2",
     "engineType": "P",
     "weightClass": "S",
@@ -2501,7 +2501,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C14T",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "414 (turbine) !!! NO RNAV !!! ",
+    "name": "414 (turbine) ",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "S",
@@ -2511,7 +2511,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C421",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "421, Golden Eagle, ExecutiveCommuter !!! NO RNAV !!!",
+    "name": "421, Golden Eagle, ExecutiveCommuter",
     "engineCount": "2",
     "engineType": "P",
     "weightClass": "S",
@@ -2521,7 +2521,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C21T",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "421 (turbine) !!! NO RNAV !!!",
+    "name": "421 (turbine)",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "S",
@@ -2531,7 +2531,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C425",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "425, Corsair, Conquest !!! NO RNAV !!! 1",
+    "name": "425, Corsair, Conquest 1",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "S",
@@ -2541,7 +2541,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "C441",
     "manufacturer": "CESSNA AIRCRAFT COMPANY (USA)",
-    "name": "441 Conquest, Conquest !!! NO RNAV !!! 2",
+    "name": "441 Conquest, Conquest 2",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "S",
@@ -2755,7 +2755,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "SR20",
     "manufacturer": "CIRRUS (USA)",
-    "name": "SR-20, SR-20 SRV !!! NO RNAV !!!, SRV",
+    "name": "SR-20, SR-20 SRV, SRV",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -2765,7 +2765,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "SR22",
     "manufacturer": "CIRRUS (USA)",
-    "name": "SR-22 !!! NO RNAV !!!",
+    "name": "SR-22",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -2775,7 +2775,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "VK3P",
     "manufacturer": "CIRRUS (USA)",
-    "name": "VK-30 Cirrus !!! NO RNAV !!!",
+    "name": "VK-30 Cirrus",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -2935,7 +2935,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "DH2T",
     "manufacturer": "DEHAVILLAND (Canada/UK)",
-    "name": "DHC-2 Mk3 Turbo Beaver !!! NO RNAV !!!",
+    "name": "DHC-2 Mk3 Turbo Beaver",
     "engineCount": "1",
     "engineType": "T",
     "weightClass": "S",
@@ -2945,7 +2945,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "DHC3",
     "manufacturer": "DEHAVILLAND (Canada/UK)",
-    "name": "DHC-3 Otter (U-1, NU-1, UC) !!! NO RNAV !!!",
+    "name": "DHC-3 Otter (U-1, NU-1, UC)",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -2955,7 +2955,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "DH3T",
     "manufacturer": "DEHAVILLAND (Canada/UK)",
-    "name": "DHC-3 Turbo Otter !!! NO RNAV !!!",
+    "name": "DHC-3 Turbo Otter",
     "engineCount": "1",
     "engineType": "T",
     "weightClass": "S",
@@ -2965,7 +2965,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "DHC4",
     "manufacturer": "DEHAVILLAND (Canada/UK)",
-    "name": "DHC-4 Caribou (C-7, CV-2) !!! NO RNAV !!!",
+    "name": "DHC-4 Caribou (C-7, CV-2)",
     "engineCount": "2",
     "engineType": "P",
     "weightClass": "S+",
@@ -2975,7 +2975,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "DHC5",
     "manufacturer": "DEHAVILLAND (Canada/UK)",
-    "name": "DHC-5 (C-8, CV-7, CC-115, C-115) !!! NO RNAV !!!",
+    "name": "DHC-5 (C-8, CV-7, CC-115, C-115)",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "L",
@@ -2985,7 +2985,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "DHC6",
     "manufacturer": "DEHAVILLAND (Canada/UK)",
-    "name": "DHC-6 Twin Otter (UV-18, CC-138) !!! NO RNAV !!!",
+    "name": "DHC-6 Twin Otter (UV-18, CC-138)",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "S",
@@ -2995,7 +2995,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "DHC7",
     "manufacturer": "DEHAVILLAND (Canada/UK)",
-    "name": "DHC-7 Dash 7 (O-5, EO-5) !!! NO RNAV !!!",
+    "name": "DHC-7 Dash 7 (O-5, EO-5)",
     "engineCount": "4",
     "engineType": "T",
     "weightClass": "L",
@@ -3005,7 +3005,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "DH8A",
     "manufacturer": "DEHAVILLAND (Canada/UK)",
-    "name": "DHC8 - 100 Dash 8  (/G) !!! NO RNAV !!!",
+    "name": "DHC8 - 100 Dash 8  (/G)",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "L",
@@ -3019,7 +3019,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "DH8B",
     "manufacturer": "DEHAVILLAND (Canada/UK)",
-    "name": "DHC8 - 200 Dash 8 (/G) !!! NO RNAV !!!",
+    "name": "DHC8 - 200 Dash 8 (/G)",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "L",
@@ -3033,7 +3033,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "DH8C",
     "manufacturer": "DEHAVILLAND (Canada/UK)",
-    "name": "DHC8 - 300 Dash 8 (/G) !!! NO RNAV !!!",
+    "name": "DHC8 - 300 Dash 8 (/G)",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "L",
@@ -3047,7 +3047,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "DH8D",
     "manufacturer": "DEHAVILLAND (Canada/UK)",
-    "name": "DHC8 - 400 Dash 8 (/G) !!! NO RNAV !!!",
+    "name": "DHC8 - 400 Dash 8 (/G)",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "L",
@@ -3171,7 +3171,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "VECT",
     "manufacturer": "EMBRAER (Brazil)",
-    "name": "CBA-123 Vector !!! NO RNAV !!!",
+    "name": "CBA-123 Vector",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "S+",
@@ -3181,7 +3181,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "E110",
     "manufacturer": "EMBRAER (Brazil)",
-    "name": "EMB-110/111 Bandeirante (C-95,EC-95, P-95, R-95, SC-95) !!! NO RNAV !!!",
+    "name": "EMB-110/111 Bandeirante (C-95,EC-95, P-95, R-95, SC-95)",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "S+",
@@ -3191,7 +3191,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "E120",
     "manufacturer": "EMBRAER (Brazil)",
-    "name": "EMB-120 Brasilia (VC-97) !!! NO RNAV !!!",
+    "name": "EMB-120 Brasilia (VC-97)",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "S+",
@@ -3201,7 +3201,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "E121",
     "manufacturer": "EMBRAER (Brazil)",
-    "name": "EMB-121 Xingu (VU-9, EC-9) !!! NO RNAV !!!",
+    "name": "EMB-121 Xingu (VU-9, EC-9)",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "S+",
@@ -3261,7 +3261,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "E200",
     "manufacturer": "EXTRA (FRG)",
-    "name": "200 !!! NO RNAV !!!",
+    "name": "200",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -3271,7 +3271,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "E230",
     "manufacturer": "EXTRA (FRG)",
-    "name": "230 !!! NO RNAV !!!",
+    "name": "230",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -3281,7 +3281,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "E300",
     "manufacturer": "EXTRA (FRG)",
-    "name": "300, 350 !!! NO RNAV !!!",
+    "name": "300, 350",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -3291,7 +3291,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "E400",
     "manufacturer": "EXTRA (FRG)",
-    "name": "400 !!! NO RNAV !!!",
+    "name": "400",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -3301,7 +3301,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "E500",
     "manufacturer": "EXTRA (FRG)",
-    "name": "500 !!! NO RNAV !!!",
+    "name": "500",
     "engineCount": "1",
     "engineType": "T",
     "weightClass": "S",
@@ -5596,7 +5596,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "J2",
     "manufacturer": "PIPER AIRCRAFT CORP. (USA)",
-    "name": "J-2 Cub !!! NO RNAV !!!",
+    "name": "J-2 Cub",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -5606,7 +5606,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "J3",
     "manufacturer": "PIPER AIRCRAFT CORP. (USA)",
-    "name": "J-3 Cub (L-4, NE) !!! NO RNAV !!!",
+    "name": "J-3 Cub (L-4, NE)",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -5617,7 +5617,7 @@ db.aircraft.insertMany([
     "equipmentCode": "J4",
     "manufacturer": "PIPER AIRCRAFT CORP. (USA)",
     "name": "J-4 Cub Coupe",
-    "engineCount": "1 !!! NO RNAV !!!",
+    "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
     "srsClass": "I",
@@ -5626,7 +5626,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "J5",
     "manufacturer": "PIPER AIRCRAFT CORP. (USA)",
-    "name": "J-5 Cub Cruiser !!! NO RNAV !!! (L-14, AE)",
+    "name": "J-5 Cub Cruiser (L-14, AE)",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -7041,7 +7041,7 @@ db.aircraft.insertMany([
     "equipmentCode": "TU95",
     "manufacturer": "TUPOLEV",
     "name": "Tu-95",
-    "engineCount": "4 !!! NO RNAV !!!",
+    "engineCount": "4",
     "engineType": "T",
     "weightClass": "H",
     "srsClass": "III",
@@ -7060,7 +7060,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "EC45",
     "manufacturer": "EUROCOPTER",
-    "name": "EC145 !!! NO RNAV !!!",
+    "name": "EC145",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "S",
@@ -7080,7 +7080,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "V22",
     "manufacturer": "BELL HELICOPTER",
-    "name": "V-22 OSPREY !!! NO RNAV !!!",
+    "name": "V-22 OSPREY",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "L",
@@ -7108,7 +7108,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "TBM9",
     "manufacturer": "AEROSPATIALE (France)",
-    "name": "TBM 900 !!! NO RNAV !!! !!! NO HAWKZ7 !!!",
+    "name": "TBM 900 !!! NO HAWKZ7 !!!",
     "engineCount": "1",
     "engineType": "T",
     "weightClass": "S",
@@ -7132,7 +7132,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "AT76",
     "manufacturer": "ATR (A\u00c3\u00a9rospatiale/Alenia)",
-    "name": "ATR-72-101/102 (/G) !!! NO RNAV !!!",
+    "name": "ATR-72-101/102 (/G)",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "L",
@@ -7146,7 +7146,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "G2CA",
     "manufacturer": "GUIMBAL",
-    "name": "G-2 Cabri (/G) !!! NO RNAV !!!",
+    "name": "G-2 Cabri (/G)",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -7160,7 +7160,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "R22",
     "manufacturer": "ROBINSON HELICOPTER COMPANY",
-    "name": "R22 !!! NO RNAV !!!",
+    "name": "R22",
     "engineCount": "1",
     "engineType": "P",
     "weightClass": "S",
@@ -7226,7 +7226,7 @@ db.aircraft.insertMany([
   {
     "equipmentCode": "SG76",
     "manufacturer": "SIKORSKY",
-    "name": "S-76 !!! NO RNAV !!!",
+    "name": "S-76",
     "engineCount": "2",
     "engineType": "T",
     "weightClass": "S",
