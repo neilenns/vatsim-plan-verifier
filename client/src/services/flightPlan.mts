@@ -3,7 +3,6 @@ import http from "../utils/http.mts";
 
 export async function storeFlightPlan(flightPlan: IFlightPlan): Promise<IFlightPlan> {
   try {
-    // Send POST request to the Express.js route using Axios
     const response = await http.post("flightPlan", flightPlan, {
       withCredentials: true,
       headers: {
@@ -23,7 +22,6 @@ export async function storeFlightPlan(flightPlan: IFlightPlan): Promise<IFlightP
 
 export async function getFlightPlan(id: string): Promise<IFlightPlan | undefined> {
   try {
-    // Send GET request to the Express.js route using Axios
     const response = await http.get(`flightPlan/${id}`, {
       withCredentials: true,
       headers: {

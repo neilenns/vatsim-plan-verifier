@@ -3,7 +3,6 @@ import http from "../utils/http.mts";
 
 export async function getActiveFlightPlans(): Promise<IActiveFlightPlan[] | undefined> {
   try {
-    // Send GET request to the Express.js route using Axios
     const response = await http.get(`activeFlightPlans`, {
       withCredentials: true,
       headers: {

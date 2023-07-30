@@ -8,7 +8,6 @@ export async function runAllVerifiers(flightPlan: IFlightPlan): Promise<IVerifyA
   }
 
   try {
-    // Send POST request to the Express.js route using Axios
     const response = await http.get(`verify/all/${flightPlan._id.toString()}`, {
       withCredentials: true,
       headers: {
