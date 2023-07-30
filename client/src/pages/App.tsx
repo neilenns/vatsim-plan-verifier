@@ -6,8 +6,6 @@ import { useNavigate } from "react-router-dom";
 
 const App = () => {
   const navigate = useNavigate();
-  // Without these refs the verifyUser callback will spin forever
-  // updating itself because it thinks the dependencies changed.
 
   const verifyUser = useCallback(() => {
     http
