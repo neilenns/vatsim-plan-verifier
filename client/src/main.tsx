@@ -26,9 +26,6 @@ import AppFramework from "./components/AppFramework.tsx";
 
 const router = createBrowserRouter([
   {
-    element: <AppFramework />,
-  },
-  {
     path: "/",
     element: <WelcomePage />,
     errorElement: <ErrorPage />,
@@ -54,6 +51,7 @@ const router = createBrowserRouter([
     loader: logoutLoader,
   },
   {
+    element: <AppFramework />,
     children: [
       {
         path: "/verifier",
