@@ -71,6 +71,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               id="callsign"
               label="Callsign"
               name="callsign"
+              inputRef={(input: HTMLInputElement) => input && input.focus()}
               value={flightPlan.callsign}
               helperText={flightPlan?.telephony?.[0]?.telephony ?? " "}
               trim
