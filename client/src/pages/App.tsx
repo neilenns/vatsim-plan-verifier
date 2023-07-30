@@ -1,15 +1,18 @@
-import { ThemeProvider } from "@emotion/react";
-import { CssBaseline, createTheme } from "@mui/material";
-import { useCallback, useContext, useEffect } from "react";
+import { useCallback, useContext, useEffect, useRef } from "react";
 import { Outlet } from "react-router-dom";
 import ILoginResponse from "../interfaces/ILoginResponse.mts";
 import http from "../utils/http.mts";
-import { AppContext } from "../context/AppContext";
 import { useNavigate } from "react-router-dom";
+import { AppContext, SetUserFunction } from "../context/AppContext";
+import { IUser } from "../interfaces/IUser.mts";
 
 const App = () => {
   const navigate = useNavigate();
-  const { darkMode } = useContext(AppContext);
+  const { user, setUser } = useContext(AppContext);
+  // Without these refs the verifyUser callback will spin forever
+  // updating itself because it thinks the dependencies changed.
+  const setUserRef = useRef<SetUserFunction>(setUser);
+  const userRef = useRef<Partial<IUser> | undefined>(user);
 
   const verifyUser = useCallback(() => {
     http
@@ -17,6 +20,10 @@ const App = () => {
       .then((response) => {
         localStorage.setItem("token", response.data.token);
         setTimeout(verifyUser, 5 * 60 * 1000);
+        setUserRef.current({
+          ...userRef.current,
+          token: response.data.token,
+        });
       })
       .catch(() => {
         localStorage.removeItem("token");
@@ -47,27 +54,7 @@ const App = () => {
     };
   }, [syncLogout]);
 
-  const defaultTheme = createTheme({
-    typography: {
-      fontFamily: "Inter Variable",
-    },
-  });
-
-  const darkTheme = createTheme({
-    typography: {
-      fontFamily: "Inter Variable",
-    },
-    palette: {
-      mode: "dark",
-    },
-  });
-
-  return (
-    <ThemeProvider theme={darkMode ? darkTheme : defaultTheme}>
-      <CssBaseline />
-      <Outlet />
-    </ThemeProvider>
-  );
+  return <Outlet />;
 };
 
 export default App;

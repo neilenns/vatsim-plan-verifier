@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
+import { AppContextProvider } from "./context/AppContext.tsx";
+import AppTheme from "./components/AppTheme.tsx";
 
 // Routes
 import ErrorPage from "./pages/ErrorPage.tsx";
@@ -9,6 +11,7 @@ import Verifier from "./pages/Verifier.tsx";
 import FlightPlanDetails from "./pages/FlightPlanDetails.tsx";
 import LoginSignup from "./pages/LoginSignup.tsx";
 import Logout from "./pages/Logout.tsx";
+import App from "./pages/App.tsx";
 
 // Loaders
 import { flightPlanDetailsLoader } from "./services/flightPlanDetailsLoader.mts";
@@ -22,7 +25,6 @@ import AdminPage from "./pages/Admin.tsx";
 import Users from "./pages/Users.tsx";
 import { usersLoader } from "./services/usersLoader.mts";
 import { logoutLoader } from "./services/logoutLoader.mts";
-import AppFramework from "./components/AppFramework.tsx";
 
 const router = createBrowserRouter([
   {
@@ -51,7 +53,7 @@ const router = createBrowserRouter([
     loader: logoutLoader,
   },
   {
-    element: <AppFramework />,
+    element: <App />,
     children: [
       {
         path: "/verifier",
@@ -92,6 +94,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AppContextProvider>
+      <AppTheme>
+        <RouterProvider router={router} />
+      </AppTheme>
+    </AppContextProvider>
   </React.StrictMode>
 );

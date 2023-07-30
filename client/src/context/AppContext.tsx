@@ -7,11 +7,13 @@ type Props = {
   children: React.ReactNode;
 };
 
+export type SetUserFunction = Dispatch<SetStateAction<Partial<IUser> | undefined>>;
+
 type AppContext = {
   darkMode: boolean;
   setDarkMode: Dispatch<SetStateAction<boolean>>;
   user?: Partial<IUser>;
-  setUser: Dispatch<SetStateAction<Partial<IUser> | undefined>>;
+  setUser: SetUserFunction;
 };
 
 const initialContext: AppContext = {
@@ -28,7 +30,7 @@ const initialContext: AppContext = {
 const AppContext = createContext<AppContext>(initialContext);
 
 const AppContextProvider = ({ children }: Props): JSX.Element => {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(localStorage.getItem("darkmode") === "true");
   const [user, setUser] = useState<Partial<IUser>>();
 
   const value = useMemo(() => ({ darkMode, setDarkMode, user, setUser }), [darkMode, user]);
