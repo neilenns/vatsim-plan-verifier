@@ -19,7 +19,6 @@ export default function AdminPage() {
   const { darkMode, setDarkMode } = useAppContext();
 
   const toggleDarkMode = () => {
-    localStorage.setItem("darkMode", (!darkMode).toString());
     setDarkMode(!darkMode);
   };
 

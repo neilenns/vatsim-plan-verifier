@@ -10,7 +10,7 @@ const logger = debug("plan-verifier:logout");
 
 export default function LogoutPage() {
   const navigate = useNavigate();
-  const { setDarkMode, setUser } = useAppContext();
+  const { setDarkMode } = useAppContext();
 
   const logout = useCallback(async () => {
     await http
@@ -23,11 +23,9 @@ export default function LogoutPage() {
         localStorage.removeItem("role");
         localStorage.setItem("logout", Date.now().toString());
         setDarkMode(false);
-        setUser({});
+        navigate("/");
       });
-
-    navigate("/");
-  }, [navigate, setDarkMode, setUser]);
+  }, [navigate, setDarkMode]);
 
   useEffect(() => {
     void logout();
