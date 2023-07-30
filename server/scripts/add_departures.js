@@ -259,6 +259,18 @@ db.departures.insertMany([
     IsRNAV: true,
   },
   {
+    SID: "BANGR9",
+    IsRNAV: true,
+    Fixes: ["BANGR", "PANGL", "ARRIE"],
+    ClimbViaSid: true,
+    InitialAltitudes: [
+      {
+        Altitude: 70,
+        AircraftClass: ".*",
+      },
+    ],
+  },
+  {
     SID: "SEA8",
     IsRNAV: false,
     Fixes: [
