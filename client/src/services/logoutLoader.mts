@@ -1,13 +1,13 @@
-import axios from "axios";
 import { serverUrl } from "../configs/planVerifierServer.mts";
 import ILoginResponse from "../interfaces/ILoginResponse.mts";
 import debug from "debug";
 import { LoaderFunction, redirect } from "react-router-dom";
+import http from "../utils/http.mts";
 
 const logger = debug("plan-verifier:logoutLoader");
 
 export const logoutLoader: LoaderFunction = async () => {
-  await axios
+  await http
     .get<ILoginResponse>(new URL("logout", serverUrl).toString(), {
       withCredentials: true,
       headers: {
@@ -23,5 +23,5 @@ export const logoutLoader: LoaderFunction = async () => {
       localStorage.setItem("logout", Date.now().toString());
     });
 
-  return redirect("/login");
+  return redirect("/");
 };
