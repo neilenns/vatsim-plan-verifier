@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { People as PeopleIcon } from "@mui/icons-material";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import NavMenu from "../components/NavMenu";
 import useAppContext from "../context/AppContext";
 import { DarkMode as DarkModeIcon, LightMode as LightModeIcon } from "@mui/icons-material";
@@ -45,7 +45,7 @@ export default function AdminPage() {
         {/* Sidebar */}
         <Box sx={{ width: 200 }}>
           <List>
-            <ListItemButton component="a" href="/admin/users">
+            <ListItemButton component={Link} to="users">
               <ListItemIcon>
                 <PeopleIcon />
               </ListItemIcon>
