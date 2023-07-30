@@ -15,6 +15,7 @@ export const logoutLoader: LoaderFunction = async () => {
     .finally(() => {
       localStorage.removeItem("token");
       localStorage.removeItem("role");
+      localStorage.removeItem("darkMode");
       localStorage.setItem("logout", Date.now().toString());
     });
 

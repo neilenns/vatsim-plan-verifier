@@ -28,7 +28,7 @@ const initialContext: AppContext = {
 const AppContext = createContext<AppContext>(initialContext);
 
 const AppContextProvider = ({ children }: Props): JSX.Element => {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(localStorage.getItem("darkmode") === "true");
   const [user, setUser] = useState<Partial<IUser>>();
 
   const value = useMemo(() => ({ darkMode, setDarkMode, user, setUser }), [darkMode, user]);
