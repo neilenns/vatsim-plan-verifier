@@ -7,7 +7,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { IUser, Role } from "../interfaces/IUser.mts";
+import { IUser } from "../interfaces/IUser.mts";
 
 // This method of implementing context is based on
 // https://dmitripavlutin.com/react-context-and-usecontext/
