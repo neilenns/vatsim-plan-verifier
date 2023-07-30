@@ -3,7 +3,6 @@ import http from "../utils/http.mts";
 
 export async function getUser(): Promise<IUser | undefined> {
   try {
-    // Send GET request to the Express.js route using Axios
     const response = await http.get(`users/me`, {
       withCredentials: true,
       headers: {
@@ -23,7 +22,6 @@ export async function getUser(): Promise<IUser | undefined> {
 
 export async function getUsers(): Promise<IUser[] | undefined> {
   try {
-    // Send GET request to the Express.js route using Axios
     const response = await http.get(`users`, {
       withCredentials: true,
       headers: {
@@ -43,7 +41,6 @@ export async function getUsers(): Promise<IUser[] | undefined> {
 
 export async function updateUser(user: IUser): Promise<IUser | undefined> {
   try {
-    // Send PUT request to the Express.js route using Axios
     const response = await http.put(`users`, user, {
       withCredentials: true,
       headers: {

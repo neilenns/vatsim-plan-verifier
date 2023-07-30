@@ -3,7 +3,6 @@ import http from "../utils/http.mts";
 
 export async function getVerifyResults(flightPlanId: string): Promise<IVerifyAllResult> {
   try {
-    // Send POST request to the Express.js route using Axios
     const response = await http.get(`verify/results/${flightPlanId}`, {
       withCredentials: true,
       headers: {
