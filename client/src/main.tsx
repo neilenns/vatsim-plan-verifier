@@ -18,7 +18,6 @@ import { flightPlanDetailsLoader } from "./services/flightPlanDetailsLoader.mts"
 import { flightPlanVerifyAction } from "./services/flightPlanVerifyAction.mts";
 import { activeFlightPlansLoader } from "./services/activeFlightPlansLoader.mts";
 import { appActions } from "./services/appActions.mts";
-import { signupAction } from "./services/signupAction.mts";
 import { AuthenticationGuard } from "./components/AuthenticationGuard.tsx";
 import WelcomePage from "./pages/Welcome.tsx";
 import AdminPage from "./pages/Admin.tsx";
@@ -42,7 +41,6 @@ const router = createBrowserRouter([
     path: "/signup",
     element: <LoginSignup />,
     errorElement: <ErrorPage />,
-    action: signupAction,
   },
   {
     id: "logout",
