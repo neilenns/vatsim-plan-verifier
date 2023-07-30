@@ -18,8 +18,8 @@ class CustomHttp {
   }
 
   // Seems like there should be a better way to do this but whatever.
-  get(url: string, config?: AxiosRequestConfig) {
-    return this.instance.get(url, config);
+  get<T>(url: string, config?: AxiosRequestConfig) {
+    return this.instance.get<T>(url, config);
   }
 
   post<T>(url: string, data?: unknown, config?: AxiosRequestConfig) {
