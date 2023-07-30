@@ -12,7 +12,7 @@ type LoaderProps = {
   verifyResults: IVerifyAllResult;
 };
 
-function App() {
+function FlightPlanDetails() {
   const { flightPlan, verifyResults } = useLoaderData() as LoaderProps;
 
   useEffect(() => {
@@ -43,4 +43,4 @@ function App() {
   );
 }
 
-export default App;
+export default FlightPlanDetails;
