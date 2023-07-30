@@ -7,11 +7,13 @@ type Props = {
   children: React.ReactNode;
 };
 
+export type SetUserFunction = Dispatch<SetStateAction<Partial<IUser> | undefined>>;
+
 type AppContext = {
   darkMode: boolean;
   setDarkMode: Dispatch<SetStateAction<boolean>>;
   user?: Partial<IUser>;
-  setUser: Dispatch<SetStateAction<Partial<IUser> | undefined>>;
+  setUser: SetUserFunction;
 };
 
 const initialContext: AppContext = {
