@@ -20660,4 +20660,8 @@ db.airlines.insertMany([
     airlineCode: "UKV",
     telephony: "SKYWAYS",
   },
+  {
+    airlineCode: "VEA",
+    telephony: "VISION EXPRESS",
+  },
 ]);
