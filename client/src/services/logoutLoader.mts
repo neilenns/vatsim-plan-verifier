@@ -8,12 +8,7 @@ const logger = debug("plan-verifier:logoutLoader");
 
 export const logoutLoader: LoaderFunction = async () => {
   await http
-    .get<ILoginResponse>(new URL("logout", serverUrl).toString(), {
-      withCredentials: true,
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
-      },
-    })
+    .get<ILoginResponse>(new URL("logout", serverUrl).toString())
     .catch(() => {
       logger("User is already logged out.");
     }) // We don't have to do anything on errors.

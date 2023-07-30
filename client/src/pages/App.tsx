@@ -13,16 +13,7 @@ const App = () => {
 
   const verifyUser = useCallback(() => {
     http
-      .post<ILoginResponse>(
-        "refreshToken",
-        {},
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
-          },
-        }
-      )
+      .post<ILoginResponse>("refreshToken", {})
       .then((response) => {
         localStorage.setItem("token", response.data.token);
         setTimeout(verifyUser, 5 * 60 * 1000);

@@ -3,12 +3,7 @@ import http from "../utils/http.mts";
 
 export async function getActiveFlightPlans(): Promise<IActiveFlightPlan[] | undefined> {
   try {
-    const response = await http.get(`activeFlightPlans`, {
-      withCredentials: true,
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
-      },
-    });
+    const response = await http.get(`activeFlightPlans`);
 
     if (response.status === 200) {
       return response.data as IActiveFlightPlan[];
@@ -24,16 +19,7 @@ export async function addActiveFlightPlan(
   flightPlanId: string
 ): Promise<IActiveFlightPlan[] | undefined> {
   try {
-    const response = await http.post(
-      `activeFlightPlans/${flightPlanId}`,
-      {},
-      {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
-        },
-      }
-    );
+    const response = await http.post(`activeFlightPlans/${flightPlanId}`, {});
 
     if (response.status === 200) {
       return response.data as IActiveFlightPlan[];
@@ -49,12 +35,7 @@ export async function removeActiveFlightPlan(
   flightPlanId: string
 ): Promise<IActiveFlightPlan[] | undefined> {
   try {
-    const response = await http.delete(`activeFlightPlans/${flightPlanId}`, {
-      withCredentials: true,
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
-      },
-    });
+    const response = await http.delete(`activeFlightPlans/${flightPlanId}`);
 
     if (response.status === 200) {
       return response.data as IActiveFlightPlan[];

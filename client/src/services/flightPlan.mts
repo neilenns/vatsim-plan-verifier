@@ -3,12 +3,7 @@ import http from "../utils/http.mts";
 
 export async function storeFlightPlan(flightPlan: IFlightPlan): Promise<IFlightPlan> {
   try {
-    const response = await http.post("flightPlan", flightPlan, {
-      withCredentials: true,
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
-      },
-    });
+    const response = await http.post("flightPlan", flightPlan);
 
     if (response.status === 201) {
       return response.data as IFlightPlan;
@@ -22,12 +17,7 @@ export async function storeFlightPlan(flightPlan: IFlightPlan): Promise<IFlightP
 
 export async function getFlightPlan(id: string): Promise<IFlightPlan | undefined> {
   try {
-    const response = await http.get(`flightPlan/${id}`, {
-      withCredentials: true,
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
-      },
-    });
+    const response = await http.get(`flightPlan/${id}`);
 
     if (response.status === 200) {
       return response.data as IFlightPlan;

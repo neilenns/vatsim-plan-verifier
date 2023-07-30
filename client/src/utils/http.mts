@@ -10,6 +10,20 @@ class CustomHttp {
     });
 
     this.instance.defaults.headers.common["x-api-key"] = apiKey;
+    this.instance.defaults.withCredentials = true;
+
+    // Automatically add the authentication token if it exists
+    this.instance.interceptors.request.use(
+      (config) => {
+        const token = localStorage.getItem("token") ?? "";
+        if (token !== "") {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+      },
+      null,
+      { synchronous: true }
+    );
   }
 
   authorized(token: string): AxiosInstance {

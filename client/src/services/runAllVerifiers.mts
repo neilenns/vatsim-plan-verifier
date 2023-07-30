@@ -8,12 +8,7 @@ export async function runAllVerifiers(flightPlan: IFlightPlan): Promise<IVerifyA
   }
 
   try {
-    const response = await http.get(`verify/all/${flightPlan._id.toString()}`, {
-      withCredentials: true,
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
-      },
-    });
+    const response = await http.get(`verify/all/${flightPlan._id.toString()}`);
 
     if (response.status === 200) {
       return response.data as IVerifyAllResult;
