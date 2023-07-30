@@ -55,6 +55,7 @@ const Login = () => {
           id="email"
           name="email"
           label="Email"
+          autoComplete="email"
           required={true}
           variant="outlined"
           type="email"
@@ -67,6 +68,7 @@ const Login = () => {
           id="password"
           name="password"
           label="Password"
+          autoComplete="current-password"
           required={true}
           variant="outlined"
           margin="normal"
