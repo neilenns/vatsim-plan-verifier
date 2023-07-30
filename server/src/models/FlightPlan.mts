@@ -109,7 +109,7 @@ flightPlanSchema.virtual("initialAltitude").get(function () {
     for (const initialAltitude of sid.InitialAltitudes) {
       const regex = new RegExp(initialAltitude.AircraftClass);
       if (regex.test(equipmentInfo.aircraftClass)) {
-        return formatAltitude(initialAltitude.Altitude, false);
+        return `${sid.ClimbViaSid ? "CVS " : ""}${formatAltitude(initialAltitude.Altitude, false)}`;
       }
     }
   } catch (error) {
