@@ -24,7 +24,6 @@ import WelcomePage from "./pages/Welcome.tsx";
 import AdminPage from "./pages/Admin.tsx";
 import Users from "./pages/Users.tsx";
 import { usersLoader } from "./services/usersLoader.mts";
-import { logoutLoader } from "./services/logoutLoader.mts";
 
 const router = createBrowserRouter([
   {
@@ -50,7 +49,6 @@ const router = createBrowserRouter([
     path: "/logout",
     element: <Logout />,
     errorElement: <ErrorPage />,
-    loader: logoutLoader,
   },
   {
     element: <App />,

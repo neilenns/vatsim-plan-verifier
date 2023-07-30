@@ -1,12 +1,12 @@
 import { LoadingButton } from "@mui/lab";
 import { TextField, Typography } from "@mui/material";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import http from "../utils/http.mts";
 import ILoginResponse from "../interfaces/ILoginResponse.mts";
 import { AxiosError, AxiosResponse } from "axios";
 import debug from "debug";
-import { AppContext } from "../context/AppContext";
+import useAppContext from "../context/AppContext";
 import { Role } from "../interfaces/IUser.mts";
 
 const Login = () => {
@@ -15,7 +15,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { setUser } = useContext(AppContext);
+  const { setUser } = useAppContext();
 
   const logger = debug("plan-verifier:login");
 
