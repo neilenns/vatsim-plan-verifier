@@ -3,27 +3,19 @@ import { Outlet } from "react-router-dom";
 import ILoginResponse from "../interfaces/ILoginResponse.mts";
 import http from "../utils/http.mts";
 import { useNavigate } from "react-router-dom";
-import useAppContext, { SetUserFunction } from "../context/AppContext";
-import { IUser } from "../interfaces/IUser.mts";
 
 const App = () => {
   const navigate = useNavigate();
-  const { user, setUser } = useAppContext();
   // Without these refs the verifyUser callback will spin forever
   // updating itself because it thinks the dependencies changed.
-  const setUserRef = useRef<SetUserFunction>(setUser);
-  const userRef = useRef<Partial<IUser> | undefined>(user);
 
   const verifyUser = useCallback(() => {
     http
       .post<ILoginResponse>("refreshToken", {})
       .then((response) => {
-        localStorage.setItem("token", response.data.token);
         setTimeout(verifyUser, 5 * 60 * 1000);
-        setUserRef.current({
-          ...userRef.current,
-          token: response.data.token,
-        });
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("role", response.data.role);
       })
       .catch(() => {
         localStorage.removeItem("token");

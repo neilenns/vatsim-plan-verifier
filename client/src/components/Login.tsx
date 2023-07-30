@@ -6,8 +6,6 @@ import http from "../utils/http.mts";
 import ILoginResponse from "../interfaces/ILoginResponse.mts";
 import { AxiosError, AxiosResponse } from "axios";
 import debug from "debug";
-import useAppContext from "../context/AppContext";
-import { Role } from "../interfaces/IUser.mts";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -15,7 +13,6 @@ const Login = () => {
   const [error, setError] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { setUser } = useAppContext();
 
   const logger = debug("plan-verifier:login");
 
@@ -34,10 +31,6 @@ const Login = () => {
       .then((response: AxiosResponse<ILoginResponse>) => {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("role", response.data.role);
-        setUser({
-          token: response.data.token,
-          role: response.data.role as Role,
-        });
         navigate("/verifier");
       })
       .catch((error: AxiosError) => {
