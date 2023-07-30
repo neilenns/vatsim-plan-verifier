@@ -34,16 +34,14 @@ const NavMenu = () => {
           "aria-labelledby": "menu-button",
         }}
       >
-        {localStorage.getItem("role") === "admin" && (
-          <>
-            <MenuItem onClick={handleClose} component={Link} to="/admin">
-              Admin
-            </MenuItem>
-            <MenuItem onClick={handleClose} component={Link} to="/verifier">
-              Verifier
-            </MenuItem>
-          </>
-        )}
+        {localStorage.getItem("role") === "admin" && [
+          <MenuItem key="admin" onClick={handleClose} component={Link} to="/admin">
+            Admin
+          </MenuItem>,
+          <MenuItem key="verifier" onClick={handleClose} component={Link} to="/verifier">
+            Verifier
+          </MenuItem>,
+        ]}
         <MenuItem onClick={handleClose} component={Link} to="/logout">
           Logout
         </MenuItem>
