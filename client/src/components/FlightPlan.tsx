@@ -159,6 +159,9 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               label="Cruise altitude"
               name="cruiseAltitude"
               value={flightPlan.cruiseAltitude}
+              helperText={
+                flightPlan?.initialAltitude ? `Initial: ${flightPlan.initialAltitude}` : " "
+              }
               trim
               onPaste={parsePastedFlightPlan}
               onChange={(text) => {

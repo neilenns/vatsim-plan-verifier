@@ -19,6 +19,7 @@ interface IFlightPlan {
   route: string;
   telephony?: ITelephony[];
   expandedRoute?: string;
+  initialAltitude?: string;
 }
 
 export default IFlightPlan;
