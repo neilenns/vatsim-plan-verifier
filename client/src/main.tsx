@@ -16,7 +16,6 @@ import { flightPlanVerifyAction } from "./services/flightPlanVerifyAction.mts";
 import { activeFlightPlansLoader } from "./services/activeFlightPlansLoader.mts";
 import { appActions } from "./services/appActions.mts";
 import { signupAction } from "./services/signupAction.mts";
-import { loginAction } from "./services/loginAction.mts";
 import { AuthenticationGuard } from "./components/AuthenticationGuard.tsx";
 import WelcomePage from "./pages/Welcome.tsx";
 import AdminPage from "./pages/Admin.tsx";
@@ -27,6 +26,9 @@ import AppFramework from "./components/AppFramework.tsx";
 
 const router = createBrowserRouter([
   {
+    element: <AppFramework />,
+  },
+  {
     path: "/",
     element: <WelcomePage />,
     errorElement: <ErrorPage />,
@@ -36,7 +38,6 @@ const router = createBrowserRouter([
     path: "/login",
     element: <LoginSignup />,
     errorElement: <ErrorPage />,
-    action: loginAction,
   },
   {
     id: "signup",
@@ -53,7 +54,6 @@ const router = createBrowserRouter([
     loader: logoutLoader,
   },
   {
-    element: <AppFramework />,
     children: [
       {
         path: "/verifier",
