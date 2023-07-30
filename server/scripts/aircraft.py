@@ -21,6 +21,10 @@ with open(filename, "r") as file:
         # Create a dictionary for each row using the header fields as keys
         doc = dict(zip(header, row))
 
+        if len(doc.keys()) < 9:
+            print(f"Skipping {' '.join(row)} because it is malformed")
+            continue
+
         if doc["engineType"] == "J":
             doc["aircraftClass"] = "J"
         elif doc["KPDXIfrAltitude"] == "3000":
