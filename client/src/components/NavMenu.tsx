@@ -35,13 +35,15 @@ const NavMenu = () => {
         }}
       >
         {localStorage.getItem("role") === "admin" && (
-          <MenuItem onClick={handleClose} component={Link} to="/admin">
-            Admin
-          </MenuItem>
+          <>
+            <MenuItem onClick={handleClose} component={Link} to="/admin">
+              Admin
+            </MenuItem>
+            <MenuItem onClick={handleClose} component={Link} to="/verifier">
+              Verifier
+            </MenuItem>
+          </>
         )}
-        <MenuItem onClick={handleClose} component={Link} to="/verifier">
-          Verifier
-        </MenuItem>
         <MenuItem onClick={handleClose} component={Link} to="/logout">
           Logout
         </MenuItem>
