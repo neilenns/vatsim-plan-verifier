@@ -4,14 +4,12 @@ import { Form, Link, Outlet } from "react-router-dom";
 import ActiveFlightPlans from "../components/ActiveFlightPlans";
 import { DarkMode as DarkModeIcon, LightMode as LightModeIcon } from "@mui/icons-material";
 import NavMenu from "../components/NavMenu";
-import { useContext } from "react";
-import { AppContext } from "../context/AppContext";
+import useAppContext from "../context/AppContext";
 
 export default function Verifier() {
-  const { darkMode, setDarkMode } = useContext(AppContext);
+  const { darkMode, setDarkMode } = useAppContext();
 
   const toggleDarkMode = () => {
-    localStorage.setItem("darkmode", (!darkMode).toString());
     setDarkMode(!darkMode);
   };
 

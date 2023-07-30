@@ -12,15 +12,14 @@ import {
 import { People as PeopleIcon } from "@mui/icons-material";
 import { Outlet } from "react-router-dom";
 import NavMenu from "../components/NavMenu";
-import { useContext } from "react";
-import { AppContext } from "../context/AppContext";
+import useAppContext from "../context/AppContext";
 import { DarkMode as DarkModeIcon, LightMode as LightModeIcon } from "@mui/icons-material";
 
 export default function AdminPage() {
-  const { darkMode, setDarkMode } = useContext(AppContext);
+  const { darkMode, setDarkMode } = useAppContext();
 
   const toggleDarkMode = () => {
-    localStorage.setItem("darkmode", (!darkMode).toString());
+    localStorage.setItem("darkMode", (!darkMode).toString());
     setDarkMode(!darkMode);
   };
 

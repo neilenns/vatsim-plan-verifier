@@ -1,4 +1,12 @@
-import { createContext, Dispatch, SetStateAction, useMemo, useState } from "react";
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 import { IUser } from "../interfaces/IUser.mts";
 
 // This method of implementing context is based on
@@ -29,13 +37,19 @@ const initialContext: AppContext = {
 
 const AppContext = createContext<AppContext>(initialContext);
 
-const AppContextProvider = ({ children }: Props): JSX.Element => {
-  const [darkMode, setDarkMode] = useState(localStorage.getItem("darkmode") === "true");
+export const AppContextProvider = ({ children }: Props): JSX.Element => {
+  const [darkMode, setDarkMode] = useState(localStorage.getItem("darkMode") === "true");
   const [user, setUser] = useState<Partial<IUser>>();
+
+  useEffect(() => {
+    localStorage.setItem("darkMode", darkMode.toString());
+  }, [darkMode]);
 
   const value = useMemo(() => ({ darkMode, setDarkMode, user, setUser }), [darkMode, user]);
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
 
-export { AppContext, AppContextProvider };
+export default function AppContextConsumer() {
+  return useContext(AppContext);
+}

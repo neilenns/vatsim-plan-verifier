@@ -1,7 +1,6 @@
 import { ThemeProvider } from "@emotion/react";
 import { CssBaseline, createTheme } from "@mui/material";
-import { useContext } from "react";
-import { AppContext } from "../context/AppContext";
+import useAppContext from "../context/AppContext";
 
 type Props = {
   children: React.ReactNode;
@@ -23,7 +22,7 @@ const darkTheme = createTheme({
 });
 
 const AppTheme = ({ children }: Props): JSX.Element => {
-  const { darkMode } = useContext(AppContext);
+  const { darkMode } = useAppContext();
 
   return (
     <ThemeProvider theme={darkMode ? darkTheme : defaultTheme}>
