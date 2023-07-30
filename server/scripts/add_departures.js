@@ -246,6 +246,12 @@ db.departures.insertMany([
   {
     SID: "SUMMA2",
     Fixes: ["SUMMA", "BKE", "LKV"],
+    InitialAltitudes: [
+      {
+        Altitude: 70,
+        AircraftClass: ".*",
+      },
+    ],
   },
   {
     SID: "MONTN2",

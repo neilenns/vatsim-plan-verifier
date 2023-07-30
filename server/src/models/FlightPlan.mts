@@ -105,11 +105,16 @@ flightPlanSchema.virtual("initialAltitude").get(function () {
     return "Unknown";
   }
 
+  // KPDX-KSLE is a special case
+  if (this.departure === "KPDX" && this.arrival === "KSLE") {
+    return formatAltitude(this.cruiseAltitude < 50 ? this.cruiseAltitude : 50, false);
+  }
+
   try {
     for (const initialAltitude of sid.InitialAltitudes) {
       const regex = new RegExp(initialAltitude.AircraftClass);
       if (regex.test(equipmentInfo.aircraftClass)) {
-        return `${sid.ClimbViaSid ? "CVS " : ""}${formatAltitude(initialAltitude.Altitude, false)}`;
+        return formatAltitude(initialAltitude.Altitude, false);
       }
     }
   } catch (error) {
