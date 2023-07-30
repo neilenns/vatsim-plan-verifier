@@ -16,7 +16,7 @@ const WelcomePage = () => {
       alignItems="center"
       height="100vh"
     >
-      <img src="/appicon.svg" width="128" height="128" />
+      <img src="/appicon.svg" alt="Airplane taking off" width="128" height="128" />
       <Typography variant="h3" gutterBottom>
         Welcome
       </Typography>

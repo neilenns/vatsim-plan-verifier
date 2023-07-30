@@ -18,6 +18,7 @@ const NavMenu = () => {
     <div>
       <IconButton
         id="menu-button"
+        title="Menu"
         aria-controls={open ? "nav-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}

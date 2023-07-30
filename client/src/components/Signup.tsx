@@ -19,6 +19,7 @@ const Signup = () => {
           name="firstName"
           label="First Name"
           variant="outlined"
+          autoComplete="given-name"
           required={true}
           margin="normal"
           fullWidth
@@ -30,6 +31,7 @@ const Signup = () => {
           name="lastName"
           label="Last Name"
           variant="outlined"
+          autoComplete="family-name"
           required={true}
           margin="normal"
           fullWidth
@@ -41,6 +43,7 @@ const Signup = () => {
           name="email"
           label="Email"
           variant="outlined"
+          autoComplete="email"
           required={true}
           type="email"
           margin="normal"
@@ -53,6 +56,7 @@ const Signup = () => {
           name="password"
           label="Password"
           variant="outlined"
+          autoComplete="new-password"
           required={true}
           margin="normal"
           fullWidth
