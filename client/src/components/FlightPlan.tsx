@@ -3,7 +3,11 @@ import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
 import { useEffect, useState } from "react";
 import FlightPlanTextField from "./FlightPlanTextField";
-import { parseFlightPlan, validateFlightPlan } from "../utils/flightPlanParser.mts";
+import {
+  normalizeAirportName,
+  parseFlightPlan,
+  validateFlightPlan,
+} from "../utils/flightPlanParser.mts";
 import { LoadingButton } from "@mui/lab";
 import { Form, useNavigation } from "react-router-dom";
 import { OpenInNew } from "@mui/icons-material";
@@ -121,7 +125,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               value={flightPlan.departure}
               helperText={
                 flightPlan?.departureAirportInfo?.name
-                  ? `${flightPlan.departureAirportInfo.name} Airport`
+                  ? `${normalizeAirportName(flightPlan.departureAirportInfo.name)}`
                   : " "
               }
               trim
@@ -141,7 +145,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               value={flightPlan.arrival}
               helperText={
                 flightPlan?.arrivalAirportInfo?.name
-                  ? `${flightPlan.arrivalAirportInfo.name} Airport`
+                  ? `${normalizeAirportName(flightPlan.arrivalAirportInfo.name)}`
                   : " "
               }
               trim
