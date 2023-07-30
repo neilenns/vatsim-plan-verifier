@@ -12,11 +12,10 @@ const AircraftSchema = new Schema(
     engineCount: { type: Number, required: true },
     engineType: { type: String, enum: ["P", "T", "J"], required: true },
     weightClass: { type: String, enum: ["S", "L", "H"], required: true },
-    KPDXVfrAltitude: { type: Number, required: true },
-    KPDXIfrAltitude: { type: Number, required: true },
     srsClass: { type: String, required: true },
     maxCruiseSpeed: { type: Number, required: false },
     commonEquipmentSuffixes: { type: [String], required: false },
+    aircraftClass: { type: String, enum: ["S", "L", "J", "U"] },
   },
   { collection: "aircraft" }
 );

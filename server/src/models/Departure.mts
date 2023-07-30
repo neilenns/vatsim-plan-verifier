@@ -1,5 +1,13 @@
 import { prop, getModelForClass, modelOptions } from "@typegoose/typegoose";
 
+export class InitialAltitude {
+  @prop({ required: true })
+  Altitude!: number;
+
+  @prop({ required: true })
+  AircraftClass!: string;
+}
+
 @modelOptions({ options: { customName: "departure" } })
 export class Departure {
   @prop({ required: true })
@@ -12,13 +20,13 @@ export class Departure {
   ClimbViaSid!: boolean;
 
   @prop({ default: 0 })
-  InitialAltitude!: number;
-
-  @prop({ default: 0 })
   ExpectTopAltitudeInMinutes!: number;
 
   @prop({ default: false })
   IsRNAV!: boolean;
+
+  @prop({ type: () => [InitialAltitude] })
+  InitialAltitudes!: InitialAltitude[];
 }
 
 const DepartureModel = getModelForClass(Departure);

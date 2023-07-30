@@ -30,4 +30,5 @@ export default interface IFlightPlanDocument extends Document {
   SID?: string;
   SIDInformation?: Departure;
   expandedRoute?: string;
+  initialAltitude?: string;
 }
