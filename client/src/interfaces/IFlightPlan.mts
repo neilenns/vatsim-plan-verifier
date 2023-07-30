@@ -20,6 +20,9 @@ interface IFlightPlan {
   telephony?: ITelephony[];
   expandedRoute?: string;
   initialAltitude?: string;
+  SIDInformation?: {
+    ClimbViaSid?: boolean;
+  };
 }
 
 export default IFlightPlan;

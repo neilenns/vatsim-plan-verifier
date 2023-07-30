@@ -160,7 +160,11 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               name="cruiseAltitude"
               value={flightPlan.cruiseAltitude}
               helperText={
-                flightPlan?.initialAltitude ? `Initial: ${flightPlan.initialAltitude}` : " "
+                flightPlan?.initialAltitude
+                  ? `Initial: ${flightPlan.SIDInformation?.ClimbViaSid ? "CVS " : ""}${
+                      flightPlan.initialAltitude
+                    }`
+                  : " "
               }
               trim
               onPaste={parsePastedFlightPlan}
