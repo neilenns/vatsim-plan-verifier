@@ -256,6 +256,23 @@ db.departures.insertMany([
   {
     SID: "MONTN2",
     ClimbViaSid: true,
+    Fixes: [
+      "PAE",
+      "VAMPS",
+      "ZADON",
+      "NORMY",
+      "ZELAK",
+      "MODDA",
+      "BANDR",
+      "SEA",
+      "YDC",
+      "GEG",
+      "MLP",
+      "EPH",
+      "MWH",
+      "ELN",
+      "ALPSE",
+    ],
     InitialAltitudes: [
       {
         Altitude: 70,
