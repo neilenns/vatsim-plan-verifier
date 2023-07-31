@@ -17,6 +17,7 @@ function parseStringToNumber(value: string) {
   return convertedValue;
 }
 
+// Takes pilots from vatsim and processes them into the database.
 async function processVatsimPilots(pilots: IVatsimPilot[]) {
   return Promise.all([
     pilots.map(async (pilot) => {
@@ -39,6 +40,7 @@ async function processVatsimPilots(pilots: IVatsimPilot[]) {
   ]);
 }
 
+// Takes prefiles from vatsim and processes them into the database.
 async function processVatsimPrefiles(prefiles: IVatsimPrefile[]) {
   return Promise.all([
     prefiles.map(async (prefile) => {
@@ -60,6 +62,8 @@ async function processVatsimPrefiles(prefiles: IVatsimPrefile[]) {
   ]);
 }
 
+// Takes the massive list of data from vatsim and processes it into the database.
+// Both pilots (a.k.a flight plans) and prefiles are processed.
 async function processVatsimData(flightPlans: IVatsimData) {
   await VatsimFlightPlanModel.deleteMany({});
 
@@ -69,6 +73,8 @@ async function processVatsimData(flightPlans: IVatsimData) {
   ]);
 }
 
+// Retrieves the published vatsim endpoints for the services. This is used to get
+// the endpoint to retrieve all the current flight plans.
 export async function getVatsimEndpoints() {
   try {
     const endpointUrl = "https://status.vatsim.net/status.json";
@@ -96,6 +102,8 @@ export async function getVatsimEndpoints() {
   }
 }
 
+// Handles publishing updated data to all connected clients based on the airport code
+// the client is watching.
 async function publishUpdates() {
   if (!io) {
     return;
@@ -114,7 +122,8 @@ async function publishUpdates() {
   });
 }
 
-// Loads data from vatsim then processes the filed and prefiled flight plans in to the database
+// Loads data from vatsim then processes the filed and prefiled flight plans in to the database.
+// After updating the database publishes the updated flight plan list to all connected clients.
 export async function getVatsimFlightPlans() {
   logger("Fetching VATSIM flight plans...");
 
