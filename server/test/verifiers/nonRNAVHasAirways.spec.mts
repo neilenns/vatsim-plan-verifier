@@ -30,7 +30,6 @@ const testData = [
     route: "PTLD2 BTG V23 SEA",
     squawk: "1234",
   },
-
   // Non-RNAV with no airways
   {
     _id: "5f9f7b3b9d3b3c1b1c9b4b53",
@@ -62,6 +61,17 @@ const testData = [
     cruiseAltitude: 100,
     rawAircraftType: "C172",
     route: "PTLD2 BTG Q3 AST",
+    squawk: "1234",
+  },
+  // Non-RNAV with no airways but one fix starts with J (issue #312)
+  {
+    _id: "5f9f7b3b9d3b3c1b1c9b4b56",
+    callsign: "ASA42",
+    departure: "KPDX",
+    arrival: "KSEA",
+    cruiseAltitude: 100,
+    rawAircraftType: "C172/A",
+    route: "SUMMA2 SUMMA JINMO LMT TUDOR2",
     squawk: "1234",
   },
 ];
@@ -139,5 +149,19 @@ describe("verifier: nonRNAVHasAirways tests", () => {
     expect(data.status).to.equal("Information");
     expect(data.flightPlanPart).to.equal("route");
     expect(data.messageId).to.equal("noEquipmentSuffix");
+  });
+
+  it("should error non-RNAV plane with no airways (fix starts with J)", async () => {
+    const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b56");
+    expect(flightPlan.success).to.equal(true);
+
+    const result = await nonRNAVHasAirways((flightPlan as SuccessResult<IFlightPlan>).data);
+
+    expect(result.success).to.equal(true);
+
+    const data = (result as SuccessResult<IVerifierResult>).data;
+    expect(data.status).to.equal("Error");
+    expect(data.flightPlanPart).to.equal("route");
+    expect(data.messageId).to.equal("nonRNAVNoAirways");
   });
 });
