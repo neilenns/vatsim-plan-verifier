@@ -9,6 +9,7 @@ import {
 } from "@mui/icons-material";
 import NavMenu from "../components/NavMenu";
 import useAppContext from "../context/AppContext";
+import VatsimFlightPlans from "../components/VatsimFlightPlans";
 
 export default function Verifier() {
   const { darkMode, setDarkMode } = useAppContext();
@@ -51,6 +52,7 @@ export default function Verifier() {
               </Box>
             </Form>
             <ActiveFlightPlans />
+            <VatsimFlightPlans />
           </Grid>
         </Box>
         {/* Main Content */}

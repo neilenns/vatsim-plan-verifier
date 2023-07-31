@@ -8,8 +8,8 @@ const logger = debug("plan-verifier:vatsimFlightPlanEvent");
 function handleSocketConnection(socket: Socket) {
   logger("A client connected for vatsimFlightPlanEvent");
 
-  // Listen for the 'setParameter' event from the client
-  socket.on("setParameter", async (airportCode: string) => {
+  // Listen for the 'setAirport' event from the client
+  socket.on("setAirport", async (airportCode: string) => {
     logger(`Client requested data for ${airportCode}`);
 
     // Join the room corresponding to the parameter value
