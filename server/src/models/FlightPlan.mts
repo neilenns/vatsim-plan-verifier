@@ -92,7 +92,6 @@ flightPlanSchema.virtual("cleanedRoute").get(function () {
     this.route
       .replace("PTLD2 ", "") // PTLD2 will never be in the FlightAware returned routes
       .replace("SEA8 ", "") // SEA8 will never be in the FlightAware returned routes
-      .replace("MONTN2 ", "") // MONTN2 will never be in the FlightAware returned routes
       .replace(" DCT", "") // DCTs are never in the FlightAware returned routes
       .trim() ?? ""
   );
