@@ -17,7 +17,7 @@ export async function storeFlightPlan(flightPlan: IFlightPlan): Promise<IFlightP
 
 export async function getFlightPlan(id: string): Promise<IFlightPlan | undefined> {
   try {
-    const response = await http.get(`flightPlan/${id}`);
+    const response = await http.get(`flightPlan/id/${id}`);
 
     if (response.status === 200) {
       return response.data as IFlightPlan;
@@ -26,5 +26,19 @@ export async function getFlightPlan(id: string): Promise<IFlightPlan | undefined
     }
   } catch (error) {
     throw new Error("Failed to get flight plan");
+  }
+}
+
+export async function getFlightPlans(): Promise<IFlightPlan[] | undefined> {
+  try {
+    const response = await http.get(`flightPlan/all`);
+
+    if (response.status === 200) {
+      return response.data as IFlightPlan[];
+    } else {
+      throw new Error("Failed to get flight plans");
+    }
+  } catch (error) {
+    throw new Error("Failed to get flight plans");
   }
 }

@@ -13,9 +13,11 @@ import LoginSignup from "./pages/LoginSignup.tsx";
 import Logout from "./pages/Logout.tsx";
 import App from "./pages/App.tsx";
 import Help from "./pages/Help.tsx";
+import FlightPlans from "./pages/FlightPlans.tsx";
 
 // Loaders
 import { flightPlanDetailsLoader } from "./services/flightPlanDetailsLoader.mts";
+import { flightPlansLoader } from "./services/flightPlansLoader.mts";
 import { flightPlanVerifyAction } from "./services/flightPlanVerifyAction.mts";
 import { activeFlightPlansLoader } from "./services/activeFlightPlansLoader.mts";
 import { appActions } from "./services/appActions.mts";
@@ -86,6 +88,11 @@ const router = createBrowserRouter([
             path: "users",
             element: <AuthenticationGuard role="admin" component={<Users />} />,
             loader: usersLoader,
+          },
+          {
+            path: "flightPlans",
+            element: <AuthenticationGuard role="admin" component={<FlightPlans />} />,
+            loader: flightPlansLoader,
           },
         ],
       },

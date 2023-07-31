@@ -5,7 +5,10 @@ import debug from "debug";
 const logger = debug("plan-verifier:flightPlansController");
 
 export type FlightPlanFailureErrorTypes = "FlightPlanNotFound" | "UnknownError";
+export type FlightPlansFailureErrorTypes = "FlightPlansNotFound" | "UnknownError";
+
 export type FlightPlanResult = Result<IFlightPlan, FlightPlanFailureErrorTypes>;
+export type FlightPlansResult = Result<IFlightPlan[], FlightPlansFailureErrorTypes>;
 
 export async function putFlightPlan(flightPlanData: IFlightPlan): Promise<FlightPlanResult> {
   try {
@@ -52,6 +55,32 @@ export async function getFlightPlan(id: string): Promise<FlightPlanResult> {
       success: false,
       errorType: "UnknownError",
       error: `Failed to get the flight plan: ${error}.`,
+    };
+  }
+}
+
+export async function getFlightPlans(): Promise<FlightPlansResult> {
+  try {
+    const flightPlans = await FlightPlan.find({}).sort({ createdAt: -1 });
+
+    if (!flightPlans) {
+      return {
+        success: false,
+        errorType: "FlightPlansNotFound",
+        error: `No flight plans not found.`,
+      };
+    }
+
+    return {
+      success: true,
+      data: flightPlans,
+    };
+  } catch (error) {
+    logger(`Unable to retrieve flight plans: ${error}`);
+    return {
+      success: false,
+      errorType: "UnknownError",
+      error: `Failed to get flight plans: ${error}.`,
     };
   }
 }

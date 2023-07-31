@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import IFlightPlanDocument from "../interfaces/IFlightPlanDocument.mjs";
-import { getFlightPlan, putFlightPlan } from "../controllers/flightPlans.mjs";
+import { getFlightPlan, getFlightPlans, putFlightPlan } from "../controllers/flightPlans.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
 
 const router = express.Router();
@@ -19,7 +19,7 @@ router.post("/flightPlan", verifyUser, async (req: Request, res: Response) => {
 });
 
 // GET route for reading a flight plan from the database
-router.get("/flightPlan/:id", verifyUser, async (req: Request, res: Response) => {
+router.get("/flightPlan/id/:id", verifyUser, async (req: Request, res: Response) => {
   const { id } = req.params;
 
   const result = await getFlightPlan(id);
@@ -33,6 +33,22 @@ router.get("/flightPlan/:id", verifyUser, async (req: Request, res: Response) =>
     res.status(404).json({ error: `Flight plan ${id} not found.` });
   } else {
     res.status(500).json({ error: "Failed to get the flight plan." });
+  }
+});
+
+// GET route for reading all flight plans from the database
+router.get("/flightPlan/all", verifyUser, async (req: Request, res: Response) => {
+  const result = await getFlightPlans();
+
+  if (result.success) {
+    res.json(result.data);
+    return;
+  }
+
+  if (result.errorType === "FlightPlansNotFound") {
+    res.status(404).json({ error: `Flight plans not found.` });
+  } else {
+    res.status(500).json({ error: "Failed to get the flight plans." });
   }
 });
 

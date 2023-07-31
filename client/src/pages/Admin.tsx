@@ -9,11 +9,15 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { People as PeopleIcon } from "@mui/icons-material";
 import { Link, Outlet } from "react-router-dom";
 import NavMenu from "../components/NavMenu";
 import useAppContext from "../context/AppContext";
-import { DarkMode as DarkModeIcon, LightMode as LightModeIcon } from "@mui/icons-material";
+import {
+  DarkMode as DarkModeIcon,
+  LightMode as LightModeIcon,
+  FlightTakeoff as FlightTakeoffIcon,
+  People as PeopleIcon,
+} from "@mui/icons-material";
 
 export default function AdminPage() {
   const { darkMode, setDarkMode } = useAppContext();
@@ -50,6 +54,12 @@ export default function AdminPage() {
                 <PeopleIcon />
               </ListItemIcon>
               <ListItemText primary="Users" />
+            </ListItemButton>
+            <ListItemButton component={Link} to="flightplans">
+              <ListItemIcon>
+                <FlightTakeoffIcon />
+              </ListItemIcon>
+              <ListItemText primary="Flight plans" />
             </ListItemButton>
           </List>
         </Box>
