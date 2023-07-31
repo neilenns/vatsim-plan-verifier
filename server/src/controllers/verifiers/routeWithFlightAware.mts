@@ -51,12 +51,14 @@ export default async function routeWithFlightAware({
       result.data.status = "Warning";
       result.data.messageId = "doesNotMatchFlightAwareRoutes";
       result.data.message = `Route doesn't match any FlightAware routes. Common routes include:`;
-      result.data.extendedMessage = flightAwareRoutes.data.map(
-        (route) =>
-          `${route.route} flown ${pluralize("time", route.count, true)} at ${
-            route.filedAltitudesFormatted
-          }`
-      );
+      result.data.extendedMessage = flightAwareRoutes.data
+        .sort((a, b) => b.count - a.count)
+        .map(
+          (route) =>
+            `${route.route} flown ${pluralize("time", route.count, true)} at ${
+              route.filedAltitudesFormatted
+            }`
+        );
       result.data.priority = 4;
     }
     // Matching routes found and the cruise altitude matches too.
