@@ -1,4 +1,5 @@
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
+import IPaginatedFlightPlans from "../interfaces/IPaginatedFlightPlans.mts";
 import http from "../utils/http.mts";
 
 export async function storeFlightPlan(flightPlan: IFlightPlan): Promise<IFlightPlan> {
@@ -29,12 +30,15 @@ export async function getFlightPlan(id: string): Promise<IFlightPlan | undefined
   }
 }
 
-export async function getFlightPlans(): Promise<IFlightPlan[] | undefined> {
+export async function getFlightPlans(
+  page: number,
+  limit: number
+): Promise<IPaginatedFlightPlans | undefined> {
   try {
-    const response = await http.get(`flightPlan/all`);
+    const response = await http.get(`flightPlan/all/${page}/${limit}`);
 
     if (response.status === 200) {
-      return response.data as IFlightPlan[];
+      return response.data as IPaginatedFlightPlans;
     } else {
       throw new Error("Failed to get flight plans");
     }

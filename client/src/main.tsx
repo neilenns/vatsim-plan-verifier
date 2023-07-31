@@ -17,7 +17,6 @@ import FlightPlans from "./pages/FlightPlans.tsx";
 
 // Loaders
 import { flightPlanDetailsLoader } from "./services/flightPlanDetailsLoader.mts";
-import { flightPlansLoader } from "./services/flightPlansLoader.mts";
 import { flightPlanVerifyAction } from "./services/flightPlanVerifyAction.mts";
 import { activeFlightPlansLoader } from "./services/activeFlightPlansLoader.mts";
 import { appActions } from "./services/appActions.mts";
@@ -92,7 +91,6 @@ const router = createBrowserRouter([
           {
             path: "flightPlans",
             element: <AuthenticationGuard role="admin" component={<FlightPlans />} />,
-            loader: flightPlansLoader,
           },
         ],
       },

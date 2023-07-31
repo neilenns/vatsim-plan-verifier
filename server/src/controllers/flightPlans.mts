@@ -74,11 +74,11 @@ export async function getFlightPlansPaginated(
     const pages = Math.ceil(totalDocs / limit);
 
     // Calculate the page to retrieve and then get the records
-    const skipCount = (page - 1) * limit;
+    const skipCount = page * limit;
     const flightPlans = await FlightPlan.find({})
+      .sort({ createdAt: -1 })
       .skip(skipCount)
-      .limit(limit)
-      .sort({ createdAt: -1 });
+      .limit(limit);
 
     if (!flightPlans) {
       return {

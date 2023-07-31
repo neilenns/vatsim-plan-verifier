@@ -1,6 +1,8 @@
-import { useLoaderData } from "react-router-dom";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import IFlightPlan from "../interfaces/IFlightPlan.mts";
+import IPaginatedFlightPlans from "../interfaces/IPaginatedFlightPlans.mts";
+import { useEffect, useState } from "react";
+import { getFlightPlans } from "../services/flightPlan.mts";
 
 const columns: GridColDef[] = [
   { field: "_id" },
@@ -14,14 +16,32 @@ const columns: GridColDef[] = [
 ];
 
 function FlightPlans() {
-  const flightPlans = useLoaderData() as IFlightPlan[];
+  const [data, setData] = useState<IPaginatedFlightPlans>();
+  const [paginationModel, setPaginationModel] = useState({
+    pageSize: 100,
+    page: 0,
+  });
+
+  useEffect(() => {
+    getFlightPlans(paginationModel.page, paginationModel.pageSize)
+      .then((result) => {
+        setData(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [paginationModel]);
 
   return (
     <>
       <DataGrid
         editMode="row"
-        rows={flightPlans}
+        rows={data?.flightPlans || []}
         columns={columns}
+        paginationMode="server"
+        paginationModel={paginationModel}
+        onPaginationModelChange={setPaginationModel}
+        rowCount={data?.pages || 0}
         getRowId={(row) => (row as IFlightPlan)._id!}
         initialState={{
           columns: {
