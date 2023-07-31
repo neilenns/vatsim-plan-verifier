@@ -16,6 +16,7 @@ const envSchema = z.object({
   API_RATE_LIMIT_MAX: z.coerce.number().default(100),
   API_RATE_LIMIT_MINUTE_WINDOW: z.coerce.number().default(5),
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
+  VATSIM_AUTO_UPDATE_INTERVAL: z.coerce.number().default(15000), // 15 seconds
 });
 
 export const ENV = envSchema.parse(process.env);
