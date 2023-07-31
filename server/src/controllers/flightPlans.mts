@@ -1,10 +1,14 @@
 import FlightPlan, { IFlightPlan } from "../models/FlightPlan.mjs";
+import VatsimFlightPlanModel, { VatsimFlightPlan } from "../models/VatsimFlightPlan.mjs";
 import Result from "../types/result.mjs";
 import debug from "debug";
 
 const logger = debug("plan-verifier:flightPlansController");
 
-export type FlightPlanFailureErrorTypes = "FlightPlanNotFound" | "UnknownError";
+export type FlightPlanFailureErrorTypes =
+  | "VatsimFlightPlanNotFound"
+  | "FlightPlanNotFound"
+  | "UnknownError";
 export type FlightPlanResult = Result<IFlightPlan, FlightPlanFailureErrorTypes>;
 
 export async function putFlightPlan(flightPlanData: IFlightPlan): Promise<FlightPlanResult> {
@@ -48,6 +52,39 @@ export async function getFlightPlan(id: string): Promise<FlightPlanResult> {
     };
   } catch (error) {
     logger(`Unable to retrieve flight plan ${id}: ${error}`);
+    return {
+      success: false,
+      errorType: "UnknownError",
+      error: `Failed to get the flight plan: ${error}.`,
+    };
+  }
+}
+
+export async function importFlightPlan(callsign: string): Promise<FlightPlanResult> {
+  try {
+    const vatsimPlan = await VatsimFlightPlanModel.findOne({ callsign });
+
+    if (!vatsimPlan) {
+      return {
+        success: false,
+        errorType: "VatsimFlightPlanNotFound",
+        error: `Vatsim plan for ${callsign} not found.`,
+      };
+    }
+
+    const flightPlan = {
+      callsign: vatsimPlan.callsign!,
+      departure: vatsimPlan.departure!,
+      arrival: vatsimPlan.arrival!,
+      route: vatsimPlan.route!,
+      rawAircraftType: vatsimPlan.rawAircraftType!,
+      cruiseAltitude: vatsimPlan.cruiseAltitude!,
+      squawk: vatsimPlan.squawk!,
+    } as IFlightPlan;
+
+    return putFlightPlan(flightPlan);
+  } catch (error) {
+    logger(`Unable to retrieve flight plan for ${callsign}: ${error}`);
     return {
       success: false,
       errorType: "UnknownError",

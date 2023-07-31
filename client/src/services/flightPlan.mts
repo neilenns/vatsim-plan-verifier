@@ -28,3 +28,17 @@ export async function getFlightPlan(id: string): Promise<IFlightPlan | undefined
     throw new Error("Failed to get flight plan");
   }
 }
+
+export async function importFlightPlan(callsign: string): Promise<IFlightPlan | undefined> {
+  try {
+    const response = await http.post(`flightPlan/import`, { callsign });
+
+    if (response.status === 200) {
+      return response.data as IFlightPlan;
+    } else {
+      throw new Error("Failed to get flight plan");
+    }
+  } catch (error) {
+    throw new Error("Failed to get flight plan");
+  }
+}
