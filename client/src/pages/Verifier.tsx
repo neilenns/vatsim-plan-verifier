@@ -2,7 +2,11 @@ import { AppBar, Box, Button, IconButton, Toolbar, Typography } from "@mui/mater
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import { Form, Link, Outlet } from "react-router-dom";
 import ActiveFlightPlans from "../components/ActiveFlightPlans";
-import { DarkMode as DarkModeIcon, LightMode as LightModeIcon } from "@mui/icons-material";
+import {
+  DarkMode as DarkModeIcon,
+  LightMode as LightModeIcon,
+  Help as HelpIcon,
+} from "@mui/icons-material";
 import NavMenu from "../components/NavMenu";
 import useAppContext from "../context/AppContext";
 
@@ -21,6 +25,9 @@ export default function Verifier() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Plan verifier
           </Typography>
+          <IconButton component={Link} to="/help" target="_blank" rel="noopener noreferrer">
+            <HelpIcon />
+          </IconButton>
           <IconButton
             onClick={toggleDarkMode}
             aria-label={darkMode ? "Turndark mode off" : "Turn dark mode on"}

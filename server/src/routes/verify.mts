@@ -20,6 +20,7 @@ import checkForNonStandardEquipmentSuffix from "../controllers/verifiers/checkFo
 import airwaysForEquipmentSuffix from "../controllers/verifiers/airwaysForEquipmentSuffix.mjs";
 import hasSID from "../controllers/verifiers/hasSID.mjs";
 import hasValidFirstFix from "../controllers/verifiers/hasValidFirstFix.mjs";
+
 import VerifierResult from "../models/VerifierResult.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
 
