@@ -634,6 +634,8 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "L",
+    maxCruiseSpeed: "312",
+    commonEquipmentSuffixes: ["L"],
   },
   {
     equipmentCode: "BE10",
