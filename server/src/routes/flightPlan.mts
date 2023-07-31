@@ -1,6 +1,10 @@
 import express, { Request, Response } from "express";
 import IFlightPlanDocument from "../interfaces/IFlightPlanDocument.mjs";
-import { getFlightPlan, getFlightPlans, putFlightPlan } from "../controllers/flightPlans.mjs";
+import {
+  getFlightPlan,
+  getFlightPlansPaginated,
+  putFlightPlan,
+} from "../controllers/flightPlans.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
 
 const router = express.Router();
@@ -37,8 +41,11 @@ router.get("/flightPlan/id/:id", verifyUser, async (req: Request, res: Response)
 });
 
 // GET route for reading all flight plans from the database
-router.get("/flightPlan/all", verifyUser, async (req: Request, res: Response) => {
-  const result = await getFlightPlans();
+router.get("/flightPlan/all/:page/:limit", verifyUser, async (req: Request, res: Response) => {
+  const result = await getFlightPlansPaginated(
+    parseInt(req.params.page),
+    parseInt(req.params.limit)
+  );
 
   if (result.success) {
     res.json(result.data);

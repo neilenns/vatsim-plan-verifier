@@ -4,11 +4,16 @@ import debug from "debug";
 
 const logger = debug("plan-verifier:flightPlansController");
 
+export type PagedData = {
+  pages: number;
+  flightPlans: IFlightPlan[];
+};
+
 export type FlightPlanFailureErrorTypes = "FlightPlanNotFound" | "UnknownError";
-export type FlightPlansFailureErrorTypes = "FlightPlansNotFound" | "UnknownError";
+export type PagedFlightPlansFailureErrorTypes = "FlightPlansNotFound" | "UnknownError";
 
 export type FlightPlanResult = Result<IFlightPlan, FlightPlanFailureErrorTypes>;
-export type FlightPlansResult = Result<IFlightPlan[], FlightPlansFailureErrorTypes>;
+export type PagedFlightPlansResult = Result<PagedData, PagedFlightPlansFailureErrorTypes>;
 
 export async function putFlightPlan(flightPlanData: IFlightPlan): Promise<FlightPlanResult> {
   try {
@@ -59,9 +64,21 @@ export async function getFlightPlan(id: string): Promise<FlightPlanResult> {
   }
 }
 
-export async function getFlightPlans(): Promise<FlightPlansResult> {
+export async function getFlightPlansPaginated(
+  page: number,
+  limit: number
+): Promise<PagedFlightPlansResult> {
   try {
-    const flightPlans = await FlightPlan.find({}).sort({ createdAt: -1 });
+    // Calculate the number of pages
+    const totalDocs = await FlightPlan.countDocuments();
+    const pages = Math.ceil(totalDocs / limit);
+
+    // Calculate the page to retrieve and then get the records
+    const skipCount = (page - 1) * limit;
+    const flightPlans = await FlightPlan.find({})
+      .skip(skipCount)
+      .limit(limit)
+      .sort({ createdAt: -1 });
 
     if (!flightPlans) {
       return {
@@ -73,7 +90,10 @@ export async function getFlightPlans(): Promise<FlightPlansResult> {
 
     return {
       success: true,
-      data: flightPlans,
+      data: {
+        pages,
+        flightPlans,
+      },
     };
   } catch (error) {
     logger(`Unable to retrieve flight plans: ${error}`);
