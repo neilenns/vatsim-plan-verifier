@@ -8,12 +8,12 @@ common errors in flight plans filed by VATSIM pilots.
 
 The fastest way to use this is to copy the flight plan from VRC's Aircraft window:
 
-![VRC arrivals & departures window](/help_vrcArrivalsDepartures.png)
+![VRC arrivals & departures window](client/public/help_vrcArrivalsDepartures.png?raw=true)
 
 Then paste it in to any of the fields of a new flight plan. The plan parts will automatically
 get split apart and will populate the appropriate fields:
 
-![VRC flight plan after being pasted into a new verifier form](/help_planAfterPaste.png)
+![VRC flight plan after being pasted into a new verifier form](client/public/help_planAfterPaste.png?raw=true)
 
 After populating the flight plan details hit the `Verify` button to see the results.
 
@@ -28,14 +28,14 @@ name will show under the aircraft type, the departure and arrival airport names 
 under the departure and arrival, and the initial altitude for the SID (if known) will be shown
 under the cruise altitude. Additionally any navaids in the plan will be spelled out below the route.
 
-![Flight plan after verifying](/help_planAfterVerifying.png)
+![Flight plan after verifying](client/public/help_planAfterVerifying.png?raw=true)
 
 ## Seeing errors and warnings
 
 Any errors and warnings for the flight plan will be shown in a list below the flight plan
 and the associated fields will be highlighted:
 
-![Flight plan with errors and warnings](/help_planWithErrorsAndWarnings.png)
+![Flight plan with errors and warnings](client/public/help_planWithErrorsAndWarnings.png?raw=true)
 
 After updating the flight plan to correct the errors hit the `Re-verify` button to validate
 the changes.
