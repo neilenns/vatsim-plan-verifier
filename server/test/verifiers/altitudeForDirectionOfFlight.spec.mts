@@ -5,10 +5,7 @@ import { SuccessResult } from "../../src/types/result.mjs";
 import { getFlightPlan } from "../../src/controllers/flightPlans.mjs";
 import { IFlightPlan } from "../../src/models/FlightPlan.mjs";
 import { IVerifierResult } from "../../src/models/VerifierResult.mjs";
-import {
-  addFlightPlans,
-  removeFlightPlans,
-} from "../setup/manageFlightPlans.mjs";
+import { addFlightPlans, removeFlightPlans } from "../setup/manageFlightPlans.mjs";
 
 const testData = [
   // Wrong altitude for direction of flight (eastbound)
@@ -77,6 +74,17 @@ const testData = [
     route: "SEA8 SEA BUWZO KRATR2",
     squawk: "1234",
   },
+  // KPDX to KSLE
+  {
+    _id: "5f9f7b3b9d3b3c1b1c9b4b60",
+    callsign: "ASA42",
+    departure: "KPDX",
+    arrival: "KSLE",
+    cruiseAltitude: 200,
+    rawAircraftType: "B738/L",
+    route: "SEA8 SEA BUWZO KRATR2",
+    squawk: "1234",
+  },
 ];
 
 describe("verifier: altitudeForDirectionOfFlight tests", function () {
@@ -133,9 +141,7 @@ describe("verifier: altitudeForDirectionOfFlight tests", function () {
 
     expect(data.status).to.equal("Error");
     expect(data.flightPlanPart).to.equal("cruiseAltitude");
-    expect(data.messageId).to.equal(
-      "altitudeInvalidForEastboundDirectionOfFlight"
-    );
+    expect(data.messageId).to.equal("altitudeInvalidForEastboundDirectionOfFlight");
   });
 
   it("westbound with eastbound altitude", async function () {
@@ -151,9 +157,7 @@ describe("verifier: altitudeForDirectionOfFlight tests", function () {
 
     expect(data.status).to.equal("Error");
     expect(data.flightPlanPart).to.equal("cruiseAltitude");
-    expect(data.messageId).to.equal(
-      "altitudeInvalidForWestboundDirectionOfFlight"
-    );
+    expect(data.messageId).to.equal("altitudeInvalidForWestboundDirectionOfFlight");
   });
 
   it("eastbound with westbound altitude above RVSM", async function () {
@@ -169,9 +173,7 @@ describe("verifier: altitudeForDirectionOfFlight tests", function () {
 
     expect(data.status).to.equal("Error");
     expect(data.flightPlanPart).to.equal("cruiseAltitude");
-    expect(data.messageId).to.equal(
-      "altitudeInvalidForEastboundAboveRVSMDirectionOfFlight"
-    );
+    expect(data.messageId).to.equal("altitudeInvalidForEastboundAboveRVSMDirectionOfFlight");
   });
 
   it("westbound with eastbound altitude above RVSM", async function () {
@@ -187,8 +189,22 @@ describe("verifier: altitudeForDirectionOfFlight tests", function () {
 
     expect(data.status).to.equal("Error");
     expect(data.flightPlanPart).to.equal("cruiseAltitude");
-    expect(data.messageId).to.equal(
-      "altitudeInvalidForWestboundAboveRVSMDirectionOfFlight"
+    expect(data.messageId).to.equal("altitudeInvalidForWestboundAboveRVSMDirectionOfFlight");
+  });
+
+  it("should skip KPDX to KSLE", async function () {
+    const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b60");
+    expect(flightPlan.success).to.equal(true);
+
+    const result = await altitudeForDirectionOfFlight(
+      (flightPlan as SuccessResult<IFlightPlan>).data
     );
+
+    expect(result.success).to.equal(true);
+    const data = (result as SuccessResult<IVerifierResult>).data;
+
+    expect(data.status).to.equal("Information");
+    expect(data.flightPlanPart).to.equal("cruiseAltitude");
+    expect(data.messageId).to.equal("KPDXtoKSLE");
   });
 });

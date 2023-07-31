@@ -36,6 +36,12 @@ export default async function altitudeForDirectionOfFlight({
       result.data.messageId = "directionOfFlightNotCalculated";
       result.data.message = `Direction of flight wasn't calculated between ${departure} and ${arrival}.`;
     }
+    // KPDX to KSLE has special rules handled in checkKPDXtoKSLEAltitude
+    else if (departure === "KPDX" && arrival === "KSLE") {
+      result.data.status = "Information";
+      result.data.message = `This verifier is not applicable to flights from KPDX to KSLE.`;
+      result.data.messageId = "KPDXtoKSLE";
+    }
     // Since the direction of flight is available it can be tested against the cruise altitude.
     else {
       // This is used in the result messages to ensure the heading is always 3 digits.
