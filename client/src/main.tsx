@@ -12,6 +12,7 @@ import FlightPlanDetails from "./pages/FlightPlanDetails.tsx";
 import LoginSignup from "./pages/LoginSignup.tsx";
 import Logout from "./pages/Logout.tsx";
 import App from "./pages/App.tsx";
+import Help from "./pages/Help.tsx";
 
 // Loaders
 import { flightPlanDetailsLoader } from "./services/flightPlanDetailsLoader.mts";
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
     path: "/",
     element: <WelcomePage />,
     errorElement: <ErrorPage />,
+  },
+  {
+    path: "/help",
+    element: <Help />,
   },
   {
     id: "login",
