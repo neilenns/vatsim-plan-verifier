@@ -13,7 +13,7 @@ export async function connectToDatabase() {
   const url = ENV.MONGO_DB_CONNECTION_STRING;
 
   if (ENV.NODE_ENV === "development") {
-    mongoose.set("debug", true);
+    mongoose.set("debug", false);
   } else if (ENV.NODE_ENV === "production") {
     mongoose.set("autoIndex", false);
   }
