@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import ReactMarkdown from "react-markdown";
 
-import helpText from "../../../README.md?raw";
+import helpText from "../content/README.md?raw";
 
 const Help = () => {
   return (
