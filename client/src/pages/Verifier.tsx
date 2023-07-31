@@ -1,4 +1,4 @@
-import { AppBar, Box, Button, IconButton, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Button, IconButton, Stack, Toolbar, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import { Form, Link, Outlet } from "react-router-dom";
 import ActiveFlightPlans from "../components/ActiveFlightPlans";
@@ -43,7 +43,7 @@ export default function Verifier() {
       <Box sx={{ display: "flex", flex: 1 }}>
         {/* Sidebar */}
         <Box sx={{ width: 200 }}>
-          <Grid xs={2} sx={{ mt: 2, ml: 2 }}>
+          <Stack sx={{ mt: 2 }}>
             <Form>
               <Box textAlign="center">
                 <Button variant="contained" component={Link} to="/verifier/flightPlan/new">
@@ -51,9 +51,13 @@ export default function Verifier() {
                 </Button>
               </Box>
             </Form>
-            <ActiveFlightPlans />
-            <VatsimFlightPlans />
-          </Grid>
+            <Box sx={{ borderTop: "1px solid #ccc", mt: 2 }}>
+              <ActiveFlightPlans />
+            </Box>
+            <Box sx={{ borderTop: "1px solid #ccc", mt: 2 }}>
+              <VatsimFlightPlans />
+            </Box>
+          </Stack>
         </Box>
         {/* Main Content */}
         <Box sx={{ flex: 1, padding: 2 }}>

@@ -24,7 +24,7 @@ const VatsimFlightPlans = () => {
   }, []);
 
   return (
-    <List dense aria-label="Vatsim flight plans">
+    <List dense aria-label="Vatsim flight plans" sx={{ ml: 2 }}>
       {flightPlans.map((flightPlan) => {
         return (
           <ListItem
