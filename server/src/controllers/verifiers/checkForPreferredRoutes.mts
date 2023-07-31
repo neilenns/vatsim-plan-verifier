@@ -72,9 +72,9 @@ export default async function checkForPreferredRoutes(
       result.data.status = "Error";
       result.data.message = `Filed route does not match a preferred route at the minimum required altitude and speed. Should be one of:`;
       result.data.extendedMessage = validPreferredRoutes.map((route) => {
-        return `${route.route} at ${formatAltitude(route.minimumRequiredAltitude)} and ${
-          route.minimumRequiredSpeed
-        } kts`;
+        return `${route.route} at ${formatAltitude(route.minimumRequiredAltitude)}${
+          route.minimumRequiredSpeed ? ` and ${route.minimumRequiredSpeed} kts` : ""
+        }`;
       });
 
       result.data.messageId = "notPreferredRoute";
