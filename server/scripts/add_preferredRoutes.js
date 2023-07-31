@@ -256,8 +256,7 @@ db.preferredroutes.insertMany([
     minimumRequiredSpeed: 0,
     equipmentSuffixes: ["G", "L"],
     engineTypes: ["P", "T", "J"],
-    Remarks:
-      "<b>Requires P80 approval</b>. Runway 31L arrival only has GPS RNAV available.",
+    Remarks: "<b>Requires P80 approval</b>. Runway 31L arrival only has GPS RNAV available.",
   },
   {
     departure: "KPDX",
@@ -384,7 +383,7 @@ db.preferredroutes.insertMany([
     arrival: "KSLE",
     engineTypes: ["P", "T", "J"],
     equipmentSuffixes: ["A", "G", "L", "Z"],
-    minimumRequiredAltitude: 60,
+    minimumRequiredAltitude: 50,
     minimumRequiredSpeed: 0,
     route: "PTLD2 UBG",
   },

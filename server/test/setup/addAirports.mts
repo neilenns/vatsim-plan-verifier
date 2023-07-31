@@ -49,6 +49,28 @@ const airports = [
     keywords: "PDX, KPDX, Portland Intl",
     magneticDeclination: -14.85242,
   },
+  {
+    _id: "5f9f7b3b9d3b3c1b1c9b4b4d",
+    airportCode: "KSLE",
+    alternateIdent: "SLE",
+    icaoCode: "KSLE",
+    iataCode: null,
+    lidCode: "SLE",
+    name: "Mcnary Fld",
+    type: "Airport",
+    elevation: 213,
+    city: "Salem",
+    state: "OR",
+    longitude: -123.0025,
+    latitude: 44.9095278,
+    timezone: "America/Los_Angeles",
+    countryCode: "US",
+    wikiUrl: "http://en.wikipedia.org/wiki/McNary_Field",
+    airportFlightsUrl: "/airports/KSLE/flights",
+    alternatives: [],
+    magneticDeclination: -14.76194,
+    __v: 0,
+  },
 ];
 
 export default async function setup() {

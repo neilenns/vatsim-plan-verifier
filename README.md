@@ -74,6 +74,8 @@ from the list two hours after they are verified.
 
 * **Is the altitude correct for direction of flight?** This calculates the direction of flight between the departure and arrival airports, accounting for magnetic variance, and returns an error if the altitude doesn't match the NEODD/SWEVEN rule. It also correctly handles flights above RVSM airspace.
 
+* **Is the altitude correct for KPDX to KSLE flights?** This handles the special case mandatory 5,000' altitude for flights from KPDX to KSLE and provides the correct phrasing to amend the filed altitude if it is below or above 5,000'.
+
 ### Equipment suffix verifications
 
 * **Is there an equipment suffix?** This check throws an error if no equipment suffix was provided.
