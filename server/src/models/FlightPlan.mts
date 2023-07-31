@@ -50,11 +50,12 @@ export const flightPlanSchema = new Schema(
   { timestamps: true }
 );
 
+// Non-RNAV airways start with either V or J followed by digits
+const NonRNAVAirwayRegex = /^[VJ]\d+/;
+
 flightPlanSchema.virtual("routeHasNonRNAVAirways").get(function () {
-  // this.get is required because routeParts is a virtual and TypeScript doesn't konw it exists at this point.
-  return this.get("routeParts")?.some(
-    (part: string) => part.startsWith("V") || part.startsWith("J")
-  );
+  // this.get is required because routeParts is a virtual and TypeScript doesn't know it exists at this point.
+  return this.get("routeParts")?.some((part: string) => NonRNAVAirwayRegex.test(part));
 });
 
 flightPlanSchema.virtual("isRNAVCapable").get(function () {
