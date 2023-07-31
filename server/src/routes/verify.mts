@@ -23,6 +23,7 @@ import hasValidFirstFix from "../controllers/verifiers/hasValidFirstFix.mjs";
 
 import VerifierResult from "../models/VerifierResult.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
+import pistonNotSlantLorZ from "../controllers/verifiers/pistonNotSlantLorZ.mjs";
 
 const router = express.Router();
 
@@ -56,6 +57,7 @@ const verifiers: Verifier[] = [
   { name: "airwaysForEquipmentSuffix", handler: airwaysForEquipmentSuffix },
   { name: "hasSID", handler: hasSID },
   { name: "hasValidFirstFix", handler: hasValidFirstFix },
+  { name: "pistonNotSlantLorZ", handler: pistonNotSlantLorZ },
 ];
 
 // Generic handler for verifier routes
