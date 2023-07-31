@@ -58,7 +58,7 @@ export default async function checkForPreferredRoutes(
 
     if (matchingRoutes && matchingRoutes.length > 0) {
       result.data.status = "Ok";
-      result.data.message = `Filed route is a preferred route at the minimum required altitude and speed.`;
+      result.data.message = `Filed route is a preferred route and meets the minimum required altitude and speed.`;
       result.data.messageId = "preferredRoute";
       result.data.priority = 3;
     }
