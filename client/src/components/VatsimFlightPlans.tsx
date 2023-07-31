@@ -1,4 +1,4 @@
-import { MouseEventHandler, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import socketIOClient from "socket.io-client";
 import { serverUrl } from "../configs/planVerifierServer.mts";
 import IFlightPlan from "../interfaces/IFlightPlan.mts";
@@ -11,7 +11,6 @@ import { useNavigate } from "react-router-dom";
 const VatsimFlightPlans = () => {
   const navigate = useNavigate();
   const logger = debug("plan-verifier:vatsimFlightPlans");
-
   const [flightPlans, setData] = useState<IFlightPlan[]>([]);
 
   useEffect(() => {

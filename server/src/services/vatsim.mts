@@ -125,6 +125,11 @@ async function publishUpdates() {
 // Loads data from vatsim then processes the filed and prefiled flight plans in to the database.
 // After updating the database publishes the updated flight plan list to all connected clients.
 export async function getVatsimFlightPlans() {
+  if (io?.sockets.adapter.rooms.size === 0) {
+    logger("No clients connected, skipping vatsim update");
+    return;
+  }
+
   logger("Fetching VATSIM flight plans...");
 
   await processVatsimData(testData as IVatsimData);
