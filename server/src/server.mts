@@ -37,6 +37,7 @@ import authenticationRouter from "./routes/authentication.mjs";
 import verifyRouter from "./routes/verify.mjs";
 import navaidRouter from "./routes/navaid.mjs";
 import userRouter from "./routes/users.mjs";
+import vatsimRouter from "./routes/vatsim.mjs";
 
 export const app = express();
 let server: https.Server | Server;
@@ -116,6 +117,7 @@ export function startServer(port: number): void {
   app.use(authenticationRouter);
   app.use(navaidRouter);
   app.use(userRouter);
+  app.use(vatsimRouter);
 
   // Verifier routes
   app.use(verifyRouter);
