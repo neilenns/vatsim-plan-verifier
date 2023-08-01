@@ -16,6 +16,7 @@ const VatsimFlightPlans = () => {
   const [flightPlans, setData] = useState<IFlightPlan[]>([]);
   const [isConnected, setIsConnected] = useState(false);
   const [airportCode, setAirportCode] = useState("");
+  const [isImporting, setIsImporting] = useState(false);
   const socketRef = useRef<Socket | null>(null);
 
   useEffect(() => {
@@ -41,6 +42,7 @@ const VatsimFlightPlans = () => {
     if (!callsign) return;
 
     logger(`Importing flight plan ${callsign}`);
+    setIsImporting(true);
     importFlightPlan(callsign)
       .then((result) => {
         if (!result) return;
@@ -50,6 +52,9 @@ const VatsimFlightPlans = () => {
       })
       .catch(() => {
         logger(`Error importing flight plan ${callsign}`);
+      })
+      .finally(() => {
+        setIsImporting(false);
       });
   };
 
@@ -104,6 +109,7 @@ const VatsimFlightPlans = () => {
                     type="submit"
                     name="intent"
                     value="importFlightPlan"
+                    disabled={isImporting}
                     onClick={() => {
                       handleFlightPlanImport(flightPlan.callsign);
                     }}
