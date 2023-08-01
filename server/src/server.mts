@@ -15,7 +15,7 @@ import compression from "compression";
 import helmet from "helmet";
 
 // Workaround for lodash being a CommonJS module
-import pkg from "lodash";
+import pkg, { set } from "lodash";
 const { debounce } = pkg;
 
 // Authentication
@@ -37,6 +37,9 @@ import authenticationRouter from "./routes/authentication.mjs";
 import verifyRouter from "./routes/verify.mjs";
 import navaidRouter from "./routes/navaid.mjs";
 import userRouter from "./routes/users.mjs";
+import vatsimRouter from "./routes/vatsim.mjs";
+import { startVatsimAutoUpdate, stopVatsimAutoUpdate } from "./services/vatsim.mjs";
+import { setupSockets } from "./sockets/index.mjs";
 
 export const app = express();
 let server: https.Server | Server;
@@ -116,6 +119,7 @@ export function startServer(port: number): void {
   app.use(authenticationRouter);
   app.use(navaidRouter);
   app.use(userRouter);
+  app.use(vatsimRouter);
 
   // Verifier routes
   app.use(verifyRouter);
@@ -136,12 +140,20 @@ export function startServer(port: number): void {
   httpTerminator = createHttpTerminator({
     server,
   });
+
+  // Start the scokets
+  const io = setupSockets(server);
+
+  // Start vatsim data auto-update
+  startVatsimAutoUpdate(ENV.VATSIM_AUTO_UPDATE_INTERVAL, io);
 }
 
 // With the server up and running start watching for SSL file changes.
 startWatching();
 
 export async function stopServer() {
+  stopWatching();
+  stopVatsimAutoUpdate();
   if (server) {
     logger("Stopping web server...");
     await httpTerminator.terminate();

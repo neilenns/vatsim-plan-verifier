@@ -12,7 +12,7 @@ const logger = debug("plan-verifier:database");
 export async function connectToDatabase() {
   const url = ENV.MONGO_DB_CONNECTION_STRING;
 
-  if (ENV.NODE_ENV === "development") {
+  if (ENV.MONGOOSE_DEBUG) {
     mongoose.set("debug", true);
   } else if (ENV.NODE_ENV === "production") {
     mongoose.set("autoIndex", false);

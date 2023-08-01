@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import IActiveFlightPlan from "../interfaces/IActiveFlightPlan.mts";
 import { Link, useFetcher, useLoaderData, useParams } from "react-router-dom";
 import { Delete } from "@mui/icons-material";
-import { List, ListItem, IconButton, ListItemButton, ListItemText } from "@mui/material";
+import { List, ListItem, IconButton, ListItemButton, ListItemText, Box } from "@mui/material";
 
 const ActiveFlightPlans: React.FC = () => {
   const [selectedFlightPlanId, setSelectedFlightPlanId] = useState("");
@@ -26,54 +26,62 @@ const ActiveFlightPlans: React.FC = () => {
   }, [id]);
 
   return (
-    <fetcher.Form method="post">
-      <List dense aria-label="Active flight plans">
-        {activeFlightPlans.map((activePlan) => {
-          return (
-            <ListItem
-              key={activePlan.flightPlanId}
-              disablePadding
-              secondaryAction={
-                <IconButton
-                  edge="end"
-                  aria-label="delete"
-                  type="submit"
-                  name="intent"
-                  value="removeFlightPlan"
-                  // This feels incredibly hacky but it works for getting the information
-                  // to the react router action to do the removal.
-                  onClick={() => {
-                    const hiddenInput = document.querySelector<HTMLInputElement>(
-                      'input[name="flightPlanId"]'
-                    );
-                    if (hiddenInput) {
-                      hiddenInput.value = activePlan.flightPlanId;
-                    }
-                  }}
+    activeFlightPlans.length > 0 && (
+      <Box sx={{ borderTop: "1px solid #ccc", mt: 2 }}>
+        <fetcher.Form method="post">
+          <List dense aria-label="Active flight plans">
+            {activeFlightPlans.map((activePlan) => {
+              return (
+                <ListItem
+                  key={activePlan.flightPlanId}
+                  disablePadding
+                  secondaryAction={
+                    <IconButton
+                      edge="end"
+                      aria-label="delete"
+                      type="submit"
+                      name="intent"
+                      value="removeFlightPlan"
+                      // This feels incredibly hacky but it works for getting the information
+                      // to the react router action to do the removal.
+                      onClick={() => {
+                        const hiddenInput = document.querySelector<HTMLInputElement>(
+                          'input[name="flightPlanId"]'
+                        );
+                        if (hiddenInput) {
+                          hiddenInput.value = activePlan.flightPlanId;
+                        }
+                      }}
+                    >
+                      <Delete />
+                    </IconButton>
+                  }
                 >
-                  <Delete />
-                </IconButton>
-              }
-            >
-              <ListItemButton
-                component={Link}
-                to={`/verifier/flightPlan/${activePlan.flightPlanId}`}
-                selected={selectedFlightPlanId === activePlan.flightPlanId}
-              >
-                <ListItemText
-                  primary={activePlan.callsign}
-                  primaryTypographyProps={{ fontWeight: "bold" }}
-                  secondary={`${activePlan.departure}-${activePlan.arrival}`}
-                />
-              </ListItemButton>
-            </ListItem>
-          );
-        })}
-        <ListItem />
-      </List>
-      <input aria-label="hidden flight plan ID field" hidden name="flightPlanId" />
-      <input aria-label="hidden selected flight plan ID field" hidden name="selectedFlightPlanId" />
-    </fetcher.Form>
+                  <ListItemButton
+                    component={Link}
+                    to={`/verifier/flightPlan/${activePlan.flightPlanId}`}
+                    selected={selectedFlightPlanId === activePlan.flightPlanId}
+                  >
+                    <ListItemText
+                      primary={activePlan.callsign}
+                      primaryTypographyProps={{ fontWeight: "bold" }}
+                      secondary={`${activePlan.departure}-${activePlan.arrival}`}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              );
+            })}
+            <ListItem />
+          </List>
+          <input aria-label="hidden flight plan ID field" hidden name="flightPlanId" />
+          <input
+            aria-label="hidden selected flight plan ID field"
+            hidden
+            name="selectedFlightPlanId"
+          />
+        </fetcher.Form>
+      </Box>
+    )
   );
 };
 

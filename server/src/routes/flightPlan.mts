@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import IFlightPlanDocument from "../interfaces/IFlightPlanDocument.mjs";
-import { getFlightPlan, putFlightPlan } from "../controllers/flightPlans.mjs";
+import { getFlightPlan, importFlightPlan, putFlightPlan } from "../controllers/flightPlans.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
 
 const router = express.Router();
@@ -33,6 +33,28 @@ router.get("/flightPlan/:id", verifyUser, async (req: Request, res: Response) =>
     res.status(404).json({ error: `Flight plan ${id} not found.` });
   } else {
     res.status(500).json({ error: "Failed to get the flight plan." });
+  }
+});
+
+router.post("/flightPlan/import", verifyUser, async (req: Request, res: Response) => {
+  const { callsign } = req.body;
+
+  if (!callsign) {
+    res.status(400).json({ error: "Missing required parameter: callsign" });
+    return;
+  }
+
+  const result = await importFlightPlan(callsign);
+
+  if (result.success) {
+    res.json(result.data);
+    return;
+  }
+
+  if (result.errorType === "VatsimFlightPlanNotFound") {
+    res.status(404).json({ error: `Vatsim flight plan for ${callsign} not found.` });
+  } else {
+    res.status(500).json({ error: "Failed to import the flight plan." });
   }
 });
 

@@ -203,7 +203,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               variant="contained"
               loading={navigation.state === "submitting"}
             >
-              {flightPlan._id ? "Re-verify" : "Verify"}
+              {flightPlan.verifierResultsCount ? "Re-verify" : "Verify"}
             </LoadingButton>
           </Grid>
           <Grid item xs={12} sm={6} md={3} lg={2} key="skyvector">

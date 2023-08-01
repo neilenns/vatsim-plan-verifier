@@ -163,6 +163,14 @@ flightPlanSchema.virtual("SIDInformation", {
   justOne: true,
 });
 
+flightPlanSchema.virtual("verifierResultsCount", {
+  ref: "verifierresult",
+  localField: "_id",
+  foreignField: "flightPlanId",
+  count: true,
+  autopopulate: true,
+});
+
 // Always strip the + off the route before saving
 flightPlanSchema.pre("save", function (next) {
   if (this.isModified("route")) {

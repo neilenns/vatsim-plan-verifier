@@ -1,5 +1,4 @@
 import { AppBar, Box, Button, IconButton, Toolbar, Typography } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import { Form, Link, Outlet } from "react-router-dom";
 import ActiveFlightPlans from "../components/ActiveFlightPlans";
 import {
@@ -9,6 +8,7 @@ import {
 } from "@mui/icons-material";
 import NavMenu from "../components/NavMenu";
 import useAppContext from "../context/AppContext";
+import VatsimFlightPlans from "../components/VatsimFlightPlans";
 
 export default function Verifier() {
   const { darkMode, setDarkMode } = useAppContext();
@@ -41,17 +41,20 @@ export default function Verifier() {
       {/* Core page */}
       <Box sx={{ display: "flex", flex: 1 }}>
         {/* Sidebar */}
-        <Box sx={{ width: 200 }}>
-          <Grid xs={2} sx={{ mt: 2, ml: 2 }}>
-            <Form>
-              <Box textAlign="center">
-                <Button variant="contained" component={Link} to="/verifier/flightPlan/new">
-                  New
-                </Button>
-              </Box>
-            </Form>
+        <Box sx={{ width: 200, height: "100vh", display: "flex", flexDirection: "column" }}>
+          <Form>
+            <Box textAlign="center" sx={{ mt: 2 }}>
+              <Button variant="contained" component={Link} to="/verifier/flightPlan/new">
+                New
+              </Button>
+            </Box>
+          </Form>
+          <Box sx={{ overflow: "auto", height: "40%" }}>
             <ActiveFlightPlans />
-          </Grid>
+          </Box>
+          <Box sx={{ overflow: "auto", height: "40%" }}>
+            <VatsimFlightPlans />
+          </Box>
         </Box>
         {/* Main Content */}
         <Box sx={{ flex: 1, padding: 2 }}>

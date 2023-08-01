@@ -108,6 +108,13 @@ router.get("/verify/results/:id", verifyUser, async (req: Request, res: Response
   try {
     const rawResults = await VerifierResult.find({ flightPlanId: req.params.id });
 
+    // If there are no results send back an empty object. This ensures the
+    // UI can tell the difference between no results and some results when it
+    // comes to displaying status indicators.
+    if (rawResults.length === 0) {
+      return res.status(201).json({});
+    }
+
     const result = new VerifyAllResult();
     result.addMany(rawResults);
 
