@@ -1,5 +1,4 @@
 import { AppBar, Box, Button, IconButton, Stack, Toolbar, Typography } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import { Form, Link, Outlet } from "react-router-dom";
 import ActiveFlightPlans from "../components/ActiveFlightPlans";
 import {
@@ -51,12 +50,8 @@ export default function Verifier() {
                 </Button>
               </Box>
             </Form>
-            <Box sx={{ borderTop: "1px solid #ccc", mt: 2 }}>
-              <ActiveFlightPlans />
-            </Box>
-            <Box sx={{ borderTop: "1px solid #ccc", mt: 2 }}>
-              <VatsimFlightPlans />
-            </Box>
+            <ActiveFlightPlans />
+            <VatsimFlightPlans />
           </Stack>
         </Box>
         {/* Main Content */}

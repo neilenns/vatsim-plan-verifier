@@ -3,7 +3,7 @@ import socketIOClient from "socket.io-client";
 import { serverUrl } from "../configs/planVerifierServer.mts";
 import IFlightPlan from "../interfaces/IFlightPlan.mts";
 import { ArrowForwardOutlined as ArrowForwardOutlinedIcon } from "@mui/icons-material";
-import { List, ListItem, IconButton, ListItemText } from "@mui/material";
+import { List, ListItem, IconButton, ListItemText, Box } from "@mui/material";
 import debug from "debug";
 import { importFlightPlan } from "../services/flightPlan.mts";
 import { useNavigate } from "react-router-dom";
@@ -47,37 +47,41 @@ const VatsimFlightPlans = () => {
   };
 
   return (
-    <List dense aria-label="Vatsim flight plans" sx={{ ml: 2 }}>
-      {flightPlans.map((flightPlan) => {
-        return (
-          <ListItem
-            key={flightPlan._id}
-            disablePadding
-            secondaryAction={
-              <IconButton
-                edge="end"
-                aria-label="import"
-                type="submit"
-                name="intent"
-                value="importFlightPlan"
-                onClick={() => {
-                  handleFlightPlanImport(flightPlan.callsign);
-                }}
+    flightPlans.length > 0 && (
+      <Box sx={{ borderTop: "1px solid #ccc", mt: 2 }}>
+        <List dense aria-label="Vatsim flight plans" sx={{ ml: 2 }}>
+          {flightPlans.map((flightPlan) => {
+            return (
+              <ListItem
+                key={flightPlan._id}
+                disablePadding
+                secondaryAction={
+                  <IconButton
+                    edge="end"
+                    aria-label="import"
+                    type="submit"
+                    name="intent"
+                    value="importFlightPlan"
+                    onClick={() => {
+                      handleFlightPlanImport(flightPlan.callsign);
+                    }}
+                  >
+                    <ArrowForwardOutlinedIcon />
+                  </IconButton>
+                }
               >
-                <ArrowForwardOutlinedIcon />
-              </IconButton>
-            }
-          >
-            <ListItemText
-              primary={flightPlan.callsign}
-              primaryTypographyProps={{ fontWeight: "bold" }}
-              secondary={`${flightPlan.departure}-${flightPlan.arrival}`}
-            />
-          </ListItem>
-        );
-      })}
-      <ListItem />
-    </List>
+                <ListItemText
+                  primary={flightPlan.callsign}
+                  primaryTypographyProps={{ fontWeight: "bold" }}
+                  secondary={`${flightPlan.departure}-${flightPlan.arrival}`}
+                />
+              </ListItem>
+            );
+          })}
+          <ListItem />
+        </List>
+      </Box>
+    )
   );
 };
 
