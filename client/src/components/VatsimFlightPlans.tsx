@@ -36,6 +36,13 @@ const VatsimFlightPlans = () => {
       logger(`Error from vatsim flight plan updates: ${error.message}`);
       setIsConnected(false);
     });
+
+    // Make sure to disconnect when we are cleaned up
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+      }
+    };
   }, []);
 
   const handleFlightPlanImport = (callsign: string | undefined) => {
