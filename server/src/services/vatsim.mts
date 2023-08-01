@@ -11,6 +11,15 @@ let vatsimEndpoints: IVatsimEndpoints | undefined;
 let io: SocketIOServer;
 let updateTimer: NodeJS.Timeout | undefined;
 
+function cleanRoute(route: string) {
+  return route
+    .replace(/DCT /g, "") // Get rid of all the DCTs
+    .replace(/^\w{3,4}\/\w{2,3}\s*/, "") // Get rid of departure airport/runway making sure to catch the space after it as well
+    .replace(/\s*\w{3,4}\/\w{2,3}$/, "") // Get rid of arrival airport/runway making sure to catch the space before it as well
+    .replace(/(?<!\/)N\d+F\d+\s*/g, "") // Get rid of step climbs making sure to catch spaces after it so double spaces don't get left behind
+    .trim();
+}
+
 function parseStringToNumber(value: string) {
   const convertedValue = Number(value);
   if (isNaN(convertedValue)) return 0;
@@ -31,7 +40,7 @@ async function processVatsimPilots(pilots: IVatsimPilot[]) {
         departure: pilot?.flight_plan?.departure ?? "",
         arrival: pilot?.flight_plan?.arrival ?? "",
         cruiseAltitude: parseStringToNumber(pilot?.flight_plan?.altitude) / 100,
-        route: pilot?.flight_plan?.route ?? "",
+        route: cleanRoute(pilot?.flight_plan?.route ?? ""),
         squawk: pilot?.flight_plan?.assigned_transponder ?? "",
       });
 
@@ -53,7 +62,7 @@ async function processVatsimPrefiles(prefiles: IVatsimPrefile[]) {
         departure: prefile?.flight_plan?.departure ?? "",
         arrival: prefile?.flight_plan?.arrival ?? "",
         cruiseAltitude: parseStringToNumber(prefile?.flight_plan?.altitude) / 1000,
-        route: prefile?.flight_plan?.route ?? "",
+        route: cleanRoute(prefile?.flight_plan?.route ?? ""),
         squawk: prefile?.flight_plan?.assigned_transponder ?? "",
       });
 

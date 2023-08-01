@@ -54,15 +54,6 @@ export function parseFlightPlan(rawFlightPlan: string): IFlightPlan {
       .replace(/\n/g, " ") // Convert the newlines inserted by VRC to a single space
       .split(" ");
 
-  // Do some pre-cleanup on the route so it looks good on the website as well as when sent for verification
-  const cleanRoute = route
-    .join(" ") // Put the route back together
-    .replace(/DCT /g, "") // Get rid of all the DCTs
-    .replace(/^\w{3,4}\/\w{2,3}\s*/, "") // Get rid of departure airport/runway making sure to catch the space after it as well
-    .replace(/\s*\w{3,4}\/\w{2,3}$/, "") // Get rid of arrival airport/runway making sure to catch the space before it as well
-    .replace(/(?<!\/)N\d+F\d+\s*/g, "") // Get rid of step climbs making sure to catch spaces after it so double spaces don't get left behind
-    .trim(); // Just to be sure...
-
   const flightPlan: IFlightPlan = {
     callsign,
     rawAircraftType,
@@ -70,8 +61,16 @@ export function parseFlightPlan(rawFlightPlan: string): IFlightPlan {
     departure,
     arrival,
     cruiseAltitude,
-    route: cleanRoute,
+    route: cleanRoute(route.join(" ")),
   };
 
   return flightPlan;
+}
+function cleanRoute(route: string) {
+  return route
+    .replace(/DCT /g, "") // Get rid of all the DCTs
+    .replace(/^\w{3,4}\/\w{2,3}\s*/, "") // Get rid of departure airport/runway making sure to catch the space after it as well
+    .replace(/\s*\w{3,4}\/\w{2,3}$/, "") // Get rid of arrival airport/runway making sure to catch the space before it as well
+    .replace(/(?<!\/)N\d+F\d+\s*/g, "") // Get rid of step climbs making sure to catch spaces after it so double spaces don't get left behind
+    .trim();
 }
