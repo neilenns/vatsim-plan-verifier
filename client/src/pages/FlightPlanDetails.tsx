@@ -32,7 +32,7 @@ function FlightPlanDetails() {
           </Paper>
         </Grid>
         <Grid xs={12}>
-          {flightPlan.verifierResultsCount > 0 && (
+          {(flightPlan?.verifierResultsCount ?? 0) > 0 && (
             <Paper sx={{ padding: 1 }}>
               <VerifierResults verifierResults={verifyResults?.results} flightPlan={flightPlan} />
             </Paper>
