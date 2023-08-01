@@ -1,6 +1,5 @@
 import { AppBar, Box, Button, IconButton, Toolbar, Typography } from "@mui/material";
 import { Form, Link, Outlet } from "react-router-dom";
-import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import ActiveFlightPlans from "../components/ActiveFlightPlans";
 import {
   DarkMode as DarkModeIcon,
@@ -50,10 +49,10 @@ export default function Verifier() {
               </Button>
             </Box>
           </Form>
-          <Box sx={{ overflow: "auto" }}>
+          <Box sx={{ overflow: "auto", height: "40%" }}>
             <ActiveFlightPlans />
           </Box>
-          <Box sx={{ overflow: "auto" }}>
+          <Box sx={{ overflow: "auto", height: "40%" }}>
             <VatsimFlightPlans />
           </Box>
         </Box>
