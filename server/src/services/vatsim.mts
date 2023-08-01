@@ -135,7 +135,6 @@ async function publishUpdates() {
 // After updating the database publishes the updated flight plan list to all connected clients.
 export async function getVatsimFlightPlans() {
   if (io?.sockets.adapter.rooms.size === 0) {
-    logger("No clients connected, skipping vatsim update");
     return;
   }
 
