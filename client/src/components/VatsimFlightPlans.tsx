@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import socketIOClient, { Socket } from "socket.io-client";
 import { serverUrl } from "../configs/planVerifierServer.mts";
 import IFlightPlan from "../interfaces/IFlightPlan.mts";
@@ -9,16 +9,36 @@ import { importFlightPlan } from "../services/flightPlan.mts";
 import { useNavigate } from "react-router-dom";
 import { Stream as StreamIcon } from "@mui/icons-material";
 
+const logger = debug("plan-verifier:vatsimFlightPlans");
+
 const VatsimFlightPlans = () => {
   const navigate = useNavigate();
-  const logger = debug("plan-verifier:vatsimFlightPlans");
   const [flightPlans, setData] = useState<IFlightPlan[]>([]);
   const [isConnected, setIsConnected] = useState(false);
   const [airportCode, setAirportCode] = useState("");
-  const [socket, setSocket] = useState<Socket | null>(null);
+  const socketRef = useRef<Socket | null>(null);
 
   useEffect(() => {
-    setSocket(socketIOClient(serverUrl, { autoConnect: false }));
+    socketRef.current = socketIOClient(serverUrl, { autoConnect: false, reconnectionAttempts: 3 });
+
+    socketRef.current.on("vatsimFlightPlansUpdate", (vatsimPlans: IFlightPlan[]) => {
+      logger("Received vatsim flight plan update");
+      setData(vatsimPlans);
+    });
+
+    socketRef.current.on("disconnect", () => {
+      logger("Disconnected from vatsim flight plan updates");
+      setIsConnected(false);
+    });
+
+    socketRef.current.on("reconnect", () => {
+      setIsConnected(true);
+    });
+
+    socketRef.current.on("connect_error", (error: Error) => {
+      logger(`Error from vatsim flight plan updates: ${error.message}`);
+      setIsConnected(false);
+    });
   }, []);
 
   const handleFlightPlanImport = (callsign: string | undefined) => {
@@ -42,22 +62,17 @@ const VatsimFlightPlans = () => {
     if (airportCode === "") return;
 
     // Not currently connected so connect
-    if (!isConnected && socket) {
+    if (!isConnected && socketRef.current) {
       setData([]);
       logger("Connecting for vatsim flight plan updates");
-      socket.connect();
+      socketRef.current.connect();
 
-      socket.on("vatsimFlightPlansUpdate", (vatsimPlans: IFlightPlan[]) => {
-        logger("Received vatsim flight plan update");
-        setData(vatsimPlans);
-      });
-
-      socket.emit("setAirport", airportCode.toUpperCase());
+      socketRef.current.emit("setAirport", airportCode.toUpperCase());
       setIsConnected(true);
     }
     // Currently connected so disconnect
-    else if (socket) {
-      socket.disconnect();
+    else if (socketRef.current) {
+      socketRef.current.disconnect();
       setIsConnected(false);
     }
   };
