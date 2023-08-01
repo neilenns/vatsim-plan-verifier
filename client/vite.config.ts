@@ -12,4 +12,17 @@ export default defineConfig({
   optimizeDeps: {
     include: ["@emotion/react", "@emotion/styled"],
   },
+  // To fix chunk size warnings. From https://stackoverflow.com/questions/75719664/some-chunks-are-larger-than-500-kib-after-minification
+  build: {
+    chunkSizeWarningLimit: 800,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            return id.toString().split("node_modules/")[1].split("/")[0].toString();
+          }
+        },
+      },
+    },
+  },
 });
