@@ -1,7 +1,6 @@
 import { Server } from "http";
 import { Server as SocketIOServer } from "socket.io";
 import debug from "debug";
-import vatsimFlightPlanSocketHandler from "./vatsimFlightPlanEvent.mjs";
 import { ENV } from "../env.mjs";
 
 const logger = debug("plan-verifier:sockets");
@@ -14,7 +13,22 @@ export function setupSockets(server: Server): SocketIOServer {
     },
   });
 
-  vatsimFlightPlanSocketHandler(io);
+  io.on("connection", (socket) => {
+    logger(`Client connected: ${socket.id}. Total connected clients: ${io.sockets.sockets.size}`);
+
+    // Listen for the 'setAirport' event from the client
+    socket.on("setAirport", async (airportCode: string) => {
+      logger(`Client requested data for ${airportCode}`);
+
+      socket.join(airportCode);
+    });
+
+    socket.on("disconnect", () => {
+      logger(
+        `Client disconnected: ${socket.id}. Total connected clients: ${io.sockets.sockets.size}`
+      );
+    });
+  });
 
   return io;
 }

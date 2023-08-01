@@ -19,7 +19,7 @@ const VatsimFlightPlans = () => {
   const socketRef = useRef<Socket | null>(null);
 
   useEffect(() => {
-    socketRef.current = socketIOClient(serverUrl, { autoConnect: false, reconnectionAttempts: 3 });
+    socketRef.current = socketIOClient(serverUrl, { autoConnect: false, reconnectionAttempts: 10 });
 
     socketRef.current.on("vatsimFlightPlansUpdate", (vatsimPlans: IFlightPlan[]) => {
       logger("Received vatsim flight plan update");
@@ -29,10 +29,6 @@ const VatsimFlightPlans = () => {
     socketRef.current.on("disconnect", () => {
       logger("Disconnected from vatsim flight plan updates");
       setIsConnected(false);
-    });
-
-    socketRef.current.on("reconnect", () => {
-      setIsConnected(true);
     });
 
     socketRef.current.on("connect_error", (error: Error) => {

@@ -30,7 +30,7 @@ async function processVatsimPilots(pilots: IVatsimPilot[]) {
         rawAircraftType: pilot?.flight_plan?.aircraft_faa ?? "",
         departure: pilot?.flight_plan?.departure ?? "",
         arrival: pilot?.flight_plan?.arrival ?? "",
-        cruiseAltitude: parseStringToNumber(pilot?.flight_plan?.altitude) / 1000,
+        cruiseAltitude: parseStringToNumber(pilot?.flight_plan?.altitude) / 100,
         route: pilot?.flight_plan?.route ?? "",
         squawk: pilot?.flight_plan?.assigned_transponder ?? "",
       });
