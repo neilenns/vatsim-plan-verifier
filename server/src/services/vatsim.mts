@@ -61,7 +61,7 @@ async function processVatsimPrefiles(prefiles: IVatsimPrefile[]) {
         rawAircraftType: prefile?.flight_plan?.aircraft_faa ?? "",
         departure: prefile?.flight_plan?.departure ?? "",
         arrival: prefile?.flight_plan?.arrival ?? "",
-        cruiseAltitude: parseStringToNumber(prefile?.flight_plan?.altitude) / 1000,
+        cruiseAltitude: parseStringToNumber(prefile?.flight_plan?.altitude) / 100,
         route: cleanRoute(prefile?.flight_plan?.route ?? ""),
         squawk: prefile?.flight_plan?.assigned_transponder ?? "",
       });
