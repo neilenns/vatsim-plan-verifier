@@ -50,10 +50,10 @@ export default function Verifier() {
               </Button>
             </Box>
           </Form>
-          <Box sx={{ flex: 0.5 }}>
+          <Box sx={{ overflow: "auto" }}>
             <ActiveFlightPlans />
           </Box>
-          <Box sx={{ flex: 0.5 }}>
+          <Box sx={{ overflow: "auto" }}>
             <VatsimFlightPlans />
           </Box>
         </Box>

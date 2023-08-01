@@ -132,68 +132,54 @@ export async function getVatsimFlightPlans() {
 
   logger("Fetching VATSIM flight plans...");
 
-  await processVatsimData(testData as IVatsimData);
-  await publishUpdates();
+  if (!vatsimEndpoints) {
+    const endpointsResult = await getVatsimEndpoints();
+    if (!endpointsResult.success) {
+      logger("Unable to retrieve VATSIM endpoints");
+      return {
+        success: false,
+        errorType: "VatsimFailure",
+        error: "Unable to retrieve VATSIM endpoints",
+      };
+    } else {
+      vatsimEndpoints = endpointsResult.data;
+    }
+  }
 
-  return;
+  const dataEndpoint = vatsimEndpoints?.data.v3[0];
 
-  // if (!vatsimEndpoints)
-  // {
-  // 	const endpointsResult = await getVatsimEndpoints();
-  // 	if (!endpointsResult.success)
-  // 	{
-  // 		logger("Unable to retrieve VATSIM endpoints");
-  // 		return {
-  // 			success: false,
-  // 			errorType: "VatsimFailure",
-  // 			error: "Unable to retrieve VATSIM endpoints",
-  // 		}
-  // 	}
-  // 	else
-  // 	{
-  // 		vatsimEndpoints = endpointsResult.data;
-  // 	}
-  // }
+  if (!dataEndpoint) {
+    logger("Unable to retrieve VATSIM data endpoint");
+    return {
+      success: false,
+      errorType: "VatsimFailure",
+      error: "Unable to retrieve VATSIM data endpoint",
+    };
+  }
 
-  // const dataEndpoint = vatsimEndpoints?.data.v3[0];
+  try {
+    const response = await axios.get(dataEndpoint);
 
-  // if (!dataEndpoint)
-  // {
-  // 	logger("Unable to retrieve VATSIM data endpoint");
-  // 	return {
-  // 		success: false,
-  // 		errorType: "VatsimFailure",
-  // 		error: "Unable to retrieve VATSIM data endpoint",
-  // 	}
-  // }
-
-  // try
-  // {
-  // 	const response = await axios.get(dataEndpoint);
-
-  // 	if (response.status === 200) {
-  // 		return {
-  // 			success: true,
-  // 			data: response.data,
-  // 		};
-  // 	}
-  // 	else {
-  // 		return {
-  // 			success: false,
-  // 			errorType: "UnknownError",
-  // 			error: `Unknown error: ${response.status} ${response.statusText}`,
-  // 		};
-  // 	}
-  // } catch (error) {
-  // 	return {
-  // 		success: false,
-  // 		errorType: "UnknownError",
-  // 		error: `Error fetching VATSIM flight plans: ${error}`,
-  // 	};
-  // }
+    if (response.status === 200) {
+      await processVatsimData(response.data as IVatsimData);
+      await publishUpdates();
+    } else {
+      return {
+        success: false,
+        errorType: "UnknownError",
+        error: `Unknown error: ${response.status} ${response.statusText}`,
+      };
+    }
+  } catch (error) {
+    return {
+      success: false,
+      errorType: "UnknownError",
+      error: `Error fetching VATSIM flight plans: ${error}`,
+    };
+  }
 }
 
-export function startVatsimAutoUpdate(updateInterval: number, ioInstance: SocketIOServer) {
+export async function startVatsimAutoUpdate(updateInterval: number, ioInstance: SocketIOServer) {
   logger("Starting vatsim auto-update");
   io = ioInstance;
   updateTimer = setInterval(getVatsimFlightPlans, updateInterval);

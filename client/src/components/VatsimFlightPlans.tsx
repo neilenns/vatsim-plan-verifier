@@ -18,7 +18,7 @@ const VatsimFlightPlans = () => {
   const [socket, setSocket] = useState<Socket | null>(null);
 
   useEffect(() => {
-    setSocket(socketIOClient(serverUrl));
+    setSocket(socketIOClient(serverUrl, { autoConnect: false }));
   }, []);
 
   const handleFlightPlanImport = (callsign: string | undefined) => {
