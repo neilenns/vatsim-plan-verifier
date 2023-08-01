@@ -23,7 +23,7 @@ interface IFlightPlan {
   SIDInformation?: {
     ClimbViaSid?: boolean;
   };
-  verifierResultsCount: number;
+  verifierResultsCount?: number;
 }
 
 export default IFlightPlan;
