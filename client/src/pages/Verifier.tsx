@@ -1,5 +1,6 @@
-import { AppBar, Box, Button, IconButton, Stack, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Button, IconButton, Toolbar, Typography } from "@mui/material";
 import { Form, Link, Outlet } from "react-router-dom";
+import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import ActiveFlightPlans from "../components/ActiveFlightPlans";
 import {
   DarkMode as DarkModeIcon,
@@ -41,18 +42,20 @@ export default function Verifier() {
       {/* Core page */}
       <Box sx={{ display: "flex", flex: 1 }}>
         {/* Sidebar */}
-        <Box sx={{ width: 200 }}>
-          <Stack sx={{ mt: 2 }}>
-            <Form>
-              <Box textAlign="center">
-                <Button variant="contained" component={Link} to="/verifier/flightPlan/new">
-                  New
-                </Button>
-              </Box>
-            </Form>
+        <Box sx={{ width: 200, height: "100vh", display: "flex", flexDirection: "column" }}>
+          <Form>
+            <Box textAlign="center" sx={{ mt: 2, bgcolor: "lightblue" }}>
+              <Button variant="contained" component={Link} to="/verifier/flightPlan/new">
+                New
+              </Button>
+            </Box>
+          </Form>
+          <Box sx={{ flex: 0.5 }}>
             <ActiveFlightPlans />
+          </Box>
+          <Box sx={{ flex: 0.5 }}>
             <VatsimFlightPlans />
-          </Stack>
+          </Box>
         </Box>
         {/* Main Content */}
         <Box sx={{ flex: 1, padding: 2 }}>
