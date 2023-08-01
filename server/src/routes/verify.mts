@@ -108,6 +108,10 @@ router.get("/verify/results/:id", verifyUser, async (req: Request, res: Response
   try {
     const rawResults = await VerifierResult.find({ flightPlanId: req.params.id });
 
+    if (rawResults.length === 0) {
+      return res.status(201).json({});
+    }
+
     const result = new VerifyAllResult();
     result.addMany(rawResults);
 
