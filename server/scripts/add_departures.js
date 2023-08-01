@@ -343,4 +343,16 @@ db.departures.insertMany([
       },
     ],
   },
+  {
+    SID: "KINGSLEY6",
+    Fixes: ["LMT", "LKV", "RBL", "FMG", "FJS", "OED", "RBG", "DSD", "EUG"],
+    ClimbViaSid: false,
+    InitialAltitudes: [
+      {
+        Altitude: 100,
+        AircraftClass: ".*",
+      },
+    ],
+    IsRNAV: false,
+  },
 ]);
