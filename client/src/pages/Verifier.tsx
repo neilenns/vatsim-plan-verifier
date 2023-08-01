@@ -44,7 +44,7 @@ export default function Verifier() {
         {/* Sidebar */}
         <Box sx={{ width: 200, height: "100vh", display: "flex", flexDirection: "column" }}>
           <Form>
-            <Box textAlign="center" sx={{ mt: 2, bgcolor: "lightblue" }}>
+            <Box textAlign="center" sx={{ mt: 2 }}>
               <Button variant="contained" component={Link} to="/verifier/flightPlan/new">
                 New
               </Button>
