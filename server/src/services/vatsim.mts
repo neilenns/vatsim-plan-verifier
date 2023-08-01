@@ -22,7 +22,7 @@ async function processVatsimPilots(pilots: IVatsimPilot[]) {
   return Promise.all([
     pilots.map(async (pilot) => {
       if (!pilot?.callsign) return;
-      if (pilot.groundspeed ?? 0 > 10) return;
+      if (pilot.groundspeed ?? 0 > 40) return;
 
       const flightPlan = new VatsimFlightPlanModel({
         callsign: pilot?.callsign ?? "",

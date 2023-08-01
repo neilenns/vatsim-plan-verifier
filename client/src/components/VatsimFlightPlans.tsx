@@ -43,6 +43,7 @@ const VatsimFlightPlans = () => {
 
     // Not currently connected so connect
     if (!isConnected && socket) {
+      setData([]);
       logger("Connecting for vatsim flight plan updates");
       socket.connect();
 
