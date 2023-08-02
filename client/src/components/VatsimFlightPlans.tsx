@@ -107,7 +107,10 @@ const VatsimFlightPlans = () => {
         navigate(`/verifier/flightPlan/${result._id!}`);
       })
       .catch(() => {
-        logger(`Error importing flight plan ${callsign}`);
+        const message = `Error importing flight plan ${callsign}`;
+        logger(message);
+        setSnackbarMessage(message);
+        setSnackbarOpen(true);
       })
       .finally(() => {
         setIsImporting(false);

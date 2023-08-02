@@ -34,7 +34,7 @@ export const flightPlanSchema = new Schema(
   {
     callsign: { type: String, required: true },
     airlineCode: { type: String, required: false },
-    rawAircraftType: { type: String, required: true },
+    rawAircraftType: { type: String, required: false },
     equipmentCode: { type: String, required: false },
     isHeavy: { type: Boolean, required: false, default: false },
     equipmentSuffix: { type: String, required: false },
