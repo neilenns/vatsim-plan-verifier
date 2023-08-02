@@ -16,8 +16,7 @@ const App = () => {
         localStorage.setItem("role", response.data.role);
       })
       .catch(() => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("role");
+        localStorage.clear();
       });
   }, []);
 
