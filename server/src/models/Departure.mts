@@ -13,6 +13,9 @@ export class Departure {
   @prop({ required: true })
   SID!: string;
 
+  @prop({ required: true })
+  Telephony!: string;
+
   @prop({ required: true, type: [String] })
   Fixes!: string[];
 

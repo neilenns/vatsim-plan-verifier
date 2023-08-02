@@ -6,7 +6,7 @@ import { getFlightAwareAirport } from "../controllers/flightAwareAirports.mjs";
 import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
 import debug from "debug";
 import NavaidModel from "./Navaid.mjs";
-import { Departure } from "./Departure.mjs";
+import DepartureModel, { Departure } from "./Departure.mjs";
 import { IAircraft } from "./Aircraft.mjs";
 
 const logger = debug("plan-verifier:flightPlan");
@@ -261,6 +261,16 @@ flightPlanSchema.pre("save", async function () {
 
   const routeParts = this.route.replace(" DCT", "").trim().split(" ");
 
+  // See if the first route part is a known SID. If so, replace it with
+  // the telephony for the SID.
+  if (routeParts.length > 0) {
+    const sid = await DepartureModel.findOne({ SID: routeParts[0] });
+    if (sid) {
+      routeParts[0] = sid.Telephony ?? routeParts[0];
+    }
+  }
+
+  // Look for all of the navaids and replace them with the name of the navaid
   const expandedRouteArray = await Promise.all(
     routeParts.map(async (part) => {
       if (part.length === 3) {

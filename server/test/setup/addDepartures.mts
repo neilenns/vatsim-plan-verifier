@@ -4,6 +4,7 @@ const departures = [
   {
     _id: "5f9f7b9b9b3b3c1b3c1b3c11",
     SID: "PTLD2",
+    Telephony: "PORTLAND TWO",
     Fixes: [
       "BTG",
       "YKM",
@@ -48,6 +49,7 @@ const departures = [
   {
     _id: "5f9f7b9b9b3b3c1b3c1b3c12",
     SID: "HAROB6",
+    Telephony: "HAROB SIX",
     Fixes: ["HAROB", "HQM", "ERAVE", "HISKU"],
     ClimbViaSid: true,
     InitialAltitudes: [
@@ -61,6 +63,7 @@ const departures = [
   {
     _id: "5f9f7b9b9b3b3c1b3c1b3c13",
     SID: "SEA8",
+    Telephony: "SEATTLE EIGHT",
     IsRNAV: false,
     Fixes: [
       "TOU",
