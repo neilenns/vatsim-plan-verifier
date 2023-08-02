@@ -31,6 +31,14 @@ const VatsimFlightPlans = () => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const socketRef = useRef<Socket | null>(null);
 
+  const handleSnackbarClose = (_: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSnackbarOpen(false);
+  };
+
   useEffect(() => {
     socketRef.current = socketIOClient(serverUrl, {
       autoConnect: false,
@@ -48,6 +56,13 @@ const VatsimFlightPlans = () => {
       setIsConnected(false);
     });
 
+    socketRef.current.on("airportNotFound", (airportCode: string) => {
+      logger(`Airport ${airportCode} not found`);
+      setSnackbarMessage(`Airport ${airportCode} not found.`);
+      setSnackbarOpen(true);
+      setIsConnected(false);
+    });
+
     socketRef.current.on("connect_error", (error: Error) => {
       logger(`Error from vatsim flight plan updates: ${error.message}`);
       setSnackbarMessage(`Unable to retrieve VATSIM flight plans.`);
@@ -62,14 +77,6 @@ const VatsimFlightPlans = () => {
       }
     };
   }, []);
-
-  const handleSnackbarClose = (_: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setSnackbarOpen(false);
-  };
 
   const handleFlightPlanImport = (callsign: string | undefined) => {
     if (!callsign) return;
@@ -92,14 +99,13 @@ const VatsimFlightPlans = () => {
   };
 
   const toggleVatsimConnection = () => {
-    logger("Toggling vatsim connection");
     if (airportCode === "") return;
 
     // Not currently connected so connect
     if (!isConnected && socketRef.current) {
       setData([]);
-      logger("Connecting for vatsim flight plan updates");
       socketRef.current.connect();
+      logger("Connected for vatsim flight plan updates");
 
       socketRef.current.emit("setAirport", airportCode.toUpperCase());
       setIsConnected(true);

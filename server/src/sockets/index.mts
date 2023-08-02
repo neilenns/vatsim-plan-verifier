@@ -1,10 +1,25 @@
 import { Server } from "http";
-import { Server as SocketIOServer } from "socket.io";
+import { Socket, Server as SocketIOServer } from "socket.io";
 import debug from "debug";
 import { ENV } from "../env.mjs";
 import { verifySocketApiKey } from "../middleware/apikey.mjs";
+import { getFlightAwareAirport } from "../controllers/flightAwareAirports.mjs";
 
 const logger = debug("plan-verifier:sockets");
+
+async function registerForAirport(socket: Socket, airportCode: string) {
+  logger(`Client requested data for ${airportCode}`);
+
+  const airportInfo = await getFlightAwareAirport(airportCode);
+
+  // Probably not a valid airport code
+  if (!airportInfo.success) {
+    socket.emit("airportNotFound", airportCode);
+    return;
+  }
+
+  socket.join(airportCode);
+}
 
 export function setupSockets(server: Server): SocketIOServer {
   const io = new SocketIOServer(server, {
@@ -21,9 +36,7 @@ export function setupSockets(server: Server): SocketIOServer {
 
     // Listen for the 'setAirport' event from the client
     socket.on("setAirport", async (airportCode: string) => {
-      logger(`Client requested data for ${airportCode}`);
-
-      socket.join(airportCode);
+      await registerForAirport(socket, airportCode);
     });
 
     socket.on("disconnect", () => {
