@@ -25,6 +25,7 @@ import VerifierResult from "../models/VerifierResult.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
 import pistonNotSlantLorZ from "../controllers/verifiers/pistonNotSlantLorZ.mjs";
 import checkKPDXtoKSLEAltitude from "../controllers/verifiers/checkKPDXtoKSLEAltitude.mjs";
+import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
 
 const router = express.Router();
 
@@ -67,6 +68,7 @@ const handleVerifierRoute = async (routeName: string, handler: Function) => {
   router.get(
     `/verify/${routeName}/:id`,
     verifyUser,
+    secureQueryMiddleware,
     findExistingResultsMiddleware(routeName),
     async (req: Request, res: Response) => {
       const { id } = req.params;
@@ -104,27 +106,32 @@ const handleVerifierRoute = async (routeName: string, handler: Function) => {
 };
 
 // Register the route to get all the results for a past run
-router.get("/verify/results/:id", verifyUser, async (req: Request, res: Response) => {
-  try {
-    const rawResults = await VerifierResult.find({ flightPlanId: req.params.id });
+router.get(
+  "/verify/results/:id",
+  verifyUser,
+  secureQueryMiddleware,
+  async (req: Request, res: Response) => {
+    try {
+      const rawResults = await VerifierResult.find({ flightPlanId: req.params.id });
 
-    // If there are no results send back an empty object. This ensures the
-    // UI can tell the difference between no results and some results when it
-    // comes to displaying status indicators.
-    if (rawResults.length === 0) {
-      return res.status(201).json({});
+      // If there are no results send back an empty object. This ensures the
+      // UI can tell the difference between no results and some results when it
+      // comes to displaying status indicators.
+      if (rawResults.length === 0) {
+        return res.status(201).json({});
+      }
+
+      const result = new VerifyAllResult();
+      result.addMany(rawResults);
+
+      return res.status(201).json(result);
+    } catch (error) {
+      return res.status(500).json({
+        error: `Failed to get results for flight plan ${req.params.id}.`,
+      });
     }
-
-    const result = new VerifyAllResult();
-    result.addMany(rawResults);
-
-    return res.status(201).json(result);
-  } catch (error) {
-    return res.status(500).json({
-      error: `Failed to get results for flight plan ${req.params.id}.`,
-    });
   }
-});
+);
 
 // Register the route to delete all the results for a past run
 router.delete("/verify/results/:id", async (req: Request, res: Response) => {
@@ -143,6 +150,7 @@ router.delete("/verify/results/:id", async (req: Request, res: Response) => {
 router.get(
   "/verify/all/:id",
   verifyUser,
+  secureQueryMiddleware,
   findExistingResultsMiddleware(),
   async (req: Request, res: Response) => {
     const { id } = req.params;

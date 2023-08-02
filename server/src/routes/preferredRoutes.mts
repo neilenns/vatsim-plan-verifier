@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { getPreferredRoutes } from "../controllers/preferredRoutes.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
+import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
 
 const router = express.Router();
 
@@ -8,6 +9,7 @@ const router = express.Router();
 router.get(
   "/preferredRoutes/:departure/:arrival",
   verifyUser,
+  secureQueryMiddleware,
   async (req: Request, res: Response) => {
     const { departure, arrival } = req.params;
 
