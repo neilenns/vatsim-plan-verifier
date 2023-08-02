@@ -77,7 +77,7 @@ export async function importFlightPlan(callsign: string): Promise<FlightPlanResu
       departure: vatsimPlan.departure!,
       arrival: vatsimPlan.arrival!,
       route: vatsimPlan.route!,
-      rawAircraftType: vatsimPlan.rawAircraftType!,
+      rawAircraftType: vatsimPlan.rawAircraftType ?? "", // Issue #369, sometimes plans from vatsim don't have the aircraft type specified.
       cruiseAltitude: vatsimPlan.cruiseAltitude!,
       squawk: vatsimPlan.squawk!,
     } as IFlightPlan;
