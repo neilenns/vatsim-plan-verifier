@@ -28,6 +28,12 @@ export class Departure {
   @prop({ default: false })
   IsRNAV!: boolean;
 
+  @prop()
+  expectInMinutes?: number;
+
+  @prop()
+  expectRequired?: boolean;
+
   @prop({ type: () => [InitialAltitude] })
   InitialAltitudes!: InitialAltitude[];
 }

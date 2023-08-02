@@ -114,6 +114,8 @@ db.departures.insertMany([
     Fixes: ["OTH", "GAMMA", "RARES", "SCOTY", "DEROY", "LEDGE"],
     ClimbViaSid: true,
     isRNAV: false,
+    ExpectRequired: true,
+    ExpectInMinutes: 5,
     InitialAltitudes: [
       {
         Altitude: 40,
@@ -192,6 +194,8 @@ db.departures.insertMany([
     Fixes: [],
     ClimbViaSid: false,
     isRNAV: false,
+    ExpectRequired: true,
+    ExpectInMinutes: 5,
     InitialAltitudes: [
       {
         Altitude: 120,
@@ -374,6 +378,8 @@ db.departures.insertMany([
     Fixes: ["TITON", "PERTT", "ELN", "RUBEL", "PAPPS", "SUNED"],
     ClimbViaSid: false,
     isRNAV: false,
+    ExpectRequired: true,
+    ExpectInMinutes: 5,
     InitialAltitudes: [
       {
         Altitude: 100,

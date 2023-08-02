@@ -1,5 +1,6 @@
 import IAircraft from "./IAircraft.mjs";
 import IFlightAwareAirport from "./IFlightAwareAirport.mjs";
+import ISIDInformation from "./ISIDInformation.mts";
 import ITelephony from "./ITelephony.mts";
 
 interface IFlightPlan {
@@ -20,9 +21,7 @@ interface IFlightPlan {
   telephony?: ITelephony[];
   expandedRoute?: string;
   initialAltitude?: string;
-  SIDInformation?: {
-    ClimbViaSid?: boolean;
-  };
+  SIDInformation?: ISIDInformation;
   verifierResultsCount?: number;
 }
 

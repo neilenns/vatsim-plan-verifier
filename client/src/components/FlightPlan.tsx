@@ -1,9 +1,11 @@
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Button, FormHelperText, Grid, Typography } from "@mui/material";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
 import { useEffect, useState } from "react";
 import FlightPlanTextField from "./FlightPlanTextField";
 import {
+  formattedExpectInMinutes,
+  formattedInitialAltitude,
   normalizeAirportName,
   parseFlightPlan,
   validateFlightPlan,
@@ -165,11 +167,11 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               name="cruiseAltitude"
               value={flightPlan.cruiseAltitude}
               helperText={
-                flightPlan?.initialAltitude
-                  ? `Initial: ${flightPlan.SIDInformation?.ClimbViaSid ? "CVS " : ""}${
-                      flightPlan.initialAltitude
-                    }`
-                  : " "
+                <>
+                  {formattedInitialAltitude(flightPlan)}
+                  {flightPlan.SIDInformation?.ExpectInMinutes ? <br /> : ""}
+                  {formattedExpectInMinutes(flightPlan.SIDInformation)}
+                </>
               }
               trim
               onPaste={parsePastedFlightPlan}
@@ -178,7 +180,20 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               }}
               hasErrors={verifierResults?.hasCruiseAltitudeErrors}
               hasWarnings={verifierResults?.hasCruiseAltitudeWarnings}
-            />
+            >
+              <FormHelperText>
+                {flightPlan?.initialAltitude ? (
+                  <>
+                    <Typography>
+                      Initial: {flightPlan.SIDInformation?.ClimbViaSid ? "CVS " : ""}
+                      {flightPlan.initialAltitude}
+                    </Typography>
+                  </>
+                ) : (
+                  " "
+                )}
+              </FormHelperText>
+            </FlightPlanTextField>
           </Grid>
           <Grid item xs={12} key="route">
             <FlightPlanTextField

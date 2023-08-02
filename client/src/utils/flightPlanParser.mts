@@ -1,4 +1,6 @@
+import pluralize from "pluralize";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
+import ISIDInformation from "../interfaces/ISIDInformation.mts";
 
 // Checks to see if the airport name ends in "Airport". If so, return
 // unmodified. If not, append " Airport" and return it.
@@ -8,6 +10,35 @@ export function normalizeAirportName(airportName: string): string {
   } else {
     return `${airportName} Airport`;
   }
+}
+
+// Formats the initial altitude for the flight plan based on whether one is
+// provided and whether the SID requires "climb via SID" phraseology.
+export function formattedInitialAltitude(flightPlan: IFlightPlan): string {
+  if (!flightPlan.initialAltitude) {
+    return "Initial: unknown";
+  }
+
+  return `Initial: ${flightPlan.SIDInformation?.ClimbViaSid ? "CVS " : ""}${
+    flightPlan.initialAltitude
+  }`;
+}
+
+// Looks at the SIDInformation in a flight plan and returns the formatted
+// minutes after departure to expect the SID to be assigned.
+export function formattedExpectInMinutes(SIDInformation?: ISIDInformation): string {
+  if (!SIDInformation || !SIDInformation.ExpectInMinutes) {
+    return "";
+  }
+
+  // If the expect in minutes is required because it isn't printed on the chart
+  // then show it directly. If it is only required when modifying the cruise altitude
+  // show it inside ().
+  const formattedString = SIDInformation.ExpectRequired
+    ? pluralize("minute", SIDInformation.ExpectInMinutes, true)
+    : `(${pluralize("minute", SIDInformation.ExpectInMinutes, true)})`;
+
+  return formattedString;
 }
 
 // Cleans up flight plans that have two squawk codes in them by removing
@@ -66,6 +97,7 @@ export function parseFlightPlan(rawFlightPlan: string): IFlightPlan {
 
   return flightPlan;
 }
+
 function cleanRoute(route: string) {
   return route
     .replace(/DCT /g, "") // Get rid of all the DCTs
