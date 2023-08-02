@@ -17,7 +17,27 @@ const envSchema = z.object({
   API_RATE_LIMIT_MINUTE_WINDOW: z.coerce.number().default(5),
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   VATSIM_AUTO_UPDATE_INTERVAL: z.coerce.number().default(1000 * 30), // 30 seconds
-  MONGOOSE_DEBUG: z.coerce.boolean().default(false),
+  // from https://github.com/colinhacks/zod/issues/1630#issuecomment-1623726247
+  MONGOOSE_DEBUG: z
+    .string()
+    .transform<boolean>((v, ctx) => {
+      v = v.toLowerCase();
+      switch (v) {
+        case "true":
+          return true;
+        case "false":
+          return false;
+        default:
+          ctx.addIssue({
+            code: z.ZodIssueCode.invalid_type,
+            expected: z.ZodParsedType.boolean,
+            received: z.ZodParsedType.string,
+            message: 'Expected "true" or "false"',
+          });
+          return false;
+      }
+    })
+    .default("false"),
 });
 
 export const ENV = envSchema.parse(process.env);

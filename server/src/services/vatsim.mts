@@ -5,6 +5,7 @@ import VatsimFlightPlanModel from "../models/VatsimFlightPlan.mjs";
 import debug from "debug";
 import testData from "./vatsimdata.json" assert { type: "json" };
 import { Server as SocketIOServer } from "socket.io";
+import pluralize from "pluralize";
 
 const logger = debug("plan-verifier:vatsimService");
 let vatsimEndpoints: IVatsimEndpoints | undefined;
@@ -119,15 +120,21 @@ async function publishUpdates() {
   }
 
   // Loop through the rooms and send filtered data to clients in each room
-  io.sockets.adapter.rooms.forEach(async (_, airportCode) => {
+  io.sockets.adapter.rooms.forEach(async (_, roomName) => {
     // Every client gets put in their own auto-generated room. Skip those since there won't be any matching
     // database values. The assumption is all airport codes will be 3 or 4 characters long.
-    if (airportCode.length > 4) return;
+    if (!roomName.startsWith("APT:")) return;
 
-    const flightPlans = await VatsimFlightPlanModel.find({ departure: airportCode });
+    const airportCodes = roomName.replace("APT:", "").split(",");
 
-    logger(`Emitting data for ${airportCode}`);
-    io.to(airportCode).emit("vatsimFlightPlansUpdate", flightPlans);
+    const flightPlans = await VatsimFlightPlanModel.find({ departure: { $in: airportCodes } }).sort(
+      { callsign: 1 }
+    );
+
+    logger(
+      `Emitting ${pluralize("result", flightPlans.length, true)} for ${airportCodes.join(", ")}`
+    );
+    io.to(roomName).emit("vatsimFlightPlansUpdate", flightPlans);
   });
 }
 
