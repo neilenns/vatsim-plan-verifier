@@ -17,7 +17,7 @@ const envSchema = z.object({
   API_RATE_LIMIT_MINUTE_WINDOW: z.coerce.number().default(5),
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   VATSIM_AUTO_UPDATE_INTERVAL: z.coerce.number().default(1000 * 30), // 30 seconds
-  MONGOOSE_DEBUG: z.enum(["true", "false"]).transform((value) => value === "true"),
+  MONGOOSE_DEBUG: z.enum(["true", "false"]).transform((value) => (value ?? "false") === "true"),
 });
 
 export const ENV = envSchema.parse(process.env);
