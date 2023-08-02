@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import socketIOClient, { Socket } from "socket.io-client";
-import { serverUrl } from "../configs/planVerifierServer.mts";
+import { apiKey, serverUrl } from "../configs/planVerifierServer.mts";
 import IFlightPlan from "../interfaces/IFlightPlan.mts";
 import { ArrowForwardOutlined as ArrowForwardOutlinedIcon } from "@mui/icons-material";
 import {
@@ -32,7 +32,11 @@ const VatsimFlightPlans = () => {
   const socketRef = useRef<Socket | null>(null);
 
   useEffect(() => {
-    socketRef.current = socketIOClient(serverUrl, { autoConnect: false, reconnection: false });
+    socketRef.current = socketIOClient(serverUrl, {
+      autoConnect: false,
+      reconnection: false,
+      auth: { token: apiKey },
+    });
 
     socketRef.current.on("vatsimFlightPlansUpdate", (vatsimPlans: IFlightPlan[]) => {
       logger("Received vatsim flight plan update");

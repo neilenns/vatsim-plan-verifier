@@ -2,6 +2,7 @@ import { Server } from "http";
 import { Server as SocketIOServer } from "socket.io";
 import debug from "debug";
 import { ENV } from "../env.mjs";
+import { verifySocketApiKey } from "../middleware/apikey.mjs";
 
 const logger = debug("plan-verifier:sockets");
 
@@ -12,6 +13,8 @@ export function setupSockets(server: Server): SocketIOServer {
       credentials: true,
     },
   });
+
+  io.use(verifySocketApiKey);
 
   io.on("connection", (socket) => {
     logger(`Client connected: ${socket.id}. Total connected clients: ${io.sockets.sockets.size}`);
