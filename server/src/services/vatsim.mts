@@ -32,6 +32,7 @@ async function processVatsimPilots(pilots: IVatsimPilot[]) {
   return Promise.all([
     pilots.map(async (pilot) => {
       if (!pilot?.callsign) return;
+      if (pilot?.flight_plan?.flight_rules !== "I") return;
       if (pilot.groundspeed ?? 0 > 40) return;
 
       const flightPlan = new VatsimFlightPlanModel({
@@ -55,6 +56,7 @@ async function processVatsimPrefiles(prefiles: IVatsimPrefile[]) {
   return Promise.all([
     prefiles.map(async (prefile) => {
       if (!prefile?.callsign) return;
+      if (prefile?.flight_plan.flight_rules !== "I") return;
 
       const flightPlan = new VatsimFlightPlanModel({
         callsign: prefile?.callsign ?? "",
