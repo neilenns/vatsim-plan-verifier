@@ -66,6 +66,7 @@ const VatsimFlightPlans = () => {
       logger(message);
       setSnackbarMessage(message);
       setSnackbarOpen(true);
+      socketRef.current?.disconnect();
       setIsConnected(false);
     });
 
@@ -76,6 +77,7 @@ const VatsimFlightPlans = () => {
       logger(message);
       setSnackbarMessage(message);
       setSnackbarOpen(true);
+      socketRef.current?.disconnect();
       setIsConnected(false);
     });
 
