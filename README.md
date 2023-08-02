@@ -6,8 +6,8 @@ common errors in flight plans filed by VATSIM pilots.
 ## Importing flight plans from VATSIM
 
 The app supports listening for new flight plans at an airport to simplify the process of entering
-flight plan data for verification. To start watching for flight plans enter an airport code in the
-text box then click the connect icon:
+flight plan data for verification. To start watching for flight plans enter a comma separated
+list of airports to watch in the text box then click the connect icon:
 
 ![Configuring VATSIM flight plan import](client/public/help_vatsimImport.png)
 
