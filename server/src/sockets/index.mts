@@ -9,8 +9,6 @@ import { ClientToServerEvents, ServerToClientEvents } from "../types/socketEvent
 const logger = debug("plan-verifier:sockets");
 
 async function registerForAirports(socket: Socket, airportCodes: string[]) {
-  logger(`Client requested data for ${airportCodes.join(", ")}`);
-
   // Check for insecure airport codes first
   const insecureAirportCodes = airportCodes.filter((airportCode) => airportCode.startsWith("$"));
   if (insecureAirportCodes.length > 0) {
