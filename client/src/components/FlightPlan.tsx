@@ -169,7 +169,6 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               helperText={
                 <>
                   {formattedInitialAltitude(flightPlan)}
-                  {flightPlan.SIDInformation?.ExpectInMinutes ? <br /> : ""}
                   {formattedExpectInMinutes(flightPlan.SIDInformation)}
                 </>
               }

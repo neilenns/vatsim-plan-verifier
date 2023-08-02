@@ -28,7 +28,7 @@ export function formattedInitialAltitude(flightPlan: IFlightPlan): string {
 // minutes after departure to expect the SID to be assigned.
 export function formattedExpectInMinutes(SIDInformation?: ISIDInformation): string {
   if (!SIDInformation || !SIDInformation.ExpectInMinutes) {
-    return "";
+    return "See chart/SOP";
   }
 
   // If the expect in minutes is required because it isn't printed on the chart

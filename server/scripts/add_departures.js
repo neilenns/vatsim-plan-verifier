@@ -16,6 +16,8 @@ db.departures.insertMany([
       },
     ],
     IsRNAV: false,
+    ExpectRequired: true,
+    ExpectInMinutes: 5,
   },
   {
     SID: "EAGLE6",
@@ -29,6 +31,8 @@ db.departures.insertMany([
       },
     ],
     IsRNAV: false,
+    ExpectRequired: false,
+    ExpectInMinutes: 5,
   },
   {
     SID: "JKSN1",
@@ -42,6 +46,8 @@ db.departures.insertMany([
       },
     ],
     IsRNAV: false,
+    ExpectRequired: true,
+    ExpectInMinutes: 5,
   },
   {
     SID: "MFR1",
@@ -55,6 +61,8 @@ db.departures.insertMany([
       },
     ],
     IsRNAV: true,
+    ExpectRequired: false,
+    ExpectInMinutes: 5,
   },
   {
     SID: "SMKKY1",
@@ -68,6 +76,8 @@ db.departures.insertMany([
       },
     ],
     IsRNAV: false,
+    ExpectRequired: false,
+    ExpectInMinutes: 5,
   },
   {
     SID: "CVV5",
@@ -107,6 +117,8 @@ db.departures.insertMany([
       },
     ],
     isRNAV: false,
+    ExpectRequired: true,
+    ExpectInMinutes: 5,
   },
   {
     SID: "OTH7",
@@ -122,6 +134,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: true,
+    ExpectInMinutes: 5,
   },
   {
     SID: "PSC7",
@@ -135,6 +149,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: false,
+    ExpectInMinutes: 5,
   },
   {
     SID: "RDM3",
@@ -148,6 +164,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: false,
+    ExpectInMinutes: 5,
   },
   {
     SID: "BELVU4",
@@ -161,6 +179,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: false,
+    ExpectInMinutes: 5,
   },
   {
     SID: "RENTN3",
@@ -174,6 +194,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: false,
+    ExpectInMinutes: 5,
   },
   {
     SID: "FELTS4",
@@ -187,6 +209,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: false,
+    ExpectInMinutes: 10,
   },
   {
     SID: "HAYDE4",
@@ -215,6 +239,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: true,
+    ExpectInMinutes: 5,
   },
   {
     SID: "SLE4",
@@ -228,6 +254,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: false,
+    ExpectInMinutes: 10,
   },
   {
     SID: "ALDER2",
@@ -241,6 +269,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: true,
+    ExpectInMinutes: 5,
   },
   {
     SID: "MOCAA4",
@@ -254,6 +284,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: false,
+    ExpectInMinutes: 5,
   },
   {
     SID: "OLY4",
@@ -267,6 +299,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: true,
+    ExpectInMinutes: 5,
   },
   {
     SID: "PUGET6",
@@ -280,6 +314,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: true,
+    ExpectInMinutes: 5,
   },
   {
     SID: "TIW1",
@@ -293,6 +329,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: false,
+    ExpectInMinutes: 5,
   },
   {
     SID: "TDD3",
@@ -306,6 +344,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: true,
+    ExpectInMinutes: 5,
   },
   {
     SID: "GLARA2",
@@ -319,6 +359,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: true,
+    ExpectInMinutes: 5,
   },
   {
     SID: "GNNET2",
@@ -332,6 +374,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: true,
+    ExpectInMinutes: 5,
   },
   {
     SID: "UBG2",
@@ -345,6 +389,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: true,
+    ExpectInMinutes: 5,
   },
   {
     SID: "GROMO4",
@@ -358,6 +404,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: true,
+    ExpectInMinutes: 5,
   },
   {
     SID: "NACHE4",
@@ -371,6 +419,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: false,
+    ExpectInMinutes: 5,
   },
   {
     SID: "WENAS7",
@@ -386,6 +436,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: true,
+    ExpectInMinutes: 5,
   },
   {
     SID: "YKM7",
@@ -399,6 +451,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: true,
+    ExpectInMinutes: 5,
   },
   {
     SID: "ZILLA3",
@@ -412,6 +466,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: true,
+    ExpectInMinutes: 5,
   },
   {
     SID: "ALW2",
@@ -424,6 +480,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: true,
+    ExpectInMinutes: 10,
     IsRNAV: false,
   },
   {
@@ -438,6 +496,8 @@ db.departures.insertMany([
       },
     ],
     IsRNAV: false,
+    ExpectRequired: false,
+    ExpectInMinutes: 5,
   },
   {
     SID: "GEG7",
@@ -451,6 +511,8 @@ db.departures.insertMany([
       },
     ],
     IsRNAV: false,
+    ExpectRequired: false,
+    ExpectInMinutes: 10,
   },
   {
     SID: "BERNI3",
@@ -464,6 +526,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: false,
+    ExpectInMinutes: 10,
   },
   {
     SID: "CANBY2",
@@ -477,6 +541,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: true,
+    ExpectInMinutes: 10,
   },
   {
     SID: "CHISM4",
@@ -490,6 +556,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: false,
+    ExpectInMinutes: 10,
   },
   {
     SID: "FARM7",
@@ -503,6 +571,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: true,
+    ExpectInMinutes: 10,
   },
   {
     SID: "SCAPO7",
@@ -516,6 +586,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: true,
+    ExpectInMinutes: 10,
   },
   {
     SID: "CBAIN1",
@@ -543,6 +615,8 @@ db.departures.insertMany([
       },
     ],
     IsRNAV: true,
+    ExpectRequired: false,
+    ExpectInMinutes: 3,
   },
   {
     SID: "KENT8",
@@ -556,6 +630,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: false,
+    ExpectInMinutes: 3,
   },
   {
     SID: "NEEDL1",
@@ -569,6 +645,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: false,
+    ExpectInMinutes: 3,
   },
   {
     SID: "NRVNA1",
@@ -596,6 +674,8 @@ db.departures.insertMany([
       "ELMAA",
     ],
     IsRNAV: true,
+    ExpectRequired: false,
+    ExpectInMinutes: 3,
   },
   {
     SID: "WHAMY4",
@@ -609,6 +689,8 @@ db.departures.insertMany([
       },
     ],
     IsRNAV: true,
+    ExpectInMinutes: 10,
+    ExpectRequired: false,
   },
   {
     SID: "CASCD2",
@@ -622,6 +704,8 @@ db.departures.insertMany([
       },
     ],
     IsRNAV: true,
+    ExpectInMinutes: 10,
+    ExpectRequired: false,
   },
   {
     SID: "HRMNS5",
@@ -635,6 +719,8 @@ db.departures.insertMany([
       },
     ],
     IsRNAV: true,
+    ExpectInMinutes: 10,
+    ExpectRequired: false,
   },
   {
     SID: "LAVAA6",
@@ -647,12 +733,16 @@ db.departures.insertMany([
       },
     ],
     IsRNAV: true,
+    ExpectInMinutes: 10,
+    ExpectRequired: false,
   },
   {
     SID: "MINNE5",
     Telephony: "MINNE FIVE",
     Fixes: ["MINNE", "EASON", "FAMUK", "HISKU"],
     ClimbViaSid: false,
+    ExpectInMinutes: 10,
+    ExpectRequired: false,
     InitialAltitudes: [
       {
         Altitude: 70,
@@ -690,6 +780,8 @@ db.departures.insertMany([
       "COUGA",
     ],
     IsRNAV: false,
+    ExpectInMinutes: 5,
+    ExpectRequired: false,
     InitialAltitudes: [
       {
         Altitude: 60,
@@ -732,6 +824,36 @@ db.departures.insertMany([
     IsRNAV: true,
   },
   {
+    SID: "ISBRG1",
+    Telephony: "ICEBERG ONE",
+    Fixes: ["ISBRG"],
+    ClimbViaSid: true,
+    InitialAltitudes: [
+      {
+        Altitude: 70,
+        AircraftClass: ".*",
+      },
+    ],
+    IsRNAV: true,
+    ExpectRequired: false,
+    ExpectInMinutes: 5,
+  },
+  {
+    SID: "OZWLD1",
+    Telephony: "OSWALD ONE",
+    Fixes: ["OZWLD"],
+    ClimbViaSid: true,
+    InitialAltitudes: [
+      {
+        Altitude: 70,
+        AircraftClass: ".*",
+      },
+    ],
+    IsRNAV: true,
+    ExpectRequired: false,
+    ExpectInMinutes: 5,
+  },
+  {
     SID: "JEFPO1",
     Telephony: "JEFPO ONE",
     Fixes: ["ALPSE", "BANDR", "NORMY", "PAE", "ZADON"],
@@ -743,6 +865,8 @@ db.departures.insertMany([
       },
     ],
     IsRNAV: true,
+    ExpectRequired: false,
+    ExpectInMinutes: 5,
   },
   {
     SID: "SUMMA2",
@@ -837,11 +961,14 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: false,
+    ExpectInMinutes: 5,
   },
   {
     SID: "KIENO6",
     Telephony: "KIENO SIX",
     IsRNAV: false,
+    ClimbViaSid: true,
     Fixes: ["KIENO", "YVR", "YYJ", "CVV"],
     InitialAltitudes: [
       {
@@ -849,6 +976,23 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: false,
+    ExpectInMinutes: 10,
+  },
+  {
+    SID: "KLSHN1",
+    Telephony: "KIENO SIX",
+    Fixes: ["KLSHN", "CVV"],
+    IsRNAV: true,
+    ClimbViaSid: true,
+    InitialAltitudes: [
+      {
+        Altitude: 30,
+        AircraftClass: ".*",
+      },
+    ],
+    ExpectRequired: false,
+    ExpectInMinutes: 5,
   },
   {
     SID: "LMT6",
@@ -862,5 +1006,7 @@ db.departures.insertMany([
       },
     ],
     IsRNAV: false,
+    ExpectRequired: false,
+    ExpectInMinutes: 5,
   },
 ]);
