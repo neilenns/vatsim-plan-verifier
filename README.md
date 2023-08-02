@@ -16,7 +16,7 @@ click the import icon to the right of the entry.
 
 ## Using with VRC
 
-Flight plan details can also be copied direcrtly from VRC's Aircraft window:
+Flight plan details can also be copied directly from VRC's Aircraft window:
 
 ![VRC arrivals & departures window](client/public/help_vrcArrivalsDepartures.png?raw=true)
 
