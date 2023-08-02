@@ -7,8 +7,8 @@ const data = [
     route: "PTLD2 COUGA KRIEG HAWKZ7",
     minimumRequiredAltitude: 120,
     minimumRequiredSpeed: 270,
-    equipmentSuffixes: ["G", "L", "Z"],
-    engineTypes: ["T", "J"],
+    equipmentSuffixes: "[GLZ]",
+    engineTypes: "[TJ]",
   },
   {
     departure: "KPDX",
@@ -16,8 +16,8 @@ const data = [
     route: "PTLD2 BTG OLM OLM2",
     minimumRequiredAltitude: 120,
     minimumRequiredSpeed: 0,
-    equipmentSuffixes: ["G", "L", "Z"],
-    engineTypes: ["T", "P"],
+    equipmentSuffixes: "[GLZ]",
+    engineTypes: "[PT]",
   },
   {
     departure: "KPDX",
@@ -25,8 +25,8 @@ const data = [
     route: "PTLD2 BTG OLM OLM2",
     minimumRequiredAltitude: 130,
     minimumRequiredSpeed: 250,
-    equipmentSuffixes: ["G", "L", "Z"],
-    EngineTypes: ["J"],
+    equipmentSuffixes: "[GLZ]",
+    engineTypes: "J",
   },
 ];
 
