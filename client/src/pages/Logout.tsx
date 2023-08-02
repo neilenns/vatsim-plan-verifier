@@ -19,10 +19,9 @@ export default function LogoutPage() {
         logger("User is already logged out.");
       }) // We don't have to do anything on errors.
       .finally(() => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("role");
-        localStorage.setItem("logout", Date.now().toString());
         setDarkMode(false);
+        localStorage.clear();
+        localStorage.setItem("logout", Date.now().toString());
         navigate("/");
       });
   }, [navigate, setDarkMode]);
