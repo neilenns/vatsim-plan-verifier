@@ -124,15 +124,14 @@ const VatsimFlightPlans = () => {
       logger("Connected for vatsim flight plan updates");
 
       // Clean up the airport codes
-      setAirportCodes(
-        airportCodes
-          .split(",")
-          .map((airportCode) => airportCode.trim())
-          .join(",")
-      );
+      const cleanCodes = airportCodes
+        .split(",")
+        .map((airportCode) => airportCode.trim())
+        .join(",");
 
-      socketRef.current.emit("watchAirports", airportCodes.split(","));
-      localStorage.setItem("vatsimAirportCodes", airportCodes);
+      socketRef.current.emit("watchAirports", cleanCodes.split(","));
+      localStorage.setItem("vatsimAirportCodes", cleanCodes);
+      setAirportCodes(cleanCodes);
       setIsConnected(true);
     }
     // Currently connected so disconnect
@@ -151,6 +150,7 @@ const VatsimFlightPlans = () => {
               label="Airport code"
               size="small"
               defaultValue={airportCodes ?? undefined}
+              value={airportCodes}
               onChange={(e) => {
                 setAirportCodes(e.target.value);
                 if (isConnected) toggleVatsimConnection();
