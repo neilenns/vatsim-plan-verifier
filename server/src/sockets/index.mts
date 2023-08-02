@@ -66,7 +66,8 @@ export function setupSockets(server: Server): SocketIOServer {
     socket.on("watchAirports", async (airportCodes: string[]) => {
       logger(`Client requested data for ${airportCodes.join(", ")}`);
 
-      await registerForAirports(socket, airportCodes);
+      const cleanCodes = airportCodes.map((airportCode) => airportCode.toUpperCase().trim());
+      await registerForAirports(socket, cleanCodes);
     });
 
     socket.on("disconnect", () => {
