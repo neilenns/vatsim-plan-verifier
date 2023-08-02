@@ -26,7 +26,7 @@ const data = [
     minimumRequiredAltitude: 130,
     minimumRequiredSpeed: 250,
     equipmentSuffixes: "[GLZ]",
-    EngineTypes: "J",
+    engineTypes: "J",
   },
 ];
 
