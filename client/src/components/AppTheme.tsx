@@ -1,6 +1,7 @@
 import { ThemeProvider } from "@emotion/react";
 import { CssBaseline, createTheme } from "@mui/material";
 import useAppContext from "../context/AppContext";
+import { useCallback, useEffect } from "react";
 
 type Props = {
   children: React.ReactNode;
@@ -22,7 +23,25 @@ const darkTheme = createTheme({
 });
 
 const AppTheme = ({ children }: Props): JSX.Element => {
-  const { darkMode } = useAppContext();
+  const { darkMode, setDarkMode } = useAppContext();
+
+  // Watch for changes to local storage for darkMode and update the state if it changes.
+  const syncDarkMode = useCallback(
+    (event: StorageEvent) => {
+      if (event.key === "darkMode") {
+        setDarkMode(event.newValue === "true");
+      }
+    },
+    [setDarkMode]
+  );
+
+  // Register for events on local storage to watch for cross-tab dark mode changes.
+  useEffect(() => {
+    window.addEventListener("storage", syncDarkMode);
+    return () => {
+      window.removeEventListener("storage", syncDarkMode);
+    };
+  }, [syncDarkMode]);
 
   return (
     <ThemeProvider theme={darkMode ? darkTheme : defaultTheme}>
