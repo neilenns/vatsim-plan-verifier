@@ -18,6 +18,7 @@ import { importFlightPlan } from "../services/flightPlan.mts";
 import { useNavigate } from "react-router-dom";
 import { Stream as StreamIcon } from "@mui/icons-material";
 import { Close as CloseIcon } from "@mui/icons-material";
+import pluralize from "pluralize";
 
 const logger = debug("plan-verifier:vatsimFlightPlans");
 
@@ -25,7 +26,9 @@ const VatsimFlightPlans = () => {
   const navigate = useNavigate();
   const [flightPlans, setData] = useState<IFlightPlan[]>([]);
   const [isConnected, setIsConnected] = useState(false);
-  const [airportCode, setAirportCode] = useState(localStorage.getItem("vatsimAirportCode") || "");
+  const [airportCodes, setAirportCodes] = useState(
+    localStorage.getItem("vatsimAirportCodes") || ""
+  );
   const [isImporting, setIsImporting] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -56,9 +59,22 @@ const VatsimFlightPlans = () => {
       setIsConnected(false);
     });
 
-    socketRef.current.on("airportNotFound", (airportCode: string) => {
-      logger(`Airport ${airportCode} not found`);
-      setSnackbarMessage(`Airport ${airportCode} not found.`);
+    socketRef.current.on("airportNotFound", (airportCodes: string[]) => {
+      const message = `${pluralize("Airport", airportCodes.length)} ${airportCodes.join(
+        ", "
+      )} not found`;
+      logger(message);
+      setSnackbarMessage(message);
+      setSnackbarOpen(true);
+      setIsConnected(false);
+    });
+
+    socketRef.current.on("insecureAirportCode", (airportCodes: string[]) => {
+      const message = `${pluralize("Airport", airportCodes.length)} ${airportCodes.join(
+        ", "
+      )} not valid`;
+      logger(message);
+      setSnackbarMessage(message);
       setSnackbarOpen(true);
       setIsConnected(false);
     });
@@ -99,7 +115,7 @@ const VatsimFlightPlans = () => {
   };
 
   const toggleVatsimConnection = () => {
-    if (airportCode === "") return;
+    if (airportCodes === "") return;
 
     // Not currently connected so connect
     if (!isConnected && socketRef.current) {
@@ -107,8 +123,16 @@ const VatsimFlightPlans = () => {
       socketRef.current.connect();
       logger("Connected for vatsim flight plan updates");
 
-      socketRef.current.emit("setAirport", airportCode.toUpperCase());
-      localStorage.setItem("vatsimAirportCode", airportCode.toUpperCase());
+      // Clean up the airport codes
+      setAirportCodes(
+        airportCodes
+          .split(",")
+          .map((airportCode) => airportCode.trim())
+          .join(",")
+      );
+
+      socketRef.current.emit("watchAirports", airportCodes.split(","));
+      localStorage.setItem("vatsimAirportCodes", airportCodes);
       setIsConnected(true);
     }
     // Currently connected so disconnect
@@ -126,9 +150,9 @@ const VatsimFlightPlans = () => {
             <TextField
               label="Airport code"
               size="small"
-              defaultValue={airportCode ?? undefined}
+              defaultValue={airportCodes ?? undefined}
               onChange={(e) => {
-                setAirportCode(e.target.value);
+                setAirportCodes(e.target.value);
                 if (isConnected) toggleVatsimConnection();
               }}
             />

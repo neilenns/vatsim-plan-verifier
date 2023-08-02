@@ -1,5 +1,5 @@
 import { Server } from "http";
-import { Socket, Socket, Server as SocketIOServer } from "socket.io";
+import { Socket, Server as SocketIOServer } from "socket.io";
 import debug from "debug";
 import { ENV } from "../env.mjs";
 import { verifySocketApiKey } from "../middleware/apikey.mjs";
@@ -8,25 +8,45 @@ import { ClientToServerEvents, ServerToClientEvents } from "../types/socketEvent
 
 const logger = debug("plan-verifier:sockets");
 
-async function registerForAirport(socket: Socket, airportCode: string) {
-  logger(`Client requested data for ${airportCode}`);
+async function registerForAirports(socket: Socket, airportCodes: string[]) {
+  logger(`Client requested data for ${airportCodes.join(", ")}`);
 
-  const airportInfo = await getFlightAwareAirport(airportCode);
-
-  // Probably not a valid airport code
-  if (!airportInfo.success) {
-    socket.emit("airportNotFound", airportCode);
+  // Check for insecure airport codes first
+  const insecureAirportCodes = airportCodes.filter((airportCode) => airportCode.startsWith("$"));
+  if (insecureAirportCodes.length > 0) {
+    logger(
+      `Detected potential NoSQL injection in airport code(s) '${insecureAirportCodes.join(", ")}'`
+    );
+    socket.emit("insecureAirportCode", insecureAirportCodes);
     return;
   }
 
-  socket.join(airportCode);
-}
+  // Check to see if the airport code is valid
+  const invalidAirportCodes: string[] = [];
+  await Promise.all(
+    airportCodes.map(async (airportCode) => {
+      const result = await getFlightAwareAirport(airportCode);
+      if (!result.success) {
+        invalidAirportCodes.push(airportCode);
+      }
+    })
+  );
 
-function processWatchAirports(socket: Socket, airportCodes: string[]) {
-  // First check for any insecure airport codes
-  const insecureAirportCodes = airportCodes.filter((airportCode) => {});
+  if (invalidAirportCodes.length > 0) {
+    logger(`Invalid airport code(s) '${invalidAirportCodes.join(", ")}'`);
+    socket.emit("airportNotFound", invalidAirportCodes);
+    return;
+  }
 
-  socket.join(airportCode);
+  // Join the socket to the room based on a sorted list of trimmed airport codes.
+  // The APT: in the front allows this room to be distinguished from the auto-generated
+  // room that every client gets put in to.
+  socket.join(
+    `APT:${airportCodes
+      .map((code) => code.toUpperCase().trim())
+      .sort((a, b) => a.localeCompare(b))
+      .join(",")}`
+  );
 }
 
 export function setupSockets(server: Server): SocketIOServer {
@@ -46,7 +66,7 @@ export function setupSockets(server: Server): SocketIOServer {
     socket.on("watchAirports", async (airportCodes: string[]) => {
       logger(`Client requested data for ${airportCodes.join(", ")}`);
 
-      processWatchAirports(socket, airportCodes);
+      await registerForAirports(socket, airportCodes);
     });
 
     socket.on("disconnect", () => {
