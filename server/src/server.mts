@@ -22,7 +22,7 @@ const { debounce } = pkg;
 import "./authenticate.mjs";
 import "./jwtStrategy.mjs";
 import "./LocalStrategy.mjs";
-import apiKey from "./middleware/apikey.mjs";
+import { verifyApiKey } from "./middleware/apikey.mjs";
 
 // Routes
 import activeFlightPlansRouter from "./routes/activeFlightPlans.mjs";
@@ -102,7 +102,7 @@ export function startServer(port: number): void {
   app.use(cors(corsOptions));
   app.use(rateLimiter);
   app.use(helmet());
-  app.use(apiKey);
+  app.use(verifyApiKey);
 
   // Configure authentication
   app.use(passport.initialize());
