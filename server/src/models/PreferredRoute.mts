@@ -18,11 +18,11 @@ class PreferredRoute {
   @prop({ required: true })
   minimumRequiredSpeed!: number;
 
-  @prop({ type: String, required: true, default: [] })
-  equipmentSuffixes!: Types.Array<string>;
+  @prop({ type: String, required: true })
+  equipmentSuffixes!: string;
 
-  @prop({ type: String, required: true, default: [] })
-  engineTypes!: Types.Array<string>;
+  @prop({ type: String, required: true })
+  engineTypes!: string;
 
   public static async findByFlightPlan(
     this: ReturnModelType<typeof PreferredRoute>,
@@ -31,8 +31,8 @@ class PreferredRoute {
     return this.find({
       departure: flightPlan.departure,
       arrival: flightPlan.arrival,
-      equipmentSuffixes: { $in: flightPlan.equipmentSuffix },
-      engineTypes: { $in: flightPlan.equipmentInfo?.engineType },
+      equipmentSuffixes: { $regex: flightPlan.equipmentSuffix },
+      engineTypes: { $regex: flightPlan.equipmentInfo?.engineType },
     });
   }
 }
