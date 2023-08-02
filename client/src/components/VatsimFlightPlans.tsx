@@ -25,7 +25,7 @@ const VatsimFlightPlans = () => {
   const navigate = useNavigate();
   const [flightPlans, setData] = useState<IFlightPlan[]>([]);
   const [isConnected, setIsConnected] = useState(false);
-  const [airportCode, setAirportCode] = useState("");
+  const [airportCode, setAirportCode] = useState(localStorage.getItem("vatsimAirportCode") || "");
   const [isImporting, setIsImporting] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -108,6 +108,7 @@ const VatsimFlightPlans = () => {
       logger("Connected for vatsim flight plan updates");
 
       socketRef.current.emit("setAirport", airportCode.toUpperCase());
+      localStorage.setItem("vatsimAirportCode", airportCode.toUpperCase());
       setIsConnected(true);
     }
     // Currently connected so disconnect
@@ -125,6 +126,7 @@ const VatsimFlightPlans = () => {
             <TextField
               label="Airport code"
               size="small"
+              defaultValue={airportCode ?? undefined}
               onChange={(e) => {
                 setAirportCode(e.target.value);
                 if (isConnected) toggleVatsimConnection();
