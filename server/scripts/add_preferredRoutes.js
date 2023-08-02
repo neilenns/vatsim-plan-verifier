@@ -164,7 +164,7 @@ db.preferredroutes.insertMany([
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[GLZ]",
     engineTypes: "[TJ]",
-    Remarks: "<b>Requires P80 approval</b>.",
+    remarks: "Requires P80 approval.",
   },
   {
     departure: "KPDX",
@@ -246,7 +246,7 @@ db.preferredroutes.insertMany([
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[AGLZ]",
     engineTypes: "[PTJ]",
-    Remarks: "<b>Requires P80 approval</b>. Runway 13R arrival",
+    remarks: "Requires P80 approval. Runway 13R arrival.",
   },
   {
     departure: "KPDX",
@@ -256,7 +256,7 @@ db.preferredroutes.insertMany([
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[GL]",
     engineTypes: "[PTJ]",
-    Remarks: "<b>Requires P80 approval</b>. Runway 31L arrival only has GPS RNAV available.",
+    remarks: "Requires P80 approval. Runway 31L arrival only has GPS RNAV available.",
   },
   {
     departure: "KPDX",
@@ -266,7 +266,7 @@ db.preferredroutes.insertMany([
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "A",
     engineTypes: "P",
-    Remarks: "<b>Requires P80 approval</b>, not preferred.",
+    remarks: "Requires P80 approval, not preferred.",
   },
   {
     departure: "KPDX",
@@ -348,7 +348,7 @@ db.preferredroutes.insertMany([
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[GL]",
     engineTypes: "[PTJ]",
-    Remarks: "<b>Requires P80 approval</b>.",
+    remarks: "Requires P80 approval.",
   },
   {
     departure: "KPDX",
@@ -358,7 +358,7 @@ db.preferredroutes.insertMany([
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "Z",
     engineTypes: "[JT]",
-    Remarks: "<b>Requires P80 approval</b>.",
+    remarks: "Requires P80 approval.",
   },
   {
     departure: "KPDX",
@@ -404,7 +404,7 @@ db.preferredroutes.insertMany([
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[TJ]",
     engineTypes: "[GL]",
-    Remarks: "GPS only. <b>Requires P80 approval</b>.",
+    remarks: "GPS only. Requires P80 approval.",
   },
   {
     departure: "KPDX",
