@@ -1,12 +1,22 @@
 # VATSIM plan verifier
 
-This app verifies flight plans for VATSIM controllers. It is designed to be used in conjunction with VRC
-(although you can use it with other controller software too, it just won't be as streamlined) to report
+This app verifies flight plans for VATSIM controllers. It is designed to report
 common errors in flight plans filed by VATSIM pilots.
+
+## Importing flight plans from VATSIM
+
+The app supports listening for new flight plans at an airport to simplify the process of entering
+flight plan data for verification. To start watching for flight plans enter an airport code in the
+text box then click the connect icon:
+
+![Configuring VATSIM flight plan import](/help_vatsimImport.png)
+
+As flight plans are filed they will appear in the list. To import a flight plan for verification
+click the import icon to the right of the entry.
 
 ## Using with VRC
 
-The fastest way to use this is to copy the flight plan from VRC's Aircraft window:
+Flight plan details can also be copied direcrtly from VRC's Aircraft window:
 
 ![VRC arrivals & departures window](/help_vrcArrivalsDepartures.png)
 
