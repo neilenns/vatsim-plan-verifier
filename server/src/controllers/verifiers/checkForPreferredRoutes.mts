@@ -74,7 +74,7 @@ export default async function checkForPreferredRoutes(
       result.data.extendedMessage = validPreferredRoutes.map((route) => {
         return `${route.route} at ${formatAltitude(route.minimumRequiredAltitude)}${
           route.minimumRequiredSpeed ? ` and ${route.minimumRequiredSpeed} kts` : ""
-        }`;
+        }${route.remarks ? ` (${route.remarks})` : ""}`;
       });
 
       result.data.messageId = "notPreferredRoute";

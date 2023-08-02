@@ -24,6 +24,9 @@ class PreferredRoute {
   @prop({ type: String, required: true })
   engineTypes!: string;
 
+  @prop({ type: String })
+  remarks?: string;
+
   public static async findByFlightPlan(
     this: ReturnModelType<typeof PreferredRoute>,
     flightPlan: IFlightPlan
