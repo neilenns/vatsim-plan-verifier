@@ -11,7 +11,7 @@ const VerifierResultSchema = new Schema({
   },
   status: {
     type: String,
-    enum: ["Ok", "Information", "Warning", "Error"],
+    enum: ["Ok", "Information", "Warning", "Error", "CustomMessage"],
     required: true,
   },
   verifier: {

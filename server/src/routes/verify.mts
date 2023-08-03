@@ -1,7 +1,9 @@
 import express, { Request, Response } from "express";
 import { getFlightPlan } from "../controllers/flightPlans.mjs";
 import { IFlightPlan } from "../models/FlightPlan.mjs";
-import VerifierControllerResult from "../types/verifierControllerResult.mjs";
+import VerifierControllerResult, {
+  VerifierControllerMultiResult,
+} from "../types/verifierControllerResult.mjs";
 import VerifyAllResult from "../controllers/verifyAllResult.mjs";
 
 import hasEquipmentSuffix from "../controllers/verifiers/hasEquipmentSuffix.mjs";
@@ -26,10 +28,13 @@ import { verifyUser } from "../middleware/permissions.mjs";
 import pistonNotSlantLorZ from "../controllers/verifiers/pistonNotSlantLorZ.mjs";
 import checkKPDXtoKSLEAltitude from "../controllers/verifiers/checkKPDXtoKSLEAltitude.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
+import checkForCustomAirportMessages from "../controllers/verifiers/checkForCustomAirportMessages.mjs";
 
 const router = express.Router();
 
-type HandlerFunction = (flightPlan: IFlightPlan) => Promise<VerifierControllerResult>;
+type HandlerFunction = (
+  flightPlan: IFlightPlan
+) => Promise<VerifierControllerResult | VerifierControllerMultiResult>;
 
 type Verifier = {
   name: string;
@@ -38,6 +43,7 @@ type Verifier = {
 
 // List of verifiers to support
 const verifiers: Verifier[] = [
+  { name: "checkForCustomAirportMessages", handler: checkForCustomAirportMessages },
   { name: "hasEquipmentSuffix", handler: hasEquipmentSuffix },
   { name: "warnHeavyRunwayAssignment", handler: warnHeavyRunwayAssignment },
   {
@@ -178,7 +184,12 @@ router.get(
         const result = await verifier.handler(flightPlan.data);
 
         if (result.success) {
-          verifyAllResult.add(result.data);
+          // Handles the case of verifiers returning multiple results, e.g. the checkForCustom*Messages verifiers
+          if (result.data instanceof Array) {
+            verifyAllResult.addMany(result.data);
+          } else {
+            verifyAllResult.add(result.data);
+          }
         }
       }
 
@@ -197,3 +208,6 @@ for (const verifier of verifiers) {
 }
 
 export default router;
+function checkForCustomMessages(flightPlan: IFlightPlan): Promise<VerifierControllerResult> {
+  throw new Error("Function not implemented.");
+}
