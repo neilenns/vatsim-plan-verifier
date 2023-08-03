@@ -44,6 +44,9 @@ export class Departure {
 
   @prop({ type: () => [InitialAltitude] })
   InitialAltitudes!: InitialAltitude[];
+
+  @prop({ type: String })
+  Charts?: Map<string, string>;
 }
 
 const DepartureModel = getModelForClass(Departure);

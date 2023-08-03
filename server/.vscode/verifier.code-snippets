@@ -1,4 +1,9 @@
 {
+  "Departure chart": {
+    "prefix": "charts",
+    "body": ["    Charts: {", "      skyvector: \"$1\",", "    },", ""],
+    "description": "Departure chart"
+  },
   "Verifier unit test": {
     "prefix": "vtest",
     "body": [

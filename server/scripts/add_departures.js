@@ -747,6 +747,9 @@ db.departures.insertMany([
     IsRNAV: true,
     ExpectInMinutes: 10,
     ExpectRequired: false,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00330WHAMY.PDF",
+    },
   },
   {
     SID: "CASCD2",
@@ -762,6 +765,9 @@ db.departures.insertMany([
     IsRNAV: true,
     ExpectInMinutes: 10,
     ExpectRequired: false,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00330CASCADE.PDF",
+    },
   },
   {
     SID: "HRMNS5",
@@ -777,6 +783,9 @@ db.departures.insertMany([
     IsRNAV: true,
     ExpectInMinutes: 10,
     ExpectRequired: false,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00330HRMNS.PDF",
+    },
   },
   {
     SID: "LAVAA6",
@@ -792,6 +801,9 @@ db.departures.insertMany([
     IsRNAV: true,
     ExpectInMinutes: 10,
     ExpectRequired: false,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00330LAVAA.PDF",
+    },
   },
   {
     SID: "MINNE5",
@@ -807,6 +819,9 @@ db.departures.insertMany([
       },
     ],
     IsRNAV: true,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00330MINNE.PDF",
+    },
   },
   {
     SID: "PTLD2",
@@ -854,6 +869,9 @@ db.departures.insertMany([
         AircraftClass: "S",
       },
     ],
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00330PORTLAND.PDF",
+    },
   },
   {
     SID: "ELMAA4",
@@ -867,6 +885,9 @@ db.departures.insertMany([
       },
     ],
     IsRNAV: true,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582ELMAA.PDF",
+    },
   },
   {
     SID: "HAROB6",
@@ -880,6 +901,9 @@ db.departures.insertMany([
       },
     ],
     IsRNAV: true,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582HAROB.PDF",
+    },
   },
   {
     SID: "ISBRG1",
@@ -895,6 +919,9 @@ db.departures.insertMany([
     IsRNAV: true,
     ExpectRequired: false,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582ISBRG.PDF",
+    },
   },
   {
     SID: "OZWLD1",
@@ -910,6 +937,9 @@ db.departures.insertMany([
     IsRNAV: true,
     ExpectRequired: false,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582OZWLD.PDF",
+    },
   },
   {
     SID: "JEFPO1",
@@ -925,6 +955,9 @@ db.departures.insertMany([
     IsRNAV: true,
     ExpectRequired: false,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582JEFPO.PDF",
+    },
   },
   {
     SID: "SUMMA2",
@@ -936,6 +969,9 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582SUMMA.PDF",
+    },
   },
   {
     SID: "MONTN2",
@@ -965,6 +1001,9 @@ db.departures.insertMany([
       },
     ],
     IsRNAV: true,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582MOUNTAIN.PDF",
+    },
   },
   {
     SID: "BANGR9",
@@ -978,6 +1017,9 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582BANGR.PDF",
+    },
   },
   {
     SID: "SEA8",
@@ -1007,6 +1049,9 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582SEATTLE.PDF",
+    },
   },
   {
     SID: "PAINE6",

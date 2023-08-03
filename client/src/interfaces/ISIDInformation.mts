@@ -10,4 +10,8 @@ export default interface ISIDInformation {
   InitialPhrasing: InitialPhrasingOptions;
   ExpectInMinutes?: number;
   ExpectRequired?: boolean;
+  Telephony?: string;
+  Charts?: {
+    [key: string]: string;
+  };
 }

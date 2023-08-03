@@ -1,6 +1,8 @@
 import pluralize from "pluralize";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 import { InitialPhrasingOptions } from "../interfaces/ISIDInformation.mts";
+import { ReactNode } from "react";
+import { Link } from "@mui/material";
 
 // Checks to see if the airport name ends in "Airport". If so, return
 // unmodified. If not, append " Airport" and return it.
@@ -10,6 +12,33 @@ export function normalizeAirportName(airportName: string): string {
   } else {
     return `${airportName} Airport`;
   }
+}
+
+export function hyperlinkSidName(flightPlan: IFlightPlan): ReactNode {
+  // Lots of things have to exist to bother hyperlinking the chart
+  if (
+    !flightPlan.SIDInformation ||
+    !flightPlan.expandedRoute ||
+    !flightPlan.SIDInformation.Telephony ||
+    !flightPlan.SIDInformation.Charts?.["skyvector"]
+  ) {
+    return flightPlan.expandedRoute;
+  }
+
+  const strippedRoute = flightPlan.expandedRoute.replace(flightPlan.SIDInformation.Telephony, "");
+
+  return (
+    <>
+      <Link
+        href={flightPlan.SIDInformation.Charts["skyvector"]}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {flightPlan.SIDInformation.Telephony}
+      </Link>{" "}
+      {strippedRoute}
+    </>
+  );
 }
 
 // Formats the initial altitude for the flight plan based on whether one is
