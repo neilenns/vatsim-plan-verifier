@@ -29,6 +29,7 @@ import pistonNotSlantLorZ from "../controllers/verifiers/pistonNotSlantLorZ.mjs"
 import checkKPDXtoKSLEAltitude from "../controllers/verifiers/checkKPDXtoKSLEAltitude.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
 import checkForCustomAirportMessages from "../controllers/verifiers/checkForCustomAirportMessages.mjs";
+import checkForCustomDepartureMessages from "../controllers/verifiers/checkForCustomDepartureMessages.mjs";
 
 const router = express.Router();
 
@@ -44,6 +45,7 @@ type Verifier = {
 // List of verifiers to support
 const verifiers: Verifier[] = [
   { name: "checkForCustomAirportMessages", handler: checkForCustomAirportMessages },
+  { name: "checkForCustomDepartureMessages", handler: checkForCustomDepartureMessages },
   { name: "hasEquipmentSuffix", handler: hasEquipmentSuffix },
   { name: "warnHeavyRunwayAssignment", handler: warnHeavyRunwayAssignment },
   {

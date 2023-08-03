@@ -1,5 +1,6 @@
 import Mustache from "mustache";
 import { IFlightPlan } from "../models/FlightPlan.mjs";
+import NavaidModel from "../models/Navaid.mjs";
 
 function normalizeAirportName(airportName: string) {
   if (airportName.endsWith("Airport")) {
@@ -9,13 +10,19 @@ function normalizeAirportName(airportName: string) {
   }
 }
 
-export default function applyMustacheValues(template: string, flightPlan: IFlightPlan): string {
+export default async function applyMustacheValues(
+  template: string,
+  flightPlan: IFlightPlan
+): Promise<string> {
+  const initialFix = await NavaidModel.findOne({ ident: flightPlan.routeParts?.[1] ?? "" });
+
   const view = {
     formattedCruiseAltitude: flightPlan.cruiseAltitudeFormatted,
     arrival: flightPlan.arrivalAirportInfo?.name
       ? normalizeAirportName(flightPlan.arrivalAirportInfo.name)
       : flightPlan.arrival,
     squawk: flightPlan.squawk,
+    initialFix: initialFix?.name ?? flightPlan.routeParts?.[1] ?? "unknown",
   };
 
   const result = Mustache.render(template, view);

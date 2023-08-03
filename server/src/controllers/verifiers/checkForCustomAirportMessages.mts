@@ -37,17 +37,19 @@ export default async function checkForCustomAirportMessages(
     }
     // Convert the custom messages to results
     else {
-      results = customMessages.map((customMessage) => {
-        return new VerifierResult({
-          flightPlanId: flightPlan._id,
-          verifier: verifierName,
-          flightPlanPart: "departure",
-          status: "CustomMessage",
-          priority: customMessage.priority,
-          message: applyMustacheValues(customMessage.message, flightPlan),
-          messageId: customMessage.messageId,
-        });
-      });
+      results = await Promise.all(
+        customMessages.map(async (customMessage) => {
+          return new VerifierResult({
+            flightPlanId: flightPlan._id,
+            verifier: verifierName,
+            flightPlanPart: "departure",
+            status: "CustomMessage",
+            priority: customMessage.priority,
+            message: await applyMustacheValues(customMessage.message, flightPlan),
+            messageId: customMessage.messageId,
+          });
+        })
+      );
     }
 
     // Save all the results
