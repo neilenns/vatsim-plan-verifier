@@ -8,6 +8,7 @@ import debug from "debug";
 import NavaidModel from "./Navaid.mjs";
 import DepartureModel, { Departure } from "./Departure.mjs";
 import { IAircraft } from "./Aircraft.mjs";
+import IFlightAwareAirportDocument from "../interfaces/IFlightAwareAirportDocument.mjs";
 
 const logger = debug("plan-verifier:flightPlan");
 export interface IFlightPlan extends IFlightPlanDocument {}
@@ -99,7 +100,13 @@ flightPlanSchema.virtual("cleanedRoute").get(function () {
 
 flightPlanSchema.virtual("initialAltitude").get(function () {
   const sid = this.get("SIDInformation") as Departure | undefined;
+  const airportInfo = this.get("departureAirportInfo") as IFlightAwareAirportDocument | undefined;
   const equipmentInfo = this.get("equipmentInfo") as IAircraft | undefined;
+
+  // If there's no SID but there is an airport-wide initial altitude then provide that.
+  if (!sid && airportInfo?.extendedAirportInfo?.initialAltitude) {
+    return formatAltitude(airportInfo.extendedAirportInfo.initialAltitude, false);
+  }
 
   if (!sid || !sid.InitialAltitudes || !equipmentInfo || !equipmentInfo.aircraftClass) {
     return "Unknown";

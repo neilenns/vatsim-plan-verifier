@@ -1,4 +1,5 @@
 import { Types } from "mongoose";
+import IExtendedAirportInfo from "./IExtendedAirportInfo.mts";
 
 export default interface IFlightAwareAirport {
   _id?: Types.ObjectId;
@@ -19,8 +20,5 @@ export default interface IFlightAwareAirport {
   wikiUrl: string;
   airportFlightsUrl: string;
   alternatives: string[];
-  extendedAirportInfo?: {
-    defaultInitialAltitudeText?: string;
-    defaultExpectInMinutesText?: string;
-  };
+  extendedAirportInfo?: IExtendedAirportInfo;
 }

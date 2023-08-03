@@ -1,4 +1,17 @@
 {
+  "Extended airport info": {
+    "prefix": "eai",
+    "body": [
+      "{",
+      "  airportCode: \"$1\",",
+      "  defaultInitialAltitudeText: \"$2\",",
+      "  defaultExpectInMinutesText: \"$3 minutes\",",
+      "  hasSIDs: false,",
+      "},",
+      ""
+    ],
+    "description": "Extended airport info"
+  },
   "Departure chart": {
     "prefix": "charts",
     "body": ["    Charts: {", "      skyvector: \"$1\",", "    },", ""],

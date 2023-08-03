@@ -1,4 +1,5 @@
 import { prop, getModelForClass, modelOptions, ReturnModelType } from "@typegoose/typegoose";
+import { InitialPhrasingOptions } from "./Departure.mjs";
 
 @modelOptions({
   options: { customName: "extendedairportinfo" },
@@ -16,6 +17,15 @@ export class ExtendedAirportInfo {
 
   @prop()
   hasSIDs?: boolean;
+
+  @prop()
+  initialAltitude?: number;
+
+  @prop()
+  initialPhrasing?: InitialPhrasingOptions;
+
+  @prop()
+  expectInMinutes?: number;
 }
 
 const ExtendedAirportInfoModel = getModelForClass(ExtendedAirportInfo);

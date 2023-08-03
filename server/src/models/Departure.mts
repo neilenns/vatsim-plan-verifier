@@ -9,7 +9,7 @@ export class InitialAltitude {
   AircraftClass!: string;
 }
 
-enum InitialPhrasingOptions {
+export enum InitialPhrasingOptions {
   Unknown = "Unknown",
   Maintain = "Maintain",
   ClimbViaSid = "ClimbViaSid",
