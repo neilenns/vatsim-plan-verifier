@@ -1,10 +1,10 @@
 import { Model, Schema, model } from "mongoose";
 import IFlightAwareAirportDocument from "../interfaces/IFlightAwareAirportDocument.mjs";
 import { getMagneticDeclination } from "../controllers/magneticDeclination.mjs";
+import autopopulate from "mongoose-autopopulate";
 
 export interface IFlightAwareAirport extends IFlightAwareAirportDocument {}
-export interface FlightAwareAirportModelInterface
-  extends Model<IFlightAwareAirport> {}
+export interface FlightAwareAirportModelInterface extends Model<IFlightAwareAirport> {}
 
 const flightAwareAirportSchema = new Schema({
   airportCode: {
@@ -90,6 +90,14 @@ const flightAwareAirportSchema = new Schema({
   },
 });
 
+flightAwareAirportSchema.virtual("extendedAirportInfo", {
+  ref: "extendedairportinfo",
+  localField: "airportCode",
+  foreignField: "airportCode",
+  justOne: true,
+  autopopulate: true,
+});
+
 // Look up the magnetic declination for the airport on save so it can be used
 // repeatedly elsewhere without constantly making calls to the web service to
 // get the current value.
@@ -113,6 +121,10 @@ flightAwareAirportSchema.pre("save", async function () {
   // the result to get the correct value for math later on.
   this.magneticDeclination = -result.data;
 });
+
+flightAwareAirportSchema.plugin(autopopulate);
+flightAwareAirportSchema.set("toJSON", { virtuals: true, aliases: false });
+flightAwareAirportSchema.set("toObject", { virtuals: true, aliases: false });
 
 const FlightAwareAirport: FlightAwareAirportModelInterface = model<
   IFlightAwareAirport,
