@@ -14,6 +14,7 @@ enum InitialPhrasingOptions {
   ClimbViaSid = "ClimbViaSid",
   ClimbViaSidExceptMaintain = "ClimbViaSidExceptMaintain",
   ClimbViaDepartureExceptMaintain = "ClimbViaDepartureExceptMaintain",
+  SeeNote = "SeeNote",
 }
 
 @modelOptions({ options: { customName: "departure" } })

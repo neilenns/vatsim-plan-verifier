@@ -12,6 +12,7 @@ import {
 import IVerifierResultDocument from "../interfaces/IVerifierResult.mts";
 import IFlightPlan from "../interfaces/IFlightPlan.mts";
 import StatusIndicator from "./StatusIndicator";
+import Markdown from "./Markdown";
 
 interface VerifierResultComponentProps {
   verifierResult: IVerifierResultDocument;
@@ -35,6 +36,8 @@ const VerifierResult: React.FC<VerifierResultComponentProps> = ({ verifierResult
         return theme.palette.warning.main;
       case "error":
         return theme.palette.error.main;
+      case "custommessage":
+        return theme.palette.info.main;
       default:
         return "#fff";
     }
@@ -52,8 +55,11 @@ const VerifierResult: React.FC<VerifierResultComponentProps> = ({ verifierResult
       <Stack direction="row" spacing={2} alignItems="center">
         <StatusIndicator status={status} />
         <Box>
-          <Typography variant="body1">{message}</Typography>
-
+          {status === "CustomMessage" ? (
+            <Markdown children={message} />
+          ) : (
+            <Typography variant="body1">{message}</Typography>
+          )}
           {extendedMessage && (
             <>
               <List dense>

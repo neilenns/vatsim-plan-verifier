@@ -14,6 +14,7 @@ const statusOrder: Record<StatusValue, number> = {
   Warning: 1,
   Ok: 2,
   Information: 3,
+  CustomMessage: 4,
 };
 
 const VerifierResults: React.FC<VerifierResultsProps> = ({ verifierResults, flightPlan }) => {

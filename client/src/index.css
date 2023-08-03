@@ -1,5 +1,16 @@
 @import url('@fontsource-variable/inter');
 
+/* Blockquote generated from react-markdown */
+.markdownBlockquote {
+  background-color: #f2f2f2;
+  margin: 0;
+  padding: 10px;
+}
+
+.markdownBlockquote p {
+  margin: 0; /* Reset the margin for paragraphs inside the blockquote */
+}
+
 /* Tables generated from react-markdown */
 .markdownTable {
   border-collapse: collapse;
