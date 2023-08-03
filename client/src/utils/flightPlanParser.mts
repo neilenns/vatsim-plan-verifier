@@ -1,6 +1,6 @@
 import pluralize from "pluralize";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
-import ISIDInformation, { InitialPhrasingOptions } from "../interfaces/ISIDInformation.mts";
+import { InitialPhrasingOptions } from "../interfaces/ISIDInformation.mts";
 
 // Checks to see if the airport name ends in "Airport". If so, return
 // unmodified. If not, append " Airport" and return it.
@@ -33,6 +33,10 @@ export function formattedInitialAltitude(flightPlan: IFlightPlan): string {
     return `CVS ${flightPlan.initialAltitude}`;
   }
 
+  if (initialPhrasing === InitialPhrasingOptions.ClimbViaDepartureExceptMaintain) {
+    return `CVD ${flightPlan.initialAltitude}`;
+  }
+
   return "See chart/SOP";
 }
 
@@ -40,13 +44,8 @@ export function formattedInitialAltitude(flightPlan: IFlightPlan): string {
 // minutes after departure to expect the SID to be assigned.
 export function formattedExpectInMinutes(flightPlan: IFlightPlan): string {
   const SIDInformation = flightPlan.SIDInformation;
-  const initialPhrasing = SIDInformation?.InitialPhrasing;
 
   if (!SIDInformation) {
-    return "";
-  }
-
-  if (initialPhrasing === InitialPhrasingOptions.ClimbViaSid) {
     return "";
   }
 

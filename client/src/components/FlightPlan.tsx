@@ -1,4 +1,4 @@
-import { Box, Button, FormHelperText, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid } from "@mui/material";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
 import { useEffect, useState } from "react";
@@ -171,7 +171,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
                   <>
                     {formattedInitialAltitude(flightPlan)}
                     <br />
-                    {formattedExpectInMinutes(flightPlan.SIDInformation)}
+                    {formattedExpectInMinutes(flightPlan)}
                   </>
                 )
               }
@@ -182,20 +182,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               }}
               hasErrors={verifierResults?.hasCruiseAltitudeErrors}
               hasWarnings={verifierResults?.hasCruiseAltitudeWarnings}
-            >
-              <FormHelperText>
-                {flightPlan?.initialAltitude ? (
-                  <>
-                    <Typography>
-                      Initial: {flightPlan.SIDInformation?.ClimbViaSid ? "CVS " : ""}
-                      {flightPlan.initialAltitude}
-                    </Typography>
-                  </>
-                ) : (
-                  " "
-                )}
-              </FormHelperText>
-            </FlightPlanTextField>
+            />
           </Grid>
           <Grid item xs={12} key="route">
             <FlightPlanTextField

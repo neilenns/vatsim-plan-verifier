@@ -5,10 +5,38 @@ db.departures.deleteMany({});
 
 db.departures.insertMany([
   {
+    SID: "AST3",
+    Telephony: "ASTORIA THREE",
+    Fixes: [],
+    InitialPhrasing: "Maintain",
+    InitialAltitudes: [
+      {
+        Altitude: 50,
+        AircraftClass: ".*",
+      },
+    ],
+    ExpectRequired: true,
+    ExpectInMinutes: 5,
+  },
+  {
+    SID: "BDN1",
+    Telephony: "BEND ONE",
+    Fixes: [],
+    InitialPhrasing: "Maintain",
+    InitialAltitudes: [
+      {
+        Altitude: 140,
+        AircraftClass: ".*",
+      },
+    ],
+    ExpectRequired: true,
+    ExpectInMinutes: 5,
+  },
+  {
     SID: "POTOR2",
     Telephony: "POTOR TWO",
     Fixes: ["POTOR"],
-    ClimbViaSid: false,
+    InitialPhrasing: "ClimbViaSidExceptMaintain",
     InitialAltitudes: [
       {
         Altitude: 60,
@@ -23,7 +51,7 @@ db.departures.insertMany([
     SID: "EAGLE6",
     Telephony: "EAGLE SIX",
     Fixes: [],
-    ClimbViaSid: false,
+    InitialPhrasing: "ClimbViaSidExceptMaintain",
     InitialAltitudes: [
       {
         Altitude: 110,
@@ -38,7 +66,7 @@ db.departures.insertMany([
     SID: "JKSN1",
     Telephony: "JACKSON ONE",
     Fixes: ["OED"],
-    ClimbViaSid: true,
+    InitialPhrasing: "ClimbViaSidExceptMaintain",
     InitialAltitudes: [
       {
         Altitude: 110,
@@ -53,7 +81,7 @@ db.departures.insertMany([
     SID: "MFR1",
     Telephony: "KLAMATH FALLS ONE",
     Fixes: ["LMT"],
-    ClimbViaSid: false,
+    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 110,
@@ -68,7 +96,7 @@ db.departures.insertMany([
     SID: "SMKKY1",
     Telephony: "SMOKY ONE",
     Fixes: ["SMKKY"],
-    ClimbViaSid: false,
+    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 110,
@@ -83,7 +111,7 @@ db.departures.insertMany([
     SID: "CVV5",
     Telephony: "PENN COVE FIVE",
     Fixes: ["CVV", "DIGGN", "PAE"],
-    ClimbViaSid: true,
+    InitialPhrasing: "ClimbViaSidExceptMaintain",
     InitialAltitudes: [
       {
         Altitude: 20,
@@ -96,7 +124,7 @@ db.departures.insertMany([
     SID: "NASWI2",
     Telephony: "NASWI TWO",
     Fixes: ["NUW", "HUH", "STILY", "PAE", "CVV", "DIGGN", "YETII", "MCCUL", "DISCO", "TOU", "UQQ"],
-    ClimbViaSid: false,
+    InitialPhrasing: "ClimbViaDepartureExceptMaintain",
     InitialAltitudes: [
       {
         Altitude: 20,
@@ -109,7 +137,7 @@ db.departures.insertMany([
     SID: "YELM5",
     Telephony: "YELM FIVE",
     Fixes: ["OLM", "HQM", "TOU", "PAE", "SEA", "YKM", "BTG", "UBG"],
-    ClimbViaSid: false,
+    InitialPhrasing: "ClimbViaSid",
     InitialAltitudes: [
       {
         Altitude: 30,
@@ -124,13 +152,13 @@ db.departures.insertMany([
     SID: "OTH7",
     Telephony: "NORTH BEND SEVEN",
     Fixes: ["OTH", "GAMMA", "RARES", "SCOTY", "DEROY", "LEDGE"],
-    ClimbViaSid: true,
+    InitialPhrasing: "Maintain",
     isRNAV: false,
     ExpectRequired: true,
     ExpectInMinutes: 5,
     InitialAltitudes: [
       {
-        Altitude: 40,
+        Altitude: 50,
         AircraftClass: ".*",
       },
     ],
@@ -141,7 +169,7 @@ db.departures.insertMany([
     SID: "PSC7",
     Telephony: "TRI-CITIES SEVEN",
     Fixes: ["PSC", "GEG", "PUW", "MQG", "ALW", "PDT", "LTJ", "YKM", "ELN", "EAT", "EPH", "MWH"],
-    ClimbViaSid: false,
+    InitialPhrasing: "ClimbViaSid",
     isRNAV: false,
     InitialAltitudes: [
       {
@@ -156,7 +184,7 @@ db.departures.insertMany([
     SID: "RDM3",
     Telephony: "REDMOND THREE",
     Fixes: ["DSD", "IMB", "ILR", "LKV", "LMT", "OED", "EUG", "CVO", "UBG", "BTG", "LTJ", "PDT"],
-    ClimbViaSid: false,
+    InitialPhrasing: "Maintain",
     isRNAV: false,
     InitialAltitudes: [
       {
@@ -171,7 +199,7 @@ db.departures.insertMany([
     SID: "BELVU4",
     Telephony: "BELLEVUE FOUR",
     Fixes: [],
-    ClimbViaSid: false,
+    InitialPhrasing: "ClimbViaSid",
     isRNAV: false,
     InitialAltitudes: [
       {
@@ -186,7 +214,7 @@ db.departures.insertMany([
     SID: "RENTN3",
     Telephony: "RENTON THREE",
     Fixes: [],
-    ClimbViaSid: false,
+    InitialPhrasing: "ClimbViaSid",
     isRNAV: false,
     InitialAltitudes: [
       {
@@ -201,7 +229,7 @@ db.departures.insertMany([
     SID: "FELTS4",
     Telephony: "FELTS FOUR",
     Fixes: ["GEG", "COE", "MLP", "PUW", "MQG", "ALW", "PDT", "PSC", "YKM", "MWH", "EPH", "HUH"],
-    ClimbViaSid: false,
+    InitialPhrasing: "ClimbViaSid",
     isRNAV: false,
     InitialAltitudes: [
       {
@@ -216,7 +244,7 @@ db.departures.insertMany([
     SID: "HAYDE4",
     Telephony: "HAYDEN FOUR",
     Fixes: [],
-    ClimbViaSid: false,
+    InitialPhrasing: "ClimbViaSid",
     isRNAV: false,
     ExpectRequired: true,
     ExpectInMinutes: 5,
@@ -231,7 +259,7 @@ db.departures.insertMany([
     SID: "MNITO1",
     Telephony: "MANITO ONE",
     Fixes: ["GEG"],
-    ClimbViaSid: false,
+    InitialPhrasing: "Maintain",
     isRNAV: false,
     InitialAltitudes: [
       {
@@ -246,7 +274,7 @@ db.departures.insertMany([
     SID: "SLE4",
     Telephony: "SALEM FOUR",
     Fixes: ["UBG", "BTG", "SL", "CVO", "DSD", "EUG", "ONP"],
-    ClimbViaSid: false,
+    InitialPhrasing: "Maintain",
     isRNAV: false,
     InitialAltitudes: [
       {
@@ -261,7 +289,7 @@ db.departures.insertMany([
     SID: "ALDER2",
     Telephony: "ALDER TWO",
     Fixes: ["ALDER"],
-    ClimbViaSid: true,
+    InitialPhrasing: "ClimbViaSidExceptMaintain",
     isRNAV: false,
     InitialAltitudes: [
       {
@@ -276,7 +304,7 @@ db.departures.insertMany([
     SID: "MOCAA4",
     Telephony: "MOCHA FOUR",
     Fixes: ["MOCHA", "BKE", "IMB", "JINMO"],
-    ClimbViaSid: true,
+    InitialPhrasing: "ClimbViaSid",
     isRNAV: true,
     InitialAltitudes: [
       {
@@ -291,7 +319,7 @@ db.departures.insertMany([
     SID: "OLY4",
     Telephony: "OLYMPIC FOUR",
     Fixes: [],
-    ClimbViaSid: true,
+    InitialPhrasing: "ClimbViaSidExceptMaintain",
     isRNAV: false,
     InitialAltitudes: [
       {
@@ -306,7 +334,7 @@ db.departures.insertMany([
     SID: "PUGET6",
     Telephony: "PUGET SIX",
     Fixes: [],
-    ClimbViaSid: true,
+    InitialPhrasing: "ClimbViaSidExceptMaintain",
     isRNAV: false,
     InitialAltitudes: [
       {
@@ -321,7 +349,7 @@ db.departures.insertMany([
     SID: "TIW1",
     Telephony: "NARROWS ONE",
     Fixes: [],
-    ClimbViaSid: true,
+    InitialPhrasing: "ClimbViaSidExceptMaintain",
     isRNAV: false,
     InitialAltitudes: [
       {
@@ -336,7 +364,7 @@ db.departures.insertMany([
     SID: "TDD3",
     Telephony: "BLUE LAKE THREE",
     Fixes: [],
-    ClimbViaSid: true,
+    InitialPhrasing: "Maintain",
     isRNAV: false,
     InitialAltitudes: [
       {
@@ -351,7 +379,7 @@ db.departures.insertMany([
     SID: "GLARA2",
     Telephony: "GLARA TWO",
     Fixes: ["GLARA"],
-    ClimbViaSid: true,
+    InitialPhrasing: "ClimbViaSidExceptMaintain",
     isRNAV: false,
     InitialAltitudes: [
       {
@@ -366,7 +394,7 @@ db.departures.insertMany([
     SID: "GNNET2",
     Telephony: "NET TWO",
     Fixes: ["GNNET"],
-    ClimbViaSid: true,
+    InitialPhrasing: "ClimbViaSidExceptMaintain",
     isRNAV: false,
     InitialAltitudes: [
       {
@@ -378,10 +406,40 @@ db.departures.insertMany([
     ExpectInMinutes: 5,
   },
   {
+    SID: "ONP1",
+    Telephony: "NEWPORT ONE",
+    Fixes: ["ONP"],
+    IsRNAV: false,
+    InitialPhrasing: "Maintain",
+    InitialAltitudes: [
+      {
+        Altitude: 50,
+        AircraftClass: ".*",
+      },
+    ],
+    ExpectRequired: false,
+    ExpectInMinutes: 5,
+  },
+  {
+    SID: "FEGBA2",
+    Telephony: "FEGBA 2",
+    Fixes: ["FEGBA"],
+    IsRNAV: true,
+    InitialPhrasing: "Maintain",
+    InitialAltitudes: [
+      {
+        Altitude: 30,
+        AircraftClass: ".*",
+      },
+    ],
+    ExpectRequired: true,
+    ExpectInMinutes: 5,
+  },
+  {
     SID: "UBG2",
     Telephony: "NEWBERG TWO",
     Fixes: ["UBG"],
-    ClimbViaSid: true,
+    InitialPhrasing: "ClimbViaSidExceptMaintain",
     isRNAV: false,
     InitialAltitudes: [
       {
@@ -396,7 +454,7 @@ db.departures.insertMany([
     SID: "GROMO4",
     Telephony: "GROMO FOUR",
     Fixes: ["TAMPO", "SIMCO", "HITCH", "GUBSE", "SUNED", "PAPPS"],
-    ClimbViaSid: false,
+    InitialPhrasing: "ClimbViaSidExceptMaintain",
     isRNAV: false,
     InitialAltitudes: [
       {
@@ -411,7 +469,7 @@ db.departures.insertMany([
     SID: "NACHE4",
     Telephony: "NACHES FOUR",
     Fixes: ["YKM", "ELN", "EAT", "EPH", "MWH", "GEG", "PSC", "ALW", "PDT", "LTJ", "BTG", "SEA"],
-    ClimbViaSid: false,
+    InitialPhrasing: "ClimbViaSidExceptMaintain",
     isRNAV: false,
     InitialAltitudes: [
       {
@@ -426,7 +484,7 @@ db.departures.insertMany([
     SID: "WENAS7",
     Telephony: "WENAS SEVEN",
     Fixes: ["TITON", "PERTT", "ELN", "RUBEL", "PAPPS", "SUNED"],
-    ClimbViaSid: false,
+    InitialPhrasing: "ClimbViaSidExceptMaintain",
     isRNAV: false,
     ExpectRequired: true,
     ExpectInMinutes: 5,
@@ -443,7 +501,7 @@ db.departures.insertMany([
     SID: "YKM7",
     Telephony: "YAKIMA SEVEN",
     Fixes: ["TITON"],
-    ClimbViaSid: false,
+    InitialPhrasing: "Maintain",
     isRNAV: false,
     InitialAltitudes: [
       {
@@ -458,7 +516,7 @@ db.departures.insertMany([
     SID: "ZILLA3",
     Telephony: "ZILLA THREE",
     Fixes: [],
-    ClimbViaSid: false,
+    InitialPhrasing: "Unknown",
     isRNAV: false,
     InitialAltitudes: [
       {
@@ -473,7 +531,7 @@ db.departures.insertMany([
     SID: "ALW2",
     Telephony: "WALLA WALLA TWO",
     Fixes: ["ALW", "YKM", "MWH", "GEG", "PUW", "MQG", "PSC", "PTD"],
-    ClimbViaSid: false,
+    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 80,
@@ -488,7 +546,7 @@ db.departures.insertMany([
     SID: "EUG1",
     Telephony: "EUGENE ONE",
     Fixes: ["EUG", "CVO", "DSD", "LMT", "OED", "RBG", "OTH", "ONP", "UBG", "BTG"],
-    ClimbViaSid: false,
+    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 90,
@@ -503,7 +561,7 @@ db.departures.insertMany([
     SID: "GEG7",
     Telephony: "SPOKANE 7",
     Fixes: ["GEG", "MLP", "PUW", "MQG", "ALW", "PDT", "PSC", "YKM", "MWH", "EPH", "HUH", "COE"],
-    ClimbViaSid: false,
+    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 60,
@@ -518,7 +576,7 @@ db.departures.insertMany([
     SID: "BERNI3",
     Telephony: "BERNI THREE",
     Fixes: ["BERNI", "EASON", "EUG", "FAMUK", "HARPR"],
-    ClimbViaSid: false,
+    InitialPhrasing: "ClimbViaSidExceptMaintain",
     IsRNAV: true,
     InitialAltitudes: [
       {
@@ -533,7 +591,7 @@ db.departures.insertMany([
     SID: "CANBY2",
     Telephony: "CANBY TWO",
     Fixes: ["CANBY"],
-    ClimbViaSid: false,
+    InitialPhrasing: "Maintain",
     IsRNAV: false,
     InitialAltitudes: [
       {
@@ -548,7 +606,7 @@ db.departures.insertMany([
     SID: "CHISM4",
     Telephony: "CHISM FOUR",
     Fixes: ["CHISM", "PAWLI", "SMIGE", "JOGEN", "DSD", "RIELY", "IMB"],
-    ClimbViaSid: false,
+    InitialPhrasing: "ClimbViaSidExceptMaintain",
     IsRNAV: false,
     InitialAltitudes: [
       {
@@ -563,7 +621,7 @@ db.departures.insertMany([
     SID: "FARM7",
     Telephony: "FARMINGTON SEVEN",
     Fixes: ["UBG"],
-    ClimbViaSid: false,
+    InitialPhrasing: "Maintain",
     IsRNAV: false,
     InitialAltitudes: [
       {
@@ -578,7 +636,7 @@ db.departures.insertMany([
     SID: "SCAPO7",
     Telephony: "SCAPO SEVEN",
     Fixes: ["SCAPO"],
-    ClimbViaSid: false,
+    InitialPhrasing: "Maintain",
     IsRNAV: false,
     InitialAltitudes: [
       {
@@ -592,7 +650,6 @@ db.departures.insertMany([
   {
     SID: "CBAIN1",
     Telephony: "COBAIN ONE",
-    ClimbViaSid: true,
     Fixes: [
       "ARRIE",
       "PAE",
@@ -608,6 +665,7 @@ db.departures.insertMany([
       "HAROB",
       "ELMAA",
     ],
+    InitialPhrasing: "ClimbViaSid",
     InitialAltitudes: [
       {
         Altitude: 21,
@@ -621,9 +679,9 @@ db.departures.insertMany([
   {
     SID: "KENT8",
     Telephony: "KENT EIGHT",
-    ClimbViaSid: false,
     Fixes: ["YVR", "HUH", "YYJ", "PAE", "SEA", "OLM", "HQM", "BTG", "ELN", "YKM", "MWH", "EAT"],
     IsRNAV: false,
+    InitialPhrasing: "ClimbViaSid",
     InitialAltitudes: [
       {
         Altitude: 20,
@@ -636,9 +694,9 @@ db.departures.insertMany([
   {
     SID: "NEEDL1",
     Telephony: "NEEDLE ONE",
-    ClimbViaSid: false,
     Fixes: ["YVR", "HUH", "YYJ", "PAE", "SEA", "OLM", "HQM", "BTG", "ELN", "YKM", "MWH", "EAT"],
     IsRNAV: false,
+    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 21,
@@ -651,13 +709,6 @@ db.departures.insertMany([
   {
     SID: "NRVNA1",
     Telephony: "NIRVANA ONE",
-    ClimbViaSid: false,
-    InitialAltitudes: [
-      {
-        Altitude: 21,
-        AircraftClass: ".*",
-      },
-    ],
     Fixes: [
       "ARRIE",
       "PAE",
@@ -673,6 +724,13 @@ db.departures.insertMany([
       "HAROB",
       "ELMAA",
     ],
+    InitialPhrasing: "ClimbViaSid",
+    InitialAltitudes: [
+      {
+        Altitude: 21,
+        AircraftClass: ".*",
+      },
+    ],
     IsRNAV: true,
     ExpectRequired: false,
     ExpectInMinutes: 3,
@@ -681,7 +739,7 @@ db.departures.insertMany([
     SID: "WHAMY4",
     Telephony: "WHAMY FOUR",
     Fixes: ["WHAMY", "IMB", "RIELY", "KOATA"],
-    ClimbViaSid: false,
+    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 70,
@@ -696,7 +754,7 @@ db.departures.insertMany([
     SID: "CASCD2",
     Telephony: "CASCADE TWO",
     Fixes: ["CHISM", "DSD", "JOGEN", "SMIGE", "PAWLI"],
-    ClimbViaSid: false,
+    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 70,
@@ -711,7 +769,7 @@ db.departures.insertMany([
     SID: "HRMNS5",
     Telephony: "HERMANS FIVE",
     Fixes: ["HRMNS"],
-    ClimbViaSid: false,
+    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 70,
@@ -726,6 +784,7 @@ db.departures.insertMany([
     SID: "LAVAA6",
     Telephony: "LAVA SIX",
     Fixes: ["LAVAA", "YKM", "PDT"],
+    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 70,
@@ -740,7 +799,7 @@ db.departures.insertMany([
     SID: "MINNE5",
     Telephony: "MINNE FIVE",
     Fixes: ["MINNE", "EASON", "FAMUK", "HISKU"],
-    ClimbViaSid: false,
+    InitialPhrasing: "Maintain",
     ExpectInMinutes: 10,
     ExpectRequired: false,
     InitialAltitudes: [
@@ -883,7 +942,7 @@ db.departures.insertMany([
   {
     SID: "MONTN2",
     Telephony: "MOUNTAIN TWO",
-    ClimbViaSid: true,
+    InitialPhrasing: "ClimbViaSidExceptMaintain",
     Fixes: [
       "PAE",
       "VAMPS",
@@ -956,6 +1015,7 @@ db.departures.insertMany([
     Telephony: "PAINE SIX",
     IsRNAV: false,
     Fixes: ["PAE", "SEA", "EAT", "ELN", "OLM", "HQM", "NUW"],
+    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 20,
@@ -969,8 +1029,8 @@ db.departures.insertMany([
     SID: "KIENO6",
     Telephony: "KIENO SIX",
     IsRNAV: false,
-    ClimbViaSid: true,
     Fixes: ["KIENO", "YVR", "YYJ", "CVV"],
+    InitialPhrasing: "ClimbViaSidExceptMaintain",
     InitialAltitudes: [
       {
         Altitude: 30,
@@ -982,10 +1042,10 @@ db.departures.insertMany([
   },
   {
     SID: "KLSHN1",
-    Telephony: "KIENO SIX",
+    Telephony: "KULSHAN ONE",
     Fixes: ["KLSHN", "CVV"],
     IsRNAV: true,
-    ClimbViaSid: true,
+    InitialPhrasing: "ClimbViaSidExceptMaintain",
     InitialAltitudes: [
       {
         Altitude: 30,
@@ -996,10 +1056,40 @@ db.departures.insertMany([
     ExpectInMinutes: 5,
   },
   {
+    SID: "WATTR7",
+    Telephony: "WATER SEVEN",
+    Fixes: ["WATTR"],
+    IsRNAV: false,
+    InitialPhrasing: "Maintain",
+    InitialAltitudes: [
+      {
+        Altitude: 54,
+        AircraftClass: ".*",
+      },
+    ],
+    ExpectRequired: true,
+    ExpectInMinutes: 10,
+  },
+  {
+    SID: "SHEDD4",
+    Telephony: "SHED FOUR",
+    Fixes: ["SHEDD"],
+    IsRNAV: false,
+    InitialPhrasing: "Maintain",
+    InitialAltitudes: [
+      {
+        Altitude: 30,
+        AircraftClass: ".*",
+      },
+    ],
+    ExpectRequired: true,
+    ExpectInMinutes: 5,
+  },
+  {
     SID: "LMT6",
     Telephony: "KINGSLEY SIX",
     Fixes: ["LMT", "LKV", "RBL", "FMG", "FJS", "OED", "RBG", "DSD", "EUG"],
-    ClimbViaSid: false,
+    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 100,
