@@ -31,6 +31,8 @@ const departures = [
       "COUGA",
     ],
     IsRNAV: false,
+    ExpectRequired: false,
+    ExpectInMinutes: 5,
     InitialAltitudes: [
       {
         Altitude: 60,
@@ -52,6 +54,8 @@ const departures = [
     Telephony: "HAROB SIX",
     Fixes: ["HAROB", "HQM", "ERAVE", "HISKU"],
     ClimbViaSid: true,
+    ExpectRequired: false,
+    ExpectInMinutes: 10,
     InitialAltitudes: [
       {
         Altitude: 70,
