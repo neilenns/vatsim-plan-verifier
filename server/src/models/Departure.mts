@@ -19,6 +19,9 @@ enum InitialPhrasingOptions {
 @modelOptions({ options: { customName: "departure" } })
 export class Departure {
   @prop({ required: true })
+  AirportCode!: string;
+
+  @prop({ required: true })
   SID!: string;
 
   @prop({ required: true })
