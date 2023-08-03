@@ -38,6 +38,10 @@ export default async function hasValidFirstFix({
       result.data.status = "Information";
       result.data.message = `No information available for ${SID} so can't verify first fix.`;
       result.data.messageId = "noSIDInformation";
+    } else if (SIDInformation.Fixes.length === 0) {
+      result.data.status = "Information";
+      result.data.message = `SID ${SID} has no initial fixes so there is no need to verify the route.`;
+      result.data.messageId = "noFixesOnDeparture";
     }
     // Finally have all the info necessary to verify the first fix
     else if (!SIDInformation.Fixes.includes(firstFix)) {

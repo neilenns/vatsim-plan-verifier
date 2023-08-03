@@ -93,6 +93,22 @@ const departures = [
       },
     ],
   },
+  {
+    _id: "5f9f7b9b9b3b3c1b3c1b3c14",
+    SID: "EAGLE6",
+    Telephony: "EAGLE SIX",
+    Fixes: [],
+    ClimbViaSid: false,
+    InitialAltitudes: [
+      {
+        Altitude: 110,
+        AircraftClass: ".*",
+      },
+    ],
+    IsRNAV: false,
+    ExpectRequired: false,
+    ExpectInMinutes: 5,
+  },
 ];
 
 export default async function setup() {
