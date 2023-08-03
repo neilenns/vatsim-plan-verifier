@@ -46,7 +46,11 @@ export function hyperlinkSidName(flightPlan: IFlightPlan): ReactNode {
 export function formattedInitialAltitude(flightPlan: IFlightPlan): string {
   const initialPhrasing = flightPlan.SIDInformation?.InitialPhrasing;
 
-  if (!flightPlan.initialAltitude) {
+  if (!flightPlan.initialAltitude || flightPlan.initialAltitude == "Unknown") {
+    // It's possible there's airport-wide initial altitude text so check that first
+    if (flightPlan.departureAirportInfo?.extendedAirportInfo?.defaultInitialAltitudeText) {
+      return flightPlan.departureAirportInfo.extendedAirportInfo.defaultInitialAltitudeText;
+    }
     return "See chart/SOP";
   }
 
@@ -79,6 +83,11 @@ export function formattedExpectInMinutes(flightPlan: IFlightPlan): string {
   const SIDInformation = flightPlan.SIDInformation;
 
   if (!SIDInformation) {
+    // It's possible there's airport-wide expect in minutes text so check that first
+    if (flightPlan.departureAirportInfo?.extendedAirportInfo?.defaultInitialMinutesText) {
+      return flightPlan.departureAirportInfo.extendedAirportInfo.defaultInitialMinutesText;
+    }
+
     return "";
   }
 

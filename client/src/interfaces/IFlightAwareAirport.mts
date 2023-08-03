@@ -19,4 +19,8 @@ export default interface IFlightAwareAirport {
   wikiUrl: string;
   airportFlightsUrl: string;
   alternatives: string[];
+  extendedAirportInfo?: {
+    defaultInitialAltitudeText?: string;
+    defaultInitialMinutesText?: string;
+  };
 }
