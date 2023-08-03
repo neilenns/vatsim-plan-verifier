@@ -154,7 +154,6 @@ const VatsimFlightPlans = () => {
             <TextField
               label="Airport code"
               size="small"
-              defaultValue={airportCodes ?? undefined}
               value={airportCodes}
               onChange={(e) => {
                 setAirportCodes(e.target.value);
