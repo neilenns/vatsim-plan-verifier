@@ -13,6 +13,8 @@ import passport from "passport";
 import { ENV } from "./env.mjs";
 import compression from "compression";
 import helmet from "helmet";
+import { startVatsimAutoUpdate, stopVatsimAutoUpdate } from "./services/vatsim.mjs";
+import { setupSockets } from "./sockets/index.mjs";
 
 // Workaround for lodash being a CommonJS module
 import pkg, { set } from "lodash";
@@ -38,8 +40,7 @@ import verifyRouter from "./routes/verify.mjs";
 import navaidRouter from "./routes/navaid.mjs";
 import userRouter from "./routes/users.mjs";
 import vatsimRouter from "./routes/vatsim.mjs";
-import { startVatsimAutoUpdate, stopVatsimAutoUpdate } from "./services/vatsim.mjs";
-import { setupSockets } from "./sockets/index.mjs";
+import extendedAirportInfoRouter from "./routes/extendedAirportInfo.mjs";
 
 export const app = express();
 let server: https.Server | Server;
@@ -120,7 +121,7 @@ export function startServer(port: number): void {
   app.use(navaidRouter);
   app.use(userRouter);
   app.use(vatsimRouter);
-
+  app.use(extendedAirportInfoRouter);
   // Verifier routes
   app.use(verifyRouter);
 

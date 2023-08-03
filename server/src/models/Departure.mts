@@ -1,4 +1,5 @@
-import { prop, getModelForClass, modelOptions } from "@typegoose/typegoose";
+import { prop, getModelForClass, modelOptions, Ref } from "@typegoose/typegoose";
+import { ExtendedAirportInfo } from "./ExtendedAirportInfo.mjs";
 
 export class InitialAltitude {
   @prop({ required: true })
@@ -51,6 +52,15 @@ export class Departure {
 
   @prop({ type: String })
   Charts?: Map<string, string>;
+
+  @prop({
+    ref: () => ExtendedAirportInfo,
+    foreignField: "airportCode",
+    localField: "AirportCode",
+    justOne: true,
+    autopopulate: true,
+  })
+  extendedAirportInfo?: Ref<ExtendedAirportInfo>;
 }
 
 const DepartureModel = getModelForClass(Departure);
