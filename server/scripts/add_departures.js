@@ -1163,6 +1163,7 @@ db.departures.insertMany([
     SID: "SUMMA2",
     Telephony: "SUMMA TWO",
     Fixes: ["SUMMA", "BKE", "LKV"],
+    InitialPhrasing: "SeeNote",
     InitialAltitudes: [
       {
         Altitude: 70,
@@ -1246,6 +1247,7 @@ db.departures.insertMany([
       "AST",
       "HQM",
     ],
+    InitialPhrasing: "SeeNote",
     InitialAltitudes: [
       {
         Altitude: 70,

@@ -50,6 +50,10 @@ export function formattedInitialAltitude(flightPlan: IFlightPlan): string {
     return "See chart/SOP";
   }
 
+  if (initialPhrasing === InitialPhrasingOptions.SeeNote) {
+    return `See note`;
+  }
+
   if (initialPhrasing === InitialPhrasingOptions.Maintain) {
     return `Maintain ${flightPlan.initialAltitude}`;
   }
@@ -75,6 +79,10 @@ export function formattedExpectInMinutes(flightPlan: IFlightPlan): string {
   const SIDInformation = flightPlan.SIDInformation;
 
   if (!SIDInformation) {
+    return "";
+  }
+
+  if (SIDInformation.InitialPhrasing === InitialPhrasingOptions.SeeNote) {
     return "";
   }
 

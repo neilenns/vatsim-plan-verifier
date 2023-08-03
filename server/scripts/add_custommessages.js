@@ -41,12 +41,12 @@ db.custommessages.insertMany([
     message: `**North flow**
 
 > Cleared to {{arrival}} via the SUMMA2 departure, radar vectors SUMMA, then as filed.  
-> Maintain 7,000 expect {{cruiseAltitude}} 15 nautlical miles from the SEATTLE VORTAC.
+> Maintain 7,000 expect {{formattedCruiseAltitude}} 15 nautical miles from the SEATTLE VORTAC.
 
 **South flow**
 
 > Cleared to {{arrival}} via the SUMMA2 departure then as filed.  
-> Maintain 7,000 expect {{cruiseAltitude}} 15 nautlical miles from the SEATTLE VORTAC.
+> Maintain 7,000 expect {{formattedCruiseAltitude}} 15 nautical miles from the SEATTLE VORTAC.
 `,
   },
   {
@@ -55,6 +55,6 @@ db.custommessages.insertMany([
     messageId: "SEA8Text",
     priority: 3,
     message: `> Cleared to {{arrival}} via the SEA8 departure, radar vectors {{initialFix}}, then as filed.  
-> Maintain 7,000 expect {{cruiseAltitude}} 15 nautlical miles from the SEATTLE VORTAC.`,
+> Maintain 7,000 expect {{formattedCruiseAltitude}} 15 nautical miles from the SEATTLE VORTAC.`,
   },
 ]);

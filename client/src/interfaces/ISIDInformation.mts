@@ -4,6 +4,7 @@ export enum InitialPhrasingOptions {
   ClimbViaSid = "ClimbViaSid",
   ClimbViaSidExceptMaintain = "ClimbViaSidExceptMaintain",
   ClimbViaDepartureExceptMaintain = "ClimbViaDepartureExceptMaintain",
+  SeeNote = "SeeNote",
 }
 
 export default interface ISIDInformation {
