@@ -6,7 +6,11 @@ import debug from "debug";
 const verifierName = "hasSID";
 const logger = debug(`plan-verifier:${verifierName}`);
 
-export default async function hasSID({ _id, SID }: IFlightPlan): Promise<VerifierControllerResult> {
+export default async function hasSID({
+  _id,
+  SID,
+  departureAirportInfo,
+}: IFlightPlan): Promise<VerifierControllerResult> {
   // Set up the default result for a successful run of the verifier.
   let result: VerifierControllerResult = {
     success: true,
@@ -19,8 +23,16 @@ export default async function hasSID({ _id, SID }: IFlightPlan): Promise<Verifie
   };
 
   try {
+    // Check and see if the flight is out of an airport that's known to have no SIDs. If so
+    // skip this verifier.
+    if (departureAirportInfo?.extendedAirportInfo?.hasSIDs === false) {
+      result.data.status = "Information";
+      result.data.message = `Departure airport has no SIDs.`;
+      result.data.messageId = "airportHasNoSIDs";
+      result.data.priority = 3;
+    }
     // This is the test the verifier is supposed to do.
-    if (!SID) {
+    else if (!SID) {
       result.data.status = "Warning";
       result.data.message = `Flight plan may not have a SID.`;
       result.data.messageId = "noSID";

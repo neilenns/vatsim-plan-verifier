@@ -1,4 +1,5 @@
 import { prop, getModelForClass, modelOptions } from "@typegoose/typegoose";
+import { ExtendedAirportInfo } from "./ExtendedAirportInfo.mjs";
 
 export class InitialAltitude {
   @prop({ required: true })

@@ -41,6 +41,17 @@ const testData = [
     route: "+SEA8 SEA BTG V23 OLM J42 SEA KRATR2",
     squawk: "1234",
   },
+  // Departure airport is tagged as having no SIDs
+  {
+    _id: "5f9f7b3b9d3b3c1b1c9b4b54",
+    callsign: "ASA42",
+    departure: "KPDT",
+    arrival: "KPDX",
+    cruiseAltitude: 210,
+    rawAircraftType: "B738/A",
+    route: "+SEA8 SEA BTG V23 OLM J42 SEA KRATR2",
+    squawk: "1234",
+  },
 ];
 
 describe("verifier: hasSID tests", () => {
@@ -85,5 +96,18 @@ describe("verifier: hasSID tests", () => {
     const data = (result as SuccessResult<IVerifierResult>).data;
     expect(data.status).to.equal("Information");
     expect(data.messageId).to.equal("hasSID");
+  });
+
+  it("should skip, departure tagged with no SIDs", async () => {
+    const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b54");
+    expect(flightPlan.success).to.equal(true);
+
+    const result = await hasSID((flightPlan as SuccessResult<IFlightPlan>).data);
+
+    expect(result.success).to.equal(true);
+
+    const data = (result as SuccessResult<IVerifierResult>).data;
+    expect(data.status).to.equal("Information");
+    expect(data.messageId).to.equal("airportHasNoSIDs");
   });
 });

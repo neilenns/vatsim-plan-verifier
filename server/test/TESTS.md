@@ -4,6 +4,7 @@
 	- [Test data](#test-data)
 	- [Aircraft](#aircraft)
 	- [Airports](#airports)
+	- [Extended airport information](#extended-airport-information)
 	- [Airlines](#airlines)
 	- [Departures](#departures)
 	- [FlightAware routes](#flightaware-routes)
@@ -34,11 +35,18 @@ Flight plans should be added as part of the set up for each specific test. This 
 
 ## Airports
 
-|            ID            | Airport code |  Notes   |
-| :----------------------: | :----------: | :------: |
-| 5f9f7b3b9d3b3c1b1c9b4b4b |     KPDX     | Portland |
-| 5f9f7b3b9d3b3c1b1c9b4b4c |     KSEA     | Seattle  |
-| 5f9f7b3b9d3b3c1b1c9b4b4d |     KSLE     |  Salem   |
+|            ID            | Airport code |   Notes   |
+| :----------------------: | :----------: | :-------: |
+| 5f9f7b3b9d3b3c1b1c9b4b4b |     KPDX     | Portland  |
+| 5f9f7b3b9d3b3c1b1c9b4b4c |     KSEA     |  Seattle  |
+| 5f9f7b3b9d3b3c1b1c9b4b4d |     KSLE     |   Salem   |
+| 5f9f7b3b9d3b3c1b1c9b4b4e |     KPDT     | Pendelton |
+
+## Extended airport information
+
+|            Id            | Airport code |
+| :----------------------: | :----------: |
+| 64b409858f265c50318d9056 |     KPDT     |
 
 ## Airlines
 
@@ -54,7 +62,6 @@ Flight plans should be added as part of the set up for each specific test. This 
 | 5f9f7b9b9b3b3c1b3c1b3c12 |  HAROB6   |
 | 5f9f7b9b9b3b3c1b3c1b3c13 |   SEA8    |
 | 5f9f7b9b9b3b3c1b3c1b3c14 |  EAGLE6   |
-
 
 ## FlightAware routes
 
