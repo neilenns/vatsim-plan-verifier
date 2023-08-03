@@ -20,7 +20,7 @@ export const flightPlanVerifyAction: ActionFunction = async ({ params, request }
     arrival: formData.get("arrival"),
     squawk: formData.get("squawk"),
     route: formData.get("route"),
-    cruiseAltitude: formData.get("cruiseAltitude"),
+    cruiseAltitude: formData.get("cruiseAltitude")?.toString().replace(/^FL/, ""), // In case someone enters the cruise altitude as "FL360"
   } as IFlightPlan;
 
   const storedFlightPlan = await storeFlightPlan(planToSubmit);
