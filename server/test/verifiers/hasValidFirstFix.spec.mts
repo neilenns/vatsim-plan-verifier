@@ -74,6 +74,17 @@ const testData = [
     route: "PTLD2 ARRIE BTG V23 OLM J42 SEA KRATR2",
     squawk: "1234",
   },
+  // Departure has no initial fixes
+  {
+    _id: "5f9f7b3b9d3b3c1b1c9b4b57",
+    callsign: "ASA42",
+    departure: "KSEA",
+    arrival: "KPDX",
+    cruiseAltitude: 210,
+    rawAircraftType: "B738/A",
+    route: "EAGLE6 ARRIE BTG V23 OLM J42 SEA KRATR2",
+    squawk: "1234",
+  },
 ];
 describe("verifier: hasValidFirstFix tests", () => {
   before("Add flight plans for tests", async () => await addFlightPlans(testData));
@@ -162,5 +173,19 @@ describe("verifier: hasValidFirstFix tests", () => {
     expect(data.status).to.equal("Information");
     expect(data.flightPlanPart).to.equal("route");
     expect(data.messageId).to.equal("noFirstFix");
+  });
+
+  it("should skip due to departure not having initial fixes", async () => {
+    const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b57");
+    expect(flightPlan.success).to.equal(true);
+
+    const result = await hasValidFirstFix((flightPlan as SuccessResult<IFlightPlan>).data);
+
+    expect(result.success).to.equal(true);
+
+    const data = (result as SuccessResult<IVerifierResult>).data;
+    expect(data.status).to.equal("Information");
+    expect(data.flightPlanPart).to.equal("route");
+    expect(data.messageId).to.equal("noFixesOnDeparture");
   });
 });
