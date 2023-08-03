@@ -3,6 +3,7 @@ import DepartureModel from "../../src/models/Departure.mjs";
 const departures = [
   {
     _id: "5f9f7b9b9b3b3c1b3c1b3c11",
+    AirportCode: "KPDX",
     SID: "PTLD2",
     Telephony: "PORTLAND TWO",
     Fixes: [
@@ -50,6 +51,7 @@ const departures = [
   },
   {
     _id: "5f9f7b9b9b3b3c1b3c1b3c12",
+    AirportCode: "KSEA",
     SID: "HAROB6",
     Telephony: "HAROB SIX",
     Fixes: ["HAROB", "HQM", "ERAVE", "HISKU"],
@@ -66,6 +68,7 @@ const departures = [
   },
   {
     _id: "5f9f7b9b9b3b3c1b3c1b3c13",
+    AirportCode: "KSEA",
     SID: "SEA8",
     Telephony: "SEATTLE EIGHT",
     IsRNAV: false,
@@ -95,6 +98,7 @@ const departures = [
   },
   {
     _id: "5f9f7b9b9b3b3c1b3c1b3c14",
+    AirportCode: "KMFR",
     SID: "EAGLE6",
     Telephony: "EAGLE SIX",
     Fixes: [],

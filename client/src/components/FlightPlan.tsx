@@ -6,10 +6,11 @@ import FlightPlanTextField from "./FlightPlanTextField";
 import {
   formattedExpectInMinutes,
   formattedInitialAltitude,
+  hyperlinkSidName,
   normalizeAirportName,
   parseFlightPlan,
   validateFlightPlan,
-} from "../utils/flightPlanParser.mts";
+} from "../utils/flightPlanParser";
 import { LoadingButton } from "@mui/lab";
 import { Form, useNavigation } from "react-router-dom";
 import { OpenInNew } from "@mui/icons-material";
@@ -191,7 +192,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               name="route"
               canCopy
               value={flightPlan.route}
-              helperText={flightPlan?.expandedRoute}
+              helperText={hyperlinkSidName(flightPlan)}
               onPaste={parsePastedFlightPlan}
               onChange={(text) => {
                 flightPlan.route = text;

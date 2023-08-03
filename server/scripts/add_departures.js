@@ -5,6 +5,7 @@ db.departures.deleteMany({});
 
 db.departures.insertMany([
   {
+    AirportCode: "KAST",
     SID: "AST3",
     Telephony: "ASTORIA THREE",
     Fixes: [],
@@ -17,8 +18,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: true,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00024ASTORIA.PDF",
+    },
   },
   {
+    AirportCode: "KBDN",
     SID: "BDN1",
     Telephony: "BEND ONE",
     Fixes: [],
@@ -31,8 +36,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: true,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/05579BEND.PDF",
+    },
   },
   {
+    AirportCode: "KLWS",
     SID: "POTOR2",
     Telephony: "POTOR TWO",
     Fixes: ["POTOR"],
@@ -46,8 +55,12 @@ db.departures.insertMany([
     IsRNAV: false,
     ExpectRequired: true,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00515POTOR.PDF",
+    },
   },
   {
+    AirportCode: "KMFR",
     SID: "EAGLE6",
     Telephony: "EAGLE SIX",
     Fixes: [],
@@ -61,8 +74,12 @@ db.departures.insertMany([
     IsRNAV: false,
     ExpectRequired: false,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00251EAGLE.PDF",
+    },
   },
   {
+    AirportCode: "KMFR",
     SID: "JKSN1",
     Telephony: "JACKSON ONE",
     Fixes: ["OED"],
@@ -74,8 +91,12 @@ db.departures.insertMany([
       },
     ],
     IsRNAV: false,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00251JACKSON.PDF",
+    },
   },
   {
+    AirportCode: "KMFR",
     SID: "MFR1",
     Telephony: "KLAMATH FALLS ONE",
     Fixes: ["LMT"],
@@ -89,8 +110,12 @@ db.departures.insertMany([
     IsRNAV: true,
     ExpectRequired: false,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00251KLAMATHFALLS.PDF",
+    },
   },
   {
+    AirportCode: "KMFR",
     SID: "SMKKY1",
     Telephony: "SMOKY ONE",
     Fixes: ["SMKKY"],
@@ -104,8 +129,12 @@ db.departures.insertMany([
     IsRNAV: false,
     ExpectRequired: false,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00251SMKKY.PDF",
+    },
   },
   {
+    AirportCode: "KNUW",
     SID: "CVV5",
     Telephony: "PENN COVE FIVE",
     Fixes: ["CVV", "DIGGN", "PAE"],
@@ -117,8 +146,12 @@ db.departures.insertMany([
       },
     ],
     isRNAV: false,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00451PENNCOVE.PDF",
+    },
   },
   {
+    AirportCode: "KNUW",
     SID: "NASWI2",
     Telephony: "NASWI TWO",
     Fixes: ["NUW", "HUH", "STILY", "PAE", "CVV", "DIGGN", "YETII", "MCCUL", "DISCO", "TOU", "UQQ"],
@@ -130,8 +163,12 @@ db.departures.insertMany([
       },
     ],
     isRNAV: false,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00451NASWI.PDF",
+    },
   },
   {
+    AirportCode: "KOLM",
     SID: "YELM5",
     Telephony: "YELM FIVE",
     Fixes: ["OLM", "HQM", "TOU", "PAE", "SEA", "YKM", "BTG", "UBG"],
@@ -145,8 +182,12 @@ db.departures.insertMany([
     isRNAV: false,
     ExpectRequired: true,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00645YELM.PDF",
+    },
   },
   {
+    AirportCode: "KOTH",
     SID: "OTH7",
     Telephony: "NORTH BEND SEVEN",
     Fixes: ["OTH", "GAMMA", "RARES", "SCOTY", "DEROY", "LEDGE"],
@@ -162,8 +203,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: true,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00929NORTHBEND.PDF",
+    },
   },
   {
+    AirportCode: "KPSC",
     SID: "PSC7",
     Telephony: "TRI-CITIES SEVEN",
     Fixes: ["PSC", "GEG", "PUW", "MQG", "ALW", "PDT", "LTJ", "YKM", "ELN", "EAT", "EPH", "MWH"],
@@ -177,8 +222,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: false,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00474TRI-CITIES.PDF",
+    },
   },
   {
+    AirportCode: "KRDM",
     SID: "RDM3",
     Telephony: "REDMOND THREE",
     Fixes: ["DSD", "IMB", "ILR", "LKV", "LMT", "OED", "EUG", "CVO", "UBG", "BTG", "LTJ", "PDT"],
@@ -192,8 +241,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: false,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00345REDMOND.PDF",
+    },
   },
   {
+    AirportCode: "KRNT",
     SID: "BELVU4",
     Telephony: "BELLEVUE FOUR",
     Fixes: [],
@@ -207,8 +260,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: false,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/05396BELLEVUE.PDF",
+    },
   },
   {
+    AirportCode: "KRNT",
     SID: "RENTN3",
     Telephony: "RENTON THREE",
     Fixes: [],
@@ -222,8 +279,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: false,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/thumb/05396RENTN.jpg",
+    },
   },
   {
+    AirportCode: "KSFF",
     SID: "FELTS4",
     Telephony: "FELTS FOUR",
     Fixes: ["GEG", "COE", "MLP", "PUW", "MQG", "ALW", "PDT", "PSC", "YKM", "MWH", "EPH", "HUH"],
@@ -237,8 +298,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: false,
     ExpectInMinutes: 10,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00402FELTS.PDF",
+    },
   },
   {
+    AirportCode: "KSFF",
     SID: "HAYDE4",
     Telephony: "HAYDEN FOUR",
     Fixes: [],
@@ -252,8 +317,12 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00402HAYDEN.PDF",
+    },
   },
   {
+    AirportCode: "KSFF",
     SID: "MNITO1",
     Telephony: "MANITO ONE",
     Fixes: ["GEG"],
@@ -267,8 +336,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: true,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00402MANITO.PDF",
+    },
   },
   {
+    AirportCode: "KSLE",
     SID: "SLE4",
     Telephony: "SALEM FOUR",
     Fixes: ["UBG", "BTG", "SL", "CVO", "DSD", "EUG", "ONP"],
@@ -282,8 +355,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: false,
     ExpectInMinutes: 10,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00361SALEM.PDF",
+    },
   },
   {
+    AirportCode: "KTCM",
     SID: "ALDER2",
     Telephony: "ALDER TWO",
     Fixes: ["ALDER"],
@@ -297,8 +374,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: true,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00414ALDER.PDF",
+    },
   },
   {
+    AirportCode: "KTCM",
     SID: "MOCAA4",
     Telephony: "MOCHA FOUR",
     Fixes: ["MOCHA", "BKE", "IMB", "JINMO"],
@@ -312,8 +393,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: false,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00414MOCAA.PDF",
+    },
   },
   {
+    AirportCode: "KTCM",
     SID: "OLY4",
     Telephony: "OLYMPIC FOUR",
     Fixes: [],
@@ -327,8 +412,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: true,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00414OLYMPIC.PDF",
+    },
   },
   {
+    AirportCode: "KTCM",
     SID: "PUGET6",
     Telephony: "PUGET SIX",
     Fixes: [],
@@ -342,8 +431,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: true,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00414PUGET.PDF",
+    },
   },
   {
+    AirportCode: "KTIW",
     SID: "TIW1",
     Telephony: "NARROWS ONE",
     Fixes: [],
@@ -357,8 +450,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: false,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/05186NARROWS.PDF",
+    },
   },
   {
+    AirportCode: "KTTD",
     SID: "TDD3",
     Telephony: "BLUE LAKE THREE",
     Fixes: [],
@@ -372,8 +469,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: true,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00649BLUELAKE.PDF",
+    },
   },
   {
+    AirportCode: "KUAO",
     SID: "GLARA2",
     Telephony: "GLARA TWO",
     Fixes: ["GLARA"],
@@ -387,8 +488,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: true,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/05722GLARA.PDF",
+    },
   },
   {
+    AirportCode: "KUAO",
     SID: "GNNET2",
     Telephony: "NET TWO",
     Fixes: ["GNNET"],
@@ -402,8 +507,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: true,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/05722GNNET.PDF",
+    },
   },
   {
+    AirportCode: "KONP",
     SID: "ONP1",
     Telephony: "NEWPORT ONE",
     Fixes: ["ONP"],
@@ -417,8 +526,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: false,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00735NEWPORT.PDF",
+    },
   },
   {
+    AirportCode: "KORS",
     SID: "FEGBA2",
     Telephony: "FEGBA 2",
     Fixes: ["FEGBA"],
@@ -432,8 +545,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: true,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/10384FEGBA.PDF",
+    },
   },
   {
+    AirportCode: "KUAO",
     SID: "UBG2",
     Telephony: "NEWBERG TWO",
     Fixes: ["UBG"],
@@ -447,8 +564,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: true,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/05722NEWBERG.PDF",
+    },
   },
   {
+    AirportCode: "KYKM",
     SID: "GROMO4",
     Telephony: "GROMO FOUR",
     Fixes: ["TAMPO", "SIMCO", "HITCH", "GUBSE", "SUNED", "PAPPS"],
@@ -462,8 +583,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: true,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00465GROMO.PDF",
+    },
   },
   {
+    AirportCode: "KYKM",
     SID: "NACHE4",
     Telephony: "NACHES FOUR",
     Fixes: ["YKM", "ELN", "EAT", "EPH", "MWH", "GEG", "PSC", "ALW", "PDT", "LTJ", "BTG", "SEA"],
@@ -477,8 +602,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: false,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00465NACHES.PDF",
+    },
   },
   {
+    AirportCode: "KYKM",
     SID: "WENAS7",
     Telephony: "WENAS SEVEN",
     Fixes: ["TITON", "PERTT", "ELN", "RUBEL", "PAPPS", "SUNED"],
@@ -494,8 +623,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: true,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00465WENAS.PDF",
+    },
   },
   {
+    AirportCode: "KYKM",
     SID: "YKM7",
     Telephony: "YAKIMA SEVEN",
     Fixes: ["TITON"],
@@ -509,8 +642,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: true,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00465YAKIMA.PDF",
+    },
   },
   {
+    AirportCode: "KZSE",
     SID: "ZILLA3",
     Telephony: "ZILLA THREE",
     Fixes: [],
@@ -524,8 +661,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: true,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00465ZILLA.PDF",
+    },
   },
   {
+    AirportCode: "KALW",
     SID: "ALW2",
     Telephony: "WALLA WALLA TWO",
     Fixes: ["ALW", "YKM", "MWH", "GEG", "PUW", "MQG", "PSC", "PTD"],
@@ -539,8 +680,12 @@ db.departures.insertMany([
     ExpectRequired: true,
     ExpectInMinutes: 10,
     IsRNAV: false,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00440WALLAWALLA.PDF",
+    },
   },
   {
+    AirportCode: "KEUG",
     SID: "EUG1",
     Telephony: "EUGENE ONE",
     Fixes: ["EUG", "CVO", "DSD", "LMT", "OED", "RBG", "OTH", "ONP", "UBG", "BTG"],
@@ -554,8 +699,12 @@ db.departures.insertMany([
     IsRNAV: false,
     ExpectRequired: false,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00140EUGENE.PDF",
+    },
   },
   {
+    AirportCode: "KGEG",
     SID: "GEG7",
     Telephony: "SPOKANE 7",
     Fixes: ["GEG", "MLP", "PUW", "MQG", "ALW", "PDT", "PSC", "YKM", "MWH", "EPH", "HUH", "COE"],
@@ -569,8 +718,12 @@ db.departures.insertMany([
     IsRNAV: false,
     ExpectRequired: false,
     ExpectInMinutes: 10,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00403SPOKANE.PDF",
+    },
   },
   {
+    AirportCode: "KHIO",
     SID: "BERNI3",
     Telephony: "BERNI THREE",
     Fixes: ["BERNI", "EASON", "EUG", "FAMUK", "HARPR"],
@@ -584,8 +737,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: false,
     ExpectInMinutes: 10,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/05063BERNI.PDF",
+    },
   },
   {
+    AirportCode: "KHIO",
     SID: "CANBY2",
     Telephony: "CANBY TWO",
     Fixes: ["CANBY"],
@@ -599,8 +756,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: true,
     ExpectInMinutes: 10,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/05063CANBY.PDF",
+    },
   },
   {
+    AirportCode: "KHIO",
     SID: "CHISM4",
     Telephony: "CHISM FOUR",
     Fixes: ["CHISM", "PAWLI", "SMIGE", "JOGEN", "DSD", "RIELY", "IMB"],
@@ -614,8 +775,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: false,
     ExpectInMinutes: 10,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/05063CHISM.PDF",
+    },
   },
   {
+    AirportCode: "KHIO",
     SID: "FARM7",
     Telephony: "FARMINGTON SEVEN",
     Fixes: ["UBG"],
@@ -629,8 +794,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: true,
     ExpectInMinutes: 10,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/05063FARMINGTON.PDF",
+    },
   },
   {
+    AirportCode: "KHIO",
     SID: "SCAPO7",
     Telephony: "SCAPO SEVEN",
     Fixes: ["SCAPO"],
@@ -644,8 +813,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: true,
     ExpectInMinutes: 10,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/05063SCAPO.PDF",
+    },
   },
   {
+    AirportCode: "KBFI",
     SID: "CBAIN1",
     Telephony: "COBAIN ONE",
     Fixes: [
@@ -673,8 +846,12 @@ db.departures.insertMany([
     IsRNAV: true,
     ExpectRequired: false,
     ExpectInMinutes: 3,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00384CBAIN.PDF",
+    },
   },
   {
+    AirportCode: "KBFI",
     SID: "KENT8",
     Telephony: "KENT EIGHT",
     Fixes: ["YVR", "HUH", "YYJ", "PAE", "SEA", "OLM", "HQM", "BTG", "ELN", "YKM", "MWH", "EAT"],
@@ -688,8 +865,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: false,
     ExpectInMinutes: 3,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00384KENT.PDF",
+    },
   },
   {
+    AirportCode: "KBFI",
     SID: "NEEDL1",
     Telephony: "NEEDLE ONE",
     Fixes: ["YVR", "HUH", "YYJ", "PAE", "SEA", "OLM", "HQM", "BTG", "ELN", "YKM", "MWH", "EAT"],
@@ -703,8 +884,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: false,
     ExpectInMinutes: 3,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00384NEEDLE.PDF",
+    },
   },
   {
+    AirportCode: "KBFI",
     SID: "NRVNA1",
     Telephony: "NIRVANA ONE",
     Fixes: [
@@ -732,8 +917,12 @@ db.departures.insertMany([
     IsRNAV: true,
     ExpectRequired: false,
     ExpectInMinutes: 3,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00384NRVNA.PDF",
+    },
   },
   {
+    AirportCode: "KPDX",
     SID: "WHAMY4",
     Telephony: "WHAMY FOUR",
     Fixes: ["WHAMY", "IMB", "RIELY", "KOATA"],
@@ -747,8 +936,12 @@ db.departures.insertMany([
     IsRNAV: true,
     ExpectInMinutes: 10,
     ExpectRequired: false,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00330WHAMY.PDF",
+    },
   },
   {
+    AirportCode: "KPDX",
     SID: "CASCD2",
     Telephony: "CASCADE TWO",
     Fixes: ["CHISM", "DSD", "JOGEN", "SMIGE", "PAWLI"],
@@ -762,8 +955,12 @@ db.departures.insertMany([
     IsRNAV: true,
     ExpectInMinutes: 10,
     ExpectRequired: false,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00330CASCADE.PDF",
+    },
   },
   {
+    AirportCode: "KPDX",
     SID: "HRMNS5",
     Telephony: "HERMANS FIVE",
     Fixes: ["HRMNS"],
@@ -777,8 +974,12 @@ db.departures.insertMany([
     IsRNAV: true,
     ExpectInMinutes: 10,
     ExpectRequired: false,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00330HRMNS.PDF",
+    },
   },
   {
+    AirportCode: "KPDX",
     SID: "LAVAA6",
     Telephony: "LAVA SIX",
     Fixes: ["LAVAA", "YKM", "PDT"],
@@ -792,8 +993,12 @@ db.departures.insertMany([
     IsRNAV: true,
     ExpectInMinutes: 10,
     ExpectRequired: false,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00330LAVAA.PDF",
+    },
   },
   {
+    AirportCode: "KPDX",
     SID: "MINNE5",
     Telephony: "MINNE FIVE",
     Fixes: ["MINNE", "EASON", "FAMUK", "HISKU"],
@@ -807,8 +1012,12 @@ db.departures.insertMany([
       },
     ],
     IsRNAV: true,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00330MINNE.PDF",
+    },
   },
   {
+    AirportCode: "KPDX",
     SID: "PTLD2",
     Telephony: "PORTLAND TWO",
     Fixes: [
@@ -854,8 +1063,12 @@ db.departures.insertMany([
         AircraftClass: "S",
       },
     ],
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00330PORTLAND.PDF",
+    },
   },
   {
+    AirportCode: "KSEA",
     SID: "ELMAA4",
     Telephony: "ELMA FOUR",
     Fixes: ["ELMAA", "HQM", "CVO"],
@@ -867,8 +1080,12 @@ db.departures.insertMany([
       },
     ],
     IsRNAV: true,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582ELMAA.PDF",
+    },
   },
   {
+    AirportCode: "KSEA",
     SID: "HAROB6",
     Telephony: "HAROB SIX",
     Fixes: ["HAROB", "HQM", "ERAVE", "HISKU"],
@@ -880,8 +1097,12 @@ db.departures.insertMany([
       },
     ],
     IsRNAV: true,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582HAROB.PDF",
+    },
   },
   {
+    AirportCode: "KSEA",
     SID: "ISBRG1",
     Telephony: "ICEBERG ONE",
     Fixes: ["ISBRG"],
@@ -895,8 +1116,12 @@ db.departures.insertMany([
     IsRNAV: true,
     ExpectRequired: false,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582ISBRG.PDF",
+    },
   },
   {
+    AirportCode: "KSEA",
     SID: "OZWLD1",
     Telephony: "OSWALD ONE",
     Fixes: ["OZWLD"],
@@ -910,8 +1135,12 @@ db.departures.insertMany([
     IsRNAV: true,
     ExpectRequired: false,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582OZWLD.PDF",
+    },
   },
   {
+    AirportCode: "KSEA",
     SID: "JEFPO1",
     Telephony: "JEFPO ONE",
     Fixes: ["ALPSE", "BANDR", "NORMY", "PAE", "ZADON"],
@@ -925,8 +1154,12 @@ db.departures.insertMany([
     IsRNAV: true,
     ExpectRequired: false,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582JEFPO.PDF",
+    },
   },
   {
+    AirportCode: "KSEA",
     SID: "SUMMA2",
     Telephony: "SUMMA TWO",
     Fixes: ["SUMMA", "BKE", "LKV"],
@@ -936,8 +1169,12 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582SUMMA.PDF",
+    },
   },
   {
+    AirportCode: "KSEA",
     SID: "MONTN2",
     Telephony: "MOUNTAIN TWO",
     InitialPhrasing: "ClimbViaSidExceptMaintain",
@@ -965,8 +1202,12 @@ db.departures.insertMany([
       },
     ],
     IsRNAV: true,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582MOUNTAIN.PDF",
+    },
   },
   {
+    AirportCode: "KSEA",
     SID: "BANGR9",
     Telephony: "BANGOR NINE",
     IsRNAV: true,
@@ -978,8 +1219,12 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582BANGR.PDF",
+    },
   },
   {
+    AirportCode: "KSEA",
     SID: "SEA8",
     Telephony: "SEATTLE EIGHT",
     IsRNAV: false,
@@ -1007,8 +1252,12 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582SEATTLE.PDF",
+    },
   },
   {
+    AirportCode: "KPAE",
     SID: "PAINE6",
     Telephony: "PAINE SIX",
     IsRNAV: false,
@@ -1022,8 +1271,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: false,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00142PAINE.PDF",
+    },
   },
   {
+    AirportCode: "KBLI",
     SID: "KIENO6",
     Telephony: "KIENO SIX",
     IsRNAV: false,
@@ -1037,8 +1290,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: false,
     ExpectInMinutes: 10,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00045KIENO.PDF",
+    },
   },
   {
+    AirportCode: "KBLI",
     SID: "KLSHN1",
     Telephony: "KULSHAN ONE",
     Fixes: ["KLSHN", "CVV"],
@@ -1052,8 +1309,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: false,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00045KLSHN.PDF",
+    },
   },
   {
+    AirportCode: "KCLM",
     SID: "WATTR7",
     Telephony: "WATER SEVEN",
     Fixes: ["WATTR"],
@@ -1067,8 +1328,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: true,
     ExpectInMinutes: 10,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00886WATTR.PDF",
+    },
   },
   {
+    AirportCode: "KCVO",
     SID: "SHEDD4",
     Telephony: "SHED FOUR",
     Fixes: ["SHEDD"],
@@ -1082,8 +1347,12 @@ db.departures.insertMany([
     ],
     ExpectRequired: true,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00782SHEDD.PDF",
+    },
   },
   {
+    AirportCode: "KLMT",
     SID: "LMT6",
     Telephony: "KINGSLEY SIX",
     Fixes: ["LMT", "LKV", "RBL", "FMG", "FJS", "OED", "RBG", "DSD", "EUG"],
@@ -1097,5 +1366,8 @@ db.departures.insertMany([
     IsRNAV: false,
     ExpectRequired: false,
     ExpectInMinutes: 5,
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00473KINGSLEY.PDF",
+    },
   },
 ]);
