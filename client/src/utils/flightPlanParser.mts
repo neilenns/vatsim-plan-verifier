@@ -1,6 +1,6 @@
 import pluralize from "pluralize";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
-import ISIDInformation from "../interfaces/ISIDInformation.mts";
+import ISIDInformation, { InitialPhrasingOptions } from "../interfaces/ISIDInformation.mts";
 
 // Checks to see if the airport name ends in "Airport". If so, return
 // unmodified. If not, append " Airport" and return it.
@@ -15,19 +15,38 @@ export function normalizeAirportName(airportName: string): string {
 // Formats the initial altitude for the flight plan based on whether one is
 // provided and whether the SID requires "climb via SID" phraseology.
 export function formattedInitialAltitude(flightPlan: IFlightPlan): string {
+  const initialPhrasing = flightPlan.SIDInformation?.InitialPhrasing;
+
   if (!flightPlan.initialAltitude) {
-    return "Initial: unknown";
+    return "See chart/SOP";
   }
 
-  return `Initial: ${flightPlan.SIDInformation?.ClimbViaSid ? "CVS " : ""}${
-    flightPlan.initialAltitude
-  }`;
+  if (initialPhrasing === InitialPhrasingOptions.Maintain) {
+    return `Maintain ${flightPlan.initialAltitude}`;
+  }
+
+  if (initialPhrasing === InitialPhrasingOptions.ClimbViaSid) {
+    return "Climb via SID";
+  }
+
+  if (initialPhrasing === InitialPhrasingOptions.ClimbViaSidExceptMaintain) {
+    return `CVS ${flightPlan.initialAltitude}`;
+  }
+
+  return "See chart/SOP";
 }
 
 // Looks at the SIDInformation in a flight plan and returns the formatted
 // minutes after departure to expect the SID to be assigned.
-export function formattedExpectInMinutes(SIDInformation?: ISIDInformation): string {
+export function formattedExpectInMinutes(flightPlan: IFlightPlan): string {
+  const SIDInformation = flightPlan.SIDInformation;
+  const initialPhrasing = SIDInformation?.InitialPhrasing;
+
   if (!SIDInformation) {
+    return "";
+  }
+
+  if (initialPhrasing === InitialPhrasingOptions.ClimbViaSid) {
     return "";
   }
 

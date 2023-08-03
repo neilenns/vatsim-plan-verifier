@@ -780,6 +780,7 @@ db.departures.insertMany([
       "COUGA",
     ],
     IsRNAV: false,
+    InitialPhrasing: "Maintain",
     ExpectInMinutes: 5,
     ExpectRequired: false,
     InitialAltitudes: [
@@ -801,7 +802,7 @@ db.departures.insertMany([
     SID: "ELMAA4",
     Telephony: "ELMA FOUR",
     Fixes: ["ELMAA", "HQM", "CVO"],
-    ClimbViaSid: true,
+    InitialPhrasing: "ClimbViaSidExceptMaintain",
     InitialAltitudes: [
       {
         Altitude: 70,
@@ -814,7 +815,7 @@ db.departures.insertMany([
     SID: "HAROB6",
     Telephony: "HAROB SIX",
     Fixes: ["HAROB", "HQM", "ERAVE", "HISKU"],
-    ClimbViaSid: true,
+    InitialPhrasing: "ClimbViaSidExceptMaintain",
     InitialAltitudes: [
       {
         Altitude: 70,
@@ -827,7 +828,7 @@ db.departures.insertMany([
     SID: "ISBRG1",
     Telephony: "ICEBERG ONE",
     Fixes: ["ISBRG"],
-    ClimbViaSid: true,
+    InitialPhrasing: "ClimbViaSid",
     InitialAltitudes: [
       {
         Altitude: 70,
@@ -842,7 +843,7 @@ db.departures.insertMany([
     SID: "OZWLD1",
     Telephony: "OSWALD ONE",
     Fixes: ["OZWLD"],
-    ClimbViaSid: true,
+    InitialPhrasing: "ClimbViaSid",
     InitialAltitudes: [
       {
         Altitude: 70,
@@ -857,7 +858,7 @@ db.departures.insertMany([
     SID: "JEFPO1",
     Telephony: "JEFPO ONE",
     Fixes: ["ALPSE", "BANDR", "NORMY", "PAE", "ZADON"],
-    ClimbViaSid: true,
+    InitialPhrasing: "ClimbViaSid",
     InitialAltitudes: [
       {
         Altitude: 70,
@@ -913,7 +914,7 @@ db.departures.insertMany([
     Telephony: "BANGOR NINE",
     IsRNAV: true,
     Fixes: ["BANGR", "PANGL", "ARRIE"],
-    ClimbViaSid: true,
+    InitialPhrasing: "ClimbViaSidExceptMaintain",
     InitialAltitudes: [
       {
         Altitude: 70,
