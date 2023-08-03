@@ -17,7 +17,7 @@ export default async function applyMustacheValues(
   const initialFix = await NavaidModel.findOne({ ident: flightPlan.routeParts?.[1] ?? "" });
 
   const view = {
-    formattedCruiseAltitude: flightPlan.cruiseAltitudeFormatted,
+    formattedCruiseAltitude: flightPlan.cruiseAltitudeFormatted.replace(" feet", ""),
     arrival: flightPlan.arrivalAirportInfo?.name
       ? normalizeAirportName(flightPlan.arrivalAirportInfo.name)
       : flightPlan.arrival,
