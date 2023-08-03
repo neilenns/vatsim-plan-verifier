@@ -38,7 +38,7 @@ db.departures.insertMany([
     SID: "JKSN1",
     Telephony: "JACKSON ONE",
     Fixes: ["OED"],
-    ClimbViaSid: true,
+    ClimbViaSid: false,
     InitialAltitudes: [
       {
         Altitude: 110,
@@ -46,8 +46,6 @@ db.departures.insertMany([
       },
     ],
     IsRNAV: false,
-    ExpectRequired: true,
-    ExpectInMinutes: 5,
   },
   {
     SID: "MFR1",
