@@ -8,6 +8,14 @@ export class InitialAltitude {
   AircraftClass!: string;
 }
 
+enum InitialPhrasingOptions {
+  Unknown = "Unknown",
+  Maintain = "Maintain",
+  ClimbViaSid = "ClimbViaSid",
+  ClimbViaSidExceptMaintain = "ClimbViaSidExceptMaintain",
+  ClimbViaDepartureExceptMaintain = "ClimbViaDepartureExceptMaintain",
+}
+
 @modelOptions({ options: { customName: "departure" } })
 export class Departure {
   @prop({ required: true })
@@ -19,8 +27,8 @@ export class Departure {
   @prop({ required: true, type: [String] })
   Fixes!: string[];
 
-  @prop({ default: false })
-  ClimbViaSid!: boolean;
+  @prop({ enum: InitialPhrasingOptions, default: InitialPhrasingOptions.Unknown })
+  InitialPhrasing?: InitialPhrasingOptions;
 
   @prop({ default: 0 })
   ExpectTopAltitudeInMinutes!: number;
