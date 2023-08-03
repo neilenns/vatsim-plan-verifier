@@ -71,6 +71,28 @@ const airports = [
     magneticDeclination: -14.76194,
     __v: 0,
   },
+  {
+    _id: "5f9f7b3b9d3b3c1b1c9b4b4e",
+    airportCode: "KPDT",
+    alternateIdent: "PDT",
+    icaoCode: "KPDT",
+    iataCode: "PDT",
+    lidCode: "PDT",
+    name: "Eastern Oregon Rgnl",
+    type: "Airport",
+    elevation: 1494,
+    city: "Pendleton",
+    state: "OR",
+    longitude: -118.8433686,
+    latitude: 45.6950953,
+    timezone: "America/Los_Angeles",
+    countryCode: "US",
+    wikiUrl: "http://en.wikipedia.org/wiki/Eastern_Oregon_Regional_Airport",
+    airportFlightsUrl: "/airports/KPDT/flights",
+    alternatives: [],
+    magneticDeclination: -14.07176,
+    __v: 0,
+  },
 ];
 
 export default async function setup() {

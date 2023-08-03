@@ -1,4 +1,5 @@
 import { Document } from "mongoose";
+import { ExtendedAirportInfo } from "../models/ExtendedAirportInfo.mjs";
 
 export default interface IFlightAwareAirportDocument extends Document {
   airportCode: string;
@@ -19,4 +20,5 @@ export default interface IFlightAwareAirportDocument extends Document {
   airportFlightsUrl: string;
   alternatives: string[];
   magneticDeclination?: number;
+  extendedAirportInfo?: ExtendedAirportInfo;
 }

@@ -12,7 +12,10 @@ export class ExtendedAirportInfo {
   defaultInitialAltitudeText?: string;
 
   @prop({ required: true })
-  defaultInitialMinutesText?: string;
+  defaultExpectInMinutesText?: string;
+
+  @prop()
+  hasSIDs?: boolean;
 }
 
 const ExtendedAirportInfoModel = getModelForClass(ExtendedAirportInfo);

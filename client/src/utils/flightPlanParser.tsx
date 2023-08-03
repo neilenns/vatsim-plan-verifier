@@ -84,8 +84,8 @@ export function formattedExpectInMinutes(flightPlan: IFlightPlan): string {
 
   if (!SIDInformation) {
     // It's possible there's airport-wide expect in minutes text so check that first
-    if (flightPlan.departureAirportInfo?.extendedAirportInfo?.defaultInitialMinutesText) {
-      return flightPlan.departureAirportInfo.extendedAirportInfo.defaultInitialMinutesText;
+    if (flightPlan.departureAirportInfo?.extendedAirportInfo?.defaultExpectInMinutesText) {
+      return flightPlan.departureAirportInfo.extendedAirportInfo.defaultExpectInMinutesText;
     }
 
     return "";

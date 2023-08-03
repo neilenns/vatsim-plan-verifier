@@ -21,6 +21,6 @@ export default interface IFlightAwareAirport {
   alternatives: string[];
   extendedAirportInfo?: {
     defaultInitialAltitudeText?: string;
-    defaultInitialMinutesText?: string;
+    defaultExpectInMinutesText?: string;
   };
 }
