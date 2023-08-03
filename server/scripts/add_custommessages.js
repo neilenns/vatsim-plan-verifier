@@ -10,7 +10,7 @@ db.custommessages.insertMany([
     priority: 3,
     message: `**Pilot has ODP**
 
-> Cleared to {{arrival}} {as filed/via the Pearson ODP then reroute}.  
+> Cleared to {{arrival}} as filed.  
 > Maintain 4,000. Expect {{formattedCruiseAltitude}} five minutes after departure.  
 > Departure frequency {frequency}. Squawk {{squawk}}.  
 
