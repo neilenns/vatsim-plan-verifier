@@ -44,13 +44,15 @@ export function hyperlinkSidName(flightPlan: IFlightPlan): ReactNode {
 // Formats the initial altitude for the flight plan based on whether one is
 // provided and whether the SID requires "climb via SID" phraseology.
 export function formattedInitialAltitude(flightPlan: IFlightPlan): string {
-  const initialPhrasing = flightPlan.SIDInformation?.InitialPhrasing;
+  const initialPhrasing =
+    flightPlan.SIDInformation?.InitialPhrasing ||
+    flightPlan.departureAirportInfo?.extendedAirportInfo?.initialPhrasing;
+
+  if (initialPhrasing === undefined) {
+    return "Unknown";
+  }
 
   if (!flightPlan.initialAltitude || flightPlan.initialAltitude == "Unknown") {
-    // It's possible there's airport-wide initial altitude text so check that first
-    if (flightPlan.departureAirportInfo?.extendedAirportInfo?.defaultInitialAltitudeText) {
-      return flightPlan.departureAirportInfo.extendedAirportInfo.defaultInitialAltitudeText;
-    }
     return "See chart/SOP";
   }
 
@@ -80,31 +82,34 @@ export function formattedInitialAltitude(flightPlan: IFlightPlan): string {
 // Looks at the SIDInformation in a flight plan and returns the formatted
 // minutes after departure to expect the SID to be assigned.
 export function formattedExpectInMinutes(flightPlan: IFlightPlan): string {
-  const SIDInformation = flightPlan.SIDInformation;
+  const initialPhrasing =
+    flightPlan.SIDInformation?.InitialPhrasing ??
+    flightPlan.departureAirportInfo?.extendedAirportInfo?.initialPhrasing;
+  const expectRequired =
+    flightPlan.SIDInformation?.ExpectRequired ??
+    flightPlan.departureAirportInfo?.extendedAirportInfo?.expectRequired;
+  const expectInMinutes =
+    flightPlan.SIDInformation?.ExpectInMinutes ??
+    flightPlan.departureAirportInfo?.extendedAirportInfo?.expectInMinutes;
 
-  if (!SIDInformation) {
-    // It's possible there's airport-wide expect in minutes text so check that first
-    if (flightPlan.departureAirportInfo?.extendedAirportInfo?.defaultExpectInMinutesText) {
-      return flightPlan.departureAirportInfo.extendedAirportInfo.defaultExpectInMinutesText;
-    }
-
+  if (initialPhrasing === undefined || expectRequired === undefined) {
     return "";
   }
 
-  if (SIDInformation.InitialPhrasing === InitialPhrasingOptions.SeeNote) {
+  if (initialPhrasing === InitialPhrasingOptions.SeeNote) {
     return "";
   }
 
-  if (!SIDInformation.ExpectInMinutes) {
+  if (!expectInMinutes) {
     return "See chart/SOP";
   }
 
   // If the expect in minutes is required because it isn't printed on the chart
   // then show it directly. If it is only required when modifying the cruise altitude
   // show it inside ().
-  const formattedString = SIDInformation.ExpectRequired
-    ? pluralize("minute", SIDInformation.ExpectInMinutes, true)
-    : `(${pluralize("minute", SIDInformation.ExpectInMinutes, true)})`;
+  const formattedString = expectRequired
+    ? pluralize("minute", expectInMinutes, true)
+    : `(${pluralize("minute", expectInMinutes, true)})`;
 
   return formattedString;
 }
