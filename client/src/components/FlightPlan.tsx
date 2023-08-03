@@ -167,11 +167,13 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               name="cruiseAltitude"
               value={flightPlan.cruiseAltitude}
               helperText={
-                <>
-                  {formattedInitialAltitude(flightPlan)}
-                  <br />
-                  {formattedExpectInMinutes(flightPlan.SIDInformation)}
-                </>
+                flightPlan.initialAltitude && (
+                  <>
+                    {formattedInitialAltitude(flightPlan)}
+                    <br />
+                    {formattedExpectInMinutes(flightPlan.SIDInformation)}
+                  </>
+                )
               }
               trim
               onPaste={parsePastedFlightPlan}
