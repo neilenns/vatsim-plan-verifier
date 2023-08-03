@@ -74,8 +74,6 @@ db.departures.insertMany([
       },
     ],
     IsRNAV: false,
-    ExpectRequired: true,
-    ExpectInMinutes: 5,
   },
   {
     SID: "MFR1",
