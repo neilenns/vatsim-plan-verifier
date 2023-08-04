@@ -10,38 +10,3 @@
 .markdownBlockquote p {
   margin: 0; /* Reset the margin for paragraphs inside the blockquote */
 }
-
-/* Tables generated from react-markdown */
-.markdownTable {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-.markdownTable th,
-.markdownTable td {
-  padding: 8px;
-  vertical-align: top; /* Align text to the top of each cell */
-}
-
-/* First column (header and cells) */
-.markdownTable th:first-child,
-.markdownTable td:first-child {
-  white-space: nowrap; /* Prevent text wrapping */
-}
-
-/* Divider between header row and rows */
-.markdownTable th {
-  border-bottom: 2px solid black;
-}
-
-/* Remove vertical borders for all cells */
-.markdownTable td {
-  border-left: none;
-  border-right: none;
-}
-
-/* Only keep the bottom border for the header cells */
-.markdownTable th {
-  border-left: none;
-  border-right: none;
-}
