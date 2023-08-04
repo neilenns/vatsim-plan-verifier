@@ -3,22 +3,13 @@ import socketIOClient, { Socket } from "socket.io-client";
 import { apiKey, serverUrl } from "../configs/planVerifierServer.mts";
 import IFlightPlan from "../interfaces/IFlightPlan.mts";
 import { ArrowForwardOutlined as ArrowForwardOutlinedIcon } from "@mui/icons-material";
-import {
-  List,
-  ListItem,
-  IconButton,
-  ListItemText,
-  Box,
-  Stack,
-  TextField,
-  Snackbar,
-} from "@mui/material";
+import { List, ListItem, IconButton, ListItemText, Box, Stack, TextField } from "@mui/material";
 import debug from "debug";
 import { importFlightPlan } from "../services/flightPlan.mts";
 import { useNavigate } from "react-router-dom";
 import { Stream as StreamIcon } from "@mui/icons-material";
-import { Close as CloseIcon } from "@mui/icons-material";
 import pluralize from "pluralize";
+import AlertSnackbar, { AlertSnackBarOnClose, AlertSnackbarProps } from "./AlertSnackbar";
 
 const logger = debug("plan-verifier:vatsimFlightPlans");
 
@@ -30,17 +21,10 @@ const VatsimFlightPlans = () => {
     localStorage.getItem("vatsimAirportCodes") || ""
   );
   const [isImporting, setIsImporting] = useState(false);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
   const socketRef = useRef<Socket | null>(null);
 
-  const handleSnackbarClose = (_: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setSnackbarOpen(false);
-  };
+  const handleSnackbarClose: AlertSnackBarOnClose = () => setSnackbar(null);
 
   useEffect(() => {
     socketRef.current = socketIOClient(serverUrl, {
@@ -64,8 +48,10 @@ const VatsimFlightPlans = () => {
         ", "
       )} not found`;
       logger(message);
-      setSnackbarMessage(message);
-      setSnackbarOpen(true);
+      setSnackbar({
+        children: message,
+        severity: "warning",
+      });
       socketRef.current?.disconnect();
       setIsConnected(false);
     });
@@ -75,16 +61,20 @@ const VatsimFlightPlans = () => {
         ", "
       )} not valid`;
       logger(message);
-      setSnackbarMessage(message);
-      setSnackbarOpen(true);
+      setSnackbar({
+        children: message,
+        severity: "error",
+      });
       socketRef.current?.disconnect();
       setIsConnected(false);
     });
 
     socketRef.current.on("connect_error", (error: Error) => {
       logger(`Error from vatsim flight plan updates: ${error.message}`);
-      setSnackbarMessage(`Unable to retrieve VATSIM flight plans.`);
-      setSnackbarOpen(true);
+      setSnackbar({
+        children: `Unable to retrieve VATSIM flight plans.`,
+        severity: "error",
+      });
       setIsConnected(false);
     });
 
@@ -111,8 +101,10 @@ const VatsimFlightPlans = () => {
       .catch(() => {
         const message = `Error importing flight plan ${callsign}`;
         logger(message);
-        setSnackbarMessage(message);
-        setSnackbarOpen(true);
+        setSnackbar({
+          children: message,
+          severity: "error",
+        });
       })
       .finally(() => {
         setIsImporting(false);
@@ -203,17 +195,7 @@ const VatsimFlightPlans = () => {
           </List>
         )}
       </Box>
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={handleSnackbarClose}
-        message={snackbarMessage}
-        action={
-          <IconButton size="small" aria-label="close" color="inherit" onClick={handleSnackbarClose}>
-            <CloseIcon fontSize="small" />
-          </IconButton>
-        }
-      />
+      <AlertSnackbar {...snackbar} onClose={handleSnackbarClose} />
     </div>
   );
 };

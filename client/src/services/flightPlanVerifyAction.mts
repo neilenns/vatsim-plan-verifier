@@ -1,4 +1,4 @@
-import { redirect, type ActionFunction } from "react-router-dom";
+import { redirect, type ActionFunction, json } from "react-router-dom";
 import IFlightPlan from "../interfaces/IFlightPlan.mts";
 import { storeFlightPlan } from "../services/flightPlan.mts";
 import { runAllVerifiers } from "../services/runAllVerifiers.mts";
@@ -23,27 +23,33 @@ export const flightPlanVerifyAction: ActionFunction = async ({ params, request }
     cruiseAltitude: formData.get("cruiseAltitude")?.toString().replace(/^FL/, ""), // In case someone enters the cruise altitude as "FL360"
   } as IFlightPlan;
 
-  const storedFlightPlan = await storeFlightPlan(planToSubmit);
+  let storedFlightPlan: IFlightPlan;
+  try {
+    storedFlightPlan = await storeFlightPlan(planToSubmit);
 
-  if (!storedFlightPlan || !storedFlightPlan._id) {
-    throw new Error("Failed to store flight plan");
+    if (!storedFlightPlan || !storedFlightPlan._id) {
+      throw new Error("Failed to save flight plan.");
+    }
+
+    logger(storedFlightPlan);
+
+    if (params.id) {
+      await Promise.all([removeActiveFlightPlan(params.id), removeVerifyResults(params.id)]);
+    }
+
+    await addActiveFlightPlan(storedFlightPlan._id);
+
+    const verifierResults = await runAllVerifiers(storedFlightPlan);
+
+    if (!verifierResults) {
+      throw new Error("Failed to run verifiers.");
+    }
+
+    logger(verifierResults);
+
+    return redirect(`/verifier/flightPlan/${storedFlightPlan._id.toString()}`);
+  } catch (err) {
+    const error = err as Error;
+    return json({ error: error.message }, { status: 500 });
   }
-
-  logger(storedFlightPlan);
-
-  if (params.id) {
-    await Promise.all([removeActiveFlightPlan(params.id), removeVerifyResults(params.id)]);
-  }
-
-  await addActiveFlightPlan(storedFlightPlan._id);
-
-  const verifierResults = await runAllVerifiers(storedFlightPlan);
-
-  if (!verifierResults) {
-    throw new Error("Failed to run verifiers");
-  }
-
-  logger(verifierResults);
-
-  return redirect(`/verifier/flightPlan/${storedFlightPlan._id.toString()}`);
 };
