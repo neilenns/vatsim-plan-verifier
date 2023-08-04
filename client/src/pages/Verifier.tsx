@@ -1,4 +1,12 @@
-import { AppBar, Box, Button, IconButton, Toolbar, Typography } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Button,
+  IconButton,
+  Toolbar,
+  Typography,
+  useColorScheme,
+} from "@mui/material";
 import { Form, Link, Outlet } from "react-router-dom";
 import ActiveFlightPlans from "../components/ActiveFlightPlans";
 import {
@@ -7,14 +15,13 @@ import {
   Help as HelpIcon,
 } from "@mui/icons-material";
 import NavMenu from "../components/NavMenu";
-import useAppContext from "../context/AppContext";
 import VatsimFlightPlans from "../components/VatsimFlightPlans";
 
 export default function Verifier() {
-  const { darkMode, setDarkMode } = useAppContext();
+  const { mode, setMode } = useColorScheme();
 
   const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
+    mode === "light" ? setMode("dark") : setMode("light");
   };
 
   return (
@@ -30,9 +37,9 @@ export default function Verifier() {
           </IconButton>
           <IconButton
             onClick={toggleDarkMode}
-            aria-label={darkMode ? "Turndark mode off" : "Turn dark mode on"}
+            aria-label={mode === "dark" ? "Turndark mode off" : "Turn dark mode on"}
           >
-            {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
+            {mode === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
           </IconButton>
           <NavMenu />
         </Toolbar>
