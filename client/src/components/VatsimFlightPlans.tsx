@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import socketIOClient, { Socket } from "socket.io-client";
-import { apiKey, serverUrl } from "../configs/planVerifierServer.mts";
+import { apiKey, serverUrl, snackbarAutoHideDuration } from "../configs/planVerifierServer.mts";
 import IFlightPlan from "../interfaces/IFlightPlan.mts";
 import { ArrowForwardOutlined as ArrowForwardOutlinedIcon } from "@mui/icons-material";
 import {
@@ -205,7 +205,7 @@ const VatsimFlightPlans = () => {
       </Box>
       <Snackbar
         open={snackbarOpen}
-        autoHideDuration={6000}
+        autoHideDuration={snackbarAutoHideDuration}
         onClose={handleSnackbarClose}
         message={snackbarMessage}
         action={

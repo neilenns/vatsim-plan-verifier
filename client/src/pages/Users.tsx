@@ -5,6 +5,7 @@ import { useCallback, useState } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import { Alert, AlertProps } from "@mui/material";
 import { updateUser } from "../services/users.mts";
+import { snackbarAutoHideDuration } from "../configs/planVerifierServer.mts";
 
 const columns: GridColDef[] = [
   { field: "_id" },
@@ -83,7 +84,7 @@ function Users() {
           open
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
           onClose={handleCloseSnackbar}
-          autoHideDuration={6000}
+          autoHideDuration={snackbarAutoHideDuration}
         >
           <Alert {...snackbar} onClose={handleCloseSnackbar} />
         </Snackbar>
