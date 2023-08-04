@@ -2,10 +2,11 @@ import { useLoaderData } from "react-router-dom";
 import { IUser } from "../interfaces/IUser.mts";
 import { DataGrid, GridColDef, GridRowModel } from "@mui/x-data-grid";
 import { useCallback, useState } from "react";
-import Snackbar from "@mui/material/Snackbar";
-import { Alert, AlertProps } from "@mui/material";
 import { updateUser } from "../services/users.mts";
-import { snackbarAutoHideDuration } from "../configs/planVerifierServer.mts";
+import AlertSnackbar, {
+  AlertSnackBarOnClose,
+  AlertSnackbarProps,
+} from "../components/AlertSnackbar";
 
 const columns: GridColDef[] = [
   { field: "_id" },
@@ -43,7 +44,7 @@ const useUpdateUser = () => {
 function Users() {
   const users = useLoaderData() as IUser[];
   const updateUser = useUpdateUser();
-  const [snackbar, setSnackbar] = useState<Pick<AlertProps, "children" | "severity"> | null>(null);
+  const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
 
   const processRowUpdate = useCallback(
     async (newRow: GridRowModel) => {
@@ -60,7 +61,7 @@ function Users() {
     setSnackbar({ children: error.message, severity: "error" });
   }, []);
 
-  const handleCloseSnackbar = () => setSnackbar(null);
+  const handleSnackbarClose: AlertSnackBarOnClose = () => setSnackbar(null);
 
   return (
     <>
@@ -79,16 +80,7 @@ function Users() {
         processRowUpdate={processRowUpdate}
         onProcessRowUpdateError={handleProcessRowUpdateError}
       />
-      {!!snackbar && (
-        <Snackbar
-          open
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-          onClose={handleCloseSnackbar}
-          autoHideDuration={snackbarAutoHideDuration}
-        >
-          <Alert {...snackbar} onClose={handleCloseSnackbar} />
-        </Snackbar>
-      )}
+      <AlertSnackbar {...snackbar} onClose={handleSnackbarClose} />
     </>
   );
 }

@@ -5,7 +5,10 @@ import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
 import VerifierResults from "../components/VerifierResults";
 import { useActionData, useLoaderData } from "react-router-dom";
-import AlertSnackbar, { AlertSnackbarProps } from "../components/AlertSnackbar";
+import AlertSnackbar, {
+  AlertSnackBarOnClose,
+  AlertSnackbarProps,
+} from "../components/AlertSnackbar";
 import { Paper } from "@mui/material";
 
 type LoaderProps = {
@@ -22,9 +25,7 @@ function FlightPlanDetails() {
   const { flightPlan, verifyResults } = useLoaderData() as LoaderProps;
   const data = useActionData() as ActionResponse;
 
-  const handleSnackbarClose = () => {
-    setSnackbar(null);
-  };
+  const handleSnackbarClose: AlertSnackBarOnClose = () => setSnackbar(null);
 
   useEffect(() => {
     if (data?.error) {

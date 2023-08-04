@@ -1,32 +1,41 @@
-import { Alert, AlertProps, Snackbar } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Alert, AlertProps, Snackbar, SnackbarCloseReason } from "@mui/material";
+import { SyntheticEvent, useEffect, useState } from "react";
 import { snackbarAutoHideDuration } from "../configs/planVerifierServer.mts";
+
+export type AlertSnackBarOnClose = (reason: SnackbarCloseReason) => void | undefined;
 
 export type AlertSnackbarProps = {
   children?: AlertProps["children"] | null;
   severity?: AlertProps["severity"] | undefined;
-  onClose?: AlertProps["onClose"];
+  onClose?: AlertSnackBarOnClose;
 } | null;
 
 const AlertSnackbar = (props: AlertSnackbarProps) => {
-  const [snackbar, setSnackbar] = useState<Pick<
-    AlertProps,
-    "children" | "severity" | "onClose"
-  > | null>(props);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
 
   useEffect(() => {
     setSnackbar(props);
+    if (props === null) {
+      setIsOpen(false);
+    } else {
+      setIsOpen(true);
+    }
   }, [props]);
+
+  const handleClose = (_: Event | SyntheticEvent<unknown, Event>, reason: SnackbarCloseReason) => {
+    props?.onClose?.(reason);
+  };
 
   return (
     !!snackbar?.children && (
       <Snackbar
-        open
+        open={isOpen}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        onClose={() => snackbar.onClose}
+        onClose={handleClose}
         autoHideDuration={snackbarAutoHideDuration}
       >
-        <Alert {...snackbar} />
+        <Alert children={snackbar.children} severity={snackbar.severity} />
       </Snackbar>
     )
   );
