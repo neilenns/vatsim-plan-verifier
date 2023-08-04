@@ -1,53 +1,60 @@
-import { ThemeProvider } from "@emotion/react";
-import { CssBaseline, createTheme } from "@mui/material";
-import useAppContext from "../context/AppContext";
-import { useCallback, useEffect } from "react";
+import {
+  Experimental_CssVarsProvider as CssVarsProvider,
+  experimental_extendTheme as extendTheme,
+} from "@mui/material/styles";
+import { CssBaseline } from "@mui/material";
+import { grey } from "@mui/material/colors";
 
 type Props = {
   children: React.ReactNode;
 };
 
-const defaultTheme = createTheme({
-  typography: {
-    fontFamily: "Inter Variable",
-  },
-});
+declare module "@mui/material/styles" {
+  interface PaletteOptions {
+    blockqoute: {
+      background: string;
+    };
+  }
+  interface Palette {
+    blockqoute: {
+      background: string;
+    };
+  }
+}
 
-const darkTheme = createTheme({
+// Seems like this is the only way to get the theme to work with the css vars provider.
+// No matter how I follow the example from the MUI documentation I get unsafe assignment
+// errors, so I assume it is a bug in their current experimental stuff.
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+const theme = extendTheme({
+  colorSchemes: {
+    light: {
+      palette: {
+        blockqoute: {
+          background: grey[200],
+        },
+      },
+    },
+    dark: {
+      palette: {
+        blockqoute: {
+          background: grey[900],
+        },
+      },
+    },
+  },
   typography: {
     fontFamily: "Inter Variable",
-  },
-  palette: {
-    mode: "dark",
   },
 });
 
 const AppTheme = ({ children }: Props): JSX.Element => {
-  const { darkMode, setDarkMode } = useAppContext();
-
-  // Watch for changes to local storage for darkMode and update the state if it changes.
-  const syncDarkMode = useCallback(
-    (event: StorageEvent) => {
-      if (event.key === "darkMode") {
-        setDarkMode(event.newValue === "true");
-      }
-    },
-    [setDarkMode]
-  );
-
-  // Register for events on local storage to watch for cross-tab dark mode changes.
-  useEffect(() => {
-    window.addEventListener("storage", syncDarkMode);
-    return () => {
-      window.removeEventListener("storage", syncDarkMode);
-    };
-  }, [syncDarkMode]);
-
   return (
-    <ThemeProvider theme={darkMode ? darkTheme : defaultTheme}>
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    <CssVarsProvider theme={theme}>
       <CssBaseline />
       {children}
-    </ThemeProvider>
+    </CssVarsProvider>
   );
 };
 

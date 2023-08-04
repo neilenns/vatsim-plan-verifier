@@ -2,7 +2,8 @@
 
 /* Blockquote generated from react-markdown */
 .markdownBlockquote {
-  background-color: #f2f2f2;
+  background-color: var(--mui-palette-blockqoute-background);
+  color: var(--mui-palette-text-primary);
   margin: 0;
   padding: 10px;
 }
