@@ -5,9 +5,8 @@ import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
 import VerifierResults from "../components/VerifierResults";
 import { useActionData, useLoaderData } from "react-router-dom";
-import { Alert, IconButton, Paper, Snackbar } from "@mui/material";
-import { Close as CloseIcon } from "@mui/icons-material";
-import { snackbarAutoHideDuration } from "../configs/planVerifierServer.mts";
+import AlertSnackbar, { AlertSnackbarProps } from "../components/AlertSnackbar";
+import { Paper } from "@mui/material";
 
 type LoaderProps = {
   flightPlan: IFlightPlan;
@@ -19,27 +18,20 @@ type ActionResponse = {
 };
 
 function FlightPlanDetails() {
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState<
-    "error" | "success" | "info" | "warning"
-  >("info"); // eslint-disable-line @typescript-eslint/no-unused-vars
+  const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
   const { flightPlan, verifyResults } = useLoaderData() as LoaderProps;
   const data = useActionData() as ActionResponse;
 
-  const handleSnackbarClose = (_: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setSnackbarOpen(false);
+  const handleSnackbarClose = () => {
+    setSnackbar(null);
   };
 
   useEffect(() => {
     if (data?.error) {
-      setSnackbarMessage(data.error);
-      setSnackbarSeverity("error");
-      setSnackbarOpen(true);
+      setSnackbar({
+        children: data.error,
+        severity: "error",
+      });
     }
   }, [data]);
 
@@ -67,21 +59,7 @@ function FlightPlanDetails() {
           )}
         </Grid>
       </Grid>
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={snackbarAutoHideDuration}
-        onClose={handleSnackbarClose}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        action={
-          <IconButton size="small" aria-label="close" color="inherit" onClick={handleSnackbarClose}>
-            <CloseIcon fontSize="small" />
-          </IconButton>
-        }
-      >
-        <Alert onClose={handleSnackbarClose} severity={snackbarSeverity}>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
+      <AlertSnackbar {...snackbar} onClose={handleSnackbarClose} />
     </>
   );
 }
