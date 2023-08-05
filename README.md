@@ -108,4 +108,4 @@ from the list two hours after they are verified.
 
 ### Other verifications
 
-* **Is the aircraft a heavy?** This check throws a warning if the aircraft is a heavy, reminding the controller to ensure the departure is assigned a runway that can accomodate heavy aircraft (e.g. 10R/28L at KPDX).
+* **Is the aircraft a heavy?** This check throws a warning if the aircraft is a heavy and the departure airport has specific runway assignments for heavy aircraft (e.g. 10R/28L at KPDX).

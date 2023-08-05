@@ -33,22 +33,21 @@ export default async function warnHeavyRunwayAssignment({
       result.data.message =
         "Aircraft is not a heavy. No need to verify it is assigned to a runway that can accomodate a heavy.";
     }
+    // Don't warn if there's no specific heavy runway assignment for the airport
+    else if (!heavyRunways) {
+      result.data.status = "Information";
+      result.data.messageId = "noHeavyRunways";
+      result.data.message =
+        "Airport has no heavy runways. No need to verify plane is assigned a runway that can accomodate a heavy.";
+    }
     // Plane is a heavy and there are specific runways to assign
-    else if (heavyRunways) {
-      const runwayText = (result.data.status = "Warning");
+    else {
+      result.data.status = "Warning";
       result.data.message = `Aircraft is a heavy. Assign runway ${joinWithWord(
         heavyRunways,
         "or"
       )}.`;
       result.data.messageId = "specificHeavyRunwayAssignment";
-      result.data.priority = 3;
-    }
-    // Aircraft is a heavy but there are no specific runways to assign
-    else {
-      result.data.status = "Warning";
-      result.data.messageId = "heavyRunwayAssignment";
-      result.data.message =
-        "Aircraft is a heavy. Verify it is assigned to a runway that can accomodate a heavy.";
       result.data.priority = 3;
     }
 
