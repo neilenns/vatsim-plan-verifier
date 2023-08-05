@@ -3,7 +3,7 @@ import http from "../utils/http.mts";
 import {
   IQuickReference,
   IQuickReferenceListItem,
-  IQuickReferenceLoaderResults,
+  IQuickReferenceLoaderData,
 } from "../interfaces/IQuickReference.mts";
 import debug from "debug";
 import Result from "../types/result.mts";
@@ -11,7 +11,7 @@ import Result from "../types/result.mts";
 const logger = debug("plan-verifier:quickReferenceLoader");
 
 export type QuickReferenceLoaderResult = Result<
-  IQuickReferenceLoaderResults,
+  IQuickReferenceLoaderData,
   "QuickReferenceLoaderError"
 >;
 
