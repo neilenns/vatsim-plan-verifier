@@ -1,11 +1,13 @@
 import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import Markdown from "../components/Markdown";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
+import { IQuickReferenceLoaderResult } from "../interfaces/IQuickReference.mts";
 
 const QuickReference = () => {
   const { key } = useParams();
   const [quickReference, setQuickReference] = useState("");
+  const { entries, markdown } = useLoaderData() as IQuickReferenceLoaderResult;
   const navigate = useNavigate();
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -31,13 +33,17 @@ const QuickReference = () => {
             label="Quick reference"
             onChange={handleChange}
           >
-            <MenuItem value={"helicopters"}>Helicopters</MenuItem>
-            <MenuItem value={"military"}>Military</MenuItem>
-            <MenuItem value={"equipmentsuffixes"}>Equipment suffixes</MenuItem>
+            {entries?.map((entry) => {
+              return (
+                <MenuItem key={entry.key} value={entry.key}>
+                  {entry.label}
+                </MenuItem>
+              );
+            })}
           </Select>
         </FormControl>
       </Box>
-      <Markdown>Select a quick reference</Markdown>
+      <Markdown children={markdown} />
     </Box>
   );
 };
