@@ -30,6 +30,7 @@ import checkKPDXtoKSLEAltitude from "../controllers/verifiers/checkKPDXtoKSLEAlt
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
 import checkForCustomAirportMessages from "../controllers/verifiers/checkForCustomAirportMessages.mjs";
 import checkForCustomDepartureMessages from "../controllers/verifiers/checkForCustomDepartureMessages.mjs";
+import checkSEAvsMONTN from "../controllers/verifiers/checkSEAvsMONTN.mjs";
 
 const router = express.Router();
 
@@ -69,6 +70,7 @@ const verifiers: Verifier[] = [
   { name: "hasValidFirstFix", handler: hasValidFirstFix },
   { name: "pistonNotSlantLorZ", handler: pistonNotSlantLorZ },
   { name: "checkKPDXtoKSLEAltitude", handler: checkKPDXtoKSLEAltitude },
+  { name: "checkSEAvsMONTN", handler: checkSEAvsMONTN },
 ];
 
 // Generic handler for verifier routes
