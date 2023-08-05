@@ -45,6 +45,16 @@ const NavMenu = () => {
           </MenuItem>,
         ]}
         <MenuItem
+          key="711065"
+          onClick={handleClose}
+          component={Link}
+          to="https://www.faa.gov/air_traffic/publications/atpubs/atc_html/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          7110.65
+        </MenuItem>
+        <MenuItem
           key="quickreference"
           onClick={handleClose}
           component={Link}
