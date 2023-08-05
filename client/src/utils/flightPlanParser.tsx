@@ -52,12 +52,12 @@ export function formattedInitialAltitude(flightPlan: IFlightPlan): string {
     return "Unknown";
   }
 
-  if (!flightPlan.initialAltitude || flightPlan.initialAltitude == "Unknown") {
-    return "See chart/SOP";
-  }
-
   if (initialPhrasing === InitialPhrasingOptions.SeeNote) {
     return `See note`;
+  }
+
+  if (!flightPlan.initialAltitude || flightPlan.initialAltitude == "Unknown") {
+    return "See chart/SOP";
   }
 
   if (initialPhrasing === InitialPhrasingOptions.Maintain) {
