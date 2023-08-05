@@ -49,13 +49,13 @@ export default async function hasValidFirstFix({
       result.data.priority = 1;
       // The message sent is different depending on whether it's an RNAV SID.
       if (SIDInformation.IsRNAV) {
-        result.data.message = `First fix ${firstFix} is not in the list of fixes for ${SID}: ${SIDInformation.Fixes.join(
-          ", "
+        result.data.message = `First fix ${firstFix} is not in the list of fixes for ${SID}: ${SIDInformation.Fixes.joinWithWord(
+          "and"
         )}`;
         result.data.messageId = "firstFixNotInRNAVSID";
       } else {
-        result.data.message = `First fix ${firstFix} is not in the list of fixes for ${SID}: ${SIDInformation.Fixes.join(
-          ", "
+        result.data.message = `First fix ${firstFix} is not in the list of fixes for ${SID}: ${SIDInformation.Fixes.joinWithWord(
+          "and"
         )}, or requires coordination with the online departure controller.`;
         result.data.messageId = "firstFixNotInSID";
       }

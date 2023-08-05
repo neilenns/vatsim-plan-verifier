@@ -5,13 +5,10 @@ import warnHeavyRunwayAssignment from "../../src/controllers/verifiers/warnHeavy
 import { IFlightPlan } from "../../src/models/FlightPlan.mjs";
 import { IVerifierResult } from "../../src/models/VerifierResult.mjs";
 import { SuccessResult } from "../../src/types/result.mjs";
-import {
-  addFlightPlans,
-  removeFlightPlans,
-} from "../setup/manageFlightPlans.mjs";
+import { addFlightPlans, removeFlightPlans } from "../setup/manageFlightPlans.mjs";
 
 const testData = [
-  // Is heavy
+  // Is heavy, no specific runways
   {
     _id: "5f9f7b3b9d3b3c1b1c9b4b4b",
     callsign: "ASA42",
@@ -33,6 +30,17 @@ const testData = [
     route: "SEA8 SEA BUWZO KRATR2",
     squawk: "1234",
   },
+  // Is heavy, specific runways
+  {
+    _id: "5f9f7b3b9d3b3c1b1c9b4b4d",
+    callsign: "ASA42",
+    departure: "KPDX",
+    arrival: "KPDX",
+    cruiseAltitude: 210,
+    rawAircraftType: "H/A388/L",
+    route: "SEA8 SEA BUWZO KRATR2",
+    squawk: "1234",
+  },
 ];
 
 describe("verifier: warnHeavyRunwayAssignment tests", () => {
@@ -43,13 +51,11 @@ describe("verifier: warnHeavyRunwayAssignment tests", () => {
   after("Remove flight plans for tests", async function () {
     await removeFlightPlans(testData);
   });
-  it("should have heavy runway assignment warning", async function () {
+  it("should warn general heavy runway warning", async function () {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b4b");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await warnHeavyRunwayAssignment(
-      (flightPlan as SuccessResult<IFlightPlan>).data
-    );
+    const result = await warnHeavyRunwayAssignment((flightPlan as SuccessResult<IFlightPlan>).data);
 
     expect(result.success).to.equal(true);
 
@@ -58,16 +64,25 @@ describe("verifier: warnHeavyRunwayAssignment tests", () => {
     expect(data.messageId).to.equal("heavyRunwayAssignment");
   });
 
-  it("should not have heavy runway assignment warning", async function () {
+  it("should not warn, not a heavy", async function () {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b4c");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await warnHeavyRunwayAssignment(
-      (flightPlan as SuccessResult<IFlightPlan>).data
-    );
+    const result = await warnHeavyRunwayAssignment((flightPlan as SuccessResult<IFlightPlan>).data);
 
     const data = (result as SuccessResult<IVerifierResult>).data;
     expect(data.status).to.equal("Information");
     expect(data.messageId).to.equal("notHeavyRunwayAssignment");
+  });
+
+  it("should warn heavy runway specific assignment", async function () {
+    const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b4d");
+    expect(flightPlan.success).to.equal(true);
+
+    const result = await warnHeavyRunwayAssignment((flightPlan as SuccessResult<IFlightPlan>).data);
+
+    const data = (result as SuccessResult<IVerifierResult>).data;
+    expect(data.status).to.equal("Warning");
+    expect(data.messageId).to.equal("specificHeavyRunwayAssignment");
   });
 });

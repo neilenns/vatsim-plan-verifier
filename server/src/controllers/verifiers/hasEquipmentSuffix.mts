@@ -34,7 +34,7 @@ export default async function hasEquipmentSuffix({
       ) {
         result.data.message = `Flight plan is missing an equipment suffix. It should probably be one of these: ${equipmentInfo.commonEquipmentSuffixes
           .map((suffix) => `/${suffix}`)
-          .join(", ")}`;
+          .joinWithWord("or")}`;
       } else {
         result.data.message = `Flight plan is missing an equipment suffix.`;
       }

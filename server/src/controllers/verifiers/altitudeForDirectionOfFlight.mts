@@ -81,7 +81,7 @@ export default async function altitudeForDirectionOfFlight({
           result.data.messageId = "altitudeInvalidForEastboundAboveRVSMDirectionOfFlight";
           result.data.message = `Direction of flight is eastbound (${paddedDirectionOfFlight}) but ${cruiseAltitudeFormatted} is not one of the eastbound RVSM altitudes. Offer ${eastboundRVSMAltitudes
             .map((altitude) => formatAltitude(altitude))
-            .join(", ")}.`;
+            .joinWithWord("or")}.`;
           result.data.priority = 1;
         }
         // If the direction of flight is westbound then it has to be one of the westbound RVSM altitudes.
@@ -90,7 +90,7 @@ export default async function altitudeForDirectionOfFlight({
           result.data.messageId = "altitudeInvalidForWestboundAboveRVSMDirectionOfFlight";
           result.data.message = `Direction of flight is westbound (${paddedDirectionOfFlight}) but ${cruiseAltitudeFormatted} is not one of the westbound RVSM altitudes. Offer ${westboundRVSMAltiudes
             .map((altitude) => formatAltitude(altitude))
-            .join(", ")}.`;
+            .joinWithWord("or")}.`;
           result.data.priority = 1;
         }
       }
