@@ -1,4 +1,4 @@
-import { IconButton, Menu, MenuItem } from "@mui/material";
+import { Divider, IconButton, Menu, MenuItem } from "@mui/material";
 import { Link } from "react-router-dom";
 import { Menu as MenuIcon } from "@mui/icons-material";
 import { useState } from "react";
@@ -39,6 +39,7 @@ const NavMenu = () => {
           <MenuItem key="admin" onClick={handleClose} component={Link} to="/admin">
             Admin
           </MenuItem>,
+          <Divider />,
           <MenuItem key="verifier" onClick={handleClose} component={Link} to="/verifier">
             Verifier
           </MenuItem>,
@@ -52,6 +53,7 @@ const NavMenu = () => {
         >
           Quick reference
         </MenuItem>
+        <Divider />
         <MenuItem onClick={handleClose} component={Link} to="/logout">
           Logout
         </MenuItem>
