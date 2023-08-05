@@ -66,8 +66,8 @@ from the list two hours after they are verified.
 
 ### Route verifications
 
-* **Is the aircraft flying on valid airways?** This checks the aircraft's equipment suffix to see if it is GNSS-capable, and then looks for any GNSS-required airways in the flight plan. If the plane is not GNSS-capable and is flying on a T or Q airway then a warning is thrown.
-
+* **Is the aircraft flying on valid airways?** This checks the aircraft's equipment suffix to see if it is RNAV and GNSS equipped, and then looks for any Q or T airways in the flight plan. If the plane's equipment doesn't match the Q or T requirements a warning is fired.
+* 
 * **Is the route a preferred route?** This check compares the filed route against known preferred routes in the ZSE ARTCC. The known preferred routes are more detailed than the ones on the website and take into account the filed aircraft type, its top cruise speed (if known), and altitude requirements for the route. Preferred routes for flights out of KPDX to smaller airports are also known. If there is any mismatch a warning will be thrown and the suggested preferred route for the filed aircraft type and destination will be shown.
 
 * **Does the route have a SID?** This check looks at the filed route and attempts to determine whether it starts with a SID. This is not a detailed comparison against all known SIDs, it's a simple test to see if the first element of the route looks like a SID. If not a warning will be thrown.
