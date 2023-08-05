@@ -12,7 +12,7 @@ export class ExtendedAirportInfo {
   @prop()
   defaultInitialAltitudeText?: string;
 
-  @prop({ required: true })
+  @prop()
   defaultExpectInMinutesText?: string;
 
   @prop()
@@ -21,11 +21,14 @@ export class ExtendedAirportInfo {
   @prop()
   initialAltitude?: number;
 
-  @prop()
+  @prop({ type: () => String })
   initialPhrasing?: InitialPhrasingOptions;
 
   @prop()
   expectInMinutes?: number;
+
+  @prop({ type: () => [String] })
+  heavyRunways?: string[];
 }
 
 const ExtendedAirportInfoModel = getModelForClass(ExtendedAirportInfo);

@@ -31,7 +31,7 @@ async function registerForAirports(socket: Socket, airportCodes: string[]) {
   );
 
   if (invalidAirportCodes.length > 0) {
-    logger(`Invalid airport code(s) '${invalidAirportCodes.join(", ")}'`);
+    logger(`Invalid airport code(s) '${invalidAirportCodes.joinWithWord("and")}'`);
     socket.emit("airportNotFound", invalidAirportCodes);
     return;
   }

@@ -14,6 +14,10 @@ db.extendedairportinfo.insertMany([
     expectRequired: true,
   },
   {
+    airportCode: "KPDX",
+    heavyRunways: ["10R", "28L"],
+  },
+  {
     airportCode: "KMWH",
     defaultInitialAltitudeText: "Maintain 10,000",
     defaultExpectInMinutesText: "5 minutes",
