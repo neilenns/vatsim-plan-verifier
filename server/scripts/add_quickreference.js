@@ -8,20 +8,6 @@ db.quickreferences.insertMany([
     label: "Helicopters",
     markdown: `# Helicopters
 
-- [Helicopters](#helicopters)
-  - [Taxiing](#taxiing)
-    - [Air taxi](#air-taxi)
-    - [Hover taxi](#hover-taxi)
-  - [Takeoff](#takeoff)
-    - [From runway](#from-runway)
-    - [From movement area other than runway](#from-movement-area-other-than-runway)
-    - [From non-movement area not crossing airport or runway](#from-non-movement-area-not-crossing-airport-or-runway)
-    - [From non-movement area crossing airport or runway](#from-non-movement-area-crossing-airport-or-runway)
-  - [Landing](#landing)
-    - [To runway or other movement area](#to-runway-or-other-movement-area)
-    - [To non-movement area not crossing airport or runway](#to-non-movement-area-not-crossing-airport-or-runway)
-    - [To non-movement area crossing airport or runway](#to-non-movement-area-crossing-airport-or-runway)
-  
 ## Taxiing
 
 ### Air taxi
@@ -121,14 +107,15 @@ Treat as a normal aircraft.
     label: "Equipment suffixes",
     markdown: `# Equipment suffixes
 
-|              | No RVSM | RVSM |
-| ------------ | :-----: | :--: |
-| No DME       |         |  /U  |
-| DME          |   /A    | / W  |
-| RNAV no GNSS |   /I    |  /Z  |
-| GNSS         |   /G    |  /L  |
+    |              | No RVSM | RVSM  |
+    | ------------ | :-----: | :---: |
+    | No DME       |         |  /U   |
+    | TACAN        |   /P    |       |
+    | DME          |   /A    |  / W  |
+    | RNAV no GNSS |   /I    |  /Z   |
+    | GNSS         |   /G    |  /L   |
     
-*Source: [FlightAware](https://flightaware.com/about/faq_aircraft_flight_plan_suffix.rvt)*
+    *Source: [FlightAware](https://flightaware.com/about/faq_aircraft_flight_plan_suffix.rvt)*
 `,
   },
 ]);

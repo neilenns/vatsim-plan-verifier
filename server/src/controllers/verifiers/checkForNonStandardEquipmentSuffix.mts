@@ -30,6 +30,7 @@ export default async function checkForNonStandardEquipmentSuffix({
     "Z",
     "I",
     "U",
+    "P",
   ];
 
   try {
