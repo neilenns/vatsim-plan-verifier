@@ -41,6 +41,7 @@ import navaidRouter from "./routes/navaid.mjs";
 import userRouter from "./routes/users.mjs";
 import vatsimRouter from "./routes/vatsim.mjs";
 import extendedAirportInfoRouter from "./routes/extendedAirportInfo.mjs";
+import quickReferenceRouter from "./routes/quickReference.mjs";
 
 export const app = express();
 let server: https.Server | Server;
@@ -122,6 +123,8 @@ export function startServer(port: number): void {
   app.use(userRouter);
   app.use(vatsimRouter);
   app.use(extendedAirportInfoRouter);
+  app.use(quickReferenceRouter);
+
   // Verifier routes
   app.use(verifyRouter);
 

@@ -24,6 +24,8 @@ import WelcomePage from "./pages/Welcome.tsx";
 import AdminPage from "./pages/Admin.tsx";
 import Users from "./pages/Users.tsx";
 import { usersLoader } from "./services/usersLoader.mts";
+import QuickReference from "./pages/QuickReference.tsx";
+import { quickReferenceLoader } from "./services/quickReferenceLoader.mts";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +54,18 @@ const router = createBrowserRouter([
     path: "/logout",
     element: <Logout />,
     errorElement: <ErrorPage />,
+  },
+  {
+    path: "/quickreference/:key",
+    element: <QuickReference />,
+    errorElement: <ErrorPage />,
+    loader: quickReferenceLoader,
+  },
+  {
+    path: "/quickreference",
+    element: <QuickReference />,
+    errorElement: <ErrorPage />,
+    loader: quickReferenceLoader,
   },
   {
     element: <App />,
