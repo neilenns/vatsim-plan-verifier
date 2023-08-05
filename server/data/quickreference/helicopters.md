@@ -1,27 +1,19 @@
-use("plan-verifier");
-
-db.quickreferences.deleteMany({});
-
-db.quickreferences.insertMany([
-  {
-    key: "helicopters",
-    label: "Helicopters",
-    markdown: `# Helicopters
+# Helicopters
 
 - [Helicopters](#helicopters)
-  - [Taxiing](#taxiing)
-    - [Air taxi](#air-taxi)
-    - [Hover taxi](#hover-taxi)
-  - [Takeoff](#takeoff)
-    - [From runway](#from-runway)
-    - [From movement area other than runway](#from-movement-area-other-than-runway)
-    - [From non-movement area not crossing airport or runway](#from-non-movement-area-not-crossing-airport-or-runway)
-    - [From non-movement area crossing airport or runway](#from-non-movement-area-crossing-airport-or-runway)
-  - [Landing](#landing)
-    - [To runway or other movement area](#to-runway-or-other-movement-area)
-    - [To non-movement area not crossing airport or runway](#to-non-movement-area-not-crossing-airport-or-runway)
-    - [To non-movement area crossing airport or runway](#to-non-movement-area-crossing-airport-or-runway)
-  
+	- [Taxiing](#taxiing)
+		- [Air taxi](#air-taxi)
+		- [Hover taxi](#hover-taxi)
+	- [Takeoff](#takeoff)
+		- [From runway](#from-runway)
+		- [From movement area other than runway](#from-movement-area-other-than-runway)
+		- [From non-movement area not crossing airport or runway](#from-non-movement-area-not-crossing-airport-or-runway)
+		- [From non-movement area crossing airport or runway](#from-non-movement-area-crossing-airport-or-runway)
+	- [Landing](#landing)
+		- [To runway or other movement area](#to-runway-or-other-movement-area)
+		- [To non-movement area not crossing airport or runway](#to-non-movement-area-not-crossing-airport-or-runway)
+		- [To non-movement area crossing airport or runway](#to-non-movement-area-crossing-airport-or-runway)
+
 ## Taxiing
 
 ### Air taxi
@@ -90,45 +82,3 @@ Treat as a normal aircraft.
 > Landing at ramp will be at your own risk. Make approach {straight in/circling left/right turn}. Cross the airport at midfield, then remain {direction} of the {runway} extended centerline. {Cautions}
 
 *Source: [7110.65 3-11-2](https://www.faa.gov/air_traffic/publications/atpubs/atc_html/chap3_section_11.html) and [ZSE helicopter operations](https://zseartcc.org/documents/view/254)*
-`,
-  },
-  {
-    key: "military",
-    label: "Military",
-    markdown: `# Military
-
-## Takeoff (except cargo)
-
-> Winds {wind} runway {runway}, cleared for takeoff, change to departure.
-
-## Overhead maneuvers
-
-> **FOX1**: Portland Tower, FOX1 is on a 5 mile straight in for runway 28R, requesting overhead maneuver.  
-> **PDX_TWR** : FOX1, Portland Tower, pattern altitude 1,500. {left/right} turns. Report initial.  
-> **FOX1**: Pattern altitude 1,500 with right turn. Will report initial for FOX1.  
-> **FOX1**: FOX1 is initial.  
-> **PDX_TWR**: FOX1, break at midfield. Report break.  
-> **FOX1**: Break at midfield and will report the break for FOX1.  
-> **FOX1**: FOX1 is break.  
-> **PDX_TWR**: FOX1, check wheels down. Wind {wind}, runway {runway} cleared to land.  
-> **FOX1**: Three in the green. Cleared to land runway 28R for FOX1.  
-
-*Source: [ZSE military procedures](https://zseartcc.org/documents/view/136)*
-`,
-  },
-  {
-    key: "equipmentsuffixes",
-    label: "Equipment suffixes",
-    markdown: `# Equipment suffixes
-
-|              | No RVSM | RVSM |
-| ------------ | :-----: | :--: |
-| No DME       |         |  /U  |
-| DME          |   /A    | / W  |
-| RNAV no GNSS |   /I    |  /Z  |
-| GNSS         |   /G    |  /L  |
-    
-*Source: [FlightAware](https://flightaware.com/about/faq_aircraft_flight_plan_suffix.rvt)*
-`,
-  },
-]);
