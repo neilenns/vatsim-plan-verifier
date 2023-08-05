@@ -39,12 +39,13 @@ const NavMenu = () => {
           <MenuItem key="admin" onClick={handleClose} component={Link} to="/admin">
             Admin
           </MenuItem>,
-          <Divider />,
+          <Divider key="divider2" />,
           <MenuItem key="verifier" onClick={handleClose} component={Link} to="/verifier">
             Verifier
           </MenuItem>,
         ]}
         <MenuItem
+          key="quickreference"
           onClick={handleClose}
           component={Link}
           to="/quickreference"
@@ -53,8 +54,8 @@ const NavMenu = () => {
         >
           Quick reference
         </MenuItem>
-        <Divider />
-        <MenuItem onClick={handleClose} component={Link} to="/logout">
+        <Divider key="divider2" />
+        <MenuItem key="logout" onClick={handleClose} component={Link} to="/logout">
           Logout
         </MenuItem>
       </Menu>
