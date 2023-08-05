@@ -43,6 +43,15 @@ const NavMenu = () => {
             Verifier
           </MenuItem>,
         ]}
+        <MenuItem
+          onClick={handleClose}
+          component={Link}
+          to="/quickreference"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Quick reference
+        </MenuItem>
         <MenuItem onClick={handleClose} component={Link} to="/logout">
           Logout
         </MenuItem>
