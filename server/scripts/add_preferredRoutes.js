@@ -553,7 +553,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KPDX",
     arrival: "KLAS",
-    route: "CASCD2 CHISM PUHTS PAWLI Q13 LOMIA TQILA COKTL2",
+    route: "CASCD2 CHISM PUHTS PAWLI Q13 LOMIA TQILA COKTL3",
     minimumRequiredAltitude: 240,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[LZGIW]",
