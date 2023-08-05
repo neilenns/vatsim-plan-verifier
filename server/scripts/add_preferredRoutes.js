@@ -47,7 +47,7 @@ db.preferredroutes.insertMany([
     minimumRequiredAltitude: 60,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[AGP]",
-    engineTypes: "P",
+    engineTypes: "[PTJ]",
   },
   {
     departure: "KPDX",
@@ -56,7 +56,7 @@ db.preferredroutes.insertMany([
     minimumRequiredAltitude: 60,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[AGP]",
-    engineTypes: "P",
+    engineTypes: "[PTJ]",
   },
   {
     departure: "KPDX",
@@ -74,7 +74,7 @@ db.preferredroutes.insertMany([
     minimumRequiredAltitude: 60,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[AGP]",
-    engineTypes: "P",
+    engineTypes: "[PTJ]",
   },
   {
     departure: "KPDX",
@@ -83,7 +83,7 @@ db.preferredroutes.insertMany([
     minimumRequiredAltitude: 60,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[AGP]",
-    engineTypes: "P",
+    engineTypes: "[PTJ]",
   },
   {
     departure: "KPDX",
@@ -92,7 +92,7 @@ db.preferredroutes.insertMany([
     minimumRequiredAltitude: 100,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[GLZ]",
-    engineTypes: "[TJP]",
+    engineTypes: "[PTJ]",
   },
   {
     departure: "KPDX",
@@ -101,7 +101,7 @@ db.preferredroutes.insertMany([
     minimumRequiredAltitude: 60,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[AP]",
-    engineTypes: "P",
+    engineTypes: "[PTJ]",
   },
   {
     departure: "KPDX",
@@ -110,7 +110,7 @@ db.preferredroutes.insertMany([
     minimumRequiredAltitude: 60,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[AP]",
-    engineTypes: "P",
+    engineTypes: "[PTJ]",
   },
   {
     departure: "KPDX",
@@ -127,7 +127,7 @@ db.preferredroutes.insertMany([
     minimumRequiredAltitude: 150,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[AP]",
-    engineTypes: "P",
+    engineTypes: "[PTJ]",
   },
   {
     departure: "KPDX",
@@ -136,7 +136,7 @@ db.preferredroutes.insertMany([
     minimumRequiredAltitude: 90,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[AP]",
-    engineTypes: "P",
+    engineTypes: "[PTJ]",
   },
   {
     departure: "KPDX",
@@ -145,7 +145,7 @@ db.preferredroutes.insertMany([
     minimumRequiredAltitude: 60,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[AP]",
-    engineTypes: "P",
+    engineTypes: "[PTJ]",
   },
   {
     departure: "KPDX",
@@ -154,7 +154,7 @@ db.preferredroutes.insertMany([
     minimumRequiredAltitude: 125,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[AP]",
-    engineTypes: "P",
+    engineTypes: "[PTJ]",
   },
   {
     departure: "KPDX",
@@ -191,7 +191,7 @@ db.preferredroutes.insertMany([
     minimumRequiredAltitude: 70,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[AP]",
-    engineTypes: "P",
+    engineTypes: "[PTJ]",
   },
   {
     departure: "KPDX",
@@ -200,7 +200,7 @@ db.preferredroutes.insertMany([
     minimumRequiredAltitude: 70,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[AP]",
-    engineTypes: "P",
+    engineTypes: "[PTJ]",
   },
   {
     departure: "KPDX",
@@ -209,7 +209,7 @@ db.preferredroutes.insertMany([
     minimumRequiredAltitude: 145,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[AP]",
-    engineTypes: "P",
+    engineTypes: "[PTJ]",
   },
   {
     departure: "KPDX",
@@ -265,7 +265,7 @@ db.preferredroutes.insertMany([
     minimumRequiredAltitude: 40,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[AP]",
-    engineTypes: "P",
+    engineTypes: "[PTJ]",
     remarks: "Requires P80 approval, not preferred.",
   },
   {
@@ -275,7 +275,7 @@ db.preferredroutes.insertMany([
     minimumRequiredAltitude: 40,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[AP]",
-    engineTypes: "P",
+    engineTypes: "[PTJ]",
   },
   {
     departure: "KPDX",
@@ -284,7 +284,7 @@ db.preferredroutes.insertMany([
     minimumRequiredAltitude: 145,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[AP]",
-    engineTypes: "P",
+    engineTypes: "[PTJ]",
   },
   {
     departure: "KPDX",
@@ -293,7 +293,7 @@ db.preferredroutes.insertMany([
     minimumRequiredAltitude: 70,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[AP]",
-    engineTypes: "P",
+    engineTypes: "[PTJ]",
   },
   {
     departure: "KPDX",
@@ -329,7 +329,7 @@ db.preferredroutes.insertMany([
     minimumRequiredAltitude: 125,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[AP]",
-    engineTypes: "P",
+    engineTypes: "[PTJ]",
   },
   {
     departure: "KPDX",
@@ -338,7 +338,7 @@ db.preferredroutes.insertMany([
     minimumRequiredAltitude: 70,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[AP]",
-    engineTypes: "P",
+    engineTypes: "[PTJ]",
   },
   {
     departure: "KPDX",
@@ -367,7 +367,7 @@ db.preferredroutes.insertMany([
     minimumRequiredAltitude: 60,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[AP]",
-    engineTypes: "P",
+    engineTypes: "[PTJ]",
   },
   {
     departure: "KPDX",
@@ -413,7 +413,7 @@ db.preferredroutes.insertMany([
     minimumRequiredAltitude: 67,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[AGP]",
-    engineTypes: "P",
+    engineTypes: "[PTJ]",
   },
   {
     departure: "KPDX",
@@ -467,7 +467,7 @@ db.preferredroutes.insertMany([
     minimumRequiredAltitude: 120,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[GI]",
-    engineTypes: "P",
+    engineTypes: "[PTJ]",
   },
   {
     departure: "KPDX",
@@ -476,7 +476,7 @@ db.preferredroutes.insertMany([
     minimumRequiredAltitude: 60,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[AP]",
-    engineTypes: "P",
+    engineTypes: "[PTJ]",
   },
   {
     departure: "KPDX",
@@ -494,7 +494,7 @@ db.preferredroutes.insertMany([
     minimumRequiredAltitude: 120,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[GI]",
-    engineTypes: "P",
+    engineTypes: "[PTJ]",
   },
   {
     departure: "KPDX",
@@ -503,7 +503,7 @@ db.preferredroutes.insertMany([
     minimumRequiredAltitude: 60,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[AP]",
-    engineTypes: "P",
+    engineTypes: "[PTJ]",
   },
   {
     departure: "KPDX",
