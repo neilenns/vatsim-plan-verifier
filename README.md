@@ -84,6 +84,8 @@ from the list two hours after they are verified.
 
 * **Is the arrival airport valid?** This check throws a warning if the arrival airport isn't known by FlightAware.
 
+* **Should the departure be SEA8 or MONTN2?** This check is specific to KSEA and either throws an error or a warning if the flight plan was filed with SEA8 and should (or probably should) be on MONTN2 instead. This check does *not* verify whether plans filed with MONTN2 should be on SEA8 instead. 
+
 ### Altitude verifications
 
 * **Is the plane too high for non-RVSM flight?** This check throws an error if the aircraft isn't capable of operating in RVSM airspace but filed a flight plan with a cruise altitude of FL290 or higher.
