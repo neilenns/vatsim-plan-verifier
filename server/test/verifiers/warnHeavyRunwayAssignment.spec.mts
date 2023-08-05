@@ -60,8 +60,8 @@ describe("verifier: warnHeavyRunwayAssignment tests", () => {
     expect(result.success).to.equal(true);
 
     const data = (result as SuccessResult<IVerifierResult>).data;
-    expect(data.status).to.equal("Warning");
-    expect(data.messageId).to.equal("heavyRunwayAssignment");
+    expect(data.status).to.equal("Information");
+    expect(data.messageId).to.equal("noHeavyRunways");
   });
 
   it("should not warn, not a heavy", async function () {
