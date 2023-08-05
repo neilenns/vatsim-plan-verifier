@@ -9,7 +9,7 @@ export interface IQuickReferenceListItem {
   label: string;
 }
 
-export interface IQuickReferenceLoaderResult {
+export interface IQuickReferenceLoaderResults {
   entries: IQuickReferenceListItem[];
   markdown: string;
 }

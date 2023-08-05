@@ -1,9 +1,19 @@
 import { LoaderFunction } from "react-router-dom";
 import http from "../utils/http.mts";
-import { IQuickReference, IQuickReferenceListItem } from "../interfaces/IQuickReference.mts";
+import {
+  IQuickReference,
+  IQuickReferenceListItem,
+  IQuickReferenceLoaderResults,
+} from "../interfaces/IQuickReference.mts";
 import debug from "debug";
+import Result from "../types/result.mts";
 
 const logger = debug("plan-verifier:quickReferenceLoader");
+
+export type QuickReferenceLoaderResult = Result<
+  IQuickReferenceLoaderResults,
+  "QuickReferenceLoaderError"
+>;
 
 async function getQuickReferenceList(): Promise<IQuickReferenceListItem[]> {
   try {
@@ -51,17 +61,27 @@ export const quickReferenceLoader: LoaderFunction = async ({ params }) => {
       }
 
       return {
-        entries: quickReferenceList,
-        markdown: quickReference?.markdown,
-      };
+        success: true,
+        data: {
+          entries: quickReferenceList,
+          markdown: quickReference.markdown,
+        },
+      } as QuickReferenceLoaderResult;
     } else {
       return {
-        entries: quickReferenceList,
+        success: true,
+        data: {
+          entries: quickReferenceList,
+        },
       };
     }
   } catch (err) {
     const error = err as Error;
     logger(`Error fetching quick reference ${key ?? ""}: ${error.message}`);
-    return {};
+    return {
+      success: false,
+      errorType: "QuickReferenceLoaderError",
+      error: `Error fetching quick reference ${key ?? ""}`,
+    } as QuickReferenceLoaderResult;
   }
 };

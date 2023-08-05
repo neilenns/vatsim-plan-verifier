@@ -2,12 +2,12 @@ import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } fro
 import Markdown from "../components/Markdown";
 import { useEffect, useState } from "react";
 import { useLoaderData, useNavigate, useParams } from "react-router-dom";
-import { IQuickReferenceLoaderResult } from "../interfaces/IQuickReference.mts";
+import { QuickReferenceLoaderResult } from "../services/quickReferenceLoader.mts";
 
 const QuickReference = () => {
   const { key } = useParams();
   const [quickReference, setQuickReference] = useState("");
-  const { entries, markdown } = useLoaderData() as IQuickReferenceLoaderResult;
+  const result = useLoaderData() as QuickReferenceLoaderResult;
   const navigate = useNavigate();
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -22,29 +22,31 @@ const QuickReference = () => {
   }, [key]);
 
   return (
-    <Box margin={2}>
-      <Box sx={{ minWidth: 120, maxWidth: 200 }}>
-        <FormControl fullWidth>
-          <InputLabel id="quickreference-select-label">Quick reference</InputLabel>
-          <Select
-            labelId="quickreference-select-label"
-            id="quickreference-select"
-            value={quickReference}
-            label="Quick reference"
-            onChange={handleChange}
-          >
-            {entries?.map((entry) => {
-              return (
-                <MenuItem key={entry.key} value={entry.key}>
-                  {entry.label}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
+    result.success && (
+      <Box margin={2}>
+        <Box sx={{ minWidth: 120, maxWidth: 200 }}>
+          <FormControl fullWidth>
+            <InputLabel id="quickreference-select-label">Quick reference</InputLabel>
+            <Select
+              labelId="quickreference-select-label"
+              id="quickreference-select"
+              value={quickReference}
+              label="Quick reference"
+              onChange={handleChange}
+            >
+              {result.data.entries?.map((entry) => {
+                return (
+                  <MenuItem key={entry.key} value={entry.key}>
+                    {entry.label}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+        </Box>
+        <Markdown children={result.data.markdown} />
       </Box>
-      <Markdown children={markdown} />
-    </Box>
+    )
   );
 };
 
