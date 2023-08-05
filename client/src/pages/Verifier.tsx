@@ -32,7 +32,13 @@ export default function Verifier() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Plan verifier
           </Typography>
-          <IconButton component={Link} to="/help" target="_blank" rel="noopener noreferrer">
+          <IconButton
+            component={Link}
+            to="/help"
+            title="Help"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <HelpIcon />
           </IconButton>
           <IconButton
