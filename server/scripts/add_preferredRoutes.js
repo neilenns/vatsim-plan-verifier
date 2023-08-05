@@ -46,7 +46,7 @@ db.preferredroutes.insertMany([
     route: "BTG V23 SEA",
     minimumRequiredAltitude: 60,
     minimumRequiredSpeed: 0,
-    equipmentSuffixes: "[AG]",
+    equipmentSuffixes: "[AGP]",
     engineTypes: "P",
   },
   {
@@ -55,7 +55,7 @@ db.preferredroutes.insertMany([
     route: "PTLD2 BTG V23 SEA",
     minimumRequiredAltitude: 60,
     minimumRequiredSpeed: 0,
-    equipmentSuffixes: "[AG]",
+    equipmentSuffixes: "[AGP]",
     engineTypes: "P",
   },
   {
@@ -73,7 +73,7 @@ db.preferredroutes.insertMany([
     route: "PTLD2 BTG V23 YVR",
     minimumRequiredAltitude: 60,
     minimumRequiredSpeed: 0,
-    equipmentSuffixes: "[AG]",
+    equipmentSuffixes: "[AGP]",
     engineTypes: "P",
   },
   {
@@ -82,7 +82,7 @@ db.preferredroutes.insertMany([
     route: "PTLD2 BTG V287 OLM V165 HUH V23 YVR",
     minimumRequiredAltitude: 60,
     minimumRequiredSpeed: 0,
-    equipmentSuffixes: "[AG]",
+    equipmentSuffixes: "[AGP]",
     engineTypes: "P",
   },
   {
@@ -100,7 +100,7 @@ db.preferredroutes.insertMany([
     route: "PTLD2 BTG V23 SEA V495 CDGPN",
     minimumRequiredAltitude: 60,
     minimumRequiredSpeed: 0,
-    equipmentSuffixes: "A",
+    equipmentSuffixes: "[AP]",
     engineTypes: "P",
   },
   {
@@ -109,7 +109,7 @@ db.preferredroutes.insertMany([
     route: "PTLD2 BTG V287 OLM V165 HUH V495 YYJ",
     minimumRequiredAltitude: 60,
     minimumRequiredSpeed: 0,
-    equipmentSuffixes: "A",
+    equipmentSuffixes: "[AP]",
     engineTypes: "P",
   },
   {
@@ -126,7 +126,7 @@ db.preferredroutes.insertMany([
     route: "PTLD2 UBG V500 BOI",
     minimumRequiredAltitude: 150,
     minimumRequiredSpeed: 0,
-    equipmentSuffixes: "A",
+    equipmentSuffixes: "[AP]",
     engineTypes: "P",
   },
   {
@@ -135,7 +135,7 @@ db.preferredroutes.insertMany([
     route: "PTLD2 BTG V112 LTJ V182 BKE V4 BOI",
     minimumRequiredAltitude: 90,
     minimumRequiredSpeed: 0,
-    equipmentSuffixes: "A",
+    equipmentSuffixes: "[AP]",
     engineTypes: "P",
   },
   {
@@ -144,7 +144,7 @@ db.preferredroutes.insertMany([
     route: "PTLD2 BTG V23 SEA",
     minimumRequiredAltitude: 60,
     minimumRequiredSpeed: 0,
-    equipmentSuffixes: "A",
+    equipmentSuffixes: "[AP]",
     engineTypes: "P",
   },
   {
@@ -153,7 +153,7 @@ db.preferredroutes.insertMany([
     route: "PTLD2 UBG V165 DSD",
     minimumRequiredAltitude: 125,
     minimumRequiredSpeed: 0,
-    equipmentSuffixes: "A",
+    equipmentSuffixes: "[AP]",
     engineTypes: "P",
   },
   {
@@ -190,7 +190,7 @@ db.preferredroutes.insertMany([
     route: "PTLD2 BTG V112 GEG",
     minimumRequiredAltitude: 70,
     minimumRequiredSpeed: 0,
-    equipmentSuffixes: "A",
+    equipmentSuffixes: "[AP]",
     engineTypes: "P",
   },
   {
@@ -199,7 +199,7 @@ db.preferredroutes.insertMany([
     route: "PTLD2 BTG V112 LTJ V520 PSC V204 GEG",
     minimumRequiredAltitude: 70,
     minimumRequiredSpeed: 0,
-    equipmentSuffixes: "A",
+    equipmentSuffixes: "[AP]",
     engineTypes: "P",
   },
   {
@@ -208,7 +208,7 @@ db.preferredroutes.insertMany([
     route: "PTLD2 BTG V448 GEG",
     minimumRequiredAltitude: 145,
     minimumRequiredSpeed: 0,
-    equipmentSuffixes: "A",
+    equipmentSuffixes: "[AP]",
     engineTypes: "P",
   },
   {
@@ -244,7 +244,7 @@ db.preferredroutes.insertMany([
     route: "{RADAR VECTORS} DAFFI",
     minimumRequiredAltitude: 40,
     minimumRequiredSpeed: 0,
-    equipmentSuffixes: "[AGLZ]",
+    equipmentSuffixes: "[AGLPZ]",
     engineTypes: "[PTJ]",
     remarks: "Requires P80 approval. Runway 13R arrival.",
   },
@@ -264,7 +264,7 @@ db.preferredroutes.insertMany([
     route: "{RADAR VECTORS} DIRECT",
     minimumRequiredAltitude: 40,
     minimumRequiredSpeed: 0,
-    equipmentSuffixes: "A",
+    equipmentSuffixes: "[AP]",
     engineTypes: "P",
     remarks: "Requires P80 approval, not preferred.",
   },
@@ -274,7 +274,7 @@ db.preferredroutes.insertMany([
     route: "PTLD2 UBG",
     minimumRequiredAltitude: 40,
     minimumRequiredSpeed: 0,
-    equipmentSuffixes: "A",
+    equipmentSuffixes: "[AP]",
     engineTypes: "P",
   },
   {
@@ -283,7 +283,7 @@ db.preferredroutes.insertMany([
     route: "PTLD2 BTG V448 MWH",
     minimumRequiredAltitude: 145,
     minimumRequiredSpeed: 0,
-    equipmentSuffixes: "A",
+    equipmentSuffixes: "[AP]",
     engineTypes: "P",
   },
   {
@@ -292,7 +292,7 @@ db.preferredroutes.insertMany([
     route: "PTLD2 BTG V112 LTJ V497 MWH",
     minimumRequiredAltitude: 70,
     minimumRequiredSpeed: 0,
-    equipmentSuffixes: "A",
+    equipmentSuffixes: "[AP]",
     engineTypes: "P",
   },
   {
@@ -328,7 +328,7 @@ db.preferredroutes.insertMany([
     route: "PTLD2 UBG V165 DSD",
     minimumRequiredAltitude: 125,
     minimumRequiredSpeed: 0,
-    equipmentSuffixes: "A",
+    equipmentSuffixes: "[AP]",
     engineTypes: "P",
   },
   {
@@ -337,7 +337,7 @@ db.preferredroutes.insertMany([
     route: "PTLD2 LTJ V25 DSD",
     minimumRequiredAltitude: 70,
     minimumRequiredSpeed: 0,
-    equipmentSuffixes: "A",
+    equipmentSuffixes: "[AP]",
     engineTypes: "P",
   },
   {
@@ -366,7 +366,7 @@ db.preferredroutes.insertMany([
     route: "PTLD2 BTG V23 SEA",
     minimumRequiredAltitude: 60,
     minimumRequiredSpeed: 0,
-    equipmentSuffixes: "A",
+    equipmentSuffixes: "[AP]",
     engineTypes: "P",
   },
   {
@@ -412,7 +412,7 @@ db.preferredroutes.insertMany([
     route: "PTLD2 UBG V182 OTH V27 ENI PYE3",
     minimumRequiredAltitude: 67,
     minimumRequiredSpeed: 0,
-    equipmentSuffixes: "[AG]",
+    equipmentSuffixes: "[AGP]",
     engineTypes: "P",
   },
   {
@@ -475,7 +475,7 @@ db.preferredroutes.insertMany([
     route: "PTLD2 BTG V23 PAE",
     minimumRequiredAltitude: 60,
     minimumRequiredSpeed: 0,
-    equipmentSuffixes: "A",
+    equipmentSuffixes: "[AP]",
     engineTypes: "P",
   },
   {
@@ -502,7 +502,7 @@ db.preferredroutes.insertMany([
     route: "PTLD2 BTG V23 PAE",
     minimumRequiredAltitude: 60,
     minimumRequiredSpeed: 0,
-    equipmentSuffixes: "A",
+    equipmentSuffixes: "[AP]",
     engineTypes: "P",
   },
   {
