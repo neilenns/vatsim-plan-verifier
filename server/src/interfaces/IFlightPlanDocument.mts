@@ -3,6 +3,13 @@ import IAircraftDocument from "./IAircraftDocument.mjs";
 import IFlightAwareAirportDocument from "./IFlightAwareAirportDocument.mjs";
 import { Document } from "mongoose";
 
+export enum VatsimComms {
+  UNKNOWN = "Unknown",
+  VOICE = "Voice",
+  TEXTONLY = "TextOnly",
+  RECEIVEONLY = "ReceiveOnly",
+}
+
 export default interface IFlightPlanDocument extends Document {
   callsign: string;
   airlineCode?: string;
@@ -31,4 +38,7 @@ export default interface IFlightPlanDocument extends Document {
   SIDInformation?: Departure;
   expandedRoute?: string;
   initialAltitude?: string;
+  remarks?: string;
+  cleanedRemarks?: string;
+  vatsimComms?: VatsimComms;
 }

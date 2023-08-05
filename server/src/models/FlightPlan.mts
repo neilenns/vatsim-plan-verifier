@@ -1,5 +1,5 @@
 import { Model, Schema, model } from "mongoose";
-import IFlightPlanDocument from "../interfaces/IFlightPlanDocument.mjs";
+import IFlightPlanDocument, { VatsimComms } from "../interfaces/IFlightPlanDocument.mjs";
 import autopopulate from "mongoose-autopopulate";
 import { formatAltitude } from "../utils.mjs";
 import { getFlightAwareAirport } from "../controllers/flightAwareAirports.mjs";
@@ -20,6 +20,10 @@ const GNSSEquipmentSuffixes = ["G", "L"];
 
 const AirlineCodeRegexPattern = /\b([A-Za-z]{3})(\d+)\b/;
 const SIDRegExPattern = /^([A-Za-z]{3,}\d)/;
+const SimbriefRemarksRegExPattern = /[A-Z0-9]+\/[A-Z0-9]+/;
+const SimbriefStepClimbRegExPattern = /[0-9]+[NS][0-9]+[EW][0-9]+/;
+const SimbriefRegionRegExPattern = /[A-Z]{4}[0-9]{4}/;
+const VatsimRemarksRegExPattern = /\/[VRTvrt]\//;
 
 function extractSID(route: string): string | undefined {
   const regexMatch = route.match(SIDRegExPattern);
@@ -47,6 +51,8 @@ export const flightPlanSchema = new Schema(
     directionOfFlight: { type: Number, required: false },
     SID: { type: String, required: false },
     expandedRoute: { type: String, required: false },
+    remarks: { type: String, required: false, trim: true },
+    vatsimComms: { type: String, enum: Object.values(VatsimComms), required: false, trim: true },
   },
   { timestamps: true }
 );
@@ -77,6 +83,43 @@ flightPlanSchema.virtual("cruiseAltitudeFormatted").get(function () {
 
 flightPlanSchema.virtual("routeParts").get(function () {
   return this.route?.split(" ") ?? [];
+});
+
+flightPlanSchema.virtual("vatsimComms").get(function () {
+  if (!this.remarks) {
+    return "Unknown";
+  }
+
+  const remarks = this.remarks.toUpperCase();
+
+  if (this.remarks.includes("/V/")) {
+    return VatsimComms.VOICE;
+  } else if (this.remarks.includes("/R")) {
+    return VatsimComms.RECEIVEONLY;
+  } else if (this.remarks.includes("/T")) {
+    return VatsimComms.TEXTONLY;
+  }
+  return VatsimComms.UNKNOWN;
+});
+
+flightPlanSchema.virtual("cleanedRemarks").get(function () {
+  if (!this.remarks) {
+    return "";
+  }
+
+  const parts = this.remarks.split(" ");
+
+  // Remove the obvious simbrief remarks, like PBN/A1B1C1D1L1O1S2 and step climbs
+  const cleanedParts = parts.filter(
+    (part: string) =>
+      !SimbriefRemarksRegExPattern.test(part) &&
+      !SimbriefStepClimbRegExPattern.test(part) &&
+      !SimbriefRegionRegExPattern.test(part) &&
+      !VatsimRemarksRegExPattern.test(part) &&
+      part !== "SIMBRIEF"
+  );
+
+  return cleanedParts.join(" ");
 });
 
 flightPlanSchema.virtual("cleanedRoute").get(function () {

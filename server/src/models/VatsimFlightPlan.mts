@@ -5,7 +5,7 @@ export class VatsimFlightPlan {
   @prop({ required: true })
   callsign!: string;
 
-	@prop({ required: false })
+  @prop({ required: false })
   groundspeed?: number;
 
   @prop({ required: false })
@@ -14,17 +14,20 @@ export class VatsimFlightPlan {
   @prop({ required: false })
   departure?: string;
 
-	@prop({ required: false })
+  @prop({ required: false })
   arrival?: string;
 
-	@prop({ required: false })
+  @prop({ required: false })
   cruiseAltitude?: number;
 
-	@prop({ required: false })
+  @prop({ required: false })
   route?: string;
 
-	@prop({ required: false })
+  @prop({ required: false })
   squawk?: string;
+
+  @prop({ required: false })
+  remarks?: string;
 }
 
 const VatsimFlightPlanModel = getModelForClass(VatsimFlightPlan);

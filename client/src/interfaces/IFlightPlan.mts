@@ -23,6 +23,8 @@ interface IFlightPlan {
   initialAltitude?: string;
   SIDInformation?: ISIDInformation;
   verifierResultsCount?: number;
+  remarks?: string;
+  cleanedRemarks?: string;
 }
 
 export default IFlightPlan;
