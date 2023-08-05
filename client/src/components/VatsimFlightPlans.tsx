@@ -155,6 +155,7 @@ const VatsimFlightPlans = () => {
             <IconButton
               onClick={toggleVatsimConnection}
               color={isConnected ? "primary" : "default"}
+              title={isConnected ? "Disconnect" : "Connect"}
             >
               <StreamIcon />
             </IconButton>
