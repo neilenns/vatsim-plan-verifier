@@ -41,12 +41,12 @@ db.custommessages.insertMany([
     message: `**North flow**
 
 > Cleared to {{arrival}} via the SUMMA2 departure, radar vectors SUMMA, then as filed.  
-> Maintain 7,000 expect {{formattedCruiseAltitude}} 15 nautical miles from the SEATTLE VORTAC.
+> Climb via SID except maintain 7,000. Expect {{formattedCruiseAltitude}} 15 nautical miles from the SEATTLE VORTAC.
 
 **South flow**
 
 > Cleared to {{arrival}} via the SUMMA2 departure then as filed.  
-> Maintain 7,000 expect {{formattedCruiseAltitude}} 15 nautical miles from the SEATTLE VORTAC.
+> Maintain 7,000. Expect {{formattedCruiseAltitude}} 15 nautical miles from the SEATTLE VORTAC.
 `,
   },
   {
