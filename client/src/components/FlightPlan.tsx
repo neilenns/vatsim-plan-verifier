@@ -192,7 +192,13 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               name="route"
               canCopy
               value={flightPlan.route}
-              helperText={hyperlinkSidName(flightPlan)}
+              helperText={
+                <>
+                  {hyperlinkSidName(flightPlan)}
+                  <br />
+                  {flightPlan.cleanedRemarks}
+                </>
+              }
               onPaste={parsePastedFlightPlan}
               onChange={(text) => {
                 flightPlan.route = text;

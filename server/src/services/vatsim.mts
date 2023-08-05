@@ -44,6 +44,7 @@ async function processVatsimPilots(pilots: IVatsimPilot[]) {
         cruiseAltitude: parseStringToNumber(pilot?.flight_plan?.altitude) / 100,
         route: cleanRoute(pilot?.flight_plan?.route ?? ""),
         squawk: pilot?.flight_plan?.assigned_transponder ?? "",
+        remarks: pilot?.flight_plan?.remarks ?? "",
       });
 
       await flightPlan.save();
@@ -67,6 +68,7 @@ async function processVatsimPrefiles(prefiles: IVatsimPrefile[]) {
         cruiseAltitude: parseStringToNumber(prefile?.flight_plan?.altitude) / 100,
         route: cleanRoute(prefile?.flight_plan?.route ?? ""),
         squawk: prefile?.flight_plan?.assigned_transponder ?? "",
+        remarks: prefile?.flight_plan?.remarks ?? "",
       });
 
       await flightPlan.save();
