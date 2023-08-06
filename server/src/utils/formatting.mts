@@ -20,3 +20,18 @@ export function joinWithWord(array: string[], word: string): string {
     return `${array.join(", ")} ${word} ${last}`;
   }
 }
+
+export function uppercaseStringProperties(obj: unknown): unknown {
+  if (typeof obj !== "object" || obj === null) {
+    return obj;
+  }
+
+  const entries = Object.entries(obj).map(([key, value]) => {
+    if (typeof value === "string") {
+      return [key, value.toUpperCase()];
+    }
+    return [key, value];
+  });
+
+  return Object.fromEntries(entries);
+}
