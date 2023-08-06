@@ -1,6 +1,12 @@
 // This nonsense for typing the params comes from
 
-import { ActionFunctionArgs, Params, ParamParseKey, LoaderFunction } from "react-router-dom";
+import {
+  ActionFunctionArgs,
+  Params,
+  ParamParseKey,
+  LoaderFunction,
+  useLocation,
+} from "react-router-dom";
 import { getFlightPlan } from "../services/flightPlan.mts";
 import { getVerifyResults } from "../services/verifyResults.mts";
 import Result from "../types/result.mts";
@@ -18,13 +24,23 @@ export type PlanDetailsLoaderResult = Result<
 >;
 
 interface Args extends ActionFunctionArgs {
+  request: Request;
   params: Params<ParamParseKey<typeof PathNames.id>>;
 }
 
 // The lack of a return type on this is infuriating and caused me 30 minutes of wasted time
 // because I spelled verifyResults one way here and a different way when useLoaderData() was
 // called. There has to be a proper way to do this.
-export const flightPlanDetailsLoader: LoaderFunction = async ({ params }: Args) => {
+export const flightPlanDetailsLoader: LoaderFunction = async ({ request, params }: Args) => {
+  if (request.url.endsWith("new")) {
+    return {
+      success: true,
+      data: {
+        flightPlan: {},
+      },
+    } as PlanDetailsLoaderResult;
+  }
+
   if (params.id) {
     try {
       const [flightPlan, verifyResults] = await Promise.all([
