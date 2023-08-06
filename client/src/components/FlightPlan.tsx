@@ -1,4 +1,4 @@
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Button, Grid, Stack } from "@mui/material";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
 import { useEffect, useState } from "react";
@@ -193,14 +193,10 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               canCopy
               value={flightPlan.route ?? ""}
               helperText={
-                <Grid container xs={12}>
-                  <Grid item xs="auto">
-                    {hyperlinkSidName(flightPlan)}
-                  </Grid>
-                  <Grid item xs display="flex" justifyContent="right">
-                    {flightPlan.cleanedRemarks && `Remarks: ${flightPlan.cleanedRemarks}`}
-                  </Grid>
-                </Grid>
+                <Stack direction="row" justifyContent="space-between" width="100%">
+                  <div>{hyperlinkSidName(flightPlan)}</div>
+                  <div>{flightPlan.cleanedRemarks && `Remarks: ${flightPlan.cleanedRemarks}`}</div>
+                </Stack>
               }
               onPaste={parsePastedFlightPlan}
               onChange={(text) => {
