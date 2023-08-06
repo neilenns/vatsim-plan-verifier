@@ -1,12 +1,6 @@
 // This nonsense for typing the params comes from
 
-import {
-  ActionFunctionArgs,
-  Params,
-  ParamParseKey,
-  LoaderFunction,
-  useLocation,
-} from "react-router-dom";
+import { ActionFunctionArgs, Params, ParamParseKey, LoaderFunction } from "react-router-dom";
 import { getFlightPlan } from "../services/flightPlan.mts";
 import { getVerifyResults } from "../services/verifyResults.mts";
 import Result from "../types/result.mts";
