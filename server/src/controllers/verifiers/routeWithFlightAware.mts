@@ -13,6 +13,7 @@ export default async function routeWithFlightAware({
   departure,
   arrival,
   cleanedRoute,
+  SID,
   cruiseAltitude,
 }: IFlightPlan): Promise<VerifierControllerResult> {
   // Set up the default result for a successful run of the verifier.
@@ -40,10 +41,16 @@ export default async function routeWithFlightAware({
   }
 
   try {
+    // FlightAware doesn't include radar vector SIDs in their routes.
+    // Strip off the SID from the cleaned route to use when checking
+    // against FlightAware routes.
+    const cleanedRouteNoSid = cleanedRoute?.replace(`${SID} `, "");
+
     // Find the first matching route. The assumption is FlightAware won't return multiple
     // entries for the same route.
     let matchingRoute = flightAwareRoutes.data.find((route) => {
-      return route.route === cleanedRoute;
+      // This tests both with and without the SID
+      return route.route === cleanedRoute || route.route === cleanedRouteNoSid;
     });
 
     // No matching routes found so send along the recommended routes from FlightAware.
