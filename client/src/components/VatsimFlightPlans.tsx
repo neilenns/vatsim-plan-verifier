@@ -1,8 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import socketIOClient, { Socket } from "socket.io-client";
 import { apiKey, serverUrl } from "../configs/planVerifierServer.mts";
-import IFlightPlan from "../interfaces/IFlightPlan.mts";
-import { ArrowForwardOutlined as ArrowForwardOutlinedIcon } from "@mui/icons-material";
+import IFlightPlan, { VatsimFlightPlanStatus } from "../interfaces/IFlightPlan.mts";
+import {
+  ArrowForwardOutlined as ArrowForwardOutlinedIcon,
+  NewReleases as NewReleasesIcon,
+} from "@mui/icons-material";
 import { List, ListItem, IconButton, ListItemText, Box, Stack, TextField } from "@mui/material";
 import debug from "debug";
 import { importFlightPlan } from "../services/flightPlan.mts";
@@ -22,6 +25,7 @@ const VatsimFlightPlans = () => {
     localStorage.getItem("vatsimAirportCodes") || ""
   );
   const [isImporting, setIsImporting] = useState(false);
+  const [hasNew, setHasNew] = useState(false);
   const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
   const socketRef = useRef<Socket | null>(null);
 
@@ -36,7 +40,13 @@ const VatsimFlightPlans = () => {
 
     socketRef.current.on("vatsimFlightPlansUpdate", (vatsimPlans: IFlightPlan[]) => {
       logger("Received vatsim flight plan update");
-      setFlightPlans((currentPlans) => processFlightPlans(currentPlans, vatsimPlans).flightPlans);
+      // This just feels like a giant hack to get around the closure issues of useEffect and
+      // useState not having flightPlans be the current value every time the update event is received.
+      setFlightPlans((currentPlans) => {
+        const result = processFlightPlans(currentPlans, vatsimPlans);
+        setHasNew(result.hasNew);
+        return result.flightPlans;
+      });
     });
 
     socketRef.current.on("disconnect", () => {
@@ -97,7 +107,7 @@ const VatsimFlightPlans = () => {
         if (!result) return;
 
         logger(`Flight plan ${callsign} imported successfully`);
-        navigate(`/verifier/flightPlan/${result._id!}`);
+        navigate(`/verifier/flightPlan/${result._id!}`, { replace: true });
       })
       .catch(() => {
         const message = `Error importing flight plan ${callsign}`;
@@ -142,6 +152,7 @@ const VatsimFlightPlans = () => {
   return (
     <div>
       <Box sx={{ borderTop: "1px solid #ccc", mt: 2 }}>
+        {hasNew && <NewReleasesIcon />}
         <form>
           <Stack direction="row" sx={{ mt: 2, ml: 1 }}>
             <TextField
@@ -187,7 +198,13 @@ const VatsimFlightPlans = () => {
                 >
                   <ListItemText
                     primary={flightPlan.callsign}
-                    primaryTypographyProps={{ fontWeight: "bold" }}
+                    primaryTypographyProps={{
+                      fontWeight: "bold",
+                      color:
+                        flightPlan.vatsimStatus === VatsimFlightPlanStatus.NEW
+                          ? "warning.main"
+                          : "text.primary",
+                    }}
                     secondary={`${flightPlan.departure ?? ""}-${flightPlan.arrival ?? ""}`}
                   />
                 </ListItem>
