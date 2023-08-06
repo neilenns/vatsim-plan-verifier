@@ -5,19 +5,19 @@ import ITelephony from "./ITelephony.mts";
 
 interface IFlightPlan {
   _id?: string;
-  callsign: string;
-  rawAircraftType: string;
+  callsign?: string;
+  rawAircraftType?: string;
   equipmentCode?: string;
   equipmentInfo?: IAircraft;
-  departure: string;
-  arrival: string;
+  departure?: string;
+  arrival?: string;
   departureAirportInfo?: IFlightAwareAirport;
   arrivalAirportInfo?: IFlightAwareAirport;
-  squawk: string;
+  squawk?: string;
   isHeavy?: boolean;
   equipmentSuffix?: string;
-  cruiseAltitude: string;
-  route: string;
+  cruiseAltitude?: string;
+  route?: string;
   telephony?: ITelephony[];
   expandedRoute?: string;
   initialAltitude?: string;

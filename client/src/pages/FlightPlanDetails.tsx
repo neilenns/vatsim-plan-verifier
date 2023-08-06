@@ -10,44 +10,66 @@ import AlertSnackbar, {
   AlertSnackbarProps,
 } from "../components/AlertSnackbar";
 import { Paper } from "@mui/material";
-
-type LoaderProps = {
-  flightPlan: IFlightPlan;
-  verifyResults: IVerifyAllResult;
-};
-
-type ActionResponse = {
-  data: string;
-  error: string;
-};
+import { PlanVerifyActionResult } from "../services/flightPlanVerifyAction.mts";
+import { PlanDetailsLoaderResult } from "../services/flightPlanDetailsLoader.mts";
 
 function FlightPlanDetails() {
   const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
-  const { flightPlan, verifyResults } = useLoaderData() as LoaderProps;
-  const data = useActionData() as ActionResponse;
+  const [flightPlan, setFlightPlan] = useState<IFlightPlan>({});
+  const [verifyResults, setVerifyResults] = useState<IVerifyAllResult>();
+  const loaderData = useLoaderData() as PlanDetailsLoaderResult;
+  const actionData = useActionData() as PlanVerifyActionResult;
   const navigate = useNavigate();
 
   const handleSnackbarClose: AlertSnackBarOnClose = () => setSnackbar(null);
 
+  // Handles the submission response of the flight plan verification, and any
+  // errors that may have occurred.
   useEffect(() => {
-    if (data?.data) {
-      navigate(`../${data.data}`, { replace: true, relative: "path" });
+    if (actionData === undefined) {
+      return;
     }
-    if (data?.error) {
+
+    if (actionData.success) {
+      // This is done here instead of via redirect() in the action so the replace
+      // option can be set to stop polluting the brrwser history.
+      navigate(`../${actionData.data}`, { replace: true, relative: "path" });
+    } else {
       setSnackbar({
-        children: data.error,
+        children: actionData.error,
         severity: "error",
       });
     }
-  }, [data, navigate]);
+  }, [actionData, navigate]);
 
+  // Handles loading the page with data returned from the loader, and displaying
+  // any errors that may have occurred during the loading process.
   useEffect(() => {
-    if (!flightPlan.callsign) {
+    if (loaderData === undefined) {
+      return;
+    }
+
+    // Check for errors and show it in a snackbar.
+    if (!loaderData.success) {
+      setSnackbar({
+        children: loaderData.error,
+        severity: "error",
+      });
+      return;
+    }
+
+    // No errors so load the data and show it.
+    const flightPlan = loaderData.data.flightPlan;
+    setFlightPlan(loaderData.data.flightPlan ?? {});
+    setVerifyResults(loaderData.data.verifyResults);
+
+    // Set the window title to something nice if the necessary info is available.
+    if (!flightPlan.callsign || !flightPlan.departure || !flightPlan.arrival) {
       document.title = "Plan verifier";
     } else {
       document.title = `${flightPlan.callsign} (${flightPlan.departure}-${flightPlan.arrival})`;
     }
-  }, [flightPlan]);
+  }, [loaderData]);
 
   return (
     <>

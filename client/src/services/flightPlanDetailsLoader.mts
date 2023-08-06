@@ -3,11 +3,19 @@
 import { ActionFunctionArgs, Params, ParamParseKey, LoaderFunction } from "react-router-dom";
 import { getFlightPlan } from "../services/flightPlan.mts";
 import { getVerifyResults } from "../services/verifyResults.mts";
+import Result from "../types/result.mts";
+import IFlightPlan from "../interfaces/IFlightPlan.mts";
+import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
 
 // https://stackoverflow.com/questions/75324193/react-router-6-how-to-strongly-type-the-params-option-in-route-loader
 const PathNames = {
   id: "/flightPlan/:id",
 } as const;
+
+export type PlanDetailsLoaderResult = Result<
+  { flightPlan: IFlightPlan; verifyResults: IVerifyAllResult },
+  "NoIdSpecified" | "UnknownError"
+>;
 
 interface Args extends ActionFunctionArgs {
   params: Params<ParamParseKey<typeof PathNames.id>>;
@@ -18,19 +26,29 @@ interface Args extends ActionFunctionArgs {
 // called. There has to be a proper way to do this.
 export const flightPlanDetailsLoader: LoaderFunction = async ({ params }: Args) => {
   if (params.id) {
-    const [flightPlan, verifyResults] = await Promise.all([
-      getFlightPlan(params.id),
-      getVerifyResults(params.id),
-    ]);
+    try {
+      const [flightPlan, verifyResults] = await Promise.all([
+        getFlightPlan(params.id),
+        getVerifyResults(params.id),
+      ]);
 
-    return {
-      flightPlan,
-      verifyResults,
-    };
+      return {
+        success: true,
+        data: { flightPlan, verifyResults },
+      } as PlanDetailsLoaderResult;
+    } catch (err) {
+      const error = err as Error;
+      return {
+        success: false,
+        errorType: "UnknownError",
+        error: error.message,
+      } as PlanDetailsLoaderResult;
+    }
   } else {
     return {
-      flightPlan: {},
-      verifyResults: null,
+      success: false,
+      errorType: "NoIdSpecified",
+      error: "No flight plan ID provided.",
     };
   }
 };

@@ -142,9 +142,9 @@ export function validateFlightPlan(flightPlan: IFlightPlan): boolean {
   return (
     !Number.isNaN(Number(flightPlan.squawk)) && // Callsign is a number
     !Number.isNaN(Number(flightPlan.cruiseAltitude)) && // Cruise altitude is a number
-    airportCodeRegex.test(flightPlan.departure) && // Departure airport is a valid ICAO code
-    airportCodeRegex.test(flightPlan.arrival) && // Arrival airport is a valid ICAO code
-    flightPlan.route.length > 0 // Route is not empty
+    airportCodeRegex.test(flightPlan.departure ?? "") && // Departure airport is a valid ICAO code
+    airportCodeRegex.test(flightPlan.arrival ?? "") && // Arrival airport is a valid ICAO code
+    (flightPlan.route?.length ?? 0) > 0 // Route is not empty
   );
 }
 

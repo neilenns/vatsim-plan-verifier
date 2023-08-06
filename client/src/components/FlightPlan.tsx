@@ -17,12 +17,12 @@ import { OpenInNew } from "@mui/icons-material";
 
 interface FlightPlanProps {
   flightPlan: IFlightPlan;
-  verifierResults: IVerifyAllResult | null;
+  verifierResults: IVerifyAllResult | undefined;
 }
 
 const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
   const [flightPlan, setFlightPlan] = useState<IFlightPlan>(props.flightPlan);
-  const [verifierResults, setVerifierResults] = useState<IVerifyAllResult | null>(null);
+  const [verifierResults, setVerifierResults] = useState<IVerifyAllResult | undefined>(undefined);
   const [skyVectorUrl, setSkyVectorUrl] = useState<string>("");
   const [flightAwareUrl, setFlightAwareUrl] = useState<string>("");
   const [viewAircraftUrl, setViewAircraftUrl] = useState<string>("");
@@ -75,7 +75,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               label="Callsign"
               name="callsign"
               inputRef={(input: HTMLInputElement) => input && input.focus()}
-              value={flightPlan.callsign}
+              value={flightPlan.callsign ?? ""}
               helperText={flightPlan?.telephony?.[0]?.telephony ?? " "}
               trim
               onPaste={parsePastedFlightPlan}
@@ -91,7 +91,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               id="rawAircraftType"
               label="Aircraft type"
               name="rawAircraftType"
-              value={flightPlan.rawAircraftType}
+              value={flightPlan.rawAircraftType ?? ""}
               helperText={
                 flightPlan?.equipmentInfo?.name
                   ? `${flightPlan.equipmentInfo.manufacturer} ${flightPlan.equipmentInfo.name}`
@@ -111,7 +111,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               id="squawk"
               label="Squawk code"
               name="squawk"
-              value={flightPlan.squawk}
+              value={flightPlan.squawk ?? ""}
               trim
               onPaste={parsePastedFlightPlan}
               onChange={(text) => {
@@ -126,7 +126,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               id="departure"
               label="Departure"
               name="departure"
-              value={flightPlan.departure}
+              value={flightPlan.departure ?? ""}
               helperText={
                 flightPlan?.departureAirportInfo?.name
                   ? `${normalizeAirportName(flightPlan.departureAirportInfo.name)}`
@@ -146,7 +146,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               id="arrival"
               label="Arrival"
               name="arrival"
-              value={flightPlan.arrival}
+              value={flightPlan.arrival ?? ""}
               helperText={
                 flightPlan?.arrivalAirportInfo?.name
                   ? `${normalizeAirportName(flightPlan.arrivalAirportInfo.name)}`
@@ -166,7 +166,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               id="cruiseAltitude"
               label="Cruise altitude"
               name="cruiseAltitude"
-              value={flightPlan.cruiseAltitude}
+              value={flightPlan.cruiseAltitude ?? ""}
               helperText={
                 flightPlan.initialAltitude && (
                   <>
@@ -191,7 +191,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               label="Route"
               name="route"
               canCopy
-              value={flightPlan.route}
+              value={flightPlan.route ?? ""}
               helperText={
                 <>
                   {hyperlinkSidName(flightPlan)}
