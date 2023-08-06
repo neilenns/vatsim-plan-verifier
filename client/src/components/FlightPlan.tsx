@@ -195,7 +195,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               helperText={
                 <Stack direction="row" justifyContent="space-between" width="100%">
                   <div>{hyperlinkSidName(flightPlan)}</div>
-                  <div>{flightPlan.cleanedRemarks && `Remarks: ${flightPlan.cleanedRemarks}`}</div>
+                  <div>{flightPlan.cleanedRemarks}</div>
                 </Stack>
               }
               onPaste={parsePastedFlightPlan}
