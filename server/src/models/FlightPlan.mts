@@ -22,7 +22,18 @@ const AirlineCodeRegexPattern = /\b([A-Za-z]{3})(\d+)\b/;
 const SIDRegExPattern = /^([A-Za-z]{3,}\d)/;
 
 // Simbrief remark cleanup
-const SimbriefRemarksRegExPattern = /[A-Z0-9]+\/[A-Z0-9]+/;
+const SimbriefRemarksRegExPatterns = [
+  /PBN\/[A-Z0-9]+/,
+  /NAV\/[A-Z0-9]+/,
+  /DOF\/[A-Z0-9]+/,
+  /REG\/[A-Z0-9]+/,
+  /OPR\/[A-Z0-9]+/,
+  /PER\/[A-Z0-9]+/,
+  /DAT\/[A-Z0-9]+/,
+  /CODE\/[A-Z0-9]+/,
+  /ORGN\/[A-Z0-9]+/,
+  /SUR\/[A-Z0-9]+/,
+];
 const SimbriefStepClimbRegExPattern = /[0-9]+[NS][0-9]+[EW][0-9]+/;
 const SimbriefRegionRegExPattern = /[A-Z]{4}[0-9]{4}/;
 const SimbriefRemoveWords = ["SIMBRIEF", "/V/", "/T/", "/R/"];
@@ -120,7 +131,7 @@ flightPlanSchema.virtual("cleanedRemarks").get(function () {
   const cleanedParts = parts
     .filter(
       (part: string) =>
-        !SimbriefRemarksRegExPattern.test(part) &&
+        !SimbriefRemarksRegExPatterns.some((expression) => expression.test(part)) &&
         !SimbriefStepClimbRegExPattern.test(part) &&
         !SimbriefRegionRegExPattern.test(part) &&
         !SimbriefRemoveWords.includes(part)
