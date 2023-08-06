@@ -5,8 +5,11 @@ import { runAllVerifiers } from "../services/runAllVerifiers.mts";
 import { addActiveFlightPlan, removeActiveFlightPlan } from "../services/activeFlightPlans.mts";
 import { removeVerifyResults } from "../services/verifyResults.mts";
 import debug from "debug";
+import Result from "../types/result.mts";
 
 const logger = debug("plan-verifier:flightPlanVerifyAction");
+
+export type PlanVerifyActionResult = Result<string, "UnknownError">;
 
 export const flightPlanVerifyAction: ActionFunction = async ({ params, request }) => {
   const formData = await request.formData();
@@ -47,9 +50,15 @@ export const flightPlanVerifyAction: ActionFunction = async ({ params, request }
 
     logger(verifierResults);
 
-    return json({ data: storedFlightPlan._id.toString() }, { status: 200 });
+    return json(
+      { success: true, data: storedFlightPlan._id.toString() } as PlanVerifyActionResult,
+      { status: 200 }
+    );
   } catch (err) {
     const error = err as Error;
-    return json({ error: error.message }, { status: 500 });
+    return json(
+      { success: false, errorType: "UnknownError", error: error.message } as PlanVerifyActionResult,
+      { status: 500 }
+    );
   }
 };
