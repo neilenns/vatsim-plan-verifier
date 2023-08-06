@@ -1,6 +1,6 @@
 import React from "react";
 import VerifierResultComponent from "./VerifierResult";
-import { Grid } from "@mui/material";
+import { Grid, Paper } from "@mui/material";
 import IVerifierResultDocument, { StatusValue } from "../interfaces/IVerifierResult.mts";
 import IFlightPlan from "../interfaces/IFlightPlan.mts";
 
@@ -24,14 +24,17 @@ const VerifierResults: React.FC<VerifierResultsProps> = ({ verifierResults, flig
     ?.sort((a, b) => a.priority - b.priority);
 
   return (
-    filteredResults && (
-      <Grid container spacing={2}>
-        {filteredResults.map((result, index) => (
-          <Grid item xs={12} key={index}>
-            <VerifierResultComponent verifierResult={result} flightPlan={flightPlan} />
-          </Grid>
-        ))}
-      </Grid>
+    filteredResults &&
+    filteredResults.length > 0 && (
+      <Paper sx={{ padding: 1 }}>
+        <Grid container spacing={2}>
+          {filteredResults.map((result, index) => (
+            <Grid item xs={12} key={index}>
+              <VerifierResultComponent verifierResult={result} flightPlan={flightPlan} />
+            </Grid>
+          ))}
+        </Grid>
+      </Paper>
     )
   );
 };

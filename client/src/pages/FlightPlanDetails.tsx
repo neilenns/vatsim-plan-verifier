@@ -80,11 +80,7 @@ function FlightPlanDetails() {
           </Paper>
         </Grid>
         <Grid xs={12}>
-          {(flightPlan?.verifierResultsCount ?? 0) > 0 && (
-            <Paper sx={{ padding: 1 }}>
-              <VerifierResults verifierResults={verifyResults?.results} flightPlan={flightPlan} />
-            </Paper>
-          )}
+          <VerifierResults verifierResults={verifyResults?.results} flightPlan={flightPlan} />
         </Grid>
       </Grid>
       <AlertSnackbar {...snackbar} onClose={handleSnackbarClose} />
