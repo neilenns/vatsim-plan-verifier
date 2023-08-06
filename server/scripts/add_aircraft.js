@@ -174,6 +174,16 @@ db.aircraft.insertMany([
     aircraftClass: "U",
   },
   {
+    equipmentCode: "AT46",
+    manufacturer: "AEROSPATIALE",
+    name: "ATR-42-600",
+    engineCount: "2",
+    engineType: "T",
+    weightClass: "L",
+    srsClass: "III",
+    aircraftClass: "U",
+  },
+  {
     equipmentCode: "AT72",
     manufacturer: "AEROSPATIALE",
     name: "ATR-72",
