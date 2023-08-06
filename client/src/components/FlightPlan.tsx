@@ -197,7 +197,9 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
                   <div>{hyperlinkSidName(flightPlan)}</div>
                   <div>
                     <Tooltip title={flightPlan.remarks}>
-                      <Typography variant="caption">{flightPlan.cleanedRemarks}</Typography>
+                      <Typography variant="caption" sx={{ cursor: "pointer" }}>
+                        {flightPlan.cleanedRemarks}
+                      </Typography>
                     </Tooltip>
                   </div>
                 </Stack>
