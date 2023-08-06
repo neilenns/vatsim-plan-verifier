@@ -2,10 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import socketIOClient, { Socket } from "socket.io-client";
 import { apiKey, serverUrl } from "../configs/planVerifierServer.mts";
 import IFlightPlan, { VatsimFlightPlanStatus } from "../interfaces/IFlightPlan.mts";
-import {
-  ArrowForwardOutlined as ArrowForwardOutlinedIcon,
-  NewReleases as NewReleasesIcon,
-} from "@mui/icons-material";
+import { ArrowForwardOutlined as ArrowForwardOutlinedIcon } from "@mui/icons-material";
 import { List, ListItem, IconButton, ListItemText, Box, Stack, TextField } from "@mui/material";
 import debug from "debug";
 import { importFlightPlan } from "../services/flightPlan.mts";
@@ -104,6 +101,19 @@ const VatsimFlightPlans = () => {
     };
   }, []);
 
+  // Finds the callsign in the list of current plans, sets its
+  // state to imported, then updates the state variable so the
+  // page redraws.
+  const markPlanImported = (callsign: string) => {
+    const planIndex = flightPlans.findIndex((plan) => plan.callsign === callsign);
+    if (planIndex !== -1) {
+      const updatedFlightPlans = [...flightPlans];
+
+      updatedFlightPlans[planIndex].vatsimStatus = VatsimFlightPlanStatus.IMPORTED;
+      setFlightPlans(updatedFlightPlans);
+    }
+  };
+
   const handleFlightPlanImport = (callsign: string | undefined) => {
     if (!callsign) return;
 
@@ -113,6 +123,7 @@ const VatsimFlightPlans = () => {
       .then((result) => {
         if (!result) return;
 
+        markPlanImported(callsign);
         logger(`Flight plan ${callsign} imported successfully`);
         navigate(`/verifier/flightPlan/${result._id!}`, { replace: true });
       })
@@ -159,7 +170,6 @@ const VatsimFlightPlans = () => {
   return (
     <div>
       <Box sx={{ borderTop: "1px solid #ccc", mt: 2 }}>
-        {hasNew && <NewReleasesIcon />}
         <form>
           <Stack direction="row" sx={{ mt: 2, ml: 1 }}>
             <TextField

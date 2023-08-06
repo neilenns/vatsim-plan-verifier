@@ -37,7 +37,21 @@ export function processFlightPlans(
   // This finds the overlap based on callsign. From the docs, intersectionBy orders
   // and returns references to objects in the first array, so this will give back
   // the incoming ones with the new _id property.
-  const existingPlans = _.intersectionBy(incomingPlans, currentPlans, "callsign");
+  //
+  // The returned list then has its plans updated with the current vatsimStatus.
+  //
+  // Yes I agree this seems hugely inefficient.
+  const existingPlans = _.intersectionBy(incomingPlans, currentPlans, "callsign").map((plan) => {
+    const currentPlan = currentPlans.find((p) => p.callsign === plan.callsign);
+    if (currentPlan) {
+      return {
+        ...plan,
+        vatsimStatus: currentPlan.vatsimStatus,
+      };
+    } else {
+      return plan;
+    }
+  });
 
   // Now find the new ones by removing the existing ones from the incoming ones and
   // tag them as new.
