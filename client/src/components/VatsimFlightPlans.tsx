@@ -19,6 +19,7 @@ const logger = debug("plan-verifier:vatsimFlightPlans");
 
 const VatsimFlightPlans = () => {
   const navigate = useNavigate();
+  const [newPlanSound] = useState(new Audio("/bell.mp3"));
   const [flightPlans, setFlightPlans] = useState<IFlightPlan[]>([]);
   const [isConnected, setIsConnected] = useState(false);
   const [airportCodes, setAirportCodes] = useState(
@@ -30,6 +31,12 @@ const VatsimFlightPlans = () => {
   const socketRef = useRef<Socket | null>(null);
 
   const handleSnackbarClose: AlertSnackBarOnClose = () => setSnackbar(null);
+
+  useEffect(() => {
+    if (hasNew) {
+      void newPlanSound.play();
+    }
+  }, [hasNew, newPlanSound]);
 
   useEffect(() => {
     socketRef.current = socketIOClient(serverUrl, {
