@@ -1,5 +1,5 @@
 import { Model, Schema, model } from "mongoose";
-import IFlightPlanDocument from "../interfaces/IFlightPlanDocument.mjs";
+import IFlightPlanDocument, { VatsimCommsEnum } from "../interfaces/IFlightPlanDocument.mjs";
 import autopopulate from "mongoose-autopopulate";
 import { formatAltitude } from "../utils.mjs";
 import { getFlightAwareAirport } from "../controllers/flightAwareAirports.mjs";
@@ -20,6 +20,24 @@ const GNSSEquipmentSuffixes = ["G", "L"];
 
 const AirlineCodeRegexPattern = /\b([A-Za-z]{3})(\d+)\b/;
 const SIDRegExPattern = /^([A-Za-z]{3,}\d)/;
+
+// Simbrief remark cleanup
+const SimbriefRemarksRegExPatterns = [
+  /PBN\/[A-Z0-9]+/,
+  /NAV\/[A-Z0-9]+/,
+  /DOF\/[A-Z0-9]+/,
+  /REG\/[A-Z0-9]+/,
+  /OPR\/[A-Z0-9]+/,
+  /PER\/[A-Z0-9]+/,
+  /DAT\/[A-Z0-9]+/,
+  /CODE\/[A-Z0-9]+/,
+  /ORGN\/[A-Z0-9]+/,
+  /SUR\/[A-Z0-9]+/,
+  /RMK\/TCAS/,
+];
+const SimbriefStepClimbRegExPattern = /[0-9]+[NS][0-9]+[EW][0-9]+/;
+const SimbriefRegionRegExPattern = /[A-Z]{4}[0-9]{4}/;
+const SimbriefRemoveWords = ["SIMBRIEF", "/V/", "/T/", "/R/"];
 
 function extractSID(route: string): string | undefined {
   const regexMatch = route.match(SIDRegExPattern);
@@ -47,6 +65,7 @@ export const flightPlanSchema = new Schema(
     directionOfFlight: { type: Number, required: false },
     SID: { type: String, required: false },
     expandedRoute: { type: String, required: false },
+    remarks: { type: String, required: false, trim: true },
   },
   { timestamps: true }
 );
@@ -84,6 +103,50 @@ flightPlanSchema.virtual("cruiseAltitudeFormatted").get(function () {
 
 flightPlanSchema.virtual("routeParts").get(function () {
   return this.route?.split(" ") ?? [];
+});
+
+flightPlanSchema.virtual("vatsimComms").get(function () {
+  if (!this.remarks) {
+    return "Unknown";
+  }
+
+  const remarks = this.remarks.toUpperCase();
+
+  if (this.remarks.includes("/V/")) {
+    return VatsimCommsEnum.VOICE;
+  } else if (this.remarks.includes("/R")) {
+    return VatsimCommsEnum.RECEIVEONLY;
+  } else if (this.remarks.includes("/T")) {
+    return VatsimCommsEnum.TEXTONLY;
+  }
+  return VatsimCommsEnum.UNKNOWN;
+});
+
+flightPlanSchema.virtual("cleanedRemarks").get(function () {
+  if (!this.remarks) {
+    return "";
+  }
+  const parts = this.remarks.toUpperCase().split(" ");
+
+  // Remove the obvious simbrief remarks, like PBN/A1B1C1D1L1O1S2 and step climbs
+  const cleanedParts = parts
+    .filter(
+      (part: string) =>
+        !SimbriefRemarksRegExPatterns.some((expression) => expression.test(part)) &&
+        !SimbriefStepClimbRegExPattern.test(part) &&
+        !SimbriefRegionRegExPattern.test(part) &&
+        !SimbriefRemoveWords.includes(part)
+    )
+    .join(" ")
+    .trim()
+    .replace(/^\|\s+/, ""); // In case | was used as a separator between parts and got left dangling at the start
+
+  // If no parts are left return undefined so the UI can tell and not show anything.
+  if (cleanedParts === "") {
+    return undefined;
+  }
+
+  return cleanedParts;
 });
 
 // Returns a route without any DCT or stepclimbs.
