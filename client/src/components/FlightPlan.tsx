@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Stack } from "@mui/material";
+import { Box, Button, Grid, Stack, Tooltip, Typography } from "@mui/material";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
 import { useEffect, useState } from "react";
@@ -195,7 +195,11 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               helperText={
                 <Stack direction="row" justifyContent="space-between" width="100%">
                   <div>{hyperlinkSidName(flightPlan)}</div>
-                  <div>{flightPlan.cleanedRemarks}</div>
+                  <div>
+                    <Tooltip title={flightPlan.remarks}>
+                      <Typography variant="caption">{flightPlan.cleanedRemarks}</Typography>
+                    </Tooltip>
+                  </div>
                 </Stack>
               }
               onPaste={parsePastedFlightPlan}
@@ -260,8 +264,8 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
         <input
           aria-label="hidden flight plan remarks"
           hidden
-          name="cleanedRemarks"
-          value={flightPlan.cleanedRemarks}
+          name="remarks"
+          value={flightPlan.remarks}
         />
       </Form>
     </Box>

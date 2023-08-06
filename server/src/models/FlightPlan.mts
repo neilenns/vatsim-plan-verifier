@@ -33,6 +33,7 @@ const SimbriefRemarksRegExPatterns = [
   /CODE\/[A-Z0-9]+/,
   /ORGN\/[A-Z0-9]+/,
   /SUR\/[A-Z0-9]+/,
+  /RMK\/TCAS/,
 ];
 const SimbriefStepClimbRegExPattern = /[0-9]+[NS][0-9]+[EW][0-9]+/;
 const SimbriefRegionRegExPattern = /[A-Z]{4}[0-9]{4}/;
