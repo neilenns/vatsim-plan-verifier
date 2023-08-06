@@ -117,18 +117,24 @@ flightPlanSchema.virtual("cleanedRemarks").get(function () {
   const parts = this.remarks.toUpperCase().split(" ");
 
   // Remove the obvious simbrief remarks, like PBN/A1B1C1D1L1O1S2 and step climbs
-  const cleanedParts = parts.filter(
-    (part: string) =>
-      !SimbriefRemarksRegExPattern.test(part) &&
-      !SimbriefStepClimbRegExPattern.test(part) &&
-      !SimbriefRegionRegExPattern.test(part) &&
-      !SimbriefRemoveWords.includes(part)
-  );
-
-  return cleanedParts
+  const cleanedParts = parts
+    .filter(
+      (part: string) =>
+        !SimbriefRemarksRegExPattern.test(part) &&
+        !SimbriefStepClimbRegExPattern.test(part) &&
+        !SimbriefRegionRegExPattern.test(part) &&
+        !SimbriefRemoveWords.includes(part)
+    )
     .join(" ")
     .trim()
     .replace(/^\|\s+/, ""); // In case | was used as a separator between parts and got left dangling at the start
+
+  // If no parts are left return undefined so the UI can tell and not show anything.
+  if (cleanedParts === "") {
+    return undefined;
+  }
+
+  return cleanedParts;
 });
 
 // Returns a route without any DCT or stepclimbs.

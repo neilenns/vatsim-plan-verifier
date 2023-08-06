@@ -196,7 +196,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
                 <>
                   {hyperlinkSidName(flightPlan)}
                   <br />
-                  {flightPlan.cleanedRemarks}
+                  {flightPlan.cleanedRemarks && `Remarks: ${flightPlan.cleanedRemarks}`}
                 </>
               }
               onPaste={parsePastedFlightPlan}
@@ -258,6 +258,12 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
             </Button>
           </Grid>
         </Grid>
+        <input
+          aria-label="hidden flight plan remarks"
+          hidden
+          name="cleanedRemarks"
+          value={flightPlan.cleanedRemarks}
+        />
       </Form>
     </Box>
   );
