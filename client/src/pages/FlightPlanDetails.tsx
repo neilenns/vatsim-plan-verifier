@@ -10,36 +10,35 @@ import AlertSnackbar, {
   AlertSnackbarProps,
 } from "../components/AlertSnackbar";
 import { Paper } from "@mui/material";
+import { PlanVerifyActionResult } from "../services/flightPlanVerifyAction.mts";
 
 type LoaderProps = {
   flightPlan: IFlightPlan;
   verifyResults: IVerifyAllResult;
 };
 
-type ActionResponse = {
-  data: string;
-  error: string;
-};
-
 function FlightPlanDetails() {
   const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
   const { flightPlan, verifyResults } = useLoaderData() as LoaderProps;
-  const data = useActionData() as ActionResponse;
+  const actionData = useActionData() as PlanVerifyActionResult;
   const navigate = useNavigate();
 
   const handleSnackbarClose: AlertSnackBarOnClose = () => setSnackbar(null);
 
   useEffect(() => {
-    if (data?.data) {
-      navigate(`../${data.data}`, { replace: true, relative: "path" });
+    if (actionData === undefined) {
+      return;
     }
-    if (data?.error) {
+
+    if (actionData.success) {
+      navigate(`../${actionData.data}`, { replace: true, relative: "path" });
+    } else {
       setSnackbar({
-        children: data.error,
+        children: actionData.error,
         severity: "error",
       });
     }
-  }, [data, navigate]);
+  }, [actionData, navigate]);
 
   useEffect(() => {
     if (!flightPlan.callsign) {
