@@ -91,8 +91,6 @@ flightPlanSchema.virtual("cleanedRoute").get(function () {
     // The leading + is already removed by the pre-save hook on the route property.
     // Everything else gets cleaned up here.
     this.route
-      .replace("PTLD2 ", "") // PTLD2 will never be in the FlightAware returned routes
-      .replace("SEA8 ", "") // SEA8 will never be in the FlightAware returned routes
       .replace(" DCT", "") // DCTs are never in the FlightAware returned routes
       .trim() ?? ""
   );
