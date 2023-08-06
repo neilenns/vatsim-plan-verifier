@@ -53,7 +53,14 @@ export const flightPlanSchema = new Schema(
 
 // Non-RNAV airways start with either V or J followed by digits
 const NonRNAVAirwayRegex = /^[VJ]\d+/;
+const StepclimbRegex = /\S+\/[^ ]+/g;
 
+function cleanRoute(route: string) {
+  return route
+    .replace(" DCT", "") // DCTs are never in the FlightAware returned routes
+    .replace(StepclimbRegex, (match) => match.split("/")[0]) // Remove any stepclimbs
+    .trim();
+}
 flightPlanSchema.virtual("routeHasNonRNAVAirways").get(function () {
   // this.get is required because routeParts is a virtual and TypeScript doesn't know it exists at this point.
   return this.get("routeParts")?.some((part: string) => NonRNAVAirwayRegex.test(part));
@@ -79,21 +86,13 @@ flightPlanSchema.virtual("routeParts").get(function () {
   return this.route?.split(" ") ?? [];
 });
 
+// Returns a route without any DCT or stepclimbs.
 flightPlanSchema.virtual("cleanedRoute").get(function () {
   if (!this.route) {
     return "";
   }
 
-  // Remove leading + that gets inserted by VRC if the route was modified
-  // Remove any " DCT" that the route might have since FlightAware never includes those
-  // Trim any remaining leading or trailing whitespace
-  return (
-    // The leading + is already removed by the pre-save hook on the route property.
-    // Everything else gets cleaned up here.
-    this.route
-      .replace(" DCT", "") // DCTs are never in the FlightAware returned routes
-      .trim() ?? ""
-  );
+  return cleanRoute(this.route);
 });
 
 flightPlanSchema.virtual("initialAltitude").get(function () {
@@ -264,7 +263,7 @@ flightPlanSchema.pre("save", async function () {
     return;
   }
 
-  const routeParts = this.route.replace(" DCT", "").trim().split(" ");
+  const routeParts = cleanRoute(this.route).split(" ");
 
   // See if the first route part is a known SID. If so, replace it with
   // the telephony for the SID.
