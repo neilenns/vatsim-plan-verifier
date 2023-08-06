@@ -21,7 +21,7 @@ export function joinWithWord(array: string[], word: string): string {
   }
 }
 
-export function uppercaseStringProperties(obj: any): any {
+export function uppercaseStringProperties(obj: unknown): unknown {
   if (typeof obj !== "object" || obj === null) {
     return obj;
   }
