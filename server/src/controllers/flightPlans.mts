@@ -2,6 +2,7 @@ import FlightPlan, { IFlightPlan } from "../models/FlightPlan.mjs";
 import VatsimFlightPlanModel, { VatsimFlightPlan } from "../models/VatsimFlightPlan.mjs";
 import Result from "../types/result.mjs";
 import debug from "debug";
+import { uppercaseStringProperties } from "../utils/formatting.mjs";
 
 const logger = debug("plan-verifier:flightPlansController");
 
@@ -14,7 +15,7 @@ export type FlightPlanResult = Result<IFlightPlan, FlightPlanFailureErrorTypes>;
 export async function putFlightPlan(flightPlanData: IFlightPlan): Promise<FlightPlanResult> {
   try {
     // Create a new instance of the FlightPlan model
-    const newFlightPlan = new FlightPlan(flightPlanData);
+    const newFlightPlan = new FlightPlan(uppercaseStringProperties(flightPlanData));
 
     // Save the flight plan to the database
     const savedFlightPlan = await newFlightPlan.save();
