@@ -34,9 +34,10 @@ const SimbriefRemarksRegExPatterns = [
   /ORGN\/[A-Z0-9]+/,
   /SUR\/[A-Z0-9]+/,
   /RMK\/TCAS/,
+  /RMK\/\/\//,
 ];
 const SimbriefStepClimbRegExPattern = /[0-9]+[NS][0-9]+[EW][0-9]+/;
-const SimbriefRegionRegExPattern = /[A-Z]{4}[0-9]{4}/;
+const SimbriefRegionRegExPattern = /[A-Z]{3,4}[0-9]{3,4}/;
 const SimbriefRemoveWords = ["SIMBRIEF", "/V/", "/T/", "/R/"];
 
 function extractSID(route: string): string | undefined {
