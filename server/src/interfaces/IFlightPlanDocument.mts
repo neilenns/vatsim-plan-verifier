@@ -3,7 +3,7 @@ import IAircraftDocument from "./IAircraftDocument.mjs";
 import IFlightAwareAirportDocument from "./IFlightAwareAirportDocument.mjs";
 import { Document } from "mongoose";
 
-export enum VatsimComms {
+export enum VatsimCommsEnum {
   UNKNOWN = "Unknown",
   VOICE = "Voice",
   TEXTONLY = "TextOnly",
@@ -40,5 +40,5 @@ export default interface IFlightPlanDocument extends Document {
   initialAltitude?: string;
   remarks?: string;
   cleanedRemarks?: string;
-  vatsimComms?: VatsimComms;
+  vatsimComms?: VatsimCommsEnum;
 }
