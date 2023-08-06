@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { Stream as StreamIcon } from "@mui/icons-material";
 import pluralize from "pluralize";
 import AlertSnackbar, { AlertSnackBarOnClose, AlertSnackbarProps } from "./AlertSnackbar";
-import { processFlightPlans } from "../utils/vatsim.mts";
+import { getColorByStatus, processFlightPlans } from "../utils/vatsim.mts";
 
 const logger = debug("plan-verifier:vatsimFlightPlans");
 
@@ -24,16 +24,17 @@ const VatsimFlightPlans = () => {
   );
   const [isImporting, setIsImporting] = useState(false);
   const [hasNew, setHasNew] = useState(false);
+  const [hasUpdates, setHasUpdates] = useState(false);
   const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
   const socketRef = useRef<Socket | null>(null);
 
   const handleSnackbarClose: AlertSnackBarOnClose = () => setSnackbar(null);
 
   useEffect(() => {
-    if (hasNew) {
+    if (hasNew || hasUpdates) {
       void newPlanSound.play();
     }
-  }, [hasNew, newPlanSound]);
+  }, [hasNew, hasUpdates, newPlanSound]);
 
   useEffect(() => {
     socketRef.current = socketIOClient(serverUrl, {
@@ -49,6 +50,7 @@ const VatsimFlightPlans = () => {
       setFlightPlans((currentPlans) => {
         const result = processFlightPlans(currentPlans, vatsimPlans);
         setHasNew(result.hasNew);
+        setHasUpdates(result.hasUpdates);
         return result.flightPlans;
       });
     });
@@ -168,7 +170,7 @@ const VatsimFlightPlans = () => {
   };
 
   return (
-    <div>
+    <>
       <Box sx={{ borderTop: "1px solid #ccc", mt: 2 }}>
         <form>
           <Stack direction="row" sx={{ mt: 2, ml: 1 }}>
@@ -217,10 +219,7 @@ const VatsimFlightPlans = () => {
                     primary={flightPlan.callsign}
                     primaryTypographyProps={{
                       fontWeight: "bold",
-                      color:
-                        flightPlan.vatsimStatus === VatsimFlightPlanStatus.NEW
-                          ? "warning.main"
-                          : "text.primary",
+                      color: getColorByStatus(flightPlan.vatsimStatus),
                     }}
                     secondary={`${flightPlan.departure ?? ""}-${flightPlan.arrival ?? ""}`}
                   />
@@ -232,7 +231,7 @@ const VatsimFlightPlans = () => {
         )}
       </Box>
       <AlertSnackbar {...snackbar} onClose={handleSnackbarClose} />
-    </div>
+    </>
   );
 };
 

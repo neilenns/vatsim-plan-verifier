@@ -1,21 +1,68 @@
+// This giant mess of a giant mess takes care of processing a received list
+// of vatsim flight plans and merging it with the current list of vatsim flight plans.
+//
+// It properly carries forward any state on the existing flight sim plans, and properly
+// reports whether any new or modified plans came in.
 import IFlightPlan, { VatsimFlightPlanStatus } from "../interfaces/IFlightPlan.mts";
 import _ from "lodash";
 
 type ProcessFlightPlansResult = {
   flightPlans: IFlightPlan[];
   hasNew: boolean;
-  hasUpdated: boolean;
+  hasUpdates: boolean;
 };
+
+export function getColorByStatus(status: VatsimFlightPlanStatus): string {
+  switch (status) {
+    case VatsimFlightPlanStatus.NEW:
+      return "warning.main";
+    case VatsimFlightPlanStatus.UPDATED:
+      return "error.main";
+    default:
+      return "text.primary";
+  }
+}
+
+// Takes a new plan and an existing plan and merges them together. The only
+// property from the existing plan that is retained is the vatsimStatus,
+// unless the incoming object has updates.
+//
+// It also returns a boolean indicating whether any of the properties
+// were different.
+function mergeFlightPlans(
+  newPlan: IFlightPlan,
+  existingPlan: IFlightPlan
+): { flightPlan: IFlightPlan; hasUpdates: boolean } {
+  // Figure out if any of the properties (other than _id) and vatsimStatus changed.
+  const hasUpdates = Object.keys(existingPlan).some((key) => {
+    return (
+      key !== "_id" &&
+      key !== "vatsimStatus" &&
+      existingPlan[key as keyof IFlightPlan] !== newPlan[key as keyof IFlightPlan]
+    );
+  });
+
+  const flightPlan = {
+    ...newPlan,
+    _id: newPlan._id,
+    vatsimStatus: hasUpdates ? VatsimFlightPlanStatus.UPDATED : existingPlan.vatsimStatus,
+  } as IFlightPlan;
+
+  return { flightPlan, hasUpdates };
+}
+
 export function processFlightPlans(
   currentPlans: IFlightPlan[],
   incomingPlans: IFlightPlan[]
 ): ProcessFlightPlansResult {
+  let hasUpdates = false;
+
   // If there are no incoming plans then just return that.
   if (incomingPlans.length === 0) {
     return {
       flightPlans: incomingPlans,
       hasNew: false,
-      hasUpdated: false,
+      hasUpdates: false,
     };
   }
 
@@ -27,7 +74,7 @@ export function processFlightPlans(
         vatsimStatus: VatsimFlightPlanStatus.NEW,
       })),
       hasNew: true,
-      hasUpdated: false,
+      hasUpdates: false,
     };
   }
 
@@ -44,10 +91,9 @@ export function processFlightPlans(
   const existingPlans = _.intersectionBy(incomingPlans, currentPlans, "callsign").map((plan) => {
     const currentPlan = currentPlans.find((p) => p.callsign === plan.callsign);
     if (currentPlan) {
-      return {
-        ...plan,
-        vatsimStatus: currentPlan.vatsimStatus,
-      };
+      const mergeResult = mergeFlightPlans(plan, currentPlan);
+      hasUpdates = mergeResult.hasUpdates;
+      return mergeResult.flightPlan;
     } else {
       return plan;
     }
@@ -65,6 +111,6 @@ export function processFlightPlans(
       a.callsign!.localeCompare(b.callsign!)
     ),
     hasNew: newPlans.length > 0,
-    hasUpdated: false,
+    hasUpdates,
   };
 }
