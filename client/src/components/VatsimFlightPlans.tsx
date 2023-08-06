@@ -10,12 +10,13 @@ import { useNavigate } from "react-router-dom";
 import { Stream as StreamIcon } from "@mui/icons-material";
 import pluralize from "pluralize";
 import AlertSnackbar, { AlertSnackBarOnClose, AlertSnackbarProps } from "./AlertSnackbar";
+import { processFlightPlans } from "../utils/vatsim.mts";
 
 const logger = debug("plan-verifier:vatsimFlightPlans");
 
 const VatsimFlightPlans = () => {
   const navigate = useNavigate();
-  const [flightPlans, setData] = useState<IFlightPlan[]>([]);
+  const [flightPlans, setFlightPlans] = useState<IFlightPlan[]>([]);
   const [isConnected, setIsConnected] = useState(false);
   const [airportCodes, setAirportCodes] = useState(
     localStorage.getItem("vatsimAirportCodes") || ""
@@ -35,7 +36,7 @@ const VatsimFlightPlans = () => {
 
     socketRef.current.on("vatsimFlightPlansUpdate", (vatsimPlans: IFlightPlan[]) => {
       logger("Received vatsim flight plan update");
-      setData(vatsimPlans);
+      setFlightPlans((currentPlans) => processFlightPlans(currentPlans, vatsimPlans).flightPlans);
     });
 
     socketRef.current.on("disconnect", () => {
@@ -116,7 +117,7 @@ const VatsimFlightPlans = () => {
 
     // Not currently connected so connect
     if (!isConnected && socketRef.current) {
-      setData([]);
+      setFlightPlans([]);
       socketRef.current.connect();
       logger("Connected for vatsim flight plan updates");
 
@@ -187,7 +188,7 @@ const VatsimFlightPlans = () => {
                   <ListItemText
                     primary={flightPlan.callsign}
                     primaryTypographyProps={{ fontWeight: "bold" }}
-                    secondary={`${flightPlan.departure}-${flightPlan.arrival}`}
+                    secondary={`${flightPlan.departure ?? ""}-${flightPlan.arrival ?? ""}`}
                   />
                 </ListItem>
               );
