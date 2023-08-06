@@ -7,7 +7,7 @@ import {
   Typography,
   useColorScheme,
 } from "@mui/material";
-import { Form, Link, Outlet } from "react-router-dom";
+import { Form, Link, Outlet, useNavigate } from "react-router-dom";
 import ActiveFlightPlans from "../components/ActiveFlightPlans";
 import {
   DarkMode as DarkModeIcon,
@@ -19,9 +19,14 @@ import VatsimFlightPlans from "../components/VatsimFlightPlans";
 
 export default function Verifier() {
   const { mode, setMode } = useColorScheme();
+  const navigate = useNavigate();
 
   const toggleDarkMode = () => {
     mode === "light" ? setMode("dark") : setMode("light");
+  };
+
+  const onNewClick = () => {
+    navigate("/verifier/flightPlan/new", { replace: true });
   };
 
   return (
@@ -57,7 +62,7 @@ export default function Verifier() {
         <Box sx={{ width: 200, height: "100vh", display: "flex", flexDirection: "column" }}>
           <Form>
             <Box textAlign="center" sx={{ mt: 2 }}>
-              <Button variant="contained" component={Link} to="/verifier/flightPlan/new">
+              <Button variant="contained" onClick={onNewClick}>
                 New
               </Button>
             </Box>

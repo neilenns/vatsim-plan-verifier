@@ -1,4 +1,4 @@
-import { redirect, type ActionFunction, json } from "react-router-dom";
+import { type ActionFunction, json } from "react-router-dom";
 import IFlightPlan from "../interfaces/IFlightPlan.mts";
 import { storeFlightPlan } from "../services/flightPlan.mts";
 import { runAllVerifiers } from "../services/runAllVerifiers.mts";
@@ -47,7 +47,7 @@ export const flightPlanVerifyAction: ActionFunction = async ({ params, request }
 
     logger(verifierResults);
 
-    return redirect(`/verifier/flightPlan/${storedFlightPlan._id.toString()}`);
+    return json({ data: storedFlightPlan._id.toString() }, { status: 200 });
   } catch (err) {
     const error = err as Error;
     return json({ error: error.message }, { status: 500 });
