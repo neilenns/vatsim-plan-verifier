@@ -193,11 +193,14 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               canCopy
               value={flightPlan.route ?? ""}
               helperText={
-                <>
-                  {hyperlinkSidName(flightPlan)}
-                  <br />
-                  {flightPlan.cleanedRemarks && `Remarks: ${flightPlan.cleanedRemarks}`}
-                </>
+                <Grid container xs={12}>
+                  <Grid item xs="auto">
+                    {hyperlinkSidName(flightPlan)}
+                  </Grid>
+                  <Grid item xs display="flex" justifyContent="right">
+                    {flightPlan.cleanedRemarks && `Remarks: ${flightPlan.cleanedRemarks}`}
+                  </Grid>
+                </Grid>
               }
               onPaste={parsePastedFlightPlan}
               onChange={(text) => {
