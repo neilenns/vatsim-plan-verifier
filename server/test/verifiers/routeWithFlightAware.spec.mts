@@ -52,6 +52,28 @@ const testData = [
     route: "SEA BUWZO KRATR2",
     squawk: "1234",
   },
+  // Departure/arrival available from Flight Aware, matches a route with SID
+  {
+    _id: "5f9f7b3b9d3b3c1b1c9b4b5e",
+    callsign: "ASA42",
+    departure: "KSEA",
+    arrival: "KPDX",
+    cruiseAltitude: 210,
+    rawAircraftType: "B738/L",
+    route: "SEA8 SEA BUWZO KRATR2",
+    squawk: "1234",
+  },
+  // Departure/arrival available from Flight Aware, matches a route with SID, has step climb
+  {
+    _id: "5f9f7b3b9d3b3c1b1c9b4b5f",
+    callsign: "ASA42",
+    departure: "KSEA",
+    arrival: "KPDX",
+    cruiseAltitude: 210,
+    rawAircraftType: "B738/L",
+    route: "SEA8 SEA BUWZO/N0450F390 KRATR2",
+    squawk: "1234",
+  },
 ];
 
 describe("verifier: routeWithFlightAware tests", () => {
@@ -115,5 +137,35 @@ describe("verifier: routeWithFlightAware tests", () => {
     expect(data.status).to.equal("Warning");
     expect(data.flightPlanPart).to.equal("route");
     expect(data.messageId).to.equal("doesNotMatchFlightAwareRoutes");
+  });
+
+  it("should find matching routes with correct altitude (with SID)", async () => {
+    const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b5e");
+    expect(flightPlan.success).to.equal(true);
+
+    const result = await routeWithFlightAware((flightPlan as SuccessResult<IFlightPlan>).data);
+
+    expect(result.success).to.equal(true);
+
+    const data = (result as SuccessResult<IVerifierResult>).data;
+
+    expect(data.status).to.equal("Ok");
+    expect(data.flightPlanPart).to.equal("route");
+    expect(data.messageId).to.equal("matchesFlightAwareRouteAndAltitudes");
+  });
+
+  it("should find matching routes with correct altitude (with stepclimb)", async () => {
+    const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b5f");
+    expect(flightPlan.success).to.equal(true);
+
+    const result = await routeWithFlightAware((flightPlan as SuccessResult<IFlightPlan>).data);
+
+    expect(result.success).to.equal(true);
+
+    const data = (result as SuccessResult<IVerifierResult>).data;
+
+    expect(data.status).to.equal("Ok");
+    expect(data.flightPlanPart).to.equal("route");
+    expect(data.messageId).to.equal("matchesFlightAwareRouteAndAltitudes");
   });
 });

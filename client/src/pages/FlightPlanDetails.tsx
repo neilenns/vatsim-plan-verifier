@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
 import VerifierResults from "../components/VerifierResults";
-import { useActionData, useLoaderData } from "react-router-dom";
+import { useActionData, useLoaderData, useNavigate } from "react-router-dom";
 import AlertSnackbar, {
   AlertSnackBarOnClose,
   AlertSnackbarProps,
@@ -17,6 +17,7 @@ type LoaderProps = {
 };
 
 type ActionResponse = {
+  data: string;
   error: string;
 };
 
@@ -24,17 +25,21 @@ function FlightPlanDetails() {
   const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
   const { flightPlan, verifyResults } = useLoaderData() as LoaderProps;
   const data = useActionData() as ActionResponse;
+  const navigate = useNavigate();
 
   const handleSnackbarClose: AlertSnackBarOnClose = () => setSnackbar(null);
 
   useEffect(() => {
+    if (data?.data) {
+      navigate(`../${data.data}`, { replace: true, relative: "path" });
+    }
     if (data?.error) {
       setSnackbar({
         children: data.error,
         severity: "error",
       });
     }
-  }, [data]);
+  }, [data, navigate]);
 
   useEffect(() => {
     if (!flightPlan.callsign) {

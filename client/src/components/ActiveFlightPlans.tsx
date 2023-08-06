@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import IActiveFlightPlan from "../interfaces/IActiveFlightPlan.mts";
-import { Link, useFetcher, useLoaderData, useParams } from "react-router-dom";
+import { useFetcher, useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { Delete } from "@mui/icons-material";
 import { List, ListItem, IconButton, ListItemButton, ListItemText, Box } from "@mui/material";
 
@@ -9,6 +9,7 @@ const ActiveFlightPlans: React.FC = () => {
   const activeFlightPlans = useLoaderData() as IActiveFlightPlan[];
   const fetcher = useFetcher();
   const { id } = useParams();
+  const navigate = useNavigate();
 
   // Handles setting the currently selected flight plan id based on the
   // ID in the page URL.
@@ -24,6 +25,10 @@ const ActiveFlightPlans: React.FC = () => {
       hiddenInput.value = id ?? "";
     }
   }, [id]);
+
+  const handleClick = (flightPlanId: string) => {
+    navigate(`/verifier/flightPlan/${flightPlanId}`, { replace: true });
+  };
 
   return (
     activeFlightPlans.length > 0 && (
@@ -58,8 +63,7 @@ const ActiveFlightPlans: React.FC = () => {
                   }
                 >
                   <ListItemButton
-                    component={Link}
-                    to={`/verifier/flightPlan/${activePlan.flightPlanId}`}
+                    onClick={() => handleClick(activePlan.flightPlanId)}
                     selected={selectedFlightPlanId === activePlan.flightPlanId}
                   >
                     <ListItemText
