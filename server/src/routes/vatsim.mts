@@ -6,11 +6,15 @@ import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
 const router = express.Router();
 
 router.get(
-  "/vatsim/flightPlans/:airport",
+  "/vatsim/flightPlans/:airport/:flightRules/:groundspeed",
   verifyUser,
   secureQueryMiddleware,
   async (req: Request, res: Response) => {
-    const result = await getVatsimFlightPlans(req.params.airport);
+    const result = await getVatsimFlightPlans(
+      req.params.airport,
+      req.params.flightRules,
+      Number(req.params.groundspeed)
+    );
 
     if (result.success) {
       res.json(result.data);

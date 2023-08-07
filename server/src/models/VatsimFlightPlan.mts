@@ -6,6 +6,9 @@ export class VatsimFlightPlan {
   callsign!: string;
 
   @prop({ required: false })
+  flightRules?: string;
+
+  @prop({ required: false })
   groundspeed?: number;
 
   @prop({ required: false })

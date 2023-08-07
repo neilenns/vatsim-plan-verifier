@@ -3,9 +3,9 @@ import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
 import { IVatsimData, IVatsimPilot, IVatsimPrefile } from "../interfaces/IVatsimData.mjs";
 import VatsimFlightPlanModel from "../models/VatsimFlightPlan.mjs";
 import debug from "debug";
-import testData from "./vatsimdata.json" assert { type: "json" };
 import { Server as SocketIOServer } from "socket.io";
 import pluralize from "pluralize";
+import { ENV } from "../env.mjs";
 
 const logger = debug("plan-verifier:vatsimService");
 let vatsimEndpoints: IVatsimEndpoints | undefined;
@@ -46,6 +46,7 @@ async function processVatsimPilots(pilots: IVatsimPilot[]) {
         route: cleanRoute(pilot?.flight_plan?.route ?? ""),
         squawk: pilot?.flight_plan?.assigned_transponder ?? "",
         remarks: pilot?.flight_plan?.remarks ?? "",
+        flightRules: pilot?.flight_plan?.flight_rules ?? "",
       });
 
       pilotCount++;
@@ -74,6 +75,7 @@ async function processVatsimPrefiles(prefiles: IVatsimPrefile[]) {
         route: cleanRoute(prefile?.flight_plan?.route ?? ""),
         squawk: prefile?.flight_plan?.assigned_transponder ?? "",
         remarks: prefile?.flight_plan?.remarks ?? "",
+        flightRules: prefile?.flight_plan?.flight_rules ?? "",
       });
 
       prefileCount++;
@@ -139,9 +141,11 @@ async function publishUpdates() {
 
     const airportCodes = roomName.replace("APT:", "").split(",");
 
-    const flightPlans = await VatsimFlightPlanModel.find({ departure: { $in: airportCodes } }).sort(
-      { callsign: 1 }
-    );
+    const flightPlans = await VatsimFlightPlanModel.find({
+      departure: { $in: airportCodes },
+      flightRules: "I",
+      groundspeed: { $not: { $gt: ENV.VATSIM_GROUNDSPEED_CUTOFF } },
+    }).sort({ callsign: 1 });
 
     logger(
       `Emitting ${pluralize("result", flightPlans.length, true)} for ${airportCodes.join(", ")}`
