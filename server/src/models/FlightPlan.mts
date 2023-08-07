@@ -33,12 +33,11 @@ const SimbriefRemarksRegExPatterns = [
   /CODE\/[A-Z0-9]+/,
   /ORGN\/[A-Z0-9]+/,
   /SUR\/[A-Z0-9]+/,
-  /RMK\/TCAS/,
-  /RMK\/\/\//,
+  /RVR\/[A-Z0-9]+/,
 ];
 const SimbriefStepClimbRegExPattern = /[0-9]+[NS][0-9]+[EW][0-9]+/;
 const SimbriefRegionRegExPattern = /[A-Z]{3,4}[0-9]{3,4}/;
-const SimbriefRemoveWords = ["SIMBRIEF", "/V/", "/T/", "/R/"];
+const SimbriefRemoveWords = ["SIMBRIEF", "/V/", "/T/", "/R/", "RMK/TCAS", "RMK/SIMBRIEF", "RMK///"];
 
 function extractSID(route: string): string | undefined {
   const regexMatch = route.match(SIDRegExPattern);

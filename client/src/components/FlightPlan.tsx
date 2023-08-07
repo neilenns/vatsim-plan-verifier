@@ -193,15 +193,15 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               canCopy
               value={flightPlan.route ?? ""}
               helperText={
-                <Stack direction="row" justifyContent="space-between" width="100%">
-                  <div>{hyperlinkSidName(flightPlan)}</div>
-                  <div>
+                <Stack direction="row" justifyContent="space-between" width="100%" component="span">
+                  <span>{hyperlinkSidName(flightPlan)}</span>
+                  <span>
                     <Tooltip title={flightPlan.remarks}>
                       <Typography variant="caption" sx={{ cursor: "pointer" }}>
                         {flightPlan.cleanedRemarks}
                       </Typography>
                     </Tooltip>
-                  </div>
+                  </span>
                 </Stack>
               }
               onPaste={parsePastedFlightPlan}
@@ -267,7 +267,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
           aria-label="hidden flight plan remarks"
           hidden
           name="remarks"
-          value={flightPlan.remarks}
+          value={flightPlan.remarks ?? ""}
         />
       </Form>
     </Box>
