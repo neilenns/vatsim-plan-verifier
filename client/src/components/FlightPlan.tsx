@@ -93,9 +93,34 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               name="rawAircraftType"
               value={flightPlan.rawAircraftType ?? ""}
               helperText={
-                flightPlan?.equipmentInfo?.name
-                  ? `${flightPlan.equipmentInfo.manufacturer} ${flightPlan.equipmentInfo.name}`
-                  : " "
+                flightPlan?.equipmentInfo?.name ? (
+                  <Tooltip
+                    title={
+                      <div>
+                        Engines: {flightPlan.equipmentInfo.engineCount}{" "}
+                        {flightPlan.equipmentInfo.engineType}
+                        <br />
+                        Weight class: {flightPlan.equipmentInfo.weightClass}
+                        <br />
+                        SRS class: {flightPlan.equipmentInfo.srsClass}
+                        {flightPlan.equipmentInfo.maxCruiseSpeed ? (
+                          <>
+                            <br />
+                            Max cruise speed: {flightPlan.equipmentInfo.maxCruiseSpeed} kts
+                          </>
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                    }
+                  >
+                    <Typography variant="caption" sx={{ cursor: "pointer" }}>
+                      {flightPlan.equipmentInfo.manufacturer} {flightPlan.equipmentInfo.name}
+                    </Typography>
+                  </Tooltip>
+                ) : (
+                  " "
+                )
               }
               trim
               onPaste={parsePastedFlightPlan}
