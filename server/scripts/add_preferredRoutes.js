@@ -240,6 +240,15 @@ db.preferredroutes.insertMany([
   },
   {
     departure: "KPDX",
+    arrival: "KPLU",
+    route: "PTLD2 BTG V23 OLM",
+    minimumRequiredAltitude: 60,
+    minimumRequiredSpeed: 0,
+    equipmentSuffixes: "[A-Z]",
+    engineTypes: "[PTJ]",
+  },
+  {
+    departure: "KPDX",
     arrival: "KHIO",
     route: "{RADAR VECTORS} DAFFI",
     minimumRequiredAltitude: 40,
