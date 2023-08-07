@@ -2318,7 +2318,7 @@ db.aircraft.insertMany([
   {
     equipmentCode: "C303",
     manufacturer: "CESSNA",
-    name: "T303 Crusader!!! NO RNAV !!! ",
+    name: "T303 Crusader",
     engineCount: "2",
     engineType: "P",
     weightClass: "S",
@@ -2328,7 +2328,7 @@ db.aircraft.insertMany([
   {
     equipmentCode: "C310",
     manufacturer: "CESSNA",
-    name: "310, T310 (U-3, L-27)!!! NO RNAV !!! ",
+    name: "310, T310 (U-3, L-27)",
     engineCount: "2",
     engineType: "P",
     weightClass: "S",
@@ -7051,7 +7051,7 @@ db.aircraft.insertMany([
   {
     equipmentCode: "TBM9",
     manufacturer: "AEROSPATIALE",
-    name: "TBM 900 !!! NO HAWKZ7 !!!",
+    name: "TBM 900",
     engineCount: "1",
     engineType: "T",
     weightClass: "S",
