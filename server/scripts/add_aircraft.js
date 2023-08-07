@@ -1978,7 +1978,7 @@ db.aircraft.insertMany([
   {
     equipmentCode: "CL60",
     manufacturer: "BOMBARDIER",
-    name: "CL-600/Challenger 699/601/604(CC-144, CE-144)",
+    name: "Challenger 600",
     engineCount: "2",
     engineType: "J",
     weightClass: "L",
