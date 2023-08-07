@@ -29,7 +29,8 @@ function parseStringToNumber(value: string) {
 
 // Takes pilots from vatsim and processes them into the database.
 async function processVatsimPilots(pilots: IVatsimPilot[]) {
-  return Promise.all([
+  let pilotCount = 0;
+  await Promise.all([
     pilots.map(async (pilot) => {
       if (!pilot?.callsign) return;
       if (pilot?.flight_plan?.flight_rules !== "I") return;
@@ -47,14 +48,18 @@ async function processVatsimPilots(pilots: IVatsimPilot[]) {
         remarks: pilot?.flight_plan?.remarks ?? "",
       });
 
+      pilotCount++;
       await flightPlan.save();
     }),
   ]);
+
+  logger(`Added ${pilotCount} flight plans`);
 }
 
 // Takes prefiles from vatsim and processes them into the database.
 async function processVatsimPrefiles(prefiles: IVatsimPrefile[]) {
-  return Promise.all([
+  let prefileCount = 0;
+  await Promise.all([
     prefiles.map(async (prefile) => {
       if (!prefile?.callsign) return;
       if (prefile?.flight_plan.flight_rules !== "I") return;
@@ -71,9 +76,12 @@ async function processVatsimPrefiles(prefiles: IVatsimPrefile[]) {
         remarks: prefile?.flight_plan?.remarks ?? "",
       });
 
+      prefileCount++;
       await flightPlan.save();
     }),
   ]);
+
+  logger(`Added ${prefileCount} prefiled flight plans`);
 }
 
 // Takes the massive list of data from vatsim and processes it into the database.
