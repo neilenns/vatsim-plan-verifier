@@ -232,7 +232,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KPDX",
     arrival: "KGEG",
-    route: "LAVAA6 LAVAA SUNED ZOOMR ZOOMR2",
+    route: "LAVAA6 LAVAA PAPPS ZOOMR ZOOMR2",
     minimumRequiredAltitude: 50,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[LZ]",
