@@ -1,5 +1,11 @@
 import { prop, getModelForClass, modelOptions } from "@typegoose/typegoose";
 
+export enum VatsimFlightStatus {
+  DEPARTING = "DEPARTING",
+  ENROUTE = "ENROUTE",
+  ARRIVED = "ARRIVED",
+}
+
 @modelOptions({ options: { customName: "vatsimflightplan" } })
 export class VatsimFlightPlan {
   @prop({ required: true })
@@ -31,6 +37,9 @@ export class VatsimFlightPlan {
 
   @prop({ required: false })
   remarks?: string;
+
+  @prop({ required: true, type: String, default: VatsimFlightStatus.DEPARTING })
+  status!: VatsimFlightStatus;
 }
 
 const VatsimFlightPlanModel = getModelForClass(VatsimFlightPlan);
