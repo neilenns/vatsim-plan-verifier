@@ -292,7 +292,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
           aria-label="hidden flight plan remarks"
           hidden
           name="remarks"
-          value={flightPlan.remarks ?? ""}
+          defaultValue={flightPlan.remarks}
         />
       </Form>
     </Box>
