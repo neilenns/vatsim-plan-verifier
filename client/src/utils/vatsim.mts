@@ -12,7 +12,7 @@ type ProcessFlightPlansResult = {
   hasUpdates: boolean;
 };
 
-export function getColorByStatus(status: VatsimFlightPlanStatus): string {
+export function getColorByStatus(status: VatsimFlightPlanStatus | undefined): string {
   switch (status) {
     case VatsimFlightPlanStatus.NEW:
       return "warning.main";
