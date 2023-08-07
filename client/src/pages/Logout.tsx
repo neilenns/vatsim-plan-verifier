@@ -1,7 +1,6 @@
 import { Box, CircularProgress } from "@mui/material";
 import { useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import useAppContext from "../context/AppContext";
 import http from "../utils/http.mts";
 import ILoginResponse from "../interfaces/ILoginResponse.mts";
 import debug from "debug";
@@ -10,7 +9,6 @@ const logger = debug("plan-verifier:logout");
 
 export default function LogoutPage() {
   const navigate = useNavigate();
-  const { setDarkMode } = useAppContext();
 
   const logout = useCallback(async () => {
     await http
@@ -19,12 +17,11 @@ export default function LogoutPage() {
         logger("User is already logged out.");
       }) // We don't have to do anything on errors.
       .finally(() => {
-        setDarkMode(false);
         localStorage.clear();
         localStorage.setItem("logout", Date.now().toString());
         navigate("/");
       });
-  }, [navigate, setDarkMode]);
+  }, [navigate]);
 
   useEffect(() => {
     void logout();

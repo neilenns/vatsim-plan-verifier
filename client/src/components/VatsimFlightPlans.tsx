@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import socketIOClient, { Socket } from "socket.io-client";
 import { apiKey, serverUrl } from "../configs/planVerifierServer.mts";
-import IFlightPlan from "../interfaces/IFlightPlan.mts";
+import IFlightPlan, { VatsimFlightPlanStatus } from "../interfaces/IFlightPlan.mts";
 import { ArrowForwardOutlined as ArrowForwardOutlinedIcon } from "@mui/icons-material";
 import { List, ListItem, IconButton, ListItemText, Box, Stack, TextField } from "@mui/material";
 import debug from "debug";
@@ -10,21 +10,34 @@ import { useNavigate } from "react-router-dom";
 import { Stream as StreamIcon } from "@mui/icons-material";
 import pluralize from "pluralize";
 import AlertSnackbar, { AlertSnackBarOnClose, AlertSnackbarProps } from "./AlertSnackbar";
+import { getColorByStatus, processFlightPlans } from "../utils/vatsim.mts";
+import { useAudio } from "./AudioHook";
 
 const logger = debug("plan-verifier:vatsimFlightPlans");
 
 const VatsimFlightPlans = () => {
   const navigate = useNavigate();
-  const [flightPlans, setData] = useState<IFlightPlan[]>([]);
+  const audioPlayer = useAudio("/bell.mp3");
+  const [flightPlans, setFlightPlans] = useState<IFlightPlan[]>([]);
   const [isConnected, setIsConnected] = useState(false);
   const [airportCodes, setAirportCodes] = useState(
     localStorage.getItem("vatsimAirportCodes") || ""
   );
   const [isImporting, setIsImporting] = useState(false);
+  const [hasNew, setHasNew] = useState(false);
+  const [hasUpdates, setHasUpdates] = useState(false);
   const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
   const socketRef = useRef<Socket | null>(null);
 
   const handleSnackbarClose: AlertSnackBarOnClose = () => setSnackbar(null);
+
+  useEffect(() => {
+    if (hasNew || hasUpdates) {
+      void audioPlayer.play();
+      setHasNew(false);
+      setHasUpdates(false);
+    }
+  }, [hasNew, hasUpdates, audioPlayer]);
 
   useEffect(() => {
     socketRef.current = socketIOClient(serverUrl, {
@@ -35,7 +48,14 @@ const VatsimFlightPlans = () => {
 
     socketRef.current.on("vatsimFlightPlansUpdate", (vatsimPlans: IFlightPlan[]) => {
       logger("Received vatsim flight plan update");
-      setData(vatsimPlans);
+      // This just feels like a giant hack to get around the closure issues of useEffect and
+      // useState not having flightPlans be the current value every time the update event is received.
+      setFlightPlans((currentPlans) => {
+        const result = processFlightPlans(currentPlans, vatsimPlans);
+        setHasNew(result.hasNew);
+        setHasUpdates(result.hasUpdates);
+        return result.flightPlans;
+      });
     });
 
     socketRef.current.on("disconnect", () => {
@@ -86,6 +106,19 @@ const VatsimFlightPlans = () => {
     };
   }, []);
 
+  // Finds the callsign in the list of current plans, sets its
+  // state to imported, then updates the state variable so the
+  // page redraws.
+  const markPlanImported = (callsign: string) => {
+    const planIndex = flightPlans.findIndex((plan) => plan.callsign === callsign);
+    if (planIndex !== -1) {
+      const updatedFlightPlans = [...flightPlans];
+
+      updatedFlightPlans[planIndex].vatsimStatus = VatsimFlightPlanStatus.IMPORTED;
+      setFlightPlans(updatedFlightPlans);
+    }
+  };
+
   const handleFlightPlanImport = (callsign: string | undefined) => {
     if (!callsign) return;
 
@@ -95,8 +128,9 @@ const VatsimFlightPlans = () => {
       .then((result) => {
         if (!result) return;
 
+        markPlanImported(callsign);
         logger(`Flight plan ${callsign} imported successfully`);
-        navigate(`/verifier/flightPlan/${result._id!}`);
+        navigate(`/verifier/flightPlan/${result._id!}`, { replace: true });
       })
       .catch(() => {
         const message = `Error importing flight plan ${callsign}`;
@@ -116,7 +150,7 @@ const VatsimFlightPlans = () => {
 
     // Not currently connected so connect
     if (!isConnected && socketRef.current) {
-      setData([]);
+      setFlightPlans([]);
       socketRef.current.connect();
       logger("Connected for vatsim flight plan updates");
 
@@ -186,10 +220,11 @@ const VatsimFlightPlans = () => {
                 >
                   <ListItemText
                     primary={flightPlan.callsign}
-                    primaryTypographyProps={{ fontWeight: "bold" }}
-                    secondary={`${flightPlan.departure ?? "Unknown"}-${
-                      flightPlan.arrival ?? "Unknown"
-                    }`}
+                    primaryTypographyProps={{
+                      fontWeight: "bold",
+                      color: getColorByStatus(flightPlan.vatsimStatus),
+                    }}
+                    secondary={`${flightPlan.departure ?? ""}-${flightPlan.arrival ?? ""}`}
                   />
                 </ListItem>
               );

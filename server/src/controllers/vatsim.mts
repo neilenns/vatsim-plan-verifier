@@ -6,9 +6,17 @@ const logger = debug("plan-verifier:vatsimController");
 
 type VatsimFlightPlansResult = Result<VatsimFlightPlan[], "FlightPlansNotFound" | "UnknownError">;
 
-export async function getVatsimFlightPlans(airport: string): Promise<VatsimFlightPlansResult> {
+export async function getVatsimFlightPlans(
+  departure: string,
+  flightRules: string,
+  groundspeed: number
+): Promise<VatsimFlightPlansResult> {
   try {
-    const result = await VatsimFlightPlanModel.find({ departure: airport });
+    const result = await VatsimFlightPlanModel.find({
+      departure,
+      flightRules,
+      groundspeed: { $not: { $gt: groundspeed } },
+    });
 
     if (result) {
       return { success: true, data: result };
@@ -16,16 +24,16 @@ export async function getVatsimFlightPlans(airport: string): Promise<VatsimFligh
       return {
         success: false,
         errorType: "FlightPlansNotFound",
-        error: `Flight plans for ${airport} not found.`,
+        error: `Flight plans for ${departure} matching ${flightRules} flight rules and a ground speed below ${groundspeed} not found.`,
       };
     }
   } catch (error) {
-    logger(`Error fetching flight plans for ${airport}: ${error}`);
+    logger(`Error fetching flight plans for ${departure}: ${error}`);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error fetching flight plans for ${airport}: ${error}`,
+      error: `Error fetching flight plans for ${departure}: ${error}`,
     };
   }
 }

@@ -18,28 +18,28 @@ type Props = {
 export type SetUserFunction = Dispatch<SetStateAction<Partial<IUser> | undefined>>;
 
 type AppContext = {
-  darkMode: boolean;
-  setDarkMode: Dispatch<SetStateAction<boolean>>;
+  muted: boolean;
+  setMuted: Dispatch<SetStateAction<boolean>>;
 };
 
 const initialContext: AppContext = {
-  darkMode: false,
-  setDarkMode: () => {
-    throw new Error("setDarkMode function must be overridden");
+  muted: false,
+  setMuted: () => {
+    throw new Error("setMuted function must be overridden");
   },
 };
 
 const AppContext = createContext<AppContext>(initialContext);
 
 export const AppContextProvider = ({ children }: Props): JSX.Element => {
-  const [darkMode, setDarkMode] = useState(localStorage.getItem("darkMode") === "true");
+  const [muted, setMuted] = useState(localStorage.getItem("muted") === "true");
 
   // Save to local storage so on page refresh this isn't lost. So dumb. Why do people use context?
   useEffect(() => {
-    localStorage.setItem("darkMode", darkMode.toString());
-  }, [darkMode]);
+    localStorage.setItem("muted", muted.toString());
+  }, [muted]);
 
-  const value = useMemo(() => ({ darkMode, setDarkMode }), [darkMode]);
+  const value = useMemo(() => ({ muted, setMuted }), [muted]);
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

@@ -3,9 +3,9 @@ import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
 import { IVatsimData, IVatsimPilot, IVatsimPrefile } from "../interfaces/IVatsimData.mjs";
 import VatsimFlightPlanModel from "../models/VatsimFlightPlan.mjs";
 import debug from "debug";
-import testData from "./vatsimdata.json" assert { type: "json" };
 import { Server as SocketIOServer } from "socket.io";
 import pluralize from "pluralize";
+import { ENV } from "../env.mjs";
 
 const logger = debug("plan-verifier:vatsimService");
 let vatsimEndpoints: IVatsimEndpoints | undefined;
@@ -29,7 +29,8 @@ function parseStringToNumber(value: string) {
 
 // Takes pilots from vatsim and processes them into the database.
 async function processVatsimPilots(pilots: IVatsimPilot[]) {
-  return Promise.all([
+  let pilotCount = 0;
+  await Promise.all([
     pilots.map(async (pilot) => {
       if (!pilot?.callsign) return;
       if (pilot?.flight_plan?.flight_rules !== "I") return;
@@ -45,16 +46,21 @@ async function processVatsimPilots(pilots: IVatsimPilot[]) {
         route: cleanRoute(pilot?.flight_plan?.route ?? ""),
         squawk: pilot?.flight_plan?.assigned_transponder ?? "",
         remarks: pilot?.flight_plan?.remarks ?? "",
+        flightRules: pilot?.flight_plan?.flight_rules ?? "",
       });
 
+      pilotCount++;
       await flightPlan.save();
     }),
   ]);
+
+  logger(`Added ${pilotCount} flight plans`);
 }
 
 // Takes prefiles from vatsim and processes them into the database.
 async function processVatsimPrefiles(prefiles: IVatsimPrefile[]) {
-  return Promise.all([
+  let prefileCount = 0;
+  await Promise.all([
     prefiles.map(async (prefile) => {
       if (!prefile?.callsign) return;
       if (prefile?.flight_plan.flight_rules !== "I") return;
@@ -69,11 +75,15 @@ async function processVatsimPrefiles(prefiles: IVatsimPrefile[]) {
         route: cleanRoute(prefile?.flight_plan?.route ?? ""),
         squawk: prefile?.flight_plan?.assigned_transponder ?? "",
         remarks: prefile?.flight_plan?.remarks ?? "",
+        flightRules: prefile?.flight_plan?.flight_rules ?? "",
       });
 
+      prefileCount++;
       await flightPlan.save();
     }),
   ]);
+
+  logger(`Added ${prefileCount} prefiled flight plans`);
 }
 
 // Takes the massive list of data from vatsim and processes it into the database.
@@ -131,9 +141,11 @@ async function publishUpdates() {
 
     const airportCodes = roomName.replace("APT:", "").split(",");
 
-    const flightPlans = await VatsimFlightPlanModel.find({ departure: { $in: airportCodes } }).sort(
-      { callsign: 1 }
-    );
+    const flightPlans = await VatsimFlightPlanModel.find({
+      departure: { $in: airportCodes },
+      flightRules: "I",
+      groundspeed: { $not: { $gt: ENV.VATSIM_GROUNDSPEED_CUTOFF } },
+    }).sort({ callsign: 1 });
 
     logger(
       `Emitting ${pluralize("result", flightPlans.length, true)} for ${airportCodes.join(", ")}`
