@@ -14,7 +14,7 @@ export class VatsimFlightPlan {
   @prop({ required: false })
   rawAircraftType?: string;
 
-  @prop({ required: false })
+  @prop({ required: false, index: true, unique: false })
   departure?: string;
 
   @prop({ required: false })

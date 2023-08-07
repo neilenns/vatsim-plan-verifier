@@ -38,6 +38,7 @@ function mergeFlightPlans(
     return (
       key !== "_id" &&
       key !== "vatsimStatus" &&
+      key !== "_v" &&
       existingPlan[key as keyof IFlightPlan] !== newPlan[key as keyof IFlightPlan]
     );
   });
