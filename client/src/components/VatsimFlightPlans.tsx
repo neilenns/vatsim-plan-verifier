@@ -139,7 +139,7 @@ const VatsimFlightPlans = () => {
   };
 
   return (
-    <div>
+    <>
       <Box sx={{ borderTop: "1px solid #ccc", mt: 2 }}>
         <form>
           <Stack direction="row" sx={{ mt: 2, ml: 1 }}>
@@ -187,7 +187,9 @@ const VatsimFlightPlans = () => {
                   <ListItemText
                     primary={flightPlan.callsign}
                     primaryTypographyProps={{ fontWeight: "bold" }}
-                    secondary={`${flightPlan.departure}-${flightPlan.arrival}`}
+                    secondary={`${flightPlan.departure ?? "Unknown"}-${
+                      flightPlan.arrival ?? "Unknown"
+                    }`}
                   />
                 </ListItem>
               );
@@ -197,7 +199,7 @@ const VatsimFlightPlans = () => {
         )}
       </Box>
       <AlertSnackbar {...snackbar} onClose={handleSnackbarClose} />
-    </div>
+    </>
   );
 };
 
