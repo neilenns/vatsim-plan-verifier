@@ -34,6 +34,8 @@ const VatsimFlightPlans = () => {
   useEffect(() => {
     if (hasNew || hasUpdates) {
       void audioPlayer.play();
+      setHasNew(false);
+      setHasUpdates(false);
     }
   }, [hasNew, hasUpdates, audioPlayer]);
 
