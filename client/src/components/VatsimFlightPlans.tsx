@@ -11,12 +11,13 @@ import { Stream as StreamIcon } from "@mui/icons-material";
 import pluralize from "pluralize";
 import AlertSnackbar, { AlertSnackBarOnClose, AlertSnackbarProps } from "./AlertSnackbar";
 import { getColorByStatus, processFlightPlans } from "../utils/vatsim.mts";
+import { useAudio } from "./AudioHook";
 
 const logger = debug("plan-verifier:vatsimFlightPlans");
 
 const VatsimFlightPlans = () => {
   const navigate = useNavigate();
-  const [newPlanSound] = useState(new Audio("/bell.mp3"));
+  const audioPlayer = useAudio("/bell.mp3");
   const [flightPlans, setFlightPlans] = useState<IFlightPlan[]>([]);
   const [isConnected, setIsConnected] = useState(false);
   const [airportCodes, setAirportCodes] = useState(
@@ -32,9 +33,9 @@ const VatsimFlightPlans = () => {
 
   useEffect(() => {
     if (hasNew || hasUpdates) {
-      void newPlanSound.play();
+      void audioPlayer.play();
     }
-  }, [hasNew, hasUpdates, newPlanSound]);
+  }, [hasNew, hasUpdates, audioPlayer]);
 
   useEffect(() => {
     socketRef.current = socketIOClient(serverUrl, {

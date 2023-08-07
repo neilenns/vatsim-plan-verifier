@@ -13,16 +13,24 @@ import {
   DarkMode as DarkModeIcon,
   LightMode as LightModeIcon,
   Help as HelpIcon,
+  VolumeMute as UnmutedIcon,
+  VolumeOff as MutedIcon,
 } from "@mui/icons-material";
 import NavMenu from "../components/NavMenu";
 import VatsimFlightPlans from "../components/VatsimFlightPlans";
+import useAppContext from "../context/AppContext";
 
 export default function Verifier() {
   const { mode, setMode } = useColorScheme();
+  const { muted, setMuted } = useAppContext();
   const navigate = useNavigate();
 
   const toggleDarkMode = () => {
     mode === "light" ? setMode("dark") : setMode("light");
+  };
+
+  const toggleMuted = () => {
+    setMuted(!muted);
   };
 
   const onNewClick = () => {
@@ -45,6 +53,9 @@ export default function Verifier() {
             rel="noopener noreferrer"
           >
             <HelpIcon />
+          </IconButton>
+          <IconButton onClick={toggleMuted} aria-label={muted ? "unmute" : "mute"}>
+            {muted ? <MutedIcon /> : <UnmutedIcon />}
           </IconButton>
           <IconButton
             onClick={toggleDarkMode}
