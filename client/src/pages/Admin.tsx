@@ -8,18 +8,18 @@ import {
   ListItemText,
   Toolbar,
   Typography,
+  useColorScheme,
 } from "@mui/material";
 import { People as PeopleIcon } from "@mui/icons-material";
 import { Link, Outlet } from "react-router-dom";
 import NavMenu from "../components/NavMenu";
-import useAppContext from "../context/AppContext";
 import { DarkMode as DarkModeIcon, LightMode as LightModeIcon } from "@mui/icons-material";
 
 export default function AdminPage() {
-  const { darkMode, setDarkMode } = useAppContext();
+  const { mode, setMode } = useColorScheme();
 
   const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
+    mode === "light" ? setMode("dark") : setMode("light");
   };
 
   return (
@@ -32,9 +32,9 @@ export default function AdminPage() {
           </Typography>
           <IconButton
             onClick={toggleDarkMode}
-            aria-label={darkMode ? "Turndark mode off" : "Turn dark mode on"}
+            aria-label={mode === "dark" ? "Turndark mode off" : "Turn dark mode on"}
           >
-            {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
+            {mode === "dark" ? <LightModeIcon /> : <DarkModeIcon />}{" "}
           </IconButton>
           <NavMenu />
         </Toolbar>

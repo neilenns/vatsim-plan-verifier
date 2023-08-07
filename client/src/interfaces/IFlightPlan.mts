@@ -31,7 +31,7 @@ interface IFlightPlan {
   verifierResultsCount?: number;
   remarks?: string;
   cleanedRemarks?: string;
-  vatsimStatus: VatsimFlightPlanStatus;
+  vatsimStatus?: VatsimFlightPlanStatus;
 }
 
 export default IFlightPlan;
