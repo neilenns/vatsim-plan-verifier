@@ -21,7 +21,7 @@ interface FlightPlanProps {
   verifierResults: IVerifyAllResult | undefined;
 }
 
-const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
+const FlightPlan = (props: FlightPlanProps) => {
   const [flightPlan, setFlightPlan] = useState<IFlightPlan>(props.flightPlan);
   const [verifierResults, setVerifierResults] = useState<IVerifyAllResult | undefined>(undefined);
   const [skyVectorUrl, setSkyVectorUrl] = useState<string>("");
