@@ -100,7 +100,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
                         Engines: {flightPlan.equipmentInfo.engineCount}{" "}
                         {flightPlan.equipmentInfo.engineType}
                         <br />
-                        Weight class: {flightPlan.equipmentInfo.weightClass}
+                        Weight turb. class: {flightPlan.equipmentInfo.weightClass}
                         <br />
                         SRS class: {flightPlan.equipmentInfo.srsClass}
                         {flightPlan.equipmentInfo.maxCruiseSpeed ? (
