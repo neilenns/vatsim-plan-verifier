@@ -9,7 +9,7 @@ import debug from "debug";
 import { Server as SocketIOServer } from "socket.io";
 import pluralize from "pluralize";
 import { ENV } from "../env.mjs";
-import _, { update } from "lodash";
+import _ from "lodash";
 
 const logger = debug("plan-verifier:vatsimService");
 const updateLogger = debug("vatsim:update");
@@ -150,7 +150,7 @@ async function processVatsimData(flightPlans: IVatsimData) {
     }
 
     // Update any changed properties
-    updateProperties.forEach((property) => copyPropertyValue(currentPlan, incomingPlan, property));
+    updateProperties.forEach((property) => copyPropertyValue(incomingPlan, currentPlan, property));
 
     return currentPlan;
   });
