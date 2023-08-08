@@ -11,7 +11,7 @@ export enum VatsimFlightStatus {
 @modelOptions({ options: { customName: "vatsimflightplan" } })
 @pre<VatsimFlightPlan>("save", function () {
   if (this.isModified()) {
-    this.__v = this.__v + 1;
+    this.revision++;
   }
 })
 export class VatsimFlightPlan {
@@ -47,6 +47,9 @@ export class VatsimFlightPlan {
 
   @prop({ required: true, type: String, default: VatsimFlightStatus.DEPARTING })
   status!: VatsimFlightStatus;
+
+  @prop({ required: true, default: 0 })
+  revision!: number;
 }
 
 const VatsimFlightPlanModel = getModelForClass(VatsimFlightPlan);

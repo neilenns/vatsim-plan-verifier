@@ -3,11 +3,11 @@
 //
 // It properly carries forward any state on the existing flight sim plans, and properly
 // reports whether any new or modified plans came in.
-import IFlightPlan, { ImportState } from "../interfaces/IFlightPlan.mts";
+import { ImportState, IVatsimFlightPlan } from "../interfaces/IVatsimFlightPlan.mjs";
 import _ from "lodash";
 
 type ProcessFlightPlansResult = {
-  flightPlans: IFlightPlan[];
+  flightPlans: IVatsimFlightPlan[];
   hasNew: boolean;
   hasUpdates: boolean;
 };
@@ -30,26 +30,25 @@ export function getColorByStatus(status: ImportState | undefined): string {
 // It also returns a boolean indicating whether any of the properties
 // were different.
 function mergeFlightPlans(
-  newPlan: IFlightPlan,
-  existingPlan: IFlightPlan
-): { flightPlan: IFlightPlan; hasUpdates: boolean } {
+  incomingPlan: IVatsimFlightPlan,
+  existingPlan: IVatsimFlightPlan
+): { flightPlan: IVatsimFlightPlan; hasUpdates: boolean } {
   // Figure out if any of the properties (other than _id) and vatsimStatus changed.
-  const hasUpdates = newPlan.__v != existingPlan.__v;
+  const hasUpdates = incomingPlan.revision != existingPlan.revision;
 
   const flightPlan = {
-    ...newPlan,
-    _id: newPlan._id,
+    ...incomingPlan,
     importState: hasUpdates ? ImportState.UPDATED : existingPlan.importState,
-  } as IFlightPlan;
+  } as IVatsimFlightPlan;
 
   return { flightPlan, hasUpdates };
 }
 
 export function processFlightPlans(
-  currentPlans: IFlightPlan[],
-  incomingPlans: IFlightPlan[]
+  currentPlans: IVatsimFlightPlan[],
+  incomingPlans: IVatsimFlightPlan[]
 ): ProcessFlightPlansResult {
-  let hasUpdates = false;
+  let updatedPlansCount = 0;
 
   // If there are no incoming plans then just return that.
   if (incomingPlans.length === 0) {
@@ -68,7 +67,7 @@ export function processFlightPlans(
           ({
             ...plan,
             importState: ImportState.NEW,
-          } as IFlightPlan)
+          } as IVatsimFlightPlan)
       ),
       hasNew: true,
       hasUpdates: false,
@@ -85,16 +84,18 @@ export function processFlightPlans(
   // The returned list then has its plans updated with the current vatsimStatus.
   //
   // Yes I agree this seems hugely inefficient.
-  const existingPlans = _.intersectionBy(incomingPlans, currentPlans, "callsign").map((plan) => {
-    const currentPlan = currentPlans.find((p) => p.callsign === plan.callsign);
-    if (currentPlan) {
-      const mergeResult = mergeFlightPlans(plan, currentPlan);
-      hasUpdates = mergeResult.hasUpdates;
-      return mergeResult.flightPlan;
-    } else {
-      return plan;
+  const existingPlans = _.intersectionBy(incomingPlans, currentPlans, "callsign").map(
+    (incomingPlan) => {
+      const currentPlan = currentPlans.find((p) => p.callsign === incomingPlan.callsign);
+      if (currentPlan) {
+        const mergeResult = mergeFlightPlans(incomingPlan, currentPlan);
+        mergeResult.hasUpdates ? updatedPlansCount++ : null;
+        return mergeResult.flightPlan;
+      } else {
+        return incomingPlan;
+      }
     }
-  });
+  );
 
   // Now find the new ones by removing the existing ones from the incoming ones and
   // tag them as new.
@@ -108,6 +109,6 @@ export function processFlightPlans(
       a.callsign!.localeCompare(b.callsign!)
     ),
     hasNew: newPlans.length > 0,
-    hasUpdates,
+    hasUpdates: updatedPlansCount > 0,
   };
 }
