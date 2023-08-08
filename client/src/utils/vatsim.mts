@@ -3,7 +3,7 @@
 //
 // It properly carries forward any state on the existing flight sim plans, and properly
 // reports whether any new or modified plans came in.
-import IFlightPlan, { VatsimFlightPlanStatus } from "../interfaces/IFlightPlan.mts";
+import IFlightPlan, { ImportState } from "../interfaces/IFlightPlan.mts";
 import _ from "lodash";
 
 type ProcessFlightPlansResult = {
@@ -12,11 +12,11 @@ type ProcessFlightPlansResult = {
   hasUpdates: boolean;
 };
 
-export function getColorByStatus(status: VatsimFlightPlanStatus | undefined): string {
+export function getColorByStatus(status: ImportState | undefined): string {
   switch (status) {
-    case VatsimFlightPlanStatus.NEW:
+    case ImportState.NEW:
       return "warning.main";
-    case VatsimFlightPlanStatus.UPDATED:
+    case ImportState.UPDATED:
       return "error.main";
     default:
       return "text.primary";
@@ -39,6 +39,7 @@ function mergeFlightPlans(
       key !== "_id" &&
       key !== "vatsimStatus" &&
       key !== "_v" &&
+      key !== "groundspeed" &&
       existingPlan[key as keyof IFlightPlan] !== newPlan[key as keyof IFlightPlan]
     );
   });
@@ -46,7 +47,7 @@ function mergeFlightPlans(
   const flightPlan = {
     ...newPlan,
     _id: newPlan._id,
-    vatsimStatus: hasUpdates ? VatsimFlightPlanStatus.UPDATED : existingPlan.vatsimStatus,
+    importState: hasUpdates ? ImportState.UPDATED : existingPlan.importState,
   } as IFlightPlan;
 
   return { flightPlan, hasUpdates };
@@ -70,10 +71,13 @@ export function processFlightPlans(
   // If there are no current plans then we know everything incoming is new.
   if (currentPlans.length === 0) {
     return {
-      flightPlans: incomingPlans.map((plan) => ({
-        ...plan,
-        vatsimStatus: VatsimFlightPlanStatus.NEW,
-      })),
+      flightPlans: incomingPlans.map(
+        (plan) =>
+          ({
+            ...plan,
+            importState: ImportState.NEW,
+          } as IFlightPlan)
+      ),
       hasNew: true,
       hasUpdates: false,
     };
@@ -104,7 +108,7 @@ export function processFlightPlans(
   // tag them as new.
   const newPlans = _.differenceBy(incomingPlans, existingPlans, "callsign").map((plan) => ({
     ...plan,
-    vatsimStatus: VatsimFlightPlanStatus.NEW,
+    vatsimStatus: ImportState.NEW,
   }));
 
   return {

@@ -217,7 +217,7 @@ async function publishUpdates() {
     const flightPlans = await VatsimFlightPlanModel.find({
       departure: { $in: airportCodes },
       flightRules: "I",
-      groundspeed: { $not: { $gt: ENV.VATSIM_GROUNDSPEED_CUTOFF } },
+      status: { $eq: VatsimFlightStatus.DEPARTING },
     }).sort({ callsign: 1 });
 
     logger(

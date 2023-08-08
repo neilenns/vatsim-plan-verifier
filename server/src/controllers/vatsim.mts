@@ -1,4 +1,7 @@
-import VatsimFlightPlanModel, { VatsimFlightPlan } from "../models/VatsimFlightPlan.mjs";
+import VatsimFlightPlanModel, {
+  VatsimFlightPlan,
+  VatsimFlightStatus,
+} from "../models/VatsimFlightPlan.mjs";
 import Result from "../types/result.mjs";
 import debug from "debug";
 
@@ -9,13 +12,13 @@ type VatsimFlightPlansResult = Result<VatsimFlightPlan[], "FlightPlansNotFound" 
 export async function getVatsimFlightPlans(
   departure: string,
   flightRules: string,
-  groundspeed: number
+  status: VatsimFlightStatus
 ): Promise<VatsimFlightPlansResult> {
   try {
     const result = await VatsimFlightPlanModel.find({
       departure,
       flightRules,
-      groundspeed: { $not: { $gt: groundspeed } },
+      status,
     });
 
     if (result) {
@@ -24,7 +27,7 @@ export async function getVatsimFlightPlans(
       return {
         success: false,
         errorType: "FlightPlansNotFound",
-        error: `Flight plans for ${departure} matching ${flightRules} flight rules and a ground speed below ${groundspeed} not found.`,
+        error: `Flight plans for ${departure} matching ${flightRules} flight rules and status ${status} not found.`,
       };
     }
   } catch (error) {
