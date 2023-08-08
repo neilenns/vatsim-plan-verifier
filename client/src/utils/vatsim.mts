@@ -34,15 +34,7 @@ function mergeFlightPlans(
   existingPlan: IFlightPlan
 ): { flightPlan: IFlightPlan; hasUpdates: boolean } {
   // Figure out if any of the properties (other than _id) and vatsimStatus changed.
-  const hasUpdates = Object.keys(existingPlan).some((key) => {
-    return (
-      key !== "_id" &&
-      key !== "vatsimStatus" &&
-      key !== "_v" &&
-      key !== "groundspeed" &&
-      existingPlan[key as keyof IFlightPlan] !== newPlan[key as keyof IFlightPlan]
-    );
-  });
+  const hasUpdates = newPlan.__v != existingPlan.__v;
 
   const flightPlan = {
     ...newPlan,

@@ -11,6 +11,7 @@ export enum ImportState {
 
 interface IFlightPlan {
   _id?: string;
+  __v?: number;
   callsign?: string;
   rawAircraftType?: string;
   equipmentCode?: string;
