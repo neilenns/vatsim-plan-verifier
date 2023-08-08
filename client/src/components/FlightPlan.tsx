@@ -14,13 +14,14 @@ import {
 import { LoadingButton } from "@mui/lab";
 import { Form, useNavigation } from "react-router-dom";
 import { OpenInNew } from "@mui/icons-material";
+import { EquipmentInfoTooltip } from "./EquipmentInfoTooltip";
 
 interface FlightPlanProps {
   flightPlan: IFlightPlan;
   verifierResults: IVerifyAllResult | undefined;
 }
 
-const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
+const FlightPlan = (props: FlightPlanProps) => {
   const [flightPlan, setFlightPlan] = useState<IFlightPlan>(props.flightPlan);
   const [verifierResults, setVerifierResults] = useState<IVerifyAllResult | undefined>(undefined);
   const [skyVectorUrl, setSkyVectorUrl] = useState<string>("");
@@ -92,36 +93,7 @@ const FlightPlan: React.FC<FlightPlanProps> = (props: FlightPlanProps) => {
               label="Aircraft type"
               name="rawAircraftType"
               value={flightPlan.rawAircraftType ?? ""}
-              helperText={
-                flightPlan?.equipmentInfo?.name ? (
-                  <Tooltip
-                    title={
-                      <div>
-                        Engines: {flightPlan.equipmentInfo.engineCount}{" "}
-                        {flightPlan.equipmentInfo.engineType}
-                        <br />
-                        Weight class: {flightPlan.equipmentInfo.weightClass}
-                        <br />
-                        SRS class: {flightPlan.equipmentInfo.srsClass}
-                        {flightPlan.equipmentInfo.maxCruiseSpeed ? (
-                          <>
-                            <br />
-                            Max cruise speed: {flightPlan.equipmentInfo.maxCruiseSpeed} kts
-                          </>
-                        ) : (
-                          ""
-                        )}
-                      </div>
-                    }
-                  >
-                    <Typography variant="caption" sx={{ cursor: "pointer" }}>
-                      {flightPlan.equipmentInfo.manufacturer} {flightPlan.equipmentInfo.name}
-                    </Typography>
-                  </Tooltip>
-                ) : (
-                  " "
-                )
-              }
+              helperText={<EquipmentInfoTooltip equipmentInfo={flightPlan.equipmentInfo} />}
               trim
               onPaste={parsePastedFlightPlan}
               onChange={(text) => {
