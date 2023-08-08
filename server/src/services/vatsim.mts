@@ -1,15 +1,19 @@
 import axios, { AxiosResponse } from "axios";
 import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
 import { IVatsimData, IVatsimPilot, IVatsimPrefile } from "../interfaces/IVatsimData.mjs";
-import VatsimFlightPlanModel from "../models/VatsimFlightPlan.mjs";
+import VatsimFlightPlanModel, {
+  VatsimFlightPlan,
+  VatsimFlightStatus,
+} from "../models/VatsimFlightPlan.mjs";
 import debug from "debug";
 import { Server as SocketIOServer } from "socket.io";
 import pluralize from "pluralize";
 import { ENV } from "../env.mjs";
 import _ from "lodash";
-import vatsimplans from "./vatsimdata_2.json" assert { type: "json" };
 
 const logger = debug("plan-verifier:vatsimService");
+const updateLogger = debug("vatsim:update");
+
 let vatsimEndpoints: IVatsimEndpoints | undefined;
 let io: SocketIOServer;
 let updateTimer: NodeJS.Timeout | undefined;
@@ -61,6 +65,25 @@ function processVatsimPrefiles(prefile: IVatsimPrefile) {
   });
 }
 
+const updateProperties = [
+  "flightRules",
+  "rawAircraftType",
+  "departure",
+  "arrival",
+  "route",
+  "squawk",
+  "remarks",
+] as (keyof VatsimFlightPlan)[];
+
+function copyPropertyValue<T>(source: T, destination: T, property: keyof T) {
+  if (source[property] !== destination[property]) {
+    updateLogger(
+      `Updating ${String(property)} from ${destination[property]} to ${source[property]}`
+    );
+    destination[property] = source[property];
+  }
+}
+
 // Takes the massive list of data from vatsim and processes it into the database.
 // Both pilots (a.k.a flight plans) and prefiles are processed.
 async function processVatsimData(flightPlans: IVatsimData) {
@@ -70,33 +93,80 @@ async function processVatsimData(flightPlans: IVatsimData) {
     ...flightPlans.pilots.map(pilotToVatsimModel),
     ...flightPlans.prefiles.map(processVatsimPrefiles),
   ];
-  logger(`Processing ${incomingPlans.length} incoming plans`);
+  logger(`Processing ${incomingPlans.length} incoming VATSIM flight plans`);
 
   // Find all the callsigns for the current plans in the database to use when figuring out
   // what updates to apply.
-  const currentPlans = (await VatsimFlightPlanModel.find({}).select("callsign")).map((plan) => {
-    return plan.callsign;
-  });
-  logger(`Found ${currentPlans.length} current plans`);
+  const currentPlans = await VatsimFlightPlanModel.find({});
 
   // Find the new plans that don't currently exist in the database.
-  const newPlans = _.differenceWith(incomingPlans, currentPlans, (incoming, current) => {
-    return incoming.callsign === current;
-  });
-  logger(`There are ${newPlans.length} new plans`);
+  const newPlans = _.differenceBy(incomingPlans, currentPlans, "callsign");
 
   // Find the plans in the database that no longer exist on vatsim.
-  const deletedPlans = _.differenceWith(currentPlans, incomingPlans, (current, incoming) => {
-    return current === incoming.callsign;
+  const deletedPlans = _.differenceBy(currentPlans, incomingPlans, "callsign");
+
+  // Find the overlapping plans that need to have updates applied
+  const overlappingPlans = _.intersectionBy(incomingPlans, currentPlans, "callsign");
+
+  // Build out a dictionary of the current plans to improve performance of the update
+  const currentPlansDictionary = _.keyBy(currentPlans, "callsign");
+
+  // Loop through all the overlapping plans and apply any updated properties.
+  const updatedPlans = overlappingPlans.map((incomingPlan) => {
+    const currentPlan = currentPlansDictionary[incomingPlan.callsign];
+
+    // Groundspeed is by far the noisiest property update. Try and quiet some of the updates.
+    if (
+      currentPlan.status === VatsimFlightStatus.ENROUTE &&
+      (incomingPlan.groundspeed ?? 0) < ENV.VATSIM_GROUNDSPEED_CUTOFF
+    ) {
+      updateLogger(
+        `Updating groundspeed from ${currentPlan.groundspeed} to ${incomingPlan.groundspeed}`
+      );
+      currentPlan.groundspeed = incomingPlan.groundspeed;
+    } else if (
+      currentPlan.status === VatsimFlightStatus.DEPARTING &&
+      (incomingPlan.groundspeed ?? 0) > ENV.VATSIM_GROUNDSPEED_CUTOFF
+    ) {
+      updateLogger(
+        `Updating groundspeed from ${currentPlan.groundspeed} to ${incomingPlan.groundspeed}`
+      );
+      currentPlan.groundspeed = incomingPlan.groundspeed;
+    }
+
+    // Check and see if the plane started moving since the last update. If so, assume it has taken off.
+    if (
+      currentPlan.status === VatsimFlightStatus.DEPARTING &&
+      (incomingPlan.groundspeed ?? 0) > ENV.VATSIM_GROUNDSPEED_CUTOFF
+    ) {
+      currentPlan.status = VatsimFlightStatus.ENROUTE;
+    }
+    // If the plane was enroute and has stopped moving then consider it arrived.
+    else if (
+      currentPlan.status === VatsimFlightStatus.ENROUTE &&
+      (incomingPlan?.groundspeed ?? 0) < 1
+    ) {
+      currentPlan.status = VatsimFlightStatus.ARRIVED;
+    }
+
+    // Update any changed properties
+    updateProperties.forEach((property) => copyPropertyValue(incomingPlan, currentPlan, property));
+
+    return currentPlan;
   });
-  logger(`There are ${deletedPlans.length} deleted plans`);
 
   // Apply the updates
   await Promise.all([
-    // Add the new plans
-    VatsimFlightPlanModel.bulkSave(newPlans),
     // Delete the plans that no longer exist
-    VatsimFlightPlanModel.deleteMany({ callsign: { $in: deletedPlans } }),
+    VatsimFlightPlanModel.deleteMany({
+      callsign: {
+        $in: deletedPlans.map((plan) => plan.callsign),
+      },
+    }),
+    // Add the new plans
+    [...newPlans.map(async (plan) => await plan.save())],
+    // Update the changed plans
+    [...updatedPlans.map(async (plan) => await plan.save())],
   ]);
 }
 
@@ -147,7 +217,7 @@ async function publishUpdates() {
     const flightPlans = await VatsimFlightPlanModel.find({
       departure: { $in: airportCodes },
       flightRules: "I",
-      groundspeed: { $not: { $gt: ENV.VATSIM_GROUNDSPEED_CUTOFF } },
+      status: { $eq: VatsimFlightStatus.DEPARTING },
     }).sort({ callsign: 1 });
 
     logger(
@@ -165,53 +235,52 @@ export async function getVatsimFlightPlans() {
   }
 
   logger("Fetching VATSIM flight plans...");
-  processVatsimData(vatsimplans as IVatsimData);
 
-  // if (!vatsimEndpoints) {
-  //   const endpointsResult = await getVatsimEndpoints();
-  //   if (!endpointsResult.success) {
-  //     logger("Unable to retrieve VATSIM endpoints");
-  //     return {
-  //       success: false,
-  //       errorType: "VatsimFailure",
-  //       error: "Unable to retrieve VATSIM endpoints",
-  //     };
-  //   } else {
-  //     vatsimEndpoints = endpointsResult.data;
-  //   }
-  // }
+  if (!vatsimEndpoints) {
+    const endpointsResult = await getVatsimEndpoints();
+    if (!endpointsResult.success) {
+      logger("Unable to retrieve VATSIM endpoints");
+      return {
+        success: false,
+        errorType: "VatsimFailure",
+        error: "Unable to retrieve VATSIM endpoints",
+      };
+    } else {
+      vatsimEndpoints = endpointsResult.data;
+    }
+  }
 
-  // const dataEndpoint = vatsimEndpoints?.data.v3[0];
+  const dataEndpoint = vatsimEndpoints?.data.v3[0];
 
-  // if (!dataEndpoint) {
-  //   logger("Unable to retrieve VATSIM data endpoint");
-  //   return {
-  //     success: false,
-  //     errorType: "VatsimFailure",
-  //     error: "Unable to retrieve VATSIM data endpoint",
-  //   };
-  // }
+  if (!dataEndpoint) {
+    logger("Unable to retrieve VATSIM data endpoint");
+    return {
+      success: false,
+      errorType: "VatsimFailure",
+      error: "Unable to retrieve VATSIM data endpoint",
+    };
+  }
 
-  // try {
-  //   const response = await axios.get(dataEndpoint);
+  try {
+    const response = await axios.get(dataEndpoint);
 
-  //   if (response.status === 200) {
-  //     await processVatsimData(response.data as IVatsimData);
-  //     await publishUpdates();
-  //   } else {
-  //     return {
-  //       success: false,
-  //       errorType: "UnknownError",
-  //       error: `Unknown error: ${response.status} ${response.statusText}`,
-  //     };
-  //   }
-  // } catch (error) {
-  //   return {
-  //     success: false,
-  //     errorType: "UnknownError",
-  //     error: `Error fetching VATSIM flight plans: ${error}`,
-  //   };
-  // }
+    if (response.status === 200) {
+      await processVatsimData(response.data as IVatsimData);
+      await publishUpdates();
+    } else {
+      return {
+        success: false,
+        errorType: "UnknownError",
+        error: `Unknown error: ${response.status} ${response.statusText}`,
+      };
+    }
+  } catch (error) {
+    return {
+      success: false,
+      errorType: "UnknownError",
+      error: `Error fetching VATSIM flight plans: ${error}`,
+    };
+  }
 }
 
 export async function startVatsimAutoUpdate(updateInterval: number, ioInstance: SocketIOServer) {

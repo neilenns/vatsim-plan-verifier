@@ -3,7 +3,7 @@ import IFlightAwareAirport from "./IFlightAwareAirport.mjs";
 import ISIDInformation from "./ISIDInformation.mts";
 import ITelephony from "./ITelephony.mts";
 
-export enum VatsimFlightPlanStatus {
+export enum ImportState {
   IMPORTED = "imported",
   NEW = "new",
   UPDATED = "updated",
@@ -11,6 +11,7 @@ export enum VatsimFlightPlanStatus {
 
 interface IFlightPlan {
   _id?: string;
+  __v?: number;
   callsign?: string;
   rawAircraftType?: string;
   equipmentCode?: string;
@@ -31,7 +32,7 @@ interface IFlightPlan {
   verifierResultsCount?: number;
   remarks?: string;
   cleanedRemarks?: string;
-  vatsimStatus?: VatsimFlightPlanStatus;
+  importState?: ImportState;
 }
 
 export default IFlightPlan;

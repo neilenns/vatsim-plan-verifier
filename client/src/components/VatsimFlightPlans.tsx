@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import socketIOClient, { Socket } from "socket.io-client";
 import { apiKey, serverUrl } from "../configs/planVerifierServer.mts";
-import IFlightPlan, { VatsimFlightPlanStatus } from "../interfaces/IFlightPlan.mts";
+import IFlightPlan, { ImportState } from "../interfaces/IFlightPlan.mts";
 import { ArrowForwardOutlined as ArrowForwardOutlinedIcon } from "@mui/icons-material";
 import { List, ListItem, IconButton, ListItemText, Box, Stack, TextField } from "@mui/material";
 import debug from "debug";
@@ -114,7 +114,7 @@ const VatsimFlightPlans = () => {
     if (planIndex !== -1) {
       const updatedFlightPlans = [...flightPlans];
 
-      updatedFlightPlans[planIndex].vatsimStatus = VatsimFlightPlanStatus.IMPORTED;
+      updatedFlightPlans[planIndex].importState = ImportState.IMPORTED;
       setFlightPlans(updatedFlightPlans);
     }
   };
@@ -222,7 +222,7 @@ const VatsimFlightPlans = () => {
                     primary={flightPlan.callsign}
                     primaryTypographyProps={{
                       fontWeight: "bold",
-                      color: getColorByStatus(flightPlan.vatsimStatus),
+                      color: getColorByStatus(flightPlan.importState),
                     }}
                     secondary={`${flightPlan.departure ?? ""}-${flightPlan.arrival ?? ""}`}
                   />
