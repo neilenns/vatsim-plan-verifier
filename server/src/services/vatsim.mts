@@ -10,6 +10,8 @@ import { Server as SocketIOServer } from "socket.io";
 import pluralize from "pluralize";
 import { ENV } from "../env.mjs";
 import _ from "lodash";
+import { getFlightAwareAirport } from "../controllers/flightAwareAirports.mjs";
+import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
 
 const logger = debug("plan-verifier:vatsimService");
 const updateLogger = debug("vatsim:update");
@@ -53,6 +55,8 @@ function pilotToVatsimModel(pilot: IVatsimPilot) {
     rawAircraftType: pilot?.flight_plan?.aircraft_faa ?? "",
     departure: pilot?.flight_plan?.departure ?? "",
     arrival: pilot?.flight_plan?.arrival ?? "",
+    latitude: pilot?.latitude,
+    longitude: pilot?.longitude,
     cruiseAltitude: parseStringToNumber(pilot?.flight_plan?.altitude) / 100,
     route: cleanRoute(pilot?.flight_plan?.route ?? ""),
     squawk: pilot?.flight_plan?.assigned_transponder ?? "",
@@ -84,6 +88,50 @@ function copyPropertyValue<T>(source: T, destination: T, property: keyof T) {
     );
     destination[property] = source[property];
   }
+}
+
+// When a new flight plan shows up it's not clear what it's initial status is. Knowing it is
+// enroute is easy, it's just if the speed is above the cutoff. Departing vs arriving is a pain
+// and can only be figured out by comparing the plane's location against either the departing
+// or arriving airport.
+// @ts-ignore
+async function setInitialFlightStatus(incomingPlan) {
+  // Handle any plane that is enroute.
+  if (incomingPlan.groundspeed ?? 0 > ENV.VATSIM_GROUNDSPEED_CUTOFF) {
+    incomingPlan.status = VatsimFlightStatus.ENROUTE;
+    return incomingPlan;
+  }
+
+  // If there's no departure airport or lat/lon info then assume they are departing
+  if (!incomingPlan.departure || !incomingPlan.latitude || !incomingPlan.longitude) {
+    incomingPlan.status = VatsimFlightStatus.DEPARTING;
+    return incomingPlan;
+  }
+
+  // Check the plane's distance from the departure airport to see if it is departing or arriving.
+  const departureAirportInfo = await getFlightAwareAirport(incomingPlan.departure);
+
+  // If there's no departure airport info then assume they are departing
+  if (!departureAirportInfo.success) {
+    incomingPlan.status = VatsimFlightStatus.DEPARTING;
+    return incomingPlan;
+  }
+
+  // Calculate the distance between the plane and the departure airport. If it's greater than 10 miles assume
+  // they are arriving.
+  const departureAirport = departureAirportInfo.data;
+  const aircraftPosition = new LatLon(incomingPlan.latitude, incomingPlan.longitude);
+  const departurePosition = new LatLon(departureAirport.latitude, departureAirport.longitude);
+  const distanceToDeparture = aircraftPosition.distanceTo(departurePosition) / 1000; // Convert to km
+
+  if (distanceToDeparture > 10) {
+    incomingPlan.status = VatsimFlightStatus.ARRIVED;
+    return incomingPlan;
+  }
+
+  // If we got this far then assume they are departing
+  incomingPlan.status = VatsimFlightStatus.DEPARTING;
+  return incomingPlan;
 }
 
 // Yeah, I used ts-ignore. If anyone can figure out how on earth to type the
@@ -140,8 +188,12 @@ async function processVatsimData(flightPlans: IVatsimData) {
   // what updates to apply.
   const currentPlans = await VatsimFlightPlanModel.find({});
 
-  // Find the new plans that don't currently exist in the database.
-  const newPlans = _.differenceBy(incomingPlans, currentPlans, "callsign");
+  // Find the new plans that don't currently exist in the database and set their
+  // initial state. This method of awaiting mapped arrays is from https://stackoverflow.com/a/59471024/9206264
+  const newPlanPromises = _.differenceBy(incomingPlans, currentPlans, "callsign").map((plan) =>
+    setInitialFlightStatus(plan)
+  );
+  const newPlans = await Promise.all(newPlanPromises);
 
   // Find the plans in the database that no longer exist on vatsim.
   const deletedPlans = _.differenceBy(currentPlans, incomingPlans, "callsign");

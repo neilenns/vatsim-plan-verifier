@@ -3,6 +3,7 @@ import { prop, getModelForClass, modelOptions, plugin, pre } from "@typegoose/ty
 import updateVersioningPlugin from "../middleware/mongoose-update-versioning/index.mjs";
 
 export enum VatsimFlightStatus {
+  UNKNOWN = "UNKNOWN",
   DEPARTING = "DEPARTING",
   ENROUTE = "ENROUTE",
   ARRIVED = "ARRIVED",
@@ -45,11 +46,17 @@ export class VatsimFlightPlan {
   @prop({ required: false })
   remarks?: string;
 
-  @prop({ required: true, type: String, default: VatsimFlightStatus.DEPARTING })
+  @prop({ required: true, type: String, default: VatsimFlightStatus.UNKNOWN })
   status!: VatsimFlightStatus;
 
   @prop({ required: true, default: 0 })
   revision!: number;
+
+  @prop({ required: false })
+  latitude?: number;
+
+  @prop({ required: false })
+  longitude?: number;
 }
 
 const VatsimFlightPlanModel = getModelForClass(VatsimFlightPlan);
