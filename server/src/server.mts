@@ -42,6 +42,7 @@ import userRouter from "./routes/users.mjs";
 import vatsimRouter from "./routes/vatsim.mjs";
 import extendedAirportInfoRouter from "./routes/extendedAirportInfo.mjs";
 import quickReferenceRouter from "./routes/quickReference.mjs";
+import airportInfoRouter from "./routes/airportInfo.mjs";
 
 export const app = express();
 let server: https.Server | Server;
@@ -110,20 +111,21 @@ export function startServer(port: number): void {
   app.use(passport.initialize());
 
   // Set up the routes
-  app.use(defaultRouter);
-  app.use(flightPlan);
-  app.use(flightAwareRouter);
+  app.use(activeFlightPlansRouter);
   app.use(aircraftRouter);
   app.use(airlineRouter);
-  app.use(magneticDeclinationRouter);
-  app.use(preferredRoutesRouter);
-  app.use(activeFlightPlansRouter);
+  app.use(airportInfoRouter);
   app.use(authenticationRouter);
+  app.use(defaultRouter);
+  app.use(extendedAirportInfoRouter);
+  app.use(flightAwareRouter);
+  app.use(flightPlan);
+  app.use(magneticDeclinationRouter);
   app.use(navaidRouter);
+  app.use(preferredRoutesRouter);
+  app.use(quickReferenceRouter);
   app.use(userRouter);
   app.use(vatsimRouter);
-  app.use(extendedAirportInfoRouter);
-  app.use(quickReferenceRouter);
 
   // Verifier routes
   app.use(verifyRouter);

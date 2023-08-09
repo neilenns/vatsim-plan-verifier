@@ -2,13 +2,13 @@ import { Model, Schema, model } from "mongoose";
 import IFlightPlanDocument, { VatsimCommsEnum } from "../interfaces/IFlightPlanDocument.mjs";
 import autopopulate from "mongoose-autopopulate";
 import { formatAltitude } from "../utils.mjs";
-import { getFlightAwareAirport } from "../controllers/flightAwareAirports.mjs";
+import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
 import debug from "debug";
 import NavaidModel from "./Navaid.mjs";
 import DepartureModel, { Departure } from "./Departure.mjs";
 import { IAircraft } from "./Aircraft.mjs";
-import IFlightAwareAirportDocument from "../interfaces/IFlightAwareAirportDocument.mjs";
+import IAirportInfoDocument from "../interfaces/IAirportInfoDocument.mjs";
 
 const logger = debug("plan-verifier:flightPlan");
 export interface IFlightPlan extends IFlightPlanDocument {}
@@ -160,7 +160,7 @@ flightPlanSchema.virtual("cleanedRoute").get(function () {
 
 flightPlanSchema.virtual("initialAltitude").get(function () {
   const sid = this.get("SIDInformation") as Departure | undefined;
-  const airportInfo = this.get("departureAirportInfo") as IFlightAwareAirportDocument | undefined;
+  const airportInfo = this.get("departureAirportInfo") as IAirportInfoDocument | undefined;
   const equipmentInfo = this.get("equipmentInfo") as IAircraft | undefined;
 
   // If there's no SID but there is an airport-wide initial altitude then provide that.
@@ -200,7 +200,7 @@ flightPlanSchema.virtual("equipmentInfo", {
 });
 
 flightPlanSchema.virtual("departureAirportInfo", {
-  ref: "FlightAwareAirport",
+  ref: "airportinfo",
   localField: "departure",
   foreignField: "airportCode",
   justOne: true,
@@ -208,7 +208,7 @@ flightPlanSchema.virtual("departureAirportInfo", {
 });
 
 flightPlanSchema.virtual("arrivalAirportInfo", {
-  ref: "FlightAwareAirport",
+  ref: "airportinfo",
   localField: "arrival",
   foreignField: "airportCode",
   justOne: true,
@@ -253,8 +253,8 @@ flightPlanSchema.pre("save", async function () {
     return;
   }
 
-  const departureAirport = await getFlightAwareAirport(this.departure);
-  const arrivalAirport = await getFlightAwareAirport(this.arrival);
+  const departureAirport = await getAirportInfo(this.departure);
+  const arrivalAirport = await getAirportInfo(this.arrival);
 
   if (!departureAirport.success || !arrivalAirport.success) {
     return;

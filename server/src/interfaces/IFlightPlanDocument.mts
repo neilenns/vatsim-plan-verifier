@@ -1,6 +1,6 @@
 import { Departure } from "../models/Departure.mjs";
 import IAircraftDocument from "./IAircraftDocument.mjs";
-import IFlightAwareAirportDocument from "./IFlightAwareAirportDocument.mjs";
+import IAirportInfoDocument from "./IAirportInfoDocument.mjs";
 import { Document } from "mongoose";
 
 export enum VatsimCommsEnum {
@@ -19,8 +19,8 @@ export default interface IFlightPlanDocument extends Document {
   equipmentInfo?: IAircraftDocument;
   departure: string;
   arrival: string;
-  departureAirportInfo?: IFlightAwareAirportDocument;
-  arrivalAirportInfo?: IFlightAwareAirportDocument;
+  departureAirportInfo?: IAirportInfoDocument;
+  arrivalAirportInfo?: IAirportInfoDocument;
   squawk: string;
   isHeavy?: boolean;
   equipmentSuffix?: string;
