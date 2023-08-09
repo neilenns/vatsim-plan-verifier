@@ -1,7 +1,7 @@
 import { Document } from "mongoose";
 import { ExtendedAirportInfo } from "../models/ExtendedAirportInfo.mjs";
 
-export default interface IFlightAwareAirportDocument extends Document {
+export default interface IAirportInfoDocument extends Document {
   airportCode: string;
   alternateIdent: string;
   icaoCode: string;

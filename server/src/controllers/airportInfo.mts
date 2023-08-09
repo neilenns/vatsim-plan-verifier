@@ -1,17 +1,15 @@
 import axios, { AxiosResponse } from "axios";
-import FlightAwareAirport, { IFlightAwareAirport } from "../models/FlightAwareAirport.mjs";
+import AirportInfoModel, { IAirportInfo } from "../models/AirportInfo.mjs";
 import Result from "../types/result.mjs";
 import { ENV } from "../env.mjs";
 import debug from "debug";
 
-const logger = debug("plan-verifier:flightAwareAirportsController");
-type FlightAwareAirportResult = Result<IFlightAwareAirport, "AirportNotFound" | "UnknownError">;
+const logger = debug("plan-verifier:getAirportInfoController");
+type AirportInfoResult = Result<IAirportInfo, "AirportNotFound" | "UnknownError">;
 
-export async function getFlightAwareAirport(
-  airportCode: string
-): Promise<FlightAwareAirportResult> {
+export async function getAirportInfo(airportCode: string): Promise<AirportInfoResult> {
   try {
-    const airport = await FlightAwareAirport.findOne({ airportCode });
+    const airport = await AirportInfoModel.findOne({ airportCode });
 
     if (airport) {
       return {
@@ -39,7 +37,7 @@ export async function getFlightAwareAirport(
       };
     }
 
-    const airport = new FlightAwareAirport({
+    const airport = new AirportInfoModel({
       ...fetchedAirport,
     });
 
@@ -59,7 +57,7 @@ export async function getFlightAwareAirport(
   }
 }
 
-async function fetchAirport(airportCode: string): Promise<IFlightAwareAirport> {
+async function fetchAirport(airportCode: string): Promise<IAirportInfo> {
   const headers = {
     Accept: "application/json",
     "x-apikey": ENV.FLIGHTAWARE_API_KEY,
@@ -67,7 +65,7 @@ async function fetchAirport(airportCode: string): Promise<IFlightAwareAirport> {
 
   try {
     const endpointUrl = `https://aeroapi.flightaware.com/aeroapi/airports/${airportCode}`;
-    const response: AxiosResponse<IFlightAwareAirport> = await axios.get(endpointUrl, { headers });
+    const response: AxiosResponse<IAirportInfo> = await axios.get(endpointUrl, { headers });
 
     if (response.status === 200) {
       return response.data;

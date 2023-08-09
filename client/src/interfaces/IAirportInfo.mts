@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 import IExtendedAirportInfo from "./IExtendedAirportInfo.mts";
 
-export default interface IFlightAwareAirport {
+export default interface AirportInfo {
   _id?: Types.ObjectId;
   airportCode: string;
   alternateIdent: string;

@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@typegoose/typegoose": "^11.4.0",
+    "@typegoose/typegoose": "^11.4.1",
     "@types/debug": "^4.1.8",
     "axios": "^1.4.0",
     "chai-http": "^4.4.0",

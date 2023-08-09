@@ -1,5 +1,5 @@
 import IAircraft from "./IAircraft.mjs";
-import IFlightAwareAirport from "./IFlightAwareAirport.mjs";
+import AirportInfo from "./IAirportInfo.mjs";
 import ISIDInformation from "./ISIDInformation.mts";
 import ITelephony from "./ITelephony.mts";
 
@@ -11,8 +11,8 @@ interface IFlightPlan {
   equipmentInfo?: IAircraft;
   departure?: string;
   arrival?: string;
-  departureAirportInfo?: IFlightAwareAirport;
-  arrivalAirportInfo?: IFlightAwareAirport;
+  departureAirportInfo?: AirportInfo;
+  arrivalAirportInfo?: AirportInfo;
   squawk?: string;
   isHeavy?: boolean;
   equipmentSuffix?: string;

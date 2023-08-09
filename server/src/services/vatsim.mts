@@ -10,7 +10,7 @@ import { Server as SocketIOServer } from "socket.io";
 import pluralize from "pluralize";
 import { ENV } from "../env.mjs";
 import _ from "lodash";
-import { getFlightAwareAirport } from "../controllers/flightAwareAirports.mjs";
+import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
 
 const logger = debug("plan-verifier:vatsimService");
@@ -109,7 +109,7 @@ async function setInitialFlightStatus(incomingPlan) {
   }
 
   // Check the plane's distance from the departure airport to see if it is departing or arriving.
-  const departureAirportInfo = await getFlightAwareAirport(incomingPlan.departure);
+  const departureAirportInfo = await getAirportInfo(incomingPlan.departure);
 
   // If there's no departure airport info then assume they are departing
   if (!departureAirportInfo.success) {

@@ -3,7 +3,7 @@ import { Socket, Server as SocketIOServer } from "socket.io";
 import debug from "debug";
 import { ENV } from "../env.mjs";
 import { verifySocketApiKey } from "../middleware/apikey.mjs";
-import { getFlightAwareAirport } from "../controllers/flightAwareAirports.mjs";
+import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import { ClientToServerEvents, ServerToClientEvents } from "../types/socketEvents.mjs";
 
 const logger = debug("plan-verifier:sockets");
@@ -23,7 +23,7 @@ async function registerForAirports(socket: Socket, airportCodes: string[]) {
   const invalidAirportCodes: string[] = [];
   await Promise.all(
     airportCodes.map(async (airportCode) => {
-      const result = await getFlightAwareAirport(airportCode);
+      const result = await getAirportInfo(airportCode);
       if (!result.success) {
         invalidAirportCodes.push(airportCode);
       }
