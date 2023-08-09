@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import socketIOClient, { Socket } from "socket.io-client";
 import { apiKey, serverUrl } from "../configs/planVerifierServer.mts";
-import IFlightPlan, { VatsimFlightPlanStatus } from "../interfaces/IFlightPlan.mts";
+import { ImportState, IVatsimFlightPlan } from "../interfaces/IVatsimFlightPlan.mts";
 import { ArrowForwardOutlined as ArrowForwardOutlinedIcon } from "@mui/icons-material";
 import { List, ListItem, IconButton, ListItemText, Box, Stack, TextField } from "@mui/material";
 import debug from "debug";
@@ -18,7 +18,7 @@ const logger = debug("plan-verifier:vatsimFlightPlans");
 const VatsimFlightPlans = () => {
   const navigate = useNavigate();
   const audioPlayer = useAudio("/bell.mp3");
-  const [flightPlans, setFlightPlans] = useState<IFlightPlan[]>([]);
+  const [flightPlans, setFlightPlans] = useState<IVatsimFlightPlan[]>([]);
   const [isConnected, setIsConnected] = useState(false);
   const [airportCodes, setAirportCodes] = useState(
     localStorage.getItem("vatsimAirportCodes") || ""
@@ -46,7 +46,7 @@ const VatsimFlightPlans = () => {
       auth: { token: apiKey },
     });
 
-    socketRef.current.on("vatsimFlightPlansUpdate", (vatsimPlans: IFlightPlan[]) => {
+    socketRef.current.on("vatsimFlightPlansUpdate", (vatsimPlans: IVatsimFlightPlan[]) => {
       logger("Received vatsim flight plan update");
       // This just feels like a giant hack to get around the closure issues of useEffect and
       // useState not having flightPlans be the current value every time the update event is received.
@@ -114,7 +114,7 @@ const VatsimFlightPlans = () => {
     if (planIndex !== -1) {
       const updatedFlightPlans = [...flightPlans];
 
-      updatedFlightPlans[planIndex].vatsimStatus = VatsimFlightPlanStatus.IMPORTED;
+      updatedFlightPlans[planIndex].importState = ImportState.IMPORTED;
       setFlightPlans(updatedFlightPlans);
     }
   };
@@ -222,7 +222,7 @@ const VatsimFlightPlans = () => {
                     primary={flightPlan.callsign}
                     primaryTypographyProps={{
                       fontWeight: "bold",
-                      color: getColorByStatus(flightPlan.vatsimStatus),
+                      color: getColorByStatus(flightPlan.importState),
                     }}
                     secondary={`${flightPlan.departure ?? ""}-${flightPlan.arrival ?? ""}`}
                   />

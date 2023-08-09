@@ -1,16 +1,36 @@
 import axios, { AxiosResponse } from "axios";
 import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
 import { IVatsimData, IVatsimPilot, IVatsimPrefile } from "../interfaces/IVatsimData.mjs";
-import VatsimFlightPlanModel from "../models/VatsimFlightPlan.mjs";
+import VatsimFlightPlanModel, {
+  VatsimFlightPlan,
+  VatsimFlightStatus,
+} from "../models/VatsimFlightPlan.mjs";
 import debug from "debug";
 import { Server as SocketIOServer } from "socket.io";
 import pluralize from "pluralize";
 import { ENV } from "../env.mjs";
+import _ from "lodash";
+import { getFlightAwareAirport } from "../controllers/flightAwareAirports.mjs";
+import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
 
 const logger = debug("plan-verifier:vatsimService");
+const updateLogger = debug("vatsim:update");
+
 let vatsimEndpoints: IVatsimEndpoints | undefined;
 let io: SocketIOServer;
 let updateTimer: NodeJS.Timeout | undefined;
+
+// List of the properties on a vatsim flight plan that are eligible to
+// be updated when new data is received.
+const updateProperties = [
+  "flightRules",
+  "rawAircraftType",
+  "departure",
+  "arrival",
+  "route",
+  "squawk",
+  "remarks",
+] as (keyof VatsimFlightPlan)[];
 
 function cleanRoute(route: string) {
   return route
@@ -27,73 +47,190 @@ function parseStringToNumber(value: string) {
   return convertedValue;
 }
 
-// Takes pilots from vatsim and processes them into the database.
-async function processVatsimPilots(pilots: IVatsimPilot[]) {
-  let pilotCount = 0;
-  await Promise.all([
-    pilots.map(async (pilot) => {
-      if (!pilot?.callsign) return;
-      if (pilot?.flight_plan?.flight_rules !== "I") return;
-      if (pilot.groundspeed ?? 0 > 40) return;
-
-      const flightPlan = new VatsimFlightPlanModel({
-        callsign: pilot?.callsign ?? "",
-        groundspeed: pilot?.groundspeed ?? "",
-        rawAircraftType: pilot?.flight_plan?.aircraft_faa ?? "",
-        departure: pilot?.flight_plan?.departure ?? "",
-        arrival: pilot?.flight_plan?.arrival ?? "",
-        cruiseAltitude: parseStringToNumber(pilot?.flight_plan?.altitude) / 100,
-        route: cleanRoute(pilot?.flight_plan?.route ?? ""),
-        squawk: pilot?.flight_plan?.assigned_transponder ?? "",
-        remarks: pilot?.flight_plan?.remarks ?? "",
-        flightRules: pilot?.flight_plan?.flight_rules ?? "",
-      });
-
-      pilotCount++;
-      await flightPlan.save();
-    }),
-  ]);
-
-  logger(`Added ${pilotCount} flight plans`);
+// Takes a pilot object from vatsim and converts it to a vatsim model
+function pilotToVatsimModel(pilot: IVatsimPilot) {
+  return new VatsimFlightPlanModel({
+    callsign: pilot?.callsign ?? "",
+    groundspeed: pilot?.groundspeed ?? "",
+    rawAircraftType: pilot?.flight_plan?.aircraft_faa ?? "",
+    departure: pilot?.flight_plan?.departure ?? "",
+    arrival: pilot?.flight_plan?.arrival ?? "",
+    latitude: pilot?.latitude,
+    longitude: pilot?.longitude,
+    cruiseAltitude: parseStringToNumber(pilot?.flight_plan?.altitude) / 100,
+    route: cleanRoute(pilot?.flight_plan?.route ?? ""),
+    squawk: pilot?.flight_plan?.assigned_transponder ?? "",
+    remarks: pilot?.flight_plan?.remarks ?? "",
+    flightRules: pilot?.flight_plan?.flight_rules ?? "",
+  });
 }
 
-// Takes prefiles from vatsim and processes them into the database.
-async function processVatsimPrefiles(prefiles: IVatsimPrefile[]) {
-  let prefileCount = 0;
-  await Promise.all([
-    prefiles.map(async (prefile) => {
-      if (!prefile?.callsign) return;
-      if (prefile?.flight_plan.flight_rules !== "I") return;
+// Takes a prefile from vatsim and converts it to a vatsim model.
+function processVatsimPrefiles(prefile: IVatsimPrefile) {
+  return new VatsimFlightPlanModel({
+    callsign: prefile?.callsign ?? "",
+    groundspeed: 0,
+    rawAircraftType: prefile?.flight_plan?.aircraft_faa ?? "",
+    departure: prefile?.flight_plan?.departure ?? "",
+    arrival: prefile?.flight_plan?.arrival ?? "",
+    cruiseAltitude: parseStringToNumber(prefile?.flight_plan?.altitude) / 100,
+    route: cleanRoute(prefile?.flight_plan?.route ?? ""),
+    squawk: prefile?.flight_plan?.assigned_transponder ?? "",
+    remarks: prefile?.flight_plan?.remarks ?? "",
+    flightRules: prefile?.flight_plan?.flight_rules ?? "",
+  });
+}
 
-      const flightPlan = new VatsimFlightPlanModel({
-        callsign: prefile?.callsign ?? "",
-        groundspeed: 0,
-        rawAircraftType: prefile?.flight_plan?.aircraft_faa ?? "",
-        departure: prefile?.flight_plan?.departure ?? "",
-        arrival: prefile?.flight_plan?.arrival ?? "",
-        cruiseAltitude: parseStringToNumber(prefile?.flight_plan?.altitude) / 100,
-        route: cleanRoute(prefile?.flight_plan?.route ?? ""),
-        squawk: prefile?.flight_plan?.assigned_transponder ?? "",
-        remarks: prefile?.flight_plan?.remarks ?? "",
-        flightRules: prefile?.flight_plan?.flight_rules ?? "",
-      });
+function copyPropertyValue<T>(source: T, destination: T, property: keyof T) {
+  if (source[property] !== destination[property]) {
+    updateLogger(
+      `Updating ${String(property)} from ${destination[property]} to ${source[property]}`
+    );
+    destination[property] = source[property];
+  }
+}
 
-      prefileCount++;
-      await flightPlan.save();
-    }),
-  ]);
+// When a new flight plan shows up it's not clear what it's initial status is. Knowing it is
+// enroute is easy, it's just if the speed is above the cutoff. Departing vs arriving is a pain
+// and can only be figured out by comparing the plane's location against either the departing
+// or arriving airport.
+// @ts-ignore
+async function setInitialFlightStatus(incomingPlan) {
+  // Handle any plane that is enroute.
+  if (incomingPlan.groundspeed ?? 0 > ENV.VATSIM_GROUNDSPEED_CUTOFF) {
+    incomingPlan.status = VatsimFlightStatus.ENROUTE;
+    return incomingPlan;
+  }
 
-  logger(`Added ${prefileCount} prefiled flight plans`);
+  // If there's no departure airport or lat/lon info then assume they are departing
+  if (!incomingPlan.departure || !incomingPlan.latitude || !incomingPlan.longitude) {
+    incomingPlan.status = VatsimFlightStatus.DEPARTING;
+    return incomingPlan;
+  }
+
+  // Check the plane's distance from the departure airport to see if it is departing or arriving.
+  const departureAirportInfo = await getFlightAwareAirport(incomingPlan.departure);
+
+  // If there's no departure airport info then assume they are departing
+  if (!departureAirportInfo.success) {
+    incomingPlan.status = VatsimFlightStatus.DEPARTING;
+    return incomingPlan;
+  }
+
+  // Calculate the distance between the plane and the departure airport. If it's greater than 10 miles assume
+  // they are arriving.
+  const departureAirport = departureAirportInfo.data;
+  const aircraftPosition = new LatLon(incomingPlan.latitude, incomingPlan.longitude);
+  const departurePosition = new LatLon(departureAirport.latitude, departureAirport.longitude);
+  const distanceToDeparture = aircraftPosition.distanceTo(departurePosition) / 1000; // Convert to km
+
+  if (distanceToDeparture > 10) {
+    incomingPlan.status = VatsimFlightStatus.ARRIVED;
+    return incomingPlan;
+  }
+
+  // If we got this far then assume they are departing
+  incomingPlan.status = VatsimFlightStatus.DEPARTING;
+  return incomingPlan;
+}
+
+// Yeah, I used ts-ignore. If anyone can figure out how on earth to type the
+// parameters for a model generated by typegoose I'd be happy to update this.
+// @ts-ignore
+function updateGroundSpeedAndFlightStatus(incomingPlan, currentPlan) {
+  // Groundspeed is by far the noisiest property update. Try and quiet some of the updates.
+  if (
+    currentPlan.status === VatsimFlightStatus.ENROUTE &&
+    (incomingPlan.groundspeed ?? 0) < ENV.VATSIM_GROUNDSPEED_CUTOFF
+  ) {
+    updateLogger(
+      `Updating groundspeed from ${currentPlan.groundspeed} to ${incomingPlan.groundspeed}`
+    );
+    currentPlan.groundspeed = incomingPlan.groundspeed;
+  } else if (
+    currentPlan.status === VatsimFlightStatus.DEPARTING &&
+    (incomingPlan.groundspeed ?? 0) > ENV.VATSIM_GROUNDSPEED_CUTOFF
+  ) {
+    updateLogger(
+      `Updating groundspeed from ${currentPlan.groundspeed} to ${incomingPlan.groundspeed}`
+    );
+    currentPlan.groundspeed = incomingPlan.groundspeed;
+  }
+
+  // Check and see if the plane started moving since the last update. If so, assume it has taken off.
+  if (
+    currentPlan.status === VatsimFlightStatus.DEPARTING &&
+    (incomingPlan.groundspeed ?? 0) > ENV.VATSIM_GROUNDSPEED_CUTOFF
+  ) {
+    currentPlan.status = VatsimFlightStatus.ENROUTE;
+  }
+  // If the plane was enroute and has stopped moving then consider it arrived.
+  else if (
+    currentPlan.status === VatsimFlightStatus.ENROUTE &&
+    (incomingPlan?.groundspeed ?? 0) < 1
+  ) {
+    currentPlan.status = VatsimFlightStatus.ARRIVED;
+  }
 }
 
 // Takes the massive list of data from vatsim and processes it into the database.
 // Both pilots (a.k.a flight plans) and prefiles are processed.
 async function processVatsimData(flightPlans: IVatsimData) {
-  await VatsimFlightPlanModel.deleteMany({});
+  // Build a list of all the incoming plans, regardless of whether it's a prefile,
+  // for use with the rest of the update logic.
+  const incomingPlans = [
+    ...flightPlans.pilots.map(pilotToVatsimModel),
+    ...flightPlans.prefiles.map(processVatsimPrefiles),
+  ];
+  logger(`Processing ${incomingPlans.length} incoming VATSIM flight plans`);
 
-  return Promise.all([
-    processVatsimPilots(flightPlans.pilots),
-    processVatsimPrefiles(flightPlans.prefiles),
+  // Find all the callsigns for the current plans in the database to use when figuring out
+  // what updates to apply.
+  const currentPlans = await VatsimFlightPlanModel.find({});
+
+  // Find the new plans that don't currently exist in the database and set their
+  // initial state. This method of awaiting mapped arrays is from https://stackoverflow.com/a/59471024/9206264
+  const newPlanPromises = _.differenceBy(incomingPlans, currentPlans, "callsign").map((plan) =>
+    setInitialFlightStatus(plan)
+  );
+  const newPlans = await Promise.all(newPlanPromises);
+
+  // Find the plans in the database that no longer exist on vatsim.
+  const deletedPlans = _.differenceBy(currentPlans, incomingPlans, "callsign");
+
+  // Find the overlapping plans that need to have updates applied
+  const overlappingPlans = _.intersectionBy(incomingPlans, currentPlans, "callsign");
+
+  // Build out a dictionary of the current plans to improve performance of the update
+  const currentPlansDictionary = _.keyBy(currentPlans, "callsign");
+
+  // Loop through all the overlapping plans and apply any updated properties.
+  const updatedPlans = overlappingPlans.map((incomingPlan) => {
+    const currentPlan = currentPlansDictionary[incomingPlan.callsign];
+
+    // Set the groundspeed and flight status. The two are interrelated
+    // and groundspeed is super noisy so they are handled separately from the rest of the
+    // property updates.
+    updateGroundSpeedAndFlightStatus(incomingPlan, currentPlan);
+
+    // Update any changed properties
+    updateProperties.forEach((property) => copyPropertyValue(incomingPlan, currentPlan, property));
+
+    return currentPlan;
+  });
+
+  // Save all the changes to the database
+  await Promise.all([
+    // Delete the plans that no longer exist
+    await VatsimFlightPlanModel.deleteMany({
+      callsign: {
+        $in: deletedPlans.map((plan) => plan.callsign),
+      },
+    }),
+    // Add the new plans
+    [...newPlans.map(async (plan) => await plan.save())],
+    // Update the changed plans. This has to be done via save() to ensure middleware runs.
+    [...updatedPlans.map(async (plan) => await plan.save())],
   ]);
 }
 
@@ -144,7 +281,7 @@ async function publishUpdates() {
     const flightPlans = await VatsimFlightPlanModel.find({
       departure: { $in: airportCodes },
       flightRules: "I",
-      groundspeed: { $not: { $gt: ENV.VATSIM_GROUNDSPEED_CUTOFF } },
+      status: { $eq: VatsimFlightStatus.DEPARTING },
     }).sort({ callsign: 1 });
 
     logger(

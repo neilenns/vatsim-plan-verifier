@@ -3,20 +3,20 @@
 //
 // It properly carries forward any state on the existing flight sim plans, and properly
 // reports whether any new or modified plans came in.
-import IFlightPlan, { VatsimFlightPlanStatus } from "../interfaces/IFlightPlan.mts";
+import { ImportState, IVatsimFlightPlan } from "../interfaces/IVatsimFlightPlan.mjs";
 import _ from "lodash";
 
 type ProcessFlightPlansResult = {
-  flightPlans: IFlightPlan[];
+  flightPlans: IVatsimFlightPlan[];
   hasNew: boolean;
   hasUpdates: boolean;
 };
 
-export function getColorByStatus(status: VatsimFlightPlanStatus | undefined): string {
+export function getColorByStatus(status: ImportState | undefined): string {
   switch (status) {
-    case VatsimFlightPlanStatus.NEW:
+    case ImportState.NEW:
       return "warning.main";
-    case VatsimFlightPlanStatus.UPDATED:
+    case ImportState.UPDATED:
       return "error.main";
     default:
       return "text.primary";
@@ -30,33 +30,25 @@ export function getColorByStatus(status: VatsimFlightPlanStatus | undefined): st
 // It also returns a boolean indicating whether any of the properties
 // were different.
 function mergeFlightPlans(
-  newPlan: IFlightPlan,
-  existingPlan: IFlightPlan
-): { flightPlan: IFlightPlan; hasUpdates: boolean } {
+  incomingPlan: IVatsimFlightPlan,
+  existingPlan: IVatsimFlightPlan
+): { flightPlan: IVatsimFlightPlan; hasUpdates: boolean } {
   // Figure out if any of the properties (other than _id) and vatsimStatus changed.
-  const hasUpdates = Object.keys(existingPlan).some((key) => {
-    return (
-      key !== "_id" &&
-      key !== "vatsimStatus" &&
-      key !== "_v" &&
-      existingPlan[key as keyof IFlightPlan] !== newPlan[key as keyof IFlightPlan]
-    );
-  });
+  const hasUpdates = incomingPlan.revision != existingPlan.revision;
 
   const flightPlan = {
-    ...newPlan,
-    _id: newPlan._id,
-    vatsimStatus: hasUpdates ? VatsimFlightPlanStatus.UPDATED : existingPlan.vatsimStatus,
-  } as IFlightPlan;
+    ...incomingPlan,
+    importState: hasUpdates ? ImportState.UPDATED : existingPlan.importState,
+  } as IVatsimFlightPlan;
 
   return { flightPlan, hasUpdates };
 }
 
 export function processFlightPlans(
-  currentPlans: IFlightPlan[],
-  incomingPlans: IFlightPlan[]
+  currentPlans: IVatsimFlightPlan[],
+  incomingPlans: IVatsimFlightPlan[]
 ): ProcessFlightPlansResult {
-  let hasUpdates = false;
+  let updatedPlansCount = 0;
 
   // If there are no incoming plans then just return that.
   if (incomingPlans.length === 0) {
@@ -70,10 +62,13 @@ export function processFlightPlans(
   // If there are no current plans then we know everything incoming is new.
   if (currentPlans.length === 0) {
     return {
-      flightPlans: incomingPlans.map((plan) => ({
-        ...plan,
-        vatsimStatus: VatsimFlightPlanStatus.NEW,
-      })),
+      flightPlans: incomingPlans.map(
+        (plan) =>
+          ({
+            ...plan,
+            importState: ImportState.NEW,
+          } as IVatsimFlightPlan)
+      ),
       hasNew: true,
       hasUpdates: false,
     };
@@ -89,22 +84,24 @@ export function processFlightPlans(
   // The returned list then has its plans updated with the current vatsimStatus.
   //
   // Yes I agree this seems hugely inefficient.
-  const existingPlans = _.intersectionBy(incomingPlans, currentPlans, "callsign").map((plan) => {
-    const currentPlan = currentPlans.find((p) => p.callsign === plan.callsign);
-    if (currentPlan) {
-      const mergeResult = mergeFlightPlans(plan, currentPlan);
-      hasUpdates = mergeResult.hasUpdates;
-      return mergeResult.flightPlan;
-    } else {
-      return plan;
+  const existingPlans = _.intersectionBy(incomingPlans, currentPlans, "callsign").map(
+    (incomingPlan) => {
+      const currentPlan = currentPlans.find((p) => p.callsign === incomingPlan.callsign);
+      if (currentPlan) {
+        const mergeResult = mergeFlightPlans(incomingPlan, currentPlan);
+        mergeResult.hasUpdates ? updatedPlansCount++ : null;
+        return mergeResult.flightPlan;
+      } else {
+        return incomingPlan;
+      }
     }
-  });
+  );
 
   // Now find the new ones by removing the existing ones from the incoming ones and
   // tag them as new.
   const newPlans = _.differenceBy(incomingPlans, existingPlans, "callsign").map((plan) => ({
     ...plan,
-    vatsimStatus: VatsimFlightPlanStatus.NEW,
+    vatsimStatus: ImportState.NEW,
   }));
 
   return {
@@ -112,6 +109,6 @@ export function processFlightPlans(
       a.callsign!.localeCompare(b.callsign!)
     ),
     hasNew: newPlans.length > 0,
-    hasUpdates,
+    hasUpdates: updatedPlansCount > 0,
   };
 }

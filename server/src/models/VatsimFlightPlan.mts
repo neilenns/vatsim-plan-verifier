@@ -1,6 +1,20 @@
-import { prop, getModelForClass, modelOptions } from "@typegoose/typegoose";
+import { prop, getModelForClass, modelOptions, plugin, pre } from "@typegoose/typegoose";
+// @ts-ignore
+import updateVersioningPlugin from "../middleware/mongoose-update-versioning/index.mjs";
+
+export enum VatsimFlightStatus {
+  UNKNOWN = "UNKNOWN",
+  DEPARTING = "DEPARTING",
+  ENROUTE = "ENROUTE",
+  ARRIVED = "ARRIVED",
+}
 
 @modelOptions({ options: { customName: "vatsimflightplan" } })
+@pre<VatsimFlightPlan>("save", function () {
+  if (this.isModified()) {
+    this.revision++;
+  }
+})
 export class VatsimFlightPlan {
   @prop({ required: true })
   callsign!: string;
@@ -31,6 +45,18 @@ export class VatsimFlightPlan {
 
   @prop({ required: false })
   remarks?: string;
+
+  @prop({ required: true, type: String, default: VatsimFlightStatus.UNKNOWN })
+  status!: VatsimFlightStatus;
+
+  @prop({ required: true, default: 0 })
+  revision!: number;
+
+  @prop({ required: false })
+  latitude?: number;
+
+  @prop({ required: false })
+  longitude?: number;
 }
 
 const VatsimFlightPlanModel = getModelForClass(VatsimFlightPlan);
