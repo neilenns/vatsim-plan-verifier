@@ -8,6 +8,9 @@ export class MagneticDeclination {
   @prop({ required: true, index: true, unique: true })
   magneticDeclination!: number;
 
+  @prop({ type: Date, expires: "30 days", required: true, default: Date.now })
+  createdAt!: Date;
+
   public static async findByAirportCode(
     this: ReturnModelType<typeof MagneticDeclination>,
     airportCode: string
