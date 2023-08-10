@@ -120,6 +120,11 @@ async function setInitialFlightStatus(incomingPlan: DocumentType<VatsimFlightPla
   // Calculate the distance between the plane and the departure airport. If it's greater than 10 miles assume
   // they are arriving.
   const departureAirport = departureAirportInfo.data;
+  if (!departureAirport.latitude || !departureAirport.longitude) {
+    incomingPlan.status = VatsimFlightStatus.DEPARTING;
+    return incomingPlan;
+  }
+
   const aircraftPosition = new LatLon(incomingPlan.latitude, incomingPlan.longitude);
   const departurePosition = new LatLon(departureAirport.latitude, departureAirport.longitude);
   const distanceToDeparture = aircraftPosition.distanceTo(departurePosition) / 1000; // Convert to km

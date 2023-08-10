@@ -8,7 +8,8 @@ import debug from "debug";
 import NavaidModel from "./Navaid.mjs";
 import DepartureModel, { Departure } from "./Departure.mjs";
 import { IAircraft } from "./Aircraft.mjs";
-import IAirportInfoDocument from "../interfaces/IAirportInfoDocument.mjs";
+import { AirportInfoClass } from "./AirportInfo.mjs";
+import { isDocument } from "@typegoose/typegoose";
 
 const logger = debug("plan-verifier:flightPlan");
 export interface IFlightPlan extends IFlightPlanDocument {}
@@ -160,11 +161,15 @@ flightPlanSchema.virtual("cleanedRoute").get(function () {
 
 flightPlanSchema.virtual("initialAltitude").get(function () {
   const sid = this.get("SIDInformation") as Departure | undefined;
-  const airportInfo = this.get("departureAirportInfo") as IAirportInfoDocument | undefined;
+  const airportInfo = this.get("departureAirportInfo") as AirportInfoClass | undefined;
   const equipmentInfo = this.get("equipmentInfo") as IAircraft | undefined;
 
   // If there's no SID but there is an airport-wide initial altitude then provide that.
-  if (!sid && airportInfo?.extendedAirportInfo?.initialAltitude) {
+  if (
+    !sid &&
+    isDocument(airportInfo?.extendedAirportInfo) &&
+    airportInfo?.extendedAirportInfo?.initialAltitude
+  ) {
     return formatAltitude(airportInfo.extendedAirportInfo.initialAltitude, false);
   }
 
@@ -256,7 +261,14 @@ flightPlanSchema.pre("save", async function () {
   const departureAirport = await getAirportInfo(this.departure);
   const arrivalAirport = await getAirportInfo(this.arrival);
 
-  if (!departureAirport.success || !arrivalAirport.success) {
+  if (
+    !departureAirport.success ||
+    !arrivalAirport.success ||
+    !departureAirport?.data?.latitude ||
+    !departureAirport?.data?.longitude ||
+    !arrivalAirport?.data?.latitude ||
+    !arrivalAirport?.data?.longitude
+  ) {
     return;
   }
 

@@ -1,3 +1,4 @@
+import { isDocument } from "@typegoose/typegoose";
 import { IFlightPlan } from "../../models/FlightPlan.mjs";
 import VerifierResult from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
@@ -25,7 +26,10 @@ export default async function hasSID({
   try {
     // Check and see if the flight is out of an airport that's known to have no SIDs. If so
     // skip this verifier.
-    if (departureAirportInfo?.extendedAirportInfo?.hasSIDs === false) {
+    if (
+      isDocument(departureAirportInfo?.extendedAirportInfo) &&
+      departureAirportInfo?.extendedAirportInfo?.hasSIDs === false
+    ) {
       result.data.status = "Information";
       result.data.message = `Departure airport has no SIDs.`;
       result.data.messageId = "airportHasNoSIDs";

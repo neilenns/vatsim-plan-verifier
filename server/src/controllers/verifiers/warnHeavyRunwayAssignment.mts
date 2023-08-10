@@ -4,6 +4,7 @@ import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import debug from "debug";
 import _ from "lodash";
 import { joinWithWord } from "../../utils/formatting.mjs";
+import { isDocument } from "@typegoose/typegoose";
 
 const verifierName = "warnHeavyRunwayAssignment";
 const logger = debug(`plan-verifier:${verifierName}`);
@@ -24,7 +25,16 @@ export default async function warnHeavyRunwayAssignment({
     }),
   };
 
-  const heavyRunways = departureAirportInfo?.extendedAirportInfo?.heavyRunways;
+  let heavyRunways: string[] | undefined;
+
+  // This nonsense is required to typeguard the extendedAirportInfo property
+  // and avoid typescript problems.
+  if (!isDocument(departureAirportInfo?.extendedAirportInfo)) {
+    heavyRunways = undefined;
+  } else {
+    heavyRunways = departureAirportInfo?.extendedAirportInfo?.heavyRunways;
+  }
+
   try {
     // Plane is not a heavy
     if (!isHeavy) {
