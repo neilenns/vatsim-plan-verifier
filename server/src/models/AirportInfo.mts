@@ -3,7 +3,9 @@ import IAirportInfoDocument from "../interfaces/IAirportInfoDocument.mjs";
 import { getMagneticDeclination } from "../controllers/magneticDeclination.mjs";
 import autopopulate from "mongoose-autopopulate";
 
-export interface IAirportInfo extends IAirportInfoDocument {}
+export interface IAirportInfo extends IAirportInfoDocument {
+  getMagneticDeclination: () => Promise<number | undefined>;
+}
 export interface IAirportInfoModel extends Model<IAirportInfo> {}
 
 const airportInfoSchema = new Schema(
@@ -77,37 +79,52 @@ airportInfoSchema.virtual("extendedAirportInfo", {
   autopopulate: true,
 });
 
-// THIS NEEDS TO STOP HAPPENING ON SAVE.
-// CACHE IT IN THE DATABSE.
-// PROVIDE AN INSTANCE METHOD THAT WILL RETURN THE CACHED VALUE OR GO LOOK IT UP.
-
-// Look up the magnetic declination for the airport on save so it can be used
-// repeatedly elsewhere without constantly making calls to the web service to
-// get the current value.
-airportInfoSchema.pre("save", async function () {
-  // If the airport was created with a magnetic declination value then
-  // don't bother trying to request it from the web service. This is primarily
-  // for unit testing where the decliation will be provided as part of test
-  // setup.
+// Returns the magnetic declination, using the cached database value if it exists.
+// Otherwise it will contact a web service to get the magnetic declination and
+// cache the result in the database.
+airportInfoSchema.methods.getMagneticDeclination = async function () {
   if (this.magneticDeclination) {
-    return;
+    return this.magneticDeclination;
+  }
+
+  if (!this.latitude || !this.longitude) {
+    return undefined;
   }
 
   const result = await getMagneticDeclination(this.latitude, this.longitude);
 
   if (!result.success) {
-    return;
+    return undefined;
   }
 
   // As best I can tell the magnetic declination is returned as a positive
   // number for west and a negative number for east. So we need to negate
   // the result to get the correct value for math later on.
   this.magneticDeclination = -result.data;
-});
+  await this.save();
+
+  return this.magneticDeclination;
+};
 
 airportInfoSchema.plugin(autopopulate);
-airportInfoSchema.set("toJSON", { virtuals: true, aliases: false });
-airportInfoSchema.set("toObject", { virtuals: true, aliases: false });
+airportInfoSchema.set("toJSON", {
+  virtuals: true,
+  aliases: false,
+  transform: function (doc, ret, options) {
+    // magneticDecliation is stripped so it doesn't accidentally get used instead of getMagneticDeclination()
+    delete ret.magneticDeclination;
+    return ret;
+  },
+});
+airportInfoSchema.set("toObject", {
+  virtuals: true,
+  aliases: false,
+  transform: function (doc, ret, options) {
+    // magneticDecliation is stripped so it doesn't accidentally get used instead of getMagneticDeclination()
+    delete ret.magneticDeclination;
+    return ret;
+  },
+});
 
 const AirportInfoModel: IAirportInfoModel = model<IAirportInfo, IAirportInfoModel>(
   "airportinfo",

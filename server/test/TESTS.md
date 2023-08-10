@@ -35,12 +35,12 @@ Flight plans should be added as part of the set up for each specific test. This 
 
 ## Airports
 
-|            ID            | Airport code |   Notes   |
-| :----------------------: | :----------: | :-------: |
-| 5f9f7b3b9d3b3c1b1c9b4b4b |     KPDX     | Portland  |
-| 5f9f7b3b9d3b3c1b1c9b4b4c |     KSEA     |  Seattle  |
-| 5f9f7b3b9d3b3c1b1c9b4b4d |     KSLE     |   Salem   |
-| 5f9f7b3b9d3b3c1b1c9b4b4e |     KPDT     | Pendelton |
+|            ID            | Airport code |                   Notes                   |
+| :----------------------: | :----------: | :---------------------------------------: |
+| 5f9f7b3b9d3b3c1b1c9b4b4b |     KPDX     |                 Portland                  |
+| 5f9f7b3b9d3b3c1b1c9b4b4c |     KSEA     |                  Seattle                  |
+| 5f9f7b3b9d3b3c1b1c9b4b4d |     KSLE     |                   Salem                   |
+| 5f9f7b3b9d3b3c1b1c9b4b4e |     KPDT     | Pendelton, no cached magnetic declination |
 
 ## Extended airport information
 

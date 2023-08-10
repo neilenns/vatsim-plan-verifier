@@ -263,8 +263,15 @@ flightPlanSchema.pre("save", async function () {
   const origin = new LatLon(departureAirport.data.latitude, departureAirport.data.longitude);
   const destination = new LatLon(arrivalAirport.data.latitude, arrivalAirport.data.longitude);
 
-  const rawBearing =
-    origin.initialBearingTo(destination) + (departureAirport.data.magneticDeclination ?? 0);
+  // Use the instance method to get the declination. This will force a call to a web service
+  // to retrieve it if it's not already cached in the database.
+  const magneticDeclination = await departureAirport.data.getMagneticDeclination();
+
+  if (!magneticDeclination) {
+    return;
+  }
+
+  const rawBearing = origin.initialBearingTo(destination) + (magneticDeclination ?? 0);
 
   // Force the final value to be between 0 and 359
   this.directionOfFlight = Math.round(rawBearing < 0 ? rawBearing + 360 : rawBearing) % 360;

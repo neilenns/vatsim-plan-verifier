@@ -15,7 +15,9 @@ import addExtendedAirportInfo from "./setup/addExtendedAirportInfo.mjs";
 let mongoServer: MongoMemoryServer;
 // This is to ensure any network calls made by the tests don't actually
 // go anywhere and result in a 404. There's no need to actually mock
-// any of the REST API calls made by the server.
+// any of the REST API calls made by the server. Individual tests
+// that do depend on REST APIs set up their own mocks, for example
+// the airportInfo.spec.mts tests.
 let mock = new MockAdapter(axios);
 
 export async function mochaGlobalSetup() {

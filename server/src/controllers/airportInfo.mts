@@ -87,32 +87,51 @@ async function fetchAirportFromFlightAware(airportCode: string): Promise<IAirpor
 // to an array of IAirportInfo for later use.
 export async function fetchAirportsFromAvioWiki(): Promise<FetchAvioWikiAirportsResult> {
   try {
-    // const zippedResponse = await axios.get(
-    //   "https://exports.aviowiki.com/free_airports.json.zip",
-    //   { responseType: "arraybuffer" }
-    // );
-    // const zipBuffer = Buffer.from(zippedResponse.data);
-    // const zip = new AdmZip(zipBuffer);
-    // const jsonData = JSON.parse(zip.readAsText(zip.getEntries()[0])) as IAvioWikiAirport[];
-
-    const jsonData = airportJson as IAvioWikiAirport[];
-
-    const models = jsonData.map((airport) => {
-      logger(`Processing ${airport.name}`);
-
-      return new AirportInfoModel({
-        airportCode: airport.icao ?? airport.iata ?? airport.localIdentifier,
-        icaoCode: airport.icao ?? undefined,
-        iataCode: airport.iata ?? undefined,
-        name: airport.name ?? undefined,
-        city: airport.servedCity ?? undefined,
-        state: airport.servedCityGoverningDistrict?.name ?? undefined,
-        latitude: airport.coordinates?.latitude ?? undefined,
-        longitude: airport.coordinates?.longitude ?? undefined,
-        timezone: airport.timeZone ?? undefined,
-        countryCode: airport.country?.iso2 ?? airport.country?.iso3 ?? undefined,
-      });
+    const zippedResponse = await axios.get("https://exports.aviowiki.com/free_airports.json.zip", {
+      responseType: "arraybuffer",
     });
+    const zipBuffer = Buffer.from(zippedResponse.data);
+    const zip = new AdmZip(zipBuffer);
+    const jsonData = JSON.parse(zip.readAsText(zip.getEntries()[0])) as IAvioWikiAirport[];
+
+    const models = jsonData
+      // There's lots of entries that don't have any airport code, which is the index used in the local
+      // database. Skip importing those airports.
+      .filter((airport) => airport.icao || airport.iata || airport.localIdentifier)
+      // Convert all the incoming data to AirportInfoModels
+      .map((airport) => {
+        if (!airport.icao && !airport.iata && !airport.localIdentifier) {
+          logger(`Skipping ${airport.name} because it has no ICAO, IATA, or local identifier`);
+        }
+
+        return new AirportInfoModel({
+          airportCode: airport.icao ?? airport.iata ?? airport.localIdentifier,
+          icaoCode: airport.icao ?? undefined,
+          iataCode: airport.iata ?? undefined,
+          name: airport.name ?? undefined,
+          city: airport.servedCity ?? undefined,
+          state: airport.servedCityGoverningDistrict?.name ?? undefined,
+          latitude: airport.coordinates?.latitude ?? undefined,
+          longitude: airport.coordinates?.longitude ?? undefined,
+          timezone: airport.timeZone ?? undefined,
+          countryCode: airport.country?.iso2 ?? airport.country?.iso3 ?? undefined,
+        });
+      });
+
+    logger(`Saving ${models.length} airports to database`);
+    // Save the world. Good god.
+    await AirportInfoModel.deleteMany({});
+    await Promise.all(
+      models.map(async (model) => {
+        try {
+          await model.save();
+        } catch (err) {
+          const error = err as Error;
+          logger(`Unable to save ${model.name} to database: ${error.message}. Skipping.`);
+        }
+      })
+    );
+    logger(`Done!`);
 
     return {
       success: true,
