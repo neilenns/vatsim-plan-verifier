@@ -172,7 +172,7 @@ function updateGroundSpeedAndFlightStatus(
   // If the plane was enroute and has stopped moving then consider it arrived.
   else if (
     currentPlan.status === VatsimFlightStatus.ENROUTE &&
-    (incomingPlan?.groundspeed ?? 0) < 10
+    (incomingPlan?.groundspeed ?? 0) < ENV.VATSIM_GROUNDSPEED_CUTOFF
   ) {
     currentPlan.status = VatsimFlightStatus.ARRIVED;
   }
