@@ -14,11 +14,6 @@ const airportInfoSchema = new Schema(
       unique: true,
       alias: "airport_code",
     },
-    alternateIdent: {
-      type: String,
-      required: false,
-      alias: "alternate_ident",
-    },
     icaoCode: {
       type: String,
       required: false,
@@ -28,11 +23,6 @@ const airportInfoSchema = new Schema(
       type: String,
       required: false,
       alias: "code_iata",
-    },
-    lidCode: {
-      type: String,
-      required: false,
-      alias: "code_lid",
     },
     name: {
       type: String,
@@ -71,20 +61,6 @@ const airportInfoSchema = new Schema(
       required: false,
       alias: "country_code",
     },
-    wikiUrl: {
-      type: String,
-      required: false,
-      alias: "wiki_url",
-    },
-    airportFlightsUrl: {
-      type: String,
-      required: false,
-      alias: "airport_flights_url",
-    },
-    alternatives: {
-      type: [String],
-      required: false,
-    },
     magneticDeclination: {
       type: Number,
       required: false,
@@ -100,6 +76,10 @@ airportInfoSchema.virtual("extendedAirportInfo", {
   justOne: true,
   autopopulate: true,
 });
+
+// THIS NEEDS TO STOP HAPPENING ON SAVE.
+// CACHE IT IN THE DATABSE.
+// PROVIDE AN INSTANCE METHOD THAT WILL RETURN THE CACHED VALUE OR GO LOOK IT UP.
 
 // Look up the magnetic declination for the airport on save so it can be used
 // repeatedly elsewhere without constantly making calls to the web service to

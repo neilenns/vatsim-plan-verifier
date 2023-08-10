@@ -3,9 +3,15 @@ import AirportInfoModel, { IAirportInfo } from "../models/AirportInfo.mjs";
 import Result from "../types/result.mjs";
 import { ENV } from "../env.mjs";
 import debug from "debug";
+import airportJson from "./free_airports.json" assert { type: "json" };
+import { IAvioWikiAirport } from "../interfaces/IAvioWikiAirport.mjs";
+import IAirportInfoDocument from "../interfaces/IAirportInfoDocument.mjs";
+import AdmZip from "adm-zip";
+import { json } from "stream/consumers";
 
 const logger = debug("plan-verifier:getAirportInfoController");
 type AirportInfoResult = Result<IAirportInfo, "AirportNotFound" | "UnknownError">;
+type FetchAvioWikiAirportsResult = Result<number, "UnknownError">;
 
 export async function getAirportInfo(airportCode: string): Promise<AirportInfoResult> {
   try {
@@ -26,7 +32,7 @@ export async function getAirportInfo(airportCode: string): Promise<AirportInfoRe
   }
 
   try {
-    const fetchedAirport = await fetchAirport(airportCode);
+    const fetchedAirport = await fetchAirportFromFlightAware(airportCode);
 
     if (!fetchedAirport) {
       logger(`No airport found for ${airportCode}`);
@@ -57,7 +63,7 @@ export async function getAirportInfo(airportCode: string): Promise<AirportInfoRe
   }
 }
 
-async function fetchAirport(airportCode: string): Promise<IAirportInfo> {
+async function fetchAirportFromFlightAware(airportCode: string): Promise<IAirportInfo> {
   const headers = {
     Accept: "application/json",
     "x-apikey": ENV.FLIGHTAWARE_API_KEY,
@@ -74,5 +80,45 @@ async function fetchAirport(airportCode: string): Promise<IAirportInfo> {
     }
   } catch (error) {
     throw new Error(`Error fetching airport information for ${airportCode}: ${error}`);
+  }
+}
+
+// Downloads the zip file of airprort info from AvioWiki, extracts it, and converts it
+// to an array of IAirportInfo for later use.
+export async function fetchAirportsFromAvioWiki(): Promise<FetchAvioWikiAirportsResult> {
+  try {
+    // const zippedResponse = await axios.get(
+    //   "https://exports.aviowiki.com/free_airports.json.zip",
+    //   { responseType: "arraybuffer" }
+    // );
+    // const zipBuffer = Buffer.from(zippedResponse.data);
+    // const zip = new AdmZip(zipBuffer);
+    // const jsonData = JSON.parse(zip.readAsText(zip.getEntries()[0])) as IAvioWikiAirport[];
+
+    const jsonData = airportJson as IAvioWikiAirport[];
+
+    const models = jsonData.map((airport) => {
+      logger(`Processing ${airport.name}`);
+
+      return new AirportInfoModel({
+        airportCode: airport.icao ?? airport.iata ?? airport.localIdentifier,
+        icaoCode: airport.icao ?? undefined,
+        iataCode: airport.iata ?? undefined,
+        name: airport.name ?? undefined,
+        city: airport.servedCity ?? undefined,
+        state: airport.servedCityGoverningDistrict?.name ?? undefined,
+        latitude: airport.coordinates?.latitude ?? undefined,
+        longitude: airport.coordinates?.longitude ?? undefined,
+        timezone: airport.timeZone ?? undefined,
+        countryCode: airport.country?.iso2 ?? airport.country?.iso3 ?? undefined,
+      });
+    });
+
+    return {
+      success: true,
+      data: models.length,
+    };
+  } catch (error) {
+    throw new Error(`Error downloading and extracting airport information from AvioWiki: ${error}`);
   }
 }

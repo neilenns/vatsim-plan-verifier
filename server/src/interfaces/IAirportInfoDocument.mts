@@ -3,10 +3,8 @@ import { ExtendedAirportInfo } from "../models/ExtendedAirportInfo.mjs";
 
 export default interface IAirportInfoDocument extends Document {
   airportCode: string;
-  alternateIdent: string;
-  icaoCode: string;
-  iataCode: string;
-  lidCode: string;
+  icaoCode?: string;
+  iataCode?: string;
   name: string;
   type: string;
   elevation: number;
@@ -16,9 +14,6 @@ export default interface IAirportInfoDocument extends Document {
   latitude: number;
   timezone: string;
   countryCode: string;
-  wikiUrl: string;
-  airportFlightsUrl: string;
-  alternatives: string[];
   magneticDeclination?: number;
   extendedAirportInfo?: ExtendedAirportInfo;
 }
