@@ -13,6 +13,7 @@ const airportInfoSchema = new Schema(
     airportCode: {
       type: String,
       required: true,
+      index: true,
       unique: true,
       alias: "airport_code",
     },

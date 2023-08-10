@@ -87,6 +87,7 @@ async function fetchAirportFromFlightAware(airportCode: string): Promise<IAirpor
 // to an array of IAirportInfo for later use.
 export async function fetchAirportsFromAvioWiki(): Promise<FetchAvioWikiAirportsResult> {
   try {
+    logger("Downloading and extracting airport information from AvioWiki");
     const zippedResponse = await axios.get("https://exports.aviowiki.com/free_airports.json.zip", {
       responseType: "arraybuffer",
     });
