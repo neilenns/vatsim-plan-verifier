@@ -10,7 +10,6 @@ export async function getMagneticDeclination(
   longitude: number
 ): Promise<MagneticDeclinationResult> {
   try {
-    throw Error("This should not be getting called!");
     const endpointUrl = `https://www.ngdc.noaa.gov/geomag-web/calculators/calculateDeclination?lat1=${latitude}&lon1=${longitude}&key=${ENV.GEOMAG_API_KEY}&resultFormat=json`;
     let response: AxiosResponse<MagneticVariationResponse> = await axios.get(endpointUrl);
 
