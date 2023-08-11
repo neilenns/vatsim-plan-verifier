@@ -1,4 +1,4 @@
-import AirportInfoModel from "../../src/models/AirportInfo.mjs";
+import { AirportInfoModel } from "../../src/models/AirportInfo.mjs";
 
 const airports = [
   {

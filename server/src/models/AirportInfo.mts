@@ -101,7 +101,5 @@ class AirportInfoClass {
   }
 }
 
-const AirportInfoModel = getModelForClass(AirportInfoClass);
-
+export const AirportInfoModel = getModelForClass(AirportInfoClass);
 export type AirportInfoDocument = DocumentType<AirportInfoClass>;
-export default AirportInfoModel;
