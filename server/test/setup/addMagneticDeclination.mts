@@ -1,4 +1,4 @@
-import MagneticDeclinationModel from "../../src/models/MagneticDecliation.mjs";
+import { MagneticDeclinationModel } from "../../src/models/MagneticDecliation.mjs";
 
 const magneticDecliations = [
   {
