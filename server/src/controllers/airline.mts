@@ -3,9 +3,9 @@ import Result from "../types/result.mjs";
 import debug from "debug";
 
 const logger = debug("plan-verifier:airlineController");
-type AircraftResult = Result<IAirline[], "AirlineNotFound" | "UnknownError">;
+type AirlineResult = Result<IAirline[], "AirlineNotFound" | "UnknownError">;
 
-export async function getAirline(airlineCode: string): Promise<AircraftResult> {
+export async function getAirline(airlineCode: string): Promise<AirlineResult> {
   try {
     const fetchedAirlines = await Airline.findByAirlineCode(airlineCode);
 

@@ -7,9 +7,9 @@ import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
 import debug from "debug";
 import NavaidModel from "./Navaid.mjs";
 import DepartureModel, { Departure } from "./Departure.mjs";
-import { IAircraft } from "./Aircraft.mjs";
 import { isDocument } from "@typegoose/typegoose";
 import { AirportInfoDocument } from "./AirportInfo.mjs";
+import { AircraftDocument } from "./Aircraft.mjs";
 
 const logger = debug("plan-verifier:flightPlan");
 export interface IFlightPlan extends IFlightPlanDocument {}
@@ -162,7 +162,7 @@ flightPlanSchema.virtual("cleanedRoute").get(function () {
 flightPlanSchema.virtual("initialAltitude").get(function () {
   const sid = this.get("SIDInformation") as Departure | undefined;
   const airportInfo = this.get("departureAirportInfo") as AirportInfoDocument | undefined;
-  const equipmentInfo = this.get("equipmentInfo") as IAircraft | undefined;
+  const equipmentInfo = this.get("equipmentInfo") as AircraftDocument | undefined;
 
   // If there's no SID but there is an airport-wide initial altitude then provide that.
   if (
