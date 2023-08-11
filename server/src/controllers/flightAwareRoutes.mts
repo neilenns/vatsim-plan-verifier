@@ -1,29 +1,29 @@
 import FlightPlan from "../interfaces/IFlightPlanDocument.mjs";
 import axios, { AxiosResponse } from "axios";
-import FlightAwareRoute, { IFlightAwareRoute } from "../models/FlightAwareRoute.mjs";
+import { FlightAwareRouteModel, FlightAwareRouteDocument } from "../models/FlightAwareRoute.mjs";
 import Result from "../types/result.mjs";
 import { ENV } from "../env.mjs";
 import debug from "debug";
 
 const logger = debug("plan-verifier:flightAwareRoutesController");
-type FlightAwareRoutesResult = Result<IFlightAwareRoute[], "UnknownError">;
+type FlightAwareRoutesResult = Result<FlightAwareRouteDocument[], "UnknownError">;
 
 interface FlightAwareRoutesResponse {
-  routes: IFlightAwareRoute[];
+  routes: FlightAwareRouteDocument[];
 }
 
 export async function getFlightAwareRoutes({
   departure,
   arrival,
 }: Partial<FlightPlan>): Promise<FlightAwareRoutesResult> {
-  const resultRoutes: IFlightAwareRoute[] = [];
+  const resultRoutes: FlightAwareRouteDocument[] = [];
 
   if (!departure || !arrival) {
     throw new Error("Missing departure or arrival");
   }
 
   try {
-    const routes = await FlightAwareRoute.find({ departure, arrival });
+    const routes = await FlightAwareRouteModel.find({ departure, arrival });
 
     if (routes && routes.length > 0) {
       logger(`Found cached routes for ${departure}-${arrival}`);
@@ -51,7 +51,7 @@ export async function getFlightAwareRoutes({
 
     await Promise.all(
       fetchedRoutes.routes.map(async (route) => {
-        const newRoute = new FlightAwareRoute({
+        const newRoute = new FlightAwareRouteModel({
           ...route,
           departure,
           arrival,
