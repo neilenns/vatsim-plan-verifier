@@ -1,7 +1,7 @@
 import { prop, getModelForClass, modelOptions, DocumentType } from "@typegoose/typegoose";
 
 @modelOptions({ options: { customName: "navaid" } })
-export class Navaid {
+class Navaid {
   @prop({ required: true })
   class!: string;
 

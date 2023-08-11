@@ -1,4 +1,10 @@
-import { prop, getModelForClass, modelOptions, ReturnModelType } from "@typegoose/typegoose";
+import {
+  prop,
+  getModelForClass,
+  modelOptions,
+  ReturnModelType,
+  DocumentType,
+} from "@typegoose/typegoose";
 
 export enum MessageTarget {
   Unknown = "Unknown",
@@ -7,7 +13,7 @@ export enum MessageTarget {
 }
 
 @modelOptions({ options: { customName: "custommessage" } })
-export class CustomMessage {
+class CustomMessage {
   @prop({ required: true })
   messageTarget!: MessageTarget;
 
@@ -27,11 +33,10 @@ export class CustomMessage {
     this: ReturnModelType<typeof CustomMessage>,
     messageTarget: MessageTarget,
     targetName: string
-  ): Promise<CustomMessage[] | null> {
+  ): Promise<DocumentType<CustomMessage>[] | null> {
     return await this.find({ messageTarget, targetName });
   }
 }
 
-const CustomMessageModel = getModelForClass(CustomMessage);
-
-export default CustomMessageModel;
+export const CustomMessageModel = getModelForClass(CustomMessage);
+export type CustomMessageDocument = DocumentType<CustomMessage>;

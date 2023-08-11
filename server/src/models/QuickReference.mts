@@ -7,7 +7,7 @@ import {
 } from "@typegoose/typegoose";
 
 @modelOptions({ options: { customName: "quickreference" } })
-export class QuickReference {
+class QuickReference {
   @prop({ required: true, unique: true })
   key!: string;
 

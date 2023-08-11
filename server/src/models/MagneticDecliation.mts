@@ -7,7 +7,7 @@ import {
 } from "@typegoose/typegoose";
 
 @modelOptions({ options: { customName: "magneticdeclination" } })
-export class MagneticDeclination {
+class MagneticDeclination {
   @prop({ required: true })
   airportCode!: string;
 
