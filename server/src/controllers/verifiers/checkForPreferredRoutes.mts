@@ -1,5 +1,5 @@
 import { IFlightPlan } from "../../models/FlightPlan.mjs";
-import { PreferredRoute, PreferredRouteModel } from "../../models/PreferredRoute.mjs";
+import { PreferredRouteModel } from "../../models/PreferredRoute.mjs";
 import VerifierResult from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import { formatAltitude } from "../../utils.mjs";
