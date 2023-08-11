@@ -2,12 +2,12 @@ import { getMagneticDeclination } from "../controllers/magneticDeclination.mjs";
 import autopopulate from "mongoose-autopopulate";
 import MagneticDeclinationModel from "./MagneticDecliation.mjs";
 import {
-  Ref,
   modelOptions,
   prop,
   DocumentType,
   plugin,
   getModelForClass,
+  Ref,
 } from "@typegoose/typegoose";
 import { ExtendedAirportInfo } from "./ExtendedAirportInfo.mjs";
 
@@ -20,7 +20,7 @@ import { ExtendedAirportInfo } from "./ExtendedAirportInfo.mjs";
   },
 })
 @plugin(autopopulate)
-export class AirportInfoClass {
+class AirportInfoClass {
   @prop({ required: true, index: true, unique: true, alias: "airport_code" })
   airportCode!: string;
 
@@ -103,4 +103,5 @@ export class AirportInfoClass {
 
 const AirportInfoModel = getModelForClass(AirportInfoClass);
 
+export type AirportInfoDocument = DocumentType<AirportInfoClass>;
 export default AirportInfoModel;

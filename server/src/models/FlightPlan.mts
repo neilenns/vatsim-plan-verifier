@@ -8,8 +8,8 @@ import debug from "debug";
 import NavaidModel from "./Navaid.mjs";
 import DepartureModel, { Departure } from "./Departure.mjs";
 import { IAircraft } from "./Aircraft.mjs";
-import { AirportInfoClass } from "./AirportInfo.mjs";
 import { isDocument } from "@typegoose/typegoose";
+import { AirportInfoDocument } from "./AirportInfo.mjs";
 
 const logger = debug("plan-verifier:flightPlan");
 export interface IFlightPlan extends IFlightPlanDocument {}
@@ -113,11 +113,11 @@ flightPlanSchema.virtual("vatsimComms").get(function () {
 
   const remarks = this.remarks.toUpperCase();
 
-  if (this.remarks.includes("/V/")) {
+  if (remarks.includes("/V/")) {
     return VatsimCommsEnum.VOICE;
-  } else if (this.remarks.includes("/R")) {
+  } else if (remarks.includes("/R")) {
     return VatsimCommsEnum.RECEIVEONLY;
-  } else if (this.remarks.includes("/T")) {
+  } else if (remarks.includes("/T")) {
     return VatsimCommsEnum.TEXTONLY;
   }
   return VatsimCommsEnum.UNKNOWN;
@@ -161,7 +161,7 @@ flightPlanSchema.virtual("cleanedRoute").get(function () {
 
 flightPlanSchema.virtual("initialAltitude").get(function () {
   const sid = this.get("SIDInformation") as Departure | undefined;
-  const airportInfo = this.get("departureAirportInfo") as AirportInfoClass | undefined;
+  const airportInfo = this.get("departureAirportInfo") as AirportInfoDocument | undefined;
   const equipmentInfo = this.get("equipmentInfo") as IAircraft | undefined;
 
   // If there's no SID but there is an airport-wide initial altitude then provide that.

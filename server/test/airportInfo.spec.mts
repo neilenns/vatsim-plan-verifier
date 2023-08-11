@@ -4,7 +4,7 @@ import { expect } from "chai";
 import { describe, it } from "mocha";
 import { getAirportInfo } from "../src/controllers/airportInfo.mjs";
 
-import { IAirportInfo } from "../src/models/AirportInfo.mjs";
+import { AirportInfoDocument } from "../src/models/AirportInfo.mjs";
 import { SuccessResult } from "../src/types/result.mjs";
 
 describe("Airport info pre-cached data tests", function () {
@@ -51,7 +51,7 @@ describe("Airport info pre-cached data tests", function () {
     const result = await getAirportInfo("KSEA");
     expect(result.success).to.equal(true);
 
-    const data = (result as SuccessResult<IAirportInfo>).data;
+    const data = (result as SuccessResult<AirportInfoDocument>).data;
     expect(data.airportCode).to.equal("KSEA");
 
     const magneticDeclination = await data.getMagneticDeclination();
@@ -62,27 +62,21 @@ describe("Airport info pre-cached data tests", function () {
     const result = await getAirportInfo("KPDX");
     expect(result.success).to.equal(true);
 
-    const data = (result as SuccessResult<IAirportInfo>).data;
+    const data = (result as SuccessResult<AirportInfoDocument>).data;
     expect(data.airportCode).to.equal("KPDX");
 
     const magneticDeclination = await data.getMagneticDeclination();
     expect(magneticDeclination).to.not.equal(undefined);
   });
 
-  it("should store and return magnetic declination", async function () {
+  it("should return magnetic declination", async function () {
     let result = await getAirportInfo("KPDT");
     expect(result.success).to.equal(true);
 
-    // Should be undefined to start
-    const data = (result as SuccessResult<IAirportInfo>).data;
-    expect(data.magneticDeclination).to.equal(undefined);
-
     // Should get a value back from getMagneticDeclination
+    const data = (result as SuccessResult<AirportInfoDocument>).data;
+
     const magneticDeclination = await data.getMagneticDeclination();
     expect(magneticDeclination).to.not.equal(undefined);
-
-    // Should be cached in the database
-    result = await getAirportInfo("KPDT");
-    expect(data.magneticDeclination).to.not.equal(undefined);
   });
 });

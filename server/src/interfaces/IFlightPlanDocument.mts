@@ -1,4 +1,4 @@
-import { AirportInfoClass } from "../models/AirportInfo.mjs";
+import { AirportInfoDocument } from "../models/AirportInfo.mjs";
 import { Departure } from "../models/Departure.mjs";
 import IAircraftDocument from "./IAircraftDocument.mjs";
 import { Document } from "mongoose";
@@ -19,8 +19,8 @@ export default interface IFlightPlanDocument extends Document {
   equipmentInfo?: IAircraftDocument;
   departure: string;
   arrival: string;
-  departureAirportInfo?: AirportInfoClass;
-  arrivalAirportInfo?: AirportInfoClass;
+  departureAirportInfo?: AirportInfoDocument;
+  arrivalAirportInfo?: AirportInfoDocument;
   squawk: string;
   isHeavy?: boolean;
   equipmentSuffix?: string;
