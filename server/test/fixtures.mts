@@ -11,6 +11,7 @@ import addPreferredRoutes from "./setup/addPreferredRoutes.mjs";
 import addDepartures from "./setup/addDepartures.mjs";
 import addCustomMessages from "./setup/addCustomMessages.mjs";
 import addExtendedAirportInfo from "./setup/addExtendedAirportInfo.mjs";
+import addMagneticDeclination from "./setup/addMagneticDeclination.mjs";
 
 let mongoServer: MongoMemoryServer;
 // This is to ensure any network calls made by the tests don't actually
@@ -34,14 +35,17 @@ export async function mochaGlobalSetup() {
   await mongoose.connection.db.dropDatabase();
 
   // Populate the database
-  await addAirports();
-  await addAircraft();
-  await addAirlines();
-  await addFlightAwareRoutes();
-  await addPreferredRoutes();
-  await addDepartures();
-  await addCustomMessages();
-  await addExtendedAirportInfo();
+  await Promise.all([
+    addAirports(),
+    addAircraft(),
+    addAirlines(),
+    addFlightAwareRoutes(),
+    addPreferredRoutes(),
+    addDepartures(),
+    addCustomMessages(),
+    addExtendedAirportInfo(),
+    addMagneticDeclination(),
+  ]);
 }
 
 export async function mochaGlobalTeardown() {
