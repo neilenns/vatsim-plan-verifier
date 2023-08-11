@@ -1,4 +1,4 @@
-import QuickReferenceModel, { QuickReference } from "../models/QuickReference.mjs";
+import { QuickReferenceModel, QuickReferenceDocument } from "../models/QuickReference.mjs";
 import Result from "../types/result.mjs";
 import debug from "debug";
 
@@ -6,7 +6,10 @@ const logger = debug("plan-verifier:quickReference");
 
 type QuickReferenceList = { key: string; label: string }[];
 
-type QuickReferenceResult = Result<QuickReference, "QuickReferenceNotFound" | "UnknownError">;
+type QuickReferenceResult = Result<
+  QuickReferenceDocument,
+  "QuickReferenceNotFound" | "UnknownError"
+>;
 type QuickReferenceListResult = Result<QuickReferenceList, "UnknownError">;
 
 export async function getQuickReference(key: string): Promise<QuickReferenceResult> {

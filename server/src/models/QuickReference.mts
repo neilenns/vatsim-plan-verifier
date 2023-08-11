@@ -1,4 +1,10 @@
-import { prop, getModelForClass, modelOptions, ReturnModelType } from "@typegoose/typegoose";
+import {
+  prop,
+  getModelForClass,
+  modelOptions,
+  ReturnModelType,
+  DocumentType,
+} from "@typegoose/typegoose";
 
 @modelOptions({ options: { customName: "quickreference" } })
 export class QuickReference {
@@ -14,11 +20,10 @@ export class QuickReference {
   public static async findByKey(
     this: ReturnModelType<typeof QuickReference>,
     key: string
-  ): Promise<QuickReference | null> {
+  ): Promise<DocumentType<QuickReference> | null> {
     return await this.findOne({ key });
   }
 }
 
-const QuickReferenceModel = getModelForClass(QuickReference);
-
-export default QuickReferenceModel;
+export const QuickReferenceModel = getModelForClass(QuickReference);
+export type QuickReferenceDocument = DocumentType<QuickReference>;
