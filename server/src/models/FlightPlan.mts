@@ -8,7 +8,8 @@ import debug from "debug";
 import NavaidModel from "./Navaid.mjs";
 import DepartureModel, { Departure } from "./Departure.mjs";
 import { IAircraft } from "./Aircraft.mjs";
-import IAirportInfoDocument from "../interfaces/IAirportInfoDocument.mjs";
+import { isDocument } from "@typegoose/typegoose";
+import { AirportInfoDocument } from "./AirportInfo.mjs";
 
 const logger = debug("plan-verifier:flightPlan");
 export interface IFlightPlan extends IFlightPlanDocument {}
@@ -112,11 +113,11 @@ flightPlanSchema.virtual("vatsimComms").get(function () {
 
   const remarks = this.remarks.toUpperCase();
 
-  if (this.remarks.includes("/V/")) {
+  if (remarks.includes("/V/")) {
     return VatsimCommsEnum.VOICE;
-  } else if (this.remarks.includes("/R")) {
+  } else if (remarks.includes("/R")) {
     return VatsimCommsEnum.RECEIVEONLY;
-  } else if (this.remarks.includes("/T")) {
+  } else if (remarks.includes("/T")) {
     return VatsimCommsEnum.TEXTONLY;
   }
   return VatsimCommsEnum.UNKNOWN;
@@ -160,11 +161,15 @@ flightPlanSchema.virtual("cleanedRoute").get(function () {
 
 flightPlanSchema.virtual("initialAltitude").get(function () {
   const sid = this.get("SIDInformation") as Departure | undefined;
-  const airportInfo = this.get("departureAirportInfo") as IAirportInfoDocument | undefined;
+  const airportInfo = this.get("departureAirportInfo") as AirportInfoDocument | undefined;
   const equipmentInfo = this.get("equipmentInfo") as IAircraft | undefined;
 
   // If there's no SID but there is an airport-wide initial altitude then provide that.
-  if (!sid && airportInfo?.extendedAirportInfo?.initialAltitude) {
+  if (
+    !sid &&
+    isDocument(airportInfo?.extendedAirportInfo) &&
+    airportInfo?.extendedAirportInfo?.initialAltitude
+  ) {
     return formatAltitude(airportInfo.extendedAirportInfo.initialAltitude, false);
   }
 
@@ -256,15 +261,29 @@ flightPlanSchema.pre("save", async function () {
   const departureAirport = await getAirportInfo(this.departure);
   const arrivalAirport = await getAirportInfo(this.arrival);
 
-  if (!departureAirport.success || !arrivalAirport.success) {
+  if (
+    !departureAirport.success ||
+    !arrivalAirport.success ||
+    !departureAirport?.data?.latitude ||
+    !departureAirport?.data?.longitude ||
+    !arrivalAirport?.data?.latitude ||
+    !arrivalAirport?.data?.longitude
+  ) {
     return;
   }
 
   const origin = new LatLon(departureAirport.data.latitude, departureAirport.data.longitude);
   const destination = new LatLon(arrivalAirport.data.latitude, arrivalAirport.data.longitude);
 
-  const rawBearing =
-    origin.initialBearingTo(destination) + (departureAirport.data.magneticDeclination ?? 0);
+  // Use the instance method to get the declination. This will force a call to a web service
+  // to retrieve it if it's not already cached in the database.
+  const magneticDeclination = await departureAirport.data.getMagneticDeclination();
+
+  if (!magneticDeclination) {
+    return;
+  }
+
+  const rawBearing = origin.initialBearingTo(destination) + (magneticDeclination ?? 0);
 
   // Force the final value to be between 0 and 359
   this.directionOfFlight = Math.round(rawBearing < 0 ? rawBearing + 360 : rawBearing) % 360;

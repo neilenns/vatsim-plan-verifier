@@ -1,11 +1,14 @@
 import axios, { AxiosResponse } from "axios";
-import AirportInfoModel, { IAirportInfo } from "../models/AirportInfo.mjs";
+import { AirportInfoModel, AirportInfoDocument } from "../models/AirportInfo.mjs";
 import Result from "../types/result.mjs";
 import { ENV } from "../env.mjs";
 import debug from "debug";
+import { IAvioWikiAirport } from "../interfaces/IAvioWikiAirport.mjs";
+import AdmZip from "adm-zip";
 
 const logger = debug("plan-verifier:getAirportInfoController");
-type AirportInfoResult = Result<IAirportInfo, "AirportNotFound" | "UnknownError">;
+type AirportInfoResult = Result<AirportInfoDocument, "AirportNotFound" | "UnknownError">;
+type FetchAvioWikiAirportsResult = Result<number, "UnknownError">;
 
 export async function getAirportInfo(airportCode: string): Promise<AirportInfoResult> {
   try {
@@ -26,7 +29,7 @@ export async function getAirportInfo(airportCode: string): Promise<AirportInfoRe
   }
 
   try {
-    const fetchedAirport = await fetchAirport(airportCode);
+    const fetchedAirport = await fetchAirportFromFlightAware(airportCode);
 
     if (!fetchedAirport) {
       logger(`No airport found for ${airportCode}`);
@@ -57,7 +60,7 @@ export async function getAirportInfo(airportCode: string): Promise<AirportInfoRe
   }
 }
 
-async function fetchAirport(airportCode: string): Promise<IAirportInfo> {
+async function fetchAirportFromFlightAware(airportCode: string): Promise<AirportInfoDocument> {
   const headers = {
     Accept: "application/json",
     "x-apikey": ENV.FLIGHTAWARE_API_KEY,
@@ -65,7 +68,7 @@ async function fetchAirport(airportCode: string): Promise<IAirportInfo> {
 
   try {
     const endpointUrl = `https://aeroapi.flightaware.com/aeroapi/airports/${airportCode}`;
-    const response: AxiosResponse<IAirportInfo> = await axios.get(endpointUrl, { headers });
+    const response: AxiosResponse<AirportInfoDocument> = await axios.get(endpointUrl, { headers });
 
     if (response.status === 200) {
       return response.data;
@@ -74,5 +77,65 @@ async function fetchAirport(airportCode: string): Promise<IAirportInfo> {
     }
   } catch (error) {
     throw new Error(`Error fetching airport information for ${airportCode}: ${error}`);
+  }
+}
+
+// Downloads the zip file of airprort info from AvioWiki, extracts it, and converts it
+// to an array of IAirportInfo for later use.
+export async function fetchAirportsFromAvioWiki(): Promise<FetchAvioWikiAirportsResult> {
+  try {
+    logger("Downloading and extracting airport information from AvioWiki");
+    const zippedResponse = await axios.get("https://exports.aviowiki.com/free_airports.json.zip", {
+      responseType: "arraybuffer",
+    });
+    const zipBuffer = Buffer.from(zippedResponse.data);
+    const zip = new AdmZip(zipBuffer);
+    const jsonData = JSON.parse(zip.readAsText(zip.getEntries()[0])) as IAvioWikiAirport[];
+
+    const models = jsonData
+      // There's lots of entries that don't have any airport code, which is the index used in the local
+      // database. Skip importing those airports.
+      .filter((airport) => airport.icao || airport.iata || airport.localIdentifier)
+      // Convert all the incoming data to AirportInfoModels
+      .map((airport) => {
+        if (!airport.icao && !airport.iata && !airport.localIdentifier) {
+          logger(`Skipping ${airport.name} because it has no ICAO, IATA, or local identifier`);
+        }
+
+        return new AirportInfoModel({
+          airportCode: airport.icao ?? airport.iata ?? airport.localIdentifier,
+          icaoCode: airport.icao ?? undefined,
+          iataCode: airport.iata ?? undefined,
+          name: airport.name ?? undefined,
+          city: airport.servedCity ?? undefined,
+          state: airport.servedCityGoverningDistrict?.name ?? undefined,
+          latitude: airport.coordinates?.latitude ?? undefined,
+          longitude: airport.coordinates?.longitude ?? undefined,
+          timezone: airport.timeZone ?? undefined,
+          countryCode: airport.country?.iso2 ?? airport.country?.iso3 ?? undefined,
+        });
+      });
+
+    logger(`Saving ${models.length} airports to database`);
+    // Save the world. Good god.
+    await AirportInfoModel.deleteMany({});
+    await Promise.all(
+      models.map(async (model) => {
+        try {
+          await model.save();
+        } catch (err) {
+          const error = err as Error;
+          logger(`Unable to save ${model.name} to database: ${error.message}. Skipping.`);
+        }
+      })
+    );
+    logger(`Done!`);
+
+    return {
+      success: true,
+      data: models.length,
+    };
+  } catch (error) {
+    throw new Error(`Error downloading and extracting airport information from AvioWiki: ${error}`);
   }
 }

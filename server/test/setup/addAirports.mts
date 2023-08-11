@@ -1,4 +1,4 @@
-import AirportInfoModel from "../../src/models/AirportInfo.mjs";
+import { AirportInfoModel } from "../../src/models/AirportInfo.mjs";
 
 const airports = [
   {
@@ -90,7 +90,6 @@ const airports = [
     wikiUrl: "http://en.wikipedia.org/wiki/Eastern_Oregon_Regional_Airport",
     airportFlightsUrl: "/airports/KPDT/flights",
     alternatives: [],
-    magneticDeclination: -14.07176,
     __v: 0,
   },
 ];

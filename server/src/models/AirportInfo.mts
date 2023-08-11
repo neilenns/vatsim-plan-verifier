@@ -1,137 +1,105 @@
-import { Model, Schema, model } from "mongoose";
-import IAirportInfoDocument from "../interfaces/IAirportInfoDocument.mjs";
 import { getMagneticDeclination } from "../controllers/magneticDeclination.mjs";
 import autopopulate from "mongoose-autopopulate";
+import MagneticDeclinationModel from "./MagneticDecliation.mjs";
+import {
+  modelOptions,
+  prop,
+  DocumentType,
+  plugin,
+  getModelForClass,
+  Ref,
+} from "@typegoose/typegoose";
+import { ExtendedAirportInfo } from "./ExtendedAirportInfo.mjs";
 
-export interface IAirportInfo extends IAirportInfoDocument {}
-export interface IAirportInfoModel extends Model<IAirportInfo> {}
-
-const airportInfoSchema = new Schema(
-  {
-    airportCode: {
-      type: String,
-      required: true,
-      unique: true,
-      alias: "airport_code",
-    },
-    alternateIdent: {
-      type: String,
-      required: false,
-      alias: "alternate_ident",
-    },
-    icaoCode: {
-      type: String,
-      required: false,
-      alias: "code_icao",
-    },
-    iataCode: {
-      type: String,
-      required: false,
-      alias: "code_iata",
-    },
-    lidCode: {
-      type: String,
-      required: false,
-      alias: "code_lid",
-    },
-    name: {
-      type: String,
-      required: true,
-    },
-    type: {
-      type: String,
-      required: false,
-    },
-    elevation: {
-      type: Number,
-      required: false,
-    },
-    city: {
-      type: String,
-      required: false,
-    },
-    state: {
-      type: String,
-      required: false,
-    },
-    longitude: {
-      type: Number,
-      required: true,
-    },
-    latitude: {
-      type: Number,
-      required: true,
-    },
-    timezone: {
-      type: String,
-      required: false,
-    },
-    countryCode: {
-      type: String,
-      required: false,
-      alias: "country_code",
-    },
-    wikiUrl: {
-      type: String,
-      required: false,
-      alias: "wiki_url",
-    },
-    airportFlightsUrl: {
-      type: String,
-      required: false,
-      alias: "airport_flights_url",
-    },
-    alternatives: {
-      type: [String],
-      required: false,
-    },
-    magneticDeclination: {
-      type: Number,
-      required: false,
-    },
+@modelOptions({
+  options: { customName: "airportinfo" },
+  schemaOptions: {
+    collection: "airportinfo",
+    toJSON: { virtuals: true, aliases: false },
+    toObject: { virtuals: true, aliases: false },
   },
-  { collection: "airportinfo" }
-);
+})
+@plugin(autopopulate)
+class AirportInfoClass {
+  @prop({ required: true, index: true, unique: true, alias: "airport_code" })
+  airportCode!: string;
 
-airportInfoSchema.virtual("extendedAirportInfo", {
-  ref: "extendedairportinfo",
-  localField: "airportCode",
-  foreignField: "airportCode",
-  justOne: true,
-  autopopulate: true,
-});
+  @prop({ required: false, alias: "code_icao" })
+  icaoCode?: string;
 
-// Look up the magnetic declination for the airport on save so it can be used
-// repeatedly elsewhere without constantly making calls to the web service to
-// get the current value.
-airportInfoSchema.pre("save", async function () {
-  // If the airport was created with a magnetic declination value then
-  // don't bother trying to request it from the web service. This is primarily
-  // for unit testing where the decliation will be provided as part of test
-  // setup.
-  if (this.magneticDeclination) {
-    return;
+  @prop({ required: false, alias: "code_iata" })
+  iataCode?: string;
+
+  @prop({ required: true })
+  name!: string;
+
+  @prop({ required: false })
+  elevation?: number;
+
+  @prop({ required: false })
+  city?: string;
+
+  @prop({ required: false })
+  state?: string;
+
+  @prop({ required: false })
+  longitude?: number;
+
+  @prop({ required: false })
+  latitude?: number;
+
+  @prop({ required: false })
+  timezone?: string;
+
+  @prop({ required: false, alias: "country_code" })
+  countryCode?: string;
+
+  @prop({
+    ref: () => ExtendedAirportInfo,
+    localField: "airportCode",
+    foreignField: "airportCode",
+    justOne: true,
+    autopopulate: true,
+  })
+  extendedAirportInfo?: Ref<ExtendedAirportInfo>;
+
+  // Returns the magnetic declination, using the cached database value if it exists.
+  // Otherwise it will contact a web service to get the magnetic declination and
+  // cache the result in the database.
+  public async getMagneticDeclination(
+    this: DocumentType<AirportInfoClass>
+  ): Promise<number | null> {
+    // Try finding a cached value in the database first.
+    const cachedMagneticDeclination = await MagneticDeclinationModel.findByAirportCode(
+      this.airportCode
+    );
+
+    if (cachedMagneticDeclination) {
+      return cachedMagneticDeclination;
+    }
+
+    if (!this.latitude || !this.longitude) {
+      return null;
+    }
+
+    // If there's no cached value then get it from the web service and cache it.
+    const result = await getMagneticDeclination(this.latitude, this.longitude);
+
+    if (!result.success || !result.data) {
+      return null;
+    }
+
+    // As best I can tell the magnetic declination is returned as a positive
+    // number for west and a negative number for east. So we need to negate
+    // the result to get the correct value for math later on.
+    const savedResult = await new MagneticDeclinationModel({
+      airportCode: this.airportCode,
+      magneticDeclination: -result.data,
+    }).save();
+
+    return savedResult.magneticDeclination;
   }
+}
 
-  const result = await getMagneticDeclination(this.latitude, this.longitude);
-
-  if (!result.success) {
-    return;
-  }
-
-  // As best I can tell the magnetic declination is returned as a positive
-  // number for west and a negative number for east. So we need to negate
-  // the result to get the correct value for math later on.
-  this.magneticDeclination = -result.data;
-});
-
-airportInfoSchema.plugin(autopopulate);
-airportInfoSchema.set("toJSON", { virtuals: true, aliases: false });
-airportInfoSchema.set("toObject", { virtuals: true, aliases: false });
-
-const AirportInfoModel: IAirportInfoModel = model<IAirportInfo, IAirportInfoModel>(
-  "airportinfo",
-  airportInfoSchema
-);
-
-export default AirportInfoModel;
+export const AirportInfoModel = getModelForClass(AirportInfoClass);
+export type AirportInfoDocument = DocumentType<AirportInfoClass>;

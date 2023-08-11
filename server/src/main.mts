@@ -3,6 +3,7 @@ import debug from "debug";
 
 import * as db from "./database.mjs";
 import * as WebServer from "./server.mjs";
+import bree from "./bree.mjs";
 
 // If startup fails restart is reattempted 5 times every 30 seconds.
 const restartAttemptWaitTime = 30 * 1000;
@@ -16,6 +17,7 @@ async function startup() {
   try {
     await db.connectToDatabase();
     WebServer.startServer(ENV.PORT);
+    await bree.start();
 
     // At this point startup succeeded so reset the restart count. This is in case
     // later hot reloads cause something to break, it should still support multiple
@@ -49,6 +51,7 @@ async function shutdown() {
   clearTimeout(restartTimer);
   await WebServer.stopServer();
   await db.disconnectFromDatabase();
+  await bree.stop();
   logger("Shutdown complete.");
 }
 

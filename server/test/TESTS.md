@@ -5,6 +5,7 @@
 	- [Aircraft](#aircraft)
 	- [Airports](#airports)
 	- [Extended airport information](#extended-airport-information)
+	- [Magnetic declination](#magnetic-declination)
 	- [Airlines](#airlines)
 	- [Departures](#departures)
 	- [FlightAware routes](#flightaware-routes)
@@ -35,18 +36,25 @@ Flight plans should be added as part of the set up for each specific test. This 
 
 ## Airports
 
-|            ID            | Airport code |   Notes   |
-| :----------------------: | :----------: | :-------: |
-| 5f9f7b3b9d3b3c1b1c9b4b4b |     KPDX     | Portland  |
-| 5f9f7b3b9d3b3c1b1c9b4b4c |     KSEA     |  Seattle  |
-| 5f9f7b3b9d3b3c1b1c9b4b4d |     KSLE     |   Salem   |
-| 5f9f7b3b9d3b3c1b1c9b4b4e |     KPDT     | Pendelton |
+|            ID            | Airport code |                   Notes                   |
+| :----------------------: | :----------: | :---------------------------------------: |
+| 5f9f7b3b9d3b3c1b1c9b4b4b |     KPDX     |                 Portland                  |
+| 5f9f7b3b9d3b3c1b1c9b4b4c |     KSEA     |                  Seattle                  |
+| 5f9f7b3b9d3b3c1b1c9b4b4d |     KSLE     |                   Salem                   |
+| 5f9f7b3b9d3b3c1b1c9b4b4e |     KPDT     | Pendelton, no cached magnetic declination |
 
 ## Extended airport information
 
 |            Id            | Airport code |
 | :----------------------: | :----------: |
 | 64b409858f265c50318d9056 |     KPDT     |
+
+## Magnetic declination
+
+|            Id            | Airport code |
+| :----------------------: | :----------: |
+| 5f9f7b9b9b3b3c1b3c1b3c1b |     KPDX     |
+| 5f9f7b9b9b3b3c1b3c1b3c1c |     KSEA     |
 
 ## Airlines
 

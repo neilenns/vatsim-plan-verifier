@@ -17,6 +17,7 @@ const envSchema = z.object({
   API_RATE_LIMIT_MINUTE_WINDOW: z.coerce.number().default(5),
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   VATSIM_AUTO_UPDATE_INTERVAL: z.coerce.number().default(1000 * 30), // 30 seconds
+  AIRPORT_REFRESH_INTERVAL: z.string().default("every 24 hours"),
   VATSIM_GROUNDSPEED_CUTOFF: z.coerce.number().default(80),
   // from https://github.com/colinhacks/zod/issues/1630#issuecomment-1623726247
   MONGOOSE_DEBUG: z

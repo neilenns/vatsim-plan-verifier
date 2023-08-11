@@ -4,7 +4,6 @@ import { describe, it } from "mocha";
 import { getAirportInfo } from "../src/controllers/airportInfo.mjs";
 import { getFlightAwareRoutes } from "../src/controllers/flightAwareRoutes.mjs";
 
-import { IAirportInfo } from "../src/models/AirportInfo.mjs";
 import { SuccessResult } from "../src/types/result.mjs";
 import { IFlightAwareRoute } from "../src/models/FlightAwareRoute.mjs";
 
