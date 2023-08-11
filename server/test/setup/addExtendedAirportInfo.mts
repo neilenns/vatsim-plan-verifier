@@ -1,4 +1,4 @@
-import ExtendedAirportInfoModel from "../../src/models/ExtendedAirportInfo.mjs";
+import { ExtendedAirportInfoModel } from "../../src/models/ExtendedAirportInfo.mjs";
 
 const extendedAirportInfo = [
   {
