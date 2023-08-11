@@ -1,11 +1,14 @@
-import ExtendedAirportInfoModel, { ExtendedAirportInfo } from "../models/ExtendedAirportInfo.mjs";
+import {
+  ExtendedAirportInfoModel,
+  ExtendedAirportInfoDocument,
+} from "../models/ExtendedAirportInfo.mjs";
 import Result from "../types/result.mjs";
 import debug from "debug";
 
 const logger = debug("plan-verifier:extendedAirportInfo");
 
 type ExtendedAirportInfoResult = Result<
-  ExtendedAirportInfo,
+  ExtendedAirportInfoDocument,
   "ExtendedAirportInfoNotFound" | "UnknownError"
 >;
 

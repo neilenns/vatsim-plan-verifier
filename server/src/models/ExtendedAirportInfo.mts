@@ -1,4 +1,4 @@
-import { prop, getModelForClass, modelOptions, ReturnModelType } from "@typegoose/typegoose";
+import { prop, getModelForClass, modelOptions, DocumentType } from "@typegoose/typegoose";
 import { InitialPhrasingOptions } from "./Departure.mjs";
 
 @modelOptions({
@@ -31,6 +31,5 @@ export class ExtendedAirportInfo {
   heavyRunways?: string[];
 }
 
-const ExtendedAirportInfoModel = getModelForClass(ExtendedAirportInfo);
-
-export default ExtendedAirportInfoModel;
+export const ExtendedAirportInfoModel = getModelForClass(ExtendedAirportInfo);
+export type ExtendedAirportInfoDocument = DocumentType<ExtendedAirportInfo>;
