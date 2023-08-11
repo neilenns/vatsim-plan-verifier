@@ -1,4 +1,10 @@
-import { prop, getModelForClass, modelOptions, ReturnModelType } from "@typegoose/typegoose";
+import {
+  prop,
+  getModelForClass,
+  modelOptions,
+  ReturnModelType,
+  DocumentType,
+} from "@typegoose/typegoose";
 
 @modelOptions({ options: { customName: "magneticdeclination" } })
 export class MagneticDeclination {
@@ -20,6 +26,5 @@ export class MagneticDeclination {
   }
 }
 
-const MagneticDeclinationModel = getModelForClass(MagneticDeclination);
-
-export default MagneticDeclinationModel;
+export const MagneticDeclinationModel = getModelForClass(MagneticDeclination);
+export type MagneticDeclinationDocument = DocumentType<MagneticDeclination>;

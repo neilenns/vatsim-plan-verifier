@@ -1,6 +1,6 @@
 import { getMagneticDeclination } from "../controllers/magneticDeclination.mjs";
 import autopopulate from "mongoose-autopopulate";
-import MagneticDeclinationModel from "./MagneticDecliation.mjs";
+import { MagneticDeclinationModel } from "./MagneticDecliation.mjs";
 import {
   modelOptions,
   prop,
