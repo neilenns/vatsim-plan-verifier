@@ -1,25 +1,31 @@
-import { Model, Schema, model } from "mongoose";
-import IAirlineDocument from "../interfaces/IAirlineDocument.mjs";
+import {
+  prop,
+  getModelForClass,
+  modelOptions,
+  DocumentType,
+  ReturnModelType,
+} from "@typegoose/typegoose";
 
-export interface IAirline extends IAirlineDocument {}
-export interface AirlineModelInterface extends Model<IAirline> {
-  findByAirlineCode(airlineCode: string): Promise<IAirline[]>;
+@modelOptions({
+  options: { customName: "airline" },
+  schemaOptions: {
+    collection: "airlines",
+  },
+})
+class Airline {
+  @prop({ required: true, index: true })
+  airlineCode!: string;
+
+  @prop({ required: true })
+  telephony!: string;
+
+  public static async findByAirlineCode(
+    this: ReturnModelType<typeof Airline>,
+    airlineCode: string
+  ) {
+    return this.find({ airlineCode: airlineCode });
+  }
 }
 
-const AirlineSchema = new Schema({
-  airlineCode: { type: String, required: true, index: true },
-  telephony: { type: String, required: true },
-});
-
-AirlineSchema.statics.findByAirlineCode = async function (airlineCode: string) {
-  return this.find({ airlineCode: airlineCode });
-};
-
-// Define the model
-const Airline: AirlineModelInterface = model<IAirlineDocument, AirlineModelInterface>(
-  "airline",
-  AirlineSchema
-);
-
-// Export the model
-export default Airline;
+export const AirlineModel = getModelForClass(Airline);
+export type AirlineDocument = DocumentType<Airline>;
