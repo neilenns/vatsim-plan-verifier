@@ -1,53 +1,55 @@
-import mongoose, { Model, pluralize } from "mongoose";
-import IFlightAwareRouteDocument from "../interfaces/IFlightAwareRouteDocument.mjs";
+import { prop, getModelForClass, modelOptions, DocumentType } from "@typegoose/typegoose";
 import { formatAltitude } from "../utils.mjs";
 
-// This method for constructing models in typescript to allow adding custom functions later is
-// from https://stackoverflow.com/a/45675548/9206264.
-export interface IFlightAwareRoute extends IFlightAwareRouteDocument {}
-export interface FlightAwareRouteModelInterface extends Model<IFlightAwareRoute> {}
-
-const flightAwareRouteSchema = new mongoose.Schema({
-  departure: { type: String, required: true },
-  arrival: { type: String, required: true },
-  aircraftTypes: { type: [String], alias: "aircraft_types" },
-  count: { type: Number, required: true },
-  filedAltitudeMax: {
-    type: Number,
-    required: true,
-    alias: "filed_altitude_max",
+@modelOptions({
+  options: { customName: "flightawareroute" },
+  schemaOptions: {
+    toJSON: { virtuals: true, aliases: false },
+    toObject: { virtuals: true, aliases: false },
   },
-  filedAltitudeMin: {
-    type: Number,
-    required: true,
-    alias: "filed_altitude_min",
-  },
-  lastDepartureTime: {
-    type: Date,
-    required: true,
-    alias: "last_departure_time",
-  },
-  route: { type: String, required: true },
-  routeDistance: { type: String, required: true, alias: "route_distance" },
-  createdAt: { type: Date, expires: "30d", required: true, default: Date.now },
-});
+})
+class FlightAwareRoute {
+  @prop({ required: true })
+  departure!: string;
 
-// Formats the min and max filed altitude for the route so it displays nicely.
-// If min and max are the same the result is something like "FL320".
-// If min and max are different the result is something like "FL320-FL340".
-// If the altitudes are below FL180 then they are shown in full thousands,
-// e.g. "10,000".
-flightAwareRouteSchema.virtual("filedAltitudesFormatted").get(function () {
-  return this.filedAltitudeMin === this.filedAltitudeMax
-    ? formatAltitude(this.filedAltitudeMin)
-    : `${formatAltitude(this.filedAltitudeMin)} to ${formatAltitude(this.filedAltitudeMax)}`;
-});
+  @prop({ required: true })
+  arrival!: string;
 
-flightAwareRouteSchema.set("toJSON", { virtuals: true, aliases: false });
+  @prop({ required: true, type: [String], alias: "aircraft_types" })
+  aircraftTypes!: string[];
 
-const FlightAwareRoute: FlightAwareRouteModelInterface = mongoose.model<
-  IFlightAwareRoute,
-  FlightAwareRouteModelInterface
->("FlightAwareRoute", flightAwareRouteSchema);
+  @prop({ required: true })
+  count!: number;
 
-export default FlightAwareRoute;
+  @prop({ required: true, alias: "filed_altitude_max" })
+  filedAltitudeMax!: number;
+
+  @prop({ required: true, alias: "filed_altitude_min" })
+  filedAltitudeMin!: number;
+
+  @prop({ required: true, alias: "last_departure_time" })
+  lastDepartureTime!: Date;
+
+  @prop({ required: true })
+  route!: string;
+
+  @prop({ required: true, alias: "route_distance" })
+  routeDistance!: string;
+
+  @prop({ required: true, expires: "30d", default: Date.now })
+  createdAt!: Date;
+
+  // Formats the min and max filed altitude for the route so it displays nicely.
+  // If min and max are the same the result is something like "FL320".
+  // If min and max are different the result is something like "FL320-FL340".
+  // If the altitudes are below FL180 then they are shown in full thousands,
+  // e.g. "10,000".
+  public get filedAltitudesFormatted() {
+    return this.filedAltitudeMin === this.filedAltitudeMax
+      ? formatAltitude(this.filedAltitudeMin)
+      : `${formatAltitude(this.filedAltitudeMin)} to ${formatAltitude(this.filedAltitudeMax)}`;
+  }
+}
+
+export const FlightAwareRouteModel = getModelForClass(FlightAwareRoute);
+export type FlightAwareRouteDocument = DocumentType<FlightAwareRoute>;

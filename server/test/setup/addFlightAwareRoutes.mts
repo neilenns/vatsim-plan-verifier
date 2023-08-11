@@ -1,4 +1,4 @@
-import FlightAwareRoute from "../../src/models/FlightAwareRoute.mjs";
+import { FlightAwareRouteModel } from "../../src/models/FlightAwareRoute.mjs";
 
 const routes = [
   {
@@ -78,7 +78,7 @@ const routes = [
 export default async function setup() {
   await Promise.all(
     routes.map(async (route) => {
-      const record = new FlightAwareRoute(route);
+      const record = new FlightAwareRouteModel(route);
       try {
         await record.save();
       } catch (err) {
