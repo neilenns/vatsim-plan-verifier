@@ -6,7 +6,7 @@ import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
 import debug from "debug";
 import { NavaidModel } from "./Navaid.mjs";
-import DepartureModel, { Departure } from "./Departure.mjs";
+import { DepartureModel, DepartureDocument } from "./Departure.mjs";
 import { isDocument } from "@typegoose/typegoose";
 import { AirportInfoDocument } from "./AirportInfo.mjs";
 import { AircraftDocument } from "./Aircraft.mjs";
@@ -160,7 +160,7 @@ flightPlanSchema.virtual("cleanedRoute").get(function () {
 });
 
 flightPlanSchema.virtual("initialAltitude").get(function () {
-  const sid = this.get("SIDInformation") as Departure | undefined;
+  const sid = this.get("SIDInformation") as DepartureDocument | undefined;
   const airportInfo = this.get("departureAirportInfo") as AirportInfoDocument | undefined;
   const equipmentInfo = this.get("equipmentInfo") as AircraftDocument | undefined;
 
