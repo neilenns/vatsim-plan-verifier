@@ -1,30 +1,42 @@
-import { Model, Schema, model } from "mongoose";
-import IAircraftDocument from "../interfaces/IAircraftDocument.mjs";
+import { prop, getModelForClass, modelOptions, DocumentType } from "@typegoose/typegoose";
 
-export interface IAircraft extends IAircraftDocument {}
-export interface AircraftModelInterface extends Model<IAircraft> {}
-
-const AircraftSchema = new Schema(
-  {
-    equipmentCode: { type: String, required: true, index: true },
-    manufacturer: { type: String, required: true },
-    name: { type: String, required: true },
-    engineCount: { type: Number, required: true },
-    engineType: { type: String, enum: ["P", "T", "J"], required: true },
-    weightClass: { type: String, enum: ["S", "L", "H"], required: true },
-    srsClass: { type: String, required: true },
-    maxCruiseSpeed: { type: Number, required: false },
-    commonEquipmentSuffixes: { type: [String], required: false },
-    aircraftClass: { type: String, enum: ["S", "L", "J", "U"] },
+@modelOptions({
+  options: { customName: "aircraft" },
+  schemaOptions: {
+    collection: "aircraft",
   },
-  { collection: "aircraft" }
-);
+})
+class AircraftClass {
+  @prop({ required: true, index: true })
+  equipmentCode!: string;
 
-// Define the model
-const Aircraft: AircraftModelInterface = model<IAircraftDocument, AircraftModelInterface>(
-  "aircraft",
-  AircraftSchema
-);
+  @prop({ required: true })
+  manufacturer!: string;
 
-// Export the model
-export default Aircraft;
+  @prop({ required: true })
+  name!: string;
+
+  @prop({ required: true })
+  engineCount!: number;
+
+  @prop({ required: true, enum: ["P", "T", "J"] })
+  engineType!: string;
+
+  @prop({ required: true, enum: ["S", "L", "H"] })
+  weightClass!: string;
+
+  @prop({ required: true })
+  srsClass!: string;
+
+  @prop({ required: false })
+  maxCruiseSpeed?: number;
+
+  @prop({ required: false, type: () => [String] })
+  commonEquipmentSuffixes?: string[];
+
+  @prop({ required: false, enum: ["S", "L", "J", "U"] })
+  aircraftClass?: string;
+}
+
+export const AircraftModel = getModelForClass(AircraftClass);
+export type AircraftDocument = DocumentType<AircraftClass>;

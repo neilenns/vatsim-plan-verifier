@@ -1,14 +1,14 @@
-import Aircraft, { IAircraft } from "../models/Aircraft.mjs";
+import { AircraftDocument, AircraftModel } from "../models/Aircraft.mjs";
 import Result from "../types/result.mjs";
 import debug from "debug";
 
 const logger = debug("plan-verifier:aircraftController");
 
-type AircraftResult = Result<IAircraft, "AircraftNotFound" | "UnknownError">;
+type AircraftResult = Result<AircraftDocument, "AircraftNotFound" | "UnknownError">;
 
 export async function getAircraft(id: string): Promise<AircraftResult> {
   try {
-    const fetchedAircraft = await Aircraft.findById(id);
+    const fetchedAircraft = await AircraftModel.findById(id);
 
     if (fetchedAircraft) {
       return { success: true, data: fetchedAircraft };

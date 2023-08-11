@@ -1,4 +1,4 @@
-import Aircraft from "../../src/models/Aircraft.mjs";
+import { AircraftModel } from "../../src/models/Aircraft.mjs";
 
 const aircraft = [
   {
@@ -60,7 +60,7 @@ const aircraft = [
 export default async function setup() {
   await Promise.all(
     aircraft.map(async (aircraft) => {
-      const record = new Aircraft(aircraft);
+      const record = new AircraftModel(aircraft);
       try {
         await record.save();
       } catch (err) {
