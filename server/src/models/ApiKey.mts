@@ -1,7 +1,7 @@
-import { prop, getModelForClass, modelOptions } from "@typegoose/typegoose";
+import { prop, getModelForClass, modelOptions, DocumentType } from "@typegoose/typegoose";
 
 @modelOptions({ options: { customName: "apikeys" } })
-export class ApiKey {
+class ApiKey {
   @prop()
   notes?: string;
 
@@ -10,3 +10,4 @@ export class ApiKey {
 }
 
 export const ApiKeyModel = getModelForClass(ApiKey);
+export type ApiKeyDocument = DocumentType<ApiKey>;
