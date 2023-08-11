@@ -1,5 +1,6 @@
-import VatsimFlightPlanModel, {
-  VatsimFlightPlan,
+import {
+  VatsimFlightPlanModel,
+  VatsimFlightPlanDocument,
   VatsimFlightStatus,
 } from "../models/VatsimFlightPlan.mjs";
 import Result from "../types/result.mjs";
@@ -7,7 +8,10 @@ import debug from "debug";
 
 const logger = debug("plan-verifier:vatsimController");
 
-type VatsimFlightPlansResult = Result<VatsimFlightPlan[], "FlightPlansNotFound" | "UnknownError">;
+type VatsimFlightPlansResult = Result<
+  VatsimFlightPlanDocument[],
+  "FlightPlansNotFound" | "UnknownError"
+>;
 
 export async function getVatsimFlightPlans(
   departure: string,

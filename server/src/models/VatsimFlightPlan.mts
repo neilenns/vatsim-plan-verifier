@@ -1,6 +1,4 @@
-import { prop, getModelForClass, modelOptions, plugin, pre } from "@typegoose/typegoose";
-// @ts-ignore
-import updateVersioningPlugin from "../middleware/mongoose-update-versioning/index.mjs";
+import { prop, getModelForClass, modelOptions, pre, DocumentType } from "@typegoose/typegoose";
 
 export enum VatsimFlightStatus {
   UNKNOWN = "UNKNOWN",
@@ -59,6 +57,5 @@ export class VatsimFlightPlan {
   longitude?: number;
 }
 
-const VatsimFlightPlanModel = getModelForClass(VatsimFlightPlan);
-
-export default VatsimFlightPlanModel;
+export const VatsimFlightPlanModel = getModelForClass(VatsimFlightPlan);
+export type VatsimFlightPlanDocument = DocumentType<VatsimFlightPlan>;
