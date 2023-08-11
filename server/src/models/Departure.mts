@@ -1,5 +1,4 @@
-import { prop, getModelForClass, modelOptions } from "@typegoose/typegoose";
-import { ExtendedAirportInfo } from "./ExtendedAirportInfo.mjs";
+import { prop, getModelForClass, modelOptions, DocumentType } from "@typegoose/typegoose";
 
 export class InitialAltitude {
   @prop({ required: true })
@@ -54,6 +53,5 @@ export class Departure {
   Charts?: Map<string, string>;
 }
 
-const DepartureModel = getModelForClass(Departure);
-
-export default DepartureModel;
+export const DepartureModel = getModelForClass(Departure);
+export type DepartureDocument = DocumentType<Departure>;
