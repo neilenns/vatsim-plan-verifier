@@ -1,13 +1,13 @@
-import Airline, { IAirline } from "../models/Airline.mjs";
+import { AirlineModel, AirlineDocument } from "../models/Airline.mjs";
 import Result from "../types/result.mjs";
 import debug from "debug";
 
 const logger = debug("plan-verifier:airlineController");
-type AirlineResult = Result<IAirline[], "AirlineNotFound" | "UnknownError">;
+type AirlineResult = Result<AirlineDocument[], "AirlineNotFound" | "UnknownError">;
 
 export async function getAirline(airlineCode: string): Promise<AirlineResult> {
   try {
-    const fetchedAirlines = await Airline.findByAirlineCode(airlineCode);
+    const fetchedAirlines = await AirlineModel.findByAirlineCode(airlineCode);
 
     if (fetchedAirlines) {
       return { success: true, data: fetchedAirlines };
