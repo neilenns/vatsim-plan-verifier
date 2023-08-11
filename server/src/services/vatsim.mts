@@ -2,8 +2,9 @@ import { DocumentType } from "@typegoose/typegoose";
 import axios, { AxiosResponse } from "axios";
 import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
 import { IVatsimData, IVatsimPilot, IVatsimPrefile } from "../interfaces/IVatsimData.mjs";
-import VatsimFlightPlanModel, {
-  VatsimFlightPlan,
+import {
+  VatsimFlightPlanDocument,
+  VatsimFlightPlanModel,
   VatsimFlightStatus,
 } from "../models/VatsimFlightPlan.mjs";
 import debug from "debug";
@@ -31,7 +32,7 @@ const updateProperties = [
   "route",
   "squawk",
   "remarks",
-] as (keyof VatsimFlightPlan)[];
+] as (keyof VatsimFlightPlanDocument)[];
 
 function cleanRoute(route: string) {
   return route
@@ -95,7 +96,7 @@ function copyPropertyValue<T>(source: T, destination: T, property: keyof T) {
 // enroute is easy, it's just if the speed is above the cutoff. Departing vs arriving is a pain
 // and can only be figured out by comparing the plane's location against either the departing
 // or arriving airport.
-async function setInitialFlightStatus(incomingPlan: DocumentType<VatsimFlightPlan>) {
+async function setInitialFlightStatus(incomingPlan: VatsimFlightPlanDocument) {
   // Handle any plane that is enroute.
   if (incomingPlan.groundspeed ?? 0 > ENV.VATSIM_GROUNDSPEED_CUTOFF) {
     incomingPlan.status = VatsimFlightStatus.ENROUTE;
@@ -140,8 +141,8 @@ async function setInitialFlightStatus(incomingPlan: DocumentType<VatsimFlightPla
 }
 
 function updateGroundSpeedAndFlightStatus(
-  incomingPlan: DocumentType<VatsimFlightPlan>,
-  currentPlan: DocumentType<VatsimFlightPlan>
+  incomingPlan: VatsimFlightPlanDocument,
+  currentPlan: VatsimFlightPlanDocument
 ) {
   // Groundspeed is by far the noisiest property update. Try and quiet some of the updates.
   if (
