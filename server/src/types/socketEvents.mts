@@ -1,7 +1,7 @@
-import { VatsimFlightPlan } from "../models/VatsimFlightPlan.mjs";
+import { VatsimFlightPlanDocument } from "../models/VatsimFlightPlan.mjs";
 
 export interface ServerToClientEvents {
-  vatsimFlightPlansUpdate: (flightPlans: VatsimFlightPlan[]) => void;
+  vatsimFlightPlansUpdate: (flightPlans: VatsimFlightPlanDocument[]) => void;
   airportNotFound: (airportCodes: string[]) => void;
   insecureAirportCode: (airportCodes: string[]) => void;
 }
