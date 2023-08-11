@@ -1,9 +1,9 @@
-import NavaidModel, { Navaid } from "../models/Navaid.mjs";
+import { NavaidModel, NavaidDocument } from "../models/Navaid.mjs";
 import Result from "../types/result.mjs";
 import debug from "debug";
 
 const logger = debug("plan-verifier:navaidController");
-type NavaidResult = Result<Navaid, "NavaidNotFound" | "UnknownError">;
+type NavaidResult = Result<NavaidDocument, "NavaidNotFound" | "UnknownError">;
 
 export async function getNavaidById(id: string): Promise<NavaidResult> {
   try {

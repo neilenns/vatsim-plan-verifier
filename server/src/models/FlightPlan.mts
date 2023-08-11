@@ -5,7 +5,7 @@ import { formatAltitude } from "../utils.mjs";
 import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
 import debug from "debug";
-import NavaidModel from "./Navaid.mjs";
+import { NavaidModel } from "./Navaid.mjs";
 import DepartureModel, { Departure } from "./Departure.mjs";
 import { isDocument } from "@typegoose/typegoose";
 import { AirportInfoDocument } from "./AirportInfo.mjs";
