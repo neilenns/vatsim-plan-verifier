@@ -13,7 +13,7 @@ export enum VatsimFlightStatus {
     this.revision++;
   }
 })
-export class VatsimFlightPlan {
+class VatsimFlightPlan {
   @prop({ required: true })
   callsign!: string;
 

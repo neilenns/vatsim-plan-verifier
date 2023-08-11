@@ -1,9 +1,7 @@
-import CustomMessageModel, { MessageTarget } from "../../models/CustomMessages.mjs";
+import { CustomMessageModel, MessageTarget } from "../../models/CustomMessages.mjs";
 import { IFlightPlan } from "../../models/FlightPlan.mjs";
 import VerifierResult, { IVerifierResult } from "../../models/VerifierResult.mjs";
-import VerifierControllerResult, {
-  VerifierControllerMultiResult,
-} from "../../types/verifierControllerResult.mjs";
+import { VerifierControllerMultiResult } from "../../types/verifierControllerResult.mjs";
 import debug from "debug";
 import applyMustacheValues from "../../utils/mustache.mjs";
 

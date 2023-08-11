@@ -1,4 +1,4 @@
-import CustomMessage from "../../src/models/CustomMessages.mjs";
+import { CustomMessageModel } from "../../src/models/CustomMessages.mjs";
 
 const messages = [
   // Custom airport message
@@ -24,7 +24,7 @@ const messages = [
 export default async function setup() {
   await Promise.all(
     messages.map(async (message) => {
-      const record = new CustomMessage(message);
+      const record = new CustomMessageModel(message);
       try {
         await record.save();
       } catch (err) {
