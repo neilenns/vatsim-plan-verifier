@@ -1,6 +1,6 @@
 import Mustache from "mustache";
 import { IFlightPlan } from "../models/FlightPlan.mjs";
-import NavaidModel from "../models/Navaid.mjs";
+import { NavaidModel } from "../models/Navaid.mjs";
 
 function normalizeAirportName(airportName: string) {
   if (airportName.endsWith("Airport")) {

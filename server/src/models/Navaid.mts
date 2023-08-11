@@ -1,4 +1,4 @@
-import { prop, getModelForClass, modelOptions } from "@typegoose/typegoose";
+import { prop, getModelForClass, modelOptions, DocumentType } from "@typegoose/typegoose";
 
 @modelOptions({ options: { customName: "navaid" } })
 export class Navaid {
@@ -15,6 +15,5 @@ export class Navaid {
   type!: number;
 }
 
-const NavaidModel = getModelForClass(Navaid);
-
-export default NavaidModel;
+export const NavaidModel = getModelForClass(Navaid);
+export type NavaidDocument = DocumentType<Navaid>;
