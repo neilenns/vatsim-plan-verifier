@@ -5,7 +5,7 @@ import {
   getPreferredRoutes,
 } from "../src/controllers/preferredRoutes.mjs";
 import { FailureResult, SuccessResult } from "../src/types/result.mjs";
-import { PreferredRoute } from "../src/models/PreferredRoute.mjs";
+import { PreferredRouteDocument } from "../src/models/PreferredRoute.mjs";
 
 describe("Preferred routes pre-cached data tests", () => {
   it("should return preferred routes", async () => {
@@ -13,7 +13,7 @@ describe("Preferred routes pre-cached data tests", () => {
 
     expect(result.success).to.equal(true);
 
-    const data = (result as SuccessResult<PreferredRoute[]>).data;
+    const data = (result as SuccessResult<PreferredRouteDocument[]>).data;
     expect(data).length(3);
   });
 
