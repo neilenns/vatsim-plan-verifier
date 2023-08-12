@@ -291,7 +291,13 @@ export class FlightPlan {
   })
   telephony?: Ref<Airline>[];
 
-  @prop({ ref: () => Departure, localField: "SID", foreignField: "SID", autopopulate: true })
+  @prop({
+    ref: () => Departure,
+    localField: "SID",
+    foreignField: "SID",
+    justOne: true,
+    autopopulate: true,
+  })
   SIDInformation?: Ref<Departure>;
 
   @prop({

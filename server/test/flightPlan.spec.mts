@@ -98,7 +98,7 @@ describe("Flight plan tests", function () {
 
       const data = (flightPlan as SuccessResult<FlightPlanDocument>).data;
       expect(data.SID).to.equal(undefined);
-      expect(data.SIDInformation).to.equal(null);
+      expect(isDocument(data.SIDInformation)).to.equal(false);
     });
 
     it("should have a SID and SID information", async function () {
@@ -107,8 +107,7 @@ describe("Flight plan tests", function () {
 
       const data = (flightPlan as SuccessResult<FlightPlanDocument>).data;
       expect(data.SID).to.equal("SEA8");
-      expect(data.SIDInformation).to.not.equal(null);
-      expect(isDocument(data.SIDInformation) ? data.SIDInformation?.SID : "").to.equal("SEA8");
+      expect(isDocument(data.SIDInformation) ? data.SIDInformation.SID : "").to.equal("SEA8");
     });
 
     it("should have a SID but no SID information", async function () {
@@ -117,7 +116,7 @@ describe("Flight plan tests", function () {
 
       const data = (flightPlan as SuccessResult<FlightPlanDocument>).data;
       expect(data.SID).to.equal("CASCD2");
-      expect(data.SIDInformation).to.equal(null);
+      expect(isDocument(data.SIDInformation)).to.equal(false);
     });
   });
 
