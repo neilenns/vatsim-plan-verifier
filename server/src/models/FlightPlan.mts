@@ -167,7 +167,8 @@ export enum VatsimCommsEnum {
     if (!this.route) {
       return next();
     }
-    const sid = extractSID(this.route);
+    // Strip off any + that may have been put at the front by VRC.
+    const sid = extractSID(this.route?.replace(/^\+/, ""));
 
     if (sid) {
       this.SID = sid;
