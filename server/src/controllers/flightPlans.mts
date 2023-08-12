@@ -1,4 +1,4 @@
-import FlightPlan, { IFlightPlan } from "../models/FlightPlan.mjs";
+import { FlightPlanModel, FlightPlanDocument, FlightPlan } from "../models/FlightPlan.mjs";
 import { VatsimFlightPlanModel } from "../models/VatsimFlightPlan.mjs";
 import Result from "../types/result.mjs";
 import debug from "debug";
@@ -10,12 +10,12 @@ export type FlightPlanFailureErrorTypes =
   | "VatsimFlightPlanNotFound"
   | "FlightPlanNotFound"
   | "UnknownError";
-export type FlightPlanResult = Result<IFlightPlan, FlightPlanFailureErrorTypes>;
+export type FlightPlanResult = Result<FlightPlanDocument, FlightPlanFailureErrorTypes>;
 
-export async function putFlightPlan(flightPlanData: IFlightPlan): Promise<FlightPlanResult> {
+export async function putFlightPlan(flightPlanData: FlightPlan): Promise<FlightPlanResult> {
   try {
     // Create a new instance of the FlightPlan model
-    const newFlightPlan = new FlightPlan(uppercaseStringProperties(flightPlanData));
+    const newFlightPlan = new FlightPlanModel(uppercaseStringProperties(flightPlanData));
 
     // Save the flight plan to the database
     const savedFlightPlan = await newFlightPlan.save();
@@ -37,7 +37,7 @@ export async function putFlightPlan(flightPlanData: IFlightPlan): Promise<Flight
 
 export async function getFlightPlan(id: string): Promise<FlightPlanResult> {
   try {
-    const flightPlan = await FlightPlan.findById(id);
+    const flightPlan = await FlightPlanModel.findById(id);
 
     if (!flightPlan) {
       return {
@@ -82,7 +82,7 @@ export async function importFlightPlan(callsign: string): Promise<FlightPlanResu
       cruiseAltitude: vatsimPlan.cruiseAltitude!,
       squawk: vatsimPlan.squawk!,
       remarks: vatsimPlan.remarks!,
-    } as IFlightPlan;
+    } as FlightPlan;
 
     return putFlightPlan(flightPlan);
   } catch (error) {

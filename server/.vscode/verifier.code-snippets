@@ -1,4 +1,9 @@
 {
+  "Wrap in Types.ObjectId": {
+    "prefix": "wrapoid",
+    "body": ["new Types.ObjectId($TM_SELECTED_TEXT)"],
+    "description": "Wrap selected text in Types.ObjectID()"
+  },
   "Extended airport info": {
     "prefix": "eai",
     "body": [
@@ -24,7 +29,7 @@
       "import { describe, it } from \"mocha\";",
       "import { getFlightPlan } from \"../../src/controllers/flightPlans.mjs\";",
       "import ${TM_FILENAME_BASE/(.*)\\..+$/$1/} from \"../../src/controllers/verifiers/${TM_FILENAME_BASE/(.*)\\..+$/$1/}.mjs\";",
-      "import { IFlightPlan } from \"../../src/models/FlightPlan.mjs\";",
+      "import { FlightPlanDocument } from \"../../src/models/FlightPlan.mjs\";",
       "import { IVerifierResult } from \"../../src/models/VerifierResult.mjs\";",
       "import { SuccessResult } from \"../../src/types/result.mjs\";",
       "import {",
@@ -51,7 +56,7 @@
       "    expect(flightPlan.success).to.equal(true);",
       "",
       "    const result = await ${TM_FILENAME_BASE/(.*)\\..+$/$1/}(",
-      "      (flightPlan as SuccessResult<IFlightPlan>).data",
+      "      (flightPlan as SuccessResult<FlightPlanDocument>).data",
       "    );",
       "",
       "    expect(result.success).to.equal(true);",

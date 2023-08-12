@@ -2,15 +2,16 @@ import { expect } from "chai";
 import { describe, it } from "mocha";
 import { getFlightPlan } from "../../src/controllers/flightPlans.mjs";
 import routeWithFlightAware from "../../src/controllers/verifiers/routeWithFlightAware.mjs";
-import { IFlightPlan } from "../../src/models/FlightPlan.mjs";
+import { FlightPlanDocument } from "../../src/models/FlightPlan.mjs";
 import { IVerifierResult } from "../../src/models/VerifierResult.mjs";
 import { SuccessResult } from "../../src/types/result.mjs";
 import { addFlightPlans, removeFlightPlans } from "../setup/manageFlightPlans.mjs";
+import { Types } from "mongoose";
 
 const testData = [
   // Departure/arrival available from Flight Aware, matches a route
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b5a",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b5a"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -21,7 +22,7 @@ const testData = [
   },
   // Departure/arrival available from Flight Aware, does not match a route
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b5b",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b5b"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -32,7 +33,7 @@ const testData = [
   },
   // Departure/arrival not available from Flight Aware
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b5c",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b5c"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KEAT",
@@ -43,7 +44,7 @@ const testData = [
   },
   // Departure/arrival available from Flight Aware, matches a route, wrong altitude
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b5d",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b5d"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -54,7 +55,7 @@ const testData = [
   },
   // Departure/arrival available from Flight Aware, matches a route with SID
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b5e",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b5e"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -65,7 +66,7 @@ const testData = [
   },
   // Departure/arrival available from Flight Aware, matches a route with SID, has step climb
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b5f",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b5f"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -85,7 +86,9 @@ describe("verifier: routeWithFlightAware tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b5c");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await routeWithFlightAware((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await routeWithFlightAware(
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
+    );
 
     expect(result.success).to.equal(true);
 
@@ -99,7 +102,9 @@ describe("verifier: routeWithFlightAware tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b5a");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await routeWithFlightAware((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await routeWithFlightAware(
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
+    );
 
     expect(result.success).to.equal(true);
 
@@ -114,7 +119,9 @@ describe("verifier: routeWithFlightAware tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b5d");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await routeWithFlightAware((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await routeWithFlightAware(
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
+    );
 
     expect(result.success).to.equal(true);
 
@@ -129,7 +136,9 @@ describe("verifier: routeWithFlightAware tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b5b");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await routeWithFlightAware((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await routeWithFlightAware(
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
+    );
 
     expect(result.success).to.equal(true);
 
@@ -143,7 +152,9 @@ describe("verifier: routeWithFlightAware tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b5e");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await routeWithFlightAware((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await routeWithFlightAware(
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
+    );
 
     expect(result.success).to.equal(true);
 
@@ -158,7 +169,9 @@ describe("verifier: routeWithFlightAware tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b5f");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await routeWithFlightAware((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await routeWithFlightAware(
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
+    );
 
     expect(result.success).to.equal(true);
 

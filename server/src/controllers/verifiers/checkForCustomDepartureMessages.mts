@@ -1,5 +1,5 @@
 import { CustomMessageModel, MessageTarget } from "../../models/CustomMessages.mjs";
-import { IFlightPlan } from "../../models/FlightPlan.mjs";
+import { FlightPlan } from "../../models/FlightPlan.mjs";
 import VerifierResult, { IVerifierResult } from "../../models/VerifierResult.mjs";
 import { VerifierControllerMultiResult } from "../../types/verifierControllerResult.mjs";
 import debug from "debug";
@@ -9,7 +9,7 @@ const verifierName = "checkForCustomDepartureMessages";
 const logger = debug(`plan-verifier:${verifierName}`);
 
 export default async function checkForCustomDepartureMessages(
-  flightPlan: IFlightPlan
+  flightPlan: FlightPlan
 ): Promise<VerifierControllerMultiResult> {
   // Set up the default result for a successful run of the verifier.
   let results: IVerifierResult[] = [];

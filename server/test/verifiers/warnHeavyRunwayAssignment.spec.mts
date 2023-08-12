@@ -2,15 +2,16 @@ import { expect } from "chai";
 import { describe, it } from "mocha";
 import { getFlightPlan } from "../../src/controllers/flightPlans.mjs";
 import warnHeavyRunwayAssignment from "../../src/controllers/verifiers/warnHeavyRunwayAssignment.mjs";
-import { IFlightPlan } from "../../src/models/FlightPlan.mjs";
+import { FlightPlanDocument } from "../../src/models/FlightPlan.mjs";
 import { IVerifierResult } from "../../src/models/VerifierResult.mjs";
 import { SuccessResult } from "../../src/types/result.mjs";
 import { addFlightPlans, removeFlightPlans } from "../setup/manageFlightPlans.mjs";
+import { Types } from "mongoose";
 
 const testData = [
   // Is heavy, no specific runways
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b4b",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b4b"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -21,7 +22,7 @@ const testData = [
   },
   // Is not heavy
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b4c",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b4c"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -32,7 +33,7 @@ const testData = [
   },
   // Is heavy, specific runways
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b4d",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b4d"),
     callsign: "ASA42",
     departure: "KPDX",
     arrival: "KPDX",
@@ -55,7 +56,9 @@ describe("verifier: warnHeavyRunwayAssignment tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b4b");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await warnHeavyRunwayAssignment((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await warnHeavyRunwayAssignment(
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
+    );
 
     expect(result.success).to.equal(true);
 
@@ -68,7 +71,9 @@ describe("verifier: warnHeavyRunwayAssignment tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b4c");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await warnHeavyRunwayAssignment((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await warnHeavyRunwayAssignment(
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
+    );
 
     const data = (result as SuccessResult<IVerifierResult>).data;
     expect(data.status).to.equal("Information");
@@ -79,7 +84,9 @@ describe("verifier: warnHeavyRunwayAssignment tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b4d");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await warnHeavyRunwayAssignment((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await warnHeavyRunwayAssignment(
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
+    );
 
     const data = (result as SuccessResult<IVerifierResult>).data;
     expect(data.status).to.equal("Warning");

@@ -3,14 +3,15 @@ import { describe, it } from "mocha";
 import altitudeForDirectionOfFlight from "../../src/controllers/verifiers/altitudeForDirectionOfFlight.mjs";
 import { SuccessResult } from "../../src/types/result.mjs";
 import { getFlightPlan } from "../../src/controllers/flightPlans.mjs";
-import { IFlightPlan } from "../../src/models/FlightPlan.mjs";
+import { FlightPlanDocument } from "../../src/models/FlightPlan.mjs";
 import { IVerifierResult } from "../../src/models/VerifierResult.mjs";
 import { addFlightPlans, removeFlightPlans } from "../setup/manageFlightPlans.mjs";
+import { Types } from "mongoose";
 
 const testData = [
   // Wrong altitude for direction of flight (eastbound)
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b5a",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b5a"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -21,7 +22,7 @@ const testData = [
   },
   // Wrong altitude for direction of flight (westbound)
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b5b",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b5b"),
     callsign: "ASA42",
     departure: "KPDX",
     arrival: "KSEA",
@@ -32,7 +33,7 @@ const testData = [
   },
   // Wrong altitude for direction of flight (eastbound above RVSM)
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b5c",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b5c"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -43,7 +44,7 @@ const testData = [
   },
   // Wrong altitude for direction of flight (westbound above RVSM)
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b5d",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b5d"),
     callsign: "ASA42",
     departure: "KPDX",
     arrival: "KSEA",
@@ -54,7 +55,7 @@ const testData = [
   },
   // Correct altitude for direction of flight (eastbound)
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b5e",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b5e"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -65,7 +66,7 @@ const testData = [
   },
   // Correct altitude for direction of flight (westbound)
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b5f",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b5f"),
     callsign: "ASA42",
     departure: "KPDX",
     arrival: "KSEA",
@@ -76,7 +77,7 @@ const testData = [
   },
   // KPDX to KSLE
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b60",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b60"),
     callsign: "ASA42",
     departure: "KPDX",
     arrival: "KSLE",
@@ -101,7 +102,7 @@ describe("verifier: altitudeForDirectionOfFlight tests", function () {
     expect(flightPlan.success).to.equal(true);
 
     const result = await altitudeForDirectionOfFlight(
-      (flightPlan as SuccessResult<IFlightPlan>).data
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
     );
 
     expect(result.success).to.equal(true);
@@ -117,7 +118,7 @@ describe("verifier: altitudeForDirectionOfFlight tests", function () {
     expect(flightPlan.success).to.equal(true);
 
     const result = await altitudeForDirectionOfFlight(
-      (flightPlan as SuccessResult<IFlightPlan>).data
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
     );
 
     expect(result.success).to.equal(true);
@@ -133,7 +134,7 @@ describe("verifier: altitudeForDirectionOfFlight tests", function () {
     expect(flightPlan.success).to.equal(true);
 
     const result = await altitudeForDirectionOfFlight(
-      (flightPlan as SuccessResult<IFlightPlan>).data
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
     );
 
     expect(result.success).to.equal(true);
@@ -149,7 +150,7 @@ describe("verifier: altitudeForDirectionOfFlight tests", function () {
     expect(flightPlan.success).to.equal(true);
 
     const result = await altitudeForDirectionOfFlight(
-      (flightPlan as SuccessResult<IFlightPlan>).data
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
     );
 
     expect(result.success).to.equal(true);
@@ -165,7 +166,7 @@ describe("verifier: altitudeForDirectionOfFlight tests", function () {
     expect(flightPlan.success).to.equal(true);
 
     const result = await altitudeForDirectionOfFlight(
-      (flightPlan as SuccessResult<IFlightPlan>).data
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
     );
 
     expect(result.success).to.equal(true);
@@ -181,7 +182,7 @@ describe("verifier: altitudeForDirectionOfFlight tests", function () {
     expect(flightPlan.success).to.equal(true);
 
     const result = await altitudeForDirectionOfFlight(
-      (flightPlan as SuccessResult<IFlightPlan>).data
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
     );
 
     expect(result.success).to.equal(true);
@@ -197,7 +198,7 @@ describe("verifier: altitudeForDirectionOfFlight tests", function () {
     expect(flightPlan.success).to.equal(true);
 
     const result = await altitudeForDirectionOfFlight(
-      (flightPlan as SuccessResult<IFlightPlan>).data
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
     );
 
     expect(result.success).to.equal(true);

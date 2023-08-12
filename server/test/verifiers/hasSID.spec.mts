@@ -2,15 +2,16 @@ import { expect } from "chai";
 import { describe, it } from "mocha";
 import { getFlightPlan } from "../../src/controllers/flightPlans.mjs";
 import hasSID from "../../src/controllers/verifiers/hasSID.mjs";
-import { IFlightPlan } from "../../src/models/FlightPlan.mjs";
+import { FlightPlanDocument } from "../../src/models/FlightPlan.mjs";
 import { IVerifierResult } from "../../src/models/VerifierResult.mjs";
 import { SuccessResult } from "../../src/types/result.mjs";
 import { addFlightPlans, removeFlightPlans } from "../setup/manageFlightPlans.mjs";
+import { Types } from "mongoose";
 
 const testData = [
   {
     // No SID on route
-    _id: "5f9f7b3b9d3b3c1b1c9b4b51",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b51"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -21,7 +22,7 @@ const testData = [
   },
   // Has a SID
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b52",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b52"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -32,7 +33,7 @@ const testData = [
   },
   // Has a SID with VRC's + in front
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b53",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b53"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -43,7 +44,7 @@ const testData = [
   },
   // Departure airport is tagged as having no SIDs
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b54",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b54"),
     callsign: "ASA42",
     departure: "KPDT",
     arrival: "KPDX",
@@ -63,7 +64,7 @@ describe("verifier: hasSID tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b51");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await hasSID((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await hasSID((flightPlan as SuccessResult<FlightPlanDocument>).data);
 
     expect(result.success).to.equal(true);
 
@@ -76,7 +77,7 @@ describe("verifier: hasSID tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b52");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await hasSID((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await hasSID((flightPlan as SuccessResult<FlightPlanDocument>).data);
 
     expect(result.success).to.equal(true);
 
@@ -89,7 +90,7 @@ describe("verifier: hasSID tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b53");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await hasSID((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await hasSID((flightPlan as SuccessResult<FlightPlanDocument>).data);
 
     expect(result.success).to.equal(true);
 
@@ -102,7 +103,7 @@ describe("verifier: hasSID tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b54");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await hasSID((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await hasSID((flightPlan as SuccessResult<FlightPlanDocument>).data);
 
     expect(result.success).to.equal(true);
 

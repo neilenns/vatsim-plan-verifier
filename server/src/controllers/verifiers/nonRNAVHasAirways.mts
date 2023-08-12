@@ -1,4 +1,4 @@
-import { IFlightPlan } from "../../models/FlightPlan.mjs";
+import { FlightPlan } from "../../models/FlightPlan.mjs";
 import VerifierResult from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import debug from "debug";
@@ -11,7 +11,7 @@ export default async function nonRNAVHasAirways({
   isRNAVCapable,
   routeHasNonRNAVAirways,
   equipmentSuffix,
-}: IFlightPlan): Promise<VerifierControllerResult> {
+}: FlightPlan): Promise<VerifierControllerResult> {
   // Set up the default result for a successful run of the verifier.
   let result: VerifierControllerResult = {
     success: true,

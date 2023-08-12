@@ -6,7 +6,7 @@ import { prop, getModelForClass, modelOptions, DocumentType } from "@typegoose/t
     collection: "aircraft",
   },
 })
-class AircraftClass {
+export class Aircraft {
   @prop({ required: true, index: true })
   equipmentCode!: string;
 
@@ -38,5 +38,5 @@ class AircraftClass {
   aircraftClass?: string;
 }
 
-export const AircraftModel = getModelForClass(AircraftClass);
-export type AircraftDocument = DocumentType<AircraftClass>;
+export const AircraftModel = getModelForClass(Aircraft);
+export type AircraftDocument = DocumentType<Aircraft>;

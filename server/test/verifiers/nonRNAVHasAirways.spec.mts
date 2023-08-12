@@ -2,15 +2,16 @@ import { expect } from "chai";
 import { describe, it } from "mocha";
 import { getFlightPlan } from "../../src/controllers/flightPlans.mjs";
 import nonRNAVHasAirways from "../../src/controllers/verifiers/nonRNAVHasAirways.mjs";
-import { IFlightPlan } from "../../src/models/FlightPlan.mjs";
+import { FlightPlanDocument } from "../../src/models/FlightPlan.mjs";
 import { IVerifierResult } from "../../src/models/VerifierResult.mjs";
 import { SuccessResult } from "../../src/types/result.mjs";
 import { addFlightPlans, removeFlightPlans } from "../setup/manageFlightPlans.mjs";
+import { Types } from "mongoose";
 
 const testData = [
   // RNAV with no airways
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b51",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b51"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -21,7 +22,7 @@ const testData = [
   },
   // Non-RNAV with airways
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b52",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b52"),
     callsign: "ASA42",
     departure: "KPDX",
     arrival: "KSEA",
@@ -32,7 +33,7 @@ const testData = [
   },
   // Non-RNAV with no airways
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b53",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b53"),
     callsign: "ASA42",
     departure: "KPDX",
     arrival: "KSEA",
@@ -43,7 +44,7 @@ const testData = [
   },
   // Non-RNAV with RNAV airways
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b54",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b54"),
     callsign: "ASA42",
     departure: "KPDX",
     arrival: "KSEA",
@@ -54,7 +55,7 @@ const testData = [
   },
   // No equipment suffix
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b55",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b55"),
     callsign: "ASA42",
     departure: "KPDX",
     arrival: "KSEA",
@@ -65,7 +66,7 @@ const testData = [
   },
   // Non-RNAV with no airways but one fix starts with J (issue #312)
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b56",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b56"),
     callsign: "ASA42",
     departure: "KPDX",
     arrival: "KSEA",
@@ -85,7 +86,7 @@ describe("verifier: nonRNAVHasAirways tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b51");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await nonRNAVHasAirways((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await nonRNAVHasAirways((flightPlan as SuccessResult<FlightPlanDocument>).data);
 
     expect(result.success).to.equal(true);
 
@@ -99,7 +100,7 @@ describe("verifier: nonRNAVHasAirways tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b52");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await nonRNAVHasAirways((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await nonRNAVHasAirways((flightPlan as SuccessResult<FlightPlanDocument>).data);
 
     expect(result.success).to.equal(true);
 
@@ -113,7 +114,7 @@ describe("verifier: nonRNAVHasAirways tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b53");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await nonRNAVHasAirways((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await nonRNAVHasAirways((flightPlan as SuccessResult<FlightPlanDocument>).data);
 
     expect(result.success).to.equal(true);
 
@@ -127,7 +128,7 @@ describe("verifier: nonRNAVHasAirways tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b54");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await nonRNAVHasAirways((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await nonRNAVHasAirways((flightPlan as SuccessResult<FlightPlanDocument>).data);
 
     expect(result.success).to.equal(true);
 
@@ -141,7 +142,7 @@ describe("verifier: nonRNAVHasAirways tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b55");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await nonRNAVHasAirways((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await nonRNAVHasAirways((flightPlan as SuccessResult<FlightPlanDocument>).data);
 
     expect(result.success).to.equal(true);
 
@@ -155,7 +156,7 @@ describe("verifier: nonRNAVHasAirways tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b56");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await nonRNAVHasAirways((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await nonRNAVHasAirways((flightPlan as SuccessResult<FlightPlanDocument>).data);
 
     expect(result.success).to.equal(true);
 

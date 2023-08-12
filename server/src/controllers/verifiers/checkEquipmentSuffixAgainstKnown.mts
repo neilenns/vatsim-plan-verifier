@@ -1,4 +1,5 @@
-import { IFlightPlan } from "../../models/FlightPlan.mjs";
+import { isDocument } from "@typegoose/typegoose";
+import { FlightPlan } from "../../models/FlightPlan.mjs";
 import VerifierResult from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import debug from "debug";
@@ -11,7 +12,7 @@ export default async function checkEquipmentSuffixAgainstKnown({
   equipmentInfo,
   equipmentSuffix,
   equipmentCode,
-}: IFlightPlan): Promise<VerifierControllerResult> {
+}: FlightPlan): Promise<VerifierControllerResult> {
   // Set up the default result for a successful run of the verifier.
   let result: VerifierControllerResult = {
     success: true,
@@ -38,6 +39,7 @@ export default async function checkEquipmentSuffixAgainstKnown({
     }
     // Not all aircraft have common equipment suffixes. If that's the case for this aircraf then skip running the verifier.
     else if (
+      !isDocument(equipmentInfo) ||
       !equipmentInfo.commonEquipmentSuffixes ||
       equipmentInfo.commonEquipmentSuffixes.length === 0
     ) {

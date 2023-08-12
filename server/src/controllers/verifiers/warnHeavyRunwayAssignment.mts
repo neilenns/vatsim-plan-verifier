@@ -1,4 +1,4 @@
-import { IFlightPlan } from "../../models/FlightPlan.mjs";
+import { FlightPlan } from "../../models/FlightPlan.mjs";
 import VerifierResult from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import debug from "debug";
@@ -13,7 +13,7 @@ export default async function warnHeavyRunwayAssignment({
   _id,
   isHeavy,
   departureAirportInfo,
-}: IFlightPlan): Promise<VerifierControllerResult> {
+}: FlightPlan): Promise<VerifierControllerResult> {
   // Set up the default result for a successful run of the verifier.
   let result: VerifierControllerResult = {
     success: true,
@@ -29,7 +29,7 @@ export default async function warnHeavyRunwayAssignment({
 
   // This nonsense is required to typeguard the extendedAirportInfo property
   // and avoid typescript problems.
-  if (!isDocument(departureAirportInfo?.extendedAirportInfo)) {
+  if (!isDocument(departureAirportInfo) || !isDocument(departureAirportInfo?.extendedAirportInfo)) {
     heavyRunways = undefined;
   } else {
     heavyRunways = departureAirportInfo?.extendedAirportInfo?.heavyRunways;

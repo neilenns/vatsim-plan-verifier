@@ -3,18 +3,16 @@ import { expect } from "chai";
 import { describe, it } from "mocha";
 import { getFlightPlan } from "../../src/controllers/flightPlans.mjs";
 import checkEquipmentSuffixAgainstKnown from "../../src/controllers/verifiers/checkEquipmentSuffixAgainstKnown.mjs";
-import { IFlightPlan } from "../../src/models/FlightPlan.mjs";
+import { FlightPlan, FlightPlanDocument } from "../../src/models/FlightPlan.mjs";
 import { IVerifierResult } from "../../src/models/VerifierResult.mjs";
 import { SuccessResult } from "../../src/types/result.mjs";
-import {
-  addFlightPlans,
-  removeFlightPlans,
-} from "../setup/manageFlightPlans.mjs";
+import { addFlightPlans, removeFlightPlans } from "../setup/manageFlightPlans.mjs";
+import { Types } from "mongoose";
 
 const testData = [
   // Known equipment suffix and suffix is present in flight plan.
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b4b",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b4b"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -25,7 +23,7 @@ const testData = [
   },
   // B738, an aircraft not in the aircraft collection.
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b4e",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b4e"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -36,7 +34,7 @@ const testData = [
   },
   // B737, no common equipment suffix in the database.
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b4d",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b4d"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -47,7 +45,7 @@ const testData = [
   },
   // No equipment suffix in flight plan
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b4c",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b4c"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -58,7 +56,7 @@ const testData = [
   },
   // Equipment suffix doesn't match common suffix
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b4f",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b4f"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -83,7 +81,7 @@ describe("verifier: checkEquipmentSuffixAgainstKnown tests", function () {
     expect(flightPlan.success).to.equal(true);
 
     const result = await checkEquipmentSuffixAgainstKnown(
-      (flightPlan as SuccessResult<IFlightPlan>).data
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
     );
 
     expect(result.success).to.equal(true);
@@ -100,7 +98,7 @@ describe("verifier: checkEquipmentSuffixAgainstKnown tests", function () {
     expect(flightPlan.success).to.equal(true);
 
     const result = await checkEquipmentSuffixAgainstKnown(
-      (flightPlan as SuccessResult<IFlightPlan>).data
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
     );
 
     expect(result.success).to.equal(true);
@@ -117,7 +115,7 @@ describe("verifier: checkEquipmentSuffixAgainstKnown tests", function () {
     expect(flightPlan.success).to.equal(true);
 
     const result = await checkEquipmentSuffixAgainstKnown(
-      (flightPlan as SuccessResult<IFlightPlan>).data
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
     );
 
     expect(result.success).to.equal(true);
@@ -134,7 +132,7 @@ describe("verifier: checkEquipmentSuffixAgainstKnown tests", function () {
     expect(flightPlan.success).to.equal(true);
 
     const result = await checkEquipmentSuffixAgainstKnown(
-      (flightPlan as SuccessResult<IFlightPlan>).data
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
     );
 
     expect(result.success).to.equal(true);
@@ -151,7 +149,7 @@ describe("verifier: checkEquipmentSuffixAgainstKnown tests", function () {
     expect(flightPlan.success).to.equal(true);
 
     const result = await checkEquipmentSuffixAgainstKnown(
-      (flightPlan as SuccessResult<IFlightPlan>).data
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
     );
 
     expect(result.success).to.equal(true);

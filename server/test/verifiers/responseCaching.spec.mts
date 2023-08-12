@@ -2,18 +2,16 @@ import { describe, it } from "mocha";
 import chai, { expect } from "chai";
 import chaiHttp from "chai-http";
 import { app } from "../../src/server.mjs";
-import {
-  addFlightPlans,
-  removeFlightPlans,
-} from "../setup/manageFlightPlans.mjs";
+import { addFlightPlans, removeFlightPlans } from "../setup/manageFlightPlans.mjs";
 import { serverSetup, serverTeardown } from "../setup/manageServer.mjs";
+import { Types } from "mongoose";
 
 chai.use(chaiHttp);
 
 const testData = [
   // Wrong altitude for direction of flight (eastbound)
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b5a",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b5a"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -23,7 +21,7 @@ const testData = [
     squawk: "1234",
   },
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b4c",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b4c"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",

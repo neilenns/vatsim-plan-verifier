@@ -1,4 +1,4 @@
-import { IFlightPlan } from "../../models/FlightPlan.mjs";
+import { FlightPlan } from "../../models/FlightPlan.mjs";
 import VerifierResult from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import { getFlightAwareRoutes } from "../flightAwareRoutes.mjs";
@@ -15,7 +15,7 @@ export default async function routeWithFlightAware({
   cleanedRoute,
   SID,
   cruiseAltitude,
-}: IFlightPlan): Promise<VerifierControllerResult> {
+}: FlightPlan): Promise<VerifierControllerResult> {
   // Set up the default result for a successful run of the verifier.
   let result: VerifierControllerResult = {
     success: true,

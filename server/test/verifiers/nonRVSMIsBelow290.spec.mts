@@ -2,15 +2,16 @@ import { expect } from "chai";
 import { describe, it } from "mocha";
 import { getFlightPlan } from "../../src/controllers/flightPlans.mjs";
 import nonRVSMIsBelow290 from "../../src/controllers/verifiers/nonRVSMIsBelow290.mjs";
-import { IFlightPlan } from "../../src/models/FlightPlan.mjs";
+import { FlightPlanDocument } from "../../src/models/FlightPlan.mjs";
 import { IVerifierResult } from "../../src/models/VerifierResult.mjs";
 import { SuccessResult } from "../../src/types/result.mjs";
 import { addFlightPlans, removeFlightPlans } from "../setup/manageFlightPlans.mjs";
+import { Types } from "mongoose";
 
 const testData = [
   // /L at 290
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b51",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b51"),
     callsign: "ASA42",
     departure: "KPDX",
     arrival: "KSEA",
@@ -21,7 +22,7 @@ const testData = [
   },
   // /L above 290
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b52",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b52"),
     callsign: "ASA42",
     departure: "KPDX",
     arrival: "KSEA",
@@ -32,7 +33,7 @@ const testData = [
   },
   // /L below 290
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b53",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b53"),
     callsign: "ASA42",
     departure: "KPDX",
     arrival: "KSEA",
@@ -43,7 +44,7 @@ const testData = [
   },
   // /A at 290
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b54",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b54"),
     callsign: "ASA42",
     departure: "KPDX",
     arrival: "KSEA",
@@ -54,7 +55,7 @@ const testData = [
   },
   // /A above 290
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b55",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b55"),
     callsign: "ASA42",
     departure: "KPDX",
     arrival: "KSEA",
@@ -65,7 +66,7 @@ const testData = [
   },
   // /A below 290
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b56",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b56"),
     callsign: "ASA42",
     departure: "KPDX",
     arrival: "KSEA",
@@ -76,7 +77,7 @@ const testData = [
   },
   // No equipment suffix
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b57",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b57"),
     callsign: "ASA42",
     departure: "KPDX",
     arrival: "KSEA",
@@ -96,7 +97,7 @@ describe("verifier: nonRVSMIsBelow290 tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b51");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await nonRVSMIsBelow290((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await nonRVSMIsBelow290((flightPlan as SuccessResult<FlightPlanDocument>).data);
 
     expect(result.success).to.equal(true);
 
@@ -110,7 +111,7 @@ describe("verifier: nonRVSMIsBelow290 tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b52");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await nonRVSMIsBelow290((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await nonRVSMIsBelow290((flightPlan as SuccessResult<FlightPlanDocument>).data);
 
     expect(result.success).to.equal(true);
 
@@ -124,7 +125,7 @@ describe("verifier: nonRVSMIsBelow290 tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b53");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await nonRVSMIsBelow290((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await nonRVSMIsBelow290((flightPlan as SuccessResult<FlightPlanDocument>).data);
 
     expect(result.success).to.equal(true);
 
@@ -138,7 +139,7 @@ describe("verifier: nonRVSMIsBelow290 tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b54");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await nonRVSMIsBelow290((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await nonRVSMIsBelow290((flightPlan as SuccessResult<FlightPlanDocument>).data);
 
     expect(result.success).to.equal(true);
 
@@ -152,7 +153,7 @@ describe("verifier: nonRVSMIsBelow290 tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b55");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await nonRVSMIsBelow290((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await nonRVSMIsBelow290((flightPlan as SuccessResult<FlightPlanDocument>).data);
 
     expect(result.success).to.equal(true);
 
@@ -166,7 +167,7 @@ describe("verifier: nonRVSMIsBelow290 tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b56");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await nonRVSMIsBelow290((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await nonRVSMIsBelow290((flightPlan as SuccessResult<FlightPlanDocument>).data);
 
     expect(result.success).to.equal(true);
 
@@ -180,7 +181,7 @@ describe("verifier: nonRVSMIsBelow290 tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b57");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await nonRVSMIsBelow290((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await nonRVSMIsBelow290((flightPlan as SuccessResult<FlightPlanDocument>).data);
 
     expect(result.success).to.equal(true);
 

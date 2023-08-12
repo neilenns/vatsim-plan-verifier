@@ -1,9 +1,9 @@
-import FlightPlan from "../interfaces/IFlightPlanDocument.mjs";
 import axios, { AxiosResponse } from "axios";
 import { FlightAwareRouteModel, FlightAwareRouteDocument } from "../models/FlightAwareRoute.mjs";
 import Result from "../types/result.mjs";
 import { ENV } from "../env.mjs";
 import debug from "debug";
+import { FlightPlan } from "../models/FlightPlan.mjs";
 
 const logger = debug("plan-verifier:flightAwareRoutesController");
 type FlightAwareRoutesResult = Result<FlightAwareRouteDocument[], "UnknownError">;
