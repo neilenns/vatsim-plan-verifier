@@ -1,4 +1,29 @@
 {
+  "Typegoose model": {
+    "prefix": "goose",
+    "body": [
+      "import { prop, getModelForClass, modelOptions, DocumentType, plugin } from \"@typegoose/typegoose\";",
+      "import autopopulate from \"mongoose-autopopulate\";",
+      "",
+      "@plugin(autopopulate)",
+      "@modelOptions({",
+      "  options: { customName: \"${TM_FILENAME_BASE/(.*)/${1:/downcase}/}\" },",
+      "  schemaOptions: {",
+      "    toJSON: { virtuals: true, aliases: false },",
+      "    toObject: { virtuals: true, aliases: false },",
+      "  },",
+      "})",
+      "export class ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/} {",
+      "  @prop({ required: true })",
+      "  someProp!: string;",
+      "}",
+      "",
+      "// Define the model",
+      "export const ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}Model = getModelForClass(${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/});",
+      "export type ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}Document = DocumentType<${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}>;"
+    ],
+    "description": "Define a class with the filename and Model"
+  },
   "Wrap in Types.ObjectId": {
     "prefix": "wrapoid",
     "body": ["new Types.ObjectId($TM_SELECTED_TEXT)"],
