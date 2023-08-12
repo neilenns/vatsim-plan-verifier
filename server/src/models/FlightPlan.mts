@@ -210,7 +210,7 @@ export enum VatsimCommsEnum {
 export class FlightPlan {
   _id!: Types.ObjectId;
 
-  @prop({ required: true, index: true, unique: true })
+  @prop({ required: true, index: true, unique: false })
   callsign!: string;
 
   @prop({ required: false })
