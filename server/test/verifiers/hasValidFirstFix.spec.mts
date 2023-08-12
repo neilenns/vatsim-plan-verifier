@@ -2,15 +2,16 @@ import { expect } from "chai";
 import { describe, it } from "mocha";
 import { getFlightPlan } from "../../src/controllers/flightPlans.mjs";
 import hasValidFirstFix from "../../src/controllers/verifiers/hasValidFirstFix.mjs";
-import { IFlightPlan } from "../../src/models/FlightPlan.mjs";
+import { FlightPlanDocument } from "../../src/models/FlightPlan.mjs";
 import { IVerifierResult } from "../../src/models/VerifierResult.mjs";
 import { SuccessResult } from "../../src/types/result.mjs";
 import { addFlightPlans, removeFlightPlans } from "../setup/manageFlightPlans.mjs";
+import { Types } from "mongoose";
 
 const testData = [
   {
     // Valid SID and first fix
-    _id: "5f9f7b3b9d3b3c1b1c9b4b51",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b51"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -21,7 +22,7 @@ const testData = [
   },
   // Valid SID invalid first fix (RNAV)
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b52",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b52"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -32,7 +33,7 @@ const testData = [
   },
   // No SID
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b53",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b53"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -43,7 +44,7 @@ const testData = [
   },
   // No SID information
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b54",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b54"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -54,7 +55,7 @@ const testData = [
   },
   // No first fix
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b55",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b55"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -65,7 +66,7 @@ const testData = [
   },
   // Valid SID invalid first fix (non-RNAV)
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b56",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b56"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -76,7 +77,7 @@ const testData = [
   },
   // Departure has no initial fixes
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b57",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b57"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -95,7 +96,7 @@ describe("verifier: hasValidFirstFix tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b51");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await hasValidFirstFix((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await hasValidFirstFix((flightPlan as SuccessResult<FlightPlanDocument>).data);
 
     expect(result.success).to.equal(true);
 
@@ -109,7 +110,7 @@ describe("verifier: hasValidFirstFix tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b52");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await hasValidFirstFix((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await hasValidFirstFix((flightPlan as SuccessResult<FlightPlanDocument>).data);
 
     expect(result.success).to.equal(true);
 
@@ -123,7 +124,7 @@ describe("verifier: hasValidFirstFix tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b56");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await hasValidFirstFix((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await hasValidFirstFix((flightPlan as SuccessResult<FlightPlanDocument>).data);
 
     expect(result.success).to.equal(true);
 
@@ -137,7 +138,7 @@ describe("verifier: hasValidFirstFix tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b53");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await hasValidFirstFix((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await hasValidFirstFix((flightPlan as SuccessResult<FlightPlanDocument>).data);
 
     expect(result.success).to.equal(true);
 
@@ -151,7 +152,7 @@ describe("verifier: hasValidFirstFix tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b54");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await hasValidFirstFix((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await hasValidFirstFix((flightPlan as SuccessResult<FlightPlanDocument>).data);
 
     expect(result.success).to.equal(true);
 
@@ -165,7 +166,7 @@ describe("verifier: hasValidFirstFix tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b55");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await hasValidFirstFix((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await hasValidFirstFix((flightPlan as SuccessResult<FlightPlanDocument>).data);
 
     expect(result.success).to.equal(true);
 
@@ -179,7 +180,7 @@ describe("verifier: hasValidFirstFix tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b57");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await hasValidFirstFix((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await hasValidFirstFix((flightPlan as SuccessResult<FlightPlanDocument>).data);
 
     expect(result.success).to.equal(true);
 

@@ -2,15 +2,16 @@ import { expect } from "chai";
 import { describe, it } from "mocha";
 import { getFlightPlan } from "../../src/controllers/flightPlans.mjs";
 import checkForPreferredRoutes from "../../src/controllers/verifiers/checkForPreferredRoutes.mjs";
-import { IFlightPlan } from "../../src/models/FlightPlan.mjs";
+import { FlightPlanDocument } from "../../src/models/FlightPlan.mjs";
 import { IVerifierResult } from "../../src/models/VerifierResult.mjs";
 import { SuccessResult } from "../../src/types/result.mjs";
 import { addFlightPlans, removeFlightPlans } from "../setup/manageFlightPlans.mjs";
+import { Types } from "mongoose";
 
 const testData = [
   // No preferred route
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b50",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b50"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -21,7 +22,7 @@ const testData = [
   },
   // No equipment info
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b51",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b51"),
     callsign: "ASA42",
     departure: "KPDX",
     arrival: "KSEA",
@@ -32,7 +33,7 @@ const testData = [
   },
   // Correct preferred route
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b52",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b52"),
     callsign: "ASA42",
     departure: "KPDX",
     arrival: "KSEA",
@@ -43,7 +44,7 @@ const testData = [
   },
   // Wrong speed for preferred route
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b53",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b53"),
     callsign: "ASA42",
     departure: "KPDX",
     arrival: "KSEA",
@@ -54,7 +55,7 @@ const testData = [
   },
   // Wrong altitude for preferred route
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b54",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b54"),
     callsign: "ASA42",
     departure: "KPDX",
     arrival: "KSEA",
@@ -74,7 +75,9 @@ describe("verifier: checkForPreferredRoutes tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b51");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await checkForPreferredRoutes((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await checkForPreferredRoutes(
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
+    );
 
     expect(result.success).to.equal(true);
 
@@ -88,7 +91,9 @@ describe("verifier: checkForPreferredRoutes tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b50");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await checkForPreferredRoutes((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await checkForPreferredRoutes(
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
+    );
 
     expect(result.success).to.equal(true);
 
@@ -102,7 +107,9 @@ describe("verifier: checkForPreferredRoutes tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b52");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await checkForPreferredRoutes((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await checkForPreferredRoutes(
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
+    );
 
     expect(result.success).to.equal(true);
 
@@ -116,7 +123,9 @@ describe("verifier: checkForPreferredRoutes tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b53");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await checkForPreferredRoutes((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await checkForPreferredRoutes(
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
+    );
 
     expect(result.success).to.equal(true);
 
@@ -130,7 +139,9 @@ describe("verifier: checkForPreferredRoutes tests", () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b54");
     expect(flightPlan.success).to.equal(true);
 
-    const result = await checkForPreferredRoutes((flightPlan as SuccessResult<IFlightPlan>).data);
+    const result = await checkForPreferredRoutes(
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
+    );
 
     expect(result.success).to.equal(true);
 
