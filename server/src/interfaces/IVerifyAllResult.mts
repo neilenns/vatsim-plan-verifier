@@ -1,7 +1,7 @@
-import { IVerifierResult } from "../models/VerifierResult.mjs";
+import { VerifierResultDocument } from "../models/VerifierResult.mjs";
 
 export default interface IVerifyAllResult {
-  results: IVerifierResult[];
+  results: VerifierResultDocument[];
   hasErrors: boolean;
   hasWarnings: boolean;
   hasRawAircraftTypeWarnings: boolean;

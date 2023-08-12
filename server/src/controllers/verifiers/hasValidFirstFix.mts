@@ -1,6 +1,6 @@
 import { isDocument } from "@typegoose/typegoose";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
-import VerifierResult from "../../models/VerifierResult.mjs";
+import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import debug from "debug";
 
@@ -14,68 +14,67 @@ export default async function hasValidFirstFix({
   SIDInformation,
 }: FlightPlan): Promise<VerifierControllerResult> {
   // Set up the default result for a successful run of the verifier.
-  let result: VerifierControllerResult = {
-    success: true,
-    data: new VerifierResult({
-      flightPlanId: _id,
-      verifier: verifierName,
-      flightPlanPart: "route",
-      priority: 5,
-    }),
-  };
+  const result = new VerifierResultModel({
+    flightPlanId: _id,
+    verifier: verifierName,
+    flightPlanPart: "route",
+    priority: 5,
+  });
 
   try {
     const firstFix = routeParts?.[1];
 
     if (!SID) {
-      result.data.status = "Information";
-      result.data.message = `Route likely doesn't have a SID so can't verify first fix.`;
-      result.data.messageId = "noSID";
+      result.status = VerifierResultStatus.INFORMATION;
+      result.message = `Route likely doesn't have a SID so can't verify first fix.`;
+      result.messageId = "noSID";
     } else if (!firstFix) {
-      result.data.status = "Information";
-      result.data.message = `Route doesn't have at least two parts so can't verify first fix.`;
-      result.data.messageId = "noFirstFix";
+      result.status = VerifierResultStatus.INFORMATION;
+      result.message = `Route doesn't have at least two parts so can't verify first fix.`;
+      result.messageId = "noFirstFix";
     } else if (!isDocument(SIDInformation)) {
-      result.data.status = "Information";
-      result.data.message = `No information available for ${SID} so can't verify first fix.`;
-      result.data.messageId = "noSIDInformation";
+      result.status = VerifierResultStatus.INFORMATION;
+      result.message = `No information available for ${SID} so can't verify first fix.`;
+      result.messageId = "noSIDInformation";
     } else if (SIDInformation.Fixes.length === 0) {
-      result.data.status = "Information";
-      result.data.message = `SID ${SID} has no initial fixes so there is no need to verify the route.`;
-      result.data.messageId = "noFixesOnDeparture";
+      result.status = VerifierResultStatus.INFORMATION;
+      result.message = `SID ${SID} has no initial fixes so there is no need to verify the route.`;
+      result.messageId = "noFixesOnDeparture";
     }
     // Finally have all the info necessary to verify the first fix
     else if (!SIDInformation.Fixes.includes(firstFix)) {
-      result.data.status = "Error";
-      result.data.priority = 1;
+      result.status = VerifierResultStatus.ERROR;
+      result.priority = 1;
       // The message sent is different depending on whether it's an RNAV SID.
       if (SIDInformation.IsRNAV) {
-        result.data.message = `First fix ${firstFix} is not in the list of fixes for ${SID}: ${SIDInformation.Fixes.joinWithWord(
+        result.message = `First fix ${firstFix} is not in the list of fixes for ${SID}: ${SIDInformation.Fixes.joinWithWord(
           "and"
         )}`;
-        result.data.messageId = "firstFixNotInRNAVSID";
+        result.messageId = "firstFixNotInRNAVSID";
       } else {
-        result.data.message = `First fix ${firstFix} is not in the list of fixes for ${SID}: ${SIDInformation.Fixes.joinWithWord(
+        result.message = `First fix ${firstFix} is not in the list of fixes for ${SID}: ${SIDInformation.Fixes.joinWithWord(
           "and"
         )}, or requires coordination with the online departure controller.`;
-        result.data.messageId = "firstFixNotInSID";
+        result.messageId = "firstFixNotInSID";
       }
     } else {
-      result.data.status = "Information";
-      result.data.message = `First fix ${firstFix} is valid for ${SID}.`;
-      result.data.messageId = "firstFixIsValid";
+      result.status = VerifierResultStatus.INFORMATION;
+      result.message = `First fix ${firstFix} is valid for ${SID}.`;
+      result.messageId = "firstFixIsValid";
     }
 
-    await result.data.save();
+    const doc = await result.save();
+    return {
+      success: true,
+      data: doc,
+    };
   } catch (error) {
     logger(`Error running hasValidFirstFix: error`);
 
-    result = {
+    return {
       success: false,
       errorType: "UnknownError",
       error: `Error running hasValidFirstFix: error`,
     };
   }
-
-  return result;
 }

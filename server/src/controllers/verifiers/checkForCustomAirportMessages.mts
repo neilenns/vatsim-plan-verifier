@@ -1,6 +1,10 @@
 import { CustomMessageModel, MessageTarget } from "../../models/CustomMessages.mjs";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
-import VerifierResult, { IVerifierResult } from "../../models/VerifierResult.mjs";
+import {
+  VerifierResultDocument,
+  VerifierResultModel,
+  VerifierResultStatus,
+} from "../../models/VerifierResult.mjs";
 import { VerifierControllerMultiResult } from "../../types/verifierControllerResult.mjs";
 import debug from "debug";
 import applyMustacheValues from "../../utils/mustache.mjs";
@@ -12,7 +16,7 @@ export default async function checkForCustomAirportMessages(
   flightPlan: FlightPlan
 ): Promise<VerifierControllerMultiResult> {
   // Set up the default result for a successful run of the verifier.
-  let results: IVerifierResult[] = [];
+  let results: VerifierResultDocument[] = [];
 
   try {
     const customMessages = await CustomMessageModel.findByTarget(
@@ -22,12 +26,12 @@ export default async function checkForCustomAirportMessages(
 
     if (!customMessages || customMessages.length === 0) {
       results.push(
-        new VerifierResult({
+        new VerifierResultModel({
           flightPlanId: flightPlan._id,
           verifier: verifierName,
           flightPlanPart: "departure",
           priority: 5,
-          status: "Information",
+          status: VerifierResultStatus.INFORMATION,
           message: `No custom messages for ${flightPlan.departure}`,
           messageId: "noCustomMessages",
         })
@@ -37,7 +41,7 @@ export default async function checkForCustomAirportMessages(
     else {
       results = await Promise.all(
         customMessages.map(async (customMessage) => {
-          return new VerifierResult({
+          return new VerifierResultModel({
             flightPlanId: flightPlan._id,
             verifier: verifierName,
             flightPlanPart: "departure",

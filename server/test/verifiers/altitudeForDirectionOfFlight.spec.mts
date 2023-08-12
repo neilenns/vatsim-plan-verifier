@@ -4,7 +4,7 @@ import altitudeForDirectionOfFlight from "../../src/controllers/verifiers/altitu
 import { SuccessResult } from "../../src/types/result.mjs";
 import { getFlightPlan } from "../../src/controllers/flightPlans.mjs";
 import { FlightPlanDocument } from "../../src/models/FlightPlan.mjs";
-import { IVerifierResult } from "../../src/models/VerifierResult.mjs";
+import { VerifierResultDocument, VerifierResultStatus } from "../../src/models/VerifierResult.mjs";
 import { addFlightPlans, removeFlightPlans } from "../setup/manageFlightPlans.mjs";
 import { Types } from "mongoose";
 
@@ -106,9 +106,9 @@ describe("verifier: altitudeForDirectionOfFlight tests", function () {
     );
 
     expect(result.success).to.equal(true);
-    const data = (result as SuccessResult<IVerifierResult>).data;
+    const data = (result as SuccessResult<VerifierResultDocument>).data;
 
-    expect(data.status).to.equal("Information");
+    expect(data.status).to.equal(VerifierResultStatus.INFORMATION);
     expect(data.flightPlanPart).to.equal("cruiseAltitude");
     expect(data.messageId).to.equal("altitudeValidForDirectionOfFlight");
   });
@@ -122,9 +122,9 @@ describe("verifier: altitudeForDirectionOfFlight tests", function () {
     );
 
     expect(result.success).to.equal(true);
-    const data = (result as SuccessResult<IVerifierResult>).data;
+    const data = (result as SuccessResult<VerifierResultDocument>).data;
 
-    expect(data.status).to.equal("Information");
+    expect(data.status).to.equal(VerifierResultStatus.INFORMATION);
     expect(data.flightPlanPart).to.equal("cruiseAltitude");
     expect(data.messageId).to.equal("altitudeValidForDirectionOfFlight");
   });
@@ -138,9 +138,9 @@ describe("verifier: altitudeForDirectionOfFlight tests", function () {
     );
 
     expect(result.success).to.equal(true);
-    const data = (result as SuccessResult<IVerifierResult>).data;
+    const data = (result as SuccessResult<VerifierResultDocument>).data;
 
-    expect(data.status).to.equal("Error");
+    expect(data.status).to.equal(VerifierResultStatus.ERROR);
     expect(data.flightPlanPart).to.equal("cruiseAltitude");
     expect(data.messageId).to.equal("altitudeInvalidForEastboundDirectionOfFlight");
   });
@@ -154,9 +154,9 @@ describe("verifier: altitudeForDirectionOfFlight tests", function () {
     );
 
     expect(result.success).to.equal(true);
-    const data = (result as SuccessResult<IVerifierResult>).data;
+    const data = (result as SuccessResult<VerifierResultDocument>).data;
 
-    expect(data.status).to.equal("Error");
+    expect(data.status).to.equal(VerifierResultStatus.ERROR);
     expect(data.flightPlanPart).to.equal("cruiseAltitude");
     expect(data.messageId).to.equal("altitudeInvalidForWestboundDirectionOfFlight");
   });
@@ -170,9 +170,9 @@ describe("verifier: altitudeForDirectionOfFlight tests", function () {
     );
 
     expect(result.success).to.equal(true);
-    const data = (result as SuccessResult<IVerifierResult>).data;
+    const data = (result as SuccessResult<VerifierResultDocument>).data;
 
-    expect(data.status).to.equal("Error");
+    expect(data.status).to.equal(VerifierResultStatus.ERROR);
     expect(data.flightPlanPart).to.equal("cruiseAltitude");
     expect(data.messageId).to.equal("altitudeInvalidForEastboundAboveRVSMDirectionOfFlight");
   });
@@ -186,9 +186,9 @@ describe("verifier: altitudeForDirectionOfFlight tests", function () {
     );
 
     expect(result.success).to.equal(true);
-    const data = (result as SuccessResult<IVerifierResult>).data;
+    const data = (result as SuccessResult<VerifierResultDocument>).data;
 
-    expect(data.status).to.equal("Error");
+    expect(data.status).to.equal(VerifierResultStatus.ERROR);
     expect(data.flightPlanPart).to.equal("cruiseAltitude");
     expect(data.messageId).to.equal("altitudeInvalidForWestboundAboveRVSMDirectionOfFlight");
   });
@@ -202,9 +202,9 @@ describe("verifier: altitudeForDirectionOfFlight tests", function () {
     );
 
     expect(result.success).to.equal(true);
-    const data = (result as SuccessResult<IVerifierResult>).data;
+    const data = (result as SuccessResult<VerifierResultDocument>).data;
 
-    expect(data.status).to.equal("Information");
+    expect(data.status).to.equal(VerifierResultStatus.INFORMATION);
     expect(data.flightPlanPart).to.equal("cruiseAltitude");
     expect(data.messageId).to.equal("KPDXtoKSLE");
   });

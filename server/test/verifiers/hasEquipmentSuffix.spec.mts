@@ -3,7 +3,7 @@ import { describe, it } from "mocha";
 import { getFlightPlan } from "../../src/controllers/flightPlans.mjs";
 import hasEquipmentSuffix from "../../src/controllers/verifiers/hasEquipmentSuffix.mjs";
 import { FlightPlanDocument } from "../../src/models/FlightPlan.mjs";
-import { IVerifierResult } from "../../src/models/VerifierResult.mjs";
+import { VerifierResultDocument, VerifierResultStatus } from "../../src/models/VerifierResult.mjs";
 import { SuccessResult } from "../../src/types/result.mjs";
 import { addFlightPlans, removeFlightPlans } from "../setup/manageFlightPlans.mjs";
 import { Types } from "mongoose";
@@ -50,8 +50,8 @@ describe("verifier: hasEquipmentSuffix tests", () => {
 
     expect(result.success).to.equal(true);
 
-    const data = (result as SuccessResult<IVerifierResult>).data;
-    expect(data.status).to.equal("Error");
+    const data = (result as SuccessResult<VerifierResultDocument>).data;
+    expect(data.status).to.equal(VerifierResultStatus.ERROR);
     expect(data.flightPlanPart).to.equal("rawAircraftType");
     expect(data.messageId).to.equal("missingEquipmentSuffix");
   });
@@ -64,8 +64,8 @@ describe("verifier: hasEquipmentSuffix tests", () => {
 
     expect(result.success).to.equal(true);
 
-    const data = (result as SuccessResult<IVerifierResult>).data;
-    expect(data.status).to.equal("Information");
+    const data = (result as SuccessResult<VerifierResultDocument>).data;
+    expect(data.status).to.equal(VerifierResultStatus.INFORMATION);
     expect(data.flightPlanPart).to.equal("rawAircraftType");
     expect(data.messageId).to.equal("hasEquipmentSuffix");
   });

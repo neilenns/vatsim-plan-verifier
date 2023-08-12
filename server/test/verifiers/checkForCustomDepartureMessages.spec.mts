@@ -3,7 +3,7 @@ import { describe, it } from "mocha";
 import { getFlightPlan } from "../../src/controllers/flightPlans.mjs";
 import checkForCustomDepartureMessages from "../../src/controllers/verifiers/checkForCustomDepartureMessages.mjs";
 import { FlightPlanDocument } from "../../src/models/FlightPlan.mjs";
-import { IVerifierResult } from "../../src/models/VerifierResult.mjs";
+import { VerifierResultDocument, VerifierResultStatus } from "../../src/models/VerifierResult.mjs";
 import { SuccessResult } from "../../src/types/result.mjs";
 import { addFlightPlans, removeFlightPlans } from "../setup/manageFlightPlans.mjs";
 import { Types } from "mongoose";
@@ -59,7 +59,7 @@ describe("verifier: checkForCustomDepartureMessages tests", () => {
 
     expect(result.success).to.equal(true);
 
-    const data = (result as SuccessResult<IVerifierResult[]>).data;
+    const data = (result as SuccessResult<VerifierResultDocument[]>).data;
     expect(data.length).to.equal(1);
     expect(data[0].status).to.equal("CustomMessage");
     expect(data[0].messageId).to.equal("customDepartureMessage");
@@ -75,7 +75,7 @@ describe("verifier: checkForCustomDepartureMessages tests", () => {
 
     expect(result.success).to.equal(true);
 
-    const data = (result as SuccessResult<IVerifierResult[]>).data;
+    const data = (result as SuccessResult<VerifierResultDocument[]>).data;
     expect(data.length).to.equal(1);
     expect(data[0].status).to.equal("CustomMessage");
     expect(data[0].messageId).to.equal("customDepartureMessage");
@@ -91,9 +91,9 @@ describe("verifier: checkForCustomDepartureMessages tests", () => {
 
     expect(result.success).to.equal(true);
 
-    const data = (result as SuccessResult<IVerifierResult[]>).data;
+    const data = (result as SuccessResult<VerifierResultDocument[]>).data;
     expect(data.length).to.equal(1);
-    expect(data[0].status).to.equal("Information");
+    expect(data[0].status).to.equal(VerifierResultStatus.INFORMATION);
     expect(data[0].messageId).to.equal("noCustomMessages");
   });
 });

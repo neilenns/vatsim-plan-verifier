@@ -1,5 +1,5 @@
 import { FlightPlan } from "../../models/FlightPlan.mjs";
-import VerifierResult from "../../models/VerifierResult.mjs";
+import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import debug from "debug";
 
@@ -17,72 +17,71 @@ export default async function checkSEAvsMONTN({
   routeParts,
 }: FlightPlan): Promise<VerifierControllerResult> {
   // Set up the default result for a successful run of the verifier.
-  let result: VerifierControllerResult = {
-    success: true,
-    data: new VerifierResult({
-      flightPlanId: _id,
-      verifier: verifierName,
-      flightPlanPart: "route",
-      priority: 5,
-    }),
-  };
+  const result = new VerifierResultModel({
+    flightPlanId: _id,
+    verifier: verifierName,
+    flightPlanPart: "route",
+    priority: 5,
+  });
 
   try {
     if (!routeParts || routeParts.length === 0) {
-      result.data.status = "Information";
-      result.data.message = `No route provided.`;
-      result.data.messageId = "noRoute";
+      result.status = VerifierResultStatus.INFORMATION;
+      result.message = `No route provided.`;
+      result.messageId = "noRoute";
     } else if (SID !== "SEA8") {
-      result.data.status = "Information";
-      result.data.message = `This test does not apply to flight plans that do not use the SEA8 departure.`;
-      result.data.messageId = "notOnSEA";
+      result.status = VerifierResultStatus.INFORMATION;
+      result.message = `This test does not apply to flight plans that do not use the SEA8 departure.`;
+      result.messageId = "notOnSEA";
     } else {
       // Check to see if any of the fixes in the route are in the list of fixes that mandate MONTN2.
       if (routeParts.some((part) => alwaysMONTN2Fixes.includes(part))) {
-        result.data.status = "Error";
-        result.data.message = `Flight should be on the MONTN2 departure instead of SEA8.`;
-        result.data.messageId = "useMONTN";
-        result.data.priority = 3;
+        result.status = VerifierResultStatus.ERROR;
+        result.message = `Flight should be on the MONTN2 departure instead of SEA8.`;
+        result.messageId = "useMONTN";
+        result.priority = 3;
       }
       // Check to see if any of the fixes in the route are on the list that would be MONTN2 in south flow
       else if (routeParts.some((part) => southFlowMONTN2Fixes.includes(part))) {
-        result.data.status = "Warning";
-        result.data.message = `Flight should be on the MONTN2 departure if KSEA is in south flow.`;
-        result.data.messageId = "southMONTN";
-        result.data.priority = 3;
+        result.status = VerifierResultStatus.WARNING;
+        result.message = `Flight should be on the MONTN2 departure if KSEA is in south flow.`;
+        result.messageId = "southMONTN";
+        result.priority = 3;
       }
       // Check to see if any of the fixes in the route should use MONTN2 if eastbound
       else if (routeParts.some((part) => eastboundMONTN2Fixes.includes(part))) {
-        result.data.status = "Warning";
-        result.data.message = `Flight should be on the MONTN2 departure if heading eastbound.`;
-        result.data.messageId = "eastboundMONTN";
-        result.data.priority = 3;
+        result.status = VerifierResultStatus.WARNING;
+        result.message = `Flight should be on the MONTN2 departure if heading eastbound.`;
+        result.messageId = "eastboundMONTN";
+        result.priority = 3;
       }
       // Check to see if any of the fixes in the route should use MONTN2 if northbound
       else if (routeParts.some((part) => northboundMONTN2Fixes.includes(part))) {
-        result.data.status = "Warning";
-        result.data.message = `Flight should be on the MONTN2 departure if heading northbound and KSEA is in south flow.`;
-        result.data.messageId = "northboundMONTN";
-        result.data.priority = 3;
+        result.status = VerifierResultStatus.WARNING;
+        result.message = `Flight should be on the MONTN2 departure if heading northbound and KSEA is in south flow.`;
+        result.messageId = "northboundMONTN";
+        result.priority = 3;
       } else {
-        result.data.status = "Information";
-        result.data.message = `Flight should be on the SEA8 departure.`;
-        result.data.messageId = "useSEA";
+        result.status = VerifierResultStatus.INFORMATION;
+        result.message = `Flight should be on the SEA8 departure.`;
+        result.messageId = "useSEA";
       }
     }
     // If the SID is SEA8 and there are at least 3 waypoints in the route, then check to see if
     // either the second or third waypoint are in the list of ones that mandate MONTN2.
 
-    await result.data.save();
+    const doc = await result.save();
+    return {
+      success: true,
+      data: doc,
+    };
   } catch (error) {
     logger(`Error running checkSEAvsMONTN: error`);
 
-    result = {
+    return {
       success: false,
       errorType: "UnknownError",
       error: `Error running checkSEAvsMONTN: error`,
     };
   }
-
-  return result;
 }

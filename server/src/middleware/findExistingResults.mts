@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import VerifierResult from "../models/VerifierResult.mjs";
+import { VerifierResultModel } from "../models/VerifierResult.mjs";
 import VerifyAllResult from "../controllers/verifyAllResult.mjs";
 
 // Looks for existing verification results in the database based on the incoming flight plan ID
@@ -15,7 +15,7 @@ const findExistingResultsMiddleware =
 
       // Single verifier case
       if (verifier) {
-        const existingResults = await VerifierResult.find({
+        const existingResults = await VerifierResultModel.find({
           flightPlanId: id,
           verifier,
         });
@@ -28,7 +28,7 @@ const findExistingResultsMiddleware =
 
       // All verifiers case
       else {
-        const existingResults = await VerifierResult.find({ flightPlanId: id });
+        const existingResults = await VerifierResultModel.find({ flightPlanId: id });
 
         if (existingResults && existingResults.length > 0) {
           const verifyAllResult = new VerifyAllResult();
