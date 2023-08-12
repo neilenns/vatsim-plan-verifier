@@ -1,6 +1,10 @@
 import { CustomMessageModel, MessageTarget } from "../../models/CustomMessages.mjs";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
-import VerifierResult, { IVerifierResult } from "../../models/VerifierResult.mjs";
+import {
+  VerifierResultDocument,
+  VerifierResultModel,
+  VerifierResultStatus,
+} from "../../models/VerifierResult.mjs";
 import { VerifierControllerMultiResult } from "../../types/verifierControllerResult.mjs";
 import debug from "debug";
 import applyMustacheValues from "../../utils/mustache.mjs";
@@ -12,17 +16,17 @@ export default async function checkForCustomDepartureMessages(
   flightPlan: FlightPlan
 ): Promise<VerifierControllerMultiResult> {
   // Set up the default result for a successful run of the verifier.
-  let results: IVerifierResult[] = [];
+  let results: VerifierResultDocument[] = [];
 
   try {
     if (!flightPlan.SID) {
       results.push(
-        new VerifierResult({
+        new VerifierResultModel({
           flightPlanId: flightPlan._id,
           verifier: verifierName,
           flightPlanPart: "route",
           priority: 5,
-          status: "Information",
+          status: VerifierResultStatus.INFORMATION,
           message: `No SID available for the route, skipping checking for custom messages.`,
           messageId: "noSID",
         })
@@ -35,12 +39,12 @@ export default async function checkForCustomDepartureMessages(
 
       if (!customMessages || customMessages.length === 0) {
         results.push(
-          new VerifierResult({
+          new VerifierResultModel({
             flightPlanId: flightPlan._id,
             verifier: verifierName,
             flightPlanPart: "route",
             priority: 5,
-            status: "Information",
+            status: VerifierResultStatus.INFORMATION,
             message: `No custom messages for ${flightPlan.SID}`,
             messageId: "noCustomMessages",
           })
@@ -50,7 +54,7 @@ export default async function checkForCustomDepartureMessages(
       else {
         results = await Promise.all(
           customMessages.map(async (customMessage) => {
-            return new VerifierResult({
+            return new VerifierResultModel({
               flightPlanId: flightPlan._id,
               verifier: verifierName,
               flightPlanPart: "route",

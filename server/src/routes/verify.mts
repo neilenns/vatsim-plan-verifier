@@ -22,7 +22,7 @@ import airwaysForEquipmentSuffix from "../controllers/verifiers/airwaysForEquipm
 import hasSID from "../controllers/verifiers/hasSID.mjs";
 import hasValidFirstFix from "../controllers/verifiers/hasValidFirstFix.mjs";
 
-import VerifierResult from "../models/VerifierResult.mjs";
+import { VerifierResultModel } from "../models/VerifierResult.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
 import pistonNotSlantLorZ from "../controllers/verifiers/pistonNotSlantLorZ.mjs";
 import checkKPDXtoKSLEAltitude from "../controllers/verifiers/checkKPDXtoKSLEAltitude.mjs";
@@ -122,7 +122,7 @@ router.get(
   secureQueryMiddleware,
   async (req: Request, res: Response) => {
     try {
-      const rawResults = await VerifierResult.find({ flightPlanId: req.params.id });
+      const rawResults = await VerifierResultModel.find({ flightPlanId: req.params.id });
 
       // If there are no results send back an empty object. This ensures the
       // UI can tell the difference between no results and some results when it
@@ -146,7 +146,7 @@ router.get(
 // Register the route to delete all the results for a past run
 router.delete("/verify/results/:id", async (req: Request, res: Response) => {
   try {
-    await VerifierResult.deleteMany({ flightPlanId: req.params.id });
+    await VerifierResultModel.deleteMany({ flightPlanId: req.params.id });
 
     return res.status(200).json();
   } catch (error) {

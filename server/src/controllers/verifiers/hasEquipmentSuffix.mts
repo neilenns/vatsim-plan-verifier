@@ -1,6 +1,6 @@
 import { isDocument } from "@typegoose/typegoose";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
-import VerifierResult from "../../models/VerifierResult.mjs";
+import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import debug from "debug";
 
@@ -13,49 +13,48 @@ export default async function hasEquipmentSuffix({
   equipmentInfo,
 }: FlightPlan): Promise<VerifierControllerResult> {
   // Set up the default result for a successful run of the verifier.
-  let result: VerifierControllerResult = {
-    success: true,
-    data: new VerifierResult({
-      flightPlanId: _id,
-      verifier: verifierName,
-      flightPlanPart: "rawAircraftType",
-      priority: 5,
-    }),
-  };
+  const result = new VerifierResultModel({
+    flightPlanId: _id,
+    verifier: verifierName,
+    flightPlanPart: "rawAircraftType",
+    priority: 5,
+  });
 
   try {
     // This is the test the verifier is supposed to do.
     if (!equipmentSuffix || equipmentSuffix === "") {
-      result.data.status = "Error";
-      result.data.messageId = "missingEquipmentSuffix";
+      result.status = VerifierResultStatus.ERROR;
+      result.messageId = "missingEquipmentSuffix";
       if (
         isDocument(equipmentInfo) &&
         equipmentInfo.commonEquipmentSuffixes &&
         equipmentInfo.commonEquipmentSuffixes.length > 0
       ) {
-        result.data.message = `Flight plan is missing an equipment suffix. It should probably be one of these: ${equipmentInfo.commonEquipmentSuffixes
+        result.message = `Flight plan is missing an equipment suffix. It should probably be one of these: ${equipmentInfo.commonEquipmentSuffixes
           .map((suffix) => `/${suffix}`)
           .joinWithWord("or")}`;
       } else {
-        result.data.message = `Flight plan is missing an equipment suffix.`;
+        result.message = `Flight plan is missing an equipment suffix.`;
       }
-      result.data.priority = 3;
+      result.priority = 3;
     } else {
-      result.data.status = "Information";
-      result.data.messageId = "hasEquipmentSuffix";
-      result.data.message = `Flight plan has an equipment suffix.`;
+      result.status = VerifierResultStatus.INFORMATION;
+      result.messageId = "hasEquipmentSuffix";
+      result.message = `Flight plan has an equipment suffix.`;
     }
 
-    await result.data.save();
+    const doc = await result.save();
+    return {
+      success: true,
+      data: doc,
+    };
   } catch (error) {
     logger(`Error running hasEquipmentSuffix: ${error}`);
 
-    result = {
+    return {
       success: false,
       errorType: "UnknownError",
       error: `Error running hasEquipmentSuffix: ${error}`,
     };
   }
-
-  return result;
 }

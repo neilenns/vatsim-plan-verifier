@@ -1,5 +1,5 @@
 import { FlightPlan } from "../../models/FlightPlan.mjs";
-import VerifierResult from "../../models/VerifierResult.mjs";
+import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import debug from "debug";
 
@@ -12,40 +12,39 @@ export default async function validArrivalAirport({
   arrival,
 }: FlightPlan): Promise<VerifierControllerResult> {
   // Set up the default result for a successful run of the verifier.
-  let result: VerifierControllerResult = {
-    success: true,
-    data: new VerifierResult({
-      flightPlanId: _id,
-      verifier: verifierName,
-      flightPlanPart: "arrival",
-      priority: 5,
-    }),
-  };
+  const result = new VerifierResultModel({
+    flightPlanId: _id,
+    verifier: verifierName,
+    flightPlanPart: "arrival",
+    priority: 5,
+  });
 
   try {
     // This is the test the verifier is supposed to do.
     if (!arrivalAirportInfo) {
-      result.data.status = "Warning";
-      result.data.message = `Unable to get arrival airport information for ${arrival}. Verify it is a real airport.`;
-      result.data.messageId = "noArrivalAirportInfo";
-      result.data.priority = 3;
+      result.status = VerifierResultStatus.WARNING;
+      result.message = `Unable to get arrival airport information for ${arrival}. Verify it is a real airport.`;
+      result.messageId = "noArrivalAirportInfo";
+      result.priority = 3;
     } else {
-      result.data.status = "Information";
-      result.data.message = `${arrival} is a valid airport.`;
-      result.data.messageId = "validArrivalAirport";
+      result.status = VerifierResultStatus.INFORMATION;
+      result.message = `${arrival} is a valid airport.`;
+      result.messageId = "validArrivalAirport";
     }
 
-    await result.data.save();
+    const doc = await result.save();
+    return {
+      success: true,
+      data: doc,
+    };
   } catch (err) {
     const error = err as Error;
     logger(`Error running validArrivalAirport: ${error.message}`);
 
-    result = {
+    return {
       success: false,
       errorType: "UnknownError",
       error: `Error running validArrivalAirport: ${error.message}`,
     };
   }
-
-  return result;
 }

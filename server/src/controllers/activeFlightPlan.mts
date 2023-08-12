@@ -2,6 +2,7 @@ import { Types } from "mongoose";
 import { ActiveFlightPlanModel, ActiveFlightPlanDocument } from "../models/ActiveFlightPlan.mjs";
 import Result from "../types/result.mjs";
 import debug from "debug";
+import { VerifierResultStatus } from "../models/VerifierResult.mjs";
 
 const logger = debug("plan-verifier:activeFlightPlanController");
 
@@ -53,7 +54,7 @@ export async function getActiveFlightPlans(controllerId: string): Promise<Active
           $filter: {
             input: "$verifierResults",
             as: "verifierResult",
-            cond: { $ne: ["$$verifierResult.status", "Information"] },
+            cond: { $ne: ["$$verifierResult.status", VerifierResultStatus.INFORMATION] },
           },
         },
       },
@@ -99,7 +100,9 @@ export async function getActiveFlightPlans(controllerId: string): Promise<Active
         warningCount: {
           $sum: {
             $cond: [
-              { $eq: [{ $arrayElemAt: ["$statusCounts.status", 0] }, "Warning"] },
+              {
+                $eq: [{ $arrayElemAt: ["$statusCounts.status", 0] }, VerifierResultStatus.WARNING],
+              },
               { $arrayElemAt: ["$statusCounts.count", 0] },
               0, // If false, set to 0
             ],
@@ -108,7 +111,7 @@ export async function getActiveFlightPlans(controllerId: string): Promise<Active
         errorCount: {
           $sum: {
             $cond: [
-              { $eq: [{ $arrayElemAt: ["$statusCounts.status", 0] }, "Error"] },
+              { $eq: [{ $arrayElemAt: ["$statusCounts.status", 0] }, VerifierResultStatus.ERROR] },
               { $arrayElemAt: ["$statusCounts.count", 0] },
               0, // If false, set to 0
             ],
@@ -117,7 +120,12 @@ export async function getActiveFlightPlans(controllerId: string): Promise<Active
         informationCount: {
           $sum: {
             $cond: [
-              { $eq: [{ $arrayElemAt: ["$statusCounts.status", 0] }, "Information"] },
+              {
+                $eq: [
+                  { $arrayElemAt: ["$statusCounts.status", 0] },
+                  VerifierResultStatus.INFORMATION,
+                ],
+              },
               { $arrayElemAt: ["$statusCounts.count", 0] },
               0, // If false, set to 0
             ],
@@ -126,7 +134,7 @@ export async function getActiveFlightPlans(controllerId: string): Promise<Active
         okCount: {
           $sum: {
             $cond: [
-              { $eq: [{ $arrayElemAt: ["$statusCounts.status", 0] }, "Ok"] },
+              { $eq: [{ $arrayElemAt: ["$statusCounts.status", 0] }, VerifierResultStatus.OK] },
               { $arrayElemAt: ["$statusCounts.count", 0] },
               0, // If false, set to 0
             ],

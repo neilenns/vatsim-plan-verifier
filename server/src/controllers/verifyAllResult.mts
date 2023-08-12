@@ -1,5 +1,5 @@
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mjs";
-import { IVerifierResult } from "../models/VerifierResult.mjs";
+import { VerifierResultDocument, VerifierResultStatus } from "../models/VerifierResult.mjs";
 import { WritableKeys } from "ts-essentials";
 
 // This magic ensures type safety when adding a result to the class,
@@ -7,7 +7,7 @@ import { WritableKeys } from "ts-essentials";
 type WritableVerifyAllResultKeys = WritableKeys<VerifyAllResult>;
 
 export default class VerifyAllResult implements IVerifyAllResult {
-  results: IVerifierResult[];
+  results: VerifierResultDocument[];
   callsignErrorCount = 0;
   callsignWarningCount = 0;
   rawAircraftTypeErrorCount = 0;
@@ -105,13 +105,13 @@ export default class VerifyAllResult implements IVerifyAllResult {
     return this.routeErrorCount > 0;
   }
 
-  public addMany(results: IVerifierResult[]): void {
+  public addMany(results: VerifierResultDocument[]): void {
     for (const result of results) {
       this.add(result);
     }
   }
 
-  public add(result: IVerifierResult): void {
+  public add(result: VerifierResultDocument): void {
     this.results.push(result);
 
     // Absolute typescript magic. Create the property names for the error and warning
@@ -122,7 +122,7 @@ export default class VerifyAllResult implements IVerifyAllResult {
     const errorProp: WritableVerifyAllResultKeys = `${result.flightPlanPart}ErrorCount`;
     const warningProp: WritableVerifyAllResultKeys = `${result.flightPlanPart}WarningCount`;
 
-    if (result.status === "Error") {
+    if (result.status === VerifierResultStatus.ERROR) {
       if (errorProp in this) {
         this.errorCount++;
         this[errorProp]++;

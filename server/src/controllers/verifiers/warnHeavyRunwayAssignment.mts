@@ -1,5 +1,5 @@
 import { FlightPlan } from "../../models/FlightPlan.mjs";
-import VerifierResult from "../../models/VerifierResult.mjs";
+import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import debug from "debug";
 import _ from "lodash";
@@ -15,15 +15,12 @@ export default async function warnHeavyRunwayAssignment({
   departureAirportInfo,
 }: FlightPlan): Promise<VerifierControllerResult> {
   // Set up the default result for a successful run of the verifier.
-  let result: VerifierControllerResult = {
-    success: true,
-    data: new VerifierResult({
-      flightPlanId: _id,
-      verifier: verifierName,
-      flightPlanPart: "rawAircraftType",
-      priority: 5,
-    }),
-  };
+  const result = new VerifierResultModel({
+    flightPlanId: _id,
+    verifier: verifierName,
+    flightPlanPart: "rawAircraftType",
+    priority: 5,
+  });
 
   let heavyRunways: string[] | undefined;
 
@@ -38,39 +35,38 @@ export default async function warnHeavyRunwayAssignment({
   try {
     // Plane is not a heavy
     if (!isHeavy) {
-      result.data.status = "Information";
-      result.data.messageId = "notHeavyRunwayAssignment";
-      result.data.message =
+      result.status = VerifierResultStatus.INFORMATION;
+      result.messageId = "notHeavyRunwayAssignment";
+      result.message =
         "Aircraft is not a heavy. No need to verify it is assigned to a runway that can accomodate a heavy.";
     }
     // Don't warn if there's no specific heavy runway assignment for the airport
     else if (!heavyRunways) {
-      result.data.status = "Information";
-      result.data.messageId = "noHeavyRunways";
-      result.data.message =
+      result.status = VerifierResultStatus.INFORMATION;
+      result.messageId = "noHeavyRunways";
+      result.message =
         "Airport has no heavy runways. No need to verify plane is assigned a runway that can accomodate a heavy.";
     }
     // Plane is a heavy and there are specific runways to assign
     else {
-      result.data.status = "Warning";
-      result.data.message = `Aircraft is a heavy. Assign runway ${joinWithWord(
-        heavyRunways,
-        "or"
-      )}.`;
-      result.data.messageId = "specificHeavyRunwayAssignment";
-      result.data.priority = 3;
+      result.status = VerifierResultStatus.WARNING;
+      result.message = `Aircraft is a heavy. Assign runway ${joinWithWord(heavyRunways, "or")}.`;
+      result.messageId = "specificHeavyRunwayAssignment";
+      result.priority = 3;
     }
 
-    await result.data.save();
+    const doc = await result.save();
+    return {
+      success: true,
+      data: doc,
+    };
   } catch (error) {
     logger(`Error running ${verifierName}: ${error}`);
 
-    result = {
+    return {
       success: false,
       errorType: "UnknownError",
       error: `Error running ${verifierName}: ${error}`,
     };
   }
-
-  return result;
 }

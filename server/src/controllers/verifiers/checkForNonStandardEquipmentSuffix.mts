@@ -1,5 +1,5 @@
 import { FlightPlan } from "../../models/FlightPlan.mjs";
-import VerifierResult from "../../models/VerifierResult.mjs";
+import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import debug from "debug";
 
@@ -11,15 +11,12 @@ export default async function checkForNonStandardEquipmentSuffix({
   equipmentSuffix,
 }: FlightPlan): Promise<VerifierControllerResult> {
   // Set up the default result for a successful run of the verifier.
-  let result: VerifierControllerResult = {
-    success: true,
-    data: new VerifierResult({
-      flightPlanId: _id,
-      verifier: verifierName,
-      flightPlanPart: "rawAircraftType",
-      priority: 5,
-    }),
-  };
+  const result = new VerifierResultModel({
+    flightPlanId: _id,
+    verifier: verifierName,
+    flightPlanPart: "rawAircraftType",
+    priority: 5,
+  });
 
   const commonEquipmentSuffixes = [
     "", // Special case to avoid this triggering when no suffix is specified. That gets checked elsewhere.
@@ -36,27 +33,29 @@ export default async function checkForNonStandardEquipmentSuffix({
   try {
     // This is the test the verifier is supposed to do.
     if (!commonEquipmentSuffixes.includes(equipmentSuffix ?? "")) {
-      result.data.status = "Warning";
-      result.data.messageId = "nonStandardEquipmentSuffix";
-      result.data.message = `Equipment suffix /${equipmentSuffix} is not a common suffix. Verify with the pilot it is correct.`;
-      result.data.priority = 3;
+      result.status = VerifierResultStatus.WARNING;
+      result.messageId = "nonStandardEquipmentSuffix";
+      result.message = `Equipment suffix /${equipmentSuffix} is not a common suffix. Verify with the pilot it is correct.`;
+      result.priority = 3;
     } else {
-      result.data.status = "Information";
-      result.data.messageId = "standardEquipmentSuffix";
-      result.data.message = `Equipment suffix /${equipmentSuffix} is common.`;
-      result.data.priority = 5;
+      result.status = VerifierResultStatus.INFORMATION;
+      result.messageId = "standardEquipmentSuffix";
+      result.message = `Equipment suffix /${equipmentSuffix} is common.`;
+      result.priority = 5;
     }
 
-    await result.data.save();
+    const doc = await result.save();
+    return {
+      success: true,
+      data: doc,
+    };
   } catch (error) {
     logger(`Error running checkForNonStandardEquipmentSuffix: error`);
 
-    result = {
+    return {
       success: false,
       errorType: "UnknownError",
       error: `Error running checkForNonStandardEquipmentSuffix: error`,
     };
   }
-
-  return result;
 }
