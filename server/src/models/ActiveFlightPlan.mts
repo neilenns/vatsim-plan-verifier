@@ -1,20 +1,24 @@
-import { Schema, Types, model } from "mongoose";
-import IFlightPlanDocument from "../interfaces/IFlightPlanDocument.mjs";
+import { prop, getModelForClass, modelOptions, DocumentType } from "@typegoose/typegoose";
+import * as mongoose from "mongoose";
+import { FlightPlan } from "./FlightPlan.mjs";
 
-export interface IActiveFlightPlan extends Document {
-  controllerId: Types.ObjectId;
-  flightPlan: IFlightPlanDocument;
-  createdAt: Date;
+@modelOptions({
+  options: { customName: "activeflightplan" },
+  schemaOptions: {
+    collection: "activeflightplans",
+  },
+})
+export class ActiveFlightPlan {
+  @prop({ required: true })
+  controllerId!: mongoose.Types.ObjectId;
+
+  @prop({ ref: () => FlightPlan, required: true, unique: true })
+  flightPlan!: FlightPlan;
+
+  @prop({ required: true, expires: "2h", default: Date.now })
+  createdAt!: Date;
 }
 
-const ActiveFlightPlanSchema = new Schema<IActiveFlightPlan>({
-  controllerId: { type: Schema.Types.ObjectId, required: true },
-  flightPlan: { type: Schema.Types.ObjectId, ref: "FlightPlan", required: true, unique: true },
-  createdAt: { type: Date, expires: "2h", required: true, default: Date.now },
-});
-
 // Define the mode
-const ActiveFlightPlan = model("activeflightplan", ActiveFlightPlanSchema);
-
-// Export the model
-export default ActiveFlightPlan;
+export const ActiveFlightPlanModel = getModelForClass(ActiveFlightPlan);
+export type ActiveFlightPlanDocument = DocumentType<ActiveFlightPlan>;

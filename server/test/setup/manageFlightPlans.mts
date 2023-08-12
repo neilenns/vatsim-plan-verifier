@@ -1,9 +1,9 @@
-import FlightPlan, { IFlightPlan } from "../../src/models/FlightPlan.mjs";
+import { FlightPlan, FlightPlanModel } from "../../src/models/FlightPlan.mjs";
 
-export async function addFlightPlans(testData: Partial<IFlightPlan>[]) {
+export async function addFlightPlans(testData: Partial<FlightPlan>[]) {
   await Promise.all(
     testData.map(async (data) => {
-      const record = new FlightPlan(data);
+      const record = new FlightPlanModel(data);
       try {
         await record.save();
       } catch (err) {
@@ -13,9 +13,9 @@ export async function addFlightPlans(testData: Partial<IFlightPlan>[]) {
   );
 }
 
-export async function removeFlightPlans(testData: Partial<IFlightPlan>[]) {
+export async function removeFlightPlans(testData: Partial<FlightPlan>[]) {
   try {
-    await FlightPlan.deleteMany({});
+    await FlightPlanModel.deleteMany({});
   } catch (err) {
     console.log(err);
   }

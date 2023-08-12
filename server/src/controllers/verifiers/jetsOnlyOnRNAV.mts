@@ -1,4 +1,5 @@
-import { IFlightPlan } from "../../models/FlightPlan.mjs";
+import { isDocument } from "@typegoose/typegoose";
+import { FlightPlan } from "../../models/FlightPlan.mjs";
 import VerifierResult from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import debug from "debug";
@@ -10,7 +11,7 @@ export default async function jetsOnlyOnRNAV({
   _id,
   equipmentInfo,
   SIDInformation,
-}: IFlightPlan): Promise<VerifierControllerResult> {
+}: FlightPlan): Promise<VerifierControllerResult> {
   // Set up the default result for a successful run of the verifier.
   let result: VerifierControllerResult = {
     success: true,
@@ -23,12 +24,12 @@ export default async function jetsOnlyOnRNAV({
   };
 
   try {
-    if (!equipmentInfo || !equipmentInfo.engineType) {
+    if (!isDocument(equipmentInfo) || !equipmentInfo.engineType) {
       result.data.status = "Information";
       result.data.message = "No engine type information found. Unable to verify jetsOnlyOnRNAV.";
       result.data.messageId = "noEngineTypeInformation";
       result.data.priority = 5;
-    } else if (!SIDInformation) {
+    } else if (!isDocument(SIDInformation)) {
       result.data.status = "Information";
       result.data.message = "No SID information found. Unable to verify jetsOnlyOnRNAV.";
       result.data.messageId = "noSIDInformation";

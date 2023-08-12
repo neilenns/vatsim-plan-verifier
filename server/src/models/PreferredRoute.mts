@@ -1,5 +1,11 @@
-import { prop, getModelForClass, ReturnModelType, DocumentType } from "@typegoose/typegoose";
-import { IFlightPlan } from "./FlightPlan.mjs";
+import {
+  prop,
+  getModelForClass,
+  ReturnModelType,
+  DocumentType,
+  isDocument,
+} from "@typegoose/typegoose";
+import { FlightPlan } from "./FlightPlan.mjs";
 
 class PreferredRoute {
   @prop({ required: true })
@@ -28,8 +34,11 @@ class PreferredRoute {
 
   public static async findByFlightPlan(
     this: ReturnModelType<typeof PreferredRoute>,
-    flightPlan: IFlightPlan
+    flightPlan: FlightPlan
   ): Promise<DocumentType<PreferredRoute>[]> {
+    if (!isDocument(flightPlan.equipmentInfo)) {
+      return [];
+    }
     return this.find({
       departure: flightPlan.departure,
       arrival: flightPlan.arrival,

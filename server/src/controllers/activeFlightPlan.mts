@@ -1,11 +1,14 @@
 import { Types } from "mongoose";
-import ActiveFlightPlan, { IActiveFlightPlan } from "../models/ActiveFlightPlan.mjs";
+import { ActiveFlightPlanModel, ActiveFlightPlanDocument } from "../models/ActiveFlightPlan.mjs";
 import Result from "../types/result.mjs";
 import debug from "debug";
 
 const logger = debug("plan-verifier:activeFlightPlanController");
 
-type ActiveFlightPlanResult = Result<IActiveFlightPlan[], "NoFlightPlansFound" | "UnknownError">;
+type ActiveFlightPlanResult = Result<
+  ActiveFlightPlanDocument[],
+  "NoFlightPlansFound" | "UnknownError"
+>;
 
 export async function getActiveFlightPlans(controllerId: string): Promise<ActiveFlightPlanResult> {
   try {
@@ -132,7 +135,7 @@ export async function getActiveFlightPlans(controllerId: string): Promise<Active
       },
     };
 
-    const fetchedPlans = await ActiveFlightPlan.aggregate([
+    const fetchedPlans = await ActiveFlightPlanModel.aggregate([
       findFlightPlansForController,
       lookupFlightPlanDetails,
       { $unwind: "$flightPlanDetails" },
@@ -173,7 +176,7 @@ export async function getActiveFlightPlans(controllerId: string): Promise<Active
 
 export async function removeActiveFlightPlan(id: string): Promise<ActiveFlightPlanResult> {
   try {
-    await ActiveFlightPlan.findByIdAndDelete(id);
+    await ActiveFlightPlanModel.findByIdAndDelete(id);
 
     return { success: true, data: [] };
   } catch (error) {
@@ -190,7 +193,7 @@ export async function removeActiveFlightPlanByFlightPlanId(
   flightPlanId: string
 ): Promise<ActiveFlightPlanResult> {
   try {
-    await ActiveFlightPlan.findOneAndDelete({ controllerId, flightPlan: flightPlanId });
+    await ActiveFlightPlanModel.findOneAndDelete({ controllerId, flightPlan: flightPlanId });
 
     return { success: true, data: [] };
   } catch (error) {
@@ -207,7 +210,7 @@ export async function addActiveFlightPlan(
   flightPlanId: string
 ): Promise<ActiveFlightPlanResult> {
   try {
-    const newPlan = new ActiveFlightPlan({ controllerId, flightPlan: flightPlanId });
+    const newPlan = new ActiveFlightPlanModel({ controllerId, flightPlan: flightPlanId });
     const savedPlan = await newPlan.save();
 
     if (savedPlan) {

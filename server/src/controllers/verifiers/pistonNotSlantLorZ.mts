@@ -1,4 +1,5 @@
-import { IFlightPlan } from "../../models/FlightPlan.mjs";
+import { isDocument } from "@typegoose/typegoose";
+import { FlightPlan } from "../../models/FlightPlan.mjs";
 import VerifierResult from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import debug from "debug";
@@ -10,7 +11,7 @@ export default async function pistonNotSlantLorZ({
   _id,
   equipmentSuffix,
   equipmentInfo,
-}: IFlightPlan): Promise<VerifierControllerResult> {
+}: FlightPlan): Promise<VerifierControllerResult> {
   // Set up the default result for a successful run of the verifier.
   let result: VerifierControllerResult = {
     success: true,
@@ -29,7 +30,7 @@ export default async function pistonNotSlantLorZ({
         "Unable to verify equipment suffix against aircraft engine type, no equipment suffix provided.";
       result.data.messageId = "noEquipmentSuffix";
       result.data.priority = 5;
-    } else if (!equipmentInfo || !equipmentInfo.engineType) {
+    } else if (!isDocument(equipmentInfo) || !equipmentInfo.engineType) {
       result.data.status = "Information";
       result.data.message =
         "Unable to verify equipment suffix against aircraft engine type, no aircraft engine type provided.";

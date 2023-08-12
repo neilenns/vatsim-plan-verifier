@@ -1,4 +1,5 @@
-import { IFlightPlan } from "../../models/FlightPlan.mjs";
+import { isDocument } from "@typegoose/typegoose";
+import { FlightPlan } from "../../models/FlightPlan.mjs";
 import VerifierResult from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import debug from "debug";
@@ -11,7 +12,7 @@ export default async function jetIsNotSlantA({
   equipmentCode,
   equipmentSuffix,
   equipmentInfo,
-}: IFlightPlan): Promise<VerifierControllerResult> {
+}: FlightPlan): Promise<VerifierControllerResult> {
   // Set up the default result for a successful run of the verifier.
   let result: VerifierControllerResult = {
     success: true,
@@ -27,7 +28,7 @@ export default async function jetIsNotSlantA({
   };
 
   try {
-    if (!equipmentInfo) {
+    if (!isDocument(equipmentInfo)) {
       result.data.status = "Information";
       result.data.messageId = "unableToVerifyJetIsNotSlantANoAircraftInfo";
       result.data.message = `Unable to verify jet is not slant A because no aircraft info is available.`;

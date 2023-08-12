@@ -1,4 +1,5 @@
-import { IFlightPlan } from "../../models/FlightPlan.mjs";
+import { isDocument } from "@typegoose/typegoose";
+import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { PreferredRouteModel } from "../../models/PreferredRoute.mjs";
 import VerifierResult from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
@@ -9,7 +10,7 @@ const verifierName = "checkForPreferredRoutes";
 const logger = debug(`plan-verifier:${verifierName}`);
 
 export default async function checkForPreferredRoutes(
-  flightPlan: IFlightPlan
+  flightPlan: FlightPlan
 ): Promise<VerifierControllerResult> {
   // Set up the default result for a successful run of the verifier.
   let result: VerifierControllerResult = {
@@ -22,18 +23,18 @@ export default async function checkForPreferredRoutes(
     }),
   };
 
-  // Bail early if there's no aircraft information.
-  if (!flightPlan.equipmentInfo) {
-    result.data.status = "Information";
-    result.data.messageId = "noAircraftInfoForPreferredRoute";
-    result.data.message = `No aircraft information available for ${flightPlan.equipmentCode}, unable to check for preferred routes.`;
-    result.data.priority = 5;
-
-    await result.data.save();
-    return result;
-  }
-
   try {
+    // Bail early if there's no aircraft information.
+    if (!isDocument(flightPlan.equipmentInfo)) {
+      result.data.status = "Information";
+      result.data.messageId = "noAircraftInfoForPreferredRoute";
+      result.data.message = `No aircraft information available for ${flightPlan.equipmentCode}, unable to check for preferred routes.`;
+      result.data.priority = 5;
+
+      await result.data.save();
+      return result;
+    }
+
     const preferredRoutes = await PreferredRouteModel.findByFlightPlan(flightPlan);
 
     // Bail early if there are no preferred routes
@@ -50,6 +51,7 @@ export default async function checkForPreferredRoutes(
     // Check for routes with a proper cruise altitude and speed
     const matchingRoutes = preferredRoutes.filter((route) => {
       return (
+        isDocument(flightPlan.equipmentInfo) &&
         route.route === flightPlan.route &&
         flightPlan.cruiseAltitude >= route.minimumRequiredAltitude &&
         (flightPlan.equipmentInfo?.maxCruiseSpeed ?? 999) >= route.minimumRequiredSpeed
@@ -66,6 +68,10 @@ export default async function checkForPreferredRoutes(
     else {
       // Find routes that will work for the speed the aircraft can fly
       const validPreferredRoutes = preferredRoutes.filter((route) => {
+        if (!isDocument(flightPlan.equipmentInfo)) {
+          return false;
+        }
+
         return (flightPlan.equipmentInfo?.maxCruiseSpeed ?? 999) >= route.minimumRequiredSpeed;
       });
 

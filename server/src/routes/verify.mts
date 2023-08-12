@@ -1,6 +1,5 @@
 import express, { Request, Response } from "express";
 import { getFlightPlan } from "../controllers/flightPlans.mjs";
-import { IFlightPlan } from "../models/FlightPlan.mjs";
 import VerifierControllerResult, {
   VerifierControllerMultiResult,
 } from "../types/verifierControllerResult.mjs";
@@ -31,11 +30,12 @@ import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
 import checkForCustomAirportMessages from "../controllers/verifiers/checkForCustomAirportMessages.mjs";
 import checkForCustomDepartureMessages from "../controllers/verifiers/checkForCustomDepartureMessages.mjs";
 import checkSEAvsMONTN from "../controllers/verifiers/checkSEAvsMONTN.mjs";
+import { FlightPlan } from "../models/FlightPlan.mjs";
 
 const router = express.Router();
 
 type HandlerFunction = (
-  flightPlan: IFlightPlan
+  flightPlan: FlightPlan
 ) => Promise<VerifierControllerResult | VerifierControllerMultiResult>;
 
 type Verifier = {
@@ -212,6 +212,3 @@ for (const verifier of verifiers) {
 }
 
 export default router;
-function checkForCustomMessages(flightPlan: IFlightPlan): Promise<VerifierControllerResult> {
-  throw new Error("Function not implemented.");
-}

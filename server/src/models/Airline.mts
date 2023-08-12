@@ -12,7 +12,7 @@ import {
     collection: "airlines",
   },
 })
-class Airline {
+export class Airline {
   @prop({ required: true, index: true })
   airlineCode!: string;
 

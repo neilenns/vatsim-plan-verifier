@@ -6,14 +6,16 @@ import {
   FlightPlanResult,
   getFlightPlan,
 } from "../src/controllers/flightPlans.mjs";
-import { IFlightPlan } from "../src/models/FlightPlan.mjs";
+import { FlightPlanDocument } from "../src/models/FlightPlan.mjs";
 import { FailureResult, SuccessResult } from "../src/types/result.mjs";
 import { addFlightPlans, removeFlightPlans } from "./setup/manageFlightPlans.mjs";
+import { Types } from "mongoose";
+import { isDocument } from "@typegoose/typegoose";
 
 const testData = [
   // A388 flight plan
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b4b",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b4b"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -24,7 +26,7 @@ const testData = [
   },
   // No SID
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b51",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b51"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -35,7 +37,7 @@ const testData = [
   },
   // Has a SID that is a known departure
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b52",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b52"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -46,7 +48,7 @@ const testData = [
   },
   // Has a SID that is not a known departure
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b53",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b53"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -57,7 +59,7 @@ const testData = [
   },
   // Has a + in front of the route
   {
-    _id: "5f9f7b3b9d3b3c1b1c9b4b54",
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b54"),
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -84,7 +86,7 @@ describe("Flight plan tests", function () {
       const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b54");
       expect(flightPlan.success).to.equal(true);
 
-      const data = (flightPlan as SuccessResult<IFlightPlan>).data;
+      const data = (flightPlan as SuccessResult<FlightPlanDocument>).data;
       expect(data.route).to.not.satisfy((route: string) => route?.startsWith("+"));
     });
   });
@@ -94,7 +96,7 @@ describe("Flight plan tests", function () {
       const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b51");
       expect(flightPlan.success).to.equal(true);
 
-      const data = (flightPlan as SuccessResult<IFlightPlan>).data;
+      const data = (flightPlan as SuccessResult<FlightPlanDocument>).data;
       expect(data.SID).to.equal(undefined);
       expect(data.SIDInformation).to.equal(null);
     });
@@ -103,17 +105,17 @@ describe("Flight plan tests", function () {
       const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b52");
       expect(flightPlan.success).to.equal(true);
 
-      const data = (flightPlan as SuccessResult<IFlightPlan>).data;
+      const data = (flightPlan as SuccessResult<FlightPlanDocument>).data;
       expect(data.SID).to.equal("SEA8");
       expect(data.SIDInformation).to.not.equal(null);
-      expect(data.SIDInformation?.SID).to.equal("SEA8");
+      expect(isDocument(data.SIDInformation) ? data.SIDInformation?.SID : "").to.equal("SEA8");
     });
 
     it("should have a SID but no SID information", async function () {
       const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b53");
       expect(flightPlan.success).to.equal(true);
 
-      const data = (flightPlan as SuccessResult<IFlightPlan>).data;
+      const data = (flightPlan as SuccessResult<FlightPlanDocument>).data;
       expect(data.SID).to.equal("CASCD2");
       expect(data.SIDInformation).to.equal(null);
     });
@@ -129,44 +131,44 @@ describe("Flight plan tests", function () {
     });
 
     it("should be heavy", function () {
-      const data = (result as SuccessResult<IFlightPlan>).data;
+      const data = (result as SuccessResult<FlightPlanDocument>).data;
 
       expect(data.isHeavy).to.equal(true);
     });
 
     it("should have an equipment suffix", function () {
-      const data = (result as SuccessResult<IFlightPlan>).data;
+      const data = (result as SuccessResult<FlightPlanDocument>).data;
 
       expect(data.equipmentSuffix).to.equal("L");
     });
 
     it("should have departure airport information", function () {
-      const data = (result as SuccessResult<IFlightPlan>).data;
+      const data = (result as SuccessResult<FlightPlanDocument>).data;
 
       expect(data.departureAirportInfo).to.not.be.undefined;
     });
 
     it("should have arrival airport information", function () {
-      const data = (result as SuccessResult<IFlightPlan>).data;
+      const data = (result as SuccessResult<FlightPlanDocument>).data;
 
       expect(data.arrivalAirportInfo).to.not.be.undefined;
     });
 
     it("should have airline information", function () {
-      const data = (result as SuccessResult<IFlightPlan>).data;
+      const data = (result as SuccessResult<FlightPlanDocument>).data;
 
       expect(data.telephony).to.not.be.undefined;
     });
 
     it("should have route parts", function () {
-      const data = (result as SuccessResult<IFlightPlan>).data;
+      const data = (result as SuccessResult<FlightPlanDocument>).data;
 
       expect(data.routeParts).to.not.be.undefined;
       expect(data.routeParts?.length).to.equal(4);
     });
 
     it("should have formatted cruise altitude", function () {
-      const data = (result as SuccessResult<IFlightPlan>).data;
+      const data = (result as SuccessResult<FlightPlanDocument>).data;
 
       expect(data.cruiseAltitudeFormatted).to.equal("FL210");
     });
@@ -182,7 +184,7 @@ describe("Flight plan tests", function () {
     });
 
     it("should have the correct direction of flight", function () {
-      const data = (result as SuccessResult<IFlightPlan>).data;
+      const data = (result as SuccessResult<FlightPlanDocument>).data;
 
       expect(data.directionOfFlight).to.equal(171);
     });

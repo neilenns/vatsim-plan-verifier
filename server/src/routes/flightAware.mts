@@ -1,9 +1,8 @@
 import express from "express";
 import { getFlightAwareRoutes } from "../controllers/flightAwareRoutes.mjs";
-import IFlightPlanDocument from "../interfaces/IFlightPlanDocument.mjs";
-import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
+import { FlightPlanDocument } from "../models/FlightPlan.mjs";
 
 const router = express.Router();
 
@@ -18,7 +17,7 @@ router.get(
       const routes = await getFlightAwareRoutes({
         departure,
         arrival,
-      } as IFlightPlanDocument);
+      } as FlightPlanDocument);
 
       if (routes.success === false) {
         return res.status(404).json({ error: routes.error });

@@ -20,7 +20,7 @@ import { ExtendedAirportInfo } from "./ExtendedAirportInfo.mjs";
   },
 })
 @plugin(autopopulate)
-class AirportInfoClass {
+export class AirportInfo {
   @prop({ required: true, index: true, unique: true, alias: "airport_code" })
   airportCode!: string;
 
@@ -66,9 +66,7 @@ class AirportInfoClass {
   // Returns the magnetic declination, using the cached database value if it exists.
   // Otherwise it will contact a web service to get the magnetic declination and
   // cache the result in the database.
-  public async getMagneticDeclination(
-    this: DocumentType<AirportInfoClass>
-  ): Promise<number | null> {
+  public async getMagneticDeclination(this: DocumentType<AirportInfo>): Promise<number | null> {
     // Try finding a cached value in the database first.
     const cachedMagneticDeclination = await MagneticDeclinationModel.findByAirportCode(
       this.airportCode
@@ -101,5 +99,5 @@ class AirportInfoClass {
   }
 }
 
-export const AirportInfoModel = getModelForClass(AirportInfoClass);
-export type AirportInfoDocument = DocumentType<AirportInfoClass>;
+export const AirportInfoModel = getModelForClass(AirportInfo);
+export type AirportInfoDocument = DocumentType<AirportInfo>;
