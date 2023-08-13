@@ -52,8 +52,8 @@
     "body": [
       "import { expect } from \"chai\";",
       "import { describe, it } from \"mocha\";",
-      "import { getFlightPlan } from \"@controllers/flightPlans.mjs\";",
-      "import ${TM_FILENAME_BASE/(.*)\\..+$/$1/} from \"@controllers/verifiers/${TM_FILENAME_BASE/(.*)\\..+$/$1/}.mjs\";",
+      "import { getFlightPlan } from \"../../src/controllers/flightPlans.mjs\";",
+      "import ${TM_FILENAME_BASE/(.*)\\..+$/$1/} from \"../../src/controllers/verifiers/${TM_FILENAME_BASE/(.*)\\..+$/$1/}.mjs\";",
       "import { FlightPlanDocument } from \"../../src/models/FlightPlan.mjs\";",
       "import { VerifierResultModel } from \"../../src/models/VerifierResult.mjs\";",
       "import { SuccessResult } from \"../../src/types/result.mjs\";",

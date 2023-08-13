@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { describe, it } from "mocha";
-import { getAircraft } from "@controllers/aircraft.mjs";
+import { getAircraft } from "../src/controllers/aircraft.mjs";
 import { FailureResult, SuccessResult } from "../src/types/result.mjs";
 import { AircraftDocument } from "../src/models/Aircraft.mjs";
 

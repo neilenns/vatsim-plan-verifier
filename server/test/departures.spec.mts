@@ -1,7 +1,7 @@
 // tests/calculator.spec.tx
 import { expect } from "chai";
 import { describe, it } from "mocha";
-import { getDeparture } from "@controllers/departure.mjs";
+import { getDeparture } from "../src/controllers/departure.mjs";
 import { Departure } from "../src/models/Departure.mjs";
 import { FailureResult, SuccessResult } from "../src/types/result.mjs";
 

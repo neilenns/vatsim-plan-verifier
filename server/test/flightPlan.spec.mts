@@ -5,7 +5,7 @@ import {
   FlightPlanFailureErrorTypes,
   FlightPlanResult,
   getFlightPlan,
-} from "@controllers/flightPlans.mjs";
+} from "../src/controllers/flightPlans.mjs";
 import { FlightPlanDocument } from "../src/models/FlightPlan.mjs";
 import { FailureResult, SuccessResult } from "../src/types/result.mjs";
 import { addFlightPlans, removeFlightPlans } from "./setup/manageFlightPlans.mjs";
