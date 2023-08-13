@@ -29,7 +29,7 @@ export default async function warnNewPilot({
       result.priority = 3;
     } else if (pilotStats.pilot < 50) {
       result.status = VerifierResultStatus.WARNING;
-      result.message = `Pilot is a new pilot with only ${pluralize(
+      result.message = `Pilot is new with only ${pluralize(
         "hour",
         Math.round(pilotStats.pilot),
         true
