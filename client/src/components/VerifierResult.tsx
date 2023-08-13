@@ -9,8 +9,8 @@ import {
   Paper,
   Stack,
 } from "@mui/material";
-import IVerifierResultDocument from "../interfaces/IVerifierResult.mts";
-import IFlightPlan from "../interfaces/IFlightPlan.mts";
+import IVerifierResultDocument from "@interfaces/IVerifierResult.mts";
+import IFlightPlan from "@interfaces/IFlightPlan.mts";
 import StatusIndicator from "./StatusIndicator";
 import Markdown from "./Markdown";
 

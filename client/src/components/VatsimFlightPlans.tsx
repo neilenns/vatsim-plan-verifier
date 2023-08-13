@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import socketIOClient, { Socket } from "socket.io-client";
 import { apiKey, serverUrl } from "@configs/planVerifierServer.mts";
-import { ImportState, IVatsimFlightPlan } from "../interfaces/IVatsimFlightPlan.mts";
+import { ImportState, IVatsimFlightPlan } from "@interfaces/IVatsimFlightPlan.mts";
 import { ArrowForwardOutlined as ArrowForwardOutlinedIcon } from "@mui/icons-material";
 import { List, ListItem, IconButton, ListItemText, Box, Stack, TextField } from "@mui/material";
 import debug from "debug";

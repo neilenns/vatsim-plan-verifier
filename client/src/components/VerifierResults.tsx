@@ -1,8 +1,8 @@
 import React from "react";
 import VerifierResultComponent from "./VerifierResult";
 import { Grid, Paper } from "@mui/material";
-import IVerifierResultDocument, { StatusValue } from "../interfaces/IVerifierResult.mts";
-import IFlightPlan from "../interfaces/IFlightPlan.mts";
+import IVerifierResultDocument, { StatusValue } from "@interfaces/IVerifierResult.mts";
+import IFlightPlan from "@interfaces/IFlightPlan.mts";
 
 interface VerifierResultsProps {
   verifierResults: IVerifierResultDocument[] | undefined;

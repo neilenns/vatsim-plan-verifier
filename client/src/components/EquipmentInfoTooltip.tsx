@@ -1,5 +1,5 @@
 import { Tooltip, Typography } from "@mui/material";
-import IAircraft from "../interfaces/IAircraft.mts";
+import IAircraft from "@interfaces/IAircraft.mts";
 
 type EquipmentInfoTooltipProps = {
   equipmentInfo: IAircraft | undefined;

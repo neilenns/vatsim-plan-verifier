@@ -1,7 +1,7 @@
 import { DocumentType } from "@typegoose/typegoose";
 import axios, { AxiosResponse } from "axios";
-import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
-import { IVatsimData, IVatsimPilot, IVatsimPrefile } from "../interfaces/IVatsimData.mjs";
+import IVatsimEndpoints from "@interfaces/IVatsimEndpoints.mjs";
+import { IVatsimData, IVatsimPilot, IVatsimPrefile } from "@interfaces/IVatsimData.mjs";
 import {
   VatsimFlightPlanDocument,
   VatsimFlightPlanModel,

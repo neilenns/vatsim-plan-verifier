@@ -1,4 +1,4 @@
-import { IUser } from "../interfaces/IUser.mts";
+import { IUser } from "@interfaces/IUser.mts";
 import http from "@utils/http.mts";
 
 export async function getUser(): Promise<IUser | undefined> {

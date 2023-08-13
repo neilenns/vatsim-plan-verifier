@@ -1,5 +1,5 @@
 import { useLoaderData } from "react-router-dom";
-import { IUser } from "../interfaces/IUser.mts";
+import { IUser } from "@interfaces/IUser.mts";
 import { DataGrid, GridColDef, GridRowModel } from "@mui/x-data-grid";
 import { useCallback, useState } from "react";
 import { updateUser } from "@services/users.mts";

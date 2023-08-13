@@ -1,5 +1,5 @@
 import { type ActionFunction, json } from "react-router-dom";
-import IFlightPlan from "../interfaces/IFlightPlan.mts";
+import IFlightPlan from "@interfaces/IFlightPlan.mts";
 import { storeFlightPlan } from "@services/flightPlan.mts";
 import { runAllVerifiers } from "@services/runAllVerifiers.mts";
 import { addActiveFlightPlan, removeActiveFlightPlan } from "@services/activeFlightPlans.mts";

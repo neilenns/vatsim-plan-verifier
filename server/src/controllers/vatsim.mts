@@ -7,7 +7,7 @@ import {
 import Result from "../types/result.mjs";
 import debug from "debug";
 import axios, { AxiosResponse } from "axios";
-import { IVatsimPilotStats } from "../interfaces/IVatsimPilotStats.mjs";
+import { IVatsimPilotStats } from "@interfaces/IVatsimPilotStats.mjs";
 
 const logger = debug("plan-verifier:vatsimController");
 

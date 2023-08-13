@@ -1,8 +1,8 @@
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import FlightPlan from "../components/FlightPlan";
 import { useEffect, useState } from "react";
-import IFlightPlan from "../interfaces/IFlightPlan.mjs";
-import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
+import IFlightPlan from "@interfaces/IFlightPlan.mjs";
+import IVerifyAllResult from "@interfaces/IVerifyAllResult.mts";
 import VerifierResults from "../components/VerifierResults";
 import { useActionData, useLoaderData, useNavigate } from "react-router-dom";
 import AlertSnackbar, {

@@ -1,6 +1,6 @@
 import { Tooltip, Typography } from "@mui/material";
-import { IPilotStats } from "../interfaces/IPilotStats.mts";
-import ITelephony from "../interfaces/ITelephony.mts";
+import { IPilotStats } from "@interfaces/IPilotStats.mts";
+import ITelephony from "@interfaces/ITelephony.mts";
 
 type CallsignTooltipProps = {
   callsign: string | undefined;

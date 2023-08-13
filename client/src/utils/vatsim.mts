@@ -3,7 +3,7 @@
 //
 // It properly carries forward any state on the existing flight sim plans, and properly
 // reports whether any new or modified plans came in.
-import { ImportState, IVatsimFlightPlan } from "../interfaces/IVatsimFlightPlan.mjs";
+import { ImportState, IVatsimFlightPlan } from "@interfaces/IVatsimFlightPlan.mjs";
 import _ from "lodash";
 
 type ProcessFlightPlansResult = {

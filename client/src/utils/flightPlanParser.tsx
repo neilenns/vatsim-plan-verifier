@@ -1,6 +1,6 @@
 import pluralize from "pluralize";
-import IFlightPlan from "../interfaces/IFlightPlan.mjs";
-import { InitialPhrasingOptions } from "../interfaces/ISIDInformation.mts";
+import IFlightPlan from "@interfaces/IFlightPlan.mjs";
+import { InitialPhrasingOptions } from "@interfaces/ISIDInformation.mts";
 import { ReactNode } from "react";
 import { Link } from "@mui/material";
 

@@ -1,6 +1,6 @@
 import { Box, Button, Grid, Stack, Tooltip, Typography } from "@mui/material";
-import IFlightPlan from "../interfaces/IFlightPlan.mjs";
-import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
+import IFlightPlan from "@interfaces/IFlightPlan.mjs";
+import IVerifyAllResult from "@interfaces/IVerifyAllResult.mts";
 import { useEffect, useState } from "react";
 import FlightPlanTextField from "./FlightPlanTextField";
 import {

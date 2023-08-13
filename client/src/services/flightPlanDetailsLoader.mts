@@ -4,8 +4,8 @@ import { ActionFunctionArgs, Params, ParamParseKey, LoaderFunction } from "react
 import { getFlightPlan } from "@services/flightPlan.mts";
 import { getVerifyResults } from "@services/verifyResults.mts";
 import Result from "../types/result.mts";
-import IFlightPlan from "../interfaces/IFlightPlan.mts";
-import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
+import IFlightPlan from "@interfaces/IFlightPlan.mts";
+import IVerifyAllResult from "@interfaces/IVerifyAllResult.mts";
 
 // https://stackoverflow.com/questions/75324193/react-router-6-how-to-strongly-type-the-params-option-in-route-loader
 const PathNames = {

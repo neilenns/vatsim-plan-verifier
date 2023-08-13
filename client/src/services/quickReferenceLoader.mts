@@ -4,7 +4,7 @@ import {
   IQuickReference,
   IQuickReferenceListItem,
   IQuickReferenceLoaderData,
-} from "../interfaces/IQuickReference.mts";
+} from "@interfaces/IQuickReference.mts";
 import debug from "debug";
 import Result from "../types/result.mts";
 

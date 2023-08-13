@@ -3,7 +3,7 @@ import { AirportInfoModel, AirportInfoDocument } from "@models/AirportInfo.mjs";
 import Result from "../types/result.mjs";
 import { ENV } from "../env.mjs";
 import debug from "debug";
-import { IAvioWikiAirport } from "../interfaces/IAvioWikiAirport.mjs";
+import { IAvioWikiAirport } from "@interfaces/IAvioWikiAirport.mjs";
 import AdmZip from "adm-zip";
 
 const logger = debug("plan-verifier:getAirportInfoController");

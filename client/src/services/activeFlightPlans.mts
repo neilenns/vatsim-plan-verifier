@@ -1,4 +1,4 @@
-import IActiveFlightPlan from "../interfaces/IActiveFlightPlan.mts";
+import IActiveFlightPlan from "@interfaces/IActiveFlightPlan.mts";
 import http from "@utils/http.mts";
 
 export async function getActiveFlightPlans(): Promise<IActiveFlightPlan[] | undefined> {

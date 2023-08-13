@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import IActiveFlightPlan from "../interfaces/IActiveFlightPlan.mts";
+import IActiveFlightPlan from "@interfaces/IActiveFlightPlan.mts";
 import { useFetcher, useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { Delete } from "@mui/icons-material";
 import { List, ListItem, IconButton, ListItemButton, ListItemText, Box } from "@mui/material";
