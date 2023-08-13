@@ -27,22 +27,22 @@ import "./LocalStrategy.mjs";
 import { verifyApiKey } from "./middleware/apikey.mjs";
 
 // Routes
-import activeFlightPlansRouter from "./routes/activeFlightPlans.mjs";
-import aircraftRouter from "./routes/aircraft.mjs";
-import airlineRouter from "./routes/airline.mjs";
-import defaultRouter from "./routes/default.mjs";
-import flightAwareRouter from "./routes/flightAware.mjs";
-import flightPlan from "./routes/flightPlan.mjs";
-import magneticDeclinationRouter from "./routes/magneticDeclination.mjs";
-import preferredRoutesRouter from "./routes/preferredRoutes.mjs";
-import authenticationRouter from "./routes/authentication.mjs";
-import verifyRouter from "./routes/verify.mjs";
-import navaidRouter from "./routes/navaid.mjs";
-import userRouter from "./routes/users.mjs";
-import vatsimRouter from "./routes/vatsim.mjs";
-import extendedAirportInfoRouter from "./routes/extendedAirportInfo.mjs";
-import quickReferenceRouter from "./routes/quickReference.mjs";
-import airportInfoRouter from "./routes/airportInfo.mjs";
+import activeFlightPlansRouter from "@routes/activeFlightPlans.mjs";
+import aircraftRouter from "@routes/aircraft.mjs";
+import airlineRouter from "@routes/airline.mjs";
+import defaultRouter from "@routes/default.mjs";
+import flightAwareRouter from "@routes/flightAware.mjs";
+import flightPlan from "@routes/flightPlan.mjs";
+import magneticDeclinationRouter from "@routes/magneticDeclination.mjs";
+import preferredRoutesRouter from "@routes/preferredRoutes.mjs";
+import authenticationRouter from "@routes/authentication.mjs";
+import verifyRouter from "@routes/verify.mjs";
+import navaidRouter from "@routes/navaid.mjs";
+import userRouter from "@routes/users.mjs";
+import vatsimRouter from "@routes/vatsim.mjs";
+import extendedAirportInfoRouter from "@routes/extendedAirportInfo.mjs";
+import quickReferenceRouter from "@routes/quickReference.mjs";
+import airportInfoRouter from "@routes/airportInfo.mjs";
 
 export const app = express();
 let server: https.Server | Server;
