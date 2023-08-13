@@ -11,7 +11,7 @@ import autopopulate from "mongoose-autopopulate";
 })
 export class PilotStats {
   @prop({ required: true, index: true, unique: true })
-  pilotId!: number;
+  cid!: number;
 
   @prop({ required: true, default: 0 })
   atc!: number;
@@ -55,54 +55,6 @@ export class PilotStats {
   // Cache the results for 1 day
   @prop({ required: true, expires: "1d", default: Date.now })
   createdAt!: Date;
-
-  // public get atcTime() {
-  //   return this.convertHoursToDaysHoursMinutes(this.atc);
-  // }
-
-  // public get s1Time() {
-  //   return this.convertHoursToDaysHoursMinutes(this.s1);
-  // }
-
-  // public get s2Time() {
-  //   return this.convertHoursToDaysHoursMinutes(this.s2);
-  // }
-
-  // public get s3Time() {
-  //   return this.convertHoursToDaysHoursMinutes(this.s3);
-  // }
-
-  // public get c1Time() {
-  //   return this.convertHoursToDaysHoursMinutes(this.c1);
-  // }
-
-  // public get c2Time() {
-  //   return this.convertHoursToDaysHoursMinutes(this.c2);
-  // }
-
-  // public get c3Time() {
-  //   return this.convertHoursToDaysHoursMinutes(this.c3);
-  // }
-
-  // public get i1Time() {
-  //   return this.convertHoursToDaysHoursMinutes(this.i1);
-  // }
-
-  // public get i2Time() {
-  //   return this.convertHoursToDaysHoursMinutes(this.i2);
-  // }
-
-  // public get i3Time() {
-  //   return this.convertHoursToDaysHoursMinutes(this.i3);
-  // }
-
-  // public get supTime() {
-  //   return this.convertHoursToDaysHoursMinutes(this.sup);
-  // }
-
-  // public get admTime() {
-  //   return this.convertHoursToDaysHoursMinutes(this.adm);
-  // }
 
   // private convertHoursToDaysHoursMinutes(hours: number) {
   //   const totalMinutes = Math.round(hours * 60);

@@ -34,7 +34,7 @@ export async function getVatsimPilotStats(pilotId: number): Promise<VatsimPilotS
     const { id, ...data } = pilotData;
     const pilotStats = new PilotStatsModel({
       ...data,
-      pilotId: id,
+      cid: id,
     });
     const doc = await pilotStats.save();
     return {

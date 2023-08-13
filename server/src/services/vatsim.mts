@@ -52,6 +52,7 @@ function parseStringToNumber(value: string) {
 // Takes a pilot object from vatsim and converts it to a vatsim model
 function pilotToVatsimModel(pilot: IVatsimPilot) {
   return new VatsimFlightPlanModel({
+    cid: pilot.cid,
     callsign: pilot?.callsign ?? "",
     groundspeed: pilot?.groundspeed ?? "",
     rawAircraftType: pilot?.flight_plan?.aircraft_faa ?? "",
@@ -70,6 +71,7 @@ function pilotToVatsimModel(pilot: IVatsimPilot) {
 // Takes a prefile from vatsim and converts it to a vatsim model.
 function processVatsimPrefiles(prefile: IVatsimPrefile) {
   return new VatsimFlightPlanModel({
+    cid: prefile.cid,
     callsign: prefile?.callsign ?? "",
     groundspeed: 0,
     rawAircraftType: prefile?.flight_plan?.aircraft_faa ?? "",

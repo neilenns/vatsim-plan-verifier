@@ -15,6 +15,9 @@ export enum VatsimFlightStatus {
 })
 class VatsimFlightPlan {
   @prop({ required: true })
+  cid!: number;
+
+  @prop({ required: true })
   callsign!: string;
 
   @prop({ required: false })
