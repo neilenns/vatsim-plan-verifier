@@ -47,6 +47,7 @@ const SimbriefRemoveWords = ["SIMBRIEF", "/V/", "/T/", "/R/", "RMK/TCAS", "RMK/S
 
 function cleanRoute(route: string) {
   return route
+    .replace(/^\+/, "") // Strip off any + that may have been put at the front by VRC
     .replace(" DCT", "") // DCTs are never in the FlightAware returned routes
     .replace(StepclimbRegex, (match) => match.split("/")[0]) // Remove any stepclimbs
     .trim();
