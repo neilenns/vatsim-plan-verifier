@@ -15,6 +15,7 @@ import { LoadingButton } from "@mui/lab";
 import { Form, useNavigation } from "react-router-dom";
 import { OpenInNew } from "@mui/icons-material";
 import { EquipmentInfoTooltip } from "./EquipmentInfoTooltip";
+import { CallsignTooltip } from "./CallsignTooltip";
 
 interface FlightPlanProps {
   flightPlan: IFlightPlan;
@@ -77,7 +78,13 @@ const FlightPlan = (props: FlightPlanProps) => {
               name="callsign"
               inputRef={(input: HTMLInputElement) => input && input.focus()}
               value={flightPlan.callsign ?? ""}
-              helperText={flightPlan?.telephony?.[0]?.telephony ?? " "}
+              helperText={
+                <CallsignTooltip
+                  callsign={flightPlan.callsign}
+                  telephony={flightPlan.telephony?.[0]}
+                  pilotStats={flightPlan.pilotStats}
+                />
+              }
               trim
               onPaste={parsePastedFlightPlan}
               onChange={(text) => {
