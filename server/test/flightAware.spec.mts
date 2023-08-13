@@ -1,7 +1,7 @@
 // tests/calculator.spec.tx
 import { expect } from "chai";
 import { describe, it } from "mocha";
-import { getFlightAwareRoutes } from "../src/controllers/flightAwareRoutes.mjs";
+import { getFlightAwareRoutes } from "@controllers/flightAwareRoutes.mjs";
 
 import { SuccessResult } from "@customTypes/result.mjs";
 import { FlightAwareRouteDocument } from "@models/FlightAwareRoute.mjs";
