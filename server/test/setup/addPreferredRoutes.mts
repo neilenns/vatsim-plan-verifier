@@ -1,4 +1,4 @@
-import { PreferredRouteModel } from "../../src/models/PreferredRoute.mjs";
+import { PreferredRouteModel } from "@models/PreferredRoute.mjs";
 
 const data = [
   {

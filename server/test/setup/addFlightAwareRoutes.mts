@@ -1,4 +1,4 @@
-import { FlightAwareRouteModel } from "../../src/models/FlightAwareRoute.mjs";
+import { FlightAwareRouteModel } from "@models/FlightAwareRoute.mjs";
 
 const routes = [
   {

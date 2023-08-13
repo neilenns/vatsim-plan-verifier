@@ -1,4 +1,4 @@
-import { AirlineModel } from "../../src/models/Airline.mjs";
+import { AirlineModel } from "@models/Airline.mjs";
 
 const airlines = [{ _id: "64b409858f265c50318d9056", airlineCode: "ASA", telephony: "ALASKA" }];
 

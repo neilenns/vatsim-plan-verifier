@@ -1,4 +1,4 @@
-import { FlightPlan, FlightPlanModel } from "../../src/models/FlightPlan.mjs";
+import { FlightPlan, FlightPlanModel } from "@models/FlightPlan.mjs";
 
 export async function addFlightPlans(testData: Partial<FlightPlan>[]) {
   await Promise.all(

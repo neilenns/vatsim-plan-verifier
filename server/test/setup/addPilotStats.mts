@@ -1,4 +1,4 @@
-import { PilotStatsModel } from "../../src/models/PilotStats.mjs";
+import { PilotStatsModel } from "@models/PilotStats.mjs";
 
 const pilotStats = [
   {

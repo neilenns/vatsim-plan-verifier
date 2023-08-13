@@ -1,4 +1,4 @@
-import { CustomMessageModel } from "../../src/models/CustomMessages.mjs";
+import { CustomMessageModel } from "@models/CustomMessages.mjs";
 
 const messages = [
   // Custom airport message

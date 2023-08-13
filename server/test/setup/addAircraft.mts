@@ -1,4 +1,4 @@
-import { AircraftModel } from "../../src/models/Aircraft.mjs";
+import { AircraftModel } from "@models/Aircraft.mjs";
 
 const aircraft = [
   {
