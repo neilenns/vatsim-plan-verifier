@@ -1,4 +1,4 @@
-import { NavaidModel, NavaidDocument } from "../models/Navaid.mjs";
+import { NavaidModel, NavaidDocument } from "@models/Navaid.mjs";
 import Result from "../types/result.mjs";
 import debug from "debug";
 

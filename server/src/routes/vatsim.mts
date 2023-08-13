@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import { verifyUser } from "../middleware/permissions.mjs";
 import { getVatsimFlightPlans, getVatsimPilotStats } from "../controllers/vatsim.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
-import { VatsimFlightStatus } from "../models/VatsimFlightPlan.mjs";
+import { VatsimFlightStatus } from "@models/VatsimFlightPlan.mjs";
 
 const router = express.Router();
 

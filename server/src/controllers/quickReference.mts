@@ -1,4 +1,4 @@
-import { QuickReferenceModel, QuickReferenceDocument } from "../models/QuickReference.mjs";
+import { QuickReferenceModel, QuickReferenceDocument } from "@models/QuickReference.mjs";
 import Result from "../types/result.mjs";
 import debug from "debug";
 

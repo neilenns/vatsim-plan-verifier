@@ -1,6 +1,6 @@
 import { isDocument } from "@typegoose/typegoose";
-import { FlightPlan } from "../../models/FlightPlan.mjs";
-import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
+import { FlightPlan } from "@models/FlightPlan.mjs";
+import { VerifierResultModel, VerifierResultStatus } from "@models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import debug from "debug";
 import pluralize from "pluralize";

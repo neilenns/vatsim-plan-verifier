@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { getUser, getUsers, updateUser } from "../controllers/user.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
-import { IUser } from "../models/User.mjs";
+import { IUser } from "@models/User.mjs";
 
 const router = express.Router();
 

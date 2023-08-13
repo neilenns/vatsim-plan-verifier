@@ -27,6 +27,7 @@ WORKDIR /usr/src/app
 # Copy the built distribution files from the previous build stage
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/package*.json ./
+COPY --from=build /app/tsconfig.json ./
 
 # Install only production dependencies
 RUN npm ci --only=production
@@ -35,4 +36,4 @@ RUN npm ci --only=production
 EXPOSE 4001
 
 # Set the entrypoint file
-CMD ["node", "dist/main.mjs"]
+CMD ["node", "--loader", "@bleed-believer/path-alias", "dist/main.mjs"]

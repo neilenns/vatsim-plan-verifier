@@ -100,8 +100,8 @@
     "prefix": "verif",
     "isFileTemplate": true,
     "body": [
-      "import { IFlightPlan } from \"../../models/FlightPlan.mjs\";",
-      "import { VerifierResultModel } from \"../../models/VerifierResult.mjs\";",
+      "import { IFlightPlan } from \"@models/FlightPlan.mjs\";",
+      "import { VerifierResultModel } from \"@models/VerifierResult.mjs\";",
       "import VerifierControllerResult from \"../../types/verifierControllerResult.mjs\";",
       "import debug from \"debug\";",
       "",

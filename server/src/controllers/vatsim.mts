@@ -1,9 +1,9 @@
-import { PilotStatsDocument, PilotStatsModel } from "../models/PilotStats.mjs";
+import { PilotStatsDocument, PilotStatsModel } from "@models/PilotStats.mjs";
 import {
   VatsimFlightPlanModel,
   VatsimFlightPlanDocument,
   VatsimFlightStatus,
-} from "../models/VatsimFlightPlan.mjs";
+} from "@models/VatsimFlightPlan.mjs";
 import Result from "../types/result.mjs";
 import debug from "debug";
 import axios, { AxiosResponse } from "axios";

@@ -1,5 +1,9 @@
 {
-  "node-option": ["experimental-specifier-resolution=node", "loader=ts-node/esm"],
+  "node-option": [
+    "experimental-specifier-resolution=node",
+    "loader=ts-node/esm",
+    "loader=@bleed-believer/path-alias"
+  ],
   "spec": "test/**/*.spec.mts",
   "require": ["test/fixtures.mts", "env-test"],
   "timeout": 60000 // For initial download of mongodb-memory-server

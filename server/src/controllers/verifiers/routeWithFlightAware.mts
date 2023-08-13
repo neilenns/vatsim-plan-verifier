@@ -1,5 +1,5 @@
-import { FlightPlan } from "../../models/FlightPlan.mjs";
-import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
+import { FlightPlan } from "@models/FlightPlan.mjs";
+import { VerifierResultModel, VerifierResultStatus } from "@models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import { getFlightAwareRoutes } from "../flightAwareRoutes.mjs";
 import pluralize from "pluralize";

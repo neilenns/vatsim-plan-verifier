@@ -1,5 +1,5 @@
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mjs";
-import { VerifierResultDocument, VerifierResultStatus } from "../models/VerifierResult.mjs";
+import { VerifierResultDocument, VerifierResultStatus } from "@models/VerifierResult.mjs";
 import { WritableKeys } from "ts-essentials";
 
 // This magic ensures type safety when adding a result to the class,

@@ -4,8 +4,8 @@
   "description": "",
   "main": "dist/main.mjs",
   "scripts": {
-    "start:dev": "cross-env DEBUG=plan-verifier:* tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node ./dist/main.mjs\"",
-    "start": "node ./dist/main.mjs",
+    "start:dev": "cross-env DEBUG=plan-verifier:* tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node --loader @bleed-believer/path-alias ./dist/main.mjs\"",
+    "start": "node --loader @bleed-believer/path-alias ./dist/main.mjs",
     "build": "tsc",
     "test": "cross-env DOTENV_CONFIG_PATH=./test/test.env mocha -r dotenv/config"
   },
@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@bleed-believer/path-alias": "^0.15.2",
     "@typegoose/typegoose": "^11.4.1",
     "@types/debug": "^4.1.8",
     "adm-zip": "^0.5.10",

@@ -1,8 +1,8 @@
 import { Types } from "mongoose";
-import { ActiveFlightPlanModel, ActiveFlightPlanDocument } from "../models/ActiveFlightPlan.mjs";
+import { ActiveFlightPlanModel, ActiveFlightPlanDocument } from "@models/ActiveFlightPlan.mjs";
 import Result from "../types/result.mjs";
 import debug from "debug";
-import { VerifierResultStatus } from "../models/VerifierResult.mjs";
+import { VerifierResultStatus } from "@models/VerifierResult.mjs";
 
 const logger = debug("plan-verifier:activeFlightPlanController");
 

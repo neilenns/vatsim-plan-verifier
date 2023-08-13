@@ -1,4 +1,4 @@
-import { VerifierResultDocument } from "../models/VerifierResult.mjs";
+import { VerifierResultDocument } from "@models/VerifierResult.mjs";
 import Result from "./result.mjs";
 
 type VerifierControllerResult = Result<VerifierResultDocument, "UnknownError">;

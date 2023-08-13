@@ -23,7 +23,7 @@ import hasSID from "../controllers/verifiers/hasSID.mjs";
 import hasValidFirstFix from "../controllers/verifiers/hasValidFirstFix.mjs";
 import warnNewPilot from "../controllers/verifiers/warnNewPilot.mjs";
 
-import { VerifierResultModel } from "../models/VerifierResult.mjs";
+import { VerifierResultModel } from "@models/VerifierResult.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
 import pistonNotSlantLorZ from "../controllers/verifiers/pistonNotSlantLorZ.mjs";
 import checkKPDXtoKSLEAltitude from "../controllers/verifiers/checkKPDXtoKSLEAltitude.mjs";
@@ -31,7 +31,7 @@ import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
 import checkForCustomAirportMessages from "../controllers/verifiers/checkForCustomAirportMessages.mjs";
 import checkForCustomDepartureMessages from "../controllers/verifiers/checkForCustomDepartureMessages.mjs";
 import checkSEAvsMONTN from "../controllers/verifiers/checkSEAvsMONTN.mjs";
-import { FlightPlan } from "../models/FlightPlan.mjs";
+import { FlightPlan } from "@models/FlightPlan.mjs";
 
 const router = express.Router();
 

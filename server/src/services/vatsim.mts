@@ -6,7 +6,7 @@ import {
   VatsimFlightPlanDocument,
   VatsimFlightPlanModel,
   VatsimFlightStatus,
-} from "../models/VatsimFlightPlan.mjs";
+} from "@models/VatsimFlightPlan.mjs";
 import debug from "debug";
 import { Server as SocketIOServer } from "socket.io";
 import pluralize from "pluralize";

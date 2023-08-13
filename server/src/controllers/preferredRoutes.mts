@@ -1,4 +1,4 @@
-import { PreferredRouteDocument, PreferredRouteModel } from "../models/PreferredRoute.mjs";
+import { PreferredRouteDocument, PreferredRouteModel } from "@models/PreferredRoute.mjs";
 import Result from "../types/result.mjs";
 import debug from "debug";
 

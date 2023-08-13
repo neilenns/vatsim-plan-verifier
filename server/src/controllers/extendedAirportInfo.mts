@@ -1,7 +1,7 @@
 import {
   ExtendedAirportInfoModel,
   ExtendedAirportInfoDocument,
-} from "../models/ExtendedAirportInfo.mjs";
+} from "@models/ExtendedAirportInfo.mjs";
 import Result from "../types/result.mjs";
 import debug from "debug";
 

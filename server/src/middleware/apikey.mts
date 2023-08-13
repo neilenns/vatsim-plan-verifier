@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { ApiKeyModel } from "../models/ApiKey.mjs";
+import { ApiKeyModel } from "@models/ApiKey.mjs";
 import { Socket } from "socket.io";
 
 // Verifies that a valid api key was provided in the web request. This gets

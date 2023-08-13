@@ -1,6 +1,6 @@
 import Mustache from "mustache";
-import { FlightPlan } from "../models/FlightPlan.mjs";
-import { NavaidModel } from "../models/Navaid.mjs";
+import { FlightPlan } from "@models/FlightPlan.mjs";
+import { NavaidModel } from "@models/Navaid.mjs";
 import { isDocument } from "@typegoose/typegoose";
 
 function normalizeAirportName(airportName: string) {

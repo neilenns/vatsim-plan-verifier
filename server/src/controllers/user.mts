@@ -1,4 +1,4 @@
-import UserModel, { IUser } from "../models/User.mjs";
+import UserModel, { IUser } from "@models/User.mjs";
 import Result from "../types/result.mjs";
 import debug from "debug";
 

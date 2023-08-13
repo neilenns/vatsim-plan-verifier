@@ -1,4 +1,4 @@
-import { AirlineModel, AirlineDocument } from "../models/Airline.mjs";
+import { AirlineModel, AirlineDocument } from "@models/Airline.mjs";
 import Result from "../types/result.mjs";
 import debug from "debug";
 
