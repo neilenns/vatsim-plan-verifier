@@ -18,16 +18,16 @@ type VatsimFlightPlansResult = Result<
 
 type VatsimPilotStatsResult = Result<PilotStatsDocument, "PilotNotFound" | "UnknownError">;
 
-export async function getVatsimPilotStats(pilotId: number): Promise<VatsimPilotStatsResult> {
+export async function getVatsimPilotStats(cid: number): Promise<VatsimPilotStatsResult> {
   try {
-    const cachedData = await PilotStatsModel.findOne({ pilotId });
+    const cachedData = await PilotStatsModel.findOne({ cid });
 
     if (cachedData) {
       return { success: true, data: cachedData };
     }
 
     // Data isn't cached so pull it from vatsim
-    const pilotData = await fetchPilotStatsFromVatsim(pilotId);
+    const pilotData = await fetchPilotStatsFromVatsim(cid);
     // The id field needs to be split out from the rest of the data so when
     // the spread operator is used to create the PilotStatsModel it doesn't try
     // writing a number to the _id/id field that Mongoose wants as a Types.ObjectId.
@@ -42,11 +42,11 @@ export async function getVatsimPilotStats(pilotId: number): Promise<VatsimPilotS
       data: doc,
     };
   } catch (error) {
-    logger(`Error fetching pilot stats for ${pilotId}: ${error}`);
+    logger(`Error fetching pilot stats for ${cid}: ${error}`);
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error fetching pilot stats for ${pilotId}`,
+      error: `Error fetching pilot stats for ${cid}`,
     };
   }
 }
