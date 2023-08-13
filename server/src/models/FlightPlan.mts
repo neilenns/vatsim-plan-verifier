@@ -11,6 +11,8 @@ import { AirportInfo, AirportInfoDocument } from "./AirportInfo.mjs";
 import { Aircraft, AircraftDocument } from "./Aircraft.mjs";
 import { prop, getModelForClass, modelOptions, DocumentType, plugin } from "@typegoose/typegoose";
 import { Airline } from "./Airline.mjs";
+import { PilotStats } from "./PilotStats.mjs";
+import { getVatsimPilotStats } from "../controllers/vatsim.mjs";
 
 const logger = debug("plan-verifier:flightPlan");
 
@@ -208,8 +210,19 @@ export enum VatsimCommsEnum {
 
   this.expandedRoute = expandedRouteArray.join(" ");
 })
+// Cache pilot stats for later
+@pre<FlightPlan>("save", async function () {
+  if (!this.isModified("cid") || !this.cid) {
+    return;
+  }
+
+  await getVatsimPilotStats(this.cid);
+})
 export class FlightPlan {
   _id!: Types.ObjectId;
+
+  @prop({ required: false })
+  cid?: number;
 
   @prop({ required: true, index: true, unique: false })
   callsign!: string;
@@ -257,6 +270,15 @@ export class FlightPlan {
   remarks?: string;
 
   // Reference properties
+  @prop({
+    ref: () => PilotStats,
+    localField: "cid",
+    foreignField: "cid",
+    justOne: true,
+    autopopulate: true,
+  })
+  pilotStats?: Ref<PilotStats>;
+
   @prop({
     ref: () => Aircraft,
     localField: "equipmentCode",

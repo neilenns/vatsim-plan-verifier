@@ -16,6 +16,7 @@ const testData = [
   // A388 flight plan
   {
     _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b4b"),
+    cid: 1525628,
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -27,6 +28,7 @@ const testData = [
   // No SID
   {
     _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b51"),
+    cid: 1525628,
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -38,6 +40,7 @@ const testData = [
   // Has a SID that is a known departure
   {
     _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b52"),
+    cid: 1525628,
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -49,6 +52,7 @@ const testData = [
   // Has a SID that is not a known departure
   {
     _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b53"),
+    cid: 1525628,
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -60,6 +64,7 @@ const testData = [
   // Has a + in front of the route
   {
     _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b54"),
+    cid: 1525628,
     callsign: "ASA42",
     departure: "KSEA",
     arrival: "KPDX",
@@ -88,6 +93,16 @@ describe("Flight plan tests", function () {
 
       const data = (flightPlan as SuccessResult<FlightPlanDocument>).data;
       expect(data.route).to.not.satisfy((route: string) => route?.startsWith("+"));
+    });
+  });
+
+  describe("Pilot stats virtual property validation", function () {
+    it("should have pilot stats", async function () {
+      const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b51");
+      expect(flightPlan.success).to.equal(true);
+
+      const data = (flightPlan as SuccessResult<FlightPlanDocument>).data;
+      expect(isDocument(data.pilotStats)).to.equal(true);
     });
   });
 

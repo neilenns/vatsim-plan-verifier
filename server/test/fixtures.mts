@@ -12,6 +12,7 @@ import addDepartures from "./setup/addDepartures.mjs";
 import addCustomMessages from "./setup/addCustomMessages.mjs";
 import addExtendedAirportInfo from "./setup/addExtendedAirportInfo.mjs";
 import addMagneticDeclination from "./setup/addMagneticDeclination.mjs";
+import addPilotStats from "./setup/addPilotStats.mjs";
 
 let mongoServer: MongoMemoryServer;
 // This is to ensure any network calls made by the tests don't actually
@@ -45,6 +46,7 @@ export async function mochaGlobalSetup() {
     addCustomMessages(),
     addExtendedAirportInfo(),
     addMagneticDeclination(),
+    addPilotStats(),
   ]);
 }
 

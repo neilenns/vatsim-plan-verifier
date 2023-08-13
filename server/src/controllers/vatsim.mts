@@ -1,3 +1,4 @@
+import { PilotStatsDocument, PilotStatsModel } from "../models/PilotStats.mjs";
 import {
   VatsimFlightPlanModel,
   VatsimFlightPlanDocument,
@@ -5,6 +6,8 @@ import {
 } from "../models/VatsimFlightPlan.mjs";
 import Result from "../types/result.mjs";
 import debug from "debug";
+import axios, { AxiosResponse } from "axios";
+import { IVatsimPilotStats } from "../interfaces/IVatsimPilotStats.mjs";
 
 const logger = debug("plan-verifier:vatsimController");
 
@@ -12,6 +15,59 @@ type VatsimFlightPlansResult = Result<
   VatsimFlightPlanDocument[],
   "FlightPlansNotFound" | "UnknownError"
 >;
+
+type VatsimPilotStatsResult = Result<PilotStatsDocument, "PilotNotFound" | "UnknownError">;
+
+export async function getVatsimPilotStats(cid: number): Promise<VatsimPilotStatsResult> {
+  try {
+    const cachedData = await PilotStatsModel.findOne({ cid });
+
+    if (cachedData) {
+      return { success: true, data: cachedData };
+    }
+
+    // Data isn't cached so pull it from vatsim
+    const pilotData = await fetchPilotStatsFromVatsim(cid);
+    // The id field needs to be split out from the rest of the data so when
+    // the spread operator is used to create the PilotStatsModel it doesn't try
+    // writing a number to the _id/id field that Mongoose wants as a Types.ObjectId.
+    const { id, ...data } = pilotData;
+    const pilotStats = new PilotStatsModel({
+      ...data,
+      cid: id,
+    });
+    const doc = await pilotStats.save();
+    return {
+      success: true,
+      data: doc,
+    };
+  } catch (error) {
+    logger(`Error fetching pilot stats for ${cid}: ${error}`);
+    return {
+      success: false,
+      errorType: "UnknownError",
+      error: `Error fetching pilot stats for ${cid}`,
+    };
+  }
+}
+
+async function fetchPilotStatsFromVatsim(pilotId: number): Promise<IVatsimPilotStats> {
+  try {
+    const headers = {
+      Accept: "application/json",
+    };
+    const endpointUrl = `https://api.vatsim.net/v2/members/${pilotId}/stats`;
+    const response: AxiosResponse<IVatsimPilotStats> = await axios.get(endpointUrl, { headers });
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error(`Error fetching pilot stats for ${pilotId}: ${response.status}`);
+    }
+  } catch (error) {
+    throw new Error(`Error fetching pilot stats for ${pilotId}: ${error}`);
+  }
+}
 
 export async function getVatsimFlightPlans(
   departure: string,

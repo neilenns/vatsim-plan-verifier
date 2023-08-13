@@ -1,4 +1,3 @@
-// tests/calculator.spec.tx
 import { expect } from "chai";
 import { describe, it } from "mocha";
 import { getAircraft } from "../src/controllers/aircraft.mjs";

@@ -9,6 +9,7 @@
 	- [Airlines](#airlines)
 	- [Departures](#departures)
 	- [FlightAware routes](#flightaware-routes)
+	- [Pilot stats](#pilot-stats)
 	- [Preferred routes](#preferred-routes)
 
 The automated tests rely on existing data that gets pre-loaded into an in-memory MongoDB instance. To add additional data,
@@ -76,6 +77,12 @@ Flight plans should be added as part of the set up for each specific test. This 
 | Departure | Arrival | Count |
 | --------- | ------- | ----- |
 | KSEA      | KPDX    | 6     |
+
+## Pilot stats
+
+|            ID            |   CID   |
+| :----------------------: | :-----: |
+| 64d816a144012e5b4de814ae | 1525628 |
 
 ## Preferred routes
 
