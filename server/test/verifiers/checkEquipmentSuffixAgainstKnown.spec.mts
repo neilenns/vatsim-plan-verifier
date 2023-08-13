@@ -1,8 +1,8 @@
 // tests/calculator.spec.tx
 import { expect } from "chai";
 import { describe, it } from "mocha";
-import { getFlightPlan } from "../../src/controllers/flightPlans.mjs";
-import checkEquipmentSuffixAgainstKnown from "../../src/controllers/verifiers/checkEquipmentSuffixAgainstKnown.mjs";
+import { getFlightPlan } from "@controllers/flightPlans.mjs";
+import checkEquipmentSuffixAgainstKnown from "@controllers/verifiers/checkEquipmentSuffixAgainstKnown.mjs";
 import { FlightPlan, FlightPlanDocument } from "../../src/models/FlightPlan.mjs";
 import { VerifierResultDocument, VerifierResultStatus } from "../../src/models/VerifierResult.mjs";
 import { SuccessResult } from "../../src/types/result.mjs";

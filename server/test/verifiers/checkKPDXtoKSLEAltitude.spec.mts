@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { describe, it } from "mocha";
-import { getFlightPlan } from "../../src/controllers/flightPlans.mjs";
-import checkKPDXtoKSLEAltitude from "../../src/controllers/verifiers/checkKPDXtoKSLEAltitude.mjs";
+import { getFlightPlan } from "@controllers/flightPlans.mjs";
+import checkKPDXtoKSLEAltitude from "@controllers/verifiers/checkKPDXtoKSLEAltitude.mjs";
 import { FlightPlanDocument } from "../../src/models/FlightPlan.mjs";
 import { VerifierResultDocument, VerifierResultStatus } from "../../src/models/VerifierResult.mjs";
 import { SuccessResult } from "../../src/types/result.mjs";

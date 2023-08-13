@@ -2,7 +2,7 @@ import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import { expect } from "chai";
 import { describe, it } from "mocha";
-import { getAirportInfo } from "../src/controllers/airportInfo.mjs";
+import { getAirportInfo } from "@controllers/airportInfo.mjs";
 
 import { AirportInfoDocument } from "../src/models/AirportInfo.mjs";
 import { SuccessResult } from "../src/types/result.mjs";

@@ -1,9 +1,6 @@
 import { expect } from "chai";
 import { describe, it } from "mocha";
-import {
-  PreferredRoutesFailureTypes,
-  getPreferredRoutes,
-} from "../src/controllers/preferredRoutes.mjs";
+import { PreferredRoutesFailureTypes, getPreferredRoutes } from "@controllers/preferredRoutes.mjs";
 import { FailureResult, SuccessResult } from "../src/types/result.mjs";
 import { PreferredRouteDocument } from "../src/models/PreferredRoute.mjs";
 
