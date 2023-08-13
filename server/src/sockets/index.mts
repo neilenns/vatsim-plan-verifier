@@ -2,7 +2,7 @@ import { Server } from "http";
 import { Socket, Server as SocketIOServer } from "socket.io";
 import debug from "debug";
 import { ENV } from "../env.mjs";
-import { verifySocketApiKey } from "../middleware/apikey.mjs";
+import { verifySocketApiKey } from "@middleware/apikey.mjs";
 import { getAirportInfo } from "@controllers/airportInfo.mjs";
 import { ClientToServerEvents, ServerToClientEvents } from "../types/socketEvents.mjs";
 

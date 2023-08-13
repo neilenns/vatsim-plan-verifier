@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { getFlightPlan, importFlightPlan, putFlightPlan } from "@controllers/flightPlans.mjs";
-import { verifyUser } from "../middleware/permissions.mjs";
-import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
+import { verifyUser } from "@middleware/permissions.mjs";
+import { secureQueryMiddleware } from "@middleware/secureQueryMiddleware.mjs";
 import { FlightPlan } from "@models/FlightPlan.mjs";
 
 const router = express.Router();

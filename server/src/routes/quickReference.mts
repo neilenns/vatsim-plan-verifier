@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { getNavaidById, getNavaidByIdent } from "@controllers/navaid.mjs";
-import { verifyUser } from "../middleware/permissions.mjs";
-import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
+import { verifyUser } from "@middleware/permissions.mjs";
+import { secureQueryMiddleware } from "@middleware/secureQueryMiddleware.mjs";
 import { getQuickReference, getQuickReferenceList } from "@controllers/quickReference.mjs";
 
 const router = express.Router();
