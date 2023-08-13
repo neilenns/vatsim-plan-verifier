@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { AirportInfoModel, AirportInfoDocument } from "@models/AirportInfo.mjs";
-import Result from "../types/result.mjs";
+import Result from "@customTypes/result.mjs";
 import { ENV } from "../env.mjs";
 import debug from "debug";
 import { IAvioWikiAirport } from "@interfaces/IAvioWikiAirport.mjs";

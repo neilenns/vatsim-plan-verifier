@@ -5,7 +5,7 @@ import {
   VerifierResultModel,
   VerifierResultStatus,
 } from "@models/VerifierResult.mjs";
-import { VerifierControllerMultiResult } from "../../types/verifierControllerResult.mjs";
+import { VerifierControllerMultiResult } from "@customTypes/verifierControllerResult.mjs";
 import debug from "debug";
 import applyMustacheValues from "@utils/mustache.mjs";
 

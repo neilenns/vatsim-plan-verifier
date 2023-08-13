@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 import { ActiveFlightPlanModel, ActiveFlightPlanDocument } from "@models/ActiveFlightPlan.mjs";
-import Result from "../types/result.mjs";
+import Result from "@customTypes/result.mjs";
 import debug from "debug";
 import { VerifierResultStatus } from "@models/VerifierResult.mjs";
 

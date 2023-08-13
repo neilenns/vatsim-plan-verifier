@@ -1,5 +1,5 @@
 import { AircraftDocument, AircraftModel } from "@models/Aircraft.mjs";
-import Result from "../types/result.mjs";
+import Result from "@customTypes/result.mjs";
 import debug from "debug";
 
 const logger = debug("plan-verifier:aircraftController");

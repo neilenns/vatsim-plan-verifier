@@ -3,7 +3,7 @@
 import { ActionFunctionArgs, Params, ParamParseKey, LoaderFunction } from "react-router-dom";
 import { getFlightPlan } from "@services/flightPlan.mts";
 import { getVerifyResults } from "@services/verifyResults.mts";
-import Result from "../types/result.mts";
+import Result from "@types/result.mts";
 import IFlightPlan from "@interfaces/IFlightPlan.mts";
 import IVerifyAllResult from "@interfaces/IVerifyAllResult.mts";
 

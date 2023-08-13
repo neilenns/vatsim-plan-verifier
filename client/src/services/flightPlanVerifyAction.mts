@@ -5,7 +5,7 @@ import { runAllVerifiers } from "@services/runAllVerifiers.mts";
 import { addActiveFlightPlan, removeActiveFlightPlan } from "@services/activeFlightPlans.mts";
 import { removeVerifyResults } from "@services/verifyResults.mts";
 import debug from "debug";
-import Result from "../types/result.mts";
+import Result from "@types/result.mts";
 
 const logger = debug("plan-verifier:flightPlanVerifyAction");
 

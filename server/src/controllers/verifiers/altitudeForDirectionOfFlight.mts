@@ -1,6 +1,6 @@
 import { FlightPlan } from "@models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "@models/VerifierResult.mjs";
-import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
+import VerifierControllerResult from "@customTypes/verifierControllerResult.mjs";
 import { formatAltitude } from "@utils/formatting.mjs";
 import debug from "debug";
 

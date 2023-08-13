@@ -1,6 +1,6 @@
 import { FlightPlanModel, FlightPlanDocument, FlightPlan } from "@models/FlightPlan.mjs";
 import { VatsimFlightPlanModel } from "@models/VatsimFlightPlan.mjs";
-import Result from "../types/result.mjs";
+import Result from "@customTypes/result.mjs";
 import debug from "debug";
 import { uppercaseStringProperties } from "@utils/formatting.mjs";
 

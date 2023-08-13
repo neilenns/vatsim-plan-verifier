@@ -1,5 +1,5 @@
 import { DepartureModel, DepartureDocument } from "@models/Departure.mjs";
-import Result from "../types/result.mjs";
+import Result from "@customTypes/result.mjs";
 import debug from "debug";
 
 const logger = debug("plan-verifier:departureController");

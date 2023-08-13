@@ -2,7 +2,7 @@ import {
   ExtendedAirportInfoModel,
   ExtendedAirportInfoDocument,
 } from "@models/ExtendedAirportInfo.mjs";
-import Result from "../types/result.mjs";
+import Result from "@customTypes/result.mjs";
 import debug from "debug";
 
 const logger = debug("plan-verifier:extendedAirportInfo");

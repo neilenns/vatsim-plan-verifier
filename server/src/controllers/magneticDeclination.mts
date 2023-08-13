@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import MagneticVariationResponse from "@interfaces/IMagneticDeclinationResponse.mjs";
-import Result from "../types/result.mjs";
+import Result from "@customTypes/result.mjs";
 import { ENV } from "../env.mjs";
 
 type MagneticDeclinationResult = Result<number, "UnknownError">;

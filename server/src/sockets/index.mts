@@ -4,7 +4,7 @@ import debug from "debug";
 import { ENV } from "../env.mjs";
 import { verifySocketApiKey } from "@middleware/apikey.mjs";
 import { getAirportInfo } from "@controllers/airportInfo.mjs";
-import { ClientToServerEvents, ServerToClientEvents } from "../types/socketEvents.mjs";
+import { ClientToServerEvents, ServerToClientEvents } from "@customTypes/socketEvents.mjs";
 
 const logger = debug("plan-verifier:sockets");
 

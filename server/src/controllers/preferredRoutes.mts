@@ -1,5 +1,5 @@
 import { PreferredRouteDocument, PreferredRouteModel } from "@models/PreferredRoute.mjs";
-import Result from "../types/result.mjs";
+import Result from "@customTypes/result.mjs";
 import debug from "debug";
 
 const logger = debug("plan-verifier:preferredRoutesController");

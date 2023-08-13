@@ -14,7 +14,7 @@
       "@routes/*": ["routes/*"],
       "@middleware/*": ["middleware/*"],
       "@configs/*": ["configs/*"],
-      "@types/*": ["types/*"],
+      "@customTypes/*": ["types/*"],
       "@utils/*": ["utils/*"],
       "@services/*": ["services/*"],
       "@interfaces/*": ["interfaces/*"]
