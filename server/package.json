@@ -6,7 +6,7 @@
   "scripts": {
     "start:dev": "cross-env DEBUG=plan-verifier:* tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node --loader @bleed-believer/path-alias ./dist/main.mjs\"",
     "start": "node --loader @bleed-believer/path-alias ./dist/main.mjs",
-    "build": "tsc",
+    "build": "tsc -p tsconfig-build.json",
     "test": "cross-env DOTENV_CONFIG_PATH=./test/test.env mocha -r dotenv/config"
   },
   "keywords": [],

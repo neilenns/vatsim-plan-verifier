@@ -4,9 +4,11 @@
     // Required so .d.ts files will get recognized by Mocha
     "files": true
   },
-  "include": ["src/**/*"],
+  // The test folder has to be included here otherwise vscode
+  // complains about the @ path references. It gets excluded
+  // during production builds by the tsconfig-build.json file.
+  "include": ["src/**/*", "test/**/*"],
   "compilerOptions": {
-    "rootDir": "./src",
     "baseUrl": "./src",
     "paths": {
       "@models/*": ["models/*"],
