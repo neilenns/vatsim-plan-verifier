@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { getPreferredRoutes } from "../controllers/preferredRoutes.mjs";
+import { getPreferredRoutes } from "@controllers/preferredRoutes.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
 

@@ -1,7 +1,7 @@
 import { Model, Schema, Types, model } from "mongoose";
 import autopopulate from "mongoose-autopopulate";
 import { formatAltitude } from "../utils.mjs";
-import { getAirportInfo } from "../controllers/airportInfo.mjs";
+import { getAirportInfo } from "@controllers/airportInfo.mjs";
 import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
 import debug from "debug";
 import { NavaidModel } from "./Navaid.mjs";
@@ -12,7 +12,7 @@ import { Aircraft, AircraftDocument } from "./Aircraft.mjs";
 import { prop, getModelForClass, modelOptions, DocumentType, plugin } from "@typegoose/typegoose";
 import { Airline } from "./Airline.mjs";
 import { PilotStats } from "./PilotStats.mjs";
-import { getVatsimPilotStats } from "../controllers/vatsim.mjs";
+import { getVatsimPilotStats } from "@controllers/vatsim.mjs";
 
 const logger = debug("plan-verifier:flightPlan");
 

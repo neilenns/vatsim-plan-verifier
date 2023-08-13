@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { VerifierResultModel } from "@models/VerifierResult.mjs";
-import VerifyAllResult from "../controllers/verifyAllResult.mjs";
+import VerifyAllResult from "@controllers/verifyAllResult.mjs";
 
 // Looks for existing verification results in the database based on the incoming flight plan ID
 // and verifier name. If some are found returns those instead of re-running the same verification

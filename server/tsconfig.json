@@ -9,7 +9,15 @@
     "rootDir": "./src",
     "baseUrl": "./src",
     "paths": {
-      "@models/*": ["models/*"]
+      "@models/*": ["models/*"],
+      "@controllers/*": ["controllers/*"],
+      "@routes/*": ["routes/*"],
+      "@middleware/*": ["middleware/*"],
+      "@configs/*": ["configs/*"],
+      "@types/*": ["types/*"],
+      "@utils/*": ["utils/*"],
+      "@services/*": ["services/*"],
+      "@interfaces/*": ["interfaces/*"]
     },
     "target": "es2020" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
     "experimentalDecorators": true /* Enable experimental support for legacy experimental decorators. */,

@@ -4,7 +4,7 @@ import {
   getActiveFlightPlans,
   removeActiveFlightPlan,
   removeActiveFlightPlanByFlightPlanId,
-} from "../controllers/activeFlightPlan.mjs";
+} from "@controllers/activeFlightPlan.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
 

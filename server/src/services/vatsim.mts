@@ -12,7 +12,7 @@ import { Server as SocketIOServer } from "socket.io";
 import pluralize from "pluralize";
 import { ENV } from "../env.mjs";
 import _ from "lodash";
-import { getAirportInfo } from "../controllers/airportInfo.mjs";
+import { getAirportInfo } from "@controllers/airportInfo.mjs";
 import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
 
 const logger = debug("plan-verifier:vatsimService");

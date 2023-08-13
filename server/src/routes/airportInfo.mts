@@ -1,5 +1,5 @@
 import express from "express";
-import { fetchAirportsFromAvioWiki, getAirportInfo } from "../controllers/airportInfo.mjs";
+import { fetchAirportsFromAvioWiki, getAirportInfo } from "@controllers/airportInfo.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
 

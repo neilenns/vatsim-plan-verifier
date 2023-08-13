@@ -102,7 +102,7 @@
     "body": [
       "import { IFlightPlan } from \"@models/FlightPlan.mjs\";",
       "import { VerifierResultModel } from \"@models/VerifierResult.mjs\";",
-      "import VerifierControllerResult from \"../../types/verifierControllerResult.mjs\";",
+      "import VerifierControllerResult from \"@types/verifierControllerResult.mjs\";",
       "import debug from \"debug\";",
       "",
       "const verifierName = \"${TM_FILENAME_BASE}\";",

@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { getDeparture } from "../controllers/departure.mjs";
+import { getDeparture } from "@controllers/departure.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
 
