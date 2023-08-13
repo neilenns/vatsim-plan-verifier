@@ -1,5 +1,6 @@
 import IAircraft from "./IAircraft.mjs";
 import AirportInfo from "./IAirportInfo.mjs";
+import { IPilotStats } from "./IPilotStats.mts";
 import ISIDInformation from "./ISIDInformation.mts";
 import ITelephony from "./ITelephony.mts";
 
@@ -26,6 +27,7 @@ interface IFlightPlan {
   verifierResultsCount?: number;
   remarks?: string;
   cleanedRemarks?: string;
+  pilotStats?: IPilotStats;
 }
 
 export default IFlightPlan;

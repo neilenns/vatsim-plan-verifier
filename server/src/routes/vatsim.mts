@@ -7,11 +7,11 @@ import { VatsimFlightStatus } from "../models/VatsimFlightPlan.mjs";
 const router = express.Router();
 
 router.get(
-  "/vatsim/pilots/:pilotId",
+  "/vatsim/pilots/:cid",
   verifyUser,
   secureQueryMiddleware,
   async (req: Request, res: Response) => {
-    const result = await getVatsimPilotStats(Number(req.params.pilotId));
+    const result = await getVatsimPilotStats(Number(req.params.cid));
 
     if (result.success) {
       res.json(result.data);
@@ -19,7 +19,7 @@ router.get(
     }
 
     if (result.errorType === "PilotNotFound") {
-      res.status(404).json({ error: `Pilot ${req.params.pilotId} not found.` });
+      res.status(404).json({ error: `Pilot ${req.params.cid} not found.` });
     } else {
       res.status(500).json({ error: "Failed to get the pilot stats." });
     }

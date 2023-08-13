@@ -51,21 +51,21 @@ export async function getVatsimPilotStats(cid: number): Promise<VatsimPilotStats
   }
 }
 
-async function fetchPilotStatsFromVatsim(pilotId: number): Promise<IVatsimPilotStats> {
+async function fetchPilotStatsFromVatsim(cid: number): Promise<IVatsimPilotStats> {
   try {
     const headers = {
       Accept: "application/json",
     };
-    const endpointUrl = `https://api.vatsim.net/v2/members/${pilotId}/stats`;
+    const endpointUrl = `https://api.vatsim.net/v2/members/${cid}/stats`;
     const response: AxiosResponse<IVatsimPilotStats> = await axios.get(endpointUrl, { headers });
 
     if (response.status === 200) {
       return response.data;
     } else {
-      throw new Error(`Error fetching pilot stats for ${pilotId}: ${response.status}`);
+      throw new Error(`Error fetching pilot stats for ${cid}: ${response.status}`);
     }
   } catch (error) {
-    throw new Error(`Error fetching pilot stats for ${pilotId}: ${error}`);
+    throw new Error(`Error fetching pilot stats for ${cid}: ${error}`);
   }
 }
 
