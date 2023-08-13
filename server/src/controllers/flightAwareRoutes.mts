@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { FlightAwareRouteModel, FlightAwareRouteDocument } from "@models/FlightAwareRoute.mjs";
 import Result from "@customTypes/result.mjs";
-import { ENV } from "../env.mjs";
+import { ENV } from "@app/env.mjs";
 import debug from "debug";
 import { FlightPlan } from "@models/FlightPlan.mjs";
 

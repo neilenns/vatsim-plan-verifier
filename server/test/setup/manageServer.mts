@@ -1,4 +1,4 @@
-import { startServer, stopServer } from "../../src/server.mjs";
+import { startServer, stopServer } from "@app/server.mjs";
 
 export function serverSetup() {
   startServer(25541);

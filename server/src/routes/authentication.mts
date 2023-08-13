@@ -4,7 +4,7 @@ import UserModel from "@models/User.mjs";
 import { getAuthToken, COOKIE_OPTIONS, getRefreshToken } from "../authenticate.mjs";
 import { Error as MongooseError } from "mongoose";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { ENV } from "../env.mjs";
+import { ENV } from "@app/env.mjs";
 import { verifyUser } from "@middleware/permissions.mjs";
 
 const router = express.Router();
