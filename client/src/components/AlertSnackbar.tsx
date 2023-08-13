@@ -1,6 +1,6 @@
 import { Alert, AlertProps, Snackbar, SnackbarCloseReason } from "@mui/material";
 import { SyntheticEvent, useEffect, useState } from "react";
-import { snackbarAutoHideDuration } from "../configs/planVerifierServer.mts";
+import { snackbarAutoHideDuration } from "@configs/planVerifierServer.mts";
 
 export type AlertSnackBarOnClose = (reason: SnackbarCloseReason) => void | undefined;
 

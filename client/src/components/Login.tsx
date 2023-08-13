@@ -2,7 +2,7 @@ import { LoadingButton } from "@mui/lab";
 import { TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import http from "../utils/http.mts";
+import http from "@utils/http.mts";
 import ILoginResponse from "../interfaces/ILoginResponse.mts";
 import { AxiosError, AxiosResponse } from "axios";
 import debug from "debug";

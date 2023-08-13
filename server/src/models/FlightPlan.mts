@@ -1,6 +1,6 @@
 import { Model, Schema, Types, model } from "mongoose";
 import autopopulate from "mongoose-autopopulate";
-import { formatAltitude } from "../utils.mjs";
+import { formatAltitude } from "@utils/formatting.mjs";
 import { getAirportInfo } from "@controllers/airportInfo.mjs";
 import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
 import debug from "debug";

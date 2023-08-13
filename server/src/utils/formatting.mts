@@ -21,6 +21,14 @@ export function joinWithWord(array: string[], word: string): string {
   }
 }
 
+export function formatAltitude(altitude: number, includeFeet: boolean = true): string {
+  if (altitude >= 180) {
+    return `FL${altitude}`;
+  }
+
+  return `${(altitude * 100).toLocaleString()}${includeFeet ? " feet" : ""}`;
+}
+
 export function uppercaseStringProperties(obj: unknown): unknown {
   if (typeof obj !== "object" || obj === null) {
     return obj;

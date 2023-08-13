@@ -1,6 +1,6 @@
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
-import http from "../utils/http.mts";
+import http from "@utils/http.mts";
 
 export async function runAllVerifiers(flightPlan: IFlightPlan): Promise<IVerifyAllResult> {
   if (!flightPlan || !flightPlan._id) {

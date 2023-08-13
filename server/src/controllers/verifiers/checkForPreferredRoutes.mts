@@ -3,7 +3,7 @@ import { FlightPlan } from "@models/FlightPlan.mjs";
 import { PreferredRouteModel } from "@models/PreferredRoute.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "@models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
-import { formatAltitude } from "../../utils.mjs";
+import { formatAltitude } from "@utils.mjs";
 import debug from "debug";
 
 const verifierName = "checkForPreferredRoutes";

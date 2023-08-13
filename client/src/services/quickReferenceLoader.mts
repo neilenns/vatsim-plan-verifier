@@ -1,5 +1,5 @@
 import { LoaderFunction } from "react-router-dom";
-import http from "../utils/http.mts";
+import http from "@utils/http.mts";
 import {
   IQuickReference,
   IQuickReferenceListItem,

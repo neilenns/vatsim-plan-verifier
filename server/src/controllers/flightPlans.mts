@@ -2,7 +2,7 @@ import { FlightPlanModel, FlightPlanDocument, FlightPlan } from "@models/FlightP
 import { VatsimFlightPlanModel } from "@models/VatsimFlightPlan.mjs";
 import Result from "../types/result.mjs";
 import debug from "debug";
-import { uppercaseStringProperties } from "../utils/formatting.mjs";
+import { uppercaseStringProperties } from "@utils/formatting.mjs";
 
 const logger = debug("plan-verifier:flightPlansController");
 

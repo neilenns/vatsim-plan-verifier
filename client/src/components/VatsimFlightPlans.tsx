@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import socketIOClient, { Socket } from "socket.io-client";
-import { apiKey, serverUrl } from "../configs/planVerifierServer.mts";
+import { apiKey, serverUrl } from "@configs/planVerifierServer.mts";
 import { ImportState, IVatsimFlightPlan } from "../interfaces/IVatsimFlightPlan.mts";
 import { ArrowForwardOutlined as ArrowForwardOutlinedIcon } from "@mui/icons-material";
 import { List, ListItem, IconButton, ListItemText, Box, Stack, TextField } from "@mui/material";
@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { Stream as StreamIcon } from "@mui/icons-material";
 import pluralize from "pluralize";
 import AlertSnackbar, { AlertSnackBarOnClose, AlertSnackbarProps } from "./AlertSnackbar";
-import { getColorByStatus, processFlightPlans } from "../utils/vatsim.mts";
+import { getColorByStatus, processFlightPlans } from "@utils/vatsim.mts";
 import { useAudio } from "./AudioHook";
 
 const logger = debug("plan-verifier:vatsimFlightPlans");

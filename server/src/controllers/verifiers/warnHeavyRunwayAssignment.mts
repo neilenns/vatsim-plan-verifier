@@ -3,7 +3,7 @@ import { VerifierResultModel, VerifierResultStatus } from "@models/VerifierResul
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import debug from "debug";
 import _ from "lodash";
-import { joinWithWord } from "../../utils/formatting.mjs";
+import { joinWithWord } from "@utils/formatting.mjs";
 import { isDocument } from "@typegoose/typegoose";
 
 const verifierName = "warnHeavyRunwayAssignment";

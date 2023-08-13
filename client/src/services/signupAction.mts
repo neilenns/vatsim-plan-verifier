@@ -1,7 +1,7 @@
 import { ActionFunction, redirect } from "react-router-dom";
-import { serverUrl } from "../configs/planVerifierServer.mjs";
+import { serverUrl } from "@configs/planVerifierServer.mjs";
 import debug from "debug";
-import http from "../utils/http.mts";
+import http from "@utils/http.mts";
 
 const logger = debug("plan-verifier:signupAction");
 

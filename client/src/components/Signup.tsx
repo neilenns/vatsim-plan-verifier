@@ -3,7 +3,7 @@ import { TextField, Typography } from "@mui/material";
 import debug from "debug";
 
 import React, { useState } from "react";
-import http from "../utils/http.mts";
+import http from "@utils/http.mts";
 import { AxiosError } from "axios";
 
 const Signup = () => {

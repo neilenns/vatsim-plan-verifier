@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
-import { serverUrl, apiKey } from "../configs/planVerifierServer.mts";
+import { serverUrl, apiKey } from "@configs/planVerifierServer.mts";
 
 class CustomHttp {
   private instance: AxiosInstance;

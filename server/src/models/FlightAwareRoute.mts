@@ -1,5 +1,5 @@
 import { prop, getModelForClass, modelOptions, DocumentType } from "@typegoose/typegoose";
-import { formatAltitude } from "../utils.mjs";
+import { formatAltitude } from "@utils/formatting.mjs";
 
 @modelOptions({
   options: { customName: "flightawareroute" },

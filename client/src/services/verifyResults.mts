@@ -1,5 +1,5 @@
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
-import http from "../utils/http.mts";
+import http from "@utils/http.mts";
 
 export async function getVerifyResults(flightPlanId: string): Promise<IVerifyAllResult> {
   try {

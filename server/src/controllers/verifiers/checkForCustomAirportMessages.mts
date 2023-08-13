@@ -7,7 +7,7 @@ import {
 } from "@models/VerifierResult.mjs";
 import { VerifierControllerMultiResult } from "../../types/verifierControllerResult.mjs";
 import debug from "debug";
-import applyMustacheValues from "../../utils/mustache.mjs";
+import applyMustacheValues from "@utils/mustache.mjs";
 
 const verifierName = "checkForCustomAirportMessages";
 const logger = debug(`plan-verifier:${verifierName}`);

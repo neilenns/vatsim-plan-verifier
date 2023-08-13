@@ -10,7 +10,7 @@ import {
   normalizeAirportName,
   parseFlightPlan,
   validateFlightPlan,
-} from "../utils/flightPlanParser";
+} from "@utils/flightPlanParser";
 import { LoadingButton } from "@mui/lab";
 import { Form, useNavigation } from "react-router-dom";
 import { OpenInNew } from "@mui/icons-material";

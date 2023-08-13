@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import ILoginResponse from "../interfaces/ILoginResponse.mts";
-import http from "../utils/http.mts";
+import http from "@utils/http.mts";
 import { useNavigate } from "react-router-dom";
 
 const App = () => {

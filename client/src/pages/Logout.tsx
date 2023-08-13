@@ -1,7 +1,7 @@
 import { Box, CircularProgress } from "@mui/material";
 import { useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import http from "../utils/http.mts";
+import http from "@utils/http.mts";
 import ILoginResponse from "../interfaces/ILoginResponse.mts";
 import debug from "debug";
 

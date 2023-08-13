@@ -1,5 +1,5 @@
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
-import http from "../utils/http.mts";
+import http from "@utils/http.mts";
 
 export async function storeFlightPlan(flightPlan: IFlightPlan): Promise<IFlightPlan> {
   try {
