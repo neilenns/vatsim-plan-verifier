@@ -25,7 +25,9 @@ const VerifierResult: React.FC<VerifierResultComponentProps> = ({ verifierResult
   const { message, extendedMessage, status } = verifierResult;
   const { departure, arrival } = flightPlan;
   const additionalItemsCount = Math.max(0, (extendedMessage?.length ?? 0) - maxExtendedMessages);
-  const flightAwareIFRRouteVerifierUrl = `https://flightaware.com/analysis/route.rvt?origin=${departure}&destination=${arrival}`;
+  const flightAwareIFRRouteVerifierUrl = `https://flightaware.com/analysis/route.rvt?origin=${
+    departure ?? ""
+  }&destination=${arrival ?? ""}`;
   const theme = useTheme();
 
   const getColorForStatus = (status: string): string => {
@@ -60,7 +62,7 @@ const VerifierResult: React.FC<VerifierResultComponentProps> = ({ verifierResult
           ) : (
             <Typography variant="body1">{message}</Typography>
           )}
-          {extendedMessage && (
+          {extendedMessage && extendedMessage.length > 0 && (
             <>
               <List dense>
                 {extendedMessage.slice(0, maxExtendedMessages).map((msg, index) => (
