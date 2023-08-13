@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { describe, it } from "mocha";
 import { getAircraft } from "@controllers/aircraft.mjs";
 import { FailureResult, SuccessResult } from "@customTypes/result.mjs";
-import { AircraftDocument } from "../src/models/Aircraft.mjs";
+import { AircraftDocument } from "@models/Aircraft.mjs";
 
 describe("Aircraft tests", () => {
   it("should return C172 data", async function () {

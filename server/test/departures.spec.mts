@@ -2,7 +2,7 @@
 import { expect } from "chai";
 import { describe, it } from "mocha";
 import { getDeparture } from "../src/controllers/departure.mjs";
-import { Departure } from "../src/models/Departure.mjs";
+import { Departure } from "@models/Departure.mjs";
 import { FailureResult, SuccessResult } from "@customTypes/result.mjs";
 
 describe("Departure tests", () => {

@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { describe, it } from "mocha";
 import { SuccessResult } from "@customTypes/result.mjs";
-import { PilotStatsDocument } from "../src/models/PilotStats.mjs";
+import { PilotStatsDocument } from "@models/PilotStats.mjs";
 import { getVatsimPilotStats } from "../src/controllers/vatsim.mjs";
 
 describe("Pilot stats tests", () => {

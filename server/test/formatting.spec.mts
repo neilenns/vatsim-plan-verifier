@@ -1,7 +1,7 @@
 // tests/calculator.spec.tx
 import { expect } from "chai";
 import { describe, it } from "mocha";
-import { joinWithWord } from "../src/utils/formatting.mjs";
+import { joinWithWord } from "@utils/formatting.mjs";
 
 describe("Formatting tests", () => {
   it("should join three items", async function () {

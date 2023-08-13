@@ -4,7 +4,7 @@ import { expect } from "chai";
 import { describe, it } from "mocha";
 import { getAirportInfo } from "../src/controllers/airportInfo.mjs";
 
-import { AirportInfoDocument } from "../src/models/AirportInfo.mjs";
+import { AirportInfoDocument } from "@models/AirportInfo.mjs";
 import { SuccessResult } from "@customTypes/result.mjs";
 
 describe("Airport info pre-cached data tests", function () {

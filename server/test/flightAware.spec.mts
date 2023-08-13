@@ -4,7 +4,7 @@ import { describe, it } from "mocha";
 import { getFlightAwareRoutes } from "../src/controllers/flightAwareRoutes.mjs";
 
 import { SuccessResult } from "@customTypes/result.mjs";
-import { FlightAwareRouteDocument } from "../src/models/FlightAwareRoute.mjs";
+import { FlightAwareRouteDocument } from "@models/FlightAwareRoute.mjs";
 
 describe("FlightAware pre-cached data tests", function () {
   it("should return KSEA-KPDX routes", async function () {
