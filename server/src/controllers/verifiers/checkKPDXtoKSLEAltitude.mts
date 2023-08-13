@@ -2,7 +2,7 @@ import { FlightPlan } from "@models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "@models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import debug from "debug";
-import { formatAltitude } from "@utils.mjs";
+import { formatAltitude } from "@utils/formatting.mjs";
 
 const verifierName = "checkKPDXtoKSLEAltitude";
 const logger = debug(`plan-verifier:${verifierName}`);

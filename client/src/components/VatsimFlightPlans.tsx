@@ -5,7 +5,7 @@ import { ImportState, IVatsimFlightPlan } from "../interfaces/IVatsimFlightPlan.
 import { ArrowForwardOutlined as ArrowForwardOutlinedIcon } from "@mui/icons-material";
 import { List, ListItem, IconButton, ListItemText, Box, Stack, TextField } from "@mui/material";
 import debug from "debug";
-import { importFlightPlan } from "../services/flightPlan.mts";
+import { importFlightPlan } from "@services/flightPlan.mts";
 import { useNavigate } from "react-router-dom";
 import { Stream as StreamIcon } from "@mui/icons-material";
 import pluralize from "pluralize";

@@ -2,7 +2,7 @@ import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } fro
 import Markdown from "../components/Markdown";
 import { useEffect, useState } from "react";
 import { useLoaderData, useNavigate, useParams } from "react-router-dom";
-import { QuickReferenceLoaderResult } from "../services/quickReferenceLoader.mts";
+import { QuickReferenceLoaderResult } from "@services/quickReferenceLoader.mts";
 
 const QuickReference = () => {
   const { key } = useParams();

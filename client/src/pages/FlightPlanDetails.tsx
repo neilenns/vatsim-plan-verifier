@@ -10,8 +10,8 @@ import AlertSnackbar, {
   AlertSnackbarProps,
 } from "../components/AlertSnackbar";
 import { Paper } from "@mui/material";
-import { PlanVerifyActionResult } from "../services/flightPlanVerifyAction.mts";
-import { PlanDetailsLoaderResult } from "../services/flightPlanDetailsLoader.mts";
+import { PlanVerifyActionResult } from "@services/flightPlanVerifyAction.mts";
+import { PlanDetailsLoaderResult } from "@services/flightPlanDetailsLoader.mts";
 
 function FlightPlanDetails() {
   const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
