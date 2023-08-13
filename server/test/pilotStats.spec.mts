@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { describe, it } from "mocha";
-import { SuccessResult } from "../src/types/result.mjs";
+import { SuccessResult } from "@customTypes/result.mjs";
 import { PilotStatsDocument } from "../src/models/PilotStats.mjs";
 import { getVatsimPilotStats } from "../src/controllers/vatsim.mjs";
 

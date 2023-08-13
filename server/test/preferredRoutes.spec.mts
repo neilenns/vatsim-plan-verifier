@@ -4,7 +4,7 @@ import {
   PreferredRoutesFailureTypes,
   getPreferredRoutes,
 } from "../src/controllers/preferredRoutes.mjs";
-import { FailureResult, SuccessResult } from "../src/types/result.mjs";
+import { FailureResult, SuccessResult } from "@customTypes/result.mjs";
 import { PreferredRouteDocument } from "../src/models/PreferredRoute.mjs";
 
 describe("Preferred routes pre-cached data tests", () => {

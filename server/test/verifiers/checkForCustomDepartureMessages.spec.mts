@@ -4,7 +4,7 @@ import { getFlightPlan } from "@controllers/flightPlans.mjs";
 import checkForCustomDepartureMessages from "@controllers/verifiers/checkForCustomDepartureMessages.mjs";
 import { FlightPlanDocument } from "@models/FlightPlan.mjs";
 import { VerifierResultDocument, VerifierResultStatus } from "@models/VerifierResult.mjs";
-import { SuccessResult } from "../../src/types/result.mjs";
+import { SuccessResult } from "@customTypes/result.mjs";
 import { addFlightPlans, removeFlightPlans } from "../setup/manageFlightPlans.mjs";
 import { Types } from "mongoose";
 

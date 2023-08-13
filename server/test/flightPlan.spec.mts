@@ -7,7 +7,7 @@ import {
   getFlightPlan,
 } from "../src/controllers/flightPlans.mjs";
 import { FlightPlanDocument } from "../src/models/FlightPlan.mjs";
-import { FailureResult, SuccessResult } from "../src/types/result.mjs";
+import { FailureResult, SuccessResult } from "@customTypes/result.mjs";
 import { addFlightPlans, removeFlightPlans } from "./setup/manageFlightPlans.mjs";
 import { Types } from "mongoose";
 import { isDocument } from "@typegoose/typegoose";

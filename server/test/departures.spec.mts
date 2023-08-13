@@ -3,7 +3,7 @@ import { expect } from "chai";
 import { describe, it } from "mocha";
 import { getDeparture } from "../src/controllers/departure.mjs";
 import { Departure } from "../src/models/Departure.mjs";
-import { FailureResult, SuccessResult } from "../src/types/result.mjs";
+import { FailureResult, SuccessResult } from "@customTypes/result.mjs";
 
 describe("Departure tests", () => {
   it("should return SEA8", async function () {

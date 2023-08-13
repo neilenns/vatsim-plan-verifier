@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { describe, it } from "mocha";
 import { getAircraft } from "@controllers/aircraft.mjs";
-import { FailureResult, SuccessResult } from "../src/types/result.mjs";
+import { FailureResult, SuccessResult } from "@customTypes/result.mjs";
 import { AircraftDocument } from "../src/models/Aircraft.mjs";
 
 describe("Aircraft tests", () => {

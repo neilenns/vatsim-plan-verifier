@@ -5,7 +5,7 @@ import { describe, it } from "mocha";
 import { getAirportInfo } from "../src/controllers/airportInfo.mjs";
 
 import { AirportInfoDocument } from "../src/models/AirportInfo.mjs";
-import { SuccessResult } from "../src/types/result.mjs";
+import { SuccessResult } from "@customTypes/result.mjs";
 
 describe("Airport info pre-cached data tests", function () {
   let stub: MockAdapter;

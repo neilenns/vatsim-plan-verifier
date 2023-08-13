@@ -56,7 +56,7 @@
       "import ${TM_FILENAME_BASE/(.*)\\..+$/$1/} from \"@controllers/verifiers/${TM_FILENAME_BASE/(.*)\\..+$/$1/}.mjs\";",
       "import { FlightPlanDocument } from \"@models/FlightPlan.mjs\";",
       "import { VerifierResultModel } from \"@models/VerifierResult.mjs\";",
-      "import { SuccessResult } from \"../../src/types/result.mjs\";",
+      "import { SuccessResult } from \"@customTypes/result.mjs\";",
       "import {",
       "  addFlightPlans,",
       "  removeFlightPlans,",
