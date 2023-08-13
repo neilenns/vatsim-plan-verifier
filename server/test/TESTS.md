@@ -80,9 +80,11 @@ Flight plans should be added as part of the set up for each specific test. This 
 
 ## Pilot stats
 
-|            ID            |   CID   |
-| :----------------------: | :-----: |
-| 64d816a144012e5b4de814ae | 1525628 |
+|            ID            |   CID   |  Hours |
+| :----------------------: | :-----: | -----: |
+| 64d816a144012e5b4de814a1 | 1525628 | 135.48 |
+| 64d816a144012e5b4de814a2 | 1525629 |   10.2 |
+| 64d816a144012e5b4de814a3 | 1525630 |      1 |
 
 ## Preferred routes
 

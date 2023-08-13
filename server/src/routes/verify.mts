@@ -21,6 +21,7 @@ import checkForNonStandardEquipmentSuffix from "../controllers/verifiers/checkFo
 import airwaysForEquipmentSuffix from "../controllers/verifiers/airwaysForEquipmentSuffix.mjs";
 import hasSID from "../controllers/verifiers/hasSID.mjs";
 import hasValidFirstFix from "../controllers/verifiers/hasValidFirstFix.mjs";
+import warnNewPilot from "../controllers/verifiers/warnNewPilot.mjs";
 
 import { VerifierResultModel } from "../models/VerifierResult.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
@@ -71,6 +72,7 @@ const verifiers: Verifier[] = [
   { name: "pistonNotSlantLorZ", handler: pistonNotSlantLorZ },
   { name: "checkKPDXtoKSLEAltitude", handler: checkKPDXtoKSLEAltitude },
   { name: "checkSEAvsMONTN", handler: checkSEAvsMONTN },
+  { name: "warnNewPilot", handler: warnNewPilot },
 ];
 
 // Generic handler for verifier routes
