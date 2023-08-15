@@ -160,6 +160,7 @@ export enum VatsimCommsEnum {
 
     if (regexMatch && regexMatch.length > 0) {
       this.airlineCode = regexMatch[1];
+      this.flightNumber = regexMatch[2];
     }
   }
   next();
@@ -230,6 +231,9 @@ export class FlightPlan {
 
   @prop({ required: false })
   airlineCode?: string;
+
+  @prop({ required: false })
+  flightNumber?: string;
 
   @prop({ required: false })
   rawAircraftType?: string;

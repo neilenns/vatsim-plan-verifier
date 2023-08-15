@@ -5,10 +5,16 @@ import ITelephony from "../interfaces/ITelephony.mts";
 type CallsignTooltipProps = {
   callsign: string | undefined;
   telephony: ITelephony | undefined;
+  flightNumber: string | undefined;
   pilotStats: IPilotStats | undefined;
 };
 
-export const CallsignTooltip = ({ callsign, telephony, pilotStats }: CallsignTooltipProps) => {
+export const CallsignTooltip = ({
+  callsign,
+  telephony,
+  flightNumber,
+  pilotStats,
+}: CallsignTooltipProps) => {
   if (!pilotStats) {
     return <>{telephony ? telephony.telephony : ""}</>;
   }
@@ -24,7 +30,7 @@ export const CallsignTooltip = ({ callsign, telephony, pilotStats }: CallsignToo
         }
       >
         <Typography variant="caption" sx={{ cursor: "pointer" }}>
-          <div>{telephony ? telephony.telephony : callsign}</div>
+          <div>{telephony ? `${telephony.telephony} ${flightNumber ?? ""}` : callsign}</div>
         </Typography>
       </Tooltip>
     )

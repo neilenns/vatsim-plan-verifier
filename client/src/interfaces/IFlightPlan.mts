@@ -8,6 +8,7 @@ interface IFlightPlan {
   _id?: string;
   cid?: number;
   callsign?: string;
+  flightNumber?: string;
   rawAircraftType?: string;
   equipmentCode?: string;
   equipmentInfo?: IAircraft;
