@@ -18,14 +18,11 @@ const statusOrder: Record<StatusValue, number> = {
 };
 
 const VerifierResults: React.FC<VerifierResultsProps> = ({ verifierResults, flightPlan }) => {
+  // This method of sorting on multiple properties comes from
+  // https://stackoverflow.com/questions/6913512/how-to-sort-an-array-of-objects-by-multiple-fields/46256174#46256174
   const filteredResults = verifierResults
     ?.filter((result) => result.status !== "Information")
-    ?.sort((a, b) => {
-      if (a.status === b.status) {
-        return a.priority - b.priority;
-      }
-      return statusOrder[a.status] - statusOrder[b.status];
-    });
+    ?.sort((a, b) => statusOrder[a.status] - statusOrder[b.status] || a.priority - b.priority);
 
   return (
     filteredResults &&
