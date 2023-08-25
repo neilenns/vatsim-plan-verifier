@@ -4,7 +4,7 @@
 | ------------ | :-----: | :---: |
 | No DME       |         |  /U   |
 | TACAN        |   /P    |       |
-| DME          |   /A    |  / W  |
+| DME          |   /A    |  /W   |
 | RNAV no GNSS |   /I    |  /Z   |
 | GNSS         |   /G    |  /L   |
 
