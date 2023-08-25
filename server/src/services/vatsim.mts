@@ -14,6 +14,7 @@ import { ENV } from "../env.mjs";
 import _ from "lodash";
 import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
+import { convertFLtoThousands } from "../utils.mjs";
 
 const logger = debug("plan-verifier:vatsimService");
 const updateLogger = debug("vatsim:update");
@@ -43,9 +44,18 @@ function cleanRoute(route: string) {
     .trim();
 }
 
+// Takes a string and converts it to a number. If the conversion
+// fails it returns 0.
 function parseStringToNumber(value: string) {
+  if (!value || value.length === 0) {
+    return 0;
+  }
+
   const convertedValue = Number(value);
-  if (isNaN(convertedValue)) return 0;
+  if (isNaN(convertedValue)) {
+    logger(`Unable to convert ${value} to a number`);
+    return 0;
+  }
   return convertedValue;
 }
 
@@ -60,7 +70,7 @@ function pilotToVatsimModel(pilot: IVatsimPilot) {
     arrival: pilot?.flight_plan?.arrival ?? "",
     latitude: pilot?.latitude,
     longitude: pilot?.longitude,
-    cruiseAltitude: parseStringToNumber(pilot?.flight_plan?.altitude) / 100,
+    cruiseAltitude: parseStringToNumber(convertFLtoThousands(pilot?.flight_plan?.altitude)) / 100,
     route: cleanRoute(pilot?.flight_plan?.route ?? ""),
     squawk: pilot?.flight_plan?.assigned_transponder ?? "",
     remarks: pilot?.flight_plan?.remarks ?? "",
@@ -77,7 +87,7 @@ function processVatsimPrefiles(prefile: IVatsimPrefile) {
     rawAircraftType: prefile?.flight_plan?.aircraft_faa ?? "",
     departure: prefile?.flight_plan?.departure ?? "",
     arrival: prefile?.flight_plan?.arrival ?? "",
-    cruiseAltitude: parseStringToNumber(prefile?.flight_plan?.altitude) / 100,
+    cruiseAltitude: parseStringToNumber(convertFLtoThousands(prefile?.flight_plan?.altitude)) / 100,
     route: cleanRoute(prefile?.flight_plan?.route ?? ""),
     squawk: prefile?.flight_plan?.assigned_transponder ?? "",
     remarks: prefile?.flight_plan?.remarks ?? "",
