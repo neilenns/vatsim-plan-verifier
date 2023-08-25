@@ -18,11 +18,11 @@ const Markdown = ({ children }: MarkdownProps) => {
       children={children}
       remarkPlugins={[remarkGfm]}
       components={{
-        table: ({ children }) => <Table>{children}</Table>,
-        thead: ({ children }) => <TableHead>{children}</TableHead>,
-        tr: ({ children }) => <TableRow>{children}</TableRow>,
-        td: ({ children }) => <TableCell>{children}</TableCell>,
-        tbody: ({ children }) => <TableBody>{children}</TableBody>,
+        table: ({ children, style }) => <Table sx={{ ...style }}>{children}</Table>,
+        thead: ({ children, style }) => <TableHead sx={{ ...style }}>{children}</TableHead>,
+        tr: ({ children, style }) => <TableRow sx={{ ...style }}>{children}</TableRow>,
+        td: ({ children, style }) => <TableCell sx={{ ...style }}>{children}</TableCell>,
+        tbody: ({ children, style }) => <TableBody sx={{ ...style }}>{children}</TableBody>,
         blockquote: CustomBlockquote,
       }}
     />
