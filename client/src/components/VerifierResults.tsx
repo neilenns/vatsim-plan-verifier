@@ -20,8 +20,12 @@ const statusOrder: Record<StatusValue, number> = {
 const VerifierResults: React.FC<VerifierResultsProps> = ({ verifierResults, flightPlan }) => {
   const filteredResults = verifierResults
     ?.filter((result) => result.status !== "Information")
-    ?.sort((a, b) => statusOrder[a.status] - statusOrder[b.status])
-    ?.sort((a, b) => a.priority - b.priority);
+    ?.sort((a, b) => {
+      if (a.status === b.status) {
+        return a.priority - b.priority;
+      }
+      return statusOrder[a.status] - statusOrder[b.status];
+    });
 
   return (
     filteredResults &&
