@@ -23,9 +23,23 @@ export default async function checkForPreferredRoutes(
   try {
     // Bail early if there's no aircraft information.
     if (!isDocument(flightPlan.equipmentInfo)) {
-      result.status = VerifierResultStatus.INFORMATION;
+      result.status = VerifierResultStatus.WARNING;
       result.messageId = "noAircraftInfoForPreferredRoute";
       result.message = `No aircraft information available for ${flightPlan.equipmentCode}, unable to check for preferred routes.`;
+      result.priority = 5;
+
+      const doc = await result.save();
+      return {
+        success: true,
+        data: doc,
+      };
+    }
+
+    // Bail early if there's no equipment suffix
+    if (!flightPlan.equipmentSuffix) {
+      result.status = VerifierResultStatus.WARNING;
+      result.messageId = "noEquipmentSuffixForPreferredRoute";
+      result.message = `No equipment suffix available for ${flightPlan.equipmentCode}, unable to check for preferred routes.`;
       result.priority = 5;
 
       const doc = await result.save();
@@ -96,7 +110,7 @@ export default async function checkForPreferredRoutes(
       data: doc,
     };
   } catch (error) {
-    logger(`Error running checkForPreferredRoutes: error`);
+    logger(`Error running checkForPreferredRoutes: ${error}`);
 
     return {
       success: false,

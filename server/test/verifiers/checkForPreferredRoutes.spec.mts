@@ -64,6 +64,17 @@ const testData = [
     route: "PTLD2 COUGA KRIEG HAWKZ7",
     squawk: "1234",
   },
+  // No equipment suffix
+  {
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b55"),
+    callsign: "ASA42",
+    departure: "KPDX",
+    arrival: "KSEA",
+    cruiseAltitude: 60,
+    rawAircraftType: "B737",
+    route: "PTLD2 COUGA KRIEG HAWKZ7",
+    squawk: "1234",
+  },
 ];
 
 describe("verifier: checkForPreferredRoutes tests", () => {
@@ -82,7 +93,7 @@ describe("verifier: checkForPreferredRoutes tests", () => {
     expect(result.success).to.equal(true);
 
     const data = (result as SuccessResult<VerifierResultDocument>).data;
-    expect(data.status).to.equal(VerifierResultStatus.INFORMATION);
+    expect(data.status).to.equal(VerifierResultStatus.WARNING);
     expect(data.flightPlanPart).to.equal("route");
     expect(data.messageId).to.equal("noAircraftInfoForPreferredRoute");
   });
@@ -149,5 +160,21 @@ describe("verifier: checkForPreferredRoutes tests", () => {
     expect(data.status).to.equal(VerifierResultStatus.ERROR);
     expect(data.flightPlanPart).to.equal("route");
     expect(data.messageId).to.equal("notPreferredRoute");
+  });
+
+  it("should warn no equipment suffix", async () => {
+    const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b55");
+    expect(flightPlan.success).to.equal(true);
+
+    const result = await checkForPreferredRoutes(
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
+    );
+
+    expect(result.success).to.equal(true);
+
+    const data = (result as SuccessResult<VerifierResultDocument>).data;
+    expect(data.status).to.equal(VerifierResultStatus.WARNING);
+    expect(data.flightPlanPart).to.equal("route");
+    expect(data.messageId).to.equal("noEquipmentSuffixForPreferredRoute");
   });
 });
