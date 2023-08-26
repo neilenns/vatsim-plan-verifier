@@ -18,6 +18,7 @@ export const flightPlanVerifyAction: ActionFunction = async ({ params, request }
   // the form data elements. I think, at least.
   const planToSubmit = {
     callsign: formData.get("callsign"),
+    pilotName: formData.get("pilotName"),
     rawAircraftType: formData.get("rawAircraftType"),
     departure: formData.get("departure"),
     arrival: formData.get("arrival"),
