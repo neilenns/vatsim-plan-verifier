@@ -9,6 +9,7 @@ export interface IVatsimGeneralInfo {
 
 export interface IVatsimFlightPlan {
   flight_rules: string;
+  name: string;
   aircraft: string;
   aircraft_faa: string;
   aircraft_short: string;

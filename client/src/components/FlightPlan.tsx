@@ -81,6 +81,7 @@ const FlightPlan = (props: FlightPlanProps) => {
               helperText={
                 <CallsignTooltip
                   callsign={flightPlan.callsign}
+                  pilotName={flightPlan.pilotName}
                   telephony={flightPlan.telephony?.[0]}
                   flightNumber={flightPlan.flightNumber}
                   pilotStats={flightPlan.pilotStats}

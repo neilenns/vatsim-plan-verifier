@@ -7,10 +7,12 @@ type CallsignTooltipProps = {
   telephony: ITelephony | undefined;
   flightNumber: string | undefined;
   pilotStats: IPilotStats | undefined;
+  pilotName: string | undefined;
 };
 
 export const CallsignTooltip = ({
   callsign,
+  pilotName,
   telephony,
   flightNumber,
   pilotStats,
@@ -23,6 +25,8 @@ export const CallsignTooltip = ({
       <Tooltip
         title={
           <div>
+            Name: {pilotName ?? "Unknown"}
+            <br />
             Pilot hours: {Math.round(pilotStats.pilot)}
             <br />
             ATC hours: {Math.round(pilotStats.atc)}
