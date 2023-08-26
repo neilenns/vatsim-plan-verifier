@@ -197,38 +197,40 @@ const VatsimFlightPlans = () => {
         </form>
         {flightPlans.length > 0 && (
           <List dense aria-label="Vatsim flight plans" sx={{ ml: 2 }}>
-            {flightPlans.map((flightPlan) => {
-              return (
-                <ListItem
-                  key={flightPlan._id}
-                  disablePadding
-                  secondaryAction={
-                    <IconButton
-                      edge="end"
-                      aria-label="import"
-                      type="submit"
-                      name="intent"
-                      value="importFlightPlan"
-                      disabled={isImporting}
-                      onClick={() => {
-                        handleFlightPlanImport(flightPlan.callsign);
+            {flightPlans
+              .filter((flightPlan) => flightPlan.importState !== ImportState.IMPORTED)
+              .map((flightPlan) => {
+                return (
+                  <ListItem
+                    key={flightPlan._id}
+                    disablePadding
+                    secondaryAction={
+                      <IconButton
+                        edge="end"
+                        aria-label="import"
+                        type="submit"
+                        name="intent"
+                        value="importFlightPlan"
+                        disabled={isImporting}
+                        onClick={() => {
+                          handleFlightPlanImport(flightPlan.callsign);
+                        }}
+                      >
+                        <ArrowForwardOutlinedIcon />
+                      </IconButton>
+                    }
+                  >
+                    <ListItemText
+                      primary={flightPlan.callsign}
+                      primaryTypographyProps={{
+                        fontWeight: "bold",
+                        color: getColorByStatus(flightPlan.importState),
                       }}
-                    >
-                      <ArrowForwardOutlinedIcon />
-                    </IconButton>
-                  }
-                >
-                  <ListItemText
-                    primary={flightPlan.callsign}
-                    primaryTypographyProps={{
-                      fontWeight: "bold",
-                      color: getColorByStatus(flightPlan.importState),
-                    }}
-                    secondary={`${flightPlan.departure ?? ""}-${flightPlan.arrival ?? ""}`}
-                  />
-                </ListItem>
-              );
-            })}
+                      secondary={`${flightPlan.departure ?? ""}-${flightPlan.arrival ?? ""}`}
+                    />
+                  </ListItem>
+                );
+              })}
             <ListItem />
           </List>
         )}
