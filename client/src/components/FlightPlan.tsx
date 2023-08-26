@@ -276,6 +276,12 @@ const FlightPlan = (props: FlightPlanProps) => {
           defaultValue={flightPlan.remarks}
         />
         <input aria-label="hidden cid" hidden name="cid" defaultValue={flightPlan.cid} />
+        <input
+          aria-label="hidden pilotName"
+          hidden
+          name="pilotName"
+          defaultValue={flightPlan.pilotName}
+        />
       </Form>
     </Box>
   );
