@@ -24,17 +24,17 @@ export const CallsignTooltip = ({
     pilotStats && (
       <Tooltip
         title={
-          <div>
+          <span>
             Name: {pilotName ?? "Unknown"}
             <br />
             Pilot hours: {Math.round(pilotStats.pilot)}
             <br />
             ATC hours: {Math.round(pilotStats.atc)}
-          </div>
+          </span>
         }
       >
         <Typography variant="caption" sx={{ cursor: "pointer" }}>
-          <div>{telephony ? `${telephony.telephony} ${flightNumber ?? ""}` : callsign}</div>
+          <span>{telephony ? `${telephony.telephony} ${flightNumber ?? ""}` : callsign}</span>
         </Typography>
       </Tooltip>
     )
