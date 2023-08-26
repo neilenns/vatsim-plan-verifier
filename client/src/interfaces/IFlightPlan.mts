@@ -7,6 +7,7 @@ import ITelephony from "./ITelephony.mts";
 interface IFlightPlan {
   _id?: string;
   cid?: number;
+  pilotName?: string;
   callsign?: string;
   flightNumber?: string;
   rawAircraftType?: string;

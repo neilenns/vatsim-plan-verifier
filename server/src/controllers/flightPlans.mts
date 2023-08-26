@@ -75,6 +75,7 @@ export async function importFlightPlan(callsign: string): Promise<FlightPlanResu
 
     const flightPlan = {
       cid: vatsimPlan.cid,
+      pilotName: vatsimPlan.pilotName,
       callsign: vatsimPlan.callsign!,
       departure: vatsimPlan.departure!,
       arrival: vatsimPlan.arrival!,

@@ -226,6 +226,9 @@ export class FlightPlan {
   @prop({ required: false })
   cid?: number;
 
+  @prop({ requred: false })
+  pilotName?: string;
+
   @prop({ required: true, index: true, unique: false })
   callsign!: string;
 
