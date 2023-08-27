@@ -18,10 +18,13 @@ class VatsimFlightPlan {
   cid!: number;
 
   @prop({ requred: false })
-  pilotName?: string;
+  name?: string;
 
   @prop({ required: true })
   callsign!: string;
+
+  @prop({ requred: true, default: false })
+  isPrefile!: boolean;
 
   @prop({ required: false })
   flightRules?: string;

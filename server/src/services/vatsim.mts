@@ -28,12 +28,14 @@ let updateTimer: NodeJS.Timeout | undefined;
 // be updated when new data is received.
 const updateProperties = [
   "flightRules",
+  "name",
   "rawAircraftType",
   "departure",
   "arrival",
   "route",
   "squawk",
   "remarks",
+  "isPrefile",
 ] as (keyof VatsimFlightPlanDocument)[];
 
 function cleanRoute(route: string) {
@@ -73,7 +75,8 @@ function pilotToVatsimModel(pilot: IVatsimPilot) {
   }
   return new VatsimFlightPlanModel({
     cid: pilot.cid,
-    pilotName: pilot?.name,
+    name: pilot?.name,
+    isPrefile: false,
     callsign: pilot?.callsign ?? "",
     groundspeed: pilot?.groundspeed ?? "",
     rawAircraftType: pilot?.flight_plan?.aircraft_faa ?? "",
@@ -102,7 +105,8 @@ function processVatsimPrefiles(prefile: IVatsimPrefile) {
   }
   return new VatsimFlightPlanModel({
     cid: prefile.cid,
-    pilotName: `Prefiled by ${prefile?.name ?? "unknown"}`,
+    name: prefile?.name,
+    isPrefile: true,
     callsign: prefile?.callsign ?? "",
     groundspeed: 0,
     rawAircraftType: prefile?.flight_plan?.aircraft_faa ?? "",

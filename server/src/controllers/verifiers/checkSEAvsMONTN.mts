@@ -29,7 +29,7 @@ export default async function checkSEAvsMONTN({
       result.status = VerifierResultStatus.INFORMATION;
       result.message = `No route provided.`;
       result.messageId = "noRoute";
-    } else if (SID !== "SEA8") {
+    } else if (!SID?.startsWith("SEA")) {
       result.status = VerifierResultStatus.INFORMATION;
       result.message = `This test does not apply to flight plans that do not use the SEA8 departure.`;
       result.messageId = "notOnSEA";

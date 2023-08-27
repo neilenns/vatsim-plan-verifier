@@ -3,7 +3,7 @@ import {
   addActiveFlightPlan,
   getActiveFlightPlans,
   removeActiveFlightPlan,
-  removeActiveFlightPlanByFlightPlanId,
+  removeActiveFlightPlanByIdentifiers,
 } from "../controllers/activeFlightPlan.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
@@ -81,14 +81,14 @@ router.delete(
 );
 
 router.delete(
-  "/activeFlightPlans/:flightPlanId",
+  "/activeFlightPlans",
   verifyUser,
   secureQueryMiddleware,
   async (req: Request, res: Response) => {
-    const { flightPlanId } = req.params;
+    const { flightPlanId, callsign } = req.body;
     const { _id: controllerId } = req.user!;
 
-    const result = await removeActiveFlightPlanByFlightPlanId(controllerId, flightPlanId);
+    const result = await removeActiveFlightPlanByIdentifiers(controllerId, flightPlanId, callsign);
 
     if (result.success) {
       res.json(result.data);
@@ -96,7 +96,9 @@ router.delete(
     }
 
     if (result.errorType === "UnknownError") {
-      res.status(404).json({ error: `Unable to remove active flight plan ${flightPlanId}` });
+      res
+        .status(404)
+        .json({ error: `Unable to remove active flight plan ${flightPlanId}/${callsign}` });
     } else {
       res.status(500).json({ error: "Failed to remove an active flight plan." });
     }
