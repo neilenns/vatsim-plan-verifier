@@ -198,7 +198,8 @@ const VatsimFlightPlans = () => {
         {flightPlans.length > 0 && (
           <List dense aria-label="Vatsim flight plans" sx={{ ml: 2 }}>
             {flightPlans
-              .filter((flightPlan) => flightPlan.importState !== ImportState.IMPORTED)
+              // Issue 572: Still not sure if this filtering is the way to go. It should probably be a setting.
+              //              .filter((flightPlan) => flightPlan.importState !== ImportState.IMPORTED)
               .map((flightPlan) => {
                 return (
                   <ListItem
