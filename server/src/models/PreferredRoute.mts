@@ -39,12 +39,32 @@ class PreferredRoute {
     if (!isDocument(flightPlan.equipmentInfo)) {
       return [];
     }
-    return this.find({
-      departure: flightPlan.departure,
-      arrival: flightPlan.arrival,
-      equipmentSuffixes: { $regex: flightPlan.equipmentSuffix },
-      engineTypes: { $regex: flightPlan.equipmentInfo?.engineType },
-    });
+    return this.aggregate([
+      {
+        $match: {
+          departure: flightPlan.departure,
+          arrival: flightPlan.arrival,
+          $and: [
+            {
+              $expr: {
+                $regexMatch: {
+                  input: flightPlan.equipmentSuffix,
+                  regex: "$equipmentSuffixes",
+                },
+              },
+            },
+            {
+              $expr: {
+                $regexMatch: {
+                  input: flightPlan.equipmentInfo?.engineType,
+                  regex: "$engineTypes",
+                },
+              },
+            },
+          ],
+        },
+      },
+    ]);
   }
 }
 
