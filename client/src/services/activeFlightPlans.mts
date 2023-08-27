@@ -16,10 +16,14 @@ export async function getActiveFlightPlans(): Promise<IActiveFlightPlan[] | unde
 }
 
 export async function addActiveFlightPlan(
-  flightPlanId: string
+  flightPlanId: string,
+  callsign?: string
 ): Promise<IActiveFlightPlan[] | undefined> {
   try {
-    const response = await http.post(`activeFlightPlans/${flightPlanId}`, {});
+    const response = await http.post(`activeFlightPlans`, {
+      flightPlanId,
+      callsign,
+    });
 
     if (response.status === 200) {
       return response.data as IActiveFlightPlan[];
