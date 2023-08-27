@@ -196,19 +196,21 @@ export async function removeActiveFlightPlan(id: string): Promise<ActiveFlightPl
   }
 }
 
-export async function removeActiveFlightPlanByFlightPlanId(
+export async function removeActiveFlightPlanByIdentifiers(
   controllerId: string,
-  flightPlanId: string
+  flightPlanId: string,
+  callsign: string
 ): Promise<ActiveFlightPlanResult> {
   try {
     await ActiveFlightPlanModel.findOneAndDelete({ controllerId, flightPlan: flightPlanId });
+    await ActiveFlightPlanModel.findOneAndDelete({ controllerId, callsign });
 
     return { success: true, data: [] };
   } catch (error) {
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Unable to remove active flight plan ${flightPlanId}.`,
+      error: `Unable to remove active flight plan ${flightPlanId}/${callsign}.`,
     };
   }
 }

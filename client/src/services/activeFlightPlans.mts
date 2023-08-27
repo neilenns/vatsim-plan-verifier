@@ -32,10 +32,16 @@ export async function addActiveFlightPlan(
 }
 
 export async function removeActiveFlightPlan(
-  flightPlanId: string
+  flightPlanId: string,
+  callsign?: string
 ): Promise<IActiveFlightPlan[] | undefined> {
   try {
-    const response = await http.delete(`activeFlightPlans/${flightPlanId}`);
+    const response = await http.delete(`activeFlightPlans`, {
+      data: {
+        flightPlanId,
+        callsign,
+      },
+    });
 
     if (response.status === 200) {
       return response.data as IActiveFlightPlan[];
