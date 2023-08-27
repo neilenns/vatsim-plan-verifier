@@ -6,6 +6,15 @@ db.preferredroutes.deleteMany({});
 db.preferredroutes.insertMany([
   {
     departure: "KPDX",
+    arrival: "KPSC",
+    route: "PTLD2 PIQRI V182 LTJ V502 VIRTU",
+    minimumRequiredSpeed: 0,
+    minimumRequiredAltitude: 70,
+    equipmentSuffixes: "[A-Z]",
+    engineTypes: "[PTJ]",
+  },
+  {
+    departure: "KPDX",
     arrival: "KSEA",
     route: "PTLD2 COUGA KRIEG HAWKZ7",
     minimumRequiredAltitude: 120,

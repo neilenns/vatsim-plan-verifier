@@ -40,7 +40,10 @@ export const flightPlanVerifyAction: ActionFunction = async ({ params, request }
     logger(storedFlightPlan);
 
     if (params.id) {
-      await Promise.all([removeActiveFlightPlan(params.id), removeVerifyResults(params.id)]);
+      await Promise.all([
+        removeActiveFlightPlan(params.id, planToSubmit.callsign),
+        removeVerifyResults(params.id),
+      ]);
     }
 
     await addActiveFlightPlan(storedFlightPlan._id);
