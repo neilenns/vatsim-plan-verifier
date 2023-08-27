@@ -17,7 +17,6 @@ import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
 import { convertFLtoThousands } from "../utils.mjs";
 
 const logger = debug("plan-verifier:vatsimService");
-const kpdxLogger = debug("plan-verifier:kpdx");
 const updateLogger = debug("vatsim:update");
 
 let vatsimEndpoints: IVatsimEndpoints | undefined;
@@ -64,15 +63,6 @@ function parseStringToNumber(value: string) {
 
 // Takes a pilot object from vatsim and converts it to a vatsim model
 function pilotToVatsimModel(pilot: IVatsimPilot) {
-  if (pilot.flight_plan?.departure === "KPDX" || pilot.flight_plan?.departure === "KSEA") {
-    kpdxLogger(
-      `Importing ${pilot.flight_plan.departure} flight ${pilot.callsign}:\n${JSON.stringify(
-        pilot,
-        null,
-        2
-      )}`
-    );
-  }
   return new VatsimFlightPlanModel({
     cid: pilot.cid,
     name: pilot?.name,
@@ -94,15 +84,6 @@ function pilotToVatsimModel(pilot: IVatsimPilot) {
 
 // Takes a prefile from vatsim and converts it to a vatsim model.
 function processVatsimPrefiles(prefile: IVatsimPrefile) {
-  if (prefile.flight_plan?.departure === "KPDX" || prefile.flight_plan?.departure === "KSEA") {
-    kpdxLogger(
-      `Importing ${prefile.flight_plan.departure} flight ${prefile.callsign}:\n${JSON.stringify(
-        prefile,
-        null,
-        2
-      )}`
-    );
-  }
   return new VatsimFlightPlanModel({
     cid: prefile.cid,
     name: prefile?.name,
