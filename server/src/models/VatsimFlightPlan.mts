@@ -23,6 +23,9 @@ class VatsimFlightPlan {
   @prop({ required: true })
   callsign!: string;
 
+  @prop({ requred: true, default: false })
+  isPrefile!: boolean;
+
   @prop({ required: false })
   flightRules?: string;
 

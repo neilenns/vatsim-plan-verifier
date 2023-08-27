@@ -224,6 +224,7 @@ const VatsimFlightPlans = () => {
                       primary={flightPlan.callsign}
                       primaryTypographyProps={{
                         fontWeight: "bold",
+                        fontStyle: flightPlan.isPrefile ? "italic" : "",
                         color: getColorByStatus(flightPlan.importState),
                       }}
                       secondary={`${flightPlan.departure ?? ""}-${flightPlan.arrival ?? ""}`}
