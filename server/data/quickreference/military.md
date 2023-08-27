@@ -1,5 +1,17 @@
 # Military
 
+## Formation flights
+
+Lead plane gets a squawk code. All other aircraft squawk standby.
+
+> “N123JP squawk standby.”
+
+or
+
+> “N123SP have N123JP squawk standby.”
+
+*Source: [7110.65 2-1-13 c](https://www.faa.gov/air_traffic/publications/atpubs/atc_html/chap2_section_1.html)*
+
 ## Takeoff (except cargo)
 
 > Winds {wind} runway {runway}, cleared for takeoff, change to departure.
