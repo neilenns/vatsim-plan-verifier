@@ -217,10 +217,11 @@ export async function removeActiveFlightPlanByIdentifiers(
 
 export async function addActiveFlightPlan(
   controllerId: string,
-  flightPlanId: string
+  flightPlanId: string,
+  callsign: string
 ): Promise<ActiveFlightPlanResult> {
   try {
-    const newPlan = new ActiveFlightPlanModel({ controllerId, flightPlan: flightPlanId });
+    const newPlan = new ActiveFlightPlanModel({ controllerId, flightPlan: flightPlanId, callsign });
     const savedPlan = await newPlan.save();
 
     if (savedPlan) {
@@ -229,18 +230,18 @@ export async function addActiveFlightPlan(
       return {
         success: false,
         errorType: "UnknownError",
-        error: `Unable to save active flight plan ${flightPlanId} for controller ${controllerId}.`,
+        error: `Unable to save active flight plan ${flightPlanId}/${callsign} for controller ${controllerId}.`,
       };
     }
   } catch (error) {
     logger(
-      `Unable to save active flight plan ${flightPlanId} for controller ${controllerId}: ${error}`
+      `Unable to save active flight plan ${flightPlanId}/${callsign} for controller ${controllerId}: ${error}`
     );
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Unable to save active flight plan ${flightPlanId} for controller ${controllerId}: ${error}`,
+      error: `Unable to save active flight plan ${flightPlanId}/${callsign} for controller ${controllerId}: ${error}`,
     };
   }
 }

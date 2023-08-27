@@ -12,6 +12,9 @@ export class ActiveFlightPlan {
   @prop({ required: true })
   controllerId!: mongoose.Types.ObjectId;
 
+  @prop({ required: true })
+  callsign!: string;
+
   @prop({ ref: () => FlightPlan, required: true, unique: true })
   flightPlan!: FlightPlan;
 
