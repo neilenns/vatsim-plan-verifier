@@ -34,6 +34,7 @@ const updateProperties = [
   "route",
   "squawk",
   "remarks",
+  "isPrefile",
 ] as (keyof VatsimFlightPlanDocument)[];
 
 function cleanRoute(route: string) {
@@ -65,6 +66,7 @@ function pilotToVatsimModel(pilot: IVatsimPilot) {
   return new VatsimFlightPlanModel({
     cid: pilot.cid,
     name: pilot?.name,
+    isPrefile: false,
     callsign: pilot?.callsign ?? "",
     groundspeed: pilot?.groundspeed ?? "",
     rawAircraftType: pilot?.flight_plan?.aircraft_faa ?? "",
@@ -85,6 +87,7 @@ function processVatsimPrefiles(prefile: IVatsimPrefile) {
   return new VatsimFlightPlanModel({
     cid: prefile.cid,
     name: prefile?.name,
+    isPrefile: true,
     callsign: prefile?.callsign ?? "",
     groundspeed: 0,
     rawAircraftType: prefile?.flight_plan?.aircraft_faa ?? "",
