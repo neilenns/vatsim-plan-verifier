@@ -34,14 +34,14 @@ router.get(
 );
 
 router.post(
-  "/activeFlightPlans/:flightPlanId",
+  "/activeFlightPlans",
   verifyUser,
   secureQueryMiddleware,
   async (req: Request, res: Response) => {
-    const { flightPlanId } = req.params;
+    const { flightPlanId, callsign } = req.body;
     const { _id: controllerId } = req.user!;
 
-    const result = await addActiveFlightPlan(controllerId, flightPlanId);
+    const result = await addActiveFlightPlan(controllerId, flightPlanId, callsign);
 
     if (result.success) {
       res.json(result.data);
@@ -51,7 +51,9 @@ router.post(
     if (result.errorType === "UnknownError") {
       res
         .status(404)
-        .json({ error: `Unable to add ${flightPlanId} for controller ${controllerId}.` });
+        .json({
+          error: `Unable to add ${flightPlanId}/${callsign} for controller ${controllerId}.`,
+        });
     } else {
       res.status(500).json({ error: "Failed to add an active flight plan." });
     }
