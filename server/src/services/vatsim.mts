@@ -35,6 +35,7 @@ const updateProperties = [
   "squawk",
   "remarks",
   "isPrefile",
+  "cruiseAltitude",
 ] as (keyof VatsimFlightPlanDocument)[];
 
 function cleanRoute(route: string) {
@@ -48,7 +49,11 @@ function cleanRoute(route: string) {
 
 // Takes a string and converts it to a number. If the conversion
 // fails it returns 0.
-function parseStringToNumber(value: string) {
+function parseStringToNumber(value: string, airport: string) {
+  if (airport === "KPDX") {
+    logger(`Converting ${value} to a number`);
+  }
+
   if (!value || value.length === 0) {
     return 0;
   }
@@ -63,6 +68,9 @@ function parseStringToNumber(value: string) {
 
 // Takes a pilot object from vatsim and converts it to a vatsim model
 function pilotToVatsimModel(pilot: IVatsimPilot) {
+  if (pilot?.flight_plan?.departure === "KPDX") {
+    logger(`Storing vatsim plan for ${pilot?.callsign}: ${JSON.stringify(pilot, null, 2)}`);
+  }
   return new VatsimFlightPlanModel({
     cid: pilot.cid,
     name: pilot?.name,
@@ -74,7 +82,11 @@ function pilotToVatsimModel(pilot: IVatsimPilot) {
     arrival: pilot?.flight_plan?.arrival ?? "",
     latitude: pilot?.latitude,
     longitude: pilot?.longitude,
-    cruiseAltitude: parseStringToNumber(convertFLtoThousands(pilot?.flight_plan?.altitude)) / 100,
+    cruiseAltitude:
+      parseStringToNumber(
+        convertFLtoThousands(pilot?.flight_plan?.altitude),
+        pilot?.flight_plan?.departure
+      ) / 100,
     route: cleanRoute(pilot?.flight_plan?.route ?? ""),
     squawk: pilot?.flight_plan?.assigned_transponder ?? "",
     remarks: pilot?.flight_plan?.remarks ?? "",
@@ -84,6 +96,9 @@ function pilotToVatsimModel(pilot: IVatsimPilot) {
 
 // Takes a prefile from vatsim and converts it to a vatsim model.
 function processVatsimPrefiles(prefile: IVatsimPrefile) {
+  if (prefile?.flight_plan?.departure === "KPDX") {
+    logger(`Storing vatsim prefile for ${prefile?.callsign}: ${JSON.stringify(prefile, null, 2)}`);
+  }
   return new VatsimFlightPlanModel({
     cid: prefile.cid,
     name: prefile?.name,
@@ -93,7 +108,11 @@ function processVatsimPrefiles(prefile: IVatsimPrefile) {
     rawAircraftType: prefile?.flight_plan?.aircraft_faa ?? "",
     departure: prefile?.flight_plan?.departure ?? "",
     arrival: prefile?.flight_plan?.arrival ?? "",
-    cruiseAltitude: parseStringToNumber(convertFLtoThousands(prefile?.flight_plan?.altitude)) / 100,
+    cruiseAltitude:
+      parseStringToNumber(
+        convertFLtoThousands(prefile?.flight_plan?.altitude),
+        prefile?.flight_plan?.departure
+      ) / 100,
     route: cleanRoute(prefile?.flight_plan?.route ?? ""),
     squawk: prefile?.flight_plan?.assigned_transponder ?? "",
     remarks: prefile?.flight_plan?.remarks ?? "",
