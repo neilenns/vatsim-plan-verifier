@@ -17,7 +17,7 @@ import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
 import { convertFLtoThousands } from "../utils.mjs";
 import { getVatsimEndpoints } from "./vatsim.mjs";
 
-const logger = debug("plan-verifier:vatsimService");
+const logger = debug("plan-verifier:vatsimFlightPlans");
 const updateLogger = debug("vatsim:update");
 
 let vatsimEndpoints: IVatsimEndpoints | undefined;

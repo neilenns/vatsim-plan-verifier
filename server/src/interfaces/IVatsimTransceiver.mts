@@ -1,4 +1,4 @@
-interface Transceiver {
+export interface ITransceiver {
   id: number;
   frequency: number;
   latDeg: number;
@@ -7,7 +7,7 @@ interface Transceiver {
   heightAglM: number;
 }
 
-interface TunedTransceivers {
+export interface ITunedTransceivers {
   callsign: string;
-  transceivers: Transceiver[];
+  transceivers: ITransceiver[];
 }
