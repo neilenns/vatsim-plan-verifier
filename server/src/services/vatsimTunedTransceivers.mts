@@ -76,7 +76,7 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
       const dbEntry = new TunedTransceiversModel({
         callsign: client.callsign,
         transceivers: client.transceivers.map((transceiver) => {
-          return { ...transceiver, frequency: (transceiver.frequency / 1000000).toFixed(3) };
+          return { ...transceiver, frequency: transceiver.frequency / 1000000 };
         }),
       });
       await dbEntry.save();
