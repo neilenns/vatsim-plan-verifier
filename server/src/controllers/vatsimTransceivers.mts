@@ -27,6 +27,8 @@ export async function getTunedTransceiversForCallsign(
       logger(`Tuned transceivers data is out of date. Refreshing...`);
       await getVatsimTunedTransceivers();
       lastDataUpdateTime = Date.now();
+    } else {
+      logger(`Using cached transceiver data`);
     }
 
     const cachedData = await TunedTransceiversModel.findOne({ callsign });
