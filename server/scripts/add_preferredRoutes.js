@@ -420,8 +420,8 @@ db.preferredroutes.insertMany([
     route: "{RADAR VECTORS} SSHAM",
     minimumRequiredAltitude: 29,
     minimumRequiredSpeed: 0,
-    equipmentSuffixes: "[TJ]",
-    engineTypes: "[GL]",
+    equipmentSuffixes: "[GL]",
+    engineTypes: "[PTJ]",
     remarks: "GPS only. Requires P80 approval.",
   },
   {

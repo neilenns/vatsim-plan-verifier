@@ -38,6 +38,9 @@ with open(filename, "r") as file:
         if "commonEquipmentSuffixes" in doc:
             doc["commonEquipmentSuffixes"] = doc["commonEquipmentSuffixes"].split()
 
+        if "maxCruiseSpeed" in doc:
+            doc["maxCruiseSpeed"] = int(doc["maxCruiseSpeed"])
+            
         # Remove unnecessary columns
         doc.pop("KPDXIfrAltitude");
         doc.pop("KPDXVfrAltitude");

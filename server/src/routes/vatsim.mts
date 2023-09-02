@@ -3,8 +3,28 @@ import { verifyUser } from "../middleware/permissions.mjs";
 import { getVatsimFlightPlans, getVatsimPilotStats } from "../controllers/vatsim.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
 import { VatsimFlightStatus } from "../models/VatsimFlightPlan.mjs";
+import { getTunedTransceiversForCallsign } from "../controllers/vatsimTransceivers.mjs";
 
 const router = express.Router();
+
+router.get(
+  "/vatsim/transceivers/:callsign",
+  secureQueryMiddleware,
+  async (req: Request, res: Response) => {
+    const result = await getTunedTransceiversForCallsign(req.params.callsign);
+
+    if (result.success) {
+      res.json(result.data);
+      return;
+    }
+
+    if (result.errorType === "CallsignNotFound") {
+      res.status(404).json({ error: `Callsign ${req.params.callsign} not found.` });
+    } else {
+      res.status(500).json({ error: "Failed to get the transceiversz." });
+    }
+  }
+);
 
 router.get(
   "/vatsim/pilots/:cid",

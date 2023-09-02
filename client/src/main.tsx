@@ -26,6 +26,8 @@ import Users from "./pages/Users.tsx";
 import { usersLoader } from "./services/usersLoader.mts";
 import QuickReference from "./pages/QuickReference.tsx";
 import { quickReferenceLoader } from "./services/quickReferenceLoader.mts";
+import { clientTransceiversLoader } from "./services/clientTransceiversLoader.mts";
+import ClientTransceivers from "./pages/ClientTransceivers.tsx";
 
 const router = createBrowserRouter([
   {
@@ -70,6 +72,12 @@ const router = createBrowserRouter([
   {
     element: <App />,
     children: [
+      {
+        path: "/transceivers/:callsign",
+        element: <ClientTransceivers />,
+        loader: clientTransceiversLoader,
+        errorElement: <ErrorPage />,
+      },
       {
         path: "/verifier",
         element: <AuthenticationGuard role="user" component={<Verifier />} />,
