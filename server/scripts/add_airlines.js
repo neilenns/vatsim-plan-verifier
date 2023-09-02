@@ -2329,10 +2329,6 @@ db.airlines.insertMany([
     telephony: "AMIRI",
   },
   {
-    airlineCode: "AMZ",
-    telephony: "PRIME AIR",
-  },
-  {
     airlineCode: "AJB",
     telephony: "AMJET",
   },
