@@ -74,7 +74,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/transceivers/:callsign",
-        element: <AuthenticationGuard role="user" component={<ClientTransceivers />} />,
+        element: <ClientTransceivers />,
         loader: clientTransceiversLoader,
         errorElement: <ErrorPage />,
       },
