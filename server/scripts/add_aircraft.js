@@ -174,16 +174,6 @@ db.aircraft.insertMany([
     aircraftClass: "U",
   },
   {
-    equipmentCode: "AT46",
-    manufacturer: "AEROSPATIALE",
-    name: "ATR-42-600",
-    engineCount: "2",
-    engineType: "T",
-    weightClass: "L",
-    srsClass: "III",
-    aircraftClass: "U",
-  },
-  {
     equipmentCode: "AT72",
     manufacturer: "AEROSPATIALE",
     name: "ATR-72",
@@ -643,9 +633,9 @@ db.aircraft.insertMany([
     engineType: "T",
     weightClass: "S+",
     srsClass: "III",
-    aircraftClass: "L",
     maxCruiseSpeed: "312",
     commonEquipmentSuffixes: ["L"],
+    aircraftClass: "L",
   },
   {
     equipmentCode: "BE10",
@@ -1978,7 +1968,7 @@ db.aircraft.insertMany([
   {
     equipmentCode: "CL60",
     manufacturer: "BOMBARDIER",
-    name: "Challenger 600",
+    name: "CL-600/Challenger 699/601/604(CC-144, CE-144)",
     engineCount: "2",
     engineType: "J",
     weightClass: "L",
@@ -2318,7 +2308,7 @@ db.aircraft.insertMany([
   {
     equipmentCode: "C303",
     manufacturer: "CESSNA",
-    name: "T303 Crusader",
+    name: "T303 Crusader!!! NO RNAV !!! ",
     engineCount: "2",
     engineType: "P",
     weightClass: "S",
@@ -2328,7 +2318,7 @@ db.aircraft.insertMany([
   {
     equipmentCode: "C310",
     manufacturer: "CESSNA",
-    name: "310, T310 (U-3, L-27)",
+    name: "310, T310 (U-3, L-27)!!! NO RNAV !!! ",
     engineCount: "2",
     engineType: "P",
     weightClass: "S",
@@ -5100,7 +5090,9 @@ db.aircraft.insertMany([
     engineType: "P",
     weightClass: "S",
     srsClass: "I",
-    aircraftClass: "U",
+    maxCruiseSpeed: "242",
+    commonEquipmentSuffixes: ["A", "G"],
+    aircraftClass: "S",
   },
   {
     equipmentCode: "M22",
@@ -7051,7 +7043,7 @@ db.aircraft.insertMany([
   {
     equipmentCode: "TBM9",
     manufacturer: "AEROSPATIALE",
-    name: "TBM 900",
+    name: "TBM 900 !!! NO HAWKZ7 !!!",
     engineCount: "1",
     engineType: "T",
     weightClass: "S",
