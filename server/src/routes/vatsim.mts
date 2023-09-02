@@ -9,7 +9,6 @@ const router = express.Router();
 
 router.get(
   "/vatsim/transceivers/:callsign",
-  verifyUser,
   secureQueryMiddleware,
   async (req: Request, res: Response) => {
     const result = await getTunedTransceiversForCallsign(req.params.callsign);
