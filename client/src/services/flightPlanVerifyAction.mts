@@ -6,6 +6,7 @@ import { addActiveFlightPlan, removeActiveFlightPlan } from "../services/activeF
 import { removeVerifyResults } from "../services/verifyResults.mts";
 import debug from "debug";
 import Result from "../types/result.mts";
+import { cleanRoute } from "../utils/flightPlanParser";
 
 const logger = debug("plan-verifier:flightPlanVerifyAction");
 
@@ -23,7 +24,7 @@ export const flightPlanVerifyAction: ActionFunction = async ({ params, request }
     departure: formData.get("departure"),
     arrival: formData.get("arrival"),
     squawk: formData.get("squawk"),
-    route: formData.get("route"),
+    route: cleanRoute((formData.get("route") as string) ?? ""),
     cruiseAltitude: formData.get("cruiseAltitude")?.toString().replace(/^FL/, ""), // In case someone enters the cruise altitude as "FL360"
     remarks: formData.get("remarks"),
     cid: Number(formData.get("cid")),
