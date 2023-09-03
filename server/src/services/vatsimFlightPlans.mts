@@ -60,8 +60,13 @@ function parseStringToNumber(value: string) {
   return convertedValue;
 }
 
+const testAirports = ["KSEA", "KPDX"];
+
 // Takes a pilot object from vatsim and converts it to a vatsim model
 function pilotToVatsimModel(pilot: IVatsimPilot) {
+  if (testAirports.includes(pilot.flight_plan?.departure)) {
+    logger(`Storing vatsim flight plan: ${JSON.stringify(pilot, null, 2)}`);
+  }
   return new VatsimFlightPlanModel({
     cid: pilot.cid,
     name: pilot?.name,
@@ -83,6 +88,9 @@ function pilotToVatsimModel(pilot: IVatsimPilot) {
 
 // Takes a prefile from vatsim and converts it to a vatsim model.
 function processVatsimPrefiles(prefile: IVatsimPrefile) {
+  if (testAirports.includes(prefile.flight_plan?.departure)) {
+    logger(`Storing vatsim prefile: ${JSON.stringify(prefile, null, 2)}`);
+  }
   return new VatsimFlightPlanModel({
     cid: prefile.cid,
     name: prefile?.name,
