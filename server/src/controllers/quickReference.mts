@@ -38,7 +38,9 @@ export async function getQuickReference(key: string): Promise<QuickReferenceResu
 
 export async function getQuickReferenceList(): Promise<QuickReferenceListResult> {
   try {
-    const quickReference = await QuickReferenceModel.find({}).select({ key: 1, label: 1 });
+    const quickReference = await QuickReferenceModel.find({})
+      .select({ key: 1, label: 1 })
+      .sort({ label: 1 });
 
     if (quickReference) {
       return { success: true, data: quickReference };
