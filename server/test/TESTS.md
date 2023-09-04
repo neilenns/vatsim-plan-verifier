@@ -6,6 +6,7 @@
 	- [Airports](#airports)
 	- [Extended airport information](#extended-airport-information)
 	- [Magnetic declination](#magnetic-declination)
+	- [METAR](#metar)
 	- [Airlines](#airlines)
 	- [Departures](#departures)
 	- [FlightAware routes](#flightaware-routes)
@@ -56,6 +57,14 @@ Flight plans should be added as part of the set up for each specific test. This 
 | :----------------------: | :----------: |
 | 5f9f7b9b9b3b3c1b3c1b3c1b |     KPDX     |
 | 5f9f7b9b9b3b3c1b3c1b3c1c |     KSEA     |
+
+## METAR
+
+|            ID            | Airport Code | Altimeter |
+| :----------------------: | :----------: | :-------: |
+| 5f9f7b9b9b3b3c1b3c1b3c1b |     KSEA     |   29.95   |
+| 5f9f7b9b9b3b3c1b3c1b3c1c |     KGEG     |   29.91   |
+| 5f9f7b9b9b3b3c1b3c1b3c1d |     KPDX     |   28.91   |
 
 ## Airlines
 

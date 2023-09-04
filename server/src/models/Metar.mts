@@ -45,8 +45,8 @@ export class Metar extends defaultClasses.TimeStamps {
 
     const currentTime = Date.now();
     const timeDifference = currentTime - this.updatedAt.getTime();
-    // const cacheExpiryTime = 15 * 60 * 1000; // 15 minutes
-    const cacheExpiryTime = 1 * 60 * 1000; // 1 minute
+    const cacheExpiryTime = 15 * 60 * 1000; // 15 minutes
+    // const cacheExpiryTime = 1 * 60 * 1000; // 1 minute
 
     if (timeDifference > cacheExpiryTime) {
       logger(`Cached metar for ${this.icao} is expired.`);
