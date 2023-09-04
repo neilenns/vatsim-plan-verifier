@@ -21,7 +21,7 @@ router.get(
     if (result.errorType === "CallsignNotFound") {
       res.status(404).json({ error: `Callsign ${req.params.callsign} not found.` });
     } else {
-      res.status(500).json({ error: "Failed to get the transceiversz." });
+      res.status(500).json({ error: "Failed to get the transceivers." });
     }
   }
 );
