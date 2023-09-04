@@ -43,6 +43,7 @@ import vatsimRouter from "./routes/vatsim.mjs";
 import extendedAirportInfoRouter from "./routes/extendedAirportInfo.mjs";
 import quickReferenceRouter from "./routes/quickReference.mjs";
 import airportInfoRouter from "./routes/airportInfo.mjs";
+import flybywireRouter from "./routes/flybywire.mjs";
 
 export const app = express();
 let server: https.Server | Server;
@@ -126,6 +127,7 @@ export function startServer(port: number): void {
   app.use(quickReferenceRouter);
   app.use(userRouter);
   app.use(vatsimRouter);
+  app.use(flybywireRouter);
 
   // Verifier routes
   app.use(verifyRouter);
