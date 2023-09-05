@@ -1,5 +1,4 @@
-import { DocumentType } from "@typegoose/typegoose";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
 import { IVatsimData, IVatsimPilot, IVatsimPrefile } from "../interfaces/IVatsimData.mjs";
 import {
@@ -14,7 +13,7 @@ import { ENV } from "../env.mjs";
 import _ from "lodash";
 import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
-import { convertFLtoThousands } from "../utils.mjs";
+import { convertFLtoThousands, parseStringToNumber } from "../utils.mjs";
 import { getVatsimEndpoints } from "./vatsim.mjs";
 
 const logger = debug("plan-verifier:vatsimFlightPlans");
@@ -46,28 +45,15 @@ function cleanRoute(route: string) {
     .replace(/\s+/g, " "); // Issue 601: Get rid of any multiple spaces between route parts
 }
 
-// Takes a string and converts it to a number. If the conversion
-// fails it returns 0.
-function parseStringToNumber(value: string) {
-  if (!value || value.length === 0) {
-    return 0;
-  }
-
-  const convertedValue = Number(value);
-  if (isNaN(convertedValue)) {
-    logger(`Unable to convert ${value} to a number`);
-    return 0;
-  }
-  return convertedValue;
-}
-
-const testAirports = ["KSEA", "KPDX"];
+const testAirports = ["KPDX"];
 
 // Takes a pilot object from vatsim and converts it to a vatsim model
 function pilotToVatsimModel(pilot: IVatsimPilot) {
   if (testAirports.includes(pilot.flight_plan?.departure)) {
     logger(`Storing vatsim flight plan: ${JSON.stringify(pilot, null, 2)}`);
   }
+
+  const departure = pilot?.flight_plan?.departure ?? "";
   return new VatsimFlightPlanModel({
     cid: pilot.cid,
     name: pilot?.name,
@@ -79,7 +65,11 @@ function pilotToVatsimModel(pilot: IVatsimPilot) {
     arrival: pilot?.flight_plan?.arrival ?? "",
     latitude: pilot?.latitude,
     longitude: pilot?.longitude,
-    cruiseAltitude: parseStringToNumber(convertFLtoThousands(pilot?.flight_plan?.altitude)) / 100,
+    cruiseAltitude:
+      parseStringToNumber(
+        convertFLtoThousands(pilot?.flight_plan?.altitude, departure),
+        departure
+      ) / 100,
     route: cleanRoute(pilot?.flight_plan?.route ?? ""),
     squawk: pilot?.flight_plan?.assigned_transponder ?? "",
     remarks: pilot?.flight_plan?.remarks ?? "",
@@ -92,6 +82,8 @@ function processVatsimPrefiles(prefile: IVatsimPrefile) {
   if (testAirports.includes(prefile.flight_plan?.departure)) {
     logger(`Storing vatsim prefile: ${JSON.stringify(prefile, null, 2)}`);
   }
+
+  const departure = prefile?.flight_plan?.departure ?? "";
   return new VatsimFlightPlanModel({
     cid: prefile.cid,
     name: prefile?.name,
@@ -101,7 +93,11 @@ function processVatsimPrefiles(prefile: IVatsimPrefile) {
     rawAircraftType: prefile?.flight_plan?.aircraft_faa ?? "",
     departure: prefile?.flight_plan?.departure ?? "",
     arrival: prefile?.flight_plan?.arrival ?? "",
-    cruiseAltitude: parseStringToNumber(convertFLtoThousands(prefile?.flight_plan?.altitude)) / 100,
+    cruiseAltitude:
+      parseStringToNumber(
+        convertFLtoThousands(prefile?.flight_plan?.altitude, departure),
+        departure
+      ) / 100,
     route: cleanRoute(prefile?.flight_plan?.route ?? ""),
     squawk: prefile?.flight_plan?.assigned_transponder ?? "",
     remarks: prefile?.flight_plan?.remarks ?? "",
