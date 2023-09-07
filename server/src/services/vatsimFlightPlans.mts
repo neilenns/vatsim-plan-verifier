@@ -33,6 +33,7 @@ const updateProperties = [
   "squawk",
   "remarks",
   "isPrefile",
+  "cruiseAltitude",
 ] as (keyof VatsimFlightPlanDocument)[];
 
 function cleanRoute(route: string) {
