@@ -9,18 +9,18 @@
   // during production builds by the tsconfig-build.json file.
   "include": ["src/**/*", "test/**/*"],
   "compilerOptions": {
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@models/*": ["models/*"],
-      "@controllers/*": ["controllers/*"],
-      "@routes/*": ["routes/*"],
-      "@middleware/*": ["middleware/*"],
-      "@configs/*": ["configs/*"],
-      "@customTypes/*": ["types/*"],
-      "@utils/*": ["utils/*"],
-      "@services/*": ["services/*"],
-      "@interfaces/*": ["interfaces/*"],
-      "@app/*": ["./*"]
+      "@models/*": ["./src/models/*"],
+      "@controllers/*": ["./src/controllers/*"],
+      "@routes/*": ["./src/routes/*"],
+      "@middleware/*": ["./src/middleware/*"],
+      "@configs/*": ["./src/configs/*"],
+      "@customTypes/*": ["./src/types/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@services/*": ["./src/services/*"],
+      "@interfaces/*": ["./src/interfaces/*"],
+      "@app/*": ["./src/*"]
     },
     "target": "es2020" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
     "experimentalDecorators": true /* Enable experimental support for legacy experimental decorators. */,
