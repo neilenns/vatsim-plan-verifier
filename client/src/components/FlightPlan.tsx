@@ -80,6 +80,7 @@ const FlightPlan = (props: FlightPlanProps) => {
               value={flightPlan.callsign ?? ""}
               helperText={
                 <CallsignTooltip
+                  cid={flightPlan.cid}
                   callsign={flightPlan.callsign}
                   pilotName={flightPlan.pilotName}
                   telephony={flightPlan.telephony?.[0]}
