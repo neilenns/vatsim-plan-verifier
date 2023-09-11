@@ -1088,7 +1088,7 @@ db.departures.insertMany([
     AirportCode: "KSEA",
     SID: "HAROB6",
     Telephony: "HAROB SIX",
-    Fixes: ["HAROB", "HQM", "ERAVE", "HISKU"],
+    Fixes: ["HAROB", "HQM", "FEPOT", "ERAVE", "HISKU"],
     InitialPhrasing: "ClimbViaSidExceptMaintain",
     InitialAltitudes: [
       {
