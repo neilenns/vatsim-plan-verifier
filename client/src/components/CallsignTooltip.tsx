@@ -1,4 +1,4 @@
-import { Tooltip, Typography } from "@mui/material";
+import { Link, Tooltip, Typography } from "@mui/material";
 import { IPilotStats } from "../interfaces/IPilotStats.mts";
 import ITelephony from "../interfaces/ITelephony.mts";
 
@@ -7,7 +7,8 @@ type CallsignTooltipProps = {
   telephony: ITelephony | undefined;
   flightNumber: string | undefined;
   pilotStats: IPilotStats | undefined;
-  pilotName: string | undefined;
+  pilotName: number | undefined;
+  cid: string | undefined;
 };
 
 export const CallsignTooltip = ({
@@ -16,6 +17,7 @@ export const CallsignTooltip = ({
   telephony,
   flightNumber,
   pilotStats,
+  cid,
 }: CallsignTooltipProps) => {
   if (!pilotStats) {
     return <>{telephony ? telephony.telephony : ""}</>;
@@ -34,7 +36,14 @@ export const CallsignTooltip = ({
         }
       >
         <Typography variant="caption" sx={{ cursor: "pointer" }}>
-          <span>{telephony ? `${telephony.telephony} ${flightNumber ?? ""}` : callsign}</span>
+          <Link
+            href={`http://stats.vatsim.net/stats/${cid ?? ""}`}
+            target="_blank"
+            rel="noreferrer"
+            underline="hover"
+          >
+            {telephony ? `${telephony?.telephony} ${flightNumber ?? ""}` : callsign}
+          </Link>
         </Typography>
       </Tooltip>
     )
