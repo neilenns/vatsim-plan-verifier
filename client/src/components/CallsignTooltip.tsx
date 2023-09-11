@@ -7,8 +7,8 @@ type CallsignTooltipProps = {
   telephony: ITelephony | undefined;
   flightNumber: string | undefined;
   pilotStats: IPilotStats | undefined;
-  pilotName: number | undefined;
-  cid: string | undefined;
+  pilotName: string | undefined;
+  cid: number | undefined;
 };
 
 export const CallsignTooltip = ({
