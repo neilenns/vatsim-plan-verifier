@@ -33,6 +33,7 @@ export function hyperlinkSidName(flightPlan: IFlightPlan): ReactNode {
         href={flightPlan.SIDInformation.Charts["skyvector"]}
         target="_blank"
         rel="noopener noreferrer"
+        underline="hover"
       >
         {flightPlan.SIDInformation.Telephony}
       </Link>{" "}
