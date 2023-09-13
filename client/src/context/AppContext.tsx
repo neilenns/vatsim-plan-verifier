@@ -20,6 +20,8 @@ export type SetUserFunction = Dispatch<SetStateAction<Partial<IUser> | undefined
 type AppContext = {
   muted: boolean;
   setMuted: Dispatch<SetStateAction<boolean>>;
+  autoHideImported: boolean;
+  setAutoHideImported: Dispatch<SetStateAction<boolean>>;
 };
 
 const initialContext: AppContext = {
@@ -27,19 +29,33 @@ const initialContext: AppContext = {
   setMuted: () => {
     throw new Error("setMuted function must be overridden");
   },
+  autoHideImported: false,
+  setAutoHideImported: () => {
+    throw new Error("setAutoHideImported function must be overridden");
+  },
 };
 
 const AppContext = createContext<AppContext>(initialContext);
 
 export const AppContextProvider = ({ children }: Props): JSX.Element => {
   const [muted, setMuted] = useState(localStorage.getItem("muted") === "true");
+  const [autoHideImported, setAutoHideImported] = useState(
+    localStorage.getItem("autoHideImported") === "true"
+  );
 
   // Save to local storage so on page refresh this isn't lost. So dumb. Why do people use context?
   useEffect(() => {
     localStorage.setItem("muted", muted.toString());
   }, [muted]);
 
-  const value = useMemo(() => ({ muted, setMuted }), [muted]);
+  useEffect(() => {
+    localStorage.setItem("autoHideImported", autoHideImported.toString());
+  }, [autoHideImported]);
+
+  const value = useMemo(
+    () => ({ muted, setMuted, autoHideImported, setAutoHideImported }),
+    [muted, autoHideImported]
+  );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

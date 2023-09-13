@@ -12,6 +12,7 @@ import pluralize from "pluralize";
 import AlertSnackbar, { AlertSnackBarOnClose, AlertSnackbarProps } from "./AlertSnackbar";
 import { getColorByStatus, processFlightPlans } from "../utils/vatsim.mts";
 import { useAudio } from "./AudioHook";
+import useAppContext from "../context/AppContext";
 
 const logger = debug("plan-verifier:vatsimFlightPlans");
 
@@ -31,6 +32,7 @@ const VatsimFlightPlans = () => {
   const [hasNew, setHasNew] = useState(false);
   const [hasUpdates, setHasUpdates] = useState(false);
   const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
+  const { autoHideImported } = useAppContext();
   const socketRef = useRef<Socket | null>(null);
 
   const handleSnackbarClose: AlertSnackBarOnClose = () => setSnackbar(null);
@@ -224,8 +226,13 @@ const VatsimFlightPlans = () => {
         {flightPlans.length > 0 && (
           <List dense aria-label="Vatsim flight plans" sx={{ ml: 2 }}>
             {flightPlans
-              // Issue 572: Still not sure if this filtering is the way to go. It should probably be a setting.
-              //              .filter((flightPlan) => flightPlan.importState !== ImportState.IMPORTED)
+              // Issue 630: Filter out imported flight plans, but only if auto-hide imported
+              // is enabled in settings.
+              .filter(
+                (flightPlan) =>
+                  !autoHideImported ||
+                  (autoHideImported && flightPlan.importState !== ImportState.IMPORTED)
+              )
               .map((flightPlan) => {
                 return (
                   <ListItem
