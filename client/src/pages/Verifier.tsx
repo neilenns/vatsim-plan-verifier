@@ -15,14 +15,18 @@ import {
   Help as HelpIcon,
   VolumeMute as UnmutedIcon,
   VolumeOff as MutedIcon,
+  Settings as SettingsIcon,
 } from "@mui/icons-material";
 import NavMenu from "../components/NavMenu";
 import VatsimFlightPlans from "../components/VatsimFlightPlans";
 import useAppContext from "../context/AppContext";
+import { useState } from "react";
+import { SettingsDialog } from "../components/SettingsDialog";
 
 export default function Verifier() {
   const { mode, setMode } = useColorScheme();
   const { muted, setMuted } = useAppContext();
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const navigate = useNavigate();
 
   const toggleDarkMode = () => {
@@ -37,14 +41,26 @@ export default function Verifier() {
     navigate("/verifier/flightPlan/new", { replace: true });
   };
 
+  const onSettingsClick = () => {
+    setSettingsOpen(true);
+  };
+
+  const onSettingsClose = () => {
+    setSettingsOpen(false);
+  };
+
   return (
     <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+      <SettingsDialog open={settingsOpen} onClose={onSettingsClose} />
       {/* AppBar */}
       <AppBar position="static" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Plan verifier
           </Typography>
+          <IconButton onClick={onSettingsClick}>
+            <SettingsIcon />
+          </IconButton>
           <IconButton
             component={Link}
             to="/help"
