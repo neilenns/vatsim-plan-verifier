@@ -17,9 +17,13 @@ const logger = debug("plan-verifier:vatsimFlightPlans");
 
 const VatsimFlightPlans = () => {
   const navigate = useNavigate();
-  const audioPlayer = useAudio("/bell.mp3");
+  const bellPlayer = useAudio("/bell.mp3");
+  const disconnectedPlayer = useAudio("/disconnected.mp3");
   const [flightPlans, setFlightPlans] = useState<IVatsimFlightPlan[]>([]);
-  const [isConnected, setIsConnected] = useState(false);
+  // isConnected is initialized to null so useEffect can tell the difference between first page load
+  // and actually being disconnected. Otherwise what happens is on page load the disconnect
+  // sound will attempt to play.
+  const [isConnected, setIsConnected] = useState<boolean | null>(null);
   const [airportCodes, setAirportCodes] = useState(
     localStorage.getItem("vatsimAirportCodes") || ""
   );
@@ -33,11 +37,17 @@ const VatsimFlightPlans = () => {
 
   useEffect(() => {
     if (hasNew || hasUpdates) {
-      void audioPlayer.play();
+      void bellPlayer.play();
       setHasNew(false);
       setHasUpdates(false);
     }
-  }, [hasNew, hasUpdates, audioPlayer]);
+  }, [hasNew, hasUpdates, bellPlayer]);
+
+  useEffect(() => {
+    if (isConnected !== null && !isConnected) {
+      void disconnectedPlayer.play();
+    }
+  }, [isConnected, disconnectedPlayer]);
 
   useEffect(() => {
     socketRef.current = socketIOClient(serverUrl, {
