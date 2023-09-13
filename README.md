@@ -111,3 +111,7 @@ from the list two hours after they are verified.
 ### Other verifications
 
 * **Is the aircraft a heavy?** This check throws a warning if the aircraft is a heavy and the departure airport has specific runway assignments for heavy aircraft (e.g. 10R/28L at KPDX).
+
+## Attributions
+
+* *Disconnected 02* by *rhodesmas* is licensed under [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/).
