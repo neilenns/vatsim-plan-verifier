@@ -37,7 +37,7 @@ After a flight plan is verified the plan will update to show helpful information
 
 | Part            | Information                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Callsign        | The telephony for the airline. Hover over the callsign to see the number of hours the pilot has as a pilot and VATSIM controller.                                                                                                                                                                                                                                                                                                                                                                            |
+| Callsign        | The telephony for the airline. Hover over the callsign to see the number of hours the pilot has as a pilot and VATSIM controller. Click the callsign to open an external site with the pilot's detailed online hours breakdown.                                                                                                                                                                                                                                                                              |
 | Aircraft type   | The aircraft manufacturer and name. Hover over the aircraft name to see the engines, wake turbulence class, SRS class, and max cruise speed (if known).                                                                                                                                                                                                                                                                                                                                                      |
 | Departure       | The departure airport name                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | Arrival         | The arrival airport name                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
@@ -84,7 +84,7 @@ from the list two hours after they are verified.
 
 * **Is the arrival airport valid?** This check throws a warning if the arrival airport isn't known by FlightAware.
 
-* **Should the departure be SEA8 or MONTN2?** This check is specific to KSEA and either throws an error or a warning if the flight plan was filed with SEA8 and should (or probably should) be on MONTN2 instead. This check does *not* verify whether plans filed with MONTN2 should be on SEA8 instead. 
+* **Should the departure be SEA8 or MONTN2?** This check is specific to KSEA and either throws an error or a warning if the flight plan was filed with SEA8 and should (or probably should) be on MONTN2 instead. This check does *not* verify whether plans filed with MONTN2 should be on SEA8 instead.
 
 ### Altitude verifications
 
@@ -93,6 +93,8 @@ from the list two hours after they are verified.
 * **Is the altitude correct for direction of flight?** This calculates the direction of flight between the departure and arrival airports, accounting for magnetic variance, and returns an error if the altitude doesn't match the NEODD/SWEVEN rule. It also correctly handles flights above RVSM airspace.
 
 * **Is the altitude correct for KPDX to KSLE flights?** This handles the special case mandatory 5,000' altitude for flights from KPDX to KSLE and provides the correct phrasing to amend the filed altitude if it is below or above 5,000'.
+
+* **Is the altitude correct for the given departure airport altimeter value?** This checks flights with filed cruise altitudes FL180-FL200 and verifies the depature airport's altimeter allows the use of that flight level. If not, the correct lowest usable flight level is provided in the logged error.
 
 ### Equipment suffix verifications
 
@@ -109,3 +111,7 @@ from the list two hours after they are verified.
 ### Other verifications
 
 * **Is the aircraft a heavy?** This check throws a warning if the aircraft is a heavy and the departure airport has specific runway assignments for heavy aircraft (e.g. 10R/28L at KPDX).
+
+## Attributions
+
+* *Disconnected 02* by *rhodesmas* is licensed under [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/).

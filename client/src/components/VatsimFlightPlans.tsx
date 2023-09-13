@@ -17,9 +17,13 @@ const logger = debug("plan-verifier:vatsimFlightPlans");
 
 const VatsimFlightPlans = () => {
   const navigate = useNavigate();
-  const audioPlayer = useAudio("/bell.mp3");
+  const bellPlayer = useAudio("/bell.mp3");
+  const disconnectedPlayer = useAudio("/disconnected.mp3");
   const [flightPlans, setFlightPlans] = useState<IVatsimFlightPlan[]>([]);
-  const [isConnected, setIsConnected] = useState(false);
+  // isConnected is initialized to null so useEffect can tell the difference between first page load
+  // and actually being disconnected. Otherwise what happens is on page load the disconnect
+  // sound will attempt to play.
+  const [isConnected, setIsConnected] = useState<boolean | null>(null);
   const [airportCodes, setAirportCodes] = useState(
     localStorage.getItem("vatsimAirportCodes") || ""
   );
@@ -33,16 +37,23 @@ const VatsimFlightPlans = () => {
 
   useEffect(() => {
     if (hasNew || hasUpdates) {
-      void audioPlayer.play();
+      void bellPlayer.play();
       setHasNew(false);
       setHasUpdates(false);
     }
-  }, [hasNew, hasUpdates, audioPlayer]);
+  }, [hasNew, hasUpdates, bellPlayer]);
+
+  useEffect(() => {
+    if (isConnected !== null && !isConnected) {
+      void disconnectedPlayer.play();
+    }
+  }, [isConnected, disconnectedPlayer]);
 
   useEffect(() => {
     socketRef.current = socketIOClient(serverUrl, {
       autoConnect: false,
-      reconnection: false,
+      reconnection: true,
+      reconnectionAttempts: 5,
       auth: { token: apiKey },
     });
 
@@ -56,6 +67,11 @@ const VatsimFlightPlans = () => {
         setHasUpdates(result.hasUpdates);
         return result.flightPlans;
       });
+    });
+
+    socketRef.current.on("connect", () => {
+      logger("Connected for vatsim flight plan updates");
+      setIsConnected(true);
     });
 
     socketRef.current.on("disconnect", () => {
@@ -90,12 +106,23 @@ const VatsimFlightPlans = () => {
     });
 
     socketRef.current.on("connect_error", (error: Error) => {
-      logger(`Error from vatsim flight plan updates: ${error.message}`);
+      logger(`Error connecting for vatsim flight plans: ${error.message}`);
       setSnackbar({
         children: `Unable to retrieve VATSIM flight plans.`,
         severity: "error",
       });
-      setIsConnected(false);
+      setIsConnected(null); // null to avoid playing the disconnect sound.
+    });
+
+    // Note the use of .io here, to get the manager. reconnect_error fires from
+    // the manager, not the socket. Super annoying.
+    socketRef.current.io.on("reconnect_error", (error: Error) => {
+      logger(`Error reconnecting for vatsim flight plans: ${error.message}`);
+      setSnackbar({
+        children: `Unable to reconnect to server.`,
+        severity: "error",
+      });
+      setIsConnected(null); // null to avoid playing the disconnect sound.
     });
 
     // Make sure to disconnect when we are cleaned up
@@ -163,7 +190,6 @@ const VatsimFlightPlans = () => {
       socketRef.current.emit("watchAirports", cleanCodes.split(","));
       localStorage.setItem("vatsimAirportCodes", cleanCodes);
       setAirportCodes(cleanCodes);
-      setIsConnected(true);
     }
     // Currently connected so disconnect
     else if (socketRef.current) {
