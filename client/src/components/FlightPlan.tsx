@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Stack, Tooltip, Typography } from "@mui/material";
+import { Box, Button, Grid, Link, Stack, Tooltip, Typography } from "@mui/material";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
 import { useEffect, useState } from "react";
@@ -135,9 +135,18 @@ const FlightPlan = (props: FlightPlanProps) => {
               name="departure"
               value={flightPlan.departure ?? ""}
               helperText={
-                flightPlan?.departureAirportInfo?.name
-                  ? `${normalizeAirportName(flightPlan.departureAirportInfo.name)}`
-                  : " "
+                flightPlan?.departureAirportInfo?.name ? (
+                  <Link
+                    href={`https://chartfox.org/${flightPlan.departure ?? ""}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    underline="hover"
+                  >
+                    {normalizeAirportName(flightPlan.departureAirportInfo.name)}
+                  </Link>
+                ) : (
+                  " "
+                )
               }
               trim
               onPaste={parsePastedFlightPlan}
@@ -155,9 +164,18 @@ const FlightPlan = (props: FlightPlanProps) => {
               name="arrival"
               value={flightPlan.arrival ?? ""}
               helperText={
-                flightPlan?.arrivalAirportInfo?.name
-                  ? `${normalizeAirportName(flightPlan.arrivalAirportInfo.name)}`
-                  : " "
+                flightPlan?.arrivalAirportInfo?.name ? (
+                  <Link
+                    href={`https://chartfox.org/${flightPlan.arrival ?? ""}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    underline="hover"
+                  >
+                    {normalizeAirportName(flightPlan.arrivalAirportInfo.name)}
+                  </Link>
+                ) : (
+                  " "
+                )
               }
               trim
               onPaste={parsePastedFlightPlan}
