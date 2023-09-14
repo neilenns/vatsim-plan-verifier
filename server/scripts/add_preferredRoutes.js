@@ -472,7 +472,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KPDX",
     arrival: "KPAE",
-    route: "PTLD2 BTG OLM2",
+    route: "PTLD2 BTG OLM OLM2",
     minimumRequiredAltitude: 130,
     minimumRequiredSpeed: 250,
     equipmentSuffixes: "[GLZI]",
@@ -481,7 +481,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KPDX",
     arrival: "KPAE",
-    route: "PTLD2 BTG OLM2",
+    route: "PTLD2 BTG OLM OLM2",
     minimumRequiredAltitude: 120,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[GI]",
@@ -499,7 +499,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KPDX",
     arrival: "KBFI",
-    route: "PTLD2 BTG OLM2",
+    route: "PTLD2 BTG OLM OLM2",
     minimumRequiredAltitude: 130,
     minimumRequiredSpeed: 250,
     equipmentSuffixes: "[GLZI]",
@@ -508,7 +508,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KPDX",
     arrival: "KBFI",
-    route: "PTLD2 BTG OLM2",
+    route: "PTLD2 BTG OLM OLM2",
     minimumRequiredAltitude: 120,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[GI]",
