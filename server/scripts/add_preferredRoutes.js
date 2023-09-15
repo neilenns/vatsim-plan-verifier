@@ -652,7 +652,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KSEA",
     arrival: "KSMF",
-    route: "SUMMA2 SUMMA LKV TUDOR2 KSMF",
+    route: "SUMMA2 SUMMA LKV TUDOR2",
     minimumRequiredAltitude: 240,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[LZGIW]",
