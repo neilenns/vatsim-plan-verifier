@@ -1,5 +1,4 @@
-import { DocumentType } from "@typegoose/typegoose";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
 import { IVatsimData, IVatsimPilot, IVatsimPrefile } from "../interfaces/IVatsimData.mjs";
 import {
@@ -14,7 +13,7 @@ import { ENV } from "../env.mjs";
 import _ from "lodash";
 import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
-import { convertFLtoThousands } from "../utils.mjs";
+import { convertFLtoThousands, parseStringToNumber } from "../utils.mjs";
 import { getVatsimEndpoints } from "./vatsim.mjs";
 
 const logger = debug("plan-verifier:vatsimFlightPlans");
@@ -34,6 +33,7 @@ const updateProperties = [
   "squawk",
   "remarks",
   "isPrefile",
+  "cruiseAltitude",
 ] as (keyof VatsimFlightPlanDocument)[];
 
 function cleanRoute(route: string) {
@@ -44,21 +44,6 @@ function cleanRoute(route: string) {
     .replace(/(?<!\/)N\d+F\d+\s*/g, "") // Get rid of step climbs making sure to catch spaces after it so double spaces don't get left behind
     .trim() // Trim leading and trailing whitespace
     .replace(/\s+/g, " "); // Issue 601: Get rid of any multiple spaces between route parts
-}
-
-// Takes a string and converts it to a number. If the conversion
-// fails it returns 0.
-function parseStringToNumber(value: string) {
-  if (!value || value.length === 0) {
-    return 0;
-  }
-
-  const convertedValue = Number(value);
-  if (isNaN(convertedValue)) {
-    logger(`Unable to convert ${value} to a number`);
-    return 0;
-  }
-  return convertedValue;
 }
 
 // Takes a pilot object from vatsim and converts it to a vatsim model

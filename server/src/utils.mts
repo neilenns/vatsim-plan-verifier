@@ -1,9 +1,30 @@
+import { log } from "console";
+import debug from "debug";
+
+const logger = debug("plan-verifier:utils");
+
 export function formatAltitude(altitude: number, includeFeet: boolean = true): string {
   if (altitude >= 180) {
     return `FL${altitude}`;
   }
 
   return `${(altitude * 100).toLocaleString()}${includeFeet ? " feet" : ""}`;
+}
+
+// Takes a string and converts it to a number. If the conversion
+// fails it returns 0.
+export function parseStringToNumber(value: string) {
+  if (!value || value.length === 0) {
+    logger(`Value was either null or zero length, returning 0`);
+    return 0;
+  }
+
+  const convertedValue = Number(value);
+  if (isNaN(convertedValue)) {
+    logger(`Unable to convert ${value} to a number`);
+    return 0;
+  }
+  return convertedValue;
 }
 
 // Takes a flight level (e.g. "FL340") and converts it to
