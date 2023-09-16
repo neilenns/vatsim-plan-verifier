@@ -65,8 +65,6 @@ export async function importFlightPlan(callsign: string): Promise<FlightPlanResu
   try {
     const vatsimPlan = await VatsimFlightPlanModel.findOne({ callsign });
 
-    logger(`Importing flight plan:\n${JSON.stringify(vatsimPlan, null, 2)}`);
-
     if (!vatsimPlan) {
       return {
         success: false,
