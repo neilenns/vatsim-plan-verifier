@@ -46,15 +46,8 @@ function cleanRoute(route: string) {
     .replace(/\s+/g, " "); // Issue 601: Get rid of any multiple spaces between route parts
 }
 
-const testAirports = ["KPDX"];
-
 // Takes a pilot object from vatsim and converts it to a vatsim model
 function pilotToVatsimModel(pilot: IVatsimPilot) {
-  if (testAirports.includes(pilot.flight_plan?.departure)) {
-    logger(`Storing vatsim flight plan: ${JSON.stringify(pilot, null, 2)}`);
-  }
-
-  const departure = pilot?.flight_plan?.departure ?? "";
   return new VatsimFlightPlanModel({
     cid: pilot.cid,
     name: pilot?.name,
@@ -66,11 +59,7 @@ function pilotToVatsimModel(pilot: IVatsimPilot) {
     arrival: pilot?.flight_plan?.arrival ?? "",
     latitude: pilot?.latitude,
     longitude: pilot?.longitude,
-    cruiseAltitude:
-      parseStringToNumber(
-        convertFLtoThousands(pilot?.flight_plan?.altitude, departure),
-        departure
-      ) / 100,
+    cruiseAltitude: parseStringToNumber(convertFLtoThousands(pilot?.flight_plan?.altitude)) / 100,
     route: cleanRoute(pilot?.flight_plan?.route ?? ""),
     squawk: pilot?.flight_plan?.assigned_transponder ?? "",
     remarks: pilot?.flight_plan?.remarks ?? "",
@@ -80,11 +69,6 @@ function pilotToVatsimModel(pilot: IVatsimPilot) {
 
 // Takes a prefile from vatsim and converts it to a vatsim model.
 function processVatsimPrefiles(prefile: IVatsimPrefile) {
-  if (testAirports.includes(prefile.flight_plan?.departure)) {
-    logger(`Storing vatsim prefile: ${JSON.stringify(prefile, null, 2)}`);
-  }
-
-  const departure = prefile?.flight_plan?.departure ?? "";
   return new VatsimFlightPlanModel({
     cid: prefile.cid,
     name: prefile?.name,
@@ -94,11 +78,7 @@ function processVatsimPrefiles(prefile: IVatsimPrefile) {
     rawAircraftType: prefile?.flight_plan?.aircraft_faa ?? "",
     departure: prefile?.flight_plan?.departure ?? "",
     arrival: prefile?.flight_plan?.arrival ?? "",
-    cruiseAltitude:
-      parseStringToNumber(
-        convertFLtoThousands(prefile?.flight_plan?.altitude, departure),
-        departure
-      ) / 100,
+    cruiseAltitude: parseStringToNumber(convertFLtoThousands(prefile?.flight_plan?.altitude)) / 100,
     route: cleanRoute(prefile?.flight_plan?.route ?? ""),
     squawk: prefile?.flight_plan?.assigned_transponder ?? "",
     remarks: prefile?.flight_plan?.remarks ?? "",
