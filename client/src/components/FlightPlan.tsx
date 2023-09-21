@@ -219,14 +219,24 @@ const FlightPlan = (props: FlightPlanProps) => {
               value={flightPlan.route ?? ""}
               helperText={
                 <Stack direction="row" justifyContent="space-between" width="100%" component="span">
-                  <span>{hyperlinkSidName(flightPlan)}</span>
-                  <span>
-                    <Tooltip title={flightPlan.remarks}>
-                      <Typography variant="caption" sx={{ cursor: "pointer" }}>
-                        {flightPlan.cleanedRemarks}
-                      </Typography>
-                    </Tooltip>
-                  </span>
+                  <Typography variant="caption" sx={{ minWidth: "50%" }}>
+                    {hyperlinkSidName(flightPlan)}
+                  </Typography>
+                  <Tooltip title={flightPlan.remarks}>
+                    {/* This method of forcing the remarks to be no longer than two lines comes from https://stackoverflow.com/a/68567180/9206264 */}
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        cursor: "pointer",
+                        display: "-webkit-box",
+                        overflow: "hidden",
+                        WebkitBoxOrient: "vertical",
+                        WebkitLineClamp: 2,
+                      }}
+                    >
+                      {flightPlan.cleanedRemarks}
+                    </Typography>
+                  </Tooltip>
                 </Stack>
               }
               onPaste={parsePastedFlightPlan}
