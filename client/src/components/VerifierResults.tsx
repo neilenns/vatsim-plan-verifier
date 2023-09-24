@@ -3,6 +3,7 @@ import VerifierResultComponent from "./VerifierResult";
 import { Grid, Paper } from "@mui/material";
 import IVerifierResultDocument, { StatusValue } from "../interfaces/IVerifierResult.mts";
 import IFlightPlan from "../interfaces/IFlightPlan.mts";
+import useAppContext from "../context/AppContext";
 
 interface VerifierResultsProps {
   verifierResults: IVerifierResultDocument[] | undefined;
@@ -18,10 +19,13 @@ const statusOrder: Record<StatusValue, number> = {
 };
 
 const VerifierResults: React.FC<VerifierResultsProps> = ({ verifierResults, flightPlan }) => {
+  const { hideInformational } = useAppContext();
+
   // This method of sorting on multiple properties comes from
   // https://stackoverflow.com/questions/6913512/how-to-sort-an-array-of-objects-by-multiple-fields/46256174#46256174
   const filteredResults = verifierResults
-    ?.filter((result) => result.status !== "Information")
+    // Filter informational results unless hideInformational is true.
+    ?.filter((result) => !hideInformational || result.status !== "Information")
     ?.sort((a, b) => statusOrder[a.status] - statusOrder[b.status] || a.priority - b.priority);
 
   return (
