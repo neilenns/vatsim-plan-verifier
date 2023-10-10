@@ -46,11 +46,13 @@ function FlightPlanDetails() {
   // any errors that may have occurred during the loading process.
   useEffect(() => {
     if (loaderData === undefined) {
+      document.title = "Vatsim plan verifier";
       return;
     }
 
     // Check for errors and show it in a snackbar.
     if (!loaderData.success) {
+      document.title = "Vatsim plan verifier";
       setSnackbar({
         children: loaderData.error,
         severity: "error",
@@ -65,7 +67,7 @@ function FlightPlanDetails() {
 
     // Set the window title to something nice if the necessary info is available.
     if (!flightPlan.callsign || !flightPlan.departure || !flightPlan.arrival) {
-      document.title = "Plan verifier";
+      document.title = "Vatsim plan verifier";
     } else {
       document.title = `${flightPlan.callsign} (${flightPlan.departure}-${flightPlan.arrival})`;
     }
