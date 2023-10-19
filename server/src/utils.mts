@@ -15,13 +15,11 @@ export function formatAltitude(altitude: number, includeFeet: boolean = true): s
 // fails it returns 0.
 export function parseStringToNumber(value: string) {
   if (!value || value.length === 0) {
-    logger(`Value was either null or zero length, returning 0`);
     return 0;
   }
 
   const convertedValue = Number(value);
   if (isNaN(convertedValue)) {
-    logger(`Unable to convert ${value} to a number`);
     return 0;
   }
   return convertedValue;
