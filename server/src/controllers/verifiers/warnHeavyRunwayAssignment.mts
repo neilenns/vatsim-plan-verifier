@@ -38,14 +38,14 @@ export default async function warnHeavyRunwayAssignment({
       result.status = VerifierResultStatus.INFORMATION;
       result.messageId = "notHeavyRunwayAssignment";
       result.message =
-        "Aircraft is not a heavy. No need to verify it is assigned to a runway that can accomodate a heavy.";
+        "Aircraft is not a heavy. No need to verify it is assigned to a runway that can accommodate a heavy.";
     }
     // Don't warn if there's no specific heavy runway assignment for the airport
     else if (!heavyRunways) {
       result.status = VerifierResultStatus.INFORMATION;
       result.messageId = "noHeavyRunways";
       result.message =
-        "Airport has no heavy runways. No need to verify plane is assigned a runway that can accomodate a heavy.";
+        "Airport has no heavy runways. No need to verify plane is assigned a runway that can accommodate a heavy.";
     }
     // Plane is a heavy and there are specific runways to assign
     else {
