@@ -3238,6 +3238,16 @@ db.aircraft.insertMany([
     aircraftClass: "J",
   },
   {
+    equipmentCode: "E195",
+    manufacturer: "EMBRAER",
+    name: "EMB-195",
+    engineCount: "2",
+    engineType: "J",
+    weightClass: "L",
+    srsClass: "III",
+    aircraftClass: "J",
+  },
+  {
     equipmentCode: "E200",
     manufacturer: "EXTRA",
     name: "200",
