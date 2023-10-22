@@ -47,8 +47,8 @@ function cleanRoute(route: string) {
 }
 
 // Takes a pilot object from vatsim and converts it to a vatsim model
-function pilotToVatsimModel(pilot: IVatsimPilot) {
-  return new VatsimFlightPlanModel({
+export function pilotToVatsimModel(pilot: IVatsimPilot) {
+  const result = new VatsimFlightPlanModel({
     cid: pilot.cid,
     name: pilot?.name,
     isPrefile: false,
@@ -59,17 +59,22 @@ function pilotToVatsimModel(pilot: IVatsimPilot) {
     arrival: pilot?.flight_plan?.arrival ?? "",
     latitude: pilot?.latitude,
     longitude: pilot?.longitude,
-    cruiseAltitude: parseStringToNumber(convertFLtoThousands(pilot?.flight_plan?.altitude)) / 100,
     route: cleanRoute(pilot?.flight_plan?.route ?? ""),
     squawk: pilot?.flight_plan?.assigned_transponder ?? "",
     remarks: pilot?.flight_plan?.remarks ?? "",
-    flightRules: pilot?.flight_plan?.flight_rules ?? "",
   });
+
+  result.setCruiseAltitudeAndFlightRules(
+    pilot?.flight_plan?.altitude,
+    pilot?.flight_plan?.flight_rules
+  );
+
+  return result;
 }
 
 // Takes a prefile from vatsim and converts it to a vatsim model.
-function processVatsimPrefiles(prefile: IVatsimPrefile) {
-  return new VatsimFlightPlanModel({
+export function prefileToVatsimModel(prefile: IVatsimPrefile) {
+  const result = new VatsimFlightPlanModel({
     cid: prefile.cid,
     name: prefile?.name,
     isPrefile: true,
@@ -78,12 +83,17 @@ function processVatsimPrefiles(prefile: IVatsimPrefile) {
     rawAircraftType: prefile?.flight_plan?.aircraft_faa ?? "",
     departure: prefile?.flight_plan?.departure ?? "",
     arrival: prefile?.flight_plan?.arrival ?? "",
-    cruiseAltitude: parseStringToNumber(convertFLtoThousands(prefile?.flight_plan?.altitude)) / 100,
     route: cleanRoute(prefile?.flight_plan?.route ?? ""),
     squawk: prefile?.flight_plan?.assigned_transponder ?? "",
     remarks: prefile?.flight_plan?.remarks ?? "",
-    flightRules: prefile?.flight_plan?.flight_rules ?? "",
   });
+
+  result.setCruiseAltitudeAndFlightRules(
+    prefile?.flight_plan?.altitude,
+    prefile?.flight_plan?.flight_rules
+  );
+
+  return result;
 }
 
 function copyPropertyValue<T>(source: T, destination: T, property: keyof T) {
@@ -189,7 +199,7 @@ async function processVatsimData(flightPlans: IVatsimData) {
   // for use with the rest of the update logic.
   const incomingPlans = [
     ...flightPlans.pilots.map(pilotToVatsimModel),
-    ...flightPlans.prefiles.map(processVatsimPrefiles),
+    ...flightPlans.prefiles.map(prefileToVatsimModel),
   ];
   logger(`Processing ${incomingPlans.length} incoming VATSIM flight plans`);
 
