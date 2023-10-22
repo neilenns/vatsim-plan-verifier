@@ -1,8 +1,8 @@
 // tests/calculator.spec.tx
 import { expect } from "chai";
 import { describe, it } from "mocha";
-import { pilotToVatsimModel, prefileToVatsimModel } from "../src/services/vatsimFlightPlans.mjs";
-import { IVatsimPilot, IVatsimPrefile } from "../src/interfaces/IVatsimData.mjs";
+import { pilotToVatsimModel } from "../src/services/vatsimFlightPlans.mjs";
+import { IVatsimPilot } from "../src/interfaces/IVatsimData.mjs";
 
 const testData = [
   // Legacy IFR
@@ -181,13 +181,4 @@ describe("Vatsim flight plan tests", () => {
     expect(result.cruiseAltitude).to.equal(45);
     expect(result.flightRules).to.equal("V");
   });
-});
-
-describe("Vatsim prefile tests", () => {
-  it("should import legacy flight", async function () {});
-
-  const result = pilotToVatsimModel(testData[0]);
-
-  expect(result.cruiseAltitude).to.equal(260);
-  expect(result.flightRules).to.equal("I");
 });
