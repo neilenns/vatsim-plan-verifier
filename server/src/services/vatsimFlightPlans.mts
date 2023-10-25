@@ -23,11 +23,12 @@ let vatsimEndpoints: IVatsimEndpoints | undefined;
 
 // List of the properties on a vatsim flight plan that are eligible to
 // be updated when new data is received.
+// Departure is intentionally not in this list as it is updated independently
+// to account for planes landing then refiling without changing their callsign.
 const updateProperties = [
   "flightRules",
   "name",
   "rawAircraftType",
-  "departure",
   "arrival",
   "route",
   "squawk",
@@ -227,10 +228,17 @@ async function processVatsimData(flightPlans: IVatsimData) {
   const updatedPlans = overlappingPlans.map((incomingPlan) => {
     const currentPlan = currentPlansDictionary[incomingPlan.callsign];
 
-    // Set the groundspeed and flight status. The two are interrelated
-    // and groundspeed is super noisy so they are handled separately from the rest of the
-    // property updates.
-    updateGroundSpeedAndFlightStatus(incomingPlan, currentPlan);
+    // Issue 672: If the departure airport changed, e.g. a plane landed at an airport then refiled to depart from
+    // that airport without changing the callsign, then initialize the flight status.
+    if (incomingPlan.departure !== currentPlan.departure) {
+      currentPlan.departure = incomingPlan.departure; // This has to be done here so setInitialFlightStatus has the new departure airport.
+      setInitialFlightStatus(currentPlan);
+    } else {
+      // In this case it's just an existing flight plan so update the groundspeed and flight status.
+      // The two are interrelated and groundspeed is super noisy so they are handled separately from the
+      // rest of the property updates.
+      updateGroundSpeedAndFlightStatus(incomingPlan, currentPlan);
+    }
 
     // Update any changed properties
     updateProperties.forEach((property) => copyPropertyValue(incomingPlan, currentPlan, property));
