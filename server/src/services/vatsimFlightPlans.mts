@@ -22,7 +22,8 @@ const updateLogger = debug("vatsim:update");
 let vatsimEndpoints: IVatsimEndpoints | undefined;
 
 // List of the properties on a vatsim flight plan that are eligible to
-// be updated when new data is received.
+// be updated when new data is received. departure airport is intentionally
+// not in this list as it is updated separately as part of the fix for issue 672.
 const updateProperties = [
   "flightRules",
   "name",
@@ -226,6 +227,8 @@ async function processVatsimData(flightPlans: IVatsimData) {
   const updatedPlans = overlappingPlans.map((incomingPlan) => {
     const currentPlan = currentPlansDictionary[incomingPlan.callsign];
 
+    // Issue 672: If a plane lands and then refiles to go back out from the arrival airport but doesn't change
+    // the callsign then the initial flight status has to be reset so the proper DEPARTING state is set.
     if (incomingPlan.departure !== currentPlan.departure) {
       currentPlan.departure = incomingPlan.departure;
       setInitialFlightStatus(currentPlan);
