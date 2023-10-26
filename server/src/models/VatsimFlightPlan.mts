@@ -73,9 +73,13 @@ class VatsimFlightPlan {
     cruiseAltitude: string,
     flightRules: string
   ) {
+    // Handle the case of the incoming cruise altitude being undefined or empty from
+    // an incoming vatsim flight plan.
+    const altitude = cruiseAltitude ?? "0";
+
     // vNAS flight plans mark VFR fligths with VFR in the cruise altitude instead of a flightRules
     // field.
-    if (cruiseAltitude.startsWith("VFR")) {
+    if (altitude.startsWith("VFR")) {
       this.flightRules = "V";
     }
     // Either it's a non-vNAS flight plan or the flight is IFR
@@ -85,7 +89,7 @@ class VatsimFlightPlan {
 
     // Set the cruise altitude after removing any non-digit characters (e.g. the "VFR")
     this.cruiseAltitude =
-      parseStringToNumber(convertFLtoThousands(cruiseAltitude.replace(/\D/g, ""))) / 100;
+      parseStringToNumber(convertFLtoThousands(altitude.replace(/\D/g, ""))) / 100;
   }
 }
 
