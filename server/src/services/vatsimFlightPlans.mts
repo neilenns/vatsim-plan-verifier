@@ -27,7 +27,6 @@ const updateProperties = [
   "flightRules",
   "name",
   "rawAircraftType",
-  "departure",
   "arrival",
   "route",
   "squawk",
@@ -227,11 +226,15 @@ async function processVatsimData(flightPlans: IVatsimData) {
   const updatedPlans = overlappingPlans.map((incomingPlan) => {
     const currentPlan = currentPlansDictionary[incomingPlan.callsign];
 
-    // Set the groundspeed and flight status. The two are interrelated
-    // and groundspeed is super noisy so they are handled separately from the rest of the
-    // property updates.
-    updateGroundSpeedAndFlightStatus(incomingPlan, currentPlan);
-
+    if (incomingPlan.departure !== currentPlan.departure) {
+      currentPlan.departure = incomingPlan.departure;
+      setInitialFlightStatus(currentPlan);
+    } else {
+      // Set the groundspeed and flight status. The two are interrelated
+      // and groundspeed is super noisy so they are handled separately from the rest of the
+      // property updates.
+      updateGroundSpeedAndFlightStatus(incomingPlan, currentPlan);
+    }
     // Update any changed properties
     updateProperties.forEach((property) => copyPropertyValue(incomingPlan, currentPlan, property));
 
