@@ -26,10 +26,13 @@ export function parseStringToNumber(value: string) {
 }
 
 // Takes a flight level (e.g. "FL340") and converts it to
-// a string in thousands (e.g. "34000"). For non-flight levels
-// it simply appends "00".
+// a string in thousands (e.g. "34000").
 // Note that this just does string manipulation. It does not
 // convert the string to a number.
 export function convertFLtoThousands(value: string) {
-  return `${value.replace("FL", "")}00`;
+  if (value.startsWith("FL")) {
+    return `${value.replace("FL", "")}00`;
+  } else {
+    return value;
+  }
 }
