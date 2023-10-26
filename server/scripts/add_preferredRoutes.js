@@ -416,6 +416,16 @@ db.preferredroutes.insertMany([
   },
   {
     departure: "KPDX",
+    arrival: "KUAO",
+    route: "PTLD2 {RADAR VECTORS} DIRECT",
+    minimumRequiredAltitude: 40,
+    minimumRequiredSpeed: 0,
+    equipmentSuffixes: "[A-Z]",
+    engineTypes: "[PTJ]",
+    remarks: "Requires P80 approval.",
+  },
+  {
+    departure: "KPDX",
     arrival: "KTTD",
     route: "{RADAR VECTORS} SSHAM",
     minimumRequiredAltitude: 29,
