@@ -90,7 +90,7 @@ db.airlines.insertMany([
   },
   {
     airlineCode: "PNW",
-    telephony: "PACIFIC NORTHWEST",
+    telephony: "TIMBERLINE",
   },
   {
     airlineCode: "FSS",
