@@ -5722,7 +5722,7 @@ db.airlines.insertMany([
   },
   {
     airlineCode: "FNX",
-    telephony: "CRESCENT",
+    telephony: "PHOENIX",
   },
   {
     airlineCode: "UGD",
