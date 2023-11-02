@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useSearchParams } from "react-router-dom";
 import AlertSnackbar, {
   AlertSnackBarOnClose,
   AlertSnackbarProps,
@@ -16,14 +16,13 @@ import {
 } from "@mui/material";
 import { AircraftDetailsLoaderResult } from "../services/aircraftDetailsLoader.mts";
 import IAircraft from "../interfaces/IAircraft.mts";
-import { useNavigate } from "react-router-dom";
 
 function AircraftDetails() {
   const loaderData = useLoaderData() as AircraftDetailsLoaderResult;
   const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
   const [aircraftDetails, setAircraftDetails] = useState<IAircraft[]>();
   const [aircraftName, setAircraftName] = useState("");
-  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const handleSnackbarClose: AlertSnackBarOnClose = () => setSnackbar(null);
 
@@ -45,6 +44,7 @@ function AircraftDetails() {
     }
 
     setAircraftDetails(loaderData.data ?? {});
+    setAircraftName(searchParams.get("name") ?? "");
 
     if (loaderData.data.length === 0) {
       setSnackbar({
@@ -52,11 +52,11 @@ function AircraftDetails() {
         severity: "warning",
       });
     }
-  }, [loaderData]);
+  }, [loaderData, searchParams]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    navigate(`/verifier/aircraft/${aircraftName}`);
+    setSearchParams({ name: aircraftName });
   };
 
   return (

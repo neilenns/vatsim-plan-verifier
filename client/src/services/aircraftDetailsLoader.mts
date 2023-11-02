@@ -14,10 +14,13 @@ interface Args extends ActionFunctionArgs {
   params: Params<ParamParseKey<typeof PathNames.name>>;
 }
 
-export const aircraftDetailsLoader: LoaderFunction = async ({ params }: Args) => {
-  if (params.name) {
+export const aircraftDetailsLoader: LoaderFunction = async ({ request }: Args) => {
+  const url = new URL(request.url);
+  const name = url.searchParams.get("name");
+
+  if (name) {
     try {
-      const aircraftDetails = await getAircraftByName(params.name);
+      const aircraftDetails = await getAircraftByName(name);
 
       return {
         success: true,
