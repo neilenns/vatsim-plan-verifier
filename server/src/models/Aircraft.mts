@@ -1,4 +1,10 @@
-import { prop, getModelForClass, modelOptions, DocumentType } from "@typegoose/typegoose";
+import {
+  prop,
+  getModelForClass,
+  modelOptions,
+  DocumentType,
+  ReturnModelType,
+} from "@typegoose/typegoose";
 
 @modelOptions({
   options: { customName: "aircraft" },
@@ -36,6 +42,11 @@ export class Aircraft {
 
   @prop({ required: false, enum: ["S", "L", "J", "U"] })
   aircraftClass?: string;
+
+  // Finds all aircraft whose name contains the specified name
+  public static async findByName(this: ReturnModelType<typeof Aircraft>, name: string) {
+    return this.find({ name: { $regex: name, $options: "i" } }).exec();
+  }
 }
 
 export const AircraftModel = getModelForClass(Aircraft);
