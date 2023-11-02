@@ -4,18 +4,35 @@ import AlertSnackbar, {
   AlertSnackbarProps,
 } from "../components/AlertSnackbar";
 import { useEffect, useState } from "react";
-import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { Search as SearchIcon } from "@mui/icons-material";
+import {
+  IconButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  TextField,
+} from "@mui/material";
 import { AircraftDetailsLoaderResult } from "../services/aircraftDetailsLoader.mts";
 import IAircraft from "../interfaces/IAircraft.mts";
+import { useNavigate } from "react-router-dom";
 
 function AircraftDetails() {
   const loaderData = useLoaderData() as AircraftDetailsLoaderResult;
   const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
   const [aircraftDetails, setAircraftDetails] = useState<IAircraft[]>();
+  const [aircraftName, setAircraftName] = useState("");
+  const navigate = useNavigate();
+
   const handleSnackbarClose: AlertSnackBarOnClose = () => setSnackbar(null);
 
   useEffect(() => {
+    // Handles the case where the page is reloaded/navigated to without any aircraft
+    // name specified in the URL.
     if (loaderData === undefined) {
+      setAircraftDetails([]);
+      setAircraftName("");
       return;
     }
 
@@ -28,11 +45,35 @@ function AircraftDetails() {
     }
 
     setAircraftDetails(loaderData.data ?? {});
-    document.title = `Aircraft details`;
+
+    if (loaderData.data.length === 0) {
+      setSnackbar({
+        children: "No matching aircraft found.",
+        severity: "warning",
+      });
+    }
   }, [loaderData]);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    navigate(`/verifier/aircraft/${aircraftName}`);
+  };
 
   return (
     <>
+      <form onSubmit={handleSubmit}>
+        <TextField
+          type="text"
+          value={aircraftName}
+          onChange={(e) => setAircraftName(e.target.value)}
+          helperText="Aircraft name"
+          size="small"
+        />
+        <IconButton aria-label="search" type="submit">
+          <SearchIcon />
+        </IconButton>
+      </form>
+
       {aircraftDetails && aircraftDetails.length > 0 && (
         <Table>
           <TableHead>
@@ -44,7 +85,7 @@ function AircraftDetails() {
           </TableHead>
           <TableBody>
             {aircraftDetails.map((aircraft) => (
-              <TableRow>
+              <TableRow key={aircraft.equipmentCode}>
                 <TableCell>{aircraft.manufacturer}</TableCell>
                 <TableCell>{aircraft.name}</TableCell>
                 <TableCell>{aircraft.equipmentCode}</TableCell>

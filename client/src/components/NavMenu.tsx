@@ -55,6 +55,14 @@ const NavMenu = () => {
           7110.65
         </MenuItem>
         <MenuItem
+          key="aircraftDetails"
+          onClick={handleClose}
+          component={Link}
+          to="/verifier/aircraft"
+        >
+          Aircraft lookup
+        </MenuItem>
+        <MenuItem
           key="quickreference"
           onClick={handleClose}
           component={Link}

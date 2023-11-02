@@ -88,6 +88,11 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         children: [
           {
+            path: "aircraft/",
+            element: <AircraftDetails />,
+            errorElement: <ErrorPage />,
+          },
+          {
             path: "aircraft/:name",
             element: <AircraftDetails />,
             loader: aircraftDetailsLoader,
