@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { getAircraft } from "../controllers/aircraft.mjs";
+import { getAircraftById, getAircraftByName } from "../controllers/aircraft.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
 
@@ -13,7 +13,7 @@ router.get(
   async (req: Request, res: Response) => {
     const { id } = req.params;
 
-    const result = await getAircraft(id);
+    const result = await getAircraftById(id);
 
     if (result.success) {
       res.json(result.data);
@@ -22,6 +22,29 @@ router.get(
 
     if (result.errorType === "AircraftNotFound") {
       res.status(404).json({ error: `Aircraft ${id} not found.` });
+    } else {
+      res.status(500).json({ error: "Failed to get the aircraft." });
+    }
+  }
+);
+
+// GET route for reading a flight plan from the database
+router.get(
+  "/aircraft/name/:name",
+  verifyUser,
+  secureQueryMiddleware,
+  async (req: Request, res: Response) => {
+    const { name } = req.params;
+
+    const result = await getAircraftByName(name);
+
+    if (result.success) {
+      res.json(result.data);
+      return;
+    }
+
+    if (result.errorType === "AircraftNotFound") {
+      res.status(404).json({ error: `Aircraft ${name} not found.` });
     } else {
       res.status(500).json({ error: "Failed to get the aircraft." });
     }

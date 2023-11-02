@@ -5,7 +5,7 @@ import AlertSnackbar, {
   AlertSnackbarProps,
 } from "../components/AlertSnackbar";
 import { useEffect, useState } from "react";
-import { Table, TableCell, TableHead, TableRow } from "@mui/material";
+import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { ClientTransceiversLoaderResult } from "../services/clientTransceiversLoader.mts";
 
 function ClientTransceivers() {
@@ -40,11 +40,13 @@ function ClientTransceivers() {
             <TableCell>COM1</TableCell>
             <TableCell>COM2</TableCell>
           </TableHead>
-          <TableRow>
-            <TableCell>{clientTransceivers.callsign}</TableCell>
-            <TableCell>{clientTransceivers.transceivers[0]?.frequency.toFixed(3)}</TableCell>
-            <TableCell>{clientTransceivers.transceivers[1]?.frequency.toFixed(3)}</TableCell>
-          </TableRow>
+          <TableBody>
+            <TableRow>
+              <TableCell>{clientTransceivers.callsign}</TableCell>
+              <TableCell>{clientTransceivers.transceivers[0]?.frequency.toFixed(3)}</TableCell>
+              <TableCell>{clientTransceivers.transceivers[1]?.frequency.toFixed(3)}</TableCell>
+            </TableRow>
+          </TableBody>
         </Table>
       )}
       <AlertSnackbar {...snackbar} onClose={handleSnackbarClose} />

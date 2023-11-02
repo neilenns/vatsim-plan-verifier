@@ -28,6 +28,8 @@ import QuickReference from "./pages/QuickReference.tsx";
 import { quickReferenceLoader } from "./services/quickReferenceLoader.mts";
 import { clientTransceiversLoader } from "./services/clientTransceiversLoader.mts";
 import ClientTransceivers from "./pages/ClientTransceivers.tsx";
+import AircraftDetails from "./pages/AircraftDetails.tsx";
+import { aircraftDetailsLoader } from "./services/aircraftDetailsLoader.mts";
 
 const router = createBrowserRouter([
   {
@@ -85,6 +87,12 @@ const router = createBrowserRouter([
         action: appActions,
         errorElement: <ErrorPage />,
         children: [
+          {
+            path: "aircraft",
+            element: <AircraftDetails />,
+            loader: aircraftDetailsLoader,
+            errorElement: <ErrorPage />,
+          },
           {
             path: "flightPlan/:id",
             element: <AuthenticationGuard role="user" component={<FlightPlanDetails />} />,
