@@ -434,6 +434,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 470,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    isSuper: true,
   },
   {
     equipmentCode: "BU20",
@@ -6835,18 +6836,6 @@ db.aircraft.insertMany([
     aircraftClass: "J",
   },
   {
-    equipmentCode: "A388",
-    manufacturer: "AIRBUS",
-    name: "A-380-800",
-    engineCount: "4",
-    engineType: "J",
-    weightClass: "H",
-    srsClass: "III",
-    maxCruiseSpeed: 470,
-    commonEquipmentSuffixes: ["L"],
-    aircraftClass: "J",
-  },
-  {
     equipmentCode: "A3ST",
     manufacturer: "AIRBUS",
     name: "A-300ST Beluga",
@@ -6855,6 +6844,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    isSuper: true,
   },
   {
     equipmentCode: "A400",

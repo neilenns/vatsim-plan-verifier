@@ -1,26 +1,21 @@
 import { Link, Tooltip, Typography } from "@mui/material";
 import { IPilotStats } from "../interfaces/IPilotStats.mts";
-import ITelephony from "../interfaces/ITelephony.mts";
 
 type CallsignTooltipProps = {
-  callsign: string | undefined;
-  telephony: ITelephony | undefined;
-  flightNumber: string | undefined;
+  callsignTelephony: string | undefined;
   pilotStats: IPilotStats | undefined;
   pilotName: string | undefined;
   cid: number | undefined;
 };
 
 export const CallsignTooltip = ({
-  callsign,
   pilotName,
-  telephony,
-  flightNumber,
+  callsignTelephony,
   pilotStats,
   cid,
 }: CallsignTooltipProps) => {
   if (!pilotStats) {
-    return <>{telephony ? telephony.telephony : ""}</>;
+    return <>{callsignTelephony ?? ""}</>;
   }
   return (
     pilotStats && (
@@ -42,7 +37,7 @@ export const CallsignTooltip = ({
             rel="noreferrer"
             underline="hover"
           >
-            {telephony ? `${telephony?.telephony} ${flightNumber ?? ""}` : callsign}
+            {callsignTelephony ?? ""}
           </Link>
         </Typography>
       </Tooltip>
