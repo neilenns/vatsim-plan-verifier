@@ -6836,17 +6836,6 @@ db.aircraft.insertMany([
     aircraftClass: "J",
   },
   {
-    equipmentCode: "A3ST",
-    manufacturer: "AIRBUS",
-    name: "A-300ST Beluga",
-    engineCount: "2",
-    engineType: "J",
-    weightClass: "H",
-    srsClass: "III",
-    aircraftClass: "J",
-    isSuper: true,
-  },
-  {
     equipmentCode: "A400",
     manufacturer: "AIRBUS",
     name: "A-400M Atlas",
