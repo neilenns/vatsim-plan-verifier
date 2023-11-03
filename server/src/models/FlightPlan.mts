@@ -341,6 +341,43 @@ export class FlightPlan {
   verifierResultsCount?: number;
 
   // Virtual properties
+  public get heavyTelephony(): string {
+    if (this.equipmentCode === "CONC") {
+      return " CONCORDE";
+    }
+
+    if (this.isSuper) {
+      return " SUPER";
+    }
+
+    if (this.isHeavy) {
+      return " HEAVY";
+    }
+
+    return "";
+  }
+
+  // Returns the callsign for the flight as a controller would read it.
+  // For example a heavy aircraft with callsign AAL212 would return
+  // "AMERICAN 212 HEAVY".
+  public get callsignTelephony(): string {
+    if (!this.callsign) {
+      return "";
+    }
+
+    if (this.telephony?.[0]) {
+      return `${(this.telephony[0] as Airline).telephony} ${this.flightNumber}${
+        this.heavyTelephony
+      }`;
+    } else {
+      return `${this.callsign}${this.heavyTelephony}`;
+    }
+  }
+
+  public get isSuper(): boolean {
+    return (this.equipmentInfo as Aircraft)?.isSuper;
+  }
+
   public get routeHasNonRNAVAirways(): boolean {
     return this.routeParts?.some((part: string) => NonRNAVAirwayRegex.test(part));
   }

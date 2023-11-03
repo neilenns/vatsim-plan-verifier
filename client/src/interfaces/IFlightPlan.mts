@@ -9,6 +9,7 @@ interface IFlightPlan {
   cid?: number;
   pilotName?: string;
   callsign?: string;
+  callsignTelephony?: string;
   flightNumber?: string;
   rawAircraftType?: string;
   equipmentCode?: string;
@@ -19,6 +20,7 @@ interface IFlightPlan {
   arrivalAirportInfo?: AirportInfo;
   squawk?: string;
   isHeavy?: boolean;
+  isSuper?: boolean;
   equipmentSuffix?: string;
   cruiseAltitude?: string;
   route?: string;
