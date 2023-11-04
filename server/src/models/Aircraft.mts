@@ -28,7 +28,7 @@ export class Aircraft {
   @prop({ required: true, enum: ["P", "T", "J"] })
   engineType!: string;
 
-  @prop({ required: true, enum: ["S", "L", "H"] })
+  @prop({ required: true, enum: ["S", "L", "H", "SUPER"] })
   weightClass!: string;
 
   @prop({ required: true })
@@ -43,11 +43,12 @@ export class Aircraft {
   @prop({ required: false, enum: ["S", "L", "J", "U"] })
   aircraftClass?: string;
 
-  @prop({ required: false, default: false })
-  isSuper!: boolean;
-
   public get isHeavy(): boolean {
     return this.weightClass === "H";
+  }
+
+  public get isSuper(): boolean {
+    return this.weightClass === "SUPER";
   }
 
   // Finds all aircraft whose name contains the specified name
