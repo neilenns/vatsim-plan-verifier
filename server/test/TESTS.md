@@ -31,10 +31,11 @@ Flight plans should be added as part of the set up for each specific test. This 
 
 |            ID            | Equipment code | Notes                                                    |
 | :----------------------: | :------------: | -------------------------------------------------------- |
-| 5f9f7b9b9b3b3c1b3c1b3c1d |      A388      | Heavy jet aircraft with a common equipment suffix (L)    |
+| 5f9f7b9b9b3b3c1b3c1b3c1b |      B737      | Jet aircraft with no common equipment suffix             |
 | 5f9f7b9b9b3b3c1b3c1b3c1c |      C172      | Piston aircraft with two common equipment suffixes (A G) |
-| 5f9f7b9b9b3b3c1b3c1b3c1a |      B737      | Jet aircraft with no common equipment suffix             |
+| 5f9f7b9b9b3b3c1b3c1b3c1d |      A388      | Super jet aircraft with a common equipment suffix (L)    |
 | 5f9f7b9b9b3b3c1b3c1b3c1e |      TBM9      | Turboprop aircraft with a common equipment suffix        |
+| 5f9f7b9b9b3b3c1b3c1b3c1f |      B738      | Heavy jet aircraft with no common equipment suffix       |
 
 ## Airports
 
