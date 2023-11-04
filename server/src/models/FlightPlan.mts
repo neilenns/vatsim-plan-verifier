@@ -135,7 +135,7 @@ export enum VatsimCommsEnum {
       }
 
       if (rawAircraftType.startsWith("H/")) {
-        this.isHeavy = true;
+        this.rawHeavyDesignator = true;
         rawAircraftType = rawAircraftType.substring(2); // Strip off the leading "H/"
       }
 
@@ -245,7 +245,7 @@ export class FlightPlan {
   equipmentCode?: string;
 
   @prop({ required: false, default: false })
-  isHeavy!: Boolean;
+  rawHeavyDesignator!: boolean;
 
   @prop({ required: false })
   equipmentSuffix?: string;
@@ -372,6 +372,10 @@ export class FlightPlan {
     } else {
       return `${this.callsign}${this.heavyTelephony}`;
     }
+  }
+
+  public get isHeavy(): boolean {
+    return this.rawHeavyDesignator || (this.equipmentInfo as Aircraft)?.isHeavy;
   }
 
   public get isSuper(): boolean {
