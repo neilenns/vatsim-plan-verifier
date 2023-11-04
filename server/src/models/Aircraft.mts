@@ -46,6 +46,10 @@ export class Aircraft {
   @prop({ required: false, default: false })
   isSuper!: boolean;
 
+  public get isHeavy(): boolean {
+    return this.weightClass === "H";
+  }
+
   // Finds all aircraft whose name contains the specified name
   public static async findByName(this: ReturnModelType<typeof Aircraft>, name: string) {
     return this.find({ name: { $regex: name, $options: "i" } }).exec();
