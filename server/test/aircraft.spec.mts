@@ -9,21 +9,43 @@ describe("Aircraft tests", () => {
     const result = await getAircraftById("5f9f7b9b9b3b3c1b3c1b3c1c");
 
     expect(result.success).to.equal(true);
-    expect((result as SuccessResult<AircraftDocument>).data.equipmentCode).to.equal("C172");
+
+    const aircraft = result as SuccessResult<AircraftDocument>;
+    expect(aircraft.data.equipmentCode).to.equal("C172");
+    expect(aircraft.data.isHeavy).to.equal(false);
+    expect(aircraft.data.isSuper).to.equal(false);
   });
 
   it("should return B737 data", async function () {
     const result = await getAircraftById("5f9f7b9b9b3b3c1b3c1b3c1b");
 
     expect(result.success).to.equal(true);
-    expect((result as SuccessResult<AircraftDocument>).data.equipmentCode).to.equal("B737");
+
+    const aircraft = result as SuccessResult<AircraftDocument>;
+    expect(aircraft.data.equipmentCode).to.equal("B737");
+    expect(aircraft.data.isHeavy).to.equal(false);
+    expect(aircraft.data.isSuper).to.equal(false);
   });
 
   it("should return A388 data", async function () {
     const result = await getAircraftById("5f9f7b9b9b3b3c1b3c1b3c1d");
 
     expect(result.success).to.equal(true);
-    expect((result as SuccessResult<AircraftDocument>).data.equipmentCode).to.equal("A388");
+
+    const aircraft = result as SuccessResult<AircraftDocument>;
+    expect(aircraft.data.equipmentCode).to.equal("A388");
+    expect(aircraft.data.isSuper).to.equal(true);
+  });
+
+  it("should return B748 data", async function () {
+    const result = await getAircraftById("5f9f7b9b9b3b3c1b3c1b3c1f");
+
+    expect(result.success).to.equal(true);
+
+    const aircraft = result as SuccessResult<AircraftDocument>;
+    expect(aircraft.data.equipmentCode).to.equal("B748");
+    expect(aircraft.data.isHeavy).to.equal(true);
+    expect(aircraft.data.isSuper).to.equal(false);
   });
 
   it("should return AircraftNotFound for invalid aircraft", async function () {

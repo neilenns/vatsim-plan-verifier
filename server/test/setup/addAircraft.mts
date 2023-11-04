@@ -34,12 +34,11 @@ const aircraft = [
     name: "A-380-800",
     engineCount: "4",
     engineType: "J",
-    weightClass: "H",
+    weightClass: "SUPER",
     KPDXVfrAltitude: "6000",
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "470",
-    isSuper: true,
     commonEquipmentSuffixes: ["L"],
   },
   {

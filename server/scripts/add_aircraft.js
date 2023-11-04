@@ -429,12 +429,11 @@ db.aircraft.insertMany([
     name: "A-380-800",
     engineCount: "4",
     engineType: "J",
-    weightClass: "H",
+    weightClass: "SUPER",
     srsClass: "III",
     maxCruiseSpeed: 470,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
-    isSuper: true,
   },
   {
     equipmentCode: "BU20",
