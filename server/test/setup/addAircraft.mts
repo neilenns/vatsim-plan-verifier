@@ -39,6 +39,7 @@ const aircraft = [
     KPDXIfrAltitude: "6000",
     srsClass: "III",
     maxCruiseSpeed: "470",
+    isSuper: true,
     commonEquipmentSuffixes: ["L"],
   },
   {
@@ -54,6 +55,17 @@ const aircraft = [
     srsClass: "I",
     maxCruiseSpeed: "250",
     commonEquipmentSuffix: "L",
+  },
+  {
+    _id: "5f9f7b9b9b3b3c1b3c1b3c1f",
+    equipmentCode: "B748",
+    manufacturer: "BOEING",
+    name: "747-8",
+    engineCount: "4",
+    engineType: "J",
+    weightClass: "H",
+    srsClass: "III",
+    aircraftClass: "J",
   },
 ];
 

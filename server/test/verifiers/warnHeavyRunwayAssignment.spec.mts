@@ -38,7 +38,18 @@ const testData = [
     departure: "KPDX",
     arrival: "KPDX",
     cruiseAltitude: 210,
-    rawAircraftType: "H/A388/L",
+    rawAircraftType: "H/B748/L",
+    route: "SEA8 SEA BUWZO KRATR2",
+    squawk: "1234",
+  },
+  // Is super, specific runways
+  {
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b4e"),
+    callsign: "ASA42",
+    departure: "KPDX",
+    arrival: "KPDX",
+    cruiseAltitude: 210,
+    rawAircraftType: "A388/L",
     route: "SEA8 SEA BUWZO KRATR2",
     squawk: "1234",
   },
@@ -82,6 +93,19 @@ describe("verifier: warnHeavyRunwayAssignment tests", () => {
 
   it("should warn heavy runway specific assignment", async function () {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b4d");
+    expect(flightPlan.success).to.equal(true);
+
+    const result = await warnHeavyRunwayAssignment(
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
+    );
+
+    const data = (result as SuccessResult<VerifierResultDocument>).data;
+    expect(data.status).to.equal(VerifierResultStatus.WARNING);
+    expect(data.messageId).to.equal("specificHeavyRunwayAssignment");
+  });
+
+  it("should warn super runway specific assignment", async function () {
+    const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b4e");
     expect(flightPlan.success).to.equal(true);
 
     const result = await warnHeavyRunwayAssignment(

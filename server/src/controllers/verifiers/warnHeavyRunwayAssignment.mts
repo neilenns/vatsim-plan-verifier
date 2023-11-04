@@ -12,6 +12,7 @@ const logger = debug(`plan-verifier:${verifierName}`);
 export default async function warnHeavyRunwayAssignment({
   _id,
   isHeavy,
+  isSuper,
   departureAirportInfo,
 }: FlightPlan): Promise<VerifierControllerResult> {
   // Set up the default result for a successful run of the verifier.
@@ -33,24 +34,27 @@ export default async function warnHeavyRunwayAssignment({
   }
 
   try {
-    // Plane is not a heavy
-    if (!isHeavy) {
+    // Plane is not a heavy or a super
+    if (!isHeavy && !isSuper) {
       result.status = VerifierResultStatus.INFORMATION;
       result.messageId = "notHeavyRunwayAssignment";
       result.message =
-        "Aircraft is not a heavy. No need to verify it is assigned to a runway that can accommodate a heavy.";
+        "Aircraft is not a heavy or a super. No need to verify it is assigned to a runway that can accommodate iut.";
     }
     // Don't warn if there's no specific heavy runway assignment for the airport
     else if (!heavyRunways) {
       result.status = VerifierResultStatus.INFORMATION;
       result.messageId = "noHeavyRunways";
       result.message =
-        "Airport has no heavy runways. No need to verify plane is assigned a runway that can accommodate a heavy.";
+        "Airport has no heavy runways. No need to verify plane is assigned a runway that can accommodate a heavy or super.";
     }
     // Plane is a heavy and there are specific runways to assign
     else {
       result.status = VerifierResultStatus.WARNING;
-      result.message = `Aircraft is a heavy. Assign runway ${joinWithWord(heavyRunways, "or")}.`;
+      result.message = `Aircraft is a heavy or super. Assign runway ${joinWithWord(
+        heavyRunways,
+        "or"
+      )}.`;
       result.messageId = "specificHeavyRunwayAssignment";
       result.priority = 3;
     }
