@@ -1,12 +1,13 @@
-import axios, { Axios, AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 import Result from "../types/result.mjs";
 import { MetarDocument, MetarModel } from "../models/Metar.mjs";
 import debug from "debug";
+import IAviationWeatherMetar from "../interfaces/IAviationWeather.mjs";
 
 const logger = debug("plan-verifier:getMetarController");
-type FlyByWireMetarResult = Result<MetarDocument, "NoMetarFound" | "UnknownError">;
+type MetarResult = Result<MetarDocument, "NoMetarFound" | "UnknownError">;
 
-export async function getMetar(airportCode: string): Promise<FlyByWireMetarResult> {
+export async function getMetar(airportCode: string): Promise<MetarResult> {
   try {
     // Look for unexpired cached data first
     const cachedMetar = await MetarModel.findOne({ icao: airportCode });
@@ -19,8 +20,8 @@ export async function getMetar(airportCode: string): Promise<FlyByWireMetarResul
     }
 
     // If there's no cached data or the cache is stale then try and get new metar
-    // from flyByWire.
-    const fetchedMetar = await fetchMetarFromFlyByWire(airportCode);
+    // from aviationweather.gov.
+    const fetchedMetar = await fetchMetarFromAviationWeather(airportCode);
 
     if (!fetchedMetar) {
       logger(`No metar found for ${airportCode}`);
@@ -55,6 +56,9 @@ export async function getMetar(airportCode: string): Promise<FlyByWireMetarResul
   }
 }
 
+// Looks up METAR from the flybywireapi. This used to be used to get metar but their
+// API went down for a full day. Now aviationweather.gov is used, but this code is
+// still here for future use if necessary.
 async function fetchMetarFromFlyByWire(airportCode: string): Promise<MetarDocument> {
   const endpointUrl = `https://api.flybywiresim.com/metar/${airportCode}?source=vatsim`;
   const response: AxiosResponse<MetarDocument> = await axios.get(endpointUrl);
@@ -62,6 +66,29 @@ async function fetchMetarFromFlyByWire(airportCode: string): Promise<MetarDocume
   try {
     if (response.status === 200) {
       return response.data;
+    } else {
+      throw new Error(
+        `Error fetching metar for ${airportCode}: ${response.status} ${response.statusText}`
+      );
+    }
+  } catch (error) {
+    throw new Error(`Error fetching metar for ${airportCode}: ${error}`);
+  }
+}
+
+// Looks up metar from aviationweather.gov.
+async function fetchMetarFromAviationWeather(airportCode: string): Promise<MetarDocument> {
+  const endpointUrl = `https://aviationweather.gov/cgi-bin/data/metar.php?ids=${airportCode}&hours=0&order=id%2C-obs&sep=true&format=json`;
+
+  const response: AxiosResponse<IAviationWeatherMetar[]> = await axios.get(endpointUrl);
+
+  try {
+    if (response.status === 200 && response.data.length > 0) {
+      return {
+        icao: response.data[0].icaoId,
+        metar: response.data[0].rawOb,
+        source: "AviationWeather",
+      } as MetarDocument;
     } else {
       throw new Error(
         `Error fetching metar for ${airportCode}: ${response.status} ${response.statusText}`

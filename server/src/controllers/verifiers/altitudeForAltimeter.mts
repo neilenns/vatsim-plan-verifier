@@ -2,7 +2,7 @@ import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import debug from "debug";
-import { getMetar } from "../flybywire.mjs";
+import { getMetar } from "../metar.mjs";
 
 const verifierName = "altitudeForAltimeter";
 const logger = debug(`plan-verifier:${verifierName}`);
