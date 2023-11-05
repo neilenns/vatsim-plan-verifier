@@ -32,7 +32,7 @@ export default async function altitudeForAltimeter({
       result.data.status = VerifierResultStatus.INFORMATION;
       result.data.message = `Unable to retrieve metar for ${departure}, skipping altitude check.`;
       result.data.priority = 5;
-      result.data.message = "UnableToRetrieveMetar";
+      result.data.messageId = "UnableToRetrieveMetar";
     } else if (cruiseAltitude < 180) {
       result.data.status = VerifierResultStatus.INFORMATION;
       result.data.message = `Cruise altitude is below 18,000, skipping altitude check.`;
