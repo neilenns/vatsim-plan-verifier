@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
-import { getMetar } from "../controllers/flybywire.mjs";
+import { getMetar } from "../controllers/metar.mjs";
 
 const router = express.Router();
 
