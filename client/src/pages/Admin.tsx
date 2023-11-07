@@ -15,7 +15,7 @@ import { Link, Outlet } from "react-router-dom";
 import NavMenu from "../components/NavMenu";
 import { DarkMode as DarkModeIcon, LightMode as LightModeIcon } from "@mui/icons-material";
 
-export default function AdminPage() {
+const AdminPage = () => {
   const { mode, setMode } = useColorScheme();
 
   const toggleDarkMode = () => {
@@ -60,4 +60,6 @@ export default function AdminPage() {
       </Box>
     </Box>
   );
-}
+};
+
+export default AdminPage;

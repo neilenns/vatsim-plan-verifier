@@ -23,7 +23,7 @@ type FlightPlanTextFieldProps = {
   onChange: (text: string) => void;
 } & Omit<StandardTextFieldProps, "onPaste" | "onChange">;
 
-const FlightPlanTextField: React.FC<FlightPlanTextFieldProps> = ({
+const FlightPlanTextField = ({
   value: propValue,
   hasErrors: propHasErrors,
   hasWarnings: propHasWarnings,
@@ -32,7 +32,7 @@ const FlightPlanTextField: React.FC<FlightPlanTextFieldProps> = ({
   onPaste,
   onChange,
   ...textFieldProps
-}) => {
+}: FlightPlanTextFieldProps) => {
   const [value, setValue] = useState<string>(propValue);
   const [hasErrors, setHasErrors] = useState<boolean | undefined>(propHasErrors);
   const [hasWarnings, setHasWarnings] = useState<boolean | undefined>(propHasWarnings);

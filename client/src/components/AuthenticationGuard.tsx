@@ -5,7 +5,7 @@ interface AuthenticationGuardProps {
   component: React.ReactNode;
 }
 
-export const AuthenticationGuard: React.FC<AuthenticationGuardProps> = ({ role, component }) => {
+export const AuthenticationGuard = ({ role, component }: AuthenticationGuardProps) => {
   if (!localStorage.getItem("token")) {
     return <Navigate to="/login" />;
   }

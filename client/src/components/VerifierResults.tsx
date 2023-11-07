@@ -1,4 +1,3 @@
-import React from "react";
 import VerifierResultComponent from "./VerifierResult";
 import { Grid, Paper } from "@mui/material";
 import IVerifierResultDocument, { StatusValue } from "../interfaces/IVerifierResult.mts";
@@ -18,7 +17,7 @@ const statusOrder: Record<StatusValue, number> = {
   CustomMessage: 4,
 };
 
-const VerifierResults: React.FC<VerifierResultsProps> = ({ verifierResults, flightPlan }) => {
+const VerifierResults = ({ verifierResults, flightPlan }: VerifierResultsProps) => {
   const { hideInformational } = useAppContext();
 
   // This method of sorting on multiple properties comes from

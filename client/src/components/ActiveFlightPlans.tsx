@@ -4,7 +4,7 @@ import { useFetcher, useLoaderData, useNavigate, useParams } from "react-router-
 import { Delete } from "@mui/icons-material";
 import { List, ListItem, IconButton, ListItemButton, ListItemText, Box } from "@mui/material";
 
-const ActiveFlightPlans: React.FC = () => {
+const ActiveFlightPlans = () => {
   const [selectedFlightPlanId, setSelectedFlightPlanId] = useState("");
   const activeFlightPlans = useLoaderData() as IActiveFlightPlan[];
   const fetcher = useFetcher();

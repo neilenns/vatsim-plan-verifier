@@ -48,7 +48,7 @@ const theme = extendTheme({
   },
 });
 
-const AppTheme = ({ children }: Props): JSX.Element => {
+const AppTheme = ({ children }: Props) => {
   return (
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     <CssVarsProvider theme={theme}>

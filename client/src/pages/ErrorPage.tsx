@@ -17,7 +17,7 @@ function errorMessage(error: unknown): string {
   }
 }
 
-export default function ErrorPage() {
+const ErrorPage = () => {
   const error = useRouteError();
   logger(error);
 
@@ -30,4 +30,6 @@ export default function ErrorPage() {
       </p>
     </div>
   );
-}
+};
+
+export default ErrorPage;
