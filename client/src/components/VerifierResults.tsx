@@ -1,4 +1,3 @@
-import React from "react";
 import VerifierResultComponent from "./VerifierResult";
 import { Grid, Paper } from "@mui/material";
 import IVerifierResultDocument, { StatusValue } from "../interfaces/IVerifierResult.mts";
