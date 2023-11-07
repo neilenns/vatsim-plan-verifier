@@ -13,7 +13,7 @@ import { Paper } from "@mui/material";
 import { PlanVerifyActionResult } from "../services/flightPlanVerifyAction.mts";
 import { PlanDetailsLoaderResult } from "../services/flightPlanDetailsLoader.mts";
 
-function FlightPlanDetails() {
+const FlightPlanDetails = () => {
   const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
   const [flightPlan, setFlightPlan] = useState<IFlightPlan>({});
   const [verifyResults, setVerifyResults] = useState<IVerifyAllResult>();
@@ -88,6 +88,6 @@ function FlightPlanDetails() {
       <AlertSnackbar {...snackbar} onClose={handleSnackbarClose} />
     </>
   );
-}
+};
 
 export default FlightPlanDetails;

@@ -21,7 +21,7 @@ interface VerifierResultComponentProps {
 
 const maxExtendedMessages = 3;
 
-const VerifierResult: React.FC<VerifierResultComponentProps> = ({ verifierResult, flightPlan }) => {
+const VerifierResult = ({ verifierResult, flightPlan }: VerifierResultComponentProps) => {
   const { message, extendedMessage, status } = verifierResult;
   const { departure, arrival } = flightPlan;
   const additionalItemsCount = Math.max(0, (extendedMessage?.length ?? 0) - maxExtendedMessages);

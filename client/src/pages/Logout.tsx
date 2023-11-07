@@ -7,7 +7,7 @@ import debug from "debug";
 
 const logger = debug("plan-verifier:logout");
 
-export default function LogoutPage() {
+const LogoutPage = () => {
   const navigate = useNavigate();
 
   const logout = useCallback(async () => {
@@ -32,4 +32,6 @@ export default function LogoutPage() {
       <CircularProgress />
     </Box>
   );
-}
+};
+
+export default LogoutPage;

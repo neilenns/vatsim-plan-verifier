@@ -3,7 +3,7 @@ import Signup from "../components/Signup";
 import Login from "../components/Login";
 import { Link, useMatches } from "react-router-dom";
 
-const LoginSignup: React.FC = () => {
+const LoginSignup = () => {
   const currentTab = useMatches()[0]!.id;
 
   return (

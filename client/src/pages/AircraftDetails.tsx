@@ -17,7 +17,7 @@ import {
 import { AircraftDetailsLoaderResult } from "../services/aircraftDetailsLoader.mts";
 import IAircraft from "../interfaces/IAircraft.mts";
 
-function AircraftDetails() {
+const AircraftDetails = () => {
   const loaderData = useLoaderData() as AircraftDetailsLoaderResult;
   const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
   const [aircraftDetails, setAircraftDetails] = useState<IAircraft[]>();
@@ -97,6 +97,6 @@ function AircraftDetails() {
       <AlertSnackbar {...snackbar} onClose={handleSnackbarClose} />
     </>
   );
-}
+};
 
 export default AircraftDetails;

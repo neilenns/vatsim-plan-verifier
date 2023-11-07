@@ -41,7 +41,7 @@ const useUpdateUser = () => {
   }, []);
 };
 
-function Users() {
+const Users = () => {
   const users = useLoaderData() as IUser[];
   const updateUser = useUpdateUser();
   const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
@@ -83,6 +83,6 @@ function Users() {
       <AlertSnackbar {...snackbar} onClose={handleSnackbarClose} />
     </>
   );
-}
+};
 
 export default Users;

@@ -18,7 +18,7 @@ const statusOrder: Record<StatusValue, number> = {
   CustomMessage: 4,
 };
 
-const VerifierResults: React.FC<VerifierResultsProps> = ({ verifierResults, flightPlan }) => {
+const VerifierResults = ({ verifierResults, flightPlan }: VerifierResultsProps) => {
   const { hideInformational } = useAppContext();
 
   // This method of sorting on multiple properties comes from

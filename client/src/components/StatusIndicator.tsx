@@ -12,7 +12,7 @@ interface StatusIndicatorProps {
   status?: string;
 }
 
-const StatusIndicator: React.FC<StatusIndicatorProps> = (props) => {
+const StatusIndicator = (props: StatusIndicatorProps) => {
   const [hasErrors, setHasErrors] = useState<boolean | undefined>(props.hasErrors);
   const [hasWarnings, setHasWarnings] = useState<boolean | undefined>(props.hasWarnings);
   const [hasCustomMessage, setHasCustomMessage] = useState<boolean | undefined>(

@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { ClientTransceiversLoaderResult } from "../services/clientTransceiversLoader.mts";
 
-function ClientTransceivers() {
+const ClientTransceivers = () => {
   const loaderData = useLoaderData() as ClientTransceiversLoaderResult;
   const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
   const [clientTransceivers, setClientTransceivers] = useState<IVatsimClientTransceivers>();
@@ -52,6 +52,6 @@ function ClientTransceivers() {
       <AlertSnackbar {...snackbar} onClose={handleSnackbarClose} />
     </>
   );
-}
+};
 
 export default ClientTransceivers;

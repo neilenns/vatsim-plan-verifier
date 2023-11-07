@@ -23,7 +23,7 @@ import useAppContext from "../context/AppContext";
 import { useState } from "react";
 import { SettingsDialog } from "../components/SettingsDialog";
 
-export default function Verifier() {
+const Verifier = () => {
   const { mode, setMode } = useColorScheme();
   const { muted, setMuted } = useAppContext();
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -108,4 +108,6 @@ export default function Verifier() {
       </Box>
     </Box>
   );
-}
+};
+
+export default Verifier;
