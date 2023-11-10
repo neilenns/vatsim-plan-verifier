@@ -1,5 +1,6 @@
-import { Link, Tooltip, Typography } from "@mui/material";
+import { Tooltip } from "@mui/material";
 import { IPilotStats } from "../interfaces/IPilotStats.mts";
+import { HyperlinkedCallsign } from "./HyperlinkedCallsign";
 
 type CallsignTooltipProps = {
   callsignTelephony: string | undefined;
@@ -15,7 +16,7 @@ export const CallsignTooltip = ({
   cid,
 }: CallsignTooltipProps) => {
   if (!pilotStats) {
-    return <>{callsignTelephony ?? ""}</>;
+    return <HyperlinkedCallsign cid={cid} callsignTelephony={callsignTelephony} />;
   }
   return (
     pilotStats && (
@@ -30,16 +31,11 @@ export const CallsignTooltip = ({
           </span>
         }
       >
-        <Typography variant="caption" sx={{ cursor: "pointer" }}>
-          <Link
-            href={`http://stats.vatsim.net/stats/${cid ?? ""}`}
-            target="_blank"
-            rel="noreferrer"
-            underline="hover"
-          >
-            {callsignTelephony ?? ""}
-          </Link>
-        </Typography>
+        {/* Without the <div> here this results in the error described at */}
+        {/* https://stackoverflow.com/questions/56347839/material-ui-v4-0-1-warning-expected-an-element-that-can-hold-a-ref */}
+        <div>
+          <HyperlinkedCallsign cid={cid} callsignTelephony={callsignTelephony} />
+        </div>
       </Tooltip>
     )
   );
