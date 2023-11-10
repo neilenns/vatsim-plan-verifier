@@ -1,14 +1,14 @@
-import { MagneticDeclinationModel } from "../../src/models/MagneticDecliation.mjs";
+import { MagneticDeclinationModel } from "../../src/models/MagneticDeclination.mjs";
 
 const magneticDecliations = [
   {
     _id: "5f9f7b9b9b3b3c1b3c1b3c1b",
-    airportCode: "KPDX",
+    icao: "KPDX",
     magneticDeclination: -14.84885,
   },
   {
     _id: "5f9f7b9b9b3b3c1b3c1b3c1c",
-    airportCode: "KSEA",
+    icao: "KSEA",
     magneticDeclination: -15.22644,
   },
 ];

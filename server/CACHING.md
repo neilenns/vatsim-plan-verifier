@@ -10,12 +10,14 @@ Refresh triggers can be:
 * **On set schedule**: These cached items are automatically fetched and refreshed on the specified schedule, typically every 24 hours.
 * **On expiry**: These cached items are refreshed if they are requested after the cache has expired.
 
-| Data                         | DB collection        | Default expiry | Refresh trigger | Environment variable        |
-| ---------------------------- | -------------------- | -------------- | --------------- | --------------------------- |
-| AvioWiki airport information | airportinfo          | every 24 hours | On set schedule | AIRPORT_REFRESH_INTERVAL    |
-| Flight aware routes          | flightawareroutes    | 30 days        | On expiry       | n/a                         |
-| Magnetic decliation          | magneticdeclinations | 30 days        | On expiry       | n/a                         |
-| METAR                        | metars               | 15 minutes     | On expiry       | n/a                         |
-| VATSIM flight plans          | vatsimflightplans    | 15 seconds     | On set schedule | VATSIM_AUTO_UPDATE_INTERVAL |
-| VATSIM pilot stats           | pilotstats           | 1 day          | On expiry       | n/a                         |  |
-| VATSIM tuned transceivers    | tunedtransceivers    | 15 seconds     | On expiry       | n/a                         |
+| Data                         | DB collection        | Default expiry | Refresh trigger | Environment variable              |
+| ---------------------------- | -------------------- | -------------- | --------------- | --------------------------------- |
+| AvioWiki airport information | airportinfo          | every 24 hours | On set schedule | AIRPORT_REFRESH_INTERVAL          |
+| Flight aware routes          | flightawareroutes    | 30 days        | On expiry       | n/a                               |
+| Magnetic declination         | magneticdeclinations | 30 days        | On expiry[^1]   | MAGNETIC_DECLINATION_CACHE_EXPIRY |
+| METAR                        | metars               | 15 minutes     | On expiry       | n/a                               |
+| VATSIM flight plans          | vatsimflightplans    | 15 seconds     | On set schedule | VATSIM_AUTO_UPDATE_INTERVAL       |
+| VATSIM pilot stats           | pilotstats           | 1 day          | On expiry       | n/a                               |
+| VATSIM tuned transceivers    | tunedtransceivers    | 15 seconds     | On expiry       | n/a                               |
+
+[^1]: If updated magnetic declination data cannot be fetched from the web service the expired cached value will be returned instead.
