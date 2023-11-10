@@ -1,6 +1,6 @@
 import { getMagneticDeclination } from "../controllers/magneticDeclination.mjs";
 import autopopulate from "mongoose-autopopulate";
-import { MagneticDeclinationModel } from "./MagneticDecliation.mjs";
+import { MagneticDeclinationModel } from "./MagneticDeclination.mjs";
 import {
   modelOptions,
   prop,
@@ -10,6 +10,10 @@ import {
   Ref,
 } from "@typegoose/typegoose";
 import { ExtendedAirportInfo } from "./ExtendedAirportInfo.mjs";
+import { MagneticDeclinationDocument } from "./MagneticDeclination.mjs";
+import debug from "debug";
+
+const logger = debug("plan-verifier:airportInfoModel");
 
 @modelOptions({
   options: { customName: "airportinfo" },
@@ -65,37 +69,57 @@ export class AirportInfo {
 
   // Returns the magnetic declination, using the cached database value if it exists.
   // Otherwise it will contact a web service to get the magnetic declination and
-  // cache the result in the database.
+  // cache the result in the database. If the web service call fails the cached
+  // value, if any, will be returned even if it expired.
   public async getMagneticDeclination(this: DocumentType<AirportInfo>): Promise<number | null> {
     // Try finding a cached value in the database first.
-    const cachedMagneticDeclination = await MagneticDeclinationModel.findByAirportCode(
-      this.airportCode
-    );
+    const cachedMagneticDeclination = await MagneticDeclinationModel.findByICAO(this.airportCode);
 
-    if (cachedMagneticDeclination) {
-      return cachedMagneticDeclination;
+    if (cachedMagneticDeclination && !(await cachedMagneticDeclination?.isExpired())) {
+      return cachedMagneticDeclination.magneticDeclination;
     }
 
     if (!this.latitude || !this.longitude) {
       return null;
     }
 
-    // If there's no cached value then get it from the web service and cache it.
+    // If there's no cached value or the cache is stale then get it from the web service and cache it.
     const result = await getMagneticDeclination(this.latitude, this.longitude);
 
-    if (!result.success || !result.data) {
-      return null;
+    // If fetch fails then we will fall back to cached data if it is available.
+    if (!result.success) {
+      logger(
+        `Unable to fetch updated magnetic declination for ${this.airportCode}: ${result.error}`
+      );
+      return cachedMagneticDeclination?.magneticDeclination ?? null;
     }
+
+    // If no data was returned fall back to the cached data if it is available.
+    if (!result.data) {
+      logger(`No magnetic declination data returned for ${this.airportCode}`);
+      return cachedMagneticDeclination?.magneticDeclination ?? null;
+    }
+
+    // Save the fetched declination and return it. This code strikes me as total nonsense,
+    // why is it so hard to either update or create a new document with mongoose
+    // and have it run pre-save middleware? (No, you can't use findOneOrUpdate for this)
 
     // As best I can tell the magnetic declination is returned as a positive
     // number for west and a negative number for east. So we need to negate
     // the result to get the correct value for math later on.
-    const savedResult = await new MagneticDeclinationModel({
-      airportCode: this.airportCode,
-      magneticDeclination: -result.data,
-    }).save();
+    let savedDeclination: MagneticDeclinationDocument;
+    if (cachedMagneticDeclination) {
+      cachedMagneticDeclination.magneticDeclination = -result.data;
+      cachedMagneticDeclination.updatedAt = new Date(); // Force the updatedAt date to update even if the declination didn't change
+      savedDeclination = await cachedMagneticDeclination.save();
+    } else {
+      savedDeclination = await new MagneticDeclinationModel({
+        icao: this.airportCode,
+        magneticDeclination: -result.data,
+      }).save();
+    }
 
-    return savedResult.magneticDeclination;
+    return savedDeclination.magneticDeclination;
   }
 }
 
