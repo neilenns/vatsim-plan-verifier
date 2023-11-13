@@ -28,6 +28,9 @@ const VatsimFlightPlans = () => {
   const [airportCodes, setAirportCodes] = useState(
     localStorage.getItem("vatsimAirportCodes") || ""
   );
+  // Issue 709: This is a non-rendering version of airportCodesRef that can get safely used in useEffect()
+  // to send the airport codes to the connected socket.
+  const airportCodesRef = useRef<string>(localStorage.getItem("vatsimAirportCodes") || "");
   const [isImporting, setIsImporting] = useState(false);
   const [hasNew, setHasNew] = useState(false);
   const [hasUpdates, setHasUpdates] = useState(false);
@@ -73,6 +76,9 @@ const VatsimFlightPlans = () => {
 
     socketRef.current.on("connect", () => {
       logger("Connected for vatsim flight plan updates");
+
+      socketRef.current?.emit("watchAirports", airportCodesRef.current?.split(","));
+
       setIsConnected(true);
     });
 
@@ -180,8 +186,6 @@ const VatsimFlightPlans = () => {
     // Not currently connected so connect
     if (!isConnected && socketRef.current) {
       setFlightPlans([]);
-      socketRef.current.connect();
-      logger("Connected for vatsim flight plan updates");
 
       // Clean up the airport codes
       const cleanCodes = airportCodes
@@ -189,9 +193,15 @@ const VatsimFlightPlans = () => {
         .map((airportCode) => airportCode.trim())
         .join(",");
 
-      socketRef.current.emit("watchAirports", cleanCodes.split(","));
       localStorage.setItem("vatsimAirportCodes", cleanCodes);
+
+      // Issue 709: This is set as both a state and a ref to ensure the
+      // airport codes are available in the socket connected event without
+      //having to add them as a useEffects() dependency.
       setAirportCodes(cleanCodes);
+      airportCodesRef.current = cleanCodes;
+
+      socketRef.current.connect();
     }
     // Currently connected so disconnect
     else if (socketRef.current) {
