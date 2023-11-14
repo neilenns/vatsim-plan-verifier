@@ -51,6 +51,10 @@ const VatsimFlightPlans = () => {
   useEffect(() => {
     if (isConnected !== null && !isConnected) {
       void disconnectedPlayer.play();
+      // Issue 644: Once the sound's played once set isConnected to null
+      // so any future calls to this method due to re-renders won't cause
+      // the disconnected sound to play.
+      setIsConnected(null);
     }
   }, [isConnected, disconnectedPlayer]);
 
@@ -180,6 +184,13 @@ const VatsimFlightPlans = () => {
       });
   };
 
+  const disconnectFromVatsim = () => {
+    if (isConnected) {
+      socketRef.current?.disconnect();
+      setIsConnected(false);
+    }
+  };
+
   const toggleVatsimConnection = () => {
     if (airportCodes === "") return;
 
@@ -204,9 +215,8 @@ const VatsimFlightPlans = () => {
       socketRef.current.connect();
     }
     // Currently connected so disconnect
-    else if (socketRef.current) {
-      socketRef.current.disconnect();
-      setIsConnected(false);
+    else {
+      disconnectFromVatsim();
     }
   };
 
@@ -221,7 +231,7 @@ const VatsimFlightPlans = () => {
               value={airportCodes}
               onChange={(e) => {
                 setAirportCodes(e.target.value);
-                if (isConnected) toggleVatsimConnection();
+                disconnectFromVatsim();
               }}
             />
             <IconButton
