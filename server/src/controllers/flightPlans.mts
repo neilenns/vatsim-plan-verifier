@@ -84,6 +84,7 @@ export async function importFlightPlan(callsign: string): Promise<FlightPlanResu
       cruiseAltitude: vatsimPlan.cruiseAltitude!,
       squawk: vatsimPlan.squawk!,
       remarks: vatsimPlan.remarks!,
+      communicationMethod: vatsimPlan.communicationMethod!,
     } as FlightPlan;
 
     return putFlightPlan(flightPlan);

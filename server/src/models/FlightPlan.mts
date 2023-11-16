@@ -1,4 +1,4 @@
-import { Model, Schema, Types, model } from "mongoose";
+import { Types } from "mongoose";
 import autopopulate from "mongoose-autopopulate";
 import { formatAltitude } from "../utils.mjs";
 import { getAirportInfo } from "../controllers/airportInfo.mjs";
@@ -13,6 +13,7 @@ import { prop, getModelForClass, modelOptions, DocumentType, plugin } from "@typ
 import { Airline } from "./Airline.mjs";
 import { PilotStats } from "./PilotStats.mjs";
 import { getVatsimPilotStats } from "../controllers/vatsim.mjs";
+import { VatsimCommunicationMethod } from "./VatsimFlightPlan.mjs";
 
 const logger = debug("plan-verifier:flightPlan");
 
@@ -276,6 +277,9 @@ export class FlightPlan {
 
   @prop({ required: false, trim: true })
   remarks?: string;
+
+  @prop({ required: true, type: String, default: VatsimCommunicationMethod.VOICE })
+  communicationMethod!: VatsimCommunicationMethod;
 
   // Reference properties
   @prop({

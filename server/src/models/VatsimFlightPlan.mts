@@ -8,6 +8,12 @@ export enum VatsimFlightStatus {
   ARRIVED = "ARRIVED",
 }
 
+export enum VatsimCommunicationMethod {
+  VOICE = "VOICE",
+  TEXTONLY = "TEXTONLY",
+  RECEIVE = "RECEIVE",
+}
+
 @modelOptions({ options: { customName: "vatsimflightplan" } })
 @pre<VatsimFlightPlan>("save", function (this: DocumentType<VatsimFlightPlan>) {
   if (this.isModified()) {
@@ -65,6 +71,9 @@ class VatsimFlightPlan {
 
   @prop({ required: false })
   longitude?: number;
+
+  @prop({ required: true, type: String, default: VatsimCommunicationMethod.VOICE })
+  communicationMethod!: VatsimCommunicationMethod;
 
   // Sets the cruise altitude and flight rules, taking into account how vNAS flight plans
   // mark VFR flights with "VFR" in the cruise altitude field.

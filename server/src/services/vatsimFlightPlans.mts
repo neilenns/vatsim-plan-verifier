@@ -2,6 +2,7 @@ import axios from "axios";
 import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
 import { IVatsimData, IVatsimPilot, IVatsimPrefile } from "../interfaces/IVatsimData.mjs";
 import {
+  VatsimCommunicationMethod,
   VatsimFlightPlanDocument,
   VatsimFlightPlanModel,
   VatsimFlightStatus,
@@ -34,6 +35,7 @@ const updateProperties = [
   "remarks",
   "isPrefile",
   "cruiseAltitude",
+  "communicationMethod",
 ] as (keyof VatsimFlightPlanDocument)[];
 
 function cleanRoute(route: string) {
@@ -44,6 +46,18 @@ function cleanRoute(route: string) {
     .replace(/(?<!\/)N\d+F\d+\s*/g, "") // Get rid of step climbs making sure to catch spaces after it so double spaces don't get left behind
     .trim() // Trim leading and trailing whitespace
     .replace(/\s+/g, " "); // Issue 601: Get rid of any multiple spaces between route parts
+}
+
+export function getCommunicationMethod(inputString: string | undefined): VatsimCommunicationMethod {
+  if (inputString?.includes("/T/")) {
+    return VatsimCommunicationMethod.TEXTONLY;
+  } else if (inputString?.includes("/R/")) {
+    return VatsimCommunicationMethod.RECEIVE;
+  } else if (inputString?.includes("/V/")) {
+    return VatsimCommunicationMethod.VOICE;
+  } else {
+    return VatsimCommunicationMethod.VOICE;
+  }
 }
 
 // Takes a pilot object from vatsim and converts it to a vatsim model
@@ -63,6 +77,8 @@ export function pilotToVatsimModel(pilot: IVatsimPilot) {
     squawk: pilot?.flight_plan?.assigned_transponder ?? "",
     remarks: pilot?.flight_plan?.remarks ?? "",
   });
+
+  result.communicationMethod = getCommunicationMethod(result?.remarks);
 
   result.setCruiseAltitudeAndFlightRules(
     pilot?.flight_plan?.altitude,
@@ -87,6 +103,8 @@ export function prefileToVatsimModel(prefile: IVatsimPrefile) {
     squawk: prefile?.flight_plan?.assigned_transponder ?? "",
     remarks: prefile?.flight_plan?.remarks ?? "",
   });
+
+  result.communicationMethod = getCommunicationMethod(result?.remarks);
 
   result.setCruiseAltitudeAndFlightRules(
     prefile?.flight_plan?.altitude,
