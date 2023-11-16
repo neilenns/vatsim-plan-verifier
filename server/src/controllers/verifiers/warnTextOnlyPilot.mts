@@ -27,10 +27,16 @@ export default async function warnTextOnlyPilot({
     if (communicationMethod === VatsimCommunicationMethod.TEXTONLY) {
       result.data.status = VerifierResultStatus.WARNING;
       result.data.message = `Pilot is a text-only pilot`;
+      result.data.messageId = "textOnlyPilot";
       result.data.priority = 5;
+    } else if (communicationMethod === VatsimCommunicationMethod.RECEIVE) {
+      result.data.status = VerifierResultStatus.INFORMATION;
+      result.data.message = `Pilot is a receive pilot`;
+      result.data.messageId = "receivePilot";
     } else {
       result.data.status = VerifierResultStatus.INFORMATION;
-      result.data.message = `Pilot is not a text-only pilot`;
+      result.data.message = `Pilot is a voice pilot`;
+      result.data.messageId = "voicePilot";
     }
 
     await result.data.save();
