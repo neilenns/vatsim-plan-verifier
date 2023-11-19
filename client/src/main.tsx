@@ -30,6 +30,8 @@ import { clientTransceiversLoader } from "./services/clientTransceiversLoader.mt
 import ClientTransceivers from "./pages/ClientTransceivers.tsx";
 import AircraftDetails from "./pages/AircraftDetails.tsx";
 import { aircraftDetailsLoader } from "./services/aircraftDetailsLoader.mts";
+import { FlightStrip } from "./pages/FlightStrip.tsx";
+import { vatsimPlanLoader } from "./services/vatsimPlanLoader.mts";
 
 const router = createBrowserRouter([
   {
@@ -78,6 +80,12 @@ const router = createBrowserRouter([
         path: "/transceivers/:callsign",
         element: <ClientTransceivers />,
         loader: clientTransceiversLoader,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/flightstrip/:callsign",
+        element: <AuthenticationGuard role="user" component={<FlightStrip />} />,
+        loader: vatsimPlanLoader,
         errorElement: <ErrorPage />,
       },
       {

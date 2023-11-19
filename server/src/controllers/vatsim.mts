@@ -16,6 +16,11 @@ type VatsimFlightPlansResult = Result<
   "FlightPlansNotFound" | "UnknownError"
 >;
 
+type VatsimFlightPlanResult = Result<
+  VatsimFlightPlanDocument,
+  "FlightPlanNotFound" | "UnknownError"
+>;
+
 type VatsimPilotStatsResult = Result<PilotStatsDocument, "PilotNotFound" | "UnknownError">;
 
 export async function getVatsimPilotStats(cid: number): Promise<VatsimPilotStatsResult> {
@@ -66,6 +71,32 @@ async function fetchPilotStatsFromVatsim(cid: number): Promise<IVatsimPilotStats
     }
   } catch (error) {
     throw new Error(`Error fetching pilot stats for ${cid}: ${error}`);
+  }
+}
+
+export async function getVatsimFlightPlan(callsign: string): Promise<VatsimFlightPlanResult> {
+  try {
+    const result = await VatsimFlightPlanModel.findOne({
+      callsign: callsign,
+    });
+
+    if (result) {
+      return { success: true, data: result };
+    } else {
+      return {
+        success: false,
+        errorType: "FlightPlanNotFound",
+        error: `Flight plan for ${callsign} not found.`,
+      };
+    }
+  } catch (error) {
+    logger(`Error fetching flight plan for ${callsign}: ${error}`);
+
+    return {
+      success: false,
+      errorType: "UnknownError",
+      error: `Error fetching flight plan for ${callsign}: ${error}`,
+    };
   }
 }
 
