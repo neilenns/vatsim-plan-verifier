@@ -3,11 +3,8 @@ import { describe, it } from "mocha";
 import { getFlightPlan } from "../../src/controllers/flightPlans.mjs";
 import warnTextOnlyPilot from "../../src/controllers/verifiers/warnTextOnlyPilot.mjs";
 import { FlightPlanDocument } from "../../src/models/FlightPlan.mjs";
-import {
-  VerifierResult,
-  VerifierResultDocument,
-  VerifierResultStatus,
-} from "../../src/models/VerifierResult.mjs";
+import { VatsimCommunicationMethod } from "../../src/models/VatsimFlightPlan.mjs";
+import { VerifierResultDocument, VerifierResultStatus } from "../../src/models/VerifierResult.mjs";
 import { SuccessResult } from "../../src/types/result.mjs";
 import { addFlightPlans, removeFlightPlans } from "../setup/manageFlightPlans.mjs";
 import { Types } from "mongoose";
@@ -24,6 +21,7 @@ const testData = [
     route: "SEA8 SEA BUWZO KRATR2",
     squawk: "1234",
     remarks: "TCAS SIMBRIEF, SHARED COCKPIT /V/",
+    communicationMethod: VatsimCommunicationMethod.VOICE,
   },
   // Is explicitly receive
   {
@@ -36,6 +34,7 @@ const testData = [
     route: "SEA8 SEA BUWZO KRATR2",
     squawk: "1234",
     remarks: "TCAS SIMBRIEF, SHARED COCKPIT /R/",
+    communicationMethod: VatsimCommunicationMethod.RECEIVE,
   },
   // Is explicitly text
   {
@@ -48,6 +47,7 @@ const testData = [
     route: "SEA8 SEA BUWZO KRATR2",
     squawk: "1234",
     remarks: "TCAS SIMBRIEF, SHARED COCKPIT /T/",
+    communicationMethod: VatsimCommunicationMethod.TEXTONLY,
   },
   // Is voice by default
   {
@@ -119,7 +119,7 @@ describe("verifier: warnTextOnlyPilot tests", () => {
     expect(result.success).to.equal(true);
 
     const data = (result as SuccessResult<VerifierResultDocument>).data;
-    expect(data.status).to.equal(VerifierResultStatus.WARNING);
+    expect(data.status).to.equal(VerifierResultStatus.INFORMATION);
     expect(data.flightPlanPart).to.equal("callsign");
     expect(data.messageId).to.equal("voicePilot");
   });
