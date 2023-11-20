@@ -33,6 +33,7 @@ import checkForCustomDepartureMessages from "../controllers/verifiers/checkForCu
 import checkSEAvsMONTN from "../controllers/verifiers/checkSEAvsMONTN.mjs";
 import { FlightPlan } from "../models/FlightPlan.mjs";
 import altitudeForAltimeter from "../controllers/verifiers/altitudeForAltimeter.mjs";
+import warnTextOnlyPilot from "../controllers/verifiers/warnTextOnlyPilot.mjs";
 
 const router = express.Router();
 
@@ -75,6 +76,7 @@ const verifiers: Verifier[] = [
   { name: "checkSEAvsMONTN", handler: checkSEAvsMONTN },
   { name: "warnNewPilot", handler: warnNewPilot },
   { name: "altitudeForAltimeter", handler: altitudeForAltimeter },
+  { name: "warnTextOnlyPilot", handler: warnTextOnlyPilot },
 ];
 
 // Generic handler for verifier routes
