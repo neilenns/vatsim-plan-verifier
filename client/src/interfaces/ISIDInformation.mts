@@ -10,6 +10,7 @@ export enum InitialPhrasingOptions {
 export default interface ISIDInformation {
   InitialPhrasing: InitialPhrasingOptions;
   ExpectInMinutes?: number;
+  ExpectInMiles?: string;
   ExpectRequired?: boolean;
   Telephony?: string;
   Charts?: {

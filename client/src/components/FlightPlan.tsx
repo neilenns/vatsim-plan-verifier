@@ -4,7 +4,7 @@ import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
 import { useEffect, useState } from "react";
 import FlightPlanTextField from "./FlightPlanTextField";
 import {
-  formattedExpectInMinutes,
+  formattedExpectIn,
   formattedInitialAltitude,
   hyperlinkSidName,
   normalizeAirportName,
@@ -195,7 +195,7 @@ const FlightPlan = (props: FlightPlanProps) => {
                   <>
                     {formattedInitialAltitude(flightPlan)}
                     <br />
-                    {formattedExpectInMinutes(flightPlan)}
+                    {formattedExpectIn(flightPlan)}
                   </>
                 )
               }
