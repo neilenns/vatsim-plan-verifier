@@ -5,6 +5,10 @@ db.airlines.deleteMany({});
 
 db.airlines.insertMany([
   {
+    airlineCode: "BVX",
+    telephony: "OSPREY",
+  },
+  {
     airlineCode: "CLA",
     telephony: "COMLUX",
   },
