@@ -843,6 +843,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: false,
+    ExpectInMiles: "15nm SEA",
     IsRNAV: true,
     ExpectRequired: false,
     ExpectInMinutes: 3,
@@ -1096,6 +1098,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: false,
+    ExpectInMiles: "15nm SEA",
     IsRNAV: true,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582HAROB.PDF",
@@ -1196,6 +1200,8 @@ db.departures.insertMany([
       "ELN",
       "ALPSE",
     ],
+    ExpectRequired: false,
+    ExpectInMiles: "15nm SEA",
     InitialAltitudes: [
       {
         Altitude: 70,
@@ -1220,6 +1226,8 @@ db.departures.insertMany([
         AircraftClass: ".*",
       },
     ],
+    ExpectRequired: false,
+    ExpectInMiles: "15nm SEA",
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582BANGR.PDF",
     },
@@ -1247,13 +1255,15 @@ db.departures.insertMany([
       "AST",
       "HQM",
     ],
-    InitialPhrasing: "SeeNote",
+    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 70,
         AircraftClass: ".*",
       },
     ],
+    ExpectInMiles: "15nm SEA",
+    ExpectRequired: true,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582SEATTLE.PDF",
     },

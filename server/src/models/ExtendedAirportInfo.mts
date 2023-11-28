@@ -36,6 +36,9 @@ export class ExtendedAirportInfo {
   @prop()
   expectInMinutes?: number;
 
+  @prop()
+  expectInMiles?: string;
+
   @prop({ type: () => [String] })
   heavyRunways?: string[];
 }

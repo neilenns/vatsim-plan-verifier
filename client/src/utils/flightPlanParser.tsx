@@ -82,7 +82,7 @@ export function formattedInitialAltitude(flightPlan: IFlightPlan): string {
 
 // Looks at the SIDInformation in a flight plan and returns the formatted
 // minutes after departure to expect the SID to be assigned.
-export function formattedExpectInMinutes(flightPlan: IFlightPlan): string {
+export function formattedExpectIn(flightPlan: IFlightPlan): string {
   const initialPhrasing =
     flightPlan.SIDInformation?.InitialPhrasing ??
     flightPlan.departureAirportInfo?.extendedAirportInfo?.initialPhrasing;
@@ -92,6 +92,9 @@ export function formattedExpectInMinutes(flightPlan: IFlightPlan): string {
   const expectInMinutes =
     flightPlan.SIDInformation?.ExpectInMinutes ??
     flightPlan.departureAirportInfo?.extendedAirportInfo?.expectInMinutes;
+  const expectInMiles =
+    flightPlan.SIDInformation?.ExpectInMiles ??
+    flightPlan.departureAirportInfo?.extendedAirportInfo?.expectInMiles;
 
   if (initialPhrasing === undefined || expectRequired === undefined) {
     return "";
@@ -101,8 +104,14 @@ export function formattedExpectInMinutes(flightPlan: IFlightPlan): string {
     return "";
   }
 
-  if (!expectInMinutes) {
+  if (!expectInMinutes && !expectInMiles) {
     return "See chart/SOP";
+  }
+
+  // expectInMiles takes priority if both are specified, although that should
+  // never happen
+  if (expectInMiles) {
+    return expectRequired ? expectInMiles : `(${expectInMiles})`;
   }
 
   // If the expect in minutes is required because it isn't printed on the chart

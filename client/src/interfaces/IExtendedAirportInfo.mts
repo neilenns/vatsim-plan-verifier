@@ -7,5 +7,6 @@ export default interface IExtendedAirportInfo {
   initialAltitude?: number;
   initialPhrasing?: InitialPhrasingOptions;
   expectInMinutes?: number;
+  expectInMiles?: string;
   expectRequired?: boolean;
 }

@@ -37,6 +37,9 @@ export class Departure {
   @prop({ default: 0 })
   ExpectTopAltitudeInMinutes!: number;
 
+  @prop({ required: false })
+  ExpectTopAltitudeInMiles?: string;
+
   @prop({ default: false })
   IsRNAV!: boolean;
 
