@@ -1147,7 +1147,7 @@ db.departures.insertMany([
     AirportCode: "KSEA",
     SID: "JEFPO1",
     Telephony: "JEFPO ONE",
-    Fixes: ["ALPSE", "BANDR", "NORMY", "PAE", "ZADON"],
+    Fixes: ["ALPSE", "BANDR", "JEFPO", "NORMY", "PAE", "ZADON"],
     InitialPhrasing: "ClimbViaSid",
     InitialAltitudes: [
       {
