@@ -1,39 +1,40 @@
 import express, { Request, Response } from "express";
 import { getFlightPlan } from "../controllers/flightPlans.mjs";
+import VerifyAllResult from "../controllers/verifyAllResult.mjs";
 import VerifierControllerResult, {
   VerifierControllerMultiResult,
 } from "../types/verifierControllerResult.mjs";
-import VerifyAllResult from "../controllers/verifyAllResult.mjs";
 
-import hasEquipmentSuffix from "../controllers/verifiers/hasEquipmentSuffix.mjs";
-import warnHeavyRunwayAssignment from "../controllers/verifiers/warnHeavyRunwayAssignment.mjs";
+import airwaysForEquipmentSuffix from "../controllers/verifiers/airwaysForEquipmentSuffix.mjs";
 import altitudeForDirectionOfFlight from "../controllers/verifiers/altitudeForDirectionOfFlight.mjs";
 import checkEquipmentSuffixAgainstKnown from "../controllers/verifiers/checkEquipmentSuffixAgainstKnown.mjs";
-import findExistingResultsMiddleware from "../middleware/findExistingResults.mjs";
-import routeWithFlightAware from "../controllers/verifiers/routeWithFlightAware.mjs";
-import checkForPreferredRoutes from "../controllers/verifiers/checkForPreferredRoutes.mjs";
-import nonRVSMIsBelow290 from "../controllers/verifiers/nonRVSMIsBelow290.mjs";
-import jetIsNotSlantA from "../controllers/verifiers/jetIsNotSlantA.mjs";
-import nonRNAVHasAirways from "../controllers/verifiers/nonRNAVHasAirways.mjs";
-import validDepartureAirport from "../controllers/verifiers/validDepartureAirport.mjs";
-import validArrivalAirport from "../controllers/verifiers/validArrivalAirport.mjs";
 import checkForNonStandardEquipmentSuffix from "../controllers/verifiers/checkForNonStandardEquipmentSuffix.mjs";
-import airwaysForEquipmentSuffix from "../controllers/verifiers/airwaysForEquipmentSuffix.mjs";
+import checkForPreferredRoutes from "../controllers/verifiers/checkForPreferredRoutes.mjs";
+import hasEquipmentSuffix from "../controllers/verifiers/hasEquipmentSuffix.mjs";
 import hasSID from "../controllers/verifiers/hasSID.mjs";
 import hasValidFirstFix from "../controllers/verifiers/hasValidFirstFix.mjs";
+import jetIsNotSlantA from "../controllers/verifiers/jetIsNotSlantA.mjs";
+import nonRNAVHasAirways from "../controllers/verifiers/nonRNAVHasAirways.mjs";
+import nonRVSMIsBelow290 from "../controllers/verifiers/nonRVSMIsBelow290.mjs";
+import routeWithFlightAware from "../controllers/verifiers/routeWithFlightAware.mjs";
+import validArrivalAirport from "../controllers/verifiers/validArrivalAirport.mjs";
+import validDepartureAirport from "../controllers/verifiers/validDepartureAirport.mjs";
+import warnHeavyRunwayAssignment from "../controllers/verifiers/warnHeavyRunwayAssignment.mjs";
 import warnNewPilot from "../controllers/verifiers/warnNewPilot.mjs";
+import findExistingResultsMiddleware from "../middleware/findExistingResults.mjs";
 
-import { VerifierResultModel } from "../models/VerifierResult.mjs";
-import { verifyUser } from "../middleware/permissions.mjs";
-import pistonNotSlantLorZ from "../controllers/verifiers/pistonNotSlantLorZ.mjs";
-import checkKPDXtoKSLEAltitude from "../controllers/verifiers/checkKPDXtoKSLEAltitude.mjs";
-import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
+import altitudeForAltimeter from "../controllers/verifiers/altitudeForAltimeter.mjs";
 import checkForCustomAirportMessages from "../controllers/verifiers/checkForCustomAirportMessages.mjs";
 import checkForCustomDepartureMessages from "../controllers/verifiers/checkForCustomDepartureMessages.mjs";
+import checkKPDXtoKSLEAltitude from "../controllers/verifiers/checkKPDXtoKSLEAltitude.mjs";
 import checkSEAvsMONTN from "../controllers/verifiers/checkSEAvsMONTN.mjs";
-import { FlightPlan } from "../models/FlightPlan.mjs";
-import altitudeForAltimeter from "../controllers/verifiers/altitudeForAltimeter.mjs";
+import departureForLocalTime from "../controllers/verifiers/departureForLocalTime.mjs";
+import pistonNotSlantLorZ from "../controllers/verifiers/pistonNotSlantLorZ.mjs";
 import warnTextOnlyPilot from "../controllers/verifiers/warnTextOnlyPilot.mjs";
+import { verifyUser } from "../middleware/permissions.mjs";
+import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
+import { FlightPlan } from "../models/FlightPlan.mjs";
+import { VerifierResultModel } from "../models/VerifierResult.mjs";
 
 const router = express.Router();
 
@@ -77,6 +78,7 @@ const verifiers: Verifier[] = [
   { name: "warnNewPilot", handler: warnNewPilot },
   { name: "altitudeForAltimeter", handler: altitudeForAltimeter },
   { name: "warnTextOnlyPilot", handler: warnTextOnlyPilot },
+  { name: "departureForLocalTime", handler: departureForLocalTime },
 ];
 
 // Generic handler for verifier routes

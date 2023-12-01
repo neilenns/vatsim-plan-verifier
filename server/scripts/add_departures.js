@@ -1161,6 +1161,11 @@ db.departures.insertMany([
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582JEFPO.PDF",
     },
+    DepartureValidity: {
+      StartTime: 2200,
+      EndTime: 600,
+      Alternates: ["MONTN2"],
+    },
   },
   {
     AirportCode: "KSEA",
