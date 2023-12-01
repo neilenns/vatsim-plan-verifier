@@ -124,9 +124,7 @@ export class Departure {
     // Finally able to do the actual calculation
     const localTime = DateTime.local().setZone(timezoneName);
 
-    const currentHour = localTime.hour;
-    const currentMinute = localTime.minute;
-    const currentTime = currentHour * 100 + currentMinute;
+    const currentTime = localTime.hour * 100 + localTime.minute;
     let isValid: boolean;
 
     if (this.DepartureValidity.StartTime <= this.DepartureValidity.EndTime) {
