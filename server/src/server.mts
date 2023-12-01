@@ -1,23 +1,23 @@
 import bodyParser from "body-parser";
 import * as chokidar from "chokidar";
+import compression from "compression";
 import cookieParser from "cookie-parser";
 import cors, { CorsOptions } from "cors";
 import debug from "debug";
 import express from "express";
 import rateLimit from "express-rate-limit";
 import fs from "fs";
+import helmet from "helmet";
 import { Server } from "http";
 import { createHttpTerminator, HttpTerminator } from "http-terminator";
 import https from "https";
 import passport from "passport";
 import { ENV } from "./env.mjs";
-import compression from "compression";
-import helmet from "helmet";
 import { startVatsimAutoUpdate, stopVatsimAutoUpdate } from "./services/vatsim.mjs";
 import { setupSockets } from "./sockets/index.mjs";
 
 // Workaround for lodash being a CommonJS module
-import pkg, { set } from "lodash";
+import pkg from "lodash";
 const { debounce } = pkg;
 
 // Authentication
@@ -30,20 +30,21 @@ import { verifyApiKey } from "./middleware/apikey.mjs";
 import activeFlightPlansRouter from "./routes/activeFlightPlans.mjs";
 import aircraftRouter from "./routes/aircraft.mjs";
 import airlineRouter from "./routes/airline.mjs";
+import airportInfoRouter from "./routes/airportInfo.mjs";
+import authenticationRouter from "./routes/authentication.mjs";
 import defaultRouter from "./routes/default.mjs";
+import departureRouter from "./routes/departure.mjs";
+import extendedAirportInfoRouter from "./routes/extendedAirportInfo.mjs";
 import flightAwareRouter from "./routes/flightAware.mjs";
 import flightPlan from "./routes/flightPlan.mjs";
 import magneticDeclinationRouter from "./routes/magneticDeclination.mjs";
-import preferredRoutesRouter from "./routes/preferredRoutes.mjs";
-import authenticationRouter from "./routes/authentication.mjs";
-import verifyRouter from "./routes/verify.mjs";
+import metarRouter from "./routes/metar.mjs";
 import navaidRouter from "./routes/navaid.mjs";
+import preferredRoutesRouter from "./routes/preferredRoutes.mjs";
+import quickReferenceRouter from "./routes/quickReference.mjs";
 import userRouter from "./routes/users.mjs";
 import vatsimRouter from "./routes/vatsim.mjs";
-import extendedAirportInfoRouter from "./routes/extendedAirportInfo.mjs";
-import quickReferenceRouter from "./routes/quickReference.mjs";
-import airportInfoRouter from "./routes/airportInfo.mjs";
-import metarRouter from "./routes/metar.mjs";
+import verifyRouter from "./routes/verify.mjs";
 
 export const app = express();
 let server: https.Server | Server;
@@ -128,6 +129,7 @@ export function startServer(port: number): void {
   app.use(userRouter);
   app.use(vatsimRouter);
   app.use(metarRouter);
+  app.use(departureRouter);
 
   // Verifier routes
   app.use(verifyRouter);

@@ -1,8 +1,3 @@
-import { log } from "console";
-import debug from "debug";
-
-const logger = debug("plan-verifier:utils");
-
 export function formatAltitude(altitude: number, includeFeet: boolean = true): string {
   if (altitude >= 180) {
     return `FL${altitude}`;
