@@ -36,7 +36,7 @@ export default async function departureForLocalTime({
         result.data.message = `SID is valid for the current time of day at the departure airport.`;
         result.data.messageId = "DepartureTimeIsValid";
       } else {
-        result.data.status = VerifierResultStatus.ERROR;
+        result.data.status = VerifierResultStatus.WARNING;
         result.data.message = `Departure ${SID} is only valid from ${
           SIDInformation.DepartureValidity?.StartTime
         } to ${SIDInformation.DepartureValidity?.EndTime.toString().padStart(
@@ -47,7 +47,7 @@ export default async function departureForLocalTime({
           .padStart(
             4,
             "0"
-          )}. Use one of these departures instead: ${SIDInformation.DepartureValidity?.Alternates.joinWithWord(
+          )}. Depending on airport flow consider one of these departures instead: ${SIDInformation.DepartureValidity?.Alternates.joinWithWord(
           "or"
         )}.`;
         result.data.messageId = "DepartureTimeIsNotValid";

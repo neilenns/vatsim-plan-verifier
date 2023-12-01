@@ -1123,6 +1123,11 @@ db.departures.insertMany([
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582ISBRG.PDF",
     },
+    DepartureValidity: {
+      StartTime: 2200,
+      EndTime: 600,
+      Alternates: ["BANGR9", "HAROB6"],
+    },
   },
   {
     AirportCode: "KSEA",
@@ -1141,6 +1146,11 @@ db.departures.insertMany([
     ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582OZWLD.PDF",
+    },
+    DepartureValidity: {
+      StartTime: 2200,
+      EndTime: 600,
+      Alternates: ["BANGR9", "HAROB6", "SUMMA2"],
     },
   },
   {
