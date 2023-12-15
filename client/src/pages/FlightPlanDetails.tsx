@@ -12,6 +12,7 @@ import AlertSnackbar, {
 import { Paper } from "@mui/material";
 import { PlanVerifyActionResult } from "../services/flightPlanVerifyAction.mts";
 import { PlanDetailsLoaderResult } from "../services/flightPlanDetailsLoader.mts";
+import useAppContext from "../context/AppContext";
 
 const FlightPlanDetails = () => {
   const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
@@ -19,6 +20,7 @@ const FlightPlanDetails = () => {
   const [verifyResults, setVerifyResults] = useState<IVerifyAllResult>();
   const loaderData = useLoaderData() as PlanDetailsLoaderResult;
   const actionData = useActionData() as PlanVerifyActionResult;
+  const { streamingMode } = useAppContext();
   const navigate = useNavigate();
 
   const handleSnackbarClose: AlertSnackBarOnClose = () => setSnackbar(null);
@@ -65,13 +67,14 @@ const FlightPlanDetails = () => {
     setFlightPlan(loaderData.data.flightPlan ?? {});
     setVerifyResults(loaderData.data.verifyResults);
 
-    // Set the window title to something nice if the necessary info is available.
-    if (!flightPlan.callsign || !flightPlan.departure || !flightPlan.arrival) {
+    // Set the window title to something nice if the necessary info is available,
+    // but only if streaming mode isn't active.
+    if (streamingMode || !flightPlan.callsign || !flightPlan.departure || !flightPlan.arrival) {
       document.title = "Vatsim plan verifier";
     } else {
       document.title = `${flightPlan.callsign} (${flightPlan.departure}-${flightPlan.arrival})`;
     }
-  }, [loaderData]);
+  }, [loaderData, streamingMode]);
 
   return (
     <>
