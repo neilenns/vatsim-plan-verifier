@@ -8,7 +8,7 @@ type SettingsDialogProps = {
 
 export const SettingsDialog = (props: SettingsDialogProps) => {
   const { onClose, open } = props;
-  const { autoHideImported, setAutoHideImported, hideInformational, setHideInformational } =
+  const { autoHideImported, setAutoHideImported, hideInformational, setHideInformational, streamingMode, setStreamingMode } =
     useAppContext();
   const handleClose = () => {
     onClose();
@@ -17,6 +17,10 @@ export const SettingsDialog = (props: SettingsDialogProps) => {
 
   const handleAutoHideChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAutoHideImported(event.target.checked);
+  };
+
+  const handleStreamingModeChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setStreamingMode(event.target.checked);
   };
 
   const handleHideInformationalChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,6 +34,10 @@ export const SettingsDialog = (props: SettingsDialogProps) => {
         <FormControlLabel
           control={<Switch checked={autoHideImported} onChange={handleAutoHideChanged} />}
           label="Hide imported flight plans"
+        />
+        <FormControlLabel
+          control={<Switch checked={streamingMode} onChange={handleStreamingModeChanged} />}
+          label="Streaming mode"
         />
         {role === "admin" && (
           <FormControlLabel
