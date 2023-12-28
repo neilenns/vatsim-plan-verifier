@@ -69,6 +69,10 @@ db.airlines.insertMany([
     telephony: "WALKER",
   },
   {
+    airlineCode: "WAX",
+    telephony: "CHASER",
+  },
+  {
     airlineCode: "CPC",
     telephony: "EMPRESS",
   },
