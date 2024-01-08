@@ -80,8 +80,10 @@ router.get(
   async (req: Request, res: Response) => {
     const result = await getVatsimFlightPlan(req.params.callsign);
 
+    const jsonResponseRequested = req.params.format.toUpperCase() === "JSON";
+
     if (result.success) {
-      if (req.params.format.toUpperCase() === "JSON") {
+      if (jsonResponseRequested) {
         res.json(result.data);
       } else {
         res.send(
@@ -92,9 +94,17 @@ router.get(
     }
 
     if (result.errorType === "FlightPlanNotFound") {
-      res.status(404).json({ error: `Flight plan not found for ${req.params.callsign}.` });
+      if (jsonResponseRequested) {
+        res.status(404).json({ error: `Flight plan not found for ${req.params.callsign}.` });
+      } else {
+        res.status(404).send(`No flight plan found for ${req.params.callsign}`);
+      }
     } else {
-      res.status(500).json({ error: "Failed to get the flight plan." });
+      if (jsonResponseRequested) {
+        res.status(500).json({ error: "Failed to get the flight plan." });
+      } else {
+        res.status(500).send(`Failed to get a flight plan for ${req.params.callsign}.`);
+      }
     }
   }
 );
