@@ -1,6 +1,10 @@
 import express, { Request, Response } from "express";
 import { verifyUser } from "../middleware/permissions.mjs";
-import { getVatsimFlightPlans, getVatsimPilotStats } from "../controllers/vatsim.mjs";
+import {
+  getVatsimFlightPlan,
+  getVatsimFlightPlans,
+  getVatsimPilotStats,
+} from "../controllers/vatsim.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
 import { VatsimFlightStatus } from "../models/VatsimFlightPlan.mjs";
 import { getTunedTransceiversForCallsign } from "../controllers/vatsimTransceivers.mjs";
@@ -66,6 +70,31 @@ router.get(
       res.status(404).json({ error: `Flight plans not found for ${req.params.airport}.` });
     } else {
       res.status(500).json({ error: "Failed to get the flight plans." });
+    }
+  }
+);
+
+router.get(
+  "/vatsim/flightPlan/:callsign/:format",
+  secureQueryMiddleware,
+  async (req: Request, res: Response) => {
+    const result = await getVatsimFlightPlan(req.params.callsign);
+
+    if (result.success) {
+      if (req.params.format.toUpperCase() === "JSON") {
+        res.json(result.data);
+      } else {
+        res.send(
+          `${result.data.callsign} ${result.data.squawk} ${result.data.departure} - ${result.data.arrival} ${result.data.cruiseAltitude} ${result.data.route}`
+        );
+      }
+      return;
+    }
+
+    if (result.errorType === "FlightPlanNotFound") {
+      res.status(404).json({ error: `Flight plan not found for ${req.params.callsign}.` });
+    } else {
+      res.status(500).json({ error: "Failed to get the flight plan." });
     }
   }
 );

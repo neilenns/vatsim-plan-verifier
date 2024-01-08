@@ -11,6 +11,11 @@ import { IVatsimPilotStats } from "../interfaces/IVatsimPilotStats.mjs";
 
 const logger = debug("plan-verifier:vatsimController");
 
+type VatsimFlightPlanResult = Result<
+  VatsimFlightPlanDocument,
+  "FlightPlanNotFound" | "UnknownError"
+>;
+
 type VatsimFlightPlansResult = Result<
   VatsimFlightPlanDocument[],
   "FlightPlansNotFound" | "UnknownError"
@@ -97,6 +102,32 @@ export async function getVatsimFlightPlans(
       success: false,
       errorType: "UnknownError",
       error: `Error fetching flight plans for ${departure}: ${error}`,
+    };
+  }
+}
+
+export async function getVatsimFlightPlan(callsign: string): Promise<VatsimFlightPlanResult> {
+  try {
+    const result = await VatsimFlightPlanModel.findOne({
+      callsign,
+    });
+
+    if (result) {
+      return { success: true, data: result };
+    } else {
+      return {
+        success: false,
+        errorType: "FlightPlanNotFound",
+        error: `Flight plans for ${callsign} not found.`,
+      };
+    }
+  } catch (error) {
+    logger(`Error fetching flight plan for ${callsign}: ${error}`);
+
+    return {
+      success: false,
+      errorType: "UnknownError",
+      error: `Error fetching flight plan for ${callsign}: ${error}`,
     };
   }
 }
