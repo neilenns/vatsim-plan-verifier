@@ -1,13 +1,13 @@
 import express, { Request, Response } from "express";
-import { verifyUser } from "../middleware/permissions.mjs";
 import {
   getVatsimFlightPlan,
   getVatsimFlightPlans,
   getVatsimPilotStats,
 } from "../controllers/vatsim.mjs";
+import { getTunedTransceiversForCallsign } from "../controllers/vatsimTransceivers.mjs";
+import { verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
 import { VatsimFlightStatus } from "../models/VatsimFlightPlan.mjs";
-import { getTunedTransceiversForCallsign } from "../controllers/vatsimTransceivers.mjs";
 
 const router = express.Router();
 
@@ -86,8 +86,9 @@ router.get(
       if (jsonResponseRequested) {
         res.json(result.data);
       } else {
+        // PAY7812  B737/L  2000 KSEA - KLAX  370 SUMMA2 SUMMA JINMO Q7 JAGWA BURGL IRNMN2
         res.send(
-          `${result.data.callsign} ${result.data.squawk} ${result.data.departure} - ${result.data.arrival} ${result.data.cruiseAltitude} ${result.data.route}`
+          `${result.data.callsign} ${result.data.rawAircraftType} ${result.data.squawk} ${result.data.departure} - ${result.data.arrival} ${result.data.cruiseAltitude} ${result.data.route}`
         );
       }
       return;
