@@ -1,13 +1,14 @@
 import axios, { AxiosResponse } from "axios";
-import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
 import debug from "debug";
 import { Server as SocketIOServer } from "socket.io";
+import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
 import { getVatsimFlightPlans } from "./vatsimFlightPlans.mjs";
 
 const logger = debug("plan-verifier:vatsimService");
 
 let io: SocketIOServer;
 let updateTimer: NodeJS.Timeout | undefined;
+let updateTimerInterval: number;
 
 // Retrieves the published vatsim endpoints for the services. This is used to get
 // the endpoint to retrieve all the current flight plans.
@@ -39,8 +40,19 @@ export async function getVatsimEndpoints() {
 }
 
 export async function startVatsimAutoUpdate(updateInterval: number, ioInstance: SocketIOServer) {
-  logger("Starting vatsim auto-update");
+  if (updateTimerInterval === updateInterval) {
+    logger(`Vatsim auto-update already running every ${updateInterval / 1000} seconds`);
+    return;
+  }
+
+  updateTimerInterval = updateInterval;
   io = ioInstance;
+
+  // If there's already a timer running and its interval is different kill it off
+  stopVatsimAutoUpdate();
+
+  logger(`Starting vatsim auto-update every ${updateInterval / 1000} seconds`);
+
   updateTimer = setInterval(() => {
     getVatsimFlightPlans(io);
   }, updateInterval);

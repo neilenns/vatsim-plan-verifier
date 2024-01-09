@@ -1,20 +1,19 @@
 import axios from "axios";
-import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
+import debug from "debug";
+import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
+import _ from "lodash";
+import pluralize from "pluralize";
+import { Server as SocketIOServer } from "socket.io";
+import { getAirportInfo } from "../controllers/airportInfo.mjs";
+import { ENV } from "../env.mjs";
 import { IVatsimData, IVatsimPilot, IVatsimPrefile } from "../interfaces/IVatsimData.mjs";
+import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
 import {
   VatsimCommunicationMethod,
   VatsimFlightPlanDocument,
   VatsimFlightPlanModel,
   VatsimFlightStatus,
 } from "../models/VatsimFlightPlan.mjs";
-import debug from "debug";
-import { Server as SocketIOServer } from "socket.io";
-import pluralize from "pluralize";
-import { ENV } from "../env.mjs";
-import _ from "lodash";
-import { getAirportInfo } from "../controllers/airportInfo.mjs";
-import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
-import { convertFLtoThousands, parseStringToNumber } from "../utils.mjs";
 import { getVatsimEndpoints } from "./vatsim.mjs";
 
 const logger = debug("plan-verifier:vatsimFlightPlans");
@@ -309,10 +308,6 @@ async function publishUpdates(io: SocketIOServer) {
 // Loads data from vatsim then processes the filed and prefiled flight plans in to the database.
 // After updating the database publishes the updated flight plan list to all connected clients.
 export async function getVatsimFlightPlans(io: SocketIOServer) {
-  if (io?.sockets.adapter.rooms.size === 0) {
-    return;
-  }
-
   logger("Fetching VATSIM flight plans...");
 
   if (!vatsimEndpoints) {

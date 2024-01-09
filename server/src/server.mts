@@ -151,15 +151,27 @@ export function startServer(port: number): void {
     server,
   });
 
-  // Start the scokets
+  // Start the sockets
   const io = setupSockets(server);
+  io.on("connection", (socket) => {
+    // Increase the vatsim update interval to the max speed.
+    startVatsimAutoUpdate(ENV.VATSIM_CONNECTIONS_AUTO_UPDATE_INTERVAL_MS, io);
 
-  // Start vatsim data auto-update
-  startVatsimAutoUpdate(ENV.VATSIM_AUTO_UPDATE_INTERVAL, io);
+    socket.on("disconnect", () => {
+      // If the last client disconnected slow down the vatsim update interval
+      if (io.sockets.sockets.size === 0) {
+        logger(`No more connected clients, slowing down vatsim auto update.`);
+        startVatsimAutoUpdate(ENV.VATSIM_NO_CONNECTIONS_AUTO_UPDATE_INTERVAL_MS, io);
+      }
+    });
+  });
+
+  // Start vatsim data auto-update at the slowest speed
+  startVatsimAutoUpdate(ENV.VATSIM_NO_CONNECTIONS_AUTO_UPDATE_INTERVAL_MS, io);
+
+  // With the server up and running start watching for SSL file changes.
+  startWatching();
 }
-
-// With the server up and running start watching for SSL file changes.
-startWatching();
 
 export async function stopServer() {
   stopWatching();
