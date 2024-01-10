@@ -286,23 +286,33 @@ async function publishUpdates(io: SocketIOServer) {
 
   // Loop through the rooms and send filtered data to clients in each room
   io.sockets.adapter.rooms.forEach(async (_, roomName) => {
-    // Every client gets put in their own auto-generated room. Skip those since there won't be any matching
-    // database values. The assumption is all airport codes will be 3 or 4 characters long.
-    if (!roomName.startsWith("APT:")) return;
-
-    const airportCodes = roomName.replace("APT:", "").split(",");
-
-    const flightPlans = await VatsimFlightPlanModel.find({
-      departure: { $in: airportCodes },
-      flightRules: "I",
-      status: { $eq: VatsimFlightStatus.DEPARTING },
-    }).sort({ callsign: 1 });
-
-    logger(
-      `Emitting ${pluralize("result", flightPlans.length, true)} for ${airportCodes.join(", ")}`
-    );
-    io.to(roomName).emit("vatsimFlightPlansUpdate", flightPlans);
+    await publishUpdate(io, roomName);
   });
+}
+
+// Publishes updates to a specific room.
+export async function publishUpdate(io: SocketIOServer, roomName: string) {
+  if (!io) {
+    logger(`Unable to publish updates, no sockets defined`);
+    return;
+  }
+
+  // Every client gets put in their own auto-generated room. Skip those since there won't be any matching
+  // database values. The assumption is all airport codes will be 3 or 4 characters long.
+  if (!roomName.startsWith("APT:")) return;
+
+  const airportCodes = roomName.replace("APT:", "").split(",");
+
+  const flightPlans = await VatsimFlightPlanModel.find({
+    departure: { $in: airportCodes },
+    flightRules: "I",
+    status: { $eq: VatsimFlightStatus.DEPARTING },
+  }).sort({ callsign: 1 });
+
+  logger(
+    `Emitting ${pluralize("result", flightPlans.length, true)} for ${airportCodes.join(", ")}`
+  );
+  io.to(roomName).emit("vatsimFlightPlansUpdate", flightPlans);
 }
 
 // Loads data from vatsim then processes the filed and prefiled flight plans in to the database.
