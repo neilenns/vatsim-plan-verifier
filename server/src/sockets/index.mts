@@ -5,10 +5,11 @@ import { ENV } from "../env.mjs";
 import { verifySocketApiKey } from "../middleware/apikey.mjs";
 import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import { ClientToServerEvents, ServerToClientEvents } from "../types/socketEvents.mjs";
+import { publishUpdate } from "../services/vatsimFlightPlans.mjs";
 
 const logger = debug("plan-verifier:sockets");
 
-async function registerForAirports(socket: Socket, airportCodes: string[]) {
+async function registerForAirports(io: SocketIOServer, socket: Socket, airportCodes: string[]) {
   // Check for insecure airport codes first
   const insecureAirportCodes = airportCodes.filter((airportCode) => airportCode.startsWith("$"));
   if (insecureAirportCodes.length > 0) {
@@ -39,12 +40,15 @@ async function registerForAirports(socket: Socket, airportCodes: string[]) {
   // Join the socket to the room based on a sorted list of trimmed airport codes.
   // The APT: in the front allows this room to be distinguished from the auto-generated
   // room that every client gets put in to.
-  socket.join(
-    `APT:${airportCodes
-      .map((code) => code.toUpperCase().trim())
-      .sort((a, b) => a.localeCompare(b))
-      .join(",")}`
-  );
+  const roomName = `APT:${airportCodes
+    .map((code) => code.toUpperCase().trim())
+    .sort((a, b) => a.localeCompare(b))
+    .join(",")}`;
+
+  socket.join(roomName);
+
+  // Send the initial data to the client
+  publishUpdate(io, roomName);
 }
 
 export function setupSockets(server: Server): SocketIOServer {
@@ -65,7 +69,7 @@ export function setupSockets(server: Server): SocketIOServer {
       logger(`Client requested data for ${airportCodes.join(", ")}`);
 
       const cleanCodes = airportCodes.map((airportCode) => airportCode.toUpperCase().trim());
-      await registerForAirports(socket, cleanCodes);
+      await registerForAirports(io, socket, cleanCodes);
     });
 
     socket.on("disconnect", () => {
