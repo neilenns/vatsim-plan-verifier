@@ -14,6 +14,7 @@ import addExtendedAirportInfo from "./setup/addExtendedAirportInfo.mjs";
 import addMagneticDeclination from "./setup/addMagneticDeclination.mjs";
 import addPilotStats from "./setup/addPilotStats.mjs";
 import addMetar from "./setup/addMetar.mjs";
+import addGroundRestrictions from "./setup/addGroundRestrictions.mjs";
 
 let mongoServer: MongoMemoryServer;
 // This is to ensure any network calls made by the tests don't actually
@@ -49,6 +50,7 @@ export async function mochaGlobalSetup() {
     addMagneticDeclination(),
     addPilotStats(),
     addMetar(),
+    addGroundRestrictions(),
   ]);
 }
 
