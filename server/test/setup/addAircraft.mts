@@ -12,6 +12,7 @@ const aircraft = [
     KPDXVfrAltitude: "6000",
     KPDXIfrAltitude: "6000",
     srsClass: "III",
+    airplaneDesignGroup: 3,
   },
   {
     _id: "5f9f7b9b9b3b3c1b3c1b3c1c",
@@ -26,6 +27,7 @@ const aircraft = [
     srsClass: "I",
     maxCruiseSpeed: "122",
     commonEquipmentSuffixes: ["A", "G"],
+    airplaneDesignGroup: 1,
   },
   {
     _id: "5f9f7b9b9b3b3c1b3c1b3c1d",
@@ -40,6 +42,7 @@ const aircraft = [
     srsClass: "III",
     maxCruiseSpeed: "470",
     commonEquipmentSuffixes: ["L"],
+    airplaneDesignGroup: 6,
   },
   {
     _id: "5f9f7b9b9b3b3c1b3c1b3c1e",
