@@ -152,6 +152,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "S",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "AT44",
@@ -162,6 +163,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "S",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "AT45",
@@ -172,6 +174,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "S",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "AT46",
@@ -182,6 +185,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "S",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "AT72",
@@ -192,6 +196,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "L",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "RALL",
@@ -242,6 +247,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "TOBA",
@@ -252,6 +258,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "TRIN",
@@ -272,6 +279,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 4,
   },
   {
     equipmentCode: "A306",
@@ -282,6 +290,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 4,
   },
   {
     equipmentCode: "A310",
@@ -292,6 +301,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 4,
   },
   {
     equipmentCode: "A318",
@@ -304,6 +314,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 447,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "A319",
@@ -316,6 +327,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 447,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "A320",
@@ -328,6 +340,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 447,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "A321",
@@ -340,6 +353,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 447,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "A3ST",
@@ -362,6 +376,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 470,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 5,
   },
   {
     equipmentCode: "A333",
@@ -374,6 +389,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 470,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 5,
   },
   {
     equipmentCode: "A342",
@@ -386,6 +402,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 470,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 5,
   },
   {
     equipmentCode: "A343",
@@ -398,6 +415,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 470,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 5,
   },
   {
     equipmentCode: "A345",
@@ -410,6 +428,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 470,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 5,
   },
   {
     equipmentCode: "A346",
@@ -422,6 +441,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 470,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 5,
   },
   {
     equipmentCode: "A388",
@@ -434,6 +454,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 470,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 6,
   },
   {
     equipmentCode: "BU20",
@@ -464,6 +485,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "AT5P",
@@ -484,6 +506,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "AT6T",
@@ -494,6 +517,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "AT8T",
@@ -504,6 +528,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "U",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "AN2",
@@ -534,6 +559,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "U",
+    airplaneDesignGroup: 4,
   },
   {
     equipmentCode: "AN70",
@@ -554,6 +580,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "A124",
@@ -564,6 +591,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 6,
   },
   {
     equipmentCode: "A140",
@@ -634,6 +662,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "L",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "B350",
@@ -646,6 +675,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 312,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "L",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "BE10",
@@ -656,6 +686,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "BE17",
@@ -676,6 +707,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "S",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "B18T",
@@ -686,6 +718,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "BE19",
@@ -696,6 +729,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "BE20",
@@ -706,6 +740,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "L",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "BE23",
@@ -716,6 +751,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "BE24",
@@ -726,6 +762,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "BE30",
@@ -736,6 +773,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "S",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "BE33",
@@ -746,6 +784,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "BE35",
@@ -756,6 +795,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "BE36",
@@ -766,6 +806,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "B36T",
@@ -776,6 +817,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I ",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "BE40",
@@ -786,6 +828,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "BE50",
@@ -796,6 +839,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "BE55",
@@ -806,6 +850,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "BE56",
@@ -826,6 +871,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "BE60",
@@ -836,6 +882,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "BE65",
@@ -846,6 +893,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "BE70",
@@ -856,6 +904,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "BE76",
@@ -866,6 +915,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "BE77",
@@ -876,6 +926,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "BE80",
@@ -886,6 +937,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "BE88",
@@ -906,6 +958,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "BE99",
@@ -916,6 +969,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "BE9L",
@@ -926,6 +980,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "BE9T",
@@ -936,6 +991,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "STAR",
@@ -956,6 +1012,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "T34P",
@@ -966,6 +1023,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "T34T",
@@ -986,6 +1044,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "U21",
@@ -1016,6 +1075,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "AR15",
@@ -1056,6 +1116,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "BL19",
@@ -1076,6 +1137,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "CH40",
@@ -1096,6 +1158,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "CH7B",
@@ -1106,6 +1169,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "T250",
@@ -1126,6 +1190,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 5,
   },
   {
     equipmentCode: "B701 ",
@@ -1146,6 +1211,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 4,
   },
   {
     equipmentCode: "B712",
@@ -1156,6 +1222,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "B720",
@@ -1176,6 +1243,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "B722",
@@ -1186,6 +1254,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "R721",
@@ -1196,6 +1265,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "R722",
@@ -1206,6 +1276,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "B72Q",
@@ -1236,6 +1307,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "B73Q",
@@ -1258,6 +1330,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 429,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "B734",
@@ -1270,6 +1343,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 430,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "B735",
@@ -1282,6 +1356,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 430,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "B736",
@@ -1294,6 +1369,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 406,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "B737",
@@ -1306,6 +1382,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 460,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "B738",
@@ -1318,6 +1395,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 460,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "B739",
@@ -1330,6 +1408,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 460,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "B741",
@@ -1342,6 +1421,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 500,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 5,
   },
   {
     equipmentCode: "B742",
@@ -1354,6 +1434,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 495,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 5,
   },
   {
     equipmentCode: "B743",
@@ -1366,6 +1447,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 510,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 5,
   },
   {
     equipmentCode: "B74D",
@@ -1386,6 +1468,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 5,
   },
   {
     equipmentCode: "B74R",
@@ -1416,6 +1499,7 @@ db.aircraft.insertMany([
     weightClass: "M",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 4,
   },
   {
     equipmentCode: "B753",
@@ -1426,6 +1510,7 @@ db.aircraft.insertMany([
     weightClass: "M",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 4,
   },
   {
     equipmentCode: "B762",
@@ -1436,6 +1521,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 4,
   },
   {
     equipmentCode: "B763",
@@ -1446,6 +1532,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 4,
   },
   {
     equipmentCode: "B764",
@@ -1456,6 +1543,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 4,
   },
   {
     equipmentCode: "B772",
@@ -1466,6 +1554,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 5,
   },
   {
     equipmentCode: "B773",
@@ -1476,6 +1565,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 5,
   },
   {
     equipmentCode: "BSCA",
@@ -1506,6 +1596,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 4,
   },
   {
     equipmentCode: "C97",
@@ -1546,6 +1637,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 4,
   },
   {
     equipmentCode: "KE3",
@@ -1626,6 +1718,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "GL5T",
@@ -1636,6 +1729,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "GLEX",
@@ -1648,6 +1742,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 487,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "A748",
@@ -1678,6 +1773,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "JPRO",
@@ -1698,6 +1794,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "H25B",
@@ -1708,6 +1805,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "H25C",
@@ -1718,6 +1816,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "B461",
@@ -1730,6 +1829,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 404,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "B462",
@@ -1742,6 +1842,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 404,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "B463",
@@ -1764,6 +1865,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "U",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "JS32",
@@ -1774,6 +1876,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "U",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "JS41",
@@ -1784,6 +1887,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "U",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "HAR",
@@ -1804,6 +1908,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "JS1",
@@ -1864,6 +1969,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "RJ1H",
@@ -1874,6 +1980,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "TOR",
@@ -1964,6 +2071,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "CL44",
@@ -1994,6 +2102,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "U",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "CL60",
@@ -2004,6 +2113,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "CRJ1",
@@ -2016,6 +2126,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 424,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "CRJ2",
@@ -2028,6 +2139,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 424,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "CRJ7",
@@ -2040,6 +2152,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 473,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "CRJ9",
@@ -2052,6 +2165,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 470,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "T33",
@@ -2082,6 +2196,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C140",
@@ -2092,6 +2207,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C150",
@@ -2102,6 +2218,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C152",
@@ -2112,6 +2229,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C170",
@@ -2122,6 +2240,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C172",
@@ -2134,6 +2253,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 122,
     commonEquipmentSuffixes: ["A", "G"],
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C72R",
@@ -2144,6 +2264,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C175",
@@ -2154,6 +2275,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C177",
@@ -2164,6 +2286,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C77R",
@@ -2174,6 +2297,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C180",
@@ -2184,6 +2308,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C182",
@@ -2194,6 +2319,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C82R",
@@ -2204,6 +2330,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C185",
@@ -2214,6 +2341,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C188",
@@ -2224,6 +2352,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C190",
@@ -2244,6 +2373,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C205",
@@ -2264,6 +2394,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C06T",
@@ -2284,6 +2415,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C07T",
@@ -2304,6 +2436,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "C210",
@@ -2314,6 +2447,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "P210",
@@ -2324,6 +2458,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C10T",
@@ -2344,6 +2479,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C310",
@@ -2354,6 +2490,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C320",
@@ -2364,6 +2501,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C335",
@@ -2374,6 +2512,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C336",
@@ -2414,6 +2553,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C402",
@@ -2424,6 +2564,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C02T",
@@ -2444,6 +2585,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C04T",
@@ -2464,6 +2606,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "S",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "C411",
@@ -2486,6 +2629,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 235,
     commonEquipmentSuffixes: ["G"],
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C14T",
@@ -2506,6 +2650,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C21T",
@@ -2526,6 +2671,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C441",
@@ -2536,6 +2682,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "S",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "C500",
@@ -2546,6 +2693,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C501",
@@ -2556,6 +2704,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C525",
@@ -2566,6 +2715,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C25A",
@@ -2576,6 +2726,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "C25B",
@@ -2586,6 +2737,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "C25C",
@@ -2598,6 +2750,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 451,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "C526",
@@ -2608,6 +2761,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "C550",
@@ -2618,6 +2772,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "C551",
@@ -2628,6 +2783,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "C560",
@@ -2638,6 +2794,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "C650",
@@ -2648,6 +2805,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "C680",
@@ -2658,6 +2816,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "C750",
@@ -2668,6 +2827,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "CAW",
@@ -2738,6 +2898,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "SR20",
@@ -2748,6 +2909,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "SR22",
@@ -2758,6 +2920,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "VK3P",
@@ -2778,6 +2941,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "U",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "C46",
@@ -2818,6 +2982,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "FA20",
@@ -2828,6 +2993,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "FA50",
@@ -2838,6 +3004,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "F900",
@@ -2848,6 +3015,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "F2TH",
@@ -2858,6 +3026,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "JAGR",
@@ -2918,6 +3087,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "DH2T",
@@ -2978,6 +3148,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "L",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "DHC7",
@@ -2988,6 +3159,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "L",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "DH8A",
@@ -3000,6 +3172,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 270,
     commonEquipmentSuffixes: ["G"],
     aircraftClass: "L",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "DH8B",
@@ -3012,6 +3185,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 289,
     commonEquipmentSuffixes: ["G"],
     aircraftClass: "L",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "DH8C",
@@ -3024,6 +3198,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 287,
     commonEquipmentSuffixes: ["G"],
     aircraftClass: "L",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "DH8D",
@@ -3036,6 +3211,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 300,
     commonEquipmentSuffixes: ["G"],
     aircraftClass: "L",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "DOVE",
@@ -3066,6 +3242,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "DA42",
@@ -3076,6 +3253,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "D228",
@@ -3096,6 +3274,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "U",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "DO27",
@@ -3146,6 +3325,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "VECT",
@@ -3166,6 +3346,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "U",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "E120",
@@ -3176,6 +3357,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "L",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "E121",
@@ -3196,6 +3378,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "E145",
@@ -3206,6 +3389,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "E45X",
@@ -3216,6 +3400,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "E170",
@@ -3226,6 +3411,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "E190",
@@ -3236,6 +3422,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "E195",
@@ -3246,6 +3433,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "E200",
@@ -3316,6 +3504,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "U",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "J328",
@@ -3326,6 +3515,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III ",
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "J728",
@@ -3346,6 +3536,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "C119",
@@ -3426,6 +3617,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "SW4",
@@ -3436,6 +3628,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "U",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "F27",
@@ -3516,6 +3709,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "LJ24",
@@ -3526,6 +3720,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "LJ25",
@@ -3536,6 +3731,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "LJ28",
@@ -3556,6 +3752,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "LJ35",
@@ -3566,6 +3763,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "LJ40",
@@ -3576,6 +3774,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "LJ45",
@@ -3586,6 +3785,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "LJ55",
@@ -3596,6 +3796,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "LJ60",
@@ -3606,6 +3807,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "CAT",
@@ -3626,6 +3828,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "U",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "CVLT",
@@ -3636,6 +3839,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "U",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "F111",
@@ -3656,6 +3860,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "F16X",
@@ -3736,6 +3941,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "AA5",
@@ -3746,6 +3952,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "G96",
@@ -3836,6 +4043,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "G64T",
@@ -3896,6 +4104,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "GA7",
@@ -3906,6 +4115,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "U16",
@@ -3966,6 +4176,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "AC95",
@@ -3976,6 +4187,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "AA1",
@@ -3986,6 +4198,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "AA5",
@@ -3996,6 +4209,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "GA7",
@@ -4006,6 +4220,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "G159",
@@ -4026,6 +4241,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "GLF3",
@@ -4036,6 +4252,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "GLF4",
@@ -4046,6 +4263,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "GLF5",
@@ -4056,6 +4274,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "B18T",
@@ -4066,6 +4285,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "BE18",
@@ -4076,6 +4296,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "T28",
@@ -4086,6 +4307,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "JS1",
@@ -4116,6 +4338,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "STLN",
@@ -4196,6 +4419,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "ASTR",
@@ -4206,6 +4430,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "GALX",
@@ -4216,6 +4441,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "G150",
@@ -4226,6 +4452,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "A50",
@@ -4296,6 +4523,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 4,
   },
   {
     equipmentCode: "IL86",
@@ -4356,6 +4584,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "L37",
@@ -4386,6 +4615,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "U",
+    airplaneDesignGroup: 4,
   },
   {
     equipmentCode: "C141",
@@ -4416,6 +4646,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "F104",
@@ -4486,6 +4717,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "P2",
@@ -4506,6 +4738,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "U",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "P38",
@@ -4606,6 +4839,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "M6",
@@ -4696,6 +4930,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 4,
   },
   {
     equipmentCode: "DC10",
@@ -4706,6 +4941,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 4,
   },
   {
     equipmentCode: "DC3",
@@ -4717,6 +4953,7 @@ db.aircraft.insertMany([
     srsClass: "III",
     maxCruiseSpeed: 270,
     aircraftClass: "L",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "DC3S",
@@ -4728,6 +4965,7 @@ db.aircraft.insertMany([
     srsClass: "III",
     maxCruiseSpeed: 270,
     aircraftClass: "U",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "DC4",
@@ -4750,6 +4988,7 @@ db.aircraft.insertMany([
     srsClass: "III",
     maxCruiseSpeed: 270,
     aircraftClass: "L",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "DC7",
@@ -4791,6 +5030,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 4,
   },
   {
     equipmentCode: "DC8Q",
@@ -4821,6 +5061,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "DC92",
@@ -4841,6 +5082,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "DC94",
@@ -4861,6 +5103,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "F15",
@@ -4871,6 +5114,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "F18",
@@ -4901,6 +5145,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 4,
   },
   {
     equipmentCode: "MD81",
@@ -4911,6 +5156,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "MD82",
@@ -4921,6 +5167,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "MD83",
@@ -4931,6 +5178,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "MD87",
@@ -4941,6 +5189,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "MD88",
@@ -4951,6 +5200,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "MD90",
@@ -4961,6 +5211,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "ME08",
@@ -5061,6 +5312,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "MU30",
@@ -5071,6 +5323,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "MT2",
@@ -5091,6 +5344,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "M10",
@@ -5121,6 +5375,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "M20T",
@@ -5133,6 +5388,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 242,
     commonEquipmentSuffixes: ["A", "G"],
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "M22",
@@ -5233,6 +5489,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "L",
+    airplaneDesignGroup: 4,
   },
   {
     equipmentCode: "N260",
@@ -5333,6 +5590,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 5,
   },
   {
     equipmentCode: "C125",
@@ -5383,6 +5641,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "P68T",
@@ -5433,6 +5692,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "P136",
@@ -5493,6 +5753,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "P808",
@@ -5573,6 +5834,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "AEST",
@@ -5583,6 +5845,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "J2",
@@ -5633,6 +5896,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "PA12",
@@ -5643,6 +5907,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "PA14",
@@ -5673,6 +5938,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "PA17",
@@ -5693,6 +5959,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "PA20",
@@ -5703,6 +5970,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "PA22",
@@ -5713,6 +5981,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "PA23",
@@ -5723,6 +5992,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "PA24",
@@ -5733,6 +6003,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "PA25",
@@ -5743,6 +6014,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "PA27",
@@ -5753,6 +6025,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "P28A",
@@ -5763,6 +6036,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "P28B",
@@ -5773,6 +6047,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "P28R",
@@ -5783,6 +6058,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "P28T",
@@ -5793,6 +6069,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "PA30",
@@ -5803,6 +6080,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "PA31",
@@ -5813,6 +6091,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "PA32",
@@ -5823,6 +6102,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "P32R",
@@ -5833,6 +6113,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "P32T",
@@ -5843,6 +6124,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "PA34",
@@ -5853,6 +6135,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "PA36",
@@ -5863,6 +6146,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "PA38",
@@ -5873,6 +6157,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "PA44",
@@ -5883,6 +6168,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "PA46",
@@ -5893,6 +6179,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "P46T",
@@ -5903,6 +6190,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "PAT4",
@@ -5913,6 +6201,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "PAY1",
@@ -5923,6 +6212,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "PAY2",
@@ -5933,6 +6223,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "PAY3",
@@ -5943,6 +6234,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "PAY4",
@@ -5953,6 +6245,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "PILL",
@@ -5973,6 +6266,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "PTS1",
@@ -6063,6 +6357,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "M200",
@@ -6083,6 +6378,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "AC52",
@@ -6103,6 +6399,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "AC68",
@@ -6113,6 +6410,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "AC6L",
@@ -6123,6 +6421,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "AC72",
@@ -6143,6 +6442,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "AC90",
@@ -6153,6 +6453,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "AC95",
@@ -6163,6 +6464,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "RC70",
@@ -6183,6 +6485,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "U",
+    airplaneDesignGroup: 4,
   },
   {
     equipmentCode: "B1",
@@ -6253,6 +6556,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "P51",
@@ -6263,6 +6567,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "III",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "SBR1",
@@ -6273,6 +6578,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "SBR2",
@@ -6283,6 +6589,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "V10",
@@ -6333,6 +6640,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "III",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "T6",
@@ -6343,6 +6651,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "VO10",
@@ -6473,6 +6782,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "L",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "SB20",
@@ -6483,6 +6793,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "U",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "MF17",
@@ -6503,6 +6814,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "U",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "SH36",
@@ -6513,6 +6825,7 @@ db.aircraft.insertMany([
     weightClass: "S+",
     srsClass: "III",
     aircraftClass: "U",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "BELF",
@@ -6533,6 +6846,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "L8",
@@ -6543,6 +6857,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "S10",
@@ -6563,6 +6878,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "L5",
@@ -6573,6 +6889,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "RELI",
@@ -6633,6 +6950,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "TAYD",
@@ -6673,6 +6991,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "VF14",
@@ -6703,6 +7022,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "I",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "YK40",
@@ -6785,6 +7105,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 470,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 5,
   },
   {
     equipmentCode: "A338",
@@ -6797,6 +7118,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 470,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 5,
   },
   {
     equipmentCode: "A339",
@@ -6809,6 +7131,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 470,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 5,
   },
   {
     equipmentCode: "A359",
@@ -6821,6 +7144,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 470,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 5,
   },
   {
     equipmentCode: "A35K",
@@ -6833,6 +7157,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 470,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 5,
   },
   {
     equipmentCode: "A400",
@@ -6843,6 +7168,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "L",
+    airplaneDesignGroup: 4,
   },
   {
     equipmentCode: "B748",
@@ -6853,6 +7179,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 6,
   },
   {
     equipmentCode: "BLCF",
@@ -6863,6 +7190,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 6,
   },
   {
     equipmentCode: "B778",
@@ -6873,6 +7201,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 6,
   },
   {
     equipmentCode: "B779",
@@ -6883,6 +7212,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 6,
   },
   {
     equipmentCode: "B77L",
@@ -6893,6 +7223,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 5,
   },
   {
     equipmentCode: "B77W",
@@ -6903,6 +7234,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 5,
   },
   {
     equipmentCode: "B788",
@@ -6913,6 +7245,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 5,
   },
   {
     equipmentCode: "B789",
@@ -6923,6 +7256,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 5,
   },
   {
     equipmentCode: "B78X",
@@ -6933,6 +7267,7 @@ db.aircraft.insertMany([
     weightClass: "H",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 5,
   },
   {
     equipmentCode: "C5M",
@@ -7033,6 +7368,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "V22",
@@ -7045,6 +7381,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 275,
     commonEquipmentSuffixes: ["G"],
     aircraftClass: "L",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "E55P",
@@ -7057,6 +7394,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 464,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "TBM9",
@@ -7069,6 +7407,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 250,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "E75L",
@@ -7079,6 +7418,7 @@ db.aircraft.insertMany([
     weightClass: "L",
     srsClass: "III",
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "AT76",
@@ -7091,6 +7431,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 280,
     commonEquipmentSuffixes: ["G"],
     aircraftClass: "L",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "G2CA",
@@ -7125,6 +7466,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 483,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "SF50",
@@ -7137,6 +7479,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 305,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "A20N",
@@ -7149,6 +7492,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 450,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "A21N",
@@ -7161,6 +7505,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 450,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "SG76",
@@ -7183,6 +7528,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 441,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 2,
   },
   {
     equipmentCode: "CC19",
@@ -7236,6 +7582,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 210,
     commonEquipmentSuffixes: ["G"],
     aircraftClass: "S",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "DA62",
@@ -7260,6 +7607,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 453,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "B38M",
@@ -7272,6 +7620,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 453,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "B39M",
@@ -7284,6 +7633,7 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 453,
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
+    airplaneDesignGroup: 3,
   },
   {
     equipmentCode: "H60",
@@ -7318,6 +7668,7 @@ db.aircraft.insertMany([
     weightClass: "S",
     srsClass: "II",
     aircraftClass: "U",
+    airplaneDesignGroup: 1,
   },
   {
     equipmentCode: "DA62",

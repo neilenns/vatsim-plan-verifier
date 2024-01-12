@@ -28,6 +28,12 @@ export const EquipmentInfoTooltip = ({ equipmentInfo }: EquipmentInfoTooltipProp
     >
       <Typography variant="caption" sx={{ cursor: "pointer" }}>
         {equipmentInfo.manufacturer} {equipmentInfo.name}
+        {equipmentInfo.airplaneDesignGroup && (
+          <>
+            <br />
+            Group {equipmentInfo.airplaneDesignGroup}
+          </>
+        )}
       </Typography>
     </Tooltip>
   ) : (

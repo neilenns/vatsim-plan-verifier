@@ -11,4 +11,5 @@ export default interface IAircraft {
   srsClass: string;
   maxCruiseSpeed?: number;
   commonEquipmentSuffix?: string;
+  airplaneDesignGroup?: number;
 }
