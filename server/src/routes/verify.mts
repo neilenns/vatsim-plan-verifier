@@ -22,7 +22,6 @@ import validDepartureAirport from "../controllers/verifiers/validDepartureAirpor
 import warnHeavyRunwayAssignment from "../controllers/verifiers/warnHeavyRunwayAssignment.mjs";
 import warnNewPilot from "../controllers/verifiers/warnNewPilot.mjs";
 import findExistingResultsMiddleware from "../middleware/findExistingResults.mjs";
-
 import altitudeForAltimeter from "../controllers/verifiers/altitudeForAltimeter.mjs";
 import checkForCustomAirportMessages from "../controllers/verifiers/checkForCustomAirportMessages.mjs";
 import checkForCustomDepartureMessages from "../controllers/verifiers/checkForCustomDepartureMessages.mjs";
@@ -31,10 +30,12 @@ import checkSEAvsMONTN from "../controllers/verifiers/checkSEAvsMONTN.mjs";
 import departureForLocalTime from "../controllers/verifiers/departureForLocalTime.mjs";
 import pistonNotSlantLorZ from "../controllers/verifiers/pistonNotSlantLorZ.mjs";
 import warnTextOnlyPilot from "../controllers/verifiers/warnTextOnlyPilot.mjs";
+
 import { verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
 import { FlightPlan } from "../models/FlightPlan.mjs";
 import { VerifierResultModel } from "../models/VerifierResult.mjs";
+import checkForGroundRestrictions from "../controllers/verifiers/checkForGroundRestrictions.mjs";
 
 const router = express.Router();
 
@@ -79,6 +80,7 @@ const verifiers: Verifier[] = [
   { name: "altitudeForAltimeter", handler: altitudeForAltimeter },
   { name: "warnTextOnlyPilot", handler: warnTextOnlyPilot },
   { name: "departureForLocalTime", handler: departureForLocalTime },
+  { name: "checkForGroundRestrictions", handler: checkForGroundRestrictions },
 ];
 
 // Generic handler for verifier routes
