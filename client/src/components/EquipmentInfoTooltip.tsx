@@ -23,17 +23,17 @@ export const EquipmentInfoTooltip = ({ equipmentInfo }: EquipmentInfoTooltipProp
           ) : (
             ""
           )}
+          {equipmentInfo.airplaneDesignGroup && (
+            <>
+              <br />
+              Group: {equipmentInfo.airplaneDesignGroup}
+            </>
+          )}
         </div>
       }
     >
       <Typography variant="caption" sx={{ cursor: "pointer" }}>
         {equipmentInfo.manufacturer} {equipmentInfo.name}
-        {equipmentInfo.airplaneDesignGroup && (
-          <>
-            <br />
-            Group {equipmentInfo.airplaneDesignGroup}
-          </>
-        )}
       </Typography>
     </Tooltip>
   ) : (
