@@ -153,6 +153,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "S",
     airplaneDesignGroup: 3,
+    wingspan: 80.7,
+    tailHeight: 24.9,
   },
   {
     equipmentCode: "AT44",
@@ -164,6 +166,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "S",
     airplaneDesignGroup: 3,
+    wingspan: 80.7,
+    tailHeight: 24.9,
   },
   {
     equipmentCode: "AT45",
@@ -175,6 +179,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "S",
     airplaneDesignGroup: 3,
+    wingspan: 80.7,
+    tailHeight: 24.9,
   },
   {
     equipmentCode: "AT46",
@@ -186,6 +192,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "S",
     airplaneDesignGroup: 3,
+    wingspan: 80.7,
+    tailHeight: 24.9,
   },
   {
     equipmentCode: "AT72",
@@ -197,6 +205,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "L",
     airplaneDesignGroup: 3,
+    wingspan: 88.8,
+    tailHeight: 25.1,
   },
   {
     equipmentCode: "RALL",
@@ -248,6 +258,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 41.6,
+    tailHeight: 14.3,
   },
   {
     equipmentCode: "TOBA",
@@ -259,6 +271,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 32.8,
+    tailHeight: 9.9,
   },
   {
     equipmentCode: "TRIN",
@@ -280,6 +294,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 4,
+    wingspan: 147.1,
+    tailHeight: 54.9,
   },
   {
     equipmentCode: "A306",
@@ -291,6 +307,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 4,
+    wingspan: 147.1,
+    tailHeight: 54.7,
   },
   {
     equipmentCode: "A310",
@@ -302,6 +320,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 4,
+    wingspan: 144.0,
+    tailHeight: 52.3,
   },
   {
     equipmentCode: "A318",
@@ -315,6 +335,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 111.9,
+    tailHeight: 42.3,
   },
   {
     equipmentCode: "A319",
@@ -328,6 +350,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 117.5,
+    tailHeight: 39.7,
   },
   {
     equipmentCode: "A320",
@@ -341,6 +365,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 117.5,
+    tailHeight: 39.6,
   },
   {
     equipmentCode: "A321",
@@ -354,6 +380,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 117.5,
+    tailHeight: 39.7,
   },
   {
     equipmentCode: "A3ST",
@@ -377,6 +405,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 5,
+    wingspan: 197.8,
+    tailHeight: 59.8,
   },
   {
     equipmentCode: "A333",
@@ -390,6 +420,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 5,
+    wingspan: 197.8,
+    tailHeight: 45.7,
   },
   {
     equipmentCode: "A342",
@@ -403,6 +435,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 5,
+    wingspan: 197.8,
+    tailHeight: 55.9,
   },
   {
     equipmentCode: "A343",
@@ -416,6 +450,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 5,
+    wingspan: 197.8,
+    tailHeight: 55.7,
   },
   {
     equipmentCode: "A345",
@@ -429,6 +465,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 5,
+    wingspan: 208.2,
+    tailHeight: 57.5,
   },
   {
     equipmentCode: "A346",
@@ -442,6 +480,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 5,
+    wingspan: 208.2,
+    tailHeight: 58.8,
   },
   {
     equipmentCode: "A388",
@@ -455,6 +495,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 6,
+    wingspan: 261.7,
+    tailHeight: 79.0,
   },
   {
     equipmentCode: "BU20",
@@ -486,6 +528,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 2,
+    wingspan: 51.1,
+    tailHeight: 9.5,
   },
   {
     equipmentCode: "AT5P",
@@ -507,6 +551,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 2,
+    wingspan: 52.0,
+    tailHeight: 10.3,
   },
   {
     equipmentCode: "AT6T",
@@ -518,6 +564,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 2,
+    wingspan: 56.0,
+    tailHeight: 11.0,
   },
   {
     equipmentCode: "AT8T",
@@ -529,6 +577,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "U",
     airplaneDesignGroup: 2,
+    wingspan: 59.3,
+    tailHeight: 11.2,
   },
   {
     equipmentCode: "AN2",
@@ -560,6 +610,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "U",
     airplaneDesignGroup: 4,
+    wingspan: 124.8,
+    tailHeight: 34.6,
   },
   {
     equipmentCode: "AN70",
@@ -581,6 +633,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 104.6,
+    tailHeight: 28.4,
   },
   {
     equipmentCode: "A124",
@@ -592,6 +646,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 6,
+    wingspan: 240.5,
+    tailHeight: 68.2,
   },
   {
     equipmentCode: "A140",
@@ -663,6 +719,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "L",
     airplaneDesignGroup: 2,
+    wingspan: 58.0,
+    tailHeight: 15.4,
   },
   {
     equipmentCode: "B350",
@@ -676,6 +734,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "L",
     airplaneDesignGroup: 2,
+    wingspan: 57.9,
+    tailHeight: 14.3,
   },
   {
     equipmentCode: "BE10",
@@ -687,6 +747,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 45.9,
+    tailHeight: 15.4,
   },
   {
     equipmentCode: "BE17",
@@ -708,6 +770,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "S",
     airplaneDesignGroup: 2,
+    wingspan: 49.7,
+    tailHeight: 9.3,
   },
   {
     equipmentCode: "B18T",
@@ -719,6 +783,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 46.0,
+    tailHeight: 9.6,
   },
   {
     equipmentCode: "BE19",
@@ -730,6 +796,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 32.8,
+    tailHeight: 8.3,
   },
   {
     equipmentCode: "BE20",
@@ -741,6 +809,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "L",
     airplaneDesignGroup: 2,
+    wingspan: 54.5,
+    tailHeight: 15.0,
   },
   {
     equipmentCode: "BE23",
@@ -752,6 +822,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 32.8,
+    tailHeight: 8.3,
   },
   {
     equipmentCode: "BE24",
@@ -763,6 +835,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 32.8,
+    tailHeight: 8.3,
   },
   {
     equipmentCode: "BE30",
@@ -774,6 +848,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "S",
     airplaneDesignGroup: 2,
+    wingspan: 57.9,
+    tailHeight: 14.3,
   },
   {
     equipmentCode: "BE33",
@@ -785,6 +861,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 33.5,
+    tailHeight: 8.3,
   },
   {
     equipmentCode: "BE35",
@@ -796,6 +874,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 35.5,
+    tailHeight: 7.6,
   },
   {
     equipmentCode: "BE36",
@@ -807,6 +887,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 33.5,
+    tailHeight: 8.6,
   },
   {
     equipmentCode: "B36T",
@@ -818,6 +900,8 @@ db.aircraft.insertMany([
     srsClass: "I ",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 33.5,
+    tailHeight: 8.6,
   },
   {
     equipmentCode: "BE40",
@@ -829,6 +913,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 43.5,
+    tailHeight: 13.9,
   },
   {
     equipmentCode: "BE50",
@@ -840,6 +926,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 45.3,
+    tailHeight: 11.3,
   },
   {
     equipmentCode: "BE55",
@@ -851,6 +939,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 37.8,
+    tailHeight: 9.6,
   },
   {
     equipmentCode: "BE56",
@@ -872,6 +962,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 37.8,
+    tailHeight: 9.8,
   },
   {
     equipmentCode: "BE60",
@@ -883,6 +975,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 39.3,
+    tailHeight: 12.3,
   },
   {
     equipmentCode: "BE65",
@@ -894,6 +988,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 45.9,
+    tailHeight: 14.3,
   },
   {
     equipmentCode: "BE70",
@@ -905,6 +1001,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 2,
+    wingspan: 50.3,
+    tailHeight: 14.3,
   },
   {
     equipmentCode: "BE76",
@@ -916,6 +1014,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 38.0,
+    tailHeight: 9.5,
   },
   {
     equipmentCode: "BE77",
@@ -927,6 +1027,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 30.0,
+    tailHeight: 7.9,
   },
   {
     equipmentCode: "BE80",
@@ -938,6 +1040,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 2,
+    wingspan: 50.3,
+    tailHeight: 14.3,
   },
   {
     equipmentCode: "BE88",
@@ -959,6 +1063,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 37.8,
+    tailHeight: 9.5,
   },
   {
     equipmentCode: "BE99",
@@ -970,6 +1076,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 45.9,
+    tailHeight: 14.3,
   },
   {
     equipmentCode: "BE9L",
@@ -981,6 +1089,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 2,
+    wingspan: 50.3,
+    tailHeight: 14.3,
   },
   {
     equipmentCode: "BE9T",
@@ -992,6 +1102,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 2,
+    wingspan: 54.5,
+    tailHeight: 14.8,
   },
   {
     equipmentCode: "STAR",
@@ -1013,6 +1125,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 44.5,
+    tailHeight: 15.3,
   },
   {
     equipmentCode: "T34P",
@@ -1024,6 +1138,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 33.3,
+    tailHeight: 9.6,
   },
   {
     equipmentCode: "T34T",
@@ -1045,6 +1161,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 33.4,
+    tailHeight: 10.7,
   },
   {
     equipmentCode: "U21",
@@ -1076,6 +1194,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 36.0,
+    tailHeight: 6.8,
   },
   {
     equipmentCode: "AR15",
@@ -1117,6 +1237,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 34.2,
+    tailHeight: 7.3,
   },
   {
     equipmentCode: "BL19",
@@ -1138,6 +1260,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 36.2,
+    tailHeight: 8.6,
   },
   {
     equipmentCode: "CH40",
@@ -1159,6 +1283,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 33.5,
+    tailHeight: 7.7,
   },
   {
     equipmentCode: "CH7B",
@@ -1170,6 +1296,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 33.5,
+    tailHeight: 7.6,
   },
   {
     equipmentCode: "T250",
@@ -1191,6 +1319,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 5,
+    wingspan: 185.0,
+    tailHeight: 40.8,
   },
   {
     equipmentCode: "B701 ",
@@ -1212,6 +1342,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 4,
+    wingspan: 145.8,
+    tailHeight: 42.1,
   },
   {
     equipmentCode: "B712",
@@ -1223,6 +1355,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 93.3,
+    tailHeight: 29.7,
   },
   {
     equipmentCode: "B720",
@@ -1244,6 +1378,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 108.0,
+    tailHeight: 34.3,
   },
   {
     equipmentCode: "B722",
@@ -1255,6 +1391,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 109.3,
+    tailHeight: 34.9,
   },
   {
     equipmentCode: "R721",
@@ -1266,6 +1404,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 108.0,
+    tailHeight: 34.3,
   },
   {
     equipmentCode: "R722",
@@ -1277,6 +1417,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 108.0,
+    tailHeight: 34.9,
   },
   {
     equipmentCode: "B72Q",
@@ -1308,6 +1450,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 93.0,
+    tailHeight: 36.8,
   },
   {
     equipmentCode: "B73Q",
@@ -1331,6 +1475,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 102.4,
+    tailHeight: 36.3,
   },
   {
     equipmentCode: "B734",
@@ -1344,6 +1490,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 94.8,
+    tailHeight: 36.3,
   },
   {
     equipmentCode: "B735",
@@ -1357,6 +1505,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 94.8,
+    tailHeight: 36.3,
   },
   {
     equipmentCode: "B736",
@@ -1370,6 +1520,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 117.4,
+    tailHeight: 41.7,
   },
   {
     equipmentCode: "B737",
@@ -1383,6 +1535,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 117.4,
+    tailHeight: 41.6,
   },
   {
     equipmentCode: "B738",
@@ -1396,6 +1550,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 117.4,
+    tailHeight: 41.4,
   },
   {
     equipmentCode: "B739",
@@ -1409,6 +1565,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 117.4,
+    tailHeight: 41.4,
   },
   {
     equipmentCode: "B741",
@@ -1422,6 +1580,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 5,
+    wingspan: 195.7,
+    tailHeight: 64.3,
   },
   {
     equipmentCode: "B742",
@@ -1435,6 +1595,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 5,
+    wingspan: 195.7,
+    tailHeight: 64.7,
   },
   {
     equipmentCode: "B743",
@@ -1448,6 +1610,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 5,
+    wingspan: 195.7,
+    tailHeight: 64.3,
   },
   {
     equipmentCode: "B74D",
@@ -1469,6 +1633,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 5,
+    wingspan: 195.7,
+    tailHeight: 64.3,
   },
   {
     equipmentCode: "B74R",
@@ -1500,6 +1666,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 4,
+    wingspan: 134.8,
+    tailHeight: 45.1,
   },
   {
     equipmentCode: "B753",
@@ -1511,6 +1679,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 4,
+    wingspan: 134.8,
+    tailHeight: 44.8,
   },
   {
     equipmentCode: "B762",
@@ -1522,6 +1692,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 4,
+    wingspan: 156.1,
+    tailHeight: 52.9,
   },
   {
     equipmentCode: "B763",
@@ -1533,6 +1705,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 4,
+    wingspan: 167.0,
+    tailHeight: 52.6,
   },
   {
     equipmentCode: "B764",
@@ -1544,6 +1718,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 4,
+    wingspan: 170.3,
+    tailHeight: 55.8,
   },
   {
     equipmentCode: "B772",
@@ -1555,6 +1731,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 5,
+    wingspan: 199.9,
+    tailHeight: 61.5,
   },
   {
     equipmentCode: "B773",
@@ -1566,6 +1744,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 5,
+    wingspan: 199.9,
+    tailHeight: 61.5,
   },
   {
     equipmentCode: "BSCA",
@@ -1597,6 +1777,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 4,
+    wingspan: 169.8,
+    tailHeight: 55.1,
   },
   {
     equipmentCode: "C97",
@@ -1638,6 +1820,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 4,
+    wingspan: 130.8,
+    tailHeight: 41.7,
   },
   {
     equipmentCode: "KE3",
@@ -1719,6 +1903,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 63.8,
+    tailHeight: 20.3,
   },
   {
     equipmentCode: "GL5T",
@@ -1730,6 +1916,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 94.0,
+    tailHeight: 25.5,
   },
   {
     equipmentCode: "GLEX",
@@ -1743,6 +1931,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 94.0,
+    tailHeight: 25.5,
   },
   {
     equipmentCode: "A748",
@@ -1774,6 +1964,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 88.5,
+    tailHeight: 24.5,
   },
   {
     equipmentCode: "JPRO",
@@ -1795,6 +1987,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 47.0,
+    tailHeight: 16.5,
   },
   {
     equipmentCode: "H25B",
@@ -1806,6 +2000,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 51.4,
+    tailHeight: 18.1,
   },
   {
     equipmentCode: "H25C",
@@ -1817,6 +2013,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 51.4,
+    tailHeight: 17.1,
   },
   {
     equipmentCode: "B461",
@@ -1830,6 +2028,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 86.4,
+    tailHeight: 28.3,
   },
   {
     equipmentCode: "B462",
@@ -1843,6 +2043,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 86.4,
+    tailHeight: 28.3,
   },
   {
     equipmentCode: "B463",
@@ -1866,6 +2068,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "U",
     airplaneDesignGroup: 2,
+    wingspan: 52.0,
+    tailHeight: 17.5,
   },
   {
     equipmentCode: "JS32",
@@ -1877,6 +2081,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "U",
     airplaneDesignGroup: 2,
+    wingspan: 52.0,
+    tailHeight: 17.5,
   },
   {
     equipmentCode: "JS41",
@@ -1888,6 +2094,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "U",
     airplaneDesignGroup: 2,
+    wingspan: 60.4,
+    tailHeight: 18.8,
   },
   {
     equipmentCode: "HAR",
@@ -1909,6 +2117,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 32.6,
+    tailHeight: 13.1,
   },
   {
     equipmentCode: "JS1",
@@ -1970,6 +2180,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 86.4,
+    tailHeight: 28.3,
   },
   {
     equipmentCode: "RJ1H",
@@ -1981,6 +2193,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 86.4,
+    tailHeight: 28.2,
   },
   {
     equipmentCode: "TOR",
@@ -2072,6 +2286,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 36.5,
+    tailHeight: 9.4,
   },
   {
     equipmentCode: "CL44",
@@ -2103,6 +2319,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "U",
     airplaneDesignGroup: 3,
+    wingspan: 105.3,
+    tailHeight: 29.2,
   },
   {
     equipmentCode: "CL60",
@@ -2114,6 +2332,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 64.3,
+    tailHeight: 20.7,
   },
   {
     equipmentCode: "CRJ1",
@@ -2127,6 +2347,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 69.6,
+    tailHeight: 20.7,
   },
   {
     equipmentCode: "CRJ2",
@@ -2140,6 +2362,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 68.7,
+    tailHeight: 20.8,
   },
   {
     equipmentCode: "CRJ7",
@@ -2153,6 +2377,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 76.3,
+    tailHeight: 24.8,
   },
   {
     equipmentCode: "CRJ9",
@@ -2166,6 +2392,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 81.5,
+    tailHeight: 24.1,
   },
   {
     equipmentCode: "T33",
@@ -2197,6 +2425,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 33.3,
+    tailHeight: 6.3,
   },
   {
     equipmentCode: "C140",
@@ -2208,6 +2438,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 33.3,
+    tailHeight: 6.3,
   },
   {
     equipmentCode: "C150",
@@ -2219,6 +2451,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 33.2,
+    tailHeight: 8.5,
   },
   {
     equipmentCode: "C152",
@@ -2230,6 +2464,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 33.2,
+    tailHeight: 8.5,
   },
   {
     equipmentCode: "C170",
@@ -2241,6 +2477,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 36.0,
+    tailHeight: 6.6,
   },
   {
     equipmentCode: "C172",
@@ -2254,6 +2492,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["A", "G"],
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 36.1,
+    tailHeight: 8.9,
   },
   {
     equipmentCode: "C72R",
@@ -2265,6 +2505,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 36.1,
+    tailHeight: 8.9,
   },
   {
     equipmentCode: "C175",
@@ -2276,6 +2518,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 36.2,
+    tailHeight: 8.5,
   },
   {
     equipmentCode: "C177",
@@ -2287,6 +2531,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 35.5,
+    tailHeight: 8.6,
   },
   {
     equipmentCode: "C77R",
@@ -2298,6 +2544,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 35.5,
+    tailHeight: 8.6,
   },
   {
     equipmentCode: "C180",
@@ -2309,6 +2557,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 35.8,
+    tailHeight: 7.8,
   },
   {
     equipmentCode: "C182",
@@ -2320,6 +2570,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 36.0,
+    tailHeight: 9.3,
   },
   {
     equipmentCode: "C82R",
@@ -2331,6 +2583,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 36.0,
+    tailHeight: 9.3,
   },
   {
     equipmentCode: "C185",
@@ -2342,6 +2596,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 35.8,
+    tailHeight: 7.8,
   },
   {
     equipmentCode: "C188",
@@ -2353,6 +2609,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 41.7,
+    tailHeight: 7.7,
   },
   {
     equipmentCode: "C190",
@@ -2374,6 +2632,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 36.2,
+    tailHeight: 7.2,
   },
   {
     equipmentCode: "C205",
@@ -2395,6 +2655,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 36.0,
+    tailHeight: 9.3,
   },
   {
     equipmentCode: "C06T",
@@ -2416,6 +2678,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 36.1,
+    tailHeight: 9.7,
   },
   {
     equipmentCode: "C07T",
@@ -2437,6 +2701,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 2,
+    wingspan: 52.1,
+    tailHeight: 15.1,
   },
   {
     equipmentCode: "C210",
@@ -2448,6 +2714,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 36.8,
+    tailHeight: 9.7,
   },
   {
     equipmentCode: "P210",
@@ -2459,6 +2727,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 38.8,
+    tailHeight: 9.7,
   },
   {
     equipmentCode: "C10T",
@@ -2480,6 +2750,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 39.0,
+    tailHeight: 13.3,
   },
   {
     equipmentCode: "C310",
@@ -2491,6 +2763,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 36.9,
+    tailHeight: 10.6,
   },
   {
     equipmentCode: "C320",
@@ -2502,6 +2776,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 36.9,
+    tailHeight: 10.6,
   },
   {
     equipmentCode: "C335",
@@ -2513,6 +2789,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 38.1,
+    tailHeight: 12.6,
   },
   {
     equipmentCode: "C336",
@@ -2554,6 +2832,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 38.1,
+    tailHeight: 12.6,
   },
   {
     equipmentCode: "C402",
@@ -2565,6 +2845,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 44.2,
+    tailHeight: 11.4,
   },
   {
     equipmentCode: "C02T",
@@ -2586,6 +2868,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 46.3,
+    tailHeight: 13.3,
   },
   {
     equipmentCode: "C04T",
@@ -2607,6 +2891,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "S",
     airplaneDesignGroup: 2,
+    wingspan: 49.5,
+    tailHeight: 13.2,
   },
   {
     equipmentCode: "C411",
@@ -2630,6 +2916,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["G"],
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 44.2,
+    tailHeight: 11.5,
   },
   {
     equipmentCode: "C14T",
@@ -2651,6 +2939,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 44.2,
+    tailHeight: 11.5,
   },
   {
     equipmentCode: "C21T",
@@ -2672,6 +2962,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 44.2,
+    tailHeight: 12.6,
   },
   {
     equipmentCode: "C441",
@@ -2683,6 +2975,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "S",
     airplaneDesignGroup: 2,
+    wingspan: 49.3,
+    tailHeight: 13.2,
   },
   {
     equipmentCode: "C500",
@@ -2694,6 +2988,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 47.1,
+    tailHeight: 14.3,
   },
   {
     equipmentCode: "C501",
@@ -2705,6 +3001,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 47.1,
+    tailHeight: 14.3,
   },
   {
     equipmentCode: "C525",
@@ -2716,6 +3014,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 46.9,
+    tailHeight: 13.8,
   },
   {
     equipmentCode: "C25A",
@@ -2727,6 +3027,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 49.8,
+    tailHeight: 14.0,
   },
   {
     equipmentCode: "C25B",
@@ -2738,6 +3040,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 53.3,
+    tailHeight: 15.2,
   },
   {
     equipmentCode: "C25C",
@@ -2751,6 +3055,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 50.8,
+    tailHeight: 15.4,
   },
   {
     equipmentCode: "C526",
@@ -2762,6 +3068,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 46.8,
+    tailHeight: 13.8,
   },
   {
     equipmentCode: "C550",
@@ -2773,6 +3081,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 51.7,
+    tailHeight: 15.0,
   },
   {
     equipmentCode: "C551",
@@ -2784,6 +3094,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 51.7,
+    tailHeight: 15.0,
   },
   {
     equipmentCode: "C560",
@@ -2795,6 +3107,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 54.1,
+    tailHeight: 15.0,
   },
   {
     equipmentCode: "C650",
@@ -2806,6 +3120,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 53.5,
+    tailHeight: 16.8,
   },
   {
     equipmentCode: "C680",
@@ -2817,6 +3133,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 63.1,
+    tailHeight: 20.3,
   },
   {
     equipmentCode: "C750",
@@ -2828,6 +3146,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 63.6,
+    tailHeight: 19.3,
   },
   {
     equipmentCode: "CAW",
@@ -2899,6 +3219,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 35.5,
+    tailHeight: 6.6,
   },
   {
     equipmentCode: "SR20",
@@ -2910,6 +3232,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 38.3,
+    tailHeight: 9.2,
   },
   {
     equipmentCode: "SR22",
@@ -2921,6 +3245,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 38.3,
+    tailHeight: 8.9,
   },
   {
     equipmentCode: "VK3P",
@@ -2942,6 +3268,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "U",
     airplaneDesignGroup: 2,
+    wingspan: 62.3,
+    tailHeight: 20.7,
   },
   {
     equipmentCode: "C46",
@@ -2983,6 +3311,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 42.9,
+    tailHeight: 15.1,
   },
   {
     equipmentCode: "FA20",
@@ -2994,6 +3324,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 53.5,
+    tailHeight: 17.6,
   },
   {
     equipmentCode: "FA50",
@@ -3005,6 +3337,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 61.9,
+    tailHeight: 22.9,
   },
   {
     equipmentCode: "F900",
@@ -3016,6 +3350,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 63.4,
+    tailHeight: 24.8,
   },
   {
     equipmentCode: "F2TH",
@@ -3027,6 +3363,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 63.4,
+    tailHeight: 23.2,
   },
   {
     equipmentCode: "JAGR",
@@ -3088,6 +3426,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 48.0,
+    tailHeight: 9.0,
   },
   {
     equipmentCode: "DH2T",
@@ -3149,6 +3489,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "L",
     airplaneDesignGroup: 2,
+    wingspan: 65.0,
+    tailHeight: 19.3,
   },
   {
     equipmentCode: "DHC7",
@@ -3160,6 +3502,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "L",
     airplaneDesignGroup: 3,
+    wingspan: 93.0,
+    tailHeight: 26.2,
   },
   {
     equipmentCode: "DH8A",
@@ -3173,6 +3517,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["G"],
     aircraftClass: "L",
     airplaneDesignGroup: 3,
+    wingspan: 85.0,
+    tailHeight: 24.6,
   },
   {
     equipmentCode: "DH8B",
@@ -3186,6 +3532,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["G"],
     aircraftClass: "L",
     airplaneDesignGroup: 3,
+    wingspan: 85.0,
+    tailHeight: 24.6,
   },
   {
     equipmentCode: "DH8C",
@@ -3199,6 +3547,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["G"],
     aircraftClass: "L",
     airplaneDesignGroup: 3,
+    wingspan: 90.0,
+    tailHeight: 24.6,
   },
   {
     equipmentCode: "DH8D",
@@ -3212,6 +3562,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["G"],
     aircraftClass: "L",
     airplaneDesignGroup: 3,
+    wingspan: 93.3,
+    tailHeight: 27.4,
   },
   {
     equipmentCode: "DOVE",
@@ -3243,6 +3595,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 35.7,
+    tailHeight: 7.2,
   },
   {
     equipmentCode: "DA42",
@@ -3254,6 +3608,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 44.5,
+    tailHeight: 8.2,
   },
   {
     equipmentCode: "D228",
@@ -3275,6 +3631,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "U",
     airplaneDesignGroup: 2,
+    wingspan: 68.8,
+    tailHeight: 23.2,
   },
   {
     equipmentCode: "DO27",
@@ -3326,6 +3684,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 37.3,
+    tailHeight: 11.0,
   },
   {
     equipmentCode: "VECT",
@@ -3347,6 +3707,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "U",
     airplaneDesignGroup: 2,
+    wingspan: 50.3,
+    tailHeight: 16.2,
   },
   {
     equipmentCode: "E120",
@@ -3358,6 +3720,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "L",
     airplaneDesignGroup: 2,
+    wingspan: 64.9,
+    tailHeight: 21.4,
   },
   {
     equipmentCode: "E121",
@@ -3379,6 +3743,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 65.8,
+    tailHeight: 22.2,
   },
   {
     equipmentCode: "E145",
@@ -3390,6 +3756,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 65.8,
+    tailHeight: 22.2,
   },
   {
     equipmentCode: "E45X",
@@ -3401,6 +3769,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 65.6,
+    tailHeight: 22.2,
   },
   {
     equipmentCode: "E170",
@@ -3412,6 +3782,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 85.3,
+    tailHeight: 32.3,
   },
   {
     equipmentCode: "E190",
@@ -3423,6 +3795,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 94.2,
+    tailHeight: 34.6,
   },
   {
     equipmentCode: "E195",
@@ -3434,6 +3808,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 94.2,
+    tailHeight: 33.7,
   },
   {
     equipmentCode: "E200",
@@ -3505,6 +3881,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "U",
     airplaneDesignGroup: 2,
+    wingspan: 68.8,
+    tailHeight: 23.2,
   },
   {
     equipmentCode: "J328",
@@ -3516,6 +3894,8 @@ db.aircraft.insertMany([
     srsClass: "III ",
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 68.8,
+    tailHeight: 23.1,
   },
   {
     equipmentCode: "J728",
@@ -3537,6 +3917,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 57.5,
+    tailHeight: 14.7,
   },
   {
     equipmentCode: "C119",
@@ -3618,6 +4000,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 46.3,
+    tailHeight: 16.7,
   },
   {
     equipmentCode: "SW4",
@@ -3629,6 +4013,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "U",
     airplaneDesignGroup: 2,
+    wingspan: 57.0,
+    tailHeight: 16.7,
   },
   {
     equipmentCode: "F27",
@@ -3710,6 +4096,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 35.6,
+    tailHeight: 12.6,
   },
   {
     equipmentCode: "LJ24",
@@ -3721,6 +4109,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 35.6,
+    tailHeight: 12.3,
   },
   {
     equipmentCode: "LJ25",
@@ -3732,6 +4122,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 35.6,
+    tailHeight: 12.3,
   },
   {
     equipmentCode: "LJ28",
@@ -3753,6 +4145,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 43.8,
+    tailHeight: 12.3,
   },
   {
     equipmentCode: "LJ35",
@@ -3764,6 +4158,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 39.5,
+    tailHeight: 12.3,
   },
   {
     equipmentCode: "LJ40",
@@ -3775,6 +4171,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 47.8,
+    tailHeight: 14.1,
   },
   {
     equipmentCode: "LJ45",
@@ -3786,6 +4184,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 47.8,
+    tailHeight: 14.1,
   },
   {
     equipmentCode: "LJ55",
@@ -3797,6 +4197,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 43.8,
+    tailHeight: 14.7,
   },
   {
     equipmentCode: "LJ60",
@@ -3808,6 +4210,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 43.8,
+    tailHeight: 14.7,
   },
   {
     equipmentCode: "CAT",
@@ -3829,6 +4233,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "U",
     airplaneDesignGroup: 3,
+    wingspan: 91.8,
+    tailHeight: 27.9,
   },
   {
     equipmentCode: "CVLT",
@@ -3840,6 +4246,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "U",
     airplaneDesignGroup: 3,
+    wingspan: 105.3,
+    tailHeight: 29.2,
   },
   {
     equipmentCode: "F111",
@@ -3861,6 +4269,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 32.7,
+    tailHeight: 16.0,
   },
   {
     equipmentCode: "F16X",
@@ -3942,6 +4352,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 24.4,
+    tailHeight: 6.7,
   },
   {
     equipmentCode: "AA5",
@@ -3953,6 +4365,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 31.4,
+    tailHeight: 8.0,
   },
   {
     equipmentCode: "G96",
@@ -4044,6 +4458,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 42.3,
+    tailHeight: 12.1,
   },
   {
     equipmentCode: "G64T",
@@ -4105,6 +4521,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 68.8,
+    tailHeight: 24.5,
   },
   {
     equipmentCode: "GA7",
@@ -4116,6 +4534,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 36.8,
+    tailHeight: 10.3,
   },
   {
     equipmentCode: "U16",
@@ -4177,6 +4597,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 2,
+    wingspan: 52.1,
+    tailHeight: 15.0,
   },
   {
     equipmentCode: "AC95",
@@ -4188,6 +4610,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 2,
+    wingspan: 52.1,
+    tailHeight: 15.0,
   },
   {
     equipmentCode: "AA1",
@@ -4199,6 +4623,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 24.4,
+    tailHeight: 6.7,
   },
   {
     equipmentCode: "AA5",
@@ -4210,6 +4636,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 31.4,
+    tailHeight: 8.0,
   },
   {
     equipmentCode: "GA7",
@@ -4221,6 +4649,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 36.8,
+    tailHeight: 10.3,
   },
   {
     equipmentCode: "G159",
@@ -4242,6 +4672,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 68.8,
+    tailHeight: 24.5,
   },
   {
     equipmentCode: "GLF3",
@@ -4253,6 +4685,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 77.8,
+    tailHeight: 24.4,
   },
   {
     equipmentCode: "GLF4",
@@ -4264,6 +4698,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 77.8,
+    tailHeight: 24.4,
   },
   {
     equipmentCode: "GLF5",
@@ -4275,6 +4711,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 93.5,
+    tailHeight: 25.8,
   },
   {
     equipmentCode: "B18T",
@@ -4286,6 +4724,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 46.0,
+    tailHeight: 9.6,
   },
   {
     equipmentCode: "BE18",
@@ -4297,6 +4737,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 2,
+    wingspan: 49.7,
+    tailHeight: 9.3,
   },
   {
     equipmentCode: "T28",
@@ -4308,6 +4750,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 40.1,
+    tailHeight: 12.7,
   },
   {
     equipmentCode: "JS1",
@@ -4339,6 +4783,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 39.0,
+    tailHeight: 14.7,
   },
   {
     equipmentCode: "STLN",
@@ -4420,6 +4866,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 44.8,
+    tailHeight: 15.8,
   },
   {
     equipmentCode: "ASTR",
@@ -4431,6 +4879,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 52.7,
+    tailHeight: 18.2,
   },
   {
     equipmentCode: "GALX",
@@ -4442,6 +4892,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 58.1,
+    tailHeight: 21.4,
   },
   {
     equipmentCode: "G150",
@@ -4453,6 +4905,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 55.6,
+    tailHeight: 19.1,
   },
   {
     equipmentCode: "A50",
@@ -4524,6 +4978,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 4,
+    wingspan: 165.7,
+    tailHeight: 48.4,
   },
   {
     equipmentCode: "IL86",
@@ -4585,6 +5041,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 38.0,
+    tailHeight: 9.3,
   },
   {
     equipmentCode: "L37",
@@ -4616,6 +5074,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "U",
     airplaneDesignGroup: 4,
+    wingspan: 132.6,
+    tailHeight: 38.8,
   },
   {
     equipmentCode: "C141",
@@ -4647,6 +5107,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 44.5,
+    tailHeight: 16.7,
   },
   {
     equipmentCode: "F104",
@@ -4718,6 +5180,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 54.3,
+    tailHeight: 20.3,
   },
   {
     equipmentCode: "P2",
@@ -4739,6 +5203,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "U",
     airplaneDesignGroup: 3,
+    wingspan: 99.7,
+    tailHeight: 33.7,
   },
   {
     equipmentCode: "P38",
@@ -4840,6 +5306,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 30.8,
+    tailHeight: 6.3,
   },
   {
     equipmentCode: "M6",
@@ -4931,6 +5399,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 4,
+    wingspan: 169.8,
+    tailHeight: 55.1,
   },
   {
     equipmentCode: "DC10",
@@ -4942,6 +5412,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 4,
+    wingspan: 165.3,
+    tailHeight: 58.1,
   },
   {
     equipmentCode: "DC3",
@@ -4954,6 +5426,8 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 270,
     aircraftClass: "L",
     airplaneDesignGroup: 3,
+    wingspan: 95.2,
+    tailHeight: 16.9,
   },
   {
     equipmentCode: "DC3S",
@@ -4966,6 +5440,8 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 270,
     aircraftClass: "U",
     airplaneDesignGroup: 3,
+    wingspan: 90.0,
+    tailHeight: 16.7,
   },
   {
     equipmentCode: "DC4",
@@ -4989,6 +5465,8 @@ db.aircraft.insertMany([
     maxCruiseSpeed: 270,
     aircraftClass: "L",
     airplaneDesignGroup: 3,
+    wingspan: 117.5,
+    tailHeight: 28.4,
   },
   {
     equipmentCode: "DC7",
@@ -5031,6 +5509,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 4,
+    wingspan: 148.4,
+    tailHeight: 43.3,
   },
   {
     equipmentCode: "DC8Q",
@@ -5062,6 +5542,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 89.4,
+    tailHeight: 27.6,
   },
   {
     equipmentCode: "DC92",
@@ -5083,6 +5565,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 93.3,
+    tailHeight: 27.8,
   },
   {
     equipmentCode: "DC94",
@@ -5104,6 +5588,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 93.4,
+    tailHeight: 28.8,
   },
   {
     equipmentCode: "F15",
@@ -5115,6 +5601,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 42.8,
+    tailHeight: 18.5,
   },
   {
     equipmentCode: "F18",
@@ -5146,6 +5634,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 4,
+    wingspan: 170.5,
+    tailHeight: 58.8,
   },
   {
     equipmentCode: "MD81",
@@ -5157,6 +5647,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 107.9,
+    tailHeight: 30.2,
   },
   {
     equipmentCode: "MD82",
@@ -5168,6 +5660,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 107.9,
+    tailHeight: 30.2,
   },
   {
     equipmentCode: "MD83",
@@ -5179,6 +5673,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 107.9,
+    tailHeight: 30.2,
   },
   {
     equipmentCode: "MD87",
@@ -5190,6 +5686,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 107.9,
+    tailHeight: 31.2,
   },
   {
     equipmentCode: "MD88",
@@ -5201,6 +5699,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 107.9,
+    tailHeight: 30.2,
   },
   {
     equipmentCode: "MD90",
@@ -5212,6 +5712,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 107.9,
+    tailHeight: 31.2,
   },
   {
     equipmentCode: "ME08",
@@ -5313,6 +5815,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 39.2,
+    tailHeight: 13.7,
   },
   {
     equipmentCode: "MU30",
@@ -5324,6 +5828,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 43.5,
+    tailHeight: 13.9,
   },
   {
     equipmentCode: "MT2",
@@ -5345,6 +5851,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 30.0,
+    tailHeight: 5.9,
   },
   {
     equipmentCode: "M10",
@@ -5376,6 +5884,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 36.1,
+    tailHeight: 8.3,
   },
   {
     equipmentCode: "M20T",
@@ -5389,6 +5899,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["A", "G"],
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 36.1,
+    tailHeight: 8.3,
   },
   {
     equipmentCode: "M22",
@@ -5490,6 +6002,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "L",
     airplaneDesignGroup: 4,
+    wingspan: 131.2,
+    tailHeight: 38.4,
   },
   {
     equipmentCode: "N260",
@@ -5591,6 +6105,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 5,
+    wingspan: 172.0,
+    tailHeight: 17.0,
   },
   {
     equipmentCode: "C125",
@@ -5642,6 +6158,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 25.3,
+    tailHeight: 12.8,
   },
   {
     equipmentCode: "P68T",
@@ -5693,6 +6211,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 39.4,
+    tailHeight: 11.2,
   },
   {
     equipmentCode: "P136",
@@ -5754,6 +6274,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 46.0,
+    tailHeight: 13.1,
   },
   {
     equipmentCode: "P808",
@@ -5835,6 +6357,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 2,
+    wingspan: 53.3,
+    tailHeight: 14.0,
   },
   {
     equipmentCode: "AEST",
@@ -5846,6 +6370,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 36.7,
+    tailHeight: 12.7,
   },
   {
     equipmentCode: "J2",
@@ -5897,6 +6423,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 35.5,
+    tailHeight: 6.7,
   },
   {
     equipmentCode: "PA12",
@@ -5908,6 +6436,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 35.5,
+    tailHeight: 6.8,
   },
   {
     equipmentCode: "PA14",
@@ -5939,6 +6469,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 29.3,
+    tailHeight: 6.2,
   },
   {
     equipmentCode: "PA17",
@@ -5960,6 +6492,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 35.3,
+    tailHeight: 6.7,
   },
   {
     equipmentCode: "PA20",
@@ -5971,6 +6505,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 29.3,
+    tailHeight: 8.2,
   },
   {
     equipmentCode: "PA22",
@@ -5982,6 +6518,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 29.3,
+    tailHeight: 8.3,
   },
   {
     equipmentCode: "PA23",
@@ -5993,6 +6531,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 37.2,
+    tailHeight: 10.3,
   },
   {
     equipmentCode: "PA24",
@@ -6004,6 +6544,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 36.0,
+    tailHeight: 7.5,
   },
   {
     equipmentCode: "PA25",
@@ -6015,6 +6557,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 36.2,
+    tailHeight: 7.2,
   },
   {
     equipmentCode: "PA27",
@@ -6026,6 +6570,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 37.2,
+    tailHeight: 10.2,
   },
   {
     equipmentCode: "P28A",
@@ -6037,6 +6583,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 35.0,
+    tailHeight: 7.3,
   },
   {
     equipmentCode: "P28B",
@@ -6048,6 +6596,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 35.0,
+    tailHeight: 7.2,
   },
   {
     equipmentCode: "P28R",
@@ -6059,6 +6609,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 35.4,
+    tailHeight: 7.9,
   },
   {
     equipmentCode: "P28T",
@@ -6070,6 +6622,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 35.4,
+    tailHeight: 7.9,
   },
   {
     equipmentCode: "PA30",
@@ -6081,6 +6635,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 36.8,
+    tailHeight: 8.3,
   },
   {
     equipmentCode: "PA31",
@@ -6092,6 +6648,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 40.7,
+    tailHeight: 13.0,
   },
   {
     equipmentCode: "PA32",
@@ -6103,6 +6661,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 36.2,
+    tailHeight: 8.5,
   },
   {
     equipmentCode: "P32R",
@@ -6114,6 +6674,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 36.2,
+    tailHeight: 8.4,
   },
   {
     equipmentCode: "P32T",
@@ -6125,6 +6687,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 36.2,
+    tailHeight: 7.9,
   },
   {
     equipmentCode: "PA34",
@@ -6136,6 +6700,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 38.9,
+    tailHeight: 9.9,
   },
   {
     equipmentCode: "PA36",
@@ -6147,6 +6713,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 38.8,
+    tailHeight: 7.5,
   },
   {
     equipmentCode: "PA38",
@@ -6158,6 +6726,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 34.0,
+    tailHeight: 9.2,
   },
   {
     equipmentCode: "PA44",
@@ -6169,6 +6739,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 38.6,
+    tailHeight: 8.5,
   },
   {
     equipmentCode: "PA46",
@@ -6180,6 +6752,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 43.0,
+    tailHeight: 11.3,
   },
   {
     equipmentCode: "P46T",
@@ -6191,6 +6765,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 43.0,
+    tailHeight: 11.3,
   },
   {
     equipmentCode: "PAT4",
@@ -6202,6 +6778,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 42.7,
+    tailHeight: 12.8,
   },
   {
     equipmentCode: "PAY1",
@@ -6213,6 +6791,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 42.7,
+    tailHeight: 12.8,
   },
   {
     equipmentCode: "PAY2",
@@ -6224,6 +6804,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 42.7,
+    tailHeight: 12.8,
   },
   {
     equipmentCode: "PAY3",
@@ -6235,6 +6817,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 47.7,
+    tailHeight: 14.8,
   },
   {
     equipmentCode: "PAY4",
@@ -6246,6 +6830,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 47.7,
+    tailHeight: 17.0,
   },
   {
     equipmentCode: "PILL",
@@ -6267,6 +6853,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 3,
+    wingspan: 33.9,
+    tailHeight: 30.0,
   },
   {
     equipmentCode: "PTS1",
@@ -6358,6 +6946,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 32.8,
+    tailHeight: 8.4,
   },
   {
     equipmentCode: "M200",
@@ -6379,6 +6969,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 2,
+    wingspan: 49.0,
+    tailHeight: 14.5,
   },
   {
     equipmentCode: "AC52",
@@ -6400,6 +6992,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 2,
+    wingspan: 49.0,
+    tailHeight: 14.5,
   },
   {
     equipmentCode: "AC68",
@@ -6411,6 +7005,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 2,
+    wingspan: 49.5,
+    tailHeight: 14.5,
   },
   {
     equipmentCode: "AC6L",
@@ -6422,6 +7018,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 44.1,
+    tailHeight: 15.0,
   },
   {
     equipmentCode: "AC72",
@@ -6443,6 +7041,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 46.7,
+    tailHeight: 14.5,
   },
   {
     equipmentCode: "AC90",
@@ -6454,6 +7054,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 2,
+    wingspan: 52.1,
+    tailHeight: 15.0,
   },
   {
     equipmentCode: "AC95",
@@ -6465,6 +7067,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 2,
+    wingspan: 52.1,
+    tailHeight: 15.0,
   },
   {
     equipmentCode: "RC70",
@@ -6486,6 +7090,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "U",
     airplaneDesignGroup: 4,
+    wingspan: 132.6,
+    tailHeight: 38.8,
   },
   {
     equipmentCode: "B1",
@@ -6557,6 +7163,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 33.4,
+    tailHeight: 8.7,
   },
   {
     equipmentCode: "P51",
@@ -6568,6 +7176,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 37.0,
+    tailHeight: 13.4,
   },
   {
     equipmentCode: "SBR1",
@@ -6579,6 +7189,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 44.7,
+    tailHeight: 16.0,
   },
   {
     equipmentCode: "SBR2",
@@ -6590,6 +7202,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 44.7,
+    tailHeight: 16.0,
   },
   {
     equipmentCode: "V10",
@@ -6641,6 +7255,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 40.1,
+    tailHeight: 12.7,
   },
   {
     equipmentCode: "T6",
@@ -6652,6 +7268,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 42.0,
+    tailHeight: 11.8,
   },
   {
     equipmentCode: "VO10",
@@ -6783,6 +7401,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "L",
     airplaneDesignGroup: 2,
+    wingspan: 74.6,
+    tailHeight: 22.9,
   },
   {
     equipmentCode: "SB20",
@@ -6794,6 +7414,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "U",
     airplaneDesignGroup: 3,
+    wingspan: 81.3,
+    tailHeight: 25.3,
   },
   {
     equipmentCode: "MF17",
@@ -6815,6 +7437,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "U",
     airplaneDesignGroup: 2,
+    wingspan: 74.7,
+    tailHeight: 16.4,
   },
   {
     equipmentCode: "SH36",
@@ -6826,6 +7450,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "U",
     airplaneDesignGroup: 2,
+    wingspan: 74.8,
+    tailHeight: 23.1,
   },
   {
     equipmentCode: "BELF",
@@ -6847,6 +7473,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 2,
+    wingspan: 64.9,
+    tailHeight: 15.1,
   },
   {
     equipmentCode: "L8",
@@ -6858,6 +7486,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 35.0,
+    tailHeight: 6.3,
   },
   {
     equipmentCode: "S10",
@@ -6879,6 +7509,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 3,
+    wingspan: 33.9,
+    tailHeight: 30.0,
   },
   {
     equipmentCode: "L5",
@@ -6890,6 +7522,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 34.0,
+    tailHeight: 7.9,
   },
   {
     equipmentCode: "RELI",
@@ -6951,6 +7585,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 36.0,
+    tailHeight: 6.8,
   },
   {
     equipmentCode: "TAYD",
@@ -6992,6 +7628,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 36.7,
+    tailHeight: 12.7,
   },
   {
     equipmentCode: "VF14",
@@ -7023,6 +7661,8 @@ db.aircraft.insertMany([
     srsClass: "I",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 29.3,
+    tailHeight: 6.2,
   },
   {
     equipmentCode: "YK40",
@@ -7106,6 +7746,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 5,
+    wingspan: 197.8,
+    tailHeight: 62.0,
   },
   {
     equipmentCode: "A338",
@@ -7119,6 +7761,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 5,
+    wingspan: 210.0,
+    tailHeight: 57.1,
   },
   {
     equipmentCode: "A339",
@@ -7132,6 +7776,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 5,
+    wingspan: 210.0,
+    tailHeight: 55.1,
   },
   {
     equipmentCode: "A359",
@@ -7145,6 +7791,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 5,
+    wingspan: 212.4,
+    tailHeight: 57.3,
   },
   {
     equipmentCode: "A35K",
@@ -7158,6 +7806,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 5,
+    wingspan: 212.4,
+    tailHeight: 57.1,
   },
   {
     equipmentCode: "A400",
@@ -7169,6 +7819,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "L",
     airplaneDesignGroup: 4,
+    wingspan: 139.1,
+    tailHeight: 47.9,
   },
   {
     equipmentCode: "B748",
@@ -7180,6 +7832,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 6,
+    wingspan: 224.4,
+    tailHeight: 64.2,
   },
   {
     equipmentCode: "BLCF",
@@ -7191,6 +7845,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 6,
+    wingspan: 213.0,
+    tailHeight: 70.7,
   },
   {
     equipmentCode: "B778",
@@ -7202,6 +7858,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 6,
+    wingspan: 235.4,
+    tailHeight: 63.9,
   },
   {
     equipmentCode: "B779",
@@ -7213,6 +7871,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 6,
+    wingspan: 235.4,
+    tailHeight: 64.6,
   },
   {
     equipmentCode: "B77L",
@@ -7224,6 +7884,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 5,
+    wingspan: 212.1,
+    tailHeight: 61.5,
   },
   {
     equipmentCode: "B77W",
@@ -7235,6 +7897,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 5,
+    wingspan: 212.6,
+    tailHeight: 61.8,
   },
   {
     equipmentCode: "B788",
@@ -7246,6 +7910,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 5,
+    wingspan: 197.3,
+    tailHeight: 56.1,
   },
   {
     equipmentCode: "B789",
@@ -7257,6 +7923,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 5,
+    wingspan: 197.3,
+    tailHeight: 56.1,
   },
   {
     equipmentCode: "B78X",
@@ -7268,6 +7936,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 5,
+    wingspan: 197.3,
+    tailHeight: 55.8,
   },
   {
     equipmentCode: "C5M",
@@ -7369,6 +8039,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 39.9,
+    tailHeight: 13.2,
   },
   {
     equipmentCode: "V22",
@@ -7382,6 +8054,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["G"],
     aircraftClass: "L",
     airplaneDesignGroup: 2,
+    wingspan: 45.8,
+    tailHeight: 22.1,
   },
   {
     equipmentCode: "E55P",
@@ -7395,6 +8069,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 52.2,
+    tailHeight: 16.8,
   },
   {
     equipmentCode: "TBM9",
@@ -7408,6 +8084,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 42.1,
+    tailHeight: 14.3,
   },
   {
     equipmentCode: "E75L",
@@ -7419,6 +8097,8 @@ db.aircraft.insertMany([
     srsClass: "III",
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 101.7,
+    tailHeight: 32.4,
   },
   {
     equipmentCode: "AT76",
@@ -7432,6 +8112,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["G"],
     aircraftClass: "L",
     airplaneDesignGroup: 3,
+    wingspan: 88.7,
+    tailHeight: 25.1,
   },
   {
     equipmentCode: "G2CA",
@@ -7467,6 +8149,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 68.9,
+    tailHeight: 19.4,
   },
   {
     equipmentCode: "SF50",
@@ -7480,6 +8164,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 1,
+    wingspan: 38.7,
+    tailHeight: 10.9,
   },
   {
     equipmentCode: "A20N",
@@ -7493,6 +8179,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 117.5,
+    tailHeight: 39.6,
   },
   {
     equipmentCode: "A21N",
@@ -7506,6 +8194,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 117.5,
+    tailHeight: 39.7,
   },
   {
     equipmentCode: "SG76",
@@ -7529,6 +8219,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 2,
+    wingspan: 56.3,
+    tailHeight: 17.2,
   },
   {
     equipmentCode: "CC19",
@@ -7583,6 +8275,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["G"],
     aircraftClass: "S",
     airplaneDesignGroup: 1,
+    wingspan: 45.0,
+    tailHeight: 15.3,
   },
   {
     equipmentCode: "DA62",
@@ -7608,6 +8302,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 117.8,
+    tailHeight: 41.0,
   },
   {
     equipmentCode: "B38M",
@@ -7621,6 +8317,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 117.8,
+    tailHeight: 40.3,
   },
   {
     equipmentCode: "B39M",
@@ -7634,6 +8332,8 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["L"],
     aircraftClass: "J",
     airplaneDesignGroup: 3,
+    wingspan: 117.8,
+    tailHeight: 40.8,
   },
   {
     equipmentCode: "H60",
@@ -7669,6 +8369,8 @@ db.aircraft.insertMany([
     srsClass: "II",
     aircraftClass: "U",
     airplaneDesignGroup: 1,
+    wingspan: 39.2,
+    tailHeight: 6.5,
   },
   {
     equipmentCode: "DA62",

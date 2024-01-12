@@ -12,4 +12,6 @@ export default interface IAircraft {
   maxCruiseSpeed?: number;
   commonEquipmentSuffix?: string;
   airplaneDesignGroup?: number;
+  wingspan?: number;
+  tailHeight?: number;
 }
