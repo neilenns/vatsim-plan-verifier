@@ -43,6 +43,9 @@ export class Aircraft {
   @prop({ required: false, enum: ["S", "L", "J", "U"] })
   aircraftClass?: string;
 
+  @prop({ required: false, min: 1, max: 6 })
+  airplaneDesignGroup?: number;
+
   public get isHeavy(): boolean {
     return this.weightClass === "H";
   }
