@@ -46,6 +46,12 @@ export class Aircraft {
   @prop({ required: false, min: 1, max: 6 })
   airplaneDesignGroup?: number;
 
+  @prop({ required: false })
+  wingspan?: number;
+
+  @prop({ required: false })
+  tailHeight?: number;
+
   public get isHeavy(): boolean {
     return this.weightClass === "H";
   }

@@ -5,6 +5,14 @@ type EquipmentInfoTooltipProps = {
   equipmentInfo: IAircraft | undefined;
 };
 
+// Converts feet to meters with the specified number of fraction digits
+function feetToMeters(feet: number, fractionDigits: number): string {
+  // 1 foot is approximately 0.3048 meters
+  const conversionFactor = 0.3048;
+  return (feet * conversionFactor).toFixed(fractionDigits);
+}
+
+
 export const EquipmentInfoTooltip = ({ equipmentInfo }: EquipmentInfoTooltipProps) => {
   return equipmentInfo?.name ? (
     <Tooltip
@@ -27,6 +35,18 @@ export const EquipmentInfoTooltip = ({ equipmentInfo }: EquipmentInfoTooltipProp
             <>
               <br />
               Group: {equipmentInfo.airplaneDesignGroup}
+            </>
+          )}
+          {equipmentInfo.wingspan && (
+            <>
+              <br />
+              Wingspan: {equipmentInfo.wingspan}' ({feetToMeters(equipmentInfo.wingspan * 0.3048, 1)}m)
+            </>
+          )}
+          {equipmentInfo.tailHeight && (
+            <>
+              <br />
+              Tail height: {equipmentInfo.tailHeight}' ({feetToMeters(equipmentInfo.tailHeight * 0.3048, 1)}m)
             </>
           )}
         </div>
