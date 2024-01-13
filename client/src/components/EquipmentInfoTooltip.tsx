@@ -40,13 +40,13 @@ export const EquipmentInfoTooltip = ({ equipmentInfo }: EquipmentInfoTooltipProp
           {equipmentInfo.wingspan && (
             <>
               <br />
-              Wingspan: {equipmentInfo.wingspan}' ({feetToMeters(equipmentInfo.wingspan * 0.3048, 1)}m)
+              Wingspan: {equipmentInfo.wingspan}' ({feetToMeters(equipmentInfo.wingspan, 1)}m)
             </>
           )}
           {equipmentInfo.tailHeight && (
             <>
               <br />
-              Tail height: {equipmentInfo.tailHeight}' ({feetToMeters(equipmentInfo.tailHeight * 0.3048, 1)}m)
+              Tail height: {equipmentInfo.tailHeight}' ({feetToMeters(equipmentInfo.tailHeight, 1)}m)
             </>
           )}
         </div>
