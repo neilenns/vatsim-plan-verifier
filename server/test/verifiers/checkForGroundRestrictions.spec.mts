@@ -35,7 +35,7 @@ const testData = [
   {
     _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b53"),
     callsign: "ASA42",
-    departure: "KPDX",
+    departure: "KEAT",
     arrival: "KSEA",
     cruiseAltitude: 210,
     rawAircraftType: "B737/L",
@@ -50,6 +50,28 @@ const testData = [
     arrival: "KPDX",
     cruiseAltitude: 210,
     rawAircraftType: "C172/L",
+    route: "SUMMA2 SEA BTG T23 OLM Q42 SEA KRATR2",
+    squawk: "1234",
+  },
+  // Airport and aircraft with ground restriction by wingspan
+  {
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b55"),
+    callsign: "ASA42",
+    departure: "KPDX",
+    arrival: "KPDX",
+    cruiseAltitude: 210,
+    rawAircraftType: "A388/L",
+    route: "SUMMA2 SEA BTG T23 OLM Q42 SEA KRATR2",
+    squawk: "1234",
+  },
+  // Airport and aircraft with ground restriction by tail height
+  {
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b56"),
+    callsign: "ASA42",
+    departure: "KEUG",
+    arrival: "KPDX",
+    cruiseAltitude: 210,
+    rawAircraftType: "A388/L",
     route: "SUMMA2 SEA BTG T23 OLM Q42 SEA KRATR2",
     squawk: "1234",
   },
@@ -78,6 +100,38 @@ describe("verifier: checkForGroundRestrictions tests", () => {
 
   it("should have one ground restriction by type", async () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b54");
+    expect(flightPlan.success).to.equal(true);
+
+    const result = await checkForGroundRestrictions(
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
+    );
+
+    expect(result.success).to.equal(true);
+
+    const data = (result as SuccessResult<VerifierResultDocument[]>).data;
+    expect(data.length).to.equal(1);
+    expect(data[0].status).to.equal("CustomMessage");
+    expect(data[0].messageId).to.equal("groundRestriction");
+  });
+
+  it("should have one ground restriction by wingspan", async () => {
+    const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b55");
+    expect(flightPlan.success).to.equal(true);
+
+    const result = await checkForGroundRestrictions(
+      (flightPlan as SuccessResult<FlightPlanDocument>).data
+    );
+
+    expect(result.success).to.equal(true);
+
+    const data = (result as SuccessResult<VerifierResultDocument[]>).data;
+    expect(data.length).to.equal(1);
+    expect(data[0].status).to.equal("CustomMessage");
+    expect(data[0].messageId).to.equal("groundRestriction");
+  });
+
+  it("should have one ground restriction by tail height", async () => {
+    const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b56");
     expect(flightPlan.success).to.equal(true);
 
     const result = await checkForGroundRestrictions(

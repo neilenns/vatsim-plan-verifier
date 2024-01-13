@@ -21,16 +21,21 @@ export default async function checkForGroundRestrictions(
 
   try {
     let group = 0;
-
+    let wingspan = 0;
+    let tailHeight = 0;
     // Get the group for the aircraft from the record, if there is equipment info available.
     if (isDocument(flightPlan.equipmentInfo)) {
       group = flightPlan.equipmentInfo?.airplaneDesignGroup ?? 0;
+      wingspan = flightPlan.equipmentInfo?.wingspan ?? 0;
+      tailHeight = flightPlan.equipmentInfo?.tailHeight ?? 0;
     }
 
     const groundRestrictions = await GroundRestrictionModel.findByAirportAndFlightPlanDetails(
       flightPlan.departure,
       flightPlan.equipmentCode ?? "",
-      group
+      group,
+      wingspan,
+      tailHeight
     );
 
     if (!groundRestrictions || groundRestrictions.length === 0) {

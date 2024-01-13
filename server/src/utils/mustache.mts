@@ -17,6 +17,8 @@ export default async function applyMustacheValues(
 ): Promise<string> {
   const initialFix = await NavaidModel.findOne({ ident: flightPlan.routeParts?.[1] ?? "" });
 
+  const equipmentInfo = isDocument(flightPlan.equipmentInfo) ? flightPlan.equipmentInfo : null;
+
   const view = {
     formattedCruiseAltitude: flightPlan.cruiseAltitudeFormatted.replace(" feet", ""),
     arrival: isDocument(flightPlan.arrivalAirportInfo)
@@ -25,6 +27,10 @@ export default async function applyMustacheValues(
         : flightPlan.arrival
       : flightPlan.arrival,
     squawk: flightPlan.squawk,
+    equipmentCode: flightPlan.equipmentCode,
+    wingspan: equipmentInfo?.wingspan ?? 0,
+    tailHeight: equipmentInfo?.tailHeight ?? 0,
+    airplaneDesignGroup: equipmentInfo?.airplaneDesignGroup ?? 0,
     initialFix: initialFix?.name ?? flightPlan.routeParts?.[1] ?? "unknown",
   };
 

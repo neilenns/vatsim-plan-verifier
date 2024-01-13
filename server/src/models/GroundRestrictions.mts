@@ -17,6 +17,14 @@ class GroundRestriction {
   @prop({ type: () => [Number], required: true, default: [] })
   groups!: Number[];
 
+  // Default is a really big number so no wingspan will ever match when this isn't specified
+  @prop({ required: false, default: 2000 })
+  wingspanGreaterThan?: number;
+
+  // Default is a really big number so no tail height will ever match when this isn't specified
+  @prop({ required: false, default: 2000 })
+  tailHeightGreaterThan?: number;
+
   @prop({ required: true })
   message!: string;
 
@@ -27,11 +35,18 @@ class GroundRestriction {
     this: ReturnModelType<typeof GroundRestriction>,
     airportCode: string,
     equipmentCode: string,
-    group: number
+    group: number,
+    wingspan: number,
+    tailHeight: number
   ): Promise<DocumentType<GroundRestriction>[] | null> {
     return await this.find({
       airportCode: airportCode,
-      $or: [{ equipmentCodes: equipmentCode }, { groups: group }],
+      $or: [
+        { equipmentCodes: equipmentCode },
+        { groups: group },
+        { wingspanGreaterThan: { $lt: wingspan } },
+        { tailHeightGreaterThan: { $lt: tailHeight } },
+      ],
     });
   }
 }

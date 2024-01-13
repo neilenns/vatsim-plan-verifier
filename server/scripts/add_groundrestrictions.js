@@ -4,8 +4,9 @@ db.groundrestrictions.deleteMany({});
 
 db.groundrestrictions.insertMany([
   {
-    airportCode: "KSEA",
-    equipmentCodes: ["B738", "C172"],
-    groups: [5, 6],
+    airportCode: "KPDX",
+    wingspanGreaterThan: 118,
+    message:
+      "{{equipmentCode}} aircraft have taxiway restrictions at KPDX. Check the taxi diagram before taxiing this aircraft.",
   },
 ]);
