@@ -1,4 +1,5 @@
 import { FlightPlan } from "../../models/FlightPlan.mjs";
+import { AirportFlow } from "../../models/InitialAltitude.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import debug from "debug";
@@ -15,6 +16,7 @@ export default async function checkSEAvsMONTN({
   _id,
   SID,
   routeParts,
+  flow,
 }: FlightPlan): Promise<VerifierControllerResult> {
   // Set up the default result for a successful run of the verifier.
   const result = new VerifierResultModel({
@@ -42,9 +44,12 @@ export default async function checkSEAvsMONTN({
         result.priority = 3;
       }
       // Check to see if any of the fixes in the route are on the list that would be MONTN2 in south flow
-      else if (routeParts.some((part) => southFlowMONTN2Fixes.includes(part))) {
-        result.status = VerifierResultStatus.WARNING;
-        result.message = `Flight should be on the MONTN2 departure if KSEA is in south flow.`;
+      else if (
+        flow === AirportFlow.South &&
+        routeParts.some((part) => southFlowMONTN2Fixes.includes(part))
+      ) {
+        result.status = VerifierResultStatus.ERROR;
+        result.message = `Flight should be on the MONTN2 departure instead of SEA8.`;
         result.messageId = "southMONTN";
         result.priority = 3;
       }
@@ -55,10 +60,14 @@ export default async function checkSEAvsMONTN({
         result.messageId = "eastboundMONTN";
         result.priority = 3;
       }
-      // Check to see if any of the fixes in the route should use MONTN2 if northbound
-      else if (routeParts.some((part) => northboundMONTN2Fixes.includes(part))) {
+      // Check to see if any of the fixes in the route should use MONTN2 if northbound and flow
+      // is southbound
+      else if (
+        flow === AirportFlow.South &&
+        routeParts.some((part) => northboundMONTN2Fixes.includes(part))
+      ) {
         result.status = VerifierResultStatus.WARNING;
-        result.message = `Flight should be on the MONTN2 departure if heading northbound and KSEA is in south flow.`;
+        result.message = `Flight should be on the MONTN2 departure if heading northbound.`;
         result.messageId = "northboundMONTN";
         result.priority = 3;
       } else {

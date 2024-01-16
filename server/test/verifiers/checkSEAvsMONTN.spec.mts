@@ -7,6 +7,7 @@ import { VerifierResultDocument, VerifierResultStatus } from "../../src/models/V
 import { SuccessResult } from "../../src/types/result.mjs";
 import { addFlightPlans, removeFlightPlans } from "../setup/manageFlightPlans.mjs";
 import { Types } from "mongoose";
+import { AirportFlow } from "../../src/models/InitialAltitude.mjs";
 
 const testData = [
   // Not SEA8
@@ -39,6 +40,7 @@ const testData = [
     cruiseAltitude: 210,
     rawAircraftType: "B738/L",
     route: "SEA8 SEA NORMY MODDA STEVS EATZZ BZN",
+    flow: AirportFlow.North,
     squawk: "1234",
   },
   // Gets MONTN in south flow
@@ -50,6 +52,7 @@ const testData = [
     cruiseAltitude: 210,
     rawAircraftType: "B738/L",
     route: "SEA8 ALPSE MODDA STEVS EATZZ BZN",
+    flow: AirportFlow.South,
     squawk: "1234",
   },
   // Gets MONTN heading eastbound
@@ -61,6 +64,7 @@ const testData = [
     cruiseAltitude: 210,
     rawAircraftType: "B738/L",
     route: "SEA8 V2 MODDA STEVS EATZZ BZN",
+    flow: AirportFlow.South,
     squawk: "1234",
   },
   // Gets MONTN heading northbound in south flow
@@ -72,6 +76,7 @@ const testData = [
     cruiseAltitude: 210,
     rawAircraftType: "B738/L",
     route: "SEA8 V23 MODDA STEVS EATZZ BZN",
+    flow: AirportFlow.South,
     squawk: "1234",
   },
   // Gets SEA
@@ -83,6 +88,7 @@ const testData = [
     cruiseAltitude: 210,
     rawAircraftType: "B738/L",
     route: "SEA8 ARRIE MODDA STEVS EATZZ BZN",
+    flow: AirportFlow.South,
     squawk: "1234",
   },
 ];
@@ -134,7 +140,7 @@ describe("verifier: checkSEAvsMONTN tests", () => {
     expect(data.messageId).to.equal("useMONTN");
   });
 
-  it("should warn requires MONTN in south flow", async () => {
+  it("should error requires MONTN in south flow", async () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b54");
     expect(flightPlan.success).to.equal(true);
 
@@ -143,7 +149,7 @@ describe("verifier: checkSEAvsMONTN tests", () => {
     expect(result.success).to.equal(true);
 
     const data = (result as SuccessResult<VerifierResultDocument>).data;
-    expect(data.status).to.equal(VerifierResultStatus.WARNING);
+    expect(data.status).to.equal(VerifierResultStatus.ERROR);
     expect(data.flightPlanPart).to.equal("route");
     expect(data.messageId).to.equal("southMONTN");
   });
