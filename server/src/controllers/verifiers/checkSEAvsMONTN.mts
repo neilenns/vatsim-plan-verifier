@@ -54,7 +54,7 @@ export default async function checkSEAvsMONTN({
         result.priority = 3;
       }
       // Check to see if any of the fixes in the route should use MONTN2 if eastbound
-      else if (routeParts.some((part) => eastboundMONTN2Fixes.includes(part)) && ) {
+      else if (routeParts.some((part) => eastboundMONTN2Fixes.includes(part))) {
         result.status = VerifierResultStatus.WARNING;
         result.message = `Flight should be on the MONTN2 departure if heading eastbound.`;
         result.messageId = "eastboundMONTN";
