@@ -1,13 +1,6 @@
-import {
-  prop,
-  getModelForClass,
-  modelOptions,
-  DocumentType,
-  Ref,
-  plugin,
-} from "@typegoose/typegoose";
-import { InitialPhrasingOptions } from "./Departure.mjs";
+import { prop, getModelForClass, modelOptions, DocumentType, plugin } from "@typegoose/typegoose";
 import autopopulate from "mongoose-autopopulate";
+import { InitialAltitude } from "./InitialAltitude.mjs";
 
 @modelOptions({
   options: { customName: "extendedairportinfo" },
@@ -19,25 +12,10 @@ export class ExtendedAirportInfo {
   airportCode!: string;
 
   @prop()
-  defaultInitialAltitudeText?: string;
-
-  @prop()
-  defaultExpectInMinutesText?: string;
-
-  @prop()
   hasSIDs?: boolean;
 
-  @prop()
-  initialAltitude?: number;
-
-  @prop({ type: () => String })
-  initialPhrasing?: InitialPhrasingOptions;
-
-  @prop()
-  expectInMinutes?: number;
-
-  @prop()
-  expectInMiles?: string;
+  @prop({ type: () => [InitialAltitude], default: [] })
+  InitialAltitudes!: InitialAltitude[];
 
   @prop({ type: () => [String] })
   heavyRunways?: string[];

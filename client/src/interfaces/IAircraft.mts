@@ -14,4 +14,5 @@ export default interface IAircraft {
   airplaneDesignGroup?: number;
   wingspan?: number;
   tailHeight?: number;
+  aircraftClass: "S" | "L" | "J" | "U";
 }

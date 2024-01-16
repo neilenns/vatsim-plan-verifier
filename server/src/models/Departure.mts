@@ -8,14 +8,7 @@ import {
 import { find } from "geo-tz";
 import { DateTime } from "luxon";
 import { AirportInfoModel } from "./AirportInfo.mjs";
-
-export class InitialAltitude {
-  @prop({ required: true })
-  Altitude!: number;
-
-  @prop({ required: true })
-  AircraftClass!: string;
-}
+import { InitialAltitude } from "./InitialAltitude.mjs";
 
 export class DepartureValidity {
   @prop({ required: true })
@@ -26,15 +19,6 @@ export class DepartureValidity {
 
   @prop({ required: true, type: () => [String] })
   Alternates!: string[];
-}
-
-export enum InitialPhrasingOptions {
-  Unknown = "Unknown",
-  Maintain = "Maintain",
-  ClimbViaSid = "ClimbViaSid",
-  ClimbViaSidExceptMaintain = "ClimbViaSidExceptMaintain",
-  ClimbViaDepartureExceptMaintain = "ClimbViaDepartureExceptMaintain",
-  SeeNote = "SeeNote",
 }
 
 export class IsValidResult {
@@ -63,25 +47,10 @@ export class Departure {
   @prop({ required: true, type: [String] })
   Fixes!: string[];
 
-  @prop({ enum: InitialPhrasingOptions, default: InitialPhrasingOptions.Unknown })
-  InitialPhrasing?: InitialPhrasingOptions;
-
-  @prop({ default: 0 })
-  ExpectTopAltitudeInMinutes!: number;
-
-  @prop({ required: false })
-  ExpectTopAltitudeInMiles?: string;
-
   @prop({ default: false })
   IsRNAV!: boolean;
 
-  @prop()
-  expectInMinutes?: number;
-
-  @prop()
-  expectRequired?: boolean;
-
-  @prop({ type: () => [InitialAltitude] })
+  @prop({ type: () => [InitialAltitude], default: [] })
   InitialAltitudes!: InitialAltitude[];
 
   @prop({ type: DepartureValidity })

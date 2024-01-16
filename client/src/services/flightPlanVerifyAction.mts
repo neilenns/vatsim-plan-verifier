@@ -28,6 +28,7 @@ export const flightPlanVerifyAction: ActionFunction = async ({ params, request }
     cruiseAltitude: formData.get("cruiseAltitude")?.toString().replace(/^FL/, ""), // In case someone enters the cruise altitude as "FL360"
     remarks: formData.get("remarks"),
     cid: Number(formData.get("cid")),
+    flow: formData.get("flow"),
   } as IFlightPlan;
 
   let storedFlightPlan: IFlightPlan;

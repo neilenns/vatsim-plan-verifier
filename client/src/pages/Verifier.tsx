@@ -2,7 +2,12 @@ import {
   AppBar,
   Box,
   Button,
+  FormControl,
   IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
   Toolbar,
   Typography,
   useColorScheme,
@@ -22,10 +27,11 @@ import VatsimFlightPlans from "../components/VatsimFlightPlans";
 import useAppContext from "../context/AppContext";
 import { useState } from "react";
 import { SettingsDialog } from "../components/SettingsDialog";
+import { AirportFlow } from "../interfaces/ISIDInformation.mts";
 
 const Verifier = () => {
   const { mode, setMode } = useColorScheme();
-  const { muted, setMuted } = useAppContext();
+  const { muted, setMuted, flow, setFlow } = useAppContext();
   const [settingsOpen, setSettingsOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -36,6 +42,11 @@ const Verifier = () => {
   const toggleMuted = () => {
     setMuted(!muted);
   };
+
+  const onFlowChanged = (event: SelectChangeEvent) => {
+    setFlow(event.target.value as AirportFlow);
+    console.log(`You selected ${event.target.value}`);
+  }
 
   const onNewClick = () => {
     navigate("/verifier/flightPlan/new", { replace: true });
@@ -58,6 +69,22 @@ const Verifier = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Plan verifier
           </Typography>
+          <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+            <InputLabel id="airport-flow-label">Flow</InputLabel>
+            <Select
+              labelId="airport-flow-label"
+              id="airport-flow"
+              value={flow}
+              label="Flow"
+              onChange={onFlowChanged}
+            >
+              <MenuItem value={"UNKNOWN"}>Unknown</MenuItem>
+              <MenuItem value={"NORTH"}>North</MenuItem>
+              <MenuItem value={"SOUTH"}>South</MenuItem>
+              <MenuItem value={"EAST"}>East</MenuItem>
+              <MenuItem value={"WEST"}>West</MenuItem>
+            </Select>
+          </FormControl>
           <IconButton onClick={onSettingsClick}>
             <SettingsIcon />
           </IconButton>

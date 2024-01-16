@@ -7,12 +7,28 @@ export enum InitialPhrasingOptions {
   SeeNote = "SeeNote",
 }
 
-export default interface ISIDInformation {
+export enum AirportFlow {
+  Any = "ANY",
+  North = "NORTH",
+  South = "SOUTH",
+  East = "EAST",
+  West = "WEST",
+  Unknown = "UNKNOWN",
+}
+
+export interface IInitialAltitude {
   InitialPhrasing: InitialPhrasingOptions;
-  ExpectInMinutes?: number;
+  Flow: AirportFlow;
+  Altitude: number;
+  AircraftClass: string;
   ExpectInMiles?: string;
+  ExpectInMinutes?: number;
   ExpectRequired?: boolean;
+}
+
+export interface ISIDInformation {
   Telephony?: string;
+  InitialAltitudes?: IInitialAltitude[];
   Charts?: {
     [key: string]: string;
   };

@@ -8,6 +8,7 @@ import {
   useState,
 } from "react";
 import { IUser } from "../interfaces/IUser.mts";
+import { AirportFlow } from "../interfaces/ISIDInformation.mts";
 
 // This method of implementing context is based on
 // https://dmitripavlutin.com/react-context-and-usecontext/
@@ -26,6 +27,8 @@ type AppContext = {
   setHideInformational: Dispatch<SetStateAction<boolean>>;
   streamingMode: boolean;
   setStreamingMode: Dispatch<SetStateAction<boolean>>;
+  flow: AirportFlow;
+  setFlow: Dispatch<SetStateAction<AirportFlow>>;
 };
 
 const initialContext: AppContext = {
@@ -45,6 +48,10 @@ const initialContext: AppContext = {
   setStreamingMode: () => {
     throw new Error("setStreamingMode function must be overridden");
   },
+  flow: AirportFlow.Unknown,
+  setFlow: () => {
+    throw new Error("setFlow function must be overridden");
+  },
 };
 
 const AppContext = createContext<AppContext>(initialContext);
@@ -60,6 +67,7 @@ export const AppContextProvider = ({ children }: Props): JSX.Element => {
   const [streamingMode, setStreamingMode] = useState(
     localStorage.getItem("streamingMode") == "true" // Results in a default vaue of false
   );
+  const [flow, setFlow] = useState<AirportFlow>(localStorage.getItem("flow") as AirportFlow || AirportFlow.Unknown);
 
   // Save to local storage so on page refresh this isn't lost. So dumb. Why do people use context?
   useEffect(() => {
@@ -78,6 +86,10 @@ export const AppContextProvider = ({ children }: Props): JSX.Element => {
     localStorage.setItem("streamingMode", streamingMode.toString());
   }, [streamingMode]);
 
+  useEffect(() => {
+    localStorage.setItem("flow", flow.toString());
+  }, [flow]);
+
   const value = useMemo(
     () => ({
       muted,
@@ -88,8 +100,10 @@ export const AppContextProvider = ({ children }: Props): JSX.Element => {
       setHideInformational,
       streamingMode,
       setStreamingMode,
+      flow,
+      setFlow
     }),
-    [muted, autoHideImported, hideInformational, streamingMode, setStreamingMode]
+    [muted, autoHideImported, hideInformational, streamingMode, setStreamingMode, flow, setFlow]
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

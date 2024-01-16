@@ -9,15 +9,15 @@ db.departures.insertMany([
     SID: "AST3",
     Telephony: "ASTORIA THREE",
     Fixes: [],
-    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 50,
         AircraftClass: ".*",
+        ExpectRequired: true,
+        ExpectInMinutes: 5,
+        InitialPhrasing: "Maintain",
       },
     ],
-    ExpectRequired: true,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00024ASTORIA.PDF",
     },
@@ -27,15 +27,15 @@ db.departures.insertMany([
     SID: "BDN1",
     Telephony: "BEND ONE",
     Fixes: [],
-    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 140,
         AircraftClass: ".*",
+        InitialPhrasing: "Maintain",
+        ExpectRequired: true,
+        ExpectInMinutes: 5,
       },
     ],
-    ExpectRequired: true,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/05579BEND.PDF",
     },
@@ -45,16 +45,16 @@ db.departures.insertMany([
     SID: "POTOR2",
     Telephony: "POTOR TWO",
     Fixes: ["POTOR"],
-    InitialPhrasing: "ClimbViaSidExceptMaintain",
     InitialAltitudes: [
       {
         Altitude: 60,
         AircraftClass: ".*",
+        InitialPhrasing: "ClimbViaSidExceptMaintain",
+        ExpectRequired: true,
+        ExpectInMinutes: 5,
       },
     ],
     IsRNAV: false,
-    ExpectRequired: true,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00515POTOR.PDF",
     },
@@ -64,16 +64,16 @@ db.departures.insertMany([
     SID: "EAGLE6",
     Telephony: "EAGLE SIX",
     Fixes: [],
-    InitialPhrasing: "ClimbViaSidExceptMaintain",
     InitialAltitudes: [
       {
         Altitude: 110,
         AircraftClass: ".*",
+        InitialPhrasing: "ClimbViaSidExceptMaintain",
+        ExpectRequired: false,
+        ExpectInMinutes: 5,
       },
     ],
     IsRNAV: false,
-    ExpectRequired: false,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00251EAGLE.PDF",
     },
@@ -83,11 +83,11 @@ db.departures.insertMany([
     SID: "JKSN1",
     Telephony: "JACKSON ONE",
     Fixes: ["OED"],
-    InitialPhrasing: "ClimbViaSidExceptMaintain",
     InitialAltitudes: [
       {
         Altitude: 110,
         AircraftClass: ".*",
+        InitialPhrasing: "ClimbViaSidExceptMaintain",
       },
     ],
     IsRNAV: false,
@@ -100,16 +100,16 @@ db.departures.insertMany([
     SID: "MFR1",
     Telephony: "KLAMATH FALLS ONE",
     Fixes: ["LMT"],
-    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 110,
         AircraftClass: ".*",
+        InitialPhrasing: "Maintain",
+        ExpectRequired: false,
+        ExpectInMinutes: 5,
       },
     ],
     IsRNAV: true,
-    ExpectRequired: false,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00251KLAMATHFALLS.PDF",
     },
@@ -119,16 +119,16 @@ db.departures.insertMany([
     SID: "SMKKY1",
     Telephony: "SMOKY ONE",
     Fixes: ["SMKKY"],
-    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 110,
         AircraftClass: ".*",
+        InitialPhrasing: "Maintain",
+        ExpectRequired: false,
+        ExpectInMinutes: 5,
       },
     ],
     IsRNAV: false,
-    ExpectRequired: false,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00251SMKKY.PDF",
     },
@@ -138,11 +138,11 @@ db.departures.insertMany([
     SID: "CVV5",
     Telephony: "PENN COVE FIVE",
     Fixes: ["CVV", "DIGGN", "PAE"],
-    InitialPhrasing: "ClimbViaSidExceptMaintain",
     InitialAltitudes: [
       {
         Altitude: 20,
         AircraftClass: ".*",
+        InitialPhrasing: "ClimbViaSidExceptMaintain",
       },
     ],
     isRNAV: false,
@@ -155,11 +155,11 @@ db.departures.insertMany([
     SID: "NASWI2",
     Telephony: "NASWI TWO",
     Fixes: ["NUW", "HUH", "STILY", "PAE", "CVV", "DIGGN", "YETII", "MCCUL", "DISCO", "TOU", "UQQ"],
-    InitialPhrasing: "ClimbViaDepartureExceptMaintain",
     InitialAltitudes: [
       {
         Altitude: 20,
         AircraftClass: ".*",
+        InitialPhrasing: "ClimbViaDepartureExceptMaintain",
       },
     ],
     isRNAV: false,
@@ -172,16 +172,16 @@ db.departures.insertMany([
     SID: "YELM5",
     Telephony: "YELM FIVE",
     Fixes: ["OLM", "HQM", "TOU", "PAE", "SEA", "YKM", "BTG", "UBG"],
-    InitialPhrasing: "ClimbViaSid",
     InitialAltitudes: [
       {
         Altitude: 30,
         AircraftClass: ".*",
+        InitialPhrasing: "ClimbViaSid",
+        ExpectRequired: true,
+        ExpectInMinutes: 5,
       },
     ],
     isRNAV: false,
-    ExpectRequired: true,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00645YELM.PDF",
     },
@@ -191,7 +191,6 @@ db.departures.insertMany([
     SID: "OTH7",
     Telephony: "NORTH BEND SEVEN",
     Fixes: ["OTH", "GAMMA", "RARES", "SCOTY", "DEROY", "LEDGE"],
-    InitialPhrasing: "Maintain",
     isRNAV: false,
     ExpectRequired: true,
     ExpectInMinutes: 5,
@@ -199,10 +198,11 @@ db.departures.insertMany([
       {
         Altitude: 50,
         AircraftClass: ".*",
+        InitialPhrasing: "Maintain",
+        ExpectRequired: true,
+        ExpectInMinutes: 5,
       },
     ],
-    ExpectRequired: true,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00929NORTHBEND.PDF",
     },
@@ -212,16 +212,16 @@ db.departures.insertMany([
     SID: "PSC7",
     Telephony: "TRI-CITIES SEVEN",
     Fixes: ["PSC", "GEG", "PUW", "MQG", "ALW", "PDT", "LTJ", "YKM", "ELN", "EAT", "EPH", "MWH"],
-    InitialPhrasing: "ClimbViaSid",
     isRNAV: false,
     InitialAltitudes: [
       {
         Altitude: 100,
         AircraftClass: ".*",
+        InitialPhrasing: "ClimbViaSid",
+        ExpectRequired: false,
+        ExpectInMinutes: 5,
       },
     ],
-    ExpectRequired: false,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00474TRI-CITIES.PDF",
     },
@@ -231,16 +231,16 @@ db.departures.insertMany([
     SID: "RDM3",
     Telephony: "REDMOND THREE",
     Fixes: ["DSD", "IMB", "ILR", "LKV", "LMT", "OED", "EUG", "CVO", "UBG", "BTG", "LTJ", "PDT"],
-    InitialPhrasing: "Maintain",
     isRNAV: false,
     InitialAltitudes: [
       {
         Altitude: 140,
         AircraftClass: ".*",
+        InitialPhrasing: "Maintain",
+        ExpectRequired: false,
+        ExpectInMinutes: 5,
       },
     ],
-    ExpectRequired: false,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00345REDMOND.PDF",
     },
@@ -250,16 +250,16 @@ db.departures.insertMany([
     SID: "BELVU4",
     Telephony: "BELLEVUE FOUR",
     Fixes: [],
-    InitialPhrasing: "ClimbViaSid",
     isRNAV: false,
     InitialAltitudes: [
       {
         Altitude: 30,
         AircraftClass: ".*",
+        InitialPhrasing: "ClimbViaSid",
+        ExpectRequired: false,
+        ExpectInMinutes: 5,
       },
     ],
-    ExpectRequired: false,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/05396BELLEVUE.PDF",
     },
@@ -269,16 +269,16 @@ db.departures.insertMany([
     SID: "RENTN3",
     Telephony: "RENTON THREE",
     Fixes: [],
-    InitialPhrasing: "ClimbViaSid",
     isRNAV: false,
     InitialAltitudes: [
       {
         Altitude: 30,
         AircraftClass: ".*",
+        InitialPhrasing: "ClimbViaSid",
+        ExpectRequired: false,
+        ExpectInMinutes: 5,
       },
     ],
-    ExpectRequired: false,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/thumb/05396RENTN.jpg",
     },
@@ -288,16 +288,16 @@ db.departures.insertMany([
     SID: "FELTS4",
     Telephony: "FELTS FOUR",
     Fixes: ["GEG", "COE", "MLP", "PUW", "MQG", "ALW", "PDT", "PSC", "YKM", "MWH", "EPH", "HUH"],
-    InitialPhrasing: "ClimbViaSid",
     isRNAV: false,
     InitialAltitudes: [
       {
         Altitude: 120,
         AircraftClass: ".*",
+        InitialPhrasing: "ClimbViaSid",
+        ExpectRequired: false,
+        ExpectInMinutes: 10,
       },
     ],
-    ExpectRequired: false,
-    ExpectInMinutes: 10,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00402FELTS.PDF",
     },
@@ -307,14 +307,14 @@ db.departures.insertMany([
     SID: "HAYDE4",
     Telephony: "HAYDEN FOUR",
     Fixes: [],
-    InitialPhrasing: "ClimbViaSid",
     isRNAV: false,
-    ExpectRequired: true,
-    ExpectInMinutes: 5,
     InitialAltitudes: [
       {
         Altitude: 120,
         AircraftClass: ".*",
+        ExpectRequired: true,
+        ExpectInMinutes: 5,
+        InitialPhrasing: "ClimbViaSid",
       },
     ],
     Charts: {
@@ -326,16 +326,16 @@ db.departures.insertMany([
     SID: "MNITO1",
     Telephony: "MANITO ONE",
     Fixes: ["GEG"],
-    InitialPhrasing: "Maintain",
     isRNAV: false,
     InitialAltitudes: [
       {
         Altitude: 120,
         AircraftClass: ".*",
+        ExpectRequired: true,
+        ExpectInMinutes: 5,
+        InitialPhrasing: "Maintain",
       },
     ],
-    ExpectRequired: true,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00402MANITO.PDF",
     },
@@ -345,16 +345,16 @@ db.departures.insertMany([
     SID: "SLE4",
     Telephony: "SALEM FOUR",
     Fixes: ["UBG", "BTG", "SL", "CVO", "DSD", "EUG", "ONP"],
-    InitialPhrasing: "Maintain",
     isRNAV: false,
     InitialAltitudes: [
       {
         Altitude: 90,
         AircraftClass: ".*",
+        ExpectRequired: false,
+        ExpectInMinutes: 10,
+        InitialPhrasing: "Maintain",
       },
     ],
-    ExpectRequired: false,
-    ExpectInMinutes: 10,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00361SALEM.PDF",
     },
@@ -364,16 +364,16 @@ db.departures.insertMany([
     SID: "ALDER2",
     Telephony: "ALDER TWO",
     Fixes: ["ALDER"],
-    InitialPhrasing: "ClimbViaSidExceptMaintain",
     isRNAV: false,
     InitialAltitudes: [
       {
         Altitude: 30,
         AircraftClass: ".*",
+        ExpectRequired: true,
+        ExpectInMinutes: 5,
+        InitialPhrasing: "ClimbViaSidExceptMaintain",
       },
     ],
-    ExpectRequired: true,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00414ALDER.PDF",
     },
@@ -383,16 +383,16 @@ db.departures.insertMany([
     SID: "MOCAA4",
     Telephony: "MOCHA FOUR",
     Fixes: ["MOCHA", "BKE", "IMB", "JINMO"],
-    InitialPhrasing: "ClimbViaSid",
     isRNAV: true,
     InitialAltitudes: [
       {
         Altitude: 30,
         AircraftClass: ".*",
+        InitialPhrasing: "ClimbViaSid",
+        ExpectRequired: false,
+        ExpectInMinutes: 5,
       },
     ],
-    ExpectRequired: false,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00414MOCAA.PDF",
     },
@@ -402,16 +402,16 @@ db.departures.insertMany([
     SID: "OLY4",
     Telephony: "OLYMPIC FOUR",
     Fixes: [],
-    InitialPhrasing: "ClimbViaSidExceptMaintain",
     isRNAV: false,
     InitialAltitudes: [
       {
         Altitude: 30,
         AircraftClass: ".*",
+        InitialPhrasing: "ClimbViaSidExceptMaintain",
+        ExpectRequired: true,
+        ExpectInMinutes: 5,
       },
     ],
-    ExpectRequired: true,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00414OLYMPIC.PDF",
     },
@@ -421,16 +421,16 @@ db.departures.insertMany([
     SID: "PUGET6",
     Telephony: "PUGET SIX",
     Fixes: [],
-    InitialPhrasing: "ClimbViaSidExceptMaintain",
     isRNAV: false,
     InitialAltitudes: [
       {
         Altitude: 30,
         AircraftClass: ".*",
+        InitialPhrasing: "ClimbViaSidExceptMaintain",
+        ExpectRequired: true,
+        ExpectInMinutes: 5,
       },
     ],
-    ExpectRequired: true,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00414PUGET.PDF",
     },
@@ -440,16 +440,16 @@ db.departures.insertMany([
     SID: "TIW1",
     Telephony: "NARROWS ONE",
     Fixes: [],
-    InitialPhrasing: "ClimbViaSidExceptMaintain",
     isRNAV: false,
     InitialAltitudes: [
       {
         Altitude: 20,
         AircraftClass: ".*",
+        InitialPhrasing: "ClimbViaSidExceptMaintain",
+        ExpectRequired: false,
+        ExpectInMinutes: 5,
       },
     ],
-    ExpectRequired: false,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/05186NARROWS.PDF",
     },
@@ -459,16 +459,16 @@ db.departures.insertMany([
     SID: "TDD3",
     Telephony: "BLUE LAKE THREE",
     Fixes: [],
-    InitialPhrasing: "Maintain",
     isRNAV: false,
     InitialAltitudes: [
       {
         Altitude: 40,
         AircraftClass: ".*",
+        InitialPhrasing: "Maintain",
+        ExpectRequired: true,
+        ExpectInMinutes: 5,
       },
     ],
-    ExpectRequired: true,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00649BLUELAKE.PDF",
     },
@@ -478,16 +478,16 @@ db.departures.insertMany([
     SID: "GLARA2",
     Telephony: "GLARA TWO",
     Fixes: ["GLARA"],
-    InitialPhrasing: "ClimbViaSidExceptMaintain",
     isRNAV: false,
     InitialAltitudes: [
       {
         Altitude: 40,
         AircraftClass: ".*",
+        InitialPhrasing: "ClimbViaSidExceptMaintain",
+        ExpectRequired: true,
+        ExpectInMinutes: 5,
       },
     ],
-    ExpectRequired: true,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/05722GLARA.PDF",
     },
@@ -497,16 +497,16 @@ db.departures.insertMany([
     SID: "GNNET2",
     Telephony: "NET TWO",
     Fixes: ["GNNET"],
-    InitialPhrasing: "ClimbViaSidExceptMaintain",
     isRNAV: false,
     InitialAltitudes: [
       {
         Altitude: 40,
         AircraftClass: ".*",
+        InitialPhrasing: "ClimbViaSidExceptMaintain",
+        ExpectRequired: true,
+        ExpectInMinutes: 5,
       },
     ],
-    ExpectRequired: true,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/05722GNNET.PDF",
     },
@@ -517,15 +517,15 @@ db.departures.insertMany([
     Telephony: "NEWPORT ONE",
     Fixes: ["ONP"],
     IsRNAV: false,
-    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 50,
         AircraftClass: ".*",
+        InitialPhrasing: "Maintain",
+        ExpectRequired: false,
+        ExpectInMinutes: 5,
       },
     ],
-    ExpectRequired: false,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00735NEWPORT.PDF",
     },
@@ -536,15 +536,15 @@ db.departures.insertMany([
     Telephony: "FEGBA 2",
     Fixes: ["FEGBA"],
     IsRNAV: true,
-    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 30,
         AircraftClass: ".*",
+        InitialPhrasing: "Maintain",
+        ExpectRequired: true,
+        ExpectInMinutes: 5,
       },
     ],
-    ExpectRequired: true,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/10384FEGBA.PDF",
     },
@@ -554,16 +554,16 @@ db.departures.insertMany([
     SID: "UBG2",
     Telephony: "NEWBERG TWO",
     Fixes: ["UBG"],
-    InitialPhrasing: "ClimbViaSidExceptMaintain",
     isRNAV: false,
     InitialAltitudes: [
       {
         Altitude: 40,
         AircraftClass: ".*",
+        InitialPhrasing: "ClimbViaSidExceptMaintain",
+        ExpectRequired: true,
+        ExpectInMinutes: 5,
       },
     ],
-    ExpectRequired: true,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/05722NEWBERG.PDF",
     },
@@ -573,16 +573,16 @@ db.departures.insertMany([
     SID: "GROMO4",
     Telephony: "GROMO FOUR",
     Fixes: ["TAMPO", "SIMCO", "HITCH", "GUBSE", "SUNED", "PAPPS"],
-    InitialPhrasing: "ClimbViaSidExceptMaintain",
     isRNAV: false,
     InitialAltitudes: [
       {
         Altitude: 100,
         AircraftClass: ".*",
+        InitialPhrasing: "ClimbViaSidExceptMaintain",
+        ExpectRequired: true,
+        ExpectInMinutes: 5,
       },
     ],
-    ExpectRequired: true,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00465GROMO.PDF",
     },
@@ -592,16 +592,16 @@ db.departures.insertMany([
     SID: "NACHE4",
     Telephony: "NACHES FOUR",
     Fixes: ["YKM", "ELN", "EAT", "EPH", "MWH", "GEG", "PSC", "ALW", "PDT", "LTJ", "BTG", "SEA"],
-    InitialPhrasing: "ClimbViaSidExceptMaintain",
     isRNAV: false,
     InitialAltitudes: [
       {
         Altitude: 100,
         AircraftClass: ".*",
+        InitialPhrasing: "ClimbViaSidExceptMaintain",
+        ExpectRequired: false,
+        ExpectInMinutes: 5,
       },
     ],
-    ExpectRequired: false,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00465NACHES.PDF",
     },
@@ -611,7 +611,6 @@ db.departures.insertMany([
     SID: "WENAS7",
     Telephony: "WENAS SEVEN",
     Fixes: ["TITON", "PERTT", "ELN", "RUBEL", "PAPPS", "SUNED"],
-    InitialPhrasing: "ClimbViaSidExceptMaintain",
     isRNAV: false,
     ExpectRequired: true,
     ExpectInMinutes: 5,
@@ -619,10 +618,11 @@ db.departures.insertMany([
       {
         Altitude: 100,
         AircraftClass: ".*",
+        InitialPhrasing: "ClimbViaSidExceptMaintain",
+        ExpectRequired: true,
+        ExpectInMinutes: 5,
       },
     ],
-    ExpectRequired: true,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00465WENAS.PDF",
     },
@@ -632,16 +632,16 @@ db.departures.insertMany([
     SID: "YKM7",
     Telephony: "YAKIMA SEVEN",
     Fixes: ["TITON"],
-    InitialPhrasing: "Maintain",
     isRNAV: false,
     InitialAltitudes: [
       {
         Altitude: 100,
         AircraftClass: ".*",
+        InitialPhrasing: "Maintain",
+        ExpectRequired: true,
+        ExpectInMinutes: 5,
       },
     ],
-    ExpectRequired: true,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00465YAKIMA.PDF",
     },
@@ -651,16 +651,16 @@ db.departures.insertMany([
     SID: "ZILLA3",
     Telephony: "ZILLA THREE",
     Fixes: [],
-    InitialPhrasing: "Unknown",
     isRNAV: false,
     InitialAltitudes: [
       {
         Altitude: 100,
         AircraftClass: ".*",
+        InitialPhrasing: "Unknown",
+        ExpectRequired: true,
+        ExpectInMinutes: 5,
       },
     ],
-    ExpectRequired: true,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00465ZILLA.PDF",
     },
@@ -670,15 +670,15 @@ db.departures.insertMany([
     SID: "ALW2",
     Telephony: "WALLA WALLA TWO",
     Fixes: ["ALW", "YKM", "MWH", "GEG", "PUW", "MQG", "PSC", "PTD"],
-    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 80,
         AircraftClass: ".*",
+        InitialPhrasing: "Maintain",
+        ExpectRequired: true,
+        ExpectInMinutes: 10,
       },
     ],
-    ExpectRequired: true,
-    ExpectInMinutes: 10,
     IsRNAV: false,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00440WALLAWALLA.PDF",
@@ -689,16 +689,16 @@ db.departures.insertMany([
     SID: "EUG1",
     Telephony: "EUGENE ONE",
     Fixes: ["EUG", "CVO", "DSD", "LMT", "OED", "RBG", "OTH", "ONP", "UBG", "BTG"],
-    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 90,
         AircraftClass: ".*",
+        InitialPhrasing: "Maintain",
+        ExpectRequired: false,
+        ExpectInMinutes: 5,
       },
     ],
     IsRNAV: false,
-    ExpectRequired: false,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00140EUGENE.PDF",
     },
@@ -708,16 +708,16 @@ db.departures.insertMany([
     SID: "GEG7",
     Telephony: "SPOKANE 7",
     Fixes: ["GEG", "MLP", "PUW", "MQG", "ALW", "PDT", "PSC", "YKM", "MWH", "EPH", "HUH", "COE"],
-    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 60,
         AircraftClass: ".*",
+        InitialPhrasing: "Maintain",
+        ExpectRequired: false,
+        ExpectInMinutes: 10,
       },
     ],
     IsRNAV: false,
-    ExpectRequired: false,
-    ExpectInMinutes: 10,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00403SPOKANE.PDF",
     },
@@ -727,16 +727,16 @@ db.departures.insertMany([
     SID: "BERNI3",
     Telephony: "BERNI THREE",
     Fixes: ["BERNI", "EASON", "EUG", "FAMUK", "HARPR"],
-    InitialPhrasing: "ClimbViaSidExceptMaintain",
     IsRNAV: true,
     InitialAltitudes: [
       {
         Altitude: 40,
         AircraftClass: ".*",
+        InitialPhrasing: "ClimbViaSidExceptMaintain",
+        ExpectRequired: false,
+        ExpectInMinutes: 10,
       },
     ],
-    ExpectRequired: false,
-    ExpectInMinutes: 10,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/05063BERNI.PDF",
     },
@@ -746,16 +746,16 @@ db.departures.insertMany([
     SID: "CANBY2",
     Telephony: "CANBY TWO",
     Fixes: ["CANBY"],
-    InitialPhrasing: "Maintain",
     IsRNAV: false,
     InitialAltitudes: [
       {
         Altitude: 40,
         AircraftClass: ".*",
+        InitialPhrasing: "Maintain",
+        ExpectRequired: true,
+        ExpectInMinutes: 10,
       },
     ],
-    ExpectRequired: true,
-    ExpectInMinutes: 10,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/05063CANBY.PDF",
     },
@@ -765,16 +765,16 @@ db.departures.insertMany([
     SID: "CHISM4",
     Telephony: "CHISM FOUR",
     Fixes: ["CHISM", "PAWLI", "SMIGE", "JOGEN", "DSD", "RIELY", "IMB"],
-    InitialPhrasing: "ClimbViaSidExceptMaintain",
     IsRNAV: false,
     InitialAltitudes: [
       {
         Altitude: 40,
         AircraftClass: ".*",
+        InitialPhrasing: "ClimbViaSidExceptMaintain",
+        ExpectRequired: false,
+        ExpectInMinutes: 10,
       },
     ],
-    ExpectRequired: false,
-    ExpectInMinutes: 10,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/05063CHISM.PDF",
     },
@@ -784,16 +784,16 @@ db.departures.insertMany([
     SID: "FARM7",
     Telephony: "FARMINGTON SEVEN",
     Fixes: ["UBG"],
-    InitialPhrasing: "Maintain",
     IsRNAV: false,
     InitialAltitudes: [
       {
         Altitude: 40,
         AircraftClass: ".*",
+        InitialPhrasing: "Maintain",
+        ExpectRequired: true,
+        ExpectInMinutes: 10,
       },
     ],
-    ExpectRequired: true,
-    ExpectInMinutes: 10,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/05063FARMINGTON.PDF",
     },
@@ -803,16 +803,16 @@ db.departures.insertMany([
     SID: "SCAPO7",
     Telephony: "SCAPO SEVEN",
     Fixes: ["SCAPO"],
-    InitialPhrasing: "Maintain",
     IsRNAV: false,
     InitialAltitudes: [
       {
         Altitude: 40,
         AircraftClass: ".*",
+        InitialPhrasing: "Maintain",
+        ExpectRequired: true,
+        ExpectInMinutes: 10,
       },
     ],
-    ExpectRequired: true,
-    ExpectInMinutes: 10,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/05063SCAPO.PDF",
     },
@@ -836,18 +836,16 @@ db.departures.insertMany([
       "HAROB",
       "ELMAA",
     ],
-    InitialPhrasing: "ClimbViaSid",
     InitialAltitudes: [
       {
         Altitude: 21,
         AircraftClass: ".*",
+        InitialPhrasing: "ClimbViaSid",
+        ExpectRequired: false,
+        ExpectInMinutes: 3,
       },
     ],
-    ExpectRequired: false,
-    ExpectInMiles: "15nm SEA",
     IsRNAV: true,
-    ExpectRequired: false,
-    ExpectInMinutes: 3,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00384CBAIN.PDF",
     },
@@ -858,15 +856,15 @@ db.departures.insertMany([
     Telephony: "KENT EIGHT",
     Fixes: ["YVR", "HUH", "YYJ", "PAE", "SEA", "OLM", "HQM", "BTG", "ELN", "YKM", "MWH", "EAT"],
     IsRNAV: false,
-    InitialPhrasing: "ClimbViaSid",
     InitialAltitudes: [
       {
         Altitude: 20,
         AircraftClass: ".*",
+        InitialPhrasing: "ClimbViaSid",
+        ExpectRequired: false,
+        ExpectInMinutes: 3,
       },
     ],
-    ExpectRequired: false,
-    ExpectInMinutes: 3,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00384KENT.PDF",
     },
@@ -877,15 +875,15 @@ db.departures.insertMany([
     Telephony: "NEEDLE ONE",
     Fixes: ["YVR", "HUH", "YYJ", "PAE", "SEA", "OLM", "HQM", "BTG", "ELN", "YKM", "MWH", "EAT"],
     IsRNAV: false,
-    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 21,
         AircraftClass: ".*",
+        InitialPhrasing: "Maintain",
+        ExpectRequired: false,
+        ExpectInMinutes: 3,
       },
     ],
-    ExpectRequired: false,
-    ExpectInMinutes: 3,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00384NEEDLE.PDF",
     },
@@ -909,16 +907,16 @@ db.departures.insertMany([
       "HAROB",
       "ELMAA",
     ],
-    InitialPhrasing: "ClimbViaSid",
     InitialAltitudes: [
       {
         Altitude: 21,
         AircraftClass: ".*",
+        InitialPhrasing: "ClimbViaSid",
+        ExpectRequired: false,
+        ExpectInMinutes: 3,
       },
     ],
     IsRNAV: true,
-    ExpectRequired: false,
-    ExpectInMinutes: 3,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00384NRVNA.PDF",
     },
@@ -928,16 +926,16 @@ db.departures.insertMany([
     SID: "WHAMY4",
     Telephony: "WHAMY FOUR",
     Fixes: ["WHAMY", "IMB", "RIELY", "KOATA"],
-    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 70,
         AircraftClass: ".*",
+        InitialPhrasing: "Maintain",
+        ExpectInMinutes: 10,
+        ExpectRequired: false,
       },
     ],
     IsRNAV: true,
-    ExpectInMinutes: 10,
-    ExpectRequired: false,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00330WHAMY.PDF",
     },
@@ -947,16 +945,16 @@ db.departures.insertMany([
     SID: "CASCD2",
     Telephony: "CASCADE TWO",
     Fixes: ["CHISM", "DSD", "JOGEN", "SMIGE", "PAWLI"],
-    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 70,
         AircraftClass: ".*",
+        InitialPhrasing: "Maintain",
+        ExpectInMinutes: 10,
+        ExpectRequired: false,
       },
     ],
     IsRNAV: true,
-    ExpectInMinutes: 10,
-    ExpectRequired: false,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00330CASCADE.PDF",
     },
@@ -966,16 +964,16 @@ db.departures.insertMany([
     SID: "HRMNS5",
     Telephony: "HERMANS FIVE",
     Fixes: ["HRMNS"],
-    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 70,
         AircraftClass: ".*",
+        InitialPhrasing: "Maintain",
+        ExpectInMinutes: 10,
+        ExpectRequired: false,
       },
     ],
     IsRNAV: true,
-    ExpectInMinutes: 10,
-    ExpectRequired: false,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00330HRMNS.PDF",
     },
@@ -985,16 +983,16 @@ db.departures.insertMany([
     SID: "LAVAA6",
     Telephony: "LAVA SIX",
     Fixes: ["LAVAA", "YKM", "PDT"],
-    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 70,
         AircraftClass: ".*",
+        InitialPhrasing: "Maintain",
+        ExpectInMinutes: 10,
+        ExpectRequired: false,
       },
     ],
     IsRNAV: true,
-    ExpectInMinutes: 10,
-    ExpectRequired: false,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00330LAVAA.PDF",
     },
@@ -1004,13 +1002,13 @@ db.departures.insertMany([
     SID: "MINNE5",
     Telephony: "MINNE FIVE",
     Fixes: ["MINNE", "EASON", "FAMUK", "HISKU"],
-    InitialPhrasing: "Maintain",
-    ExpectInMinutes: 10,
-    ExpectRequired: false,
     InitialAltitudes: [
       {
         Altitude: 70,
         AircraftClass: ".*",
+        ExpectInMinutes: 10,
+        ExpectRequired: false,
+        InitialPhrasing: "Maintain",
       },
     ],
     IsRNAV: true,
@@ -1048,21 +1046,27 @@ db.departures.insertMany([
       "COUGA",
     ],
     IsRNAV: false,
-    InitialPhrasing: "Maintain",
-    ExpectInMinutes: 5,
-    ExpectRequired: false,
     InitialAltitudes: [
       {
         Altitude: 60,
         AircraftClass: "J",
+        ExpectInMinutes: 5,
+        ExpectRequired: false,
+        InitialPhrasing: "Maintain",
       },
       {
         Altitude: 60,
         AircraftClass: "L",
+        ExpectInMinutes: 5,
+        ExpectRequired: false,
+        InitialPhrasing: "Maintain",
       },
       {
         Altitude: 30,
         AircraftClass: "S",
+        ExpectInMinutes: 5,
+        ExpectRequired: false,
+        InitialPhrasing: "Maintain",
       },
     ],
     Charts: {
@@ -1074,11 +1078,11 @@ db.departures.insertMany([
     SID: "ELMAA4",
     Telephony: "ELMA FOUR",
     Fixes: ["ELMAA", "HQM", "CVO"],
-    InitialPhrasing: "ClimbViaSidExceptMaintain",
     InitialAltitudes: [
       {
         Altitude: 70,
         AircraftClass: ".*",
+        InitialPhrasing: "ClimbViaSidExceptMaintain",
       },
     ],
     IsRNAV: true,
@@ -1091,15 +1095,15 @@ db.departures.insertMany([
     SID: "HAROB6",
     Telephony: "HAROB SIX",
     Fixes: ["HAROB", "HQM", "FEPOT", "ERAVE", "HISKU"],
-    InitialPhrasing: "ClimbViaSidExceptMaintain",
     InitialAltitudes: [
       {
         Altitude: 70,
         AircraftClass: ".*",
+        InitialPhrasing: "ClimbViaSidExceptMaintain",
+        ExpectRequired: false,
+        ExpectInMiles: "15nm SEA",
       },
     ],
-    ExpectRequired: false,
-    ExpectInMiles: "15nm SEA",
     IsRNAV: true,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582HAROB.PDF",
@@ -1110,16 +1114,16 @@ db.departures.insertMany([
     SID: "ISBRG1",
     Telephony: "ICEBERG ONE",
     Fixes: ["ISBRG"],
-    InitialPhrasing: "ClimbViaSid",
     InitialAltitudes: [
       {
         Altitude: 70,
         AircraftClass: ".*",
+        ExpectRequired: false,
+        ExpectInMinutes: 5,
+        InitialPhrasing: "ClimbViaSid",
       },
     ],
     IsRNAV: true,
-    ExpectRequired: false,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582ISBRG.PDF",
     },
@@ -1134,16 +1138,16 @@ db.departures.insertMany([
     SID: "OZWLD1",
     Telephony: "OSWALD ONE",
     Fixes: ["OZWLD"],
-    InitialPhrasing: "ClimbViaSid",
     InitialAltitudes: [
       {
         Altitude: 70,
         AircraftClass: ".*",
+        ExpectRequired: false,
+        ExpectInMinutes: 5,
+        InitialPhrasing: "ClimbViaSid",
       },
     ],
     IsRNAV: true,
-    ExpectRequired: false,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582OZWLD.PDF",
     },
@@ -1158,16 +1162,16 @@ db.departures.insertMany([
     SID: "JEFPO1",
     Telephony: "JEFPO ONE",
     Fixes: ["ALPSE", "BANDR", "JEFPO", "NORMY", "PAE", "ZADON"],
-    InitialPhrasing: "ClimbViaSid",
     InitialAltitudes: [
       {
         Altitude: 70,
         AircraftClass: ".*",
+        ExpectRequired: false,
+        ExpectInMinutes: 5,
+        InitialPhrasing: "ClimbViaSid",
       },
     ],
     IsRNAV: true,
-    ExpectRequired: false,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582JEFPO.PDF",
     },
@@ -1182,11 +1186,22 @@ db.departures.insertMany([
     SID: "SUMMA2",
     Telephony: "SUMMA TWO",
     Fixes: ["SUMMA", "BKE", "LKV"],
-    InitialPhrasing: "SeeNote",
     InitialAltitudes: [
       {
         Altitude: 70,
         AircraftClass: ".*",
+        Flow: "SOUTH",
+        InitialPhrasing: "Maintain",
+        ExpectInMiles: "15nm SEA",
+        ExpectRequired: true,
+      },
+      {
+        Altitude: 90,
+        AircraftClass: ".*",
+        Flow: "NORTH",
+        InitialPhrasing: "ClimbViaSidExceptMaintain",
+        ExpectInMiles: "15nm SEA",
+        ExpectRequired: true,
       },
     ],
     Charts: {
@@ -1197,7 +1212,6 @@ db.departures.insertMany([
     AirportCode: "KSEA",
     SID: "MONTN2",
     Telephony: "MOUNTAIN TWO",
-    InitialPhrasing: "ClimbViaSidExceptMaintain",
     Fixes: [
       "PAE",
       "VAMPS",
@@ -1215,12 +1229,22 @@ db.departures.insertMany([
       "ELN",
       "ALPSE",
     ],
-    ExpectRequired: false,
-    ExpectInMiles: "15nm SEA",
     InitialAltitudes: [
       {
-        Altitude: 70,
+        InitialPhrasing: "ClimbViaSidExceptMaintain",
+        Altitude: 90,
+        Flow: "NORTH",
         AircraftClass: ".*",
+        ExpectRequired: false,
+        ExpectInMiles: "15nm SEA",
+      },
+      {
+        InitialPhrasing: "ClimbViaSidExceptMaintain",
+        Altitude: 70,
+        Flow: "SOUTH",
+        AircraftClass: ".*",
+        ExpectRequired: false,
+        ExpectInMiles: "15nm SEA",
       },
     ],
     IsRNAV: true,
@@ -1234,15 +1258,24 @@ db.departures.insertMany([
     Telephony: "BANGOR NINE",
     IsRNAV: true,
     Fixes: ["BANGR", "PANGL", "ARRIE"],
-    InitialPhrasing: "ClimbViaSidExceptMaintain",
     InitialAltitudes: [
       {
+        InitialPhrasing: "ClimbViaSidExceptMaintain",
+        Altitude: 90,
+        ExpectRequired: false,
+        ExpectInMiles: "15nm SEA",
+        Flow: "NORTH",
+        AircraftClass: ".*",
+      },
+      {
+        InitialPhrasing: "ClimbViaSidExceptMaintain",
         Altitude: 70,
+        ExpectRequired: false,
+        ExpectInMiles: "15nm SEA",
+        Flow: "SOUTH",
         AircraftClass: ".*",
       },
     ],
-    ExpectRequired: false,
-    ExpectInMiles: "15nm SEA",
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582BANGR.PDF",
     },
@@ -1270,15 +1303,24 @@ db.departures.insertMany([
       "AST",
       "HQM",
     ],
-    InitialPhrasing: "Maintain",
     InitialAltitudes: [
+      {
+        Altitude: 90,
+        AircraftClass: ".*",
+        ExpectInMiles: "15nm SEA",
+        ExpectRequired: true,
+        Flow: "NORTH",
+        InitialPhrasing: "Maintain",
+      },
       {
         Altitude: 70,
         AircraftClass: ".*",
+        ExpectInMiles: "15nm SEA",
+        ExpectRequired: true,
+        Flow: "SOUTH",
+        InitialPhrasing: "Maintain",
       },
     ],
-    ExpectInMiles: "15nm SEA",
-    ExpectRequired: true,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582SEATTLE.PDF",
     },
@@ -1289,15 +1331,15 @@ db.departures.insertMany([
     Telephony: "PAINE SIX",
     IsRNAV: false,
     Fixes: ["PAE", "SEA", "EAT", "ELN", "OLM", "HQM", "NUW"],
-    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 20,
         AircraftClass: ".*",
+        ExpectRequired: false,
+        ExpectInMinutes: 5,
+        InitialPhrasing: "Maintain",
       },
     ],
-    ExpectRequired: false,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00142PAINE.PDF",
     },
@@ -1308,15 +1350,15 @@ db.departures.insertMany([
     Telephony: "KIENO SIX",
     IsRNAV: false,
     Fixes: ["KIENO", "YVR", "YYJ", "CVV"],
-    InitialPhrasing: "ClimbViaSidExceptMaintain",
     InitialAltitudes: [
       {
         Altitude: 30,
         AircraftClass: ".*",
+        ExpectRequired: false,
+        ExpectInMinutes: 10,
+        InitialPhrasing: "ClimbViaSidExceptMaintain",
       },
     ],
-    ExpectRequired: false,
-    ExpectInMinutes: 10,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00045KIENO.PDF",
     },
@@ -1327,15 +1369,15 @@ db.departures.insertMany([
     Telephony: "KULSHAN ONE",
     Fixes: ["KLSHN", "CVV"],
     IsRNAV: true,
-    InitialPhrasing: "ClimbViaSidExceptMaintain",
     InitialAltitudes: [
       {
         Altitude: 30,
         AircraftClass: ".*",
+        ExpectRequired: false,
+        ExpectInMinutes: 5,
+        InitialPhrasing: "ClimbViaSidExceptMaintain",
       },
     ],
-    ExpectRequired: false,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00045KLSHN.PDF",
     },
@@ -1346,15 +1388,15 @@ db.departures.insertMany([
     Telephony: "WATER SEVEN",
     Fixes: ["WATTR"],
     IsRNAV: false,
-    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 54,
         AircraftClass: ".*",
+        ExpectRequired: true,
+        ExpectInMinutes: 10,
+        InitialPhrasing: "Maintain",
       },
     ],
-    ExpectRequired: true,
-    ExpectInMinutes: 10,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00886WATTR.PDF",
     },
@@ -1365,15 +1407,15 @@ db.departures.insertMany([
     Telephony: "SHED FOUR",
     Fixes: ["SHEDD"],
     IsRNAV: false,
-    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 30,
         AircraftClass: ".*",
+        ExpectRequired: true,
+        ExpectInMinutes: 5,
+        InitialPhrasing: "Maintain",
       },
     ],
-    ExpectRequired: true,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00782SHEDD.PDF",
     },
@@ -1383,16 +1425,16 @@ db.departures.insertMany([
     SID: "LMT6",
     Telephony: "KINGSLEY SIX",
     Fixes: ["LMT", "LKV", "RBL", "FMG", "FJS", "OED", "RBG", "DSD", "EUG"],
-    InitialPhrasing: "Maintain",
     InitialAltitudes: [
       {
         Altitude: 100,
         AircraftClass: ".*",
+        ExpectRequired: false,
+        ExpectInMinutes: 5,
+        InitialPhrasing: "Maintain",
       },
     ],
     IsRNAV: false,
-    ExpectRequired: false,
-    ExpectInMinutes: 5,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00473KINGSLEY.PDF",
     },

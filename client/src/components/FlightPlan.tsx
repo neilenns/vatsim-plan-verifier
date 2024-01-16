@@ -16,6 +16,7 @@ import { Form, useNavigation } from "react-router-dom";
 import { OpenInNew } from "@mui/icons-material";
 import { EquipmentInfoTooltip } from "./EquipmentInfoTooltip";
 import { CallsignTooltip } from "./CallsignTooltip";
+import useAppContext from "../context/AppContext";
 
 interface FlightPlanProps {
   flightPlan: IFlightPlan;
@@ -29,6 +30,7 @@ const FlightPlan = (props: FlightPlanProps) => {
   const [flightAwareUrl, setFlightAwareUrl] = useState<string>("");
   const [viewAircraftUrl, setViewAircraftUrl] = useState<string>("");
   const navigation = useNavigation();
+  const { flow } = useAppContext();
 
   useEffect(() => {
     setFlightPlan(props.flightPlan);
@@ -191,7 +193,7 @@ const FlightPlan = (props: FlightPlanProps) => {
               name="cruiseAltitude"
               value={flightPlan.cruiseAltitude ?? ""}
               helperText={
-                flightPlan.initialAltitude && (
+                (flightPlan.initialAltitudeInfo && 
                   <>
                     {formattedInitialAltitude(flightPlan)}
                     <br />
@@ -296,6 +298,12 @@ const FlightPlan = (props: FlightPlanProps) => {
             </Button>
           </Grid>
         </Grid>
+        <input
+          aria-label="hidden flow"
+          hidden
+          name="flow"
+          value={flow}
+        />
         <input
           aria-label="hidden flight plan remarks"
           hidden

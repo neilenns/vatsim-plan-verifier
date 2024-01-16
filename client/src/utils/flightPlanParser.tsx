@@ -1,8 +1,16 @@
 import pluralize from "pluralize";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
-import { InitialPhrasingOptions } from "../interfaces/ISIDInformation.mts";
+import { AirportFlow, InitialPhrasingOptions } from "../interfaces/ISIDInformation.mts";
 import { ReactNode } from "react";
 import { Link } from "@mui/material";
+
+export function formatAltitude(altitude: number, includeFeet = true): string {
+  if (altitude >= 180) {
+    return `FL${altitude}`;
+  }
+
+  return `${(altitude * 100).toLocaleString()}${includeFeet ? " feet" : ""}`;
+}
 
 // Checks to see if the airport name ends in "Airport". If so, return
 // unmodified. If not, append " Airport" and return it.
@@ -45,9 +53,18 @@ export function hyperlinkSidName(flightPlan: IFlightPlan): ReactNode {
 // Formats the initial altitude for the flight plan based on whether one is
 // provided and whether the SID requires "climb via SID" phraseology.
 export function formattedInitialAltitude(flightPlan: IFlightPlan): string {
-  const initialPhrasing =
-    flightPlan.SIDInformation?.InitialPhrasing ||
-    flightPlan.departureAirportInfo?.extendedAirportInfo?.initialPhrasing;
+  if (flightPlan.flow === AirportFlow.Unknown)
+  {
+    return "Set flow";
+  }
+
+  if (!flightPlan.initialAltitudeInfo)
+  {
+    return "Unknown";
+  }
+
+  const initialPhrasing = flightPlan.initialAltitudeInfo.InitialPhrasing;
+  const initialAltitude = flightPlan.initialAltitudeInfo.Altitude;
 
   if (initialPhrasing === undefined) {
     return "Unknown";
@@ -57,12 +74,12 @@ export function formattedInitialAltitude(flightPlan: IFlightPlan): string {
     return `See note`;
   }
 
-  if (!flightPlan.initialAltitude || flightPlan.initialAltitude == "Unknown") {
+  if (flightPlan.initialAltitudeInfo == null) {
     return "See chart/SOP";
   }
 
   if (initialPhrasing === InitialPhrasingOptions.Maintain) {
-    return `Maintain ${flightPlan.initialAltitude}`;
+    return `Maintain ${formatAltitude(initialAltitude, false)}`;
   }
 
   if (initialPhrasing === InitialPhrasingOptions.ClimbViaSid) {
@@ -70,11 +87,11 @@ export function formattedInitialAltitude(flightPlan: IFlightPlan): string {
   }
 
   if (initialPhrasing === InitialPhrasingOptions.ClimbViaSidExceptMaintain) {
-    return `CVS ${flightPlan.initialAltitude}`;
+    return `CVS ${formatAltitude(initialAltitude, false)}`;
   }
 
   if (initialPhrasing === InitialPhrasingOptions.ClimbViaDepartureExceptMaintain) {
-    return `CVD ${flightPlan.initialAltitude}`;
+    return `CVD ${formatAltitude(initialAltitude, false)}`;
   }
 
   return "See chart/SOP";
@@ -83,18 +100,15 @@ export function formattedInitialAltitude(flightPlan: IFlightPlan): string {
 // Looks at the SIDInformation in a flight plan and returns the formatted
 // minutes after departure to expect the SID to be assigned.
 export function formattedExpectIn(flightPlan: IFlightPlan): string {
-  const initialPhrasing =
-    flightPlan.SIDInformation?.InitialPhrasing ??
-    flightPlan.departureAirportInfo?.extendedAirportInfo?.initialPhrasing;
-  const expectRequired =
-    flightPlan.SIDInformation?.ExpectRequired ??
-    flightPlan.departureAirportInfo?.extendedAirportInfo?.expectRequired;
-  const expectInMinutes =
-    flightPlan.SIDInformation?.ExpectInMinutes ??
-    flightPlan.departureAirportInfo?.extendedAirportInfo?.expectInMinutes;
-  const expectInMiles =
-    flightPlan.SIDInformation?.ExpectInMiles ??
-    flightPlan.departureAirportInfo?.extendedAirportInfo?.expectInMiles;
+  if (flightPlan.flow === AirportFlow.Unknown || !flightPlan.initialAltitudeInfo)
+  {
+    return "";
+  }
+
+  const initialPhrasing = flightPlan.initialAltitudeInfo.InitialPhrasing;
+  const expectRequired = flightPlan.initialAltitudeInfo.ExpectRequired;
+  const expectInMinutes =flightPlan.initialAltitudeInfo.ExpectInMinutes;
+  const expectInMiles = flightPlan.initialAltitudeInfo.ExpectInMiles;
 
   if (initialPhrasing === undefined || expectRequired === undefined) {
     return "";
