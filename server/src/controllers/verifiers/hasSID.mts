@@ -1,8 +1,8 @@
 import { isDocument } from "@typegoose/typegoose";
+import debug from "debug";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
-import debug from "debug";
 
 const verifierName = "hasSID";
 const logger = debug(`plan-verifier:${verifierName}`);
@@ -49,12 +49,12 @@ export default async function hasSID({
       data: doc,
     };
   } catch (error) {
-    logger(`Error running hasSID: error`);
+    logger(`Error running hasSID: ${error}`);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error running hasSID: error`,
+      error: `Error running hasSID: ${error}`,
     };
   }
 }

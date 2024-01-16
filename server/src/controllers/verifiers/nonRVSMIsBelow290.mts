@@ -1,7 +1,7 @@
+import debug from "debug";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
-import debug from "debug";
 
 const verifierName = "nonRVSMIsBelow290";
 const logger = debug(`plan-verifier:${verifierName}`);
@@ -53,12 +53,12 @@ export default async function nonRVSMIsBelow290({
       data: doc,
     };
   } catch (error) {
-    logger(`Error running verifyNonRVSMIsBelow290: error`);
+    logger(`Error running verifyNonRVSMIsBelow290: ${error}`);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error running verifyNonRVSMIsBelow290: error`,
+      error: `Error running verifyNonRVSMIsBelow290: ${error}`,
     };
   }
 }

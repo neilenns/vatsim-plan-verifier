@@ -1,3 +1,4 @@
+import debug from "debug";
 import { CustomMessageModel, MessageTarget } from "../../models/CustomMessages.mjs";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import {
@@ -6,7 +7,6 @@ import {
   VerifierResultStatus,
 } from "../../models/VerifierResult.mjs";
 import { VerifierControllerMultiResult } from "../../types/verifierControllerResult.mjs";
-import debug from "debug";
 import applyMustacheValues from "../../utils/mustache.mjs";
 
 const verifierName = "checkForCustomDepartureMessages";
@@ -82,12 +82,12 @@ export default async function checkForCustomDepartureMessages(
       data: results,
     };
   } catch (error) {
-    logger(`Error running checkForCustomDepartureMessages: error`);
+    logger(`Error running checkForCustomDepartureMessages: ${error}`);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error running checkForCustomDepartureMessages: error`,
+      error: `Error running checkForCustomDepartureMessages: ${error}`,
     };
   }
 }

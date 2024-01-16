@@ -1,7 +1,7 @@
+import debug from "debug";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
-import debug from "debug";
 import { getMetar } from "../metar.mjs";
 
 const verifierName = "altitudeForAltimeter";
@@ -70,12 +70,12 @@ export default async function altitudeForAltimeter({
     }
     await result.data.save();
   } catch (error) {
-    logger(`Error running altitudeForAltiemter: error`);
+    logger(`Error running altitudeForAltiemter: ${error}`);
 
     result = {
       success: false,
       errorType: "UnknownError",
-      error: `Error running altitudeForAltiemter: error`,
+      error: `Error running altitudeForAltiemter: ${error}`,
     };
   }
 

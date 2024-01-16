@@ -1,9 +1,9 @@
 import { isDocument } from "@typegoose/typegoose";
+import debug from "debug";
+import pluralize from "pluralize";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
-import debug from "debug";
-import pluralize from "pluralize";
 
 const verifierName = "warnNewPilot";
 const logger = debug(`plan-verifier:${verifierName}`);
@@ -48,12 +48,12 @@ export default async function warnNewPilot({
       data: doc,
     };
   } catch (error) {
-    logger(`Error running warnNewPilot: error`);
+    logger(`Error running warnNewPilot: ${error}`);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error running warnNewPilot: error`,
+      error: `Error running warnNewPilot: ${error}`,
     };
   }
 }

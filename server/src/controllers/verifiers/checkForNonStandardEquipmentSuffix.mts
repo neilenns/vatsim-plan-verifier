@@ -1,7 +1,7 @@
+import debug from "debug";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
-import debug from "debug";
 
 const verifierName = "checkForNonStandardEquipmentSuffix";
 const logger = debug(`plan-verifier:${verifierName}`);
@@ -50,12 +50,12 @@ export default async function checkForNonStandardEquipmentSuffix({
       data: doc,
     };
   } catch (error) {
-    logger(`Error running checkForNonStandardEquipmentSuffix: error`);
+    logger(`Error running checkForNonStandardEquipmentSuffix: ${error}`);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error running checkForNonStandardEquipmentSuffix: error`,
+      error: `Error running checkForNonStandardEquipmentSuffix: ${error}`,
     };
   }
 }

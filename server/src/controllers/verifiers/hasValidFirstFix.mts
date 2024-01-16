@@ -1,8 +1,8 @@
 import { isDocument } from "@typegoose/typegoose";
+import debug from "debug";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
-import debug from "debug";
 
 const verifierName = "hasValidFirstFix";
 const logger = debug(`plan-verifier:${verifierName}`);
@@ -69,12 +69,12 @@ export default async function hasValidFirstFix({
       data: doc,
     };
   } catch (error) {
-    logger(`Error running hasValidFirstFix: error`);
+    logger(`Error running hasValidFirstFix: ${error}`);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error running hasValidFirstFix: error`,
+      error: `Error running hasValidFirstFix: ${error}`,
     };
   }
 }
