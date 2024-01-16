@@ -1198,7 +1198,7 @@ db.departures.insertMany([
       {
         Altitude: 90,
         AircraftClass: ".*",
-        FLOW: "NORTH",
+        Flow: "NORTH",
         InitialPhrasing: "ClimbViaSidExceptMaintain",
         ExpectInMiles: "15nm SEA",
         ExpectRequired: true,
