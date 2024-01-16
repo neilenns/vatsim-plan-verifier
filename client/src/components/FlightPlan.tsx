@@ -300,7 +300,7 @@ const FlightPlan = (props: FlightPlanProps) => {
           aria-label="hidden flow"
           hidden
           name="flow"
-          defaultValue={"NORTH"}
+          defaultValue={"SOUTH"}
         />
         <input
           aria-label="hidden flight plan remarks"
