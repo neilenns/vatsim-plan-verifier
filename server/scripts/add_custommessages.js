@@ -36,25 +36,46 @@ db.custommessages.insertMany([
   {
     messageTarget: "Departure",
     targetName: "SUMMA2",
-    messageId: "SUMMA2Text",
+    flow: "NORTH",
+    messageId: "SUMMA2TextNorth",
     priority: 3,
-    message: `**North flow**
-
-> Cleared to {{arrival}} via the SUMMA2 departure, radar vectors SUMMA, then as filed.  
-> Climb via SID except maintain 7,000. Expect {{formattedCruiseAltitude}} 15 nautical miles from the SEATTLE VORTAC.
-
-**South flow**
-
-> Cleared to {{arrival}} via the SUMMA2 departure then as filed.  
-> Maintain 7,000. Expect {{formattedCruiseAltitude}} 15 nautical miles from the SEATTLE VORTAC.
+    message: `> Cleared to {{arrival}} via the SUMMA2 departure, radar vectors SUMMA, then as filed.  
+> Climb via SID except maintain 9,000. Expect {{formattedCruiseAltitude}} 15 nautical miles from the SEATTLE VORTAC.
+`,
+  },
+  {
+    messageTarget: "Departure",
+    targetName: "SUMMA2",
+    flow: "SOUTH",
+    messageId: "SUMMA2TextSouth",
+    priority: 3,
+    message: `> Cleared to {{arrival}} via the SUMMA2 departure then as filed.  
+> Maintain 7,000. Expect {{formattedCruiseAltitude}} 15 nautical miles from the SEATTLE VORTAC.  
 `,
   },
   {
     messageTarget: "Departure",
     targetName: "SEA8",
-    messageId: "SEA8Text",
+    messageId: "SEA8TextNorth",
+    flow: "NORTH",
+    priority: 3,
+    message: `> Cleared to {{arrival}} via the SEA8 departure, radar vectors {{initialFix}}, then as filed.  
+> Maintain 9,000 expect {{formattedCruiseAltitude}} 15 nautical miles from the SEATTLE VORTAC.`,
+  },
+  {
+    messageTarget: "Departure",
+    targetName: "SEA8",
+    messageId: "SEA8TextSouth",
+    flow: "SOUTH",
     priority: 3,
     message: `> Cleared to {{arrival}} via the SEA8 departure, radar vectors {{initialFix}}, then as filed.  
 > Maintain 7,000 expect {{formattedCruiseAltitude}} 15 nautical miles from the SEATTLE VORTAC.`,
+  },
+  {
+    messageTarget: "Departure",
+    targetName: "SEA8",
+    messageId: "SEA8TextSouth",
+    priority: 3,
+    message: `Testing`,
   },
 ]);

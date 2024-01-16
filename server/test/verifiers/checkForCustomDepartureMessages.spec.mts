@@ -7,6 +7,7 @@ import { VerifierResultDocument, VerifierResultStatus } from "../../src/models/V
 import { SuccessResult } from "../../src/types/result.mjs";
 import { addFlightPlans, removeFlightPlans } from "../setup/manageFlightPlans.mjs";
 import { Types } from "mongoose";
+import { AirportFlow } from "../../src/models/InitialAltitude.mjs";
 
 const testData = [
   // Departure with custom message
@@ -18,6 +19,7 @@ const testData = [
     cruiseAltitude: 210,
     rawAircraftType: "B738/L",
     route: "SUMMA2 SEA BTG T23 OLM Q42 SEA KRATR2",
+    flow: AirportFlow.South,
     squawk: "1234",
   },
   // Airport and departure with custom message
@@ -29,6 +31,7 @@ const testData = [
     cruiseAltitude: 210,
     rawAircraftType: "B738/L",
     route: "SUMMA2 SEA BTG T23 OLM Q42 SEA KRATR2",
+    flow: AirportFlow.South,
     squawk: "1234",
   },
   // No custom messages

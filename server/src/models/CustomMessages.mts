@@ -5,6 +5,7 @@ import {
   ReturnModelType,
   DocumentType,
 } from "@typegoose/typegoose";
+import { AirportFlow } from "./InitialAltitude.mjs";
 
 export enum MessageTarget {
   Unknown = "Unknown",
@@ -16,6 +17,9 @@ export enum MessageTarget {
 class CustomMessage {
   @prop({ required: true })
   messageTarget!: MessageTarget;
+
+  @prop({ required: true, enum: AirportFlow, default: AirportFlow.Any })
+  flow!: AirportFlow;
 
   @prop({ required: true })
   targetName!: string;
@@ -32,9 +36,10 @@ class CustomMessage {
   public static async findByTarget(
     this: ReturnModelType<typeof CustomMessage>,
     messageTarget: MessageTarget,
-    targetName: string
+    targetName: string,
+    flow: AirportFlow = AirportFlow.Any
   ): Promise<DocumentType<CustomMessage>[] | null> {
-    return await this.find({ messageTarget, targetName });
+    return await this.find({ messageTarget, targetName, flow: { $in: ["ANY", flow, undefined] } });
   }
 }
 
