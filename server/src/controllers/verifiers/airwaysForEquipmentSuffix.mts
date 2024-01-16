@@ -1,7 +1,7 @@
+import debug from "debug";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
-import debug from "debug";
 
 const verifierName = "airwaysForEquipmentSuffix";
 const logger = debug(`plan-verifier:${verifierName}`);
@@ -74,12 +74,12 @@ export default async function airwaysForEquipmentSuffix({
       data: doc,
     };
   } catch (error) {
-    logger(`Error running airwaysForEquipmentSuffix: error`);
+    logger(`Error running airwaysForEquipmentSuffix: ${error}`);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error running airwaysForEquipmentSuffix: error`,
+      error: `Error running airwaysForEquipmentSuffix: ${error}`,
     };
   }
 }

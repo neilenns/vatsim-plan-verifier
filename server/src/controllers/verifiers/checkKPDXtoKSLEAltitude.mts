@@ -1,7 +1,7 @@
+import debug from "debug";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
-import debug from "debug";
 import { formatAltitude } from "../../utils.mjs";
 
 const verifierName = "checkKPDXtoKSLEAltitude";
@@ -59,12 +59,12 @@ export default async function checkKPDXtoKSLEAltitude({
       data: doc,
     };
   } catch (error) {
-    logger(`Error running checkKPDXtoKSLEAltitude: error`);
+    logger(`Error running checkKPDXtoKSLEAltitude: ${error}`);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error running checkKPDXtoKSLEAltitude: error`,
+      error: `Error running checkKPDXtoKSLEAltitude: ${error}`,
     };
   }
 }

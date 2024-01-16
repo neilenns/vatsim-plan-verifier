@@ -1,8 +1,8 @@
+import debug from "debug";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { AirportFlow } from "../../models/InitialAltitude.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
-import debug from "debug";
 
 const verifierName = "checkSEAvsMONTN";
 const logger = debug(`plan-verifier:${verifierName}`);
@@ -85,12 +85,12 @@ export default async function checkSEAvsMONTN({
       data: doc,
     };
   } catch (error) {
-    logger(`Error running checkSEAvsMONTN: error`);
+    logger(`Error running checkSEAvsMONTN: ${error}`);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error running checkSEAvsMONTN: error`,
+      error: `Error running checkSEAvsMONTN: ${error}`,
     };
   }
 }

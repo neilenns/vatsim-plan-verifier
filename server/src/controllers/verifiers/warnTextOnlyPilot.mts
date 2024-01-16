@@ -1,8 +1,8 @@
+import debug from "debug";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
-import { VatsimCommunicationMethod, VatsimFlightStatus } from "../../models/VatsimFlightPlan.mjs";
+import { VatsimCommunicationMethod } from "../../models/VatsimFlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
-import debug from "debug";
 
 const verifierName = "warnTextOnlyPilot";
 const logger = debug(`plan-verifier:${verifierName}`);
@@ -41,12 +41,12 @@ export default async function warnTextOnlyPilot({
 
     await result.data.save();
   } catch (error) {
-    logger(`Error running warnTextOnlyPilot: error`);
+    logger(`Error running warnTextOnlyPilot: ${error}`);
 
     result = {
       success: false,
       errorType: "UnknownError",
-      error: `Error running warnTextOnlyPilot: error`,
+      error: `Error running warnTextOnlyPilot: ${error}`,
     };
   }
 

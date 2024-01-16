@@ -1,10 +1,10 @@
 import { isDocument } from "@typegoose/typegoose";
+import debug from "debug";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { PreferredRouteModel } from "../../models/PreferredRoute.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import { formatAltitude } from "../../utils.mjs";
-import debug from "debug";
 
 const verifierName = "checkForPreferredRoutes";
 const logger = debug(`plan-verifier:${verifierName}`);
@@ -115,7 +115,7 @@ export default async function checkForPreferredRoutes(
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error running checkForPreferredRoutes: error`,
+      error: `Error running checkForPreferredRoutes: ${error}`,
     };
   }
 }
