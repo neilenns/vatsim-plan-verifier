@@ -45,7 +45,6 @@ const Verifier = () => {
 
   const onFlowChanged = (event: SelectChangeEvent) => {
     setFlow(event.target.value as AirportFlow);
-    console.log(`You selected ${event.target.value}`);
   }
 
   const onNewClick = () => {

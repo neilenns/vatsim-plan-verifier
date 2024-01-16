@@ -34,7 +34,8 @@ export default async function checkForCustomDepartureMessages(
     } else {
       const customMessages = await CustomMessageModel.findByTarget(
         MessageTarget.Departure,
-        flightPlan.SID
+        flightPlan.SID,
+        flightPlan.flow
       );
 
       if (!customMessages || customMessages.length === 0) {
