@@ -5,7 +5,7 @@ import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
 import debug from "debug";
 import { NavaidModel } from "./Navaid.mjs";
-import { DepartureModel, DepartureDocument, Departure, AirportFlow } from "./Departure.mjs";
+import { DepartureModel, DepartureDocument, Departure } from "./Departure.mjs";
 import { Ref, isDocument, pre } from "@typegoose/typegoose";
 import { AirportInfo, AirportInfoDocument } from "./AirportInfo.mjs";
 import { Aircraft, AircraftDocument } from "./Aircraft.mjs";
@@ -14,6 +14,8 @@ import { Airline } from "./Airline.mjs";
 import { PilotStats } from "./PilotStats.mjs";
 import { getVatsimPilotStats } from "../controllers/vatsim.mjs";
 import { VatsimCommunicationMethod } from "./VatsimFlightPlan.mjs";
+import { initial } from "lodash";
+import { AirportFlow, InitialAltitude } from "./InitialAltitude.mjs";
 
 const logger = debug("plan-verifier:flightPlan");
 
@@ -251,7 +253,7 @@ export class FlightPlan {
   @prop({ required: false })
   equipmentSuffix?: string;
 
-  @prop({ required: true, enum: AirportFlow, default: AirportFlow.All })
+  @prop({ required: true, enum: AirportFlow, default: AirportFlow.Unknown })
   flow!: AirportFlow;
 
   @prop({ required: true })
@@ -465,47 +467,50 @@ export class FlightPlan {
     return cleanRoute(this.route);
   }
 
-  // public get initialAltitude(): string {
-  //   const sid = this.SIDInformation as DepartureDocument | undefined;
-  //   const airportInfo = this.departureAirportInfo as AirportInfoDocument | undefined;
-  //   const equipmentInfo = this.equipmentInfo as AircraftDocument | undefined;
+  public get initialAltitudeInfo(): InitialAltitude | null {
+    const sid = this.SIDInformation as DepartureDocument | undefined;
+    const airportInfo = this.departureAirportInfo as AirportInfoDocument | undefined;
+    const equipmentInfo = this.equipmentInfo as AircraftDocument | undefined;
 
-  //   // If there's no SID but there is an airport-wide initial altitude then provide that.
-  //   if (
-  //     !sid &&
-  //     isDocument(airportInfo?.extendedAirportInfo) &&
-  //     airportInfo?.extendedAirportInfo?.initialAltitude
-  //   ) {
-  //     return formatAltitude(airportInfo.extendedAirportInfo.initialAltitude, false);
-  //   }
+    // Can't do departure initial altitude matching without equipment info and aircraft class
+    if (!equipmentInfo || !equipmentInfo.aircraftClass) {
+      return null;
+    }
 
-  //   if (!sid || !sid.InitialAltitudes || !equipmentInfo || !equipmentInfo.aircraftClass) {
-  //     return "Unknown";
-  //   }
+    // Figure out which initial altitude info to provide.
+    try {
+      // An initial altitude from the Departure data takes priority over airport-wide
+      // initial altitudes so try Departures first.
+      // The magic sid? with the ?? [] handles the case where no sid was available for the flight plan
+      // and causes the entire for loop to skip.
+      const fromDeparture = InitialAltitude.findMatching(
+        sid?.InitialAltitudes ?? [],
+        equipmentInfo.aircraftClass,
+        this.flow
+      );
 
-  //   // KPDX-KSLE is a special case
-  //   if (this.departure === "KPDX" && this.arrival === "KSLE") {
-  //     return formatAltitude(this.cruiseAltitude < 50 ? this.cruiseAltitude : 50, false);
-  //   }
+      if (fromDeparture) {
+        return fromDeparture;
+      }
 
-  //   try {
-  //     for (const initialAltitude of sid.InitialAltitudes) {
-  //       const regex = new RegExp(initialAltitude.AircraftClass);
+      // At this point there were no matching sid initial altitudes so try airport-wide ones.
+      // First see if there's any extended airport info. If not, bail.
+      if (!isDocument(airportInfo?.extendedAirportInfo)) {
+        return null;
+      }
 
-  //       // Find the first initial altitude that matches both the aircraft class and airport flow.
-  //       if (
-  //         regex.test(equipmentInfo.aircraftClass) &&
-  //         (initialAltitude.Flow == AirportFlow.All || initialAltitude.Flow === this.flow)
-  //       ) {
-  //         return formatAltitude(initialAltitude.Altitude, false);
-  //       }
-  //     }
-  //   } catch (error) {
-  //     logger(`Unable to calculate initial altitude: ${error}`);
-  //   }
+      // Now do the same search for matching departure. This will either find something or return null.
+      return InitialAltitude.findMatching(
+        airportInfo?.extendedAirportInfo.InitialAltitudes ?? [],
+        equipmentInfo.aircraftClass,
+        this.flow
+      );
+    } catch (error) {
+      logger(`Unable to calculate initial altitude: ${error}`);
+    }
 
-  //   return "Unknown";
-  // }
+    return null;
+  }
 }
 
 export const FlightPlanModel = getModelForClass(FlightPlan);

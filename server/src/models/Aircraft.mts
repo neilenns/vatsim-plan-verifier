@@ -6,6 +6,13 @@ import {
   ReturnModelType,
 } from "@typegoose/typegoose";
 
+export enum AircraftClass {
+  S = "S",
+  L = "L",
+  J = "J",
+  U = "U",
+}
+
 @modelOptions({
   options: { customName: "aircraft" },
   schemaOptions: {
@@ -40,8 +47,8 @@ export class Aircraft {
   @prop({ required: false, type: () => [String] })
   commonEquipmentSuffixes?: string[];
 
-  @prop({ required: false, enum: ["S", "L", "J", "U"] })
-  aircraftClass?: string;
+  @prop({ required: true, enum: AircraftClass, default: AircraftClass.U })
+  aircraftClass!: AircraftClass;
 
   @prop({ required: false, min: 1, max: 6 })
   airplaneDesignGroup?: number;

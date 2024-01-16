@@ -1,7 +1,7 @@
 import IAircraft from "./IAircraft.mjs";
 import AirportInfo from "./IAirportInfo.mjs";
 import { IPilotStats } from "./IPilotStats.mts";
-import { AirportFlow, ISIDInformation } from "./ISIDInformation.mts";
+import { AirportFlow, IInitialAltitude, ISIDInformation } from "./ISIDInformation.mts";
 import ITelephony from "./ITelephony.mts";
 
 interface IFlightPlan {
@@ -27,7 +27,7 @@ interface IFlightPlan {
   route?: string;
   telephony?: ITelephony[];
   expandedRoute?: string;
-  initialAltitude?: string;
+  initialAltitudeInfo?: IInitialAltitude;
   SIDInformation?: ISIDInformation;
   verifierResultsCount?: number;
   remarks?: string;

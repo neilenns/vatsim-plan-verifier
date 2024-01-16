@@ -8,11 +8,12 @@ export enum InitialPhrasingOptions {
 }
 
 export enum AirportFlow {
-  All = "ALL",
+  Any = "ANY",
   North = "NORTH",
   South = "SOUTH",
   East = "EAST",
   West = "WEST",
+  Unknown = "UNKNOWN",
 }
 
 export interface IInitialAltitude {

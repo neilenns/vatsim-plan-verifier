@@ -191,11 +191,13 @@ const FlightPlan = (props: FlightPlanProps) => {
               name="cruiseAltitude"
               value={flightPlan.cruiseAltitude ?? ""}
               helperText={
+                (flightPlan.initialAltitudeInfo && 
                   <>
                     {formattedInitialAltitude(flightPlan)}
                     <br />
                     {formattedExpectIn(flightPlan)}
                   </>
+                )
               }
               trim
               onPaste={parsePastedFlightPlan}

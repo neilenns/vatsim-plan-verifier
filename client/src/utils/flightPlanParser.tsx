@@ -1,6 +1,6 @@
 import pluralize from "pluralize";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
-import { AirportFlow, IInitialAltitude, InitialPhrasingOptions } from "../interfaces/ISIDInformation.mts";
+import { AirportFlow, InitialPhrasingOptions } from "../interfaces/ISIDInformation.mts";
 import { ReactNode } from "react";
 import { Link } from "@mui/material";
 
@@ -50,39 +50,21 @@ export function hyperlinkSidName(flightPlan: IFlightPlan): ReactNode {
   );
 }
 
-export function findApplicableInitialAltitude(flightPlan: IFlightPlan): IInitialAltitude | null
-{
-  if (flightPlan.SIDInformation === null || 
-    flightPlan.SIDInformation === undefined || 
-    flightPlan.SIDInformation.InitialAltitudes === undefined ||
-    flightPlan.equipmentInfo?.aircraftClass === undefined)
-  {
-    return null;
-  }
-
-  for (const initialAltitude of flightPlan.SIDInformation.InitialAltitudes) {
-    const regex = new RegExp(initialAltitude.AircraftClass);
-
-    // Find the first initial altitude that matches both the aircraft class and airport flow.
-    if (
-      regex.test(flightPlan.equipmentInfo?.aircraftClass) &&
-      (initialAltitude.Flow == AirportFlow.All || initialAltitude.Flow === flightPlan.flow)
-    ) {
-      return initialAltitude;
-    }
-  }
-  
-  return null;
-}
-
 // Formats the initial altitude for the flight plan based on whether one is
 // provided and whether the SID requires "climb via SID" phraseology.
 export function formattedInitialAltitude(flightPlan: IFlightPlan): string {
-  const initialAltitudeInfo = findApplicableInitialAltitude(flightPlan);
+  if (flightPlan.flow === AirportFlow.Unknown)
+  {
+    return "Set flow";
+  }
 
-  const initialPhrasing =
-    initialAltitudeInfo?.InitialPhrasing ||
-    flightPlan.departureAirportInfo?.extendedAirportInfo?.initialPhrasing;
+  if (!flightPlan.initialAltitudeInfo)
+  {
+    return "Unknown";
+  }
+
+  const initialPhrasing = flightPlan.initialAltitudeInfo.InitialPhrasing;
+  const initialAltitude = flightPlan.initialAltitudeInfo.Altitude;
 
   if (initialPhrasing === undefined) {
     return "Unknown";
@@ -92,12 +74,12 @@ export function formattedInitialAltitude(flightPlan: IFlightPlan): string {
     return `See note`;
   }
 
-  if (initialAltitudeInfo == null) {
+  if (flightPlan.initialAltitudeInfo == null) {
     return "See chart/SOP";
   }
 
   if (initialPhrasing === InitialPhrasingOptions.Maintain) {
-    return `Maintain ${initialAltitudeInfo.Altitude}`;
+    return `Maintain ${formatAltitude(initialAltitude, false)}`;
   }
 
   if (initialPhrasing === InitialPhrasingOptions.ClimbViaSid) {
@@ -105,11 +87,11 @@ export function formattedInitialAltitude(flightPlan: IFlightPlan): string {
   }
 
   if (initialPhrasing === InitialPhrasingOptions.ClimbViaSidExceptMaintain) {
-    return `CVS ${formatAltitude(initialAltitudeInfo.Altitude, false)}`;
+    return `CVS ${formatAltitude(initialAltitude, false)}`;
   }
 
   if (initialPhrasing === InitialPhrasingOptions.ClimbViaDepartureExceptMaintain) {
-    return `CVD ${formatAltitude(initialAltitudeInfo.Altitude, false)}`;
+    return `CVD ${formatAltitude(initialAltitude, false)}`;
   }
 
   return "See chart/SOP";
@@ -118,21 +100,15 @@ export function formattedInitialAltitude(flightPlan: IFlightPlan): string {
 // Looks at the SIDInformation in a flight plan and returns the formatted
 // minutes after departure to expect the SID to be assigned.
 export function formattedExpectIn(flightPlan: IFlightPlan): string {
-  const initialAltitudeInfo = findApplicableInitialAltitude(flightPlan);
+  if (flightPlan.flow === AirportFlow.Unknown || !flightPlan.initialAltitudeInfo)
+  {
+    return "";
+  }
 
-  const initialPhrasing =
-    initialAltitudeInfo?.InitialPhrasing ??
-    flightPlan.departureAirportInfo?.extendedAirportInfo?.initialPhrasing;
-
-  const expectRequired =
-    initialAltitudeInfo?.ExpectRequired ??
-    flightPlan.departureAirportInfo?.extendedAirportInfo?.expectRequired;
-  const expectInMinutes =
-  initialAltitudeInfo?.ExpectInMinutes ??
-    flightPlan.departureAirportInfo?.extendedAirportInfo?.expectInMinutes;
-  const expectInMiles =
-    initialAltitudeInfo?.ExpectInMiles ??
-    flightPlan.departureAirportInfo?.extendedAirportInfo?.expectInMiles;
+  const initialPhrasing = flightPlan.initialAltitudeInfo.InitialPhrasing;
+  const expectRequired = flightPlan.initialAltitudeInfo.ExpectRequired;
+  const expectInMinutes =flightPlan.initialAltitudeInfo.ExpectInMinutes;
+  const expectInMiles = flightPlan.initialAltitudeInfo.ExpectInMiles;
 
   if (initialPhrasing === undefined || expectRequired === undefined) {
     return "";
