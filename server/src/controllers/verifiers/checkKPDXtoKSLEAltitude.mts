@@ -48,7 +48,7 @@ export default async function checkKPDXtoKSLEAltitude({
     // Provide phrasing for flights above 5000 feet
     else {
       result.status = VerifierResultStatus.WARNING;
-      result.message = `Flight is to KSLE. Amend cruise altitude to 5000 feet and issue \"Maintain 5,000. that will be your final.\"`;
+      result.message = `Flight is to KSLE. Amend cruise altitude to 5000 feet and issue \"Maintain 5,000. That will be your final.\"`;
       result.messageId = "above5000";
       result.priority = 3;
     }

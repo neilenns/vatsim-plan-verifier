@@ -1,21 +1,28 @@
+import {
+  DocumentType,
+  Ref,
+  getModelForClass,
+  isDocument,
+  modelOptions,
+  plugin,
+  pre,
+  prop,
+} from "@typegoose/typegoose";
+import debug from "debug";
+import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
 import { Types } from "mongoose";
 import autopopulate from "mongoose-autopopulate";
-import { formatAltitude } from "../utils.mjs";
 import { getAirportInfo } from "../controllers/airportInfo.mjs";
-import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
-import debug from "debug";
-import { NavaidModel } from "./Navaid.mjs";
-import { DepartureModel, DepartureDocument, Departure } from "./Departure.mjs";
-import { Ref, isDocument, pre } from "@typegoose/typegoose";
-import { AirportInfo, AirportInfoDocument } from "./AirportInfo.mjs";
-import { Aircraft, AircraftDocument } from "./Aircraft.mjs";
-import { prop, getModelForClass, modelOptions, DocumentType, plugin } from "@typegoose/typegoose";
-import { Airline } from "./Airline.mjs";
-import { PilotStats } from "./PilotStats.mjs";
 import { getVatsimPilotStats } from "../controllers/vatsim.mjs";
-import { VatsimCommunicationMethod } from "./VatsimFlightPlan.mjs";
-import { initial } from "lodash";
+import { formatAltitude } from "../utils.mjs";
+import { Aircraft, AircraftDocument } from "./Aircraft.mjs";
+import { Airline } from "./Airline.mjs";
+import { AirportInfo, AirportInfoDocument } from "./AirportInfo.mjs";
+import { Departure, DepartureDocument, DepartureModel } from "./Departure.mjs";
 import { AirportFlow, InitialAltitude } from "./InitialAltitude.mjs";
+import { NavaidModel } from "./Navaid.mjs";
+import { PilotStats } from "./PilotStats.mjs";
+import { VatsimCommunicationMethod } from "./VatsimFlightPlan.mjs";
 
 const logger = debug("plan-verifier:flightPlan");
 
@@ -469,11 +476,17 @@ export class FlightPlan {
 
   public get initialAltitudeInfo(): InitialAltitude | null {
     const sid = this.SIDInformation as DepartureDocument | undefined;
-    const airportInfo = this.departureAirportInfo as AirportInfoDocument | undefined;
+    const departureAirportInfo = this.departureAirportInfo as AirportInfoDocument | undefined;
     const equipmentInfo = this.equipmentInfo as AircraftDocument | undefined;
 
     // Can't do departure initial altitude matching without equipment info and aircraft class
     if (!equipmentInfo || !equipmentInfo.aircraftClass) {
+      return null;
+    }
+
+    // KPDX to KSLE has special rules handled by a verifier so don't return any initial
+    // altitude info.
+    if (this.departure === "KPDX" && this.arrival === "KSLE") {
       return null;
     }
 
@@ -495,13 +508,13 @@ export class FlightPlan {
 
       // At this point there were no matching sid initial altitudes so try airport-wide ones.
       // First see if there's any extended airport info. If not, bail.
-      if (!isDocument(airportInfo?.extendedAirportInfo)) {
+      if (!isDocument(departureAirportInfo?.extendedAirportInfo)) {
         return null;
       }
 
       // Now do the same search for matching departure. This will either find something or return null.
       return InitialAltitude.findMatching(
-        airportInfo?.extendedAirportInfo.InitialAltitudes ?? [],
+        departureAirportInfo?.extendedAirportInfo.InitialAltitudes ?? [],
         equipmentInfo.aircraftClass,
         this.flow
       );
