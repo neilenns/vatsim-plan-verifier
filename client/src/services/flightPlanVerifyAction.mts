@@ -7,7 +7,6 @@ import { removeVerifyResults } from "../services/verifyResults.mts";
 import debug from "debug";
 import Result from "../types/result.mts";
 import { cleanRoute } from "../utils/flightPlanParser";
-import { AirportFlow } from "../interfaces/ISIDInformation.mts";
 
 const logger = debug("plan-verifier:flightPlanVerifyAction");
 
