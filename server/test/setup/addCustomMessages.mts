@@ -15,6 +15,7 @@ const messages = [
     _id: "5f9f7b9b9b3b3c1b3c1b3c1b",
     messageTarget: "Departure",
     targetName: "SUMMA2",
+    flow: "SOUTH",
     messageId: "customDepartureMessage",
     priority: 3,
     message: `Custom departure message`,
