@@ -191,13 +191,11 @@ const FlightPlan = (props: FlightPlanProps) => {
               name="cruiseAltitude"
               value={flightPlan.cruiseAltitude ?? ""}
               helperText={
-                flightPlan.initialAltitude && (
                   <>
                     {formattedInitialAltitude(flightPlan)}
                     <br />
                     {formattedExpectIn(flightPlan)}
                   </>
-                )
               }
               trim
               onPaste={parsePastedFlightPlan}
@@ -296,6 +294,12 @@ const FlightPlan = (props: FlightPlanProps) => {
             </Button>
           </Grid>
         </Grid>
+        <input
+          aria-label="hidden flow"
+          hidden
+          name="flow"
+          defaultValue={"NORTH"}
+        />
         <input
           aria-label="hidden flight plan remarks"
           hidden

@@ -5,7 +5,7 @@ import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
 import debug from "debug";
 import { NavaidModel } from "./Navaid.mjs";
-import { DepartureModel, DepartureDocument, Departure } from "./Departure.mjs";
+import { DepartureModel, DepartureDocument, Departure, AirportFlow } from "./Departure.mjs";
 import { Ref, isDocument, pre } from "@typegoose/typegoose";
 import { AirportInfo, AirportInfoDocument } from "./AirportInfo.mjs";
 import { Aircraft, AircraftDocument } from "./Aircraft.mjs";
@@ -251,6 +251,9 @@ export class FlightPlan {
   @prop({ required: false })
   equipmentSuffix?: string;
 
+  @prop({ required: true, enum: AirportFlow, default: AirportFlow.All })
+  flow!: AirportFlow;
+
   @prop({ required: true })
   departure!: string;
 
@@ -462,42 +465,47 @@ export class FlightPlan {
     return cleanRoute(this.route);
   }
 
-  public get initialAltitude(): string {
-    const sid = this.SIDInformation as DepartureDocument | undefined;
-    const airportInfo = this.departureAirportInfo as AirportInfoDocument | undefined;
-    const equipmentInfo = this.equipmentInfo as AircraftDocument | undefined;
+  // public get initialAltitude(): string {
+  //   const sid = this.SIDInformation as DepartureDocument | undefined;
+  //   const airportInfo = this.departureAirportInfo as AirportInfoDocument | undefined;
+  //   const equipmentInfo = this.equipmentInfo as AircraftDocument | undefined;
 
-    // If there's no SID but there is an airport-wide initial altitude then provide that.
-    if (
-      !sid &&
-      isDocument(airportInfo?.extendedAirportInfo) &&
-      airportInfo?.extendedAirportInfo?.initialAltitude
-    ) {
-      return formatAltitude(airportInfo.extendedAirportInfo.initialAltitude, false);
-    }
+  //   // If there's no SID but there is an airport-wide initial altitude then provide that.
+  //   if (
+  //     !sid &&
+  //     isDocument(airportInfo?.extendedAirportInfo) &&
+  //     airportInfo?.extendedAirportInfo?.initialAltitude
+  //   ) {
+  //     return formatAltitude(airportInfo.extendedAirportInfo.initialAltitude, false);
+  //   }
 
-    if (!sid || !sid.InitialAltitudes || !equipmentInfo || !equipmentInfo.aircraftClass) {
-      return "Unknown";
-    }
+  //   if (!sid || !sid.InitialAltitudes || !equipmentInfo || !equipmentInfo.aircraftClass) {
+  //     return "Unknown";
+  //   }
 
-    // KPDX-KSLE is a special case
-    if (this.departure === "KPDX" && this.arrival === "KSLE") {
-      return formatAltitude(this.cruiseAltitude < 50 ? this.cruiseAltitude : 50, false);
-    }
+  //   // KPDX-KSLE is a special case
+  //   if (this.departure === "KPDX" && this.arrival === "KSLE") {
+  //     return formatAltitude(this.cruiseAltitude < 50 ? this.cruiseAltitude : 50, false);
+  //   }
 
-    try {
-      for (const initialAltitude of sid.InitialAltitudes) {
-        const regex = new RegExp(initialAltitude.AircraftClass);
-        if (regex.test(equipmentInfo.aircraftClass)) {
-          return formatAltitude(initialAltitude.Altitude, false);
-        }
-      }
-    } catch (error) {
-      logger(`Unable to calculate initial altitude: ${error}`);
-    }
+  //   try {
+  //     for (const initialAltitude of sid.InitialAltitudes) {
+  //       const regex = new RegExp(initialAltitude.AircraftClass);
 
-    return "Unknown";
-  }
+  //       // Find the first initial altitude that matches both the aircraft class and airport flow.
+  //       if (
+  //         regex.test(equipmentInfo.aircraftClass) &&
+  //         (initialAltitude.Flow == AirportFlow.All || initialAltitude.Flow === this.flow)
+  //       ) {
+  //         return formatAltitude(initialAltitude.Altitude, false);
+  //       }
+  //     }
+  //   } catch (error) {
+  //     logger(`Unable to calculate initial altitude: ${error}`);
+  //   }
+
+  //   return "Unknown";
+  // }
 }
 
 export const FlightPlanModel = getModelForClass(FlightPlan);

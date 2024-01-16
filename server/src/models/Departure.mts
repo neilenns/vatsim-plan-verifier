@@ -9,9 +9,41 @@ import { find } from "geo-tz";
 import { DateTime } from "luxon";
 import { AirportInfoModel } from "./AirportInfo.mjs";
 
+export enum InitialPhrasingOptions {
+  Unknown = "Unknown",
+  Maintain = "Maintain",
+  ClimbViaSid = "ClimbViaSid",
+  ClimbViaSidExceptMaintain = "ClimbViaSidExceptMaintain",
+  ClimbViaDepartureExceptMaintain = "ClimbViaDepartureExceptMaintain",
+  SeeNote = "SeeNote",
+}
+
+export enum AirportFlow {
+  All = "ALL",
+  North = "NORTH",
+  South = "SOUTH",
+  East = "EAST",
+  West = "WEST",
+}
+
 export class InitialAltitude {
+  @prop({ enum: InitialPhrasingOptions, default: InitialPhrasingOptions.Unknown })
+  InitialPhrasing?: InitialPhrasingOptions;
+
+  @prop({ required: true, enum: AirportFlow, default: AirportFlow.All })
+  Flow!: AirportFlow;
+
   @prop({ required: true })
   Altitude!: number;
+
+  @prop()
+  ExpectInMinutes?: number;
+
+  @prop()
+  ExpectInMiles?: string;
+
+  @prop()
+  ExpectRequired?: boolean;
 
   @prop({ required: true })
   AircraftClass!: string;
@@ -26,15 +58,6 @@ export class DepartureValidity {
 
   @prop({ required: true, type: () => [String] })
   Alternates!: string[];
-}
-
-export enum InitialPhrasingOptions {
-  Unknown = "Unknown",
-  Maintain = "Maintain",
-  ClimbViaSid = "ClimbViaSid",
-  ClimbViaSidExceptMaintain = "ClimbViaSidExceptMaintain",
-  ClimbViaDepartureExceptMaintain = "ClimbViaDepartureExceptMaintain",
-  SeeNote = "SeeNote",
 }
 
 export class IsValidResult {
@@ -63,23 +86,8 @@ export class Departure {
   @prop({ required: true, type: [String] })
   Fixes!: string[];
 
-  @prop({ enum: InitialPhrasingOptions, default: InitialPhrasingOptions.Unknown })
-  InitialPhrasing?: InitialPhrasingOptions;
-
-  @prop({ default: 0 })
-  ExpectTopAltitudeInMinutes!: number;
-
-  @prop({ required: false })
-  ExpectTopAltitudeInMiles?: string;
-
   @prop({ default: false })
   IsRNAV!: boolean;
-
-  @prop()
-  expectInMinutes?: number;
-
-  @prop()
-  expectRequired?: boolean;
 
   @prop({ type: () => [InitialAltitude] })
   InitialAltitudes!: InitialAltitude[];
