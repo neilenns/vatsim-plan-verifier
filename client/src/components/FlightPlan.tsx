@@ -1,8 +1,11 @@
+import { OpenInNew } from "@mui/icons-material";
+import { LoadingButton } from "@mui/lab";
 import { Box, Button, Grid, Link, Stack, Tooltip, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Form, useNavigation } from "react-router-dom";
+import useAppContext from "../context/AppContext";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
-import { useEffect, useState } from "react";
-import FlightPlanTextField from "./FlightPlanTextField";
 import {
   formattedExpectIn,
   formattedInitialAltitude,
@@ -11,12 +14,9 @@ import {
   parseFlightPlan,
   validateFlightPlan,
 } from "../utils/flightPlanParser";
-import { LoadingButton } from "@mui/lab";
-import { Form, useNavigation } from "react-router-dom";
-import { OpenInNew } from "@mui/icons-material";
-import { EquipmentInfoTooltip } from "./EquipmentInfoTooltip";
 import { CallsignTooltip } from "./CallsignTooltip";
-import useAppContext from "../context/AppContext";
+import { EquipmentInfoTooltip } from "./EquipmentInfoTooltip";
+import FlightPlanTextField from "./FlightPlanTextField";
 
 interface FlightPlanProps {
   flightPlan: IFlightPlan;
@@ -193,7 +193,7 @@ const FlightPlan = (props: FlightPlanProps) => {
               name="cruiseAltitude"
               value={flightPlan.cruiseAltitude ?? ""}
               helperText={
-                (flightPlan.initialAltitudeInfo && 
+                flightPlan.initialAltitudeInfo && (
                   <>
                     {formattedInitialAltitude(flightPlan)}
                     <br />
@@ -298,12 +298,7 @@ const FlightPlan = (props: FlightPlanProps) => {
             </Button>
           </Grid>
         </Grid>
-        <input
-          aria-label="hidden flow"
-          hidden
-          name="flow"
-          value={flow}
-        />
+        <input aria-label="hidden flow" hidden name="flow" value={flow} readOnly />
         <input
           aria-label="hidden flight plan remarks"
           hidden
