@@ -10,6 +10,7 @@ interface ATISParams extends ParamsDictionary {
 interface ATISQueryParams extends Query {
   format: string;
   codeOnly: string;
+  padding: string;
 }
 
 const router = express.Router();
@@ -20,7 +21,7 @@ router.get(
   async (req: Request<ATISParams, {}, {}, ATISQueryParams>, res: Response) => {
     const codeOnly = JSON.parse(req.query.codeOnly?.toLowerCase() ?? "false");
     const jsonResponseRequested = req.query.format?.toUpperCase() === "JSON";
-
+    const padding = parseInt(req.query.padding ?? "0");
     const result = await getVatsimAtis(req.params.callsign);
 
     if (result.success) {
@@ -29,7 +30,7 @@ router.get(
       } else if (jsonResponseRequested) {
         res.json(result.data);
       } else {
-        res.send(`${result.data.text}`);
+        res.send(`${result.data.text}${" ".repeat(padding)}`);
       }
       return;
     } else {
