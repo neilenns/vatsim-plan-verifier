@@ -7,13 +7,14 @@ import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
 import { VatsimFlightPlanModel, VatsimFlightStatus } from "../models/VatsimFlightPlan.mjs";
 import { processVatsimATISData } from "./vatsimATIS.mjs";
 import { processVatsimFlightPlanData } from "./vatsimFlightPlans.mjs";
+import { getVatsimTunedTransceivers } from "./vatsimTunedTransceivers.mjs";
 
 const logger = debug("plan-verifier:vatsimService");
 
 let io: SocketIOServer;
 let updateTimer: NodeJS.Timeout | undefined;
 let updateTimerInterval: number;
-let vatsimEndpoints: IVatsimEndpoints | undefined;
+let vatsimEndpoints: IVatsimEndpoints | null;
 
 // Retrieves the published vatsim endpoints for the services. This is used to get
 // the endpoint to retrieve all the current flight plans.
@@ -21,26 +22,19 @@ export async function getVatsimEndpoints() {
   try {
     const endpointUrl = "https://status.vatsim.net/status.json";
 
+    logger("Retrieving VATSIM endpoints...");
+
     const response: AxiosResponse<IVatsimEndpoints> = await axios.get(endpointUrl);
 
     if (response.status === 200) {
-      return {
-        success: true,
-        data: response.data,
-      };
+      return response.data;
     } else {
-      return {
-        success: false,
-        errorType: "UnknownError",
-        error: `Unknown error: ${response.status} ${response.statusText}`,
-      };
+      debug(`Unable to retrieve VATSIM endpoints: ${response.status} ${response.statusText}`);
+      return null;
     }
   } catch (error) {
-    return {
-      success: false,
-      errorType: "UnknownError",
-      error: `Error fetching VATSIM endpoints: ${error}`,
-    };
+    debug(`Unable to retrieve VATSIM endpoints: ${error}`);
+    return null;
   }
 }
 
@@ -58,8 +52,14 @@ export async function startVatsimAutoUpdate(updateInterval: number, ioInstance: 
 
   logger(`Starting vatsim auto-update every ${updateInterval / 1000} seconds`);
 
+  // Only get the VATSIM endpoints if they haven't previously been retrieved.
+  if (!vatsimEndpoints) {
+    vatsimEndpoints = await getVatsimEndpoints();
+  }
+
   updateTimer = setInterval(() => {
-    getVatsimData(io);
+    getVatsimData(vatsimEndpoints, io);
+    getVatsimTunedTransceivers(vatsimEndpoints);
   }, updateInterval);
 }
 
@@ -71,31 +71,16 @@ export function stopVatsimAutoUpdate() {
 // Loads data from vatsim then processes the relevant parts: filed and prefiled flight plans, and
 // ATIS messages.
 // After updating the database publishes the updated flight plan list to all connected clients.
-async function getVatsimData(io: SocketIOServer) {
-  logger("Fetching VATSIM flight plans...");
-
-  if (!vatsimEndpoints) {
-    const endpointsResult = await getVatsimEndpoints();
-    if (!endpointsResult.success) {
-      logger("Unable to retrieve VATSIM endpoints");
-      return {
-        success: false,
-        errorType: "VatsimFailure",
-        error: "Unable to retrieve VATSIM endpoints",
-      };
-    } else {
-      vatsimEndpoints = endpointsResult.data;
-    }
-  }
+async function getVatsimData(endpoints: IVatsimEndpoints | null, io: SocketIOServer) {
+  logger("Fetching VATSIM data...");
 
   const dataEndpoint = vatsimEndpoints?.data.v3[0];
 
   if (!dataEndpoint) {
-    logger("Unable to retrieve VATSIM data endpoint");
     return {
       success: false,
       errorType: "VatsimFailure",
-      error: "Unable to retrieve VATSIM data endpoint",
+      error: `Unable to retrieve VATSIM data, no endpoints available.`,
     };
   }
 

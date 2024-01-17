@@ -7,33 +7,16 @@ import { Transceiver, TunedTransceiversModel } from "../models/VatsimTunedTransc
 
 const logger = debug("plan-verifier:vatsimTransceivers");
 
-let vatsimEndpoints: IVatsimEndpoints | undefined;
-
-export async function getVatsimTunedTransceivers() {
+export async function getVatsimTunedTransceivers(endpoints: IVatsimEndpoints | null) {
   logger("Fetching VATSIM transceivers...");
 
-  if (!vatsimEndpoints) {
-    const endpointsResult = await getVatsimEndpoints();
-    if (!endpointsResult.success) {
-      logger("Unable to retrieve VATSIM endpoints");
-      return {
-        success: false,
-        errorType: "VatsimFailure",
-        error: "Unable to retrieve VATSIM endpoints",
-      };
-    } else {
-      vatsimEndpoints = endpointsResult.data;
-    }
-  }
-
-  const dataEndpoint = vatsimEndpoints?.data.transceivers[0];
+  const dataEndpoint = endpoints?.data.transceivers[0];
 
   if (!dataEndpoint) {
-    logger("Unable to retrieve VATSIM data endpoint");
     return {
       success: false,
       errorType: "VatsimFailure",
-      error: "Unable to retrieve VATSIM data endpoint",
+      error: `Unable to retrieve VATSIM data, no endpoints available.`,
     };
   }
 

@@ -2,7 +2,6 @@ import {
   TunedTransceiversDocument,
   TunedTransceiversModel,
 } from "../models/VatsimTunedTransceivers.mjs";
-import { getVatsimTunedTransceivers } from "../services/vatsimTunedTransceivers.mjs";
 import Result from "../types/result.mjs";
 import debug from "debug";
 
@@ -13,30 +12,16 @@ type VatsimTransceiversResult = Result<
   "CallsignNotFound" | "UnknownError"
 >;
 
-// Track how long it's been since the last time the data was refreshed. This prevents
-// constantly updating the transceiver data when nobody needs the data.
-let lastDataUpdateTime = 0;
-
 export async function getTunedTransceiversForCallsign(
   callsign: string
 ): Promise<VatsimTransceiversResult> {
   try {
-    // Check and see if the data has to be refreshed
-    const currentTime = Date.now();
-    if (currentTime - lastDataUpdateTime >= 15000) {
-      logger(`Tuned transceivers data is out of date. Refreshing...`);
-      await getVatsimTunedTransceivers();
-      lastDataUpdateTime = Date.now();
-    } else {
-      logger(`Using cached transceiver data`);
-    }
+    const transceivers = await TunedTransceiversModel.findOne({ callsign });
 
-    const cachedData = await TunedTransceiversModel.findOne({ callsign });
-
-    if (cachedData) {
+    if (transceivers) {
       return {
         success: true,
-        data: cachedData,
+        data: transceivers,
       };
     } else {
       return {
