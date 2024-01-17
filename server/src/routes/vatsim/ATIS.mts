@@ -15,6 +15,10 @@ interface ATISQueryParams extends Query {
 
 const router = express.Router();
 
+function appendPadding(text: string, padding: number) {
+  return `${text}${" ".repeat(padding)}`;
+}
+
 router.get(
   "/vatsim/atis/:callsign",
   secureQueryMiddleware,
@@ -30,11 +34,17 @@ router.get(
       } else if (jsonResponseRequested) {
         res.json(result.data);
       } else {
-        res.send(`${result.data.text}${" ".repeat(padding)}`);
+        res.send(appendPadding(result.data.text, padding));
       }
       return;
     } else {
-      res.status(500).json({ error: `Failed to get ATIS for ${req.params.callsign}.` });
+      const errorMessage = `No ATIS available for ${req.params.callsign}`;
+
+      if (!jsonResponseRequested || codeOnly) {
+        res.status(500).send(appendPadding(errorMessage, padding));
+      } else {
+        res.status(500).json({ error: errorMessage });
+      }
     }
   }
 );
