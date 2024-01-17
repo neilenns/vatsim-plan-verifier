@@ -1,11 +1,11 @@
+import debug from "debug";
 import { Server } from "http";
 import { Socket, Server as SocketIOServer } from "socket.io";
-import debug from "debug";
+import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import { ENV } from "../env.mjs";
 import { verifySocketApiKey } from "../middleware/apikey.mjs";
-import { getAirportInfo } from "../controllers/airportInfo.mjs";
+import { publishUpdate } from "../services/vatsim.mjs";
 import { ClientToServerEvents, ServerToClientEvents } from "../types/socketEvents.mjs";
-import { publishUpdate } from "../services/vatsimFlightPlans.mjs";
 
 const logger = debug("plan-verifier:sockets");
 
