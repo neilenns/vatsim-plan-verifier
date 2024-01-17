@@ -6,7 +6,12 @@ import pluralize from "pluralize";
 import { Server as SocketIOServer } from "socket.io";
 import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import { ENV } from "../env.mjs";
-import { IVatsimData, IVatsimPilot, IVatsimPrefile } from "../interfaces/IVatsimData.mjs";
+import {
+  IVatsimATIS,
+  IVatsimData,
+  IVatsimPilot,
+  IVatsimPrefile,
+} from "../interfaces/IVatsimData.mjs";
 import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
 import {
   VatsimCommunicationMethod,
@@ -15,6 +20,7 @@ import {
   VatsimFlightStatus,
 } from "../models/VatsimFlightPlan.mjs";
 import { getVatsimEndpoints } from "./vatsim.mjs";
+import { VatsimATISModel } from "../models/VatsimATIS.mjs";
 
 const logger = debug("plan-verifier:vatsimFlightPlans");
 const updateLogger = debug("vatsim:update");
@@ -57,6 +63,18 @@ export function getCommunicationMethod(inputString: string | undefined): VatsimC
   } else {
     return VatsimCommunicationMethod.VOICE;
   }
+}
+
+// Takes an ATIS object from vatsim and converts it to a vatsim model
+export function atisToVatsimModel(atis: IVatsimATIS) {
+  const result = new VatsimATISModel({
+    callsign: atis.callsign,
+    frequency: atis.frequency,
+    code: atis.atis_code,
+    rawText: atis.text_atis,
+  });
+
+  return result;
 }
 
 // Takes a pilot object from vatsim and converts it to a vatsim model
@@ -209,14 +227,35 @@ function updateGroundSpeedAndFlightStatus(
   }
 }
 
+async function processVatsimATISData(vatsimData: IVatsimData) {
+  const incomingATISData = vatsimData.atis.map(atisToVatsimModel);
+
+  logger(`Processing ${incomingATISData.length} incoming VATSIM ATISes`);
+
+  // Delete the old data
+  await VatsimATISModel.deleteMany({});
+
+  // Save the new data
+  await Promise.all(
+    incomingATISData.map(async (data) => {
+      try {
+        await data.save();
+      } catch (error) {
+        // Handle the error here
+        console.error(`Error saving document ${data.callsign}:`, error);
+      }
+    })
+  );
+}
+
 // Takes the massive list of data from vatsim and processes it into the database.
 // Both pilots (a.k.a flight plans) and prefiles are processed.
-async function processVatsimData(flightPlans: IVatsimData) {
+async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
   // Build a list of all the incoming plans, regardless of whether it's a prefile,
   // for use with the rest of the update logic.
   const incomingPlans = [
-    ...flightPlans.pilots.map(pilotToVatsimModel),
-    ...flightPlans.prefiles.map(prefileToVatsimModel),
+    ...vatsimData.pilots.map(pilotToVatsimModel),
+    ...vatsimData.prefiles.map(prefileToVatsimModel),
   ];
   logger(`Processing ${incomingPlans.length} incoming VATSIM flight plans`);
 
@@ -349,7 +388,10 @@ export async function getVatsimFlightPlans(io: SocketIOServer) {
     const response = await axios.get(dataEndpoint);
 
     if (response.status === 200) {
-      await processVatsimData(response.data as IVatsimData);
+      await Promise.all([
+        await processVatsimATISData(response.data as IVatsimData),
+        await processVatsimFlightPlanData(response.data as IVatsimData),
+      ]);
       await publishUpdates(io);
     } else {
       return {
