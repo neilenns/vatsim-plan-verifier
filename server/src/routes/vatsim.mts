@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import {
+  getVatsimAtis,
   getVatsimFlightPlan,
   getVatsimFlightPlans,
   getVatsimPilotStats,
@@ -70,6 +71,27 @@ router.get(
       res.status(404).json({ error: `Flight plans not found for ${req.params.airport}.` });
     } else {
       res.status(500).json({ error: "Failed to get the flight plans." });
+    }
+  }
+);
+
+router.get(
+  "/vatsim/atis/:callsign/:format",
+  secureQueryMiddleware,
+  async (req: Request, res: Response) => {
+    const result = await getVatsimAtis(req.params.callsign);
+
+    const jsonResponseRequested = req.params.format.toUpperCase() === "JSON";
+
+    if (result.success) {
+      if (jsonResponseRequested) {
+        res.json(result.data);
+      } else {
+        res.send(`${result.data.text}`);
+      }
+      return;
+    } else {
+      res.status(500).json({ error: `Failed to get ATIS for ${req.params.callsign}.` });
     }
   }
 );

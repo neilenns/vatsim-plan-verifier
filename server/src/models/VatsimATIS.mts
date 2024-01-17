@@ -1,6 +1,12 @@
-import { prop, getModelForClass, modelOptions, pre, DocumentType } from "@typegoose/typegoose";
+import { DocumentType, getModelForClass, modelOptions, pre, prop } from "@typegoose/typegoose";
 
-@modelOptions({ options: { customName: "vatsimatis" } })
+@modelOptions({
+  options: { customName: "vatsimatis" },
+  schemaOptions: {
+    toJSON: { virtuals: true, aliases: false },
+    toObject: { virtuals: true, aliases: false },
+  },
+})
 @pre<VatsimATIS>("save", function (this: DocumentType<VatsimATIS>) {
   if (this.isModified()) {
     this.revision++;
