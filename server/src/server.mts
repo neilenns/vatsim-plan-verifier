@@ -43,8 +43,13 @@ import navaidRouter from "./routes/navaid.mjs";
 import preferredRoutesRouter from "./routes/preferredRoutes.mjs";
 import quickReferenceRouter from "./routes/quickReference.mjs";
 import userRouter from "./routes/users.mjs";
-import vatsimRouter from "./routes/vatsim.mjs";
 import verifyRouter from "./routes/verify.mjs";
+
+// Vatsim routes
+import vatsimFlightPlansRouter from "./routes/vatsim/flightPlans.mjs";
+import vatsimATISRouter from "./routes/vatsim/ATIS.mjs";
+import vatsimPilotsRouter from "./routes/vatsim/pilots.mjs";
+import vatsimTransceiversRouter from "./routes/vatsim/transceivers.mjs";
 
 export const app = express();
 let server: https.Server | Server;
@@ -127,9 +132,14 @@ export function startServer(port: number): void {
   app.use(preferredRoutesRouter);
   app.use(quickReferenceRouter);
   app.use(userRouter);
-  app.use(vatsimRouter);
   app.use(metarRouter);
   app.use(departureRouter);
+
+  // Vatsim routes
+  app.use(vatsimATISRouter);
+  app.use(vatsimFlightPlansRouter);
+  app.use(vatsimPilotsRouter);
+  app.use(vatsimTransceiversRouter);
 
   // Verifier routes
   app.use(verifyRouter);

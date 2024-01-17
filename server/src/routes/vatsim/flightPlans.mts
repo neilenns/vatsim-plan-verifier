@@ -1,55 +1,10 @@
 import express, { Request, Response } from "express";
-import {
-  getVatsimAtis,
-  getVatsimFlightPlan,
-  getVatsimFlightPlans,
-  getVatsimPilotStats,
-} from "../controllers/vatsim.mjs";
-import { getTunedTransceiversForCallsign } from "../controllers/vatsimTransceivers.mjs";
-import { verifyUser } from "../middleware/permissions.mjs";
-import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
-import { VatsimFlightStatus } from "../models/VatsimFlightPlan.mjs";
+import { getVatsimFlightPlan, getVatsimFlightPlans } from "../../controllers/vatsim.mjs";
+import { verifyUser } from "../../middleware/permissions.mjs";
+import { secureQueryMiddleware } from "../../middleware/secureQueryMiddleware.mjs";
+import { VatsimFlightStatus } from "../../models/VatsimFlightPlan.mjs";
 
 const router = express.Router();
-
-router.get(
-  "/vatsim/transceivers/:callsign",
-  secureQueryMiddleware,
-  async (req: Request, res: Response) => {
-    const result = await getTunedTransceiversForCallsign(req.params.callsign);
-
-    if (result.success) {
-      res.json(result.data);
-      return;
-    }
-
-    if (result.errorType === "CallsignNotFound") {
-      res.status(404).json({ error: `Callsign ${req.params.callsign} not found.` });
-    } else {
-      res.status(500).json({ error: "Failed to get the transceivers." });
-    }
-  }
-);
-
-router.get(
-  "/vatsim/pilots/:cid",
-  verifyUser,
-  secureQueryMiddleware,
-  async (req: Request, res: Response) => {
-    const result = await getVatsimPilotStats(Number(req.params.cid));
-
-    if (result.success) {
-      res.json(result.data);
-      return;
-    }
-
-    if (result.errorType === "PilotNotFound") {
-      res.status(404).json({ error: `Pilot ${req.params.cid} not found.` });
-    } else {
-      res.status(500).json({ error: "Failed to get the pilot stats." });
-    }
-  }
-);
 
 router.get(
   "/vatsim/flightPlans/:airport/:flightRules/:status",
@@ -71,27 +26,6 @@ router.get(
       res.status(404).json({ error: `Flight plans not found for ${req.params.airport}.` });
     } else {
       res.status(500).json({ error: "Failed to get the flight plans." });
-    }
-  }
-);
-
-router.get(
-  "/vatsim/atis/:callsign/:format",
-  secureQueryMiddleware,
-  async (req: Request, res: Response) => {
-    const result = await getVatsimAtis(req.params.callsign);
-
-    const jsonResponseRequested = req.params.format.toUpperCase() === "JSON";
-
-    if (result.success) {
-      if (jsonResponseRequested) {
-        res.json(result.data);
-      } else {
-        res.send(`${result.data.text}`);
-      }
-      return;
-    } else {
-      res.status(500).json({ error: `Failed to get ATIS for ${req.params.callsign}.` });
     }
   }
 );
