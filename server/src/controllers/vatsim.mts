@@ -1,13 +1,14 @@
+import axios, { AxiosResponse } from "axios";
+import debug from "debug";
+import { IVatsimPilotStats } from "../interfaces/IVatsimPilotStats.mjs";
 import { PilotStatsDocument, PilotStatsModel } from "../models/PilotStats.mjs";
+import { VatsimATISDocument, VatsimATISModel } from "../models/VatsimATIS.mjs";
 import {
-  VatsimFlightPlanModel,
   VatsimFlightPlanDocument,
+  VatsimFlightPlanModel,
   VatsimFlightStatus,
 } from "../models/VatsimFlightPlan.mjs";
 import Result from "../types/result.mjs";
-import debug from "debug";
-import axios, { AxiosResponse } from "axios";
-import { IVatsimPilotStats } from "../interfaces/IVatsimPilotStats.mjs";
 
 const logger = debug("plan-verifier:vatsimController");
 
@@ -22,6 +23,8 @@ type VatsimFlightPlansResult = Result<
 >;
 
 type VatsimPilotStatsResult = Result<PilotStatsDocument, "PilotNotFound" | "UnknownError">;
+
+type VatsimATISResult = Result<VatsimATISDocument, "ATISNotFound" | "UnknownError">;
 
 export async function getVatsimPilotStats(cid: number): Promise<VatsimPilotStatsResult> {
   try {
@@ -128,6 +131,30 @@ export async function getVatsimFlightPlan(callsign: string): Promise<VatsimFligh
       success: false,
       errorType: "UnknownError",
       error: `Error fetching flight plan for ${callsign}: ${error}`,
+    };
+  }
+}
+
+export async function getVatsimAtis(callsign: string): Promise<VatsimATISResult> {
+  try {
+    const result = await VatsimATISModel.findOne({ callsign });
+
+    if (result) {
+      return { success: true, data: result };
+    } else {
+      return {
+        success: false,
+        errorType: "ATISNotFound",
+        error: `ATIS for ${callsign} not found.`,
+      };
+    }
+  } catch (error) {
+    logger(`Error fetching ATIS for ${callsign}: ${error}`);
+
+    return {
+      success: false,
+      errorType: "UnknownError",
+      error: `Error fetching ATIS for ${callsign}: ${error}`,
     };
   }
 }
