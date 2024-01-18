@@ -30,7 +30,7 @@ class VatsimATIS {
 
   // Virtual properties
   public get text(): string {
-    return this.rawText.join(" ");
+    return this.rawText?.join(" ") ?? "";
   }
 
   public get Airport(): string {
