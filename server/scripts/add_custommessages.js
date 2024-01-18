@@ -71,11 +71,4 @@ db.custommessages.insertMany([
     message: `> Cleared to {{arrival}} via the SEA8 departure, radar vectors {{initialFix}}, then as filed.  
 > Maintain 7,000 expect {{formattedCruiseAltitude}} 15 nautical miles from the SEATTLE VORTAC.`,
   },
-  {
-    messageTarget: "Departure",
-    targetName: "SEA8",
-    messageId: "SEA8TextSouth",
-    priority: 3,
-    message: `Testing`,
-  },
 ]);
