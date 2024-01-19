@@ -1,5 +1,5 @@
-import { prop, getModelForClass, modelOptions, pre, DocumentType } from "@typegoose/typegoose";
-import { parseStringToNumber, convertFLtoThousands } from "../utils.mjs";
+import { DocumentType, getModelForClass, modelOptions, pre, prop } from "@typegoose/typegoose";
+import { parseStringToNumber } from "../utils.mjs";
 
 export enum VatsimFlightStatus {
   UNKNOWN = "UNKNOWN",
@@ -47,6 +47,9 @@ class VatsimFlightPlan {
 
   @prop({ required: false })
   arrival?: string;
+
+  @prop({ required: false })
+  departureTime?: string;
 
   @prop({ required: false })
   cruiseAltitude?: number;

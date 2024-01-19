@@ -38,6 +38,7 @@ export interface IVatsimPilot {
   longitude: number;
   altitude: number;
   groundspeed: number;
+  depTime: string;
   transponder: string;
   heading: number;
   qnh_i_hg: number;
