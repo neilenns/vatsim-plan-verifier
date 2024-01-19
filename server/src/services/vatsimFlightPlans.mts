@@ -10,9 +10,10 @@ import {
   VatsimFlightPlanModel,
   VatsimFlightStatus,
 } from "../models/VatsimFlightPlan.mjs";
+import { copyPropertyValue } from "../utils/properties.mjs";
 
 const logger = debug("plan-verifier:vatsimFlightPlans");
-const updateLogger = debug("vatsim:update");
+const updateLogger = debug("vatsim:updateFlightPlans");
 
 // List of the properties on a vatsim flight plan that are eligible to
 // be updated when new data is received. departure airport is intentionally
@@ -104,15 +105,6 @@ export function prefileToVatsimModel(prefile: IVatsimPrefile) {
   );
 
   return result;
-}
-
-function copyPropertyValue<T>(source: T, destination: T, property: keyof T) {
-  if (source[property] !== destination[property]) {
-    updateLogger(
-      `Updating ${String(property)} from ${destination[property]} to ${source[property]}`
-    );
-    destination[property] = source[property];
-  }
 }
 
 // When a new flight plan shows up it's not clear what it's initial status is. Knowing it is
@@ -216,6 +208,7 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
   // Find all the callsigns for the current plans in the database to use when figuring out
   // what updates to apply.
   const currentPlans = await VatsimFlightPlanModel.find({});
+  updateLogger(`Current data count: ${currentPlans.length}`);
 
   // Find the new plans that don't currently exist in the database and set their
   // initial state. This method of awaiting mapped arrays is from https://stackoverflow.com/a/59471024/9206264
@@ -223,12 +216,15 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
     setInitialFlightStatus(plan)
   );
   const newPlans = await Promise.all(newPlanPromises);
+  updateLogger(`New data count: ${newPlans.length}`);
 
   // Find the plans in the database that no longer exist on vatsim.
   const deletedPlans = _.differenceBy(currentPlans, incomingPlans, "callsign");
+  updateLogger(`Deleted data count: ${deletedPlans.length}`);
 
   // Find the overlapping plans that need to have updates applied
   const overlappingPlans = _.intersectionBy(incomingPlans, currentPlans, "callsign");
+  updateLogger(`Overlapping data count: ${overlappingPlans.length}`);
 
   // Build out a dictionary of the current plans to improve performance of the update
   const currentPlansDictionary = _.keyBy(currentPlans, "callsign");
@@ -249,7 +245,9 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
       updateGroundSpeedAndFlightStatus(incomingPlan, currentPlan);
     }
     // Update any changed properties
-    updateProperties.forEach((property) => copyPropertyValue(incomingPlan, currentPlan, property));
+    updateProperties.forEach((property) =>
+      copyPropertyValue(incomingPlan, currentPlan, property, updateLogger)
+    );
 
     return currentPlan;
   });
