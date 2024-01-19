@@ -109,6 +109,37 @@ export async function getVatsimFlightPlans(
   }
 }
 
+export async function getVatsimEDCTFlightPlans(
+  departures: string[],
+  arrivals: string[]
+): Promise<VatsimFlightPlansResult> {
+  try {
+    const result = await VatsimFlightPlanModel.find({
+      departure: { $in: departures },
+      arrival: { $in: arrivals },
+      status: VatsimFlightStatus.DEPARTING,
+    });
+
+    if (result) {
+      return { success: true, data: result };
+    } else {
+      return {
+        success: false,
+        errorType: "FlightPlansNotFound",
+        error: `Flight plans on the ground at ${departures} and arriving ${arrivals} not found.`,
+      };
+    }
+  } catch (error) {
+    logger(`Error fetching flight plans for ${departures} ${arrivals}: ${error}`);
+
+    return {
+      success: false,
+      errorType: "UnknownError",
+      error: `Error fetching flight plans for ${departures} ${arrivals}: ${error}`,
+    };
+  }
+}
+
 export async function getVatsimFlightPlan(callsign: string): Promise<VatsimFlightPlanResult> {
   try {
     const result = await VatsimFlightPlanModel.findOne({
