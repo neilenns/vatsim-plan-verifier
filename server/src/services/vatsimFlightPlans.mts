@@ -29,6 +29,7 @@ const updateProperties = [
   "isPrefile",
   "cruiseAltitude",
   "communicationMethod",
+  "deptime",
 ] as (keyof VatsimFlightPlanDocument)[];
 
 function cleanRoute(route: string) {
@@ -60,6 +61,7 @@ export function pilotToVatsimModel(pilot: IVatsimPilot) {
     name: pilot?.name,
     isPrefile: false,
     callsign: pilot?.callsign ?? "",
+    departureTime: pilot?.flight_plan?.deptime ?? "",
     groundspeed: pilot?.groundspeed ?? "",
     rawAircraftType: pilot?.flight_plan?.aircraft_faa ?? "",
     departure: pilot?.flight_plan?.departure ?? "",
@@ -89,6 +91,7 @@ export function prefileToVatsimModel(prefile: IVatsimPrefile) {
     isPrefile: true,
     callsign: prefile?.callsign ?? "",
     groundspeed: 0,
+    departureTime: prefile?.flight_plan?.deptime ?? "",
     rawAircraftType: prefile?.flight_plan?.aircraft_faa ?? "",
     departure: prefile?.flight_plan?.departure ?? "",
     arrival: prefile?.flight_plan?.arrival ?? "",
