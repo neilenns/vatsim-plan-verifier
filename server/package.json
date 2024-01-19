@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/main.mjs",
   "scripts": {
-    "start:dev": "cross-env DEBUG=plan-verifier:* tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node ./dist/main.mjs\"",
+    "start:dev": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node ./dist/main.mjs\"",
     "start": "node ./dist/main.mjs",
     "build": "tsc",
     "test": "cross-env DOTENV_CONFIG_PATH=./test/test.env mocha -r dotenv/config"

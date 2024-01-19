@@ -16,7 +16,7 @@ class VatsimATIS {
   @prop({ required: false, default: 0 })
   revision!: number;
 
-  @prop({ required: false, default: "" })
+  @prop({ required: false, default: "", index: true, unique: true })
   callsign!: string;
 
   @prop({ required: false, default: "" })
