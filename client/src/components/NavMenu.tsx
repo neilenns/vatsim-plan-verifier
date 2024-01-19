@@ -39,11 +39,14 @@ const NavMenu = () => {
           <MenuItem key="admin" onClick={handleClose} component={Link} to="/admin">
             Admin
           </MenuItem>,
-          <Divider key="divider2" />,
           <MenuItem key="verifier" onClick={handleClose} component={Link} to="/verifier">
             Verifier
           </MenuItem>,
+          <Divider key="divider2" />,
         ]}
+          <MenuItem key="edctPlanning" onClick={handleClose} component={Link} to="/edct">
+            EDCT planning
+          </MenuItem>
         <MenuItem
           key="711065"
           onClick={handleClose}
