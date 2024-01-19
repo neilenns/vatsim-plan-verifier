@@ -118,7 +118,7 @@ export async function getVatsimEDCTFlightPlans(
       departure: { $in: departures },
       arrival: { $in: arrivals },
       status: VatsimFlightStatus.DEPARTING,
-    });
+    }).sort({ callsign: 1 });
 
     if (result) {
       return { success: true, data: result };

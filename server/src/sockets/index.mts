@@ -3,7 +3,7 @@ import { Server } from "http";
 import { Socket, Server as SocketIOServer } from "socket.io";
 import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import { ENV } from "../env.mjs";
-import { publishUpdate } from "../services/vatsim.mjs";
+import { publishEDCTupdate, publishFlightPlanUpdate } from "../services/vatsim.mjs";
 import { ClientToServerEvents, ServerToClientEvents } from "../types/socketEvents.mjs";
 
 const logger = debug("plan-verifier:sockets");
@@ -11,6 +11,64 @@ const logger = debug("plan-verifier:sockets");
 // Takes an array of airport codes, converts them all to upper case, and trims whitespace
 function cleanAirportCodes(codes: string[]): string[] {
   return codes.map((code) => code.toUpperCase().trim());
+}
+
+function sortTrimAndJoin(codes: string[]): string {
+  return codes
+    .map((code) => code.toUpperCase().trim())
+    .sort((a, b) => a.localeCompare(b))
+    .join(",");
+}
+
+async function checkForInvalidAirports(codes: string[]): Promise<string[]> {
+  const invalidAirportCodes: string[] = [];
+  await Promise.all(
+    codes.map(async (code) => {
+      const result = await getAirportInfo(code);
+      if (!result.success) {
+        invalidAirportCodes.push(code);
+      }
+    })
+  );
+
+  return invalidAirportCodes;
+}
+
+async function registerForEDCT(
+  io: SocketIOServer,
+  socket: Socket,
+  departureCodes: string[],
+  arrivalCodes: string[]
+) {
+  const insecureCodes = [
+    ...departureCodes.filter((code) => code.startsWith("$")),
+    ...arrivalCodes.filter((code) => code.startsWith("$")),
+  ];
+
+  if (insecureCodes.length > 0) {
+    logger(`Detected potential NoSQL injection in airport code(s) '${insecureCodes.join(", ")}'`);
+    socket.emit("insecureAirportCode", insecureCodes);
+    return;
+  }
+
+  const invalidAirportCodes = [
+    ...(await checkForInvalidAirports(departureCodes)),
+    ...(await checkForInvalidAirports(arrivalCodes)),
+  ];
+
+  if (invalidAirportCodes.length > 0) {
+    logger(`Invalid airport code(s) '${invalidAirportCodes.joinWithWord("and")}'`);
+    socket.emit("airportNotFound", invalidAirportCodes);
+    return;
+  }
+
+  // Join the socket to the room based on a sorted list of trimmed airport codes.
+  // The EDCT: in the front allows this room to be distinguished from the auto-generated
+  // room that every client gets put in to.
+  const roomName = `EDCT:${sortTrimAndJoin(departureCodes)}|${sortTrimAndJoin(arrivalCodes)}`;
+
+  socket.join(roomName);
+  publishEDCTupdate(io, roomName);
 }
 
 async function registerForAirports(io: SocketIOServer, socket: Socket, airportCodes: string[]) {
@@ -24,17 +82,7 @@ async function registerForAirports(io: SocketIOServer, socket: Socket, airportCo
     return;
   }
 
-  // Check to see if the airport code is valid
-  const invalidAirportCodes: string[] = [];
-  await Promise.all(
-    airportCodes.map(async (airportCode) => {
-      const result = await getAirportInfo(airportCode);
-      if (!result.success) {
-        invalidAirportCodes.push(airportCode);
-      }
-    })
-  );
-
+  const invalidAirportCodes = await checkForInvalidAirports(airportCodes);
   if (invalidAirportCodes.length > 0) {
     logger(`Invalid airport code(s) '${invalidAirportCodes.joinWithWord("and")}'`);
     socket.emit("airportNotFound", invalidAirportCodes);
@@ -44,15 +92,12 @@ async function registerForAirports(io: SocketIOServer, socket: Socket, airportCo
   // Join the socket to the room based on a sorted list of trimmed airport codes.
   // The APT: in the front allows this room to be distinguished from the auto-generated
   // room that every client gets put in to.
-  const roomName = `APT:${airportCodes
-    .map((code) => code.toUpperCase().trim())
-    .sort((a, b) => a.localeCompare(b))
-    .join(",")}`;
+  const roomName = `APT:${sortTrimAndJoin(airportCodes)}`;
 
   socket.join(roomName);
 
   // Send the initial data to the client
-  publishUpdate(io, roomName);
+  publishFlightPlanUpdate(io, roomName);
 }
 
 export function setupSockets(server: Server): SocketIOServer {
@@ -80,6 +125,13 @@ export function setupSockets(server: Server): SocketIOServer {
         `Client requested EDCT data for departures: "${departureCodes.join(
           ", "
         )}" and arrivals: "${arrivalCodes.join(", ")}"`
+      );
+
+      await registerForEDCT(
+        io,
+        socket,
+        cleanAirportCodes(departureCodes),
+        cleanAirportCodes(arrivalCodes)
       );
     });
 
