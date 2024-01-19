@@ -8,6 +8,7 @@ import { VatsimFlightPlanModel, VatsimFlightStatus } from "../models/VatsimFligh
 import { processVatsimATISData } from "./vatsimATIS.mjs";
 import { processVatsimFlightPlanData } from "./vatsimFlightPlans.mjs";
 import { getVatsimTunedTransceivers } from "./vatsimTunedTransceivers.mjs";
+import { getVatsimEDCTFlightPlans } from "../controllers/vatsim.mjs";
 
 const logger = debug("plan-verifier:vatsimService");
 
@@ -109,8 +110,7 @@ async function getVatsimData(endpoints: IVatsimEndpoints | null, io: SocketIOSer
   }
 }
 
-// Handles publishing updated data to all connected clients based on the airport code
-// the client is watching.
+// Handles publishing updated data to all connected clients.
 async function publishUpdates(io: SocketIOServer) {
   if (!io) {
     logger(`Unable to publish updates, no sockets defined`);
@@ -119,12 +119,13 @@ async function publishUpdates(io: SocketIOServer) {
 
   // Loop through the rooms and send filtered data to clients in each room
   io.sockets.adapter.rooms.forEach(async (_, roomName) => {
-    await publishUpdate(io, roomName);
+    await publishFlightPlanUpdate(io, roomName);
+    await publishEDCTupdate(io, roomName);
   });
 }
 
-// Publishes updates to a specific room.
-export async function publishUpdate(io: SocketIOServer, roomName: string) {
+// Publishes flight plan updates to a specific room.
+export async function publishFlightPlanUpdate(io: SocketIOServer, roomName: string) {
   if (!io) {
     logger(`Unable to publish updates, no sockets defined`);
     return;
@@ -146,4 +147,30 @@ export async function publishUpdate(io: SocketIOServer, roomName: string) {
     `Emitting ${pluralize("result", flightPlans.length, true)} for ${airportCodes.join(", ")}`
   );
   io.to(roomName).emit("vatsimFlightPlansUpdate", flightPlans);
+}
+
+// Publishes EDCT updates to a specific room.
+export async function publishEDCTupdate(io: SocketIOServer, roomName: string) {
+  if (!io) {
+    logger(`Unable to publish updates, no sockets defined`);
+    return;
+  }
+
+  // Every client gets put in their own auto-generated room. Skip those since there won't be any matching
+  // database values. The assumption is all airport codes will be 3 or 4 characters long.
+  if (!roomName.startsWith("EDCT:")) return;
+
+  // Room names contain the departure and arrival codes the client requested, formatted like this:
+  // EDCT:KPDX,KSEA\KSFO,KPDX
+  // The departure airports are before the | and the arrival airports are after it. Split them apart.
+  const [rawDepartureCodes, rawArrivalCodes] = roomName.replace("EDCT:", "").split("|");
+  const departureCodes = rawDepartureCodes.split(",");
+  const arrivalCodes = rawArrivalCodes.split(",");
+
+  const flightPlans = await getVatsimEDCTFlightPlans(departureCodes, arrivalCodes);
+
+  if (flightPlans.success) {
+    logger(`Emitting ${pluralize("result", flightPlans.data.length, true)} for ${roomName}`);
+    io.to(roomName).emit("vatsimEDCTupdate", flightPlans.data);
+  }
 }

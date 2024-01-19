@@ -8,4 +8,5 @@ export interface ServerToClientEvents {
 
 export interface ClientToServerEvents {
   watchAirports: (airportCodes: string[]) => void;
+  watchEDCT: (departureCodes: string[], arrivalCodes: string[]) => void;
 }
