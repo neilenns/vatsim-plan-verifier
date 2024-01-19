@@ -10,6 +10,7 @@ export interface IVatsimFlightPlan {
   isPrefile?: boolean;
   departure?: string;
   arrival?: string;
+  departureTime?: string;
   importState?: ImportState;
   revision: number;
 }
