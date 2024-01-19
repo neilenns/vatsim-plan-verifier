@@ -3,11 +3,15 @@ import { Server } from "http";
 import { Socket, Server as SocketIOServer } from "socket.io";
 import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import { ENV } from "../env.mjs";
-import { verifySocketApiKey } from "../middleware/apikey.mjs";
 import { publishUpdate } from "../services/vatsim.mjs";
 import { ClientToServerEvents, ServerToClientEvents } from "../types/socketEvents.mjs";
 
 const logger = debug("plan-verifier:sockets");
+
+// Takes an array of airport codes, converts them all to upper case, and trims whitespace
+function cleanAirportCodes(codes: string[]): string[] {
+  return codes.map((code) => code.toUpperCase().trim());
+}
 
 async function registerForAirports(io: SocketIOServer, socket: Socket, airportCodes: string[]) {
   // Check for insecure airport codes first
@@ -59,7 +63,7 @@ export function setupSockets(server: Server): SocketIOServer {
     },
   });
 
-  io.use(verifySocketApiKey);
+  // io.use(verifySocketApiKey);
 
   io.on("connection", (socket) => {
     logger(`Client connected: ${socket.id}. Total connected clients: ${io.sockets.sockets.size}`);
@@ -68,8 +72,15 @@ export function setupSockets(server: Server): SocketIOServer {
     socket.on("watchAirports", async (airportCodes: string[]) => {
       logger(`Client requested data for ${airportCodes.join(", ")}`);
 
-      const cleanCodes = airportCodes.map((airportCode) => airportCode.toUpperCase().trim());
-      await registerForAirports(io, socket, cleanCodes);
+      await registerForAirports(io, socket, cleanAirportCodes(airportCodes));
+    });
+
+    socket.on("watchEDCT", async (departureCodes: string[], arrivalCodes: string[]) => {
+      logger(
+        `Client requested EDCT data for departures: "${departureCodes.join(
+          ", "
+        )}" and arrivals: "${arrivalCodes.join(", ")}"`
+      );
     });
 
     socket.on("disconnect", () => {
