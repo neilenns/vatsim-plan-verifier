@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { AirportInfoModel, AirportInfoDocument } from "../models/AirportInfo.mjs";
 import Result from "../types/result.mjs";
 import { ENV } from "../env.mjs";
@@ -33,6 +33,15 @@ export async function getAirportInfo(airportCode: string): Promise<AirportInfoRe
 
     if (!fetchedAirport) {
       logger(`No airport found for ${airportCode}`);
+
+      // Store an empty airport in the database so Flight Aware won't keep getting called for
+      // airports that don't exist. These will automatically get cleared out of the database every
+      // time the job runs that pulls the entire airport database from AvioWiki.
+      const failedAirport = new AirportInfoModel({
+        airportCode,
+      });
+      await failedAirport.save();
+
       return {
         success: false,
         errorType: "AirportNotFound",
@@ -60,7 +69,14 @@ export async function getAirportInfo(airportCode: string): Promise<AirportInfoRe
   }
 }
 
-async function fetchAirportFromFlightAware(airportCode: string): Promise<AirportInfoDocument> {
+/**
+ * Fetches airport information from the FlightAware aeroapi.
+ * @param airportCode The airport code for the airport to look up
+ * @returns The airport information, or undefined if the airport wasn't found
+ */
+async function fetchAirportFromFlightAware(
+  airportCode: string
+): Promise<AirportInfoDocument | undefined> {
   const headers = {
     Accept: "application/json",
     "x-apikey": ENV.FLIGHTAWARE_API_KEY,
@@ -76,6 +92,13 @@ async function fetchAirportFromFlightAware(airportCode: string): Promise<Airport
       throw new Error(`Error fetching airport information for ${airportCode}: ${response.status}`);
     }
   } catch (error) {
+    // 400 error is thrown if the airport wasn't found, so in that case specifically return undefined
+    // instead of throwing another error.
+    if (error instanceof AxiosError) {
+      if (error.response?.status === 400) {
+        return undefined;
+      }
+    }
     throw new Error(`Error fetching airport information for ${airportCode}: ${error}`);
   }
 }
