@@ -37,8 +37,8 @@ export class AirportInfo {
   @prop({ required: false, alias: "code_iata" })
   iataCode?: string;
 
-  @prop({ required: true })
-  name!: string;
+  @prop({ required: false })
+  name?: string;
 
   @prop({ required: false })
   elevation?: number;
