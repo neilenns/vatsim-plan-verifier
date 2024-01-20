@@ -146,7 +146,10 @@ async function updateFlightStatus(
 
   // The 999 is a magic number to make this test fail if  the return from distanceTo()
   // was undefined.
-  if (distanceFromDepartureAirport ?? 999 < ENV.VATSIM_DISTANCE_CUTOFF_IN_KM) {
+  if (
+    distanceFromDepartureAirport &&
+    distanceFromDepartureAirport < ENV.VATSIM_DISTANCE_CUTOFF_IN_KM
+  ) {
     return VatsimFlightStatus.DEPARTING;
   }
 
@@ -159,7 +162,7 @@ async function updateFlightStatus(
 
   // The 999 is a magic number to make this test fail if  the return from distanceTo()
   // was undefined.
-  if (distanceFromDepartureAirport ?? 999 < ENV.VATSIM_DISTANCE_CUTOFF_IN_KM) {
+  if (distanceFromArrivalAirport ?? 999 < ENV.VATSIM_DISTANCE_CUTOFF_IN_KM) {
     return VatsimFlightStatus.ARRIVED;
   }
 
