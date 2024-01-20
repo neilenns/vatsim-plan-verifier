@@ -8,10 +8,13 @@ import {
   plugin,
   getModelForClass,
   Ref,
+  ReturnModelType,
 } from "@typegoose/typegoose";
 import { ExtendedAirportInfo } from "./ExtendedAirportInfo.mjs";
 import { MagneticDeclinationDocument } from "./MagneticDeclination.mjs";
 import debug from "debug";
+import { getAirportInfo } from "../controllers/airportInfo.mjs";
+import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
 
 const logger = debug("plan-verifier:airportInfoModel");
 
@@ -66,6 +69,45 @@ export class AirportInfo {
     autopopulate: true,
   })
   extendedAirportInfo?: Ref<ExtendedAirportInfo>;
+
+  /**
+   * Calculates the distance from a point to an airport given the point's latitude and longitude and the airport code.
+   * If no data for the airport exists, undefined is returned.
+   * If any of the parameters are undefined, undefined is returned.
+   * @param this The AirportInfoModel
+   * @param airportCode The airport code to calculate the distance to
+   * @param latitude The latitude of the location to calculate the distance to
+   * @param longitude The longitude of the location to calculate the distance to
+   * @returns The distance in kilometers, or undefined if the calculation couldn't be done
+   */
+  public static async distanceTo(
+    this: ReturnModelType<typeof AirportInfo>,
+    airportCode?: string,
+    latitude?: number,
+    longitude?: number
+  ): Promise<number | undefined> {
+    if (!airportCode || !latitude || !longitude) {
+      return undefined;
+    }
+
+    // Look up the airport info, first in the database cache then via web service
+    // if necessary.
+    const airportInfo = await getAirportInfo(airportCode);
+
+    if (!airportInfo.success) {
+      return undefined;
+    }
+
+    if (!airportInfo.data.latitude || !airportInfo.data.longitude) {
+      return undefined;
+    }
+
+    const position = new LatLon(latitude, longitude);
+    const airportPosition = new LatLon(airportInfo.data.latitude, airportInfo.data.longitude);
+    const distanceToAirport = position.distanceTo(airportPosition) / 1000; // Convert to km
+
+    return distanceToAirport;
+  }
 
   // Returns the magnetic declination, using the cached database value if it exists.
   // Otherwise it will contact a web service to get the magnetic declination and
