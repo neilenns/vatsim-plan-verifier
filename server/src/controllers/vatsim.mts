@@ -86,7 +86,7 @@ export async function getVatsimFlightPlans(
     const result = await VatsimFlightPlanModel.find({
       departure,
       flightRules,
-      status,
+      status: { $eq: VatsimFlightStatus.DEPARTING },
     });
 
     if (result) {

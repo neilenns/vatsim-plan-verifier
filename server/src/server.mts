@@ -13,7 +13,7 @@ import { createHttpTerminator, HttpTerminator } from "http-terminator";
 import https from "https";
 import passport from "passport";
 import { ENV } from "./env.mjs";
-import { startVatsimAutoUpdate, stopVatsimAutoUpdate } from "./services/vatsim.mjs";
+import { startVatsimAutoUpdate, stopVatsimDataAutoUpdate } from "./services/vatsim.mjs";
 import { setupSockets } from "./sockets/index.mjs";
 
 // Workaround for lodash being a CommonJS module
@@ -46,8 +46,8 @@ import userRouter from "./routes/users.mjs";
 import verifyRouter from "./routes/verify.mjs";
 
 // Vatsim routes
-import vatsimFlightPlansRouter from "./routes/vatsim/flightPlans.mjs";
 import vatsimATISRouter from "./routes/vatsim/ATIS.mjs";
+import vatsimFlightPlansRouter from "./routes/vatsim/flightPlans.mjs";
 import vatsimPilotsRouter from "./routes/vatsim/pilots.mjs";
 import vatsimTransceiversRouter from "./routes/vatsim/transceivers.mjs";
 
@@ -165,19 +165,16 @@ export function startServer(port: number): void {
   const io = setupSockets(server);
   io.on("connection", (socket) => {
     // Increase the vatsim update interval to the max speed.
-    startVatsimAutoUpdate(ENV.VATSIM_CONNECTIONS_AUTO_UPDATE_INTERVAL_MS, io);
+    startVatsimAutoUpdate(io);
 
     socket.on("disconnect", () => {
-      // If the last client disconnected slow down the vatsim update interval
-      if (io.sockets.sockets.size === 0) {
-        logger(`No more connected clients, slowing down vatsim auto update.`);
-        startVatsimAutoUpdate(ENV.VATSIM_NO_CONNECTIONS_AUTO_UPDATE_INTERVAL_MS, io);
-      }
+      // If the last client disconnected this will slow down the vatsim update interval
+      startVatsimAutoUpdate(io);
     });
   });
 
-  // Start vatsim data auto-update at the slowest speed
-  startVatsimAutoUpdate(ENV.VATSIM_NO_CONNECTIONS_AUTO_UPDATE_INTERVAL_MS, io);
+  // Start vatsim data auto-update
+  startVatsimAutoUpdate(io);
 
   // With the server up and running start watching for SSL file changes.
   startWatching();
@@ -185,7 +182,7 @@ export function startServer(port: number): void {
 
 export async function stopServer() {
   stopWatching();
-  stopVatsimAutoUpdate();
+  stopVatsimDataAutoUpdate();
   if (server) {
     logger("Stopping web server...");
     await httpTerminator.terminate();
