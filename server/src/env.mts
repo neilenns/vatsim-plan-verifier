@@ -20,7 +20,8 @@ const envSchema = z.object({
   VATSIM_NO_CONNECTIONS_AUTO_UPDATE_INTERVAL_MS: z.coerce.number().default(1000 * 60), // 1 minute
   MAGNETIC_DECLINATION_CACHE_EXPIRY: z.coerce.number().default(30 * 24 * 60 * 60 * 1000), // 30 days
   AIRPORT_REFRESH_INTERVAL: z.string().default("every 24 hours"),
-  VATSIM_GROUNDSPEED_CUTOFF: z.coerce.number().default(80),
+  VATSIM_GROUNDSPEED_CUTOFF: z.coerce.number().default(50),
+  VATSIM_DISTANCE_CUTOFF_IN_KM: z.coerce.number().default(5.5),
   // from https://github.com/colinhacks/zod/issues/1630#issuecomment-1623726247
   MONGOOSE_DEBUG: z
     .string()
