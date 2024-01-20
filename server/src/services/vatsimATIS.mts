@@ -1,7 +1,7 @@
 import debug from "debug";
+import _ from "lodash";
 import { IVatsimATIS, IVatsimData } from "../interfaces/IVatsimData.mjs";
 import { VatsimATISDocument, VatsimATISModel } from "../models/VatsimATIS.mjs";
-import _ from "lodash";
 import { copyPropertyValue } from "../utils/properties.mjs";
 
 const logger = debug("plan-verifier:vatsimATIS");
@@ -74,4 +74,6 @@ export async function processVatsimATISData(vatsimData: IVatsimData) {
     // Update the changed data. This has to be done via save() to ensure middleware runs.
     [...updatedData.map(async (data) => await data.save())],
   ]);
+
+  logger(`Done processing ${incomingData.length} incoming VATSIM ATISes`);
 }
