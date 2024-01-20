@@ -2,19 +2,21 @@ import axios, { AxiosResponse } from "axios";
 import debug from "debug";
 import pluralize from "pluralize";
 import { Server as SocketIOServer } from "socket.io";
+import { getVatsimEDCTFlightPlans } from "../controllers/vatsim.mjs";
+import { ENV } from "../env.mjs";
 import { IVatsimData } from "../interfaces/IVatsimData.mjs";
 import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
 import { VatsimFlightPlanModel, VatsimFlightStatus } from "../models/VatsimFlightPlan.mjs";
 import { processVatsimATISData } from "./vatsimATIS.mjs";
 import { processVatsimFlightPlanData } from "./vatsimFlightPlans.mjs";
 import { getVatsimTunedTransceivers } from "./vatsimTunedTransceivers.mjs";
-import { getVatsimEDCTFlightPlans } from "../controllers/vatsim.mjs";
 
 const logger = debug("plan-verifier:vatsimService");
 
 let io: SocketIOServer;
-let updateTimer: NodeJS.Timeout | undefined;
-let updateTimerInterval: number;
+let dataUpdateTimer: NodeJS.Timeout | undefined;
+let transceiverUpdateTimer: NodeJS.Timeout | undefined;
+let dataUpdateTimerInterval: number;
 let vatsimEndpoints: IVatsimEndpoints | null;
 
 // Retrieves the published vatsim endpoints for the services. This is used to get
@@ -39,34 +41,76 @@ export async function getVatsimEndpoints() {
   }
 }
 
-export async function startVatsimAutoUpdate(updateInterval: number, ioInstance: SocketIOServer) {
-  if (updateTimerInterval === updateInterval) {
-    logger(`Vatsim auto-update already running every ${updateInterval / 1000} seconds`);
+function startVatsimTransceiverAutoUpdate(updateInterval: number) {
+  if (transceiverUpdateTimer) {
+    logger(`VATSIM transceiver auto-update is already running`);
     return;
   }
 
-  updateTimerInterval = updateInterval;
-  io = ioInstance;
+  logger(`Starting VATSIM transceiver auto-update every ${updateInterval / 1000} seconds`);
+
+  transceiverUpdateTimer = setInterval(() => {
+    getVatsimTunedTransceivers(vatsimEndpoints);
+  }, updateInterval);
+}
+
+function startVatsimDataAutoUpdate(updateInterval: number) {
+  if (dataUpdateTimerInterval === updateInterval) {
+    logger(`VATSIM auto update already running every ${updateInterval / 1000} seconds`);
+    return;
+  }
+
+  dataUpdateTimerInterval = updateInterval;
 
   // If there's already a timer running and its interval is different kill it off
-  stopVatsimAutoUpdate();
+  stopVatsimDataAutoUpdate();
 
-  logger(`Starting vatsim auto-update every ${updateInterval / 1000} seconds`);
+  logger(`Starting VATSIM data auto update every ${updateInterval / 1000} seconds`);
+
+  dataUpdateTimer = setInterval(() => {
+    getVatsimData(vatsimEndpoints, io);
+  }, updateInterval);
+}
+
+export async function startVatsimAutoUpdate(ioInstance: SocketIOServer) {
+  io = ioInstance;
 
   // Only get the VATSIM endpoints if they haven't previously been retrieved.
   if (!vatsimEndpoints) {
     vatsimEndpoints = await getVatsimEndpoints();
   }
 
-  updateTimer = setInterval(() => {
-    getVatsimData(vatsimEndpoints, io);
-    getVatsimTunedTransceivers(vatsimEndpoints);
-  }, updateInterval);
+  // The speed of the data update depends on whether there are clients connected.
+  let dataUpdateInterval: number;
+  if (io.sockets.sockets.size > 0) {
+    dataUpdateInterval = ENV.VATSIM_CONNECTIONS_AUTO_UPDATE_INTERVAL_MS;
+  } else {
+    dataUpdateInterval = ENV.VATSIM_NO_CONNECTIONS_AUTO_UPDATE_INTERVAL_MS;
+  }
+
+  startVatsimDataAutoUpdate(dataUpdateInterval);
+  startVatsimTransceiverAutoUpdate(ENV.VATSIM_TRANSCEIVER_AUTO_UPDATE_INTERVAL_MS);
 }
 
 export function stopVatsimAutoUpdate() {
-  logger("Stopping vatsim auto-update");
-  if (updateTimer) clearInterval(updateTimer);
+  stopVatsimDataAutoUpdate();
+  stopVatsimTransceiverAutoUpdate();
+}
+
+export function stopVatsimDataAutoUpdate() {
+  if (!dataUpdateTimer) {
+    return;
+  }
+
+  logger("Stopping VATSIM data auto update");
+  if (dataUpdateTimer) clearInterval(dataUpdateTimer);
+  dataUpdateTimer = undefined;
+}
+
+export function stopVatsimTransceiverAutoUpdate() {
+  logger("Stopping VATSIM transceiver auto update");
+  if (transceiverUpdateTimer) clearInterval(transceiverUpdateTimer);
+  transceiverUpdateTimer = undefined;
 }
 
 // Loads data from vatsim then processes the relevant parts: filed and prefiled flight plans, and
