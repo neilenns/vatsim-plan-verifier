@@ -25,7 +25,7 @@ export async function getVatsimEndpoints() {
   try {
     const endpointUrl = "https://status.vatsim.net/status.json";
 
-    logger("Retrieving VATSIM endpoints...");
+    logger("Downloading latest VATSIM endpoints");
 
     const response: AxiosResponse<IVatsimEndpoints> = await axios.get(endpointUrl);
 
@@ -117,7 +117,7 @@ export function stopVatsimTransceiverAutoUpdate() {
 // ATIS messages.
 // After updating the database publishes the updated flight plan list to all connected clients.
 async function getVatsimData(endpoints: IVatsimEndpoints | null, io: SocketIOServer) {
-  logger("Fetching VATSIM data...");
+  logger("Downloading latest VATSIM data");
 
   const dataEndpoint = vatsimEndpoints?.data.v3[0];
 

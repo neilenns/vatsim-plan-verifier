@@ -1,9 +1,9 @@
 import axios from "axios";
 import debug from "debug";
+import _ from "lodash";
 import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
 import { ITunedTransceivers } from "../interfaces/IVatsimTransceiver.mjs";
 import { TunedTransceiversModel } from "../models/VatsimTunedTransceivers.mjs";
-import _ from "lodash";
 import { copyPropertyValue } from "../utils/properties.mjs";
 
 const logger = debug("plan-verifier:vatsimTransceivers");
@@ -12,7 +12,7 @@ const updateLogger = debug("vatsim:updateTransceivers");
 const updateProperties = ["transceivers"] as (keyof ITunedTransceivers)[];
 
 export async function getVatsimTunedTransceivers(endpoints: IVatsimEndpoints | null) {
-  logger("Fetching VATSIM transceivers...");
+  logger("Downloading latest VATSIM transceivers");
 
   const dataEndpoint = endpoints?.data.transceivers[0];
 
@@ -65,7 +65,7 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
 
   const incomingData = clients.map(transceiverToVatsimModel);
 
-  logger(`Updating ${incomingData.length} transceivers...`);
+  logger(`Processing ${incomingData.length} incoming VATSIM transceivers`);
 
   // Find all the transceivers for the current data in the database to use when figuring out
   // what updates to apply.
@@ -112,5 +112,5 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
     [...updatedData.map(async (data) => await data.save())],
   ]);
 
-  logger(`Done updating ${clients.length} transceivers`);
+  logger(`Done processing ${incomingData.length} incoming VATSIM transceivers`);
 }
