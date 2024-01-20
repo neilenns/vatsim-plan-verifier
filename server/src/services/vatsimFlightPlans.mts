@@ -137,7 +137,7 @@ async function updateFlightStatus(
     return VatsimFlightStatus.ENROUTE;
   }
 
-  // Check and see if the plane is within 3nm of the departure airport.
+  // Check and see if the plane is within the required distance of the departure airport.
   const distanceFromDepartureAirport = await AirportInfoModel.distanceTo(
     flightPlan.departure,
     flightPlan.latitude,
@@ -150,7 +150,7 @@ async function updateFlightStatus(
     return VatsimFlightStatus.DEPARTING;
   }
 
-  // Check and see if the plane is within 3nm of the arrival airport.
+  // Check and see if the plane is within the required distance of the arrival airport.
   const distanceFromArrivalAirport = await AirportInfoModel.distanceTo(
     flightPlan.arrival,
     flightPlan.latitude,
