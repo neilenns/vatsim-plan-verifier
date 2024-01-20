@@ -92,6 +92,11 @@ export async function startVatsimAutoUpdate(ioInstance: SocketIOServer) {
   startVatsimTransceiverAutoUpdate(ENV.VATSIM_TRANSCEIVER_AUTO_UPDATE_INTERVAL_MS);
 }
 
+export function stopVatsimAutoUpdate() {
+  stopVatsimDataAutoUpdate();
+  stopVatsimTransceiverAutoUpdate();
+}
+
 export function stopVatsimDataAutoUpdate() {
   if (!dataUpdateTimer) {
     return;

@@ -13,7 +13,7 @@ import { createHttpTerminator, HttpTerminator } from "http-terminator";
 import https from "https";
 import passport from "passport";
 import { ENV } from "./env.mjs";
-import { startVatsimAutoUpdate, stopVatsimDataAutoUpdate } from "./services/vatsim.mjs";
+import { startVatsimAutoUpdate, stopVatsimAutoUpdate } from "./services/vatsim.mjs";
 import { setupSockets } from "./sockets/index.mjs";
 
 // Workaround for lodash being a CommonJS module
@@ -182,7 +182,7 @@ export function startServer(port: number): void {
 
 export async function stopServer() {
   stopWatching();
-  stopVatsimDataAutoUpdate();
+  stopVatsimAutoUpdate();
   if (server) {
     logger("Stopping web server...");
     await httpTerminator.terminate();
