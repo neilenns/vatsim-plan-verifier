@@ -18,6 +18,11 @@ const bree = new Bree({
       timeout: "1 hour",
       interval: ENV.AIRPORT_REFRESH_INTERVAL,
     },
+    {
+      name: "getVatsimEndpoints",
+      timeout: 0,
+      interval: "24 hours",
+    },
   ],
   errorHandler: (error, workerMetadata) => {
     logger(`Error running worker ${workerMetadata.name}: ${error}`);
