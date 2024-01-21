@@ -7,9 +7,6 @@ on:
 
 jobs:
   build:
-    env:
-      NODE_ENV: test
-
     runs-on: ubuntu-latest
     defaults:
       run:
