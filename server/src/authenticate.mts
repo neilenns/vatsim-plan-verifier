@@ -1,4 +1,3 @@
-import passport from "passport";
 import jwt from "jsonwebtoken";
 import { CookieOptions } from "express";
 import { ENV } from "./env.mjs";

@@ -3,7 +3,6 @@ import * as chokidar from "chokidar";
 import compression from "compression";
 import cookieParser from "cookie-parser";
 import cors, { CorsOptions } from "cors";
-import debug from "debug";
 import express from "express";
 import rateLimit from "express-rate-limit";
 import fs from "fs";
@@ -14,6 +13,9 @@ import https from "https";
 import passport from "passport";
 import { ENV } from "./env.mjs";
 import { setupSockets } from "./sockets/index.mjs";
+import mainLogger from "./logger.mjs";
+
+const logger = mainLogger.child({ service: "server" });
 
 // Workaround for lodash being a CommonJS module
 import pkg from "lodash";
@@ -56,19 +58,17 @@ let server: https.Server | Server;
 let httpTerminator: HttpTerminator;
 var watcher: chokidar.FSWatcher;
 
-const logger = debug("plan-verifier:server");
-
 const privateKeyPath = "/certs/privkey.pem";
 const fullChainPath = "/certs/fullchain.pem";
 
 const certFilesExist = fs.existsSync(privateKeyPath) && fs.existsSync(fullChainPath);
 
 function reloadCertificates() {
-  logger("Certificate files changed");
+  logger.info("Certificate files changed");
   if (server instanceof https.Server) {
-    logger("Reloading SSL...");
+    logger.info("Reloading SSL...");
     server.setSecureContext(readCertsSync());
-    logger("SSL reload complete!");
+    logger.info("SSL reload complete!");
   }
 }
 
@@ -148,12 +148,12 @@ export async function startServer(port: number): Promise<void> {
   if (certFilesExist) {
     server = https.createServer(readCertsSync(), app);
     server.listen(port, () => {
-      logger("Certificate files exist, using HTTPS");
-      logger(`Listening on port ${port}`);
+      logger.debug("Certificate files exist, using HTTPS");
+      logger.info(`Listening on port ${port}`);
     });
   } else {
     server = app.listen(port, () => {
-      logger(`Listening on port ${port}`);
+      logger.info(`Listening on port ${port}`);
     });
   }
   // Register a terminator to shut things down gracefully.
@@ -179,7 +179,7 @@ export async function stopServer() {
   await stopBree();
 
   if (server) {
-    logger("Stopping web server...");
+    logger.info("Stopping web server...");
     await httpTerminator.terminate();
   }
 }
@@ -197,7 +197,7 @@ function startWatching() {
       awaitWriteFinish: true,
     })
     .on("change", debouncedReloadSSL);
-  logger(`Watching for changes to ${fullChainPath} and ${privateKeyPath}`);
+  logger.debug(`Watching for changes to ${fullChainPath} and ${privateKeyPath}`);
 }
 
 async function stopWatching() {

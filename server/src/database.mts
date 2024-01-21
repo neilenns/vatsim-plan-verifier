@@ -1,4 +1,3 @@
-import debug from "debug";
 import mongoose from "mongoose";
 import { ENV } from "./env.mjs";
 import "./models/Aircraft.mjs";
@@ -6,8 +5,9 @@ import "./models/AirportInfo.mjs";
 import "./models/Departure.mjs";
 import "./models/FlightAwareRoute.mjs";
 import "./models/FlightPlan.mjs";
+import mainLogger from "./logger.mjs";
 
-const logger = debug("database:mongodb");
+const logger = mainLogger.child({ service: "database" });
 
 export async function connectToDatabase() {
   const url = ENV.MONGO_DB_CONNECTION_STRING;
@@ -18,28 +18,29 @@ export async function connectToDatabase() {
   }
 
   if (!url) {
-    logger(`No database connection string provided for MONGO_DB_CONNECTION_STRING`);
+    logger.error(`No database connection string provided for MONGO_DB_CONNECTION_STRING`);
     return;
   }
 
-  logger(`Connecting to database at ${url}...`);
+  logger.debug(`Connecting to ${url}...`);
   const connect = mongoose.connect(url, {
     dbName: ENV.MONGO_DB_NAME,
   });
 
   await connect
     .then((db) => {
-      logger("Connected to database");
+      logger.debug("Connected");
     })
     .catch((err) => {
       // Auto-reconnect logic from:
       // https://team.goodeggs.com/reconnecting-to-mongodb-when-mongoose-connect-fails-at-startup-83ca8496ca02
-      logger(`Failed to connect to mongo on startup - retrying in 5 secconds:\n${err}`);
+      logger.error(`Failed to connect to mongo on startup - retrying in 5 secconds:\n${err}`);
       setTimeout(connectToDatabase, 5000);
     });
 }
 
 export async function disconnectFromDatabase() {
-  logger("Disconnecting from the database...");
+  logger.debug("Disconnecting...");
   await mongoose.disconnect();
+  logger.debug("Disconnected");
 }

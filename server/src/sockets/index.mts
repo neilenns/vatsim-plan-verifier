@@ -1,4 +1,3 @@
-import debug from "debug";
 import { Server } from "http";
 import { Socket, Server as SocketIOServer } from "socket.io";
 import { setVastimDataUpdateInterval } from "../bree.mjs";
@@ -6,8 +5,7 @@ import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import { ENV } from "../env.mjs";
 import { publishEDCTupdate, publishFlightPlanUpdate } from "../services/vatsim.mjs";
 import { ClientToServerEvents, ServerToClientEvents } from "../types/socketEvents.mjs";
-
-const logger = debug("plan-verifier:sockets");
+import logger from "../logger.mjs";
 
 // Takes an array of airport codes, converts them all to upper case, and trims whitespace
 function cleanAirportCodes(codes: string[]): string[] {
@@ -47,7 +45,9 @@ async function registerForEDCT(
   ];
 
   if (insecureCodes.length > 0) {
-    logger(`Detected potential NoSQL injection in airport code(s) '${insecureCodes.join(", ")}'`);
+    logger.warn(
+      `Detected potential NoSQL injection in airport code(s) '${insecureCodes.join(", ")}'`
+    );
     socket.emit("insecureAirportCode", insecureCodes);
     return;
   }
@@ -58,7 +58,7 @@ async function registerForEDCT(
   ];
 
   if (invalidAirportCodes.length > 0) {
-    logger(`Invalid airport code(s) '${invalidAirportCodes.joinWithWord("and")}'`);
+    logger.warn(`Invalid airport code(s) '${invalidAirportCodes.joinWithWord("and")}'`);
     socket.emit("airportNotFound", invalidAirportCodes);
     return;
   }
@@ -76,7 +76,7 @@ async function registerForAirports(io: SocketIOServer, socket: Socket, airportCo
   // Check for insecure airport codes first
   const insecureAirportCodes = airportCodes.filter((airportCode) => airportCode.startsWith("$"));
   if (insecureAirportCodes.length > 0) {
-    logger(
+    logger.warn(
       `Detected potential NoSQL injection in airport code(s) '${insecureAirportCodes.join(", ")}'`
     );
     socket.emit("insecureAirportCode", insecureAirportCodes);
@@ -85,7 +85,7 @@ async function registerForAirports(io: SocketIOServer, socket: Socket, airportCo
 
   const invalidAirportCodes = await checkForInvalidAirports(airportCodes);
   if (invalidAirportCodes.length > 0) {
-    logger(`Invalid airport code(s) '${invalidAirportCodes.joinWithWord("and")}'`);
+    logger.warn(`Invalid airport code(s) '${invalidAirportCodes.joinWithWord("and")}'`);
     socket.emit("airportNotFound", invalidAirportCodes);
     return;
   }
@@ -112,19 +112,21 @@ export function setupSockets(server: Server): SocketIOServer {
   // io.use(verifySocketApiKey);
 
   io.on("connection", async (socket) => {
-    logger(`Client connected: ${socket.id}. Total connected clients: ${io.sockets.sockets.size}`);
+    logger.info(
+      `Client connected: ${socket.id}. Total connected clients: ${io.sockets.sockets.size}`
+    );
 
     await setVastimDataUpdateInterval(ENV.VATSIM_DATA_AUTO_UPDATE_INTERVAL_CONNECTIONS);
 
     // Listen for the 'setAirport' event from the client
     socket.on("watchAirports", async (airportCodes: string[]) => {
-      logger(`Client requested data for ${airportCodes.join(", ")}`);
+      logger.info(`Client requested data for ${airportCodes.join(", ")}`);
 
       await registerForAirports(io, socket, cleanAirportCodes(airportCodes));
     });
 
     socket.on("watchEDCT", async (departureCodes: string[], arrivalCodes: string[]) => {
-      logger(
+      logger.info(
         `Client requested EDCT data for departures: "${departureCodes.join(
           ", "
         )}" and arrivals: "${arrivalCodes.join(", ")}"`
@@ -139,7 +141,7 @@ export function setupSockets(server: Server): SocketIOServer {
     });
 
     socket.on("disconnect", async () => {
-      logger(
+      logger.info(
         `Client disconnected: ${socket.id}. Total connected clients: ${io.sockets.sockets.size}`
       );
       if (io.sockets.sockets.size === 0) {

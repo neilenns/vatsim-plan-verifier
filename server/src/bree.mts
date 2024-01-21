@@ -1,10 +1,12 @@
 import Bree from "bree";
-import debug from "debug";
 import path from "path";
 import { Server as SocketIOServer } from "socket.io";
 import { fileURLToPath } from "url";
 import { ENV } from "./env.mjs";
 import { publishUpdates } from "./services/vatsim.mjs";
+import mainLogger from "./logger.mjs";
+
+const logger = mainLogger.child({ service: "bree" });
 
 enum JobName {
   GetVatsimData = "getVatsimData",
@@ -12,8 +14,6 @@ enum JobName {
   ImportAirports = "importAirports",
   GetVatsimTransceivers = "getVatsimTransceivers",
 }
-
-const logger = debug("plan-verifier:jobs");
 
 let io: SocketIOServer;
 
@@ -46,14 +46,20 @@ const bree = new Bree({
     },
   ],
   errorHandler: (error, workerMetadata) => {
-    logger(`Error running worker ${workerMetadata.name}: ${error}`);
+    logger.error(`Error running worker ${workerMetadata.name}: ${error}`);
   },
   workerMessageHandler: async ({ name, message }) => {
     if (message === "sendUpdates") {
       await publishUpdates(io);
     }
   },
-});
+})
+  .on("worker created", (name) => {
+    logger.debug(`Worker created: ${name}`);
+  })
+  .on("worker deleted", (name) => {
+    logger.debug(`Worker deleted: ${name}`);
+  });
 
 export async function startBree(ioInstance: SocketIOServer) {
   io = ioInstance;
@@ -79,22 +85,22 @@ async function setUpdateInterval(jobName: JobName, interval: string) {
     const jobIndex = bree.config.jobs.findIndex((j) => j.name === jobName);
 
     if (!jobIndex) {
-      logger(`Unable to find job ${jobName} to set the job interval`);
+      logger.warn(`Unable to find job ${jobName} to set the job interval`);
       return;
     }
 
     const job = bree.config.jobs[jobIndex];
 
     if (job.interval === interval) {
-      logger(`Job ${jobName} is already running on interval ${interval}`);
+      logger.warn(`Job ${jobName} is already running on interval ${interval}`);
       return;
     }
 
     bree.config.jobs[jobIndex] = { ...bree.config.jobs[jobIndex], interval: interval };
     await bree.start(jobName);
 
-    logger(`Updated ${jobName} to run on interval ${interval}`);
+    logger.info(`Updated ${jobName} to run on interval ${interval}`);
   } catch (error) {
-    logger(`Failed to update ${jobName} interval: ${error}`);
+    logger.error(`Failed to update ${jobName} interval: ${error}`);
   }
 }

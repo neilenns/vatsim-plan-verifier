@@ -1,16 +1,15 @@
-import debug from "debug";
 import { ENV } from "./env.mjs";
-
 import * as db from "./database.mjs";
 import * as WebServer from "./server.mjs";
+import mainLogger from "./logger.mjs";
+
+const logger = mainLogger.child({ service: "main" });
 
 // If startup fails restart is reattempted 5 times every 30 seconds.
 const restartAttemptWaitTime = 30 * 1000;
 const maxRestartAttempts = 5;
 let restartAttemptCount = 0;
 let restartTimer: NodeJS.Timeout;
-
-const logger = debug("plan-verifier:main");
 
 async function startup() {
   try {
@@ -22,7 +21,7 @@ async function startup() {
     // restarts.
     restartAttemptCount = 0;
   } catch (err) {
-    logger(`Error starting server: ${err}`);
+    logger.error(`Error starting server: ${err}`);
 
     // Shutdown things that may have spun up successfully.
     await shutdown();
@@ -31,25 +30,25 @@ async function startup() {
 
     // Try starting again in a little bit.
     if (restartAttemptCount < maxRestartAttempts) {
-      logger(
+      logger.info(
         `Startup reattempt ${restartAttemptCount} of ${maxRestartAttempts} in ${
           restartAttemptWaitTime / 1000
         } seconds.`
       );
       restartTimer = setTimeout(startup, restartAttemptWaitTime);
     } else {
-      logger(`Startup failed ${maxRestartAttempts} times. Giving up.`);
+      logger.error(`Startup failed ${maxRestartAttempts} times. Giving up.`);
       return;
     }
   }
 }
 
 async function shutdown() {
-  logger("Shutting down...");
+  logger.debug("Shutting down...");
   clearTimeout(restartTimer);
   await WebServer.stopServer();
   await db.disconnectFromDatabase();
-  logger("Shutdown complete.");
+  logger.debug("Shutdown complete.");
 }
 
 async function handleDeath() {
