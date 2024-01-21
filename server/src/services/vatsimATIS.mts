@@ -70,9 +70,9 @@ export async function processVatsimATISData(vatsimData: IVatsimData) {
       },
     }),
     // Add the new data
-    [...newData.map(async (data) => await data.save())],
+    await Promise.all([...newData.map(async (data) => await data.save())]),
     // Update the changed data. This has to be done via save() to ensure middleware runs.
-    [...updatedData.map(async (data) => await data.save())],
+    await Promise.all([...updatedData.map(async (data) => await data.save())]),
   ]);
 
   logger(`Done processing ${incomingData.length} incoming VATSIM ATISes`);
