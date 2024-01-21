@@ -14,7 +14,7 @@ const envSchema = z.object({
   COOKIE_SECRET: z.string(),
   REFRESH_TOKEN_EXPIRY: z.string().default("60 * 60 * 24 * 30"),
   SESSION_EXPIRY: z.string().default("60 * 15"),
-  LOGTAIL_TOKEN: z.string(),
+  LOGTAIL_TOKEN: z.string().optional(),
   API_RATE_LIMIT_MAX: z.coerce.number().default(100),
   API_RATE_LIMIT_MINUTE_WINDOW: z.coerce.number().default(5),
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
