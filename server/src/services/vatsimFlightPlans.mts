@@ -30,6 +30,7 @@ const updateProperties = [
   "cruiseAltitude",
   "communicationMethod",
   "departureTime",
+  "groundspeed",
 ] as (keyof VatsimFlightPlanDocument)[];
 
 function cleanRoute(route: string) {
@@ -236,7 +237,7 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
     const currentPlan = currentPlansDictionary[incomingPlan.callsign];
 
     // Set the groundspeed. Since it's so noisy it gets its own special update
-    updateGroundSpeed(incomingPlan, currentPlan);
+    // updateGroundSpeed(incomingPlan, currentPlan);
 
     // Update any changed properties
     updateProperties.forEach((property) =>
