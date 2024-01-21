@@ -24,8 +24,13 @@ const bree = new Bree({
       interval: "every 24 hours",
     },
     {
-      name: "getVatsimTransceivers",
+      name: "getVatsimData",
       timeout: "10 seconds", // Delay the initial retrieval to give time for things to spin up.
+      interval: ENV.VATSIM_DATA_AUTO_UPDATE_INTERVAL,
+    },
+    {
+      name: "getVatsimTransceivers",
+      timeout: "60 seconds", // Delay the initial retrieval to give time for things to spin up.
       interval: ENV.VATSIM_TRANSCEIVER_AUTO_UPDATE_INTERVAL,
     },
   ],

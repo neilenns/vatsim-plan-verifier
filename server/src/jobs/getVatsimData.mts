@@ -2,25 +2,25 @@ import debug from "debug";
 import process from "node:process";
 import { connectToDatabase, disconnectFromDatabase } from "../database.mjs";
 import { VatsimEndpointModel } from "../models/VatsimEndpoint.mjs";
-import { getVatsimTunedTransceivers } from "../services/vatsimTunedTransceivers.mjs";
+import { getVatsimData } from "../services/vatsim.mjs";
 
-const logger = debug("jobs:getVatsimTransceivers");
+const logger = debug("jobs:getVatsimData");
 
 // Mongoose has to be set up explicitly here since this is running in an entirely
 // different process from the main app.
 await connectToDatabase();
 
 try {
-  const transceiverEndpoint = await VatsimEndpointModel.findEndpoint("transceivers");
+  const dataEndpoint = await VatsimEndpointModel.findEndpoint("v3");
 
-  if (!transceiverEndpoint) {
-    logger(`No VATSIM transceiver endpoint available`);
+  if (!dataEndpoint) {
+    logger(`No VATSIM data endpoint available`);
     process.exit(0);
   }
 
-  await getVatsimTunedTransceivers(transceiverEndpoint.href);
+  await getVatsimData(dataEndpoint.href);
 } catch (error) {
-  logger(`Unable to retrieve VATSIM transceivers: ${error}`);
+  logger(`Unable to retrieve VATSIM data: ${error}`);
 }
 
 await disconnectFromDatabase();

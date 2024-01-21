@@ -13,7 +13,6 @@ import { createHttpTerminator, HttpTerminator } from "http-terminator";
 import https from "https";
 import passport from "passport";
 import { ENV } from "./env.mjs";
-import { startVatsimAutoUpdate, stopVatsimAutoUpdate } from "./services/vatsim.mjs";
 import { setupSockets } from "./sockets/index.mjs";
 
 // Workaround for lodash being a CommonJS module
@@ -164,17 +163,8 @@ export function startServer(port: number): void {
   // Start the sockets
   const io = setupSockets(server);
   io.on("connection", (socket) => {
-    // Increase the vatsim update interval to the max speed.
-    startVatsimAutoUpdate(io);
-
-    socket.on("disconnect", () => {
-      // If the last client disconnected this will slow down the vatsim update interval
-      startVatsimAutoUpdate(io);
-    });
+    socket.on("disconnect", () => {});
   });
-
-  // Start vatsim data auto-update
-  startVatsimAutoUpdate(io);
 
   // With the server up and running start watching for SSL file changes.
   startWatching();
@@ -182,7 +172,6 @@ export function startServer(port: number): void {
 
 export async function stopServer() {
   stopWatching();
-  stopVatsimAutoUpdate();
   if (server) {
     logger("Stopping web server...");
     await httpTerminator.terminate();
