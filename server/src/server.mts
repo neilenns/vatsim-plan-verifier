@@ -45,6 +45,7 @@ import userRouter from "./routes/users.mjs";
 import verifyRouter from "./routes/verify.mjs";
 
 // Vatsim routes
+import { startBree, stopBree } from "./bree.mjs";
 import vatsimATISRouter from "./routes/vatsim/ATIS.mjs";
 import vatsimFlightPlansRouter from "./routes/vatsim/flightPlans.mjs";
 import vatsimPilotsRouter from "./routes/vatsim/pilots.mjs";
@@ -81,7 +82,7 @@ function readCertsSync() {
   };
 }
 
-export function startServer(port: number): void {
+export async function startServer(port: number): Promise<void> {
   app.use(compression());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
@@ -166,12 +167,17 @@ export function startServer(port: number): void {
     socket.on("disconnect", () => {});
   });
 
+  // Start the jobs
+  await startBree(io);
+
   // With the server up and running start watching for SSL file changes.
   startWatching();
 }
 
 export async function stopServer() {
   stopWatching();
+  await stopBree();
+
   if (server) {
     logger("Stopping web server...");
     await httpTerminator.terminate();

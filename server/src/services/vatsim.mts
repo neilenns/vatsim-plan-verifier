@@ -70,7 +70,7 @@ export async function getVatsimData(endpoint: string) {
 }
 
 // Handles publishing updated data to all connected clients.
-async function publishUpdates(io: SocketIOServer) {
+export async function publishUpdates(io: SocketIOServer) {
   if (!io) {
     logger(`Unable to publish updates, no sockets defined`);
     return;

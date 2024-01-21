@@ -1,8 +1,12 @@
 import Bree from "bree";
 import debug from "debug";
 import path from "path";
+import { Server as SocketIOServer } from "socket.io";
 import { fileURLToPath } from "url";
 import { ENV } from "./env.mjs";
+import { publishUpdates } from "./services/vatsim.mjs";
+
+let io: SocketIOServer;
 
 const logger = debug("plan-verifier:bree");
 
@@ -37,9 +41,19 @@ const bree = new Bree({
   errorHandler: (error, workerMetadata) => {
     logger(`Error running worker ${workerMetadata.name}: ${error}`);
   },
-  workerMessageHandler: ({ name, message }) => {
+  workerMessageHandler: async ({ name, message }) => {
+    if (message === "sendUpdates") {
+      await publishUpdates(io);
+    }
     logger(`Worker ${name} sent message: ${message}`);
   },
 });
 
-export default bree;
+export async function startBree(ioInstance: SocketIOServer) {
+  io = ioInstance;
+  await bree.start();
+}
+
+export async function stopBree() {
+  await bree.stop();
+}

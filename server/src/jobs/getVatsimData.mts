@@ -3,6 +3,7 @@ import process from "node:process";
 import { connectToDatabase, disconnectFromDatabase } from "../database.mjs";
 import { VatsimEndpointModel } from "../models/VatsimEndpoint.mjs";
 import { getVatsimData } from "../services/vatsim.mjs";
+import postMessage from "../utils/postMessage.mjs";
 
 const logger = debug("jobs:getVatsimData");
 
@@ -22,6 +23,8 @@ try {
 } catch (error) {
   logger(`Unable to retrieve VATSIM data: ${error}`);
 }
+
+postMessage("sendUpdates");
 
 await disconnectFromDatabase();
 
