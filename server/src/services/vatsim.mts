@@ -9,7 +9,6 @@ import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
 import { VatsimFlightPlanModel, VatsimFlightStatus } from "../models/VatsimFlightPlan.mjs";
 import { processVatsimATISData } from "./vatsimATIS.mjs";
 import { processVatsimFlightPlanData } from "./vatsimFlightPlans.mjs";
-import { getVatsimTunedTransceivers } from "./vatsimTunedTransceivers.mjs";
 
 const logger = debug("plan-verifier:vatsimService");
 
@@ -39,19 +38,6 @@ export async function getVatsimEndpoints() {
     debug(`Unable to retrieve VATSIM endpoints: ${error}`);
     return null;
   }
-}
-
-function startVatsimTransceiverAutoUpdate(updateInterval: number) {
-  if (transceiverUpdateTimer) {
-    logger(`VATSIM transceiver auto-update is already running`);
-    return;
-  }
-
-  logger(`Starting VATSIM transceiver auto-update every ${updateInterval / 1000} seconds`);
-
-  transceiverUpdateTimer = setInterval(() => {
-    getVatsimTunedTransceivers(vatsimEndpoints);
-  }, updateInterval);
 }
 
 function startVatsimDataAutoUpdate(updateInterval: number) {
@@ -89,12 +75,10 @@ export async function startVatsimAutoUpdate(ioInstance: SocketIOServer) {
   }
 
   startVatsimDataAutoUpdate(dataUpdateInterval);
-  startVatsimTransceiverAutoUpdate(ENV.VATSIM_TRANSCEIVER_AUTO_UPDATE_INTERVAL_MS);
 }
 
 export function stopVatsimAutoUpdate() {
   stopVatsimDataAutoUpdate();
-  stopVatsimTransceiverAutoUpdate();
 }
 
 export function stopVatsimDataAutoUpdate() {
@@ -105,12 +89,6 @@ export function stopVatsimDataAutoUpdate() {
   logger("Stopping VATSIM data auto update");
   if (dataUpdateTimer) clearInterval(dataUpdateTimer);
   dataUpdateTimer = undefined;
-}
-
-export function stopVatsimTransceiverAutoUpdate() {
-  logger("Stopping VATSIM transceiver auto update");
-  if (transceiverUpdateTimer) clearInterval(transceiverUpdateTimer);
-  transceiverUpdateTimer = undefined;
 }
 
 // Loads data from vatsim then processes the relevant parts: filed and prefiled flight plans, and

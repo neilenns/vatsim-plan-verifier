@@ -1,7 +1,6 @@
 import axios from "axios";
 import debug from "debug";
 import _ from "lodash";
-import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
 import { ITunedTransceivers } from "../interfaces/IVatsimTransceiver.mjs";
 import { TunedTransceiversModel } from "../models/VatsimTunedTransceivers.mjs";
 import { copyPropertyValue } from "../utils/properties.mjs";
@@ -11,21 +10,11 @@ const updateLogger = debug("vatsim:updateTransceivers");
 
 const updateProperties = ["transceivers"] as (keyof ITunedTransceivers)[];
 
-export async function getVatsimTunedTransceivers(endpoints: IVatsimEndpoints | null) {
+export async function getVatsimTunedTransceivers(endpoint: string) {
   logger("Downloading latest VATSIM transceivers");
 
-  const dataEndpoint = endpoints?.data.transceivers[0];
-
-  if (!dataEndpoint) {
-    return {
-      success: false,
-      errorType: "VatsimFailure",
-      error: `Unable to retrieve VATSIM data, no endpoints available.`,
-    };
-  }
-
   try {
-    const response = await axios.get(dataEndpoint);
+    const response = await axios.get(endpoint);
 
     if (response.status === 200) {
       await processVatsimTransceivers(response.data as ITunedTransceivers[]);
@@ -107,9 +96,9 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
       },
     }),
     // Add the new data
-    [...newData.map(async (data) => await data.save())],
+    await Promise.all([...newData.map(async (data) => await data.save())]),
     // Update the changed data. This has to be done via save() to ensure middleware runs.
-    [...updatedData.map(async (data) => await data.save())],
+    await Promise.all([...updatedData.map(async (data) => await data.save())]),
   ]);
 
   logger(`Done processing ${incomingData.length} incoming VATSIM transceivers`);

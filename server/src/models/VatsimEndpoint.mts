@@ -27,7 +27,7 @@ class VatsimEndpoint {
    * @returns The VatsimEndpoint for the feed
    */
   public static async findEndpoint(this: ReturnModelType<typeof VatsimEndpoint>, feed: string) {
-    return VatsimEndpointModel.find({ feed });
+    return VatsimEndpointModel.findOne({ feed });
   }
 }
 
