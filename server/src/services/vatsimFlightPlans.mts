@@ -262,9 +262,9 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
       },
     }),
     // Add the new plans
-    [...newPlans.map(async (plan) => await plan.save())],
+    await Promise.all([...newPlans.map(async (plan) => await plan.save())]),
     // Update the changed plans. This has to be done via save() to ensure middleware runs.
-    [...updatedPlans.map(async (plan) => await plan.save())],
+    await Promise.all([...updatedPlans.map(async (plan) => await plan.save())]),
   ]);
 
   logger(`Done processing ${incomingPlans.length} incoming VATSIM flight plans`);
