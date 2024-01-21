@@ -31,6 +31,8 @@ const updateProperties = [
   "communicationMethod",
   "departureTime",
   "groundspeed",
+  "latitude",
+  "longitude",
 ] as (keyof VatsimFlightPlanDocument)[];
 
 function cleanRoute(route: string) {
