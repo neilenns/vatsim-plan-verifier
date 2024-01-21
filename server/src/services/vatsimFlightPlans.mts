@@ -172,30 +172,6 @@ async function updateFlightStatus(
   return VatsimFlightStatus.UNKNOWN;
 }
 
-function updateGroundSpeed(
-  incomingPlan: VatsimFlightPlanDocument,
-  currentPlan: VatsimFlightPlanDocument
-) {
-  // Groundspeed is by far the noisiest property update. Try and quiet some of the updates.
-  if (
-    currentPlan.status === VatsimFlightStatus.ENROUTE &&
-    (incomingPlan.groundspeed ?? 0) < ENV.VATSIM_GROUNDSPEED_CUTOFF
-  ) {
-    updateLogger(
-      `Updating groundspeed from ${currentPlan.groundspeed} to ${incomingPlan.groundspeed}`
-    );
-    currentPlan.groundspeed = incomingPlan.groundspeed;
-  } else if (
-    currentPlan.status === VatsimFlightStatus.DEPARTING &&
-    (incomingPlan.groundspeed ?? 0) > ENV.VATSIM_GROUNDSPEED_CUTOFF
-  ) {
-    updateLogger(
-      `Updating groundspeed from ${currentPlan.groundspeed} to ${incomingPlan.groundspeed}`
-    );
-    currentPlan.groundspeed = incomingPlan.groundspeed;
-  }
-}
-
 // Takes the massive list of data from vatsim and processes it into the database.
 // Both pilots (a.k.a flight plans) and prefiles are processed.
 export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
@@ -237,9 +213,6 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
   // Loop through all the overlapping plans and apply any updated properties.
   const updatedPlansPromises = overlappingPlans.map(async (incomingPlan) => {
     const currentPlan = currentPlansDictionary[incomingPlan.callsign];
-
-    // Set the groundspeed. Since it's so noisy it gets its own special update
-    // updateGroundSpeed(incomingPlan, currentPlan);
 
     // Update any changed properties
     updateProperties.forEach((property) =>
