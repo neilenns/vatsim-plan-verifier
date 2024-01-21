@@ -1,10 +1,10 @@
 import { Types } from "mongoose";
-import { ActiveFlightPlanModel, ActiveFlightPlanDocument } from "../models/ActiveFlightPlan.mjs";
-import Result from "../types/result.mjs";
-import debug from "debug";
+import mainLogger from "../logger.mjs";
+import { ActiveFlightPlanDocument, ActiveFlightPlanModel } from "../models/ActiveFlightPlan.mjs";
 import { VerifierResultStatus } from "../models/VerifierResult.mjs";
+import Result from "../types/result.mjs";
 
-const logger = debug("plan-verifier:activeFlightPlanController");
+const logger = mainLogger.child({ service: "activeFlightPlanController" });
 
 type ActiveFlightPlanResult = Result<
   ActiveFlightPlanDocument[],
@@ -172,7 +172,7 @@ export async function getActiveFlightPlans(controllerId: string): Promise<Active
       };
     }
   } catch (error) {
-    logger(`Error fetching flight plans for controller ${controllerId}: ${error}`);
+    logger.error(`Error fetching flight plans for controller ${controllerId}: ${error}`);
 
     return {
       success: false,
@@ -234,7 +234,7 @@ export async function addActiveFlightPlan(
       };
     }
   } catch (error) {
-    logger(
+    logger.error(
       `Unable to save active flight plan ${flightPlanId}/${callsign} for controller ${controllerId}: ${error}`
     );
 

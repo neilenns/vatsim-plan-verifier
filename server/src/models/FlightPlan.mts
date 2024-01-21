@@ -8,12 +8,12 @@ import {
   pre,
   prop,
 } from "@typegoose/typegoose";
-import debug from "debug";
 import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
 import { Types } from "mongoose";
 import autopopulate from "mongoose-autopopulate";
 import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import { getVatsimPilotStats } from "../controllers/vatsim.mjs";
+import mainLogger from "../logger.mjs";
 import { formatAltitude } from "../utils.mjs";
 import { Aircraft, AircraftDocument } from "./Aircraft.mjs";
 import { Airline } from "./Airline.mjs";
@@ -24,7 +24,7 @@ import { NavaidModel } from "./Navaid.mjs";
 import { PilotStats } from "./PilotStats.mjs";
 import { VatsimCommunicationMethod } from "./VatsimFlightPlan.mjs";
 
-const logger = debug("plan-verifier:flightPlan");
+const logger = mainLogger.child({ service: "flightPlan" });
 
 const RVSMEquipmentSuffixes = ["U", "W", "Z", "L"];
 const RNAVequipmentSuffixes = ["I", "Z", "G", "L"];
@@ -158,7 +158,7 @@ export enum VatsimCommsEnum {
       }
     }
   } catch (error) {
-    logger(`Unable to parse rawAircraftType: ${error}`);
+    logger.error(`Unable to parse rawAircraftType: ${error}`);
   }
 
   next();
@@ -519,7 +519,7 @@ export class FlightPlan {
         this.flow
       );
     } catch (error) {
-      logger(`Unable to calculate initial altitude: ${error}`);
+      logger.error(`Unable to calculate initial altitude: ${error}`);
     }
 
     return null;

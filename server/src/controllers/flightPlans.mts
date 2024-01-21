@@ -1,10 +1,10 @@
-import { FlightPlanModel, FlightPlanDocument, FlightPlan } from "../models/FlightPlan.mjs";
+import mainLogger from "../logger.mjs";
+import { FlightPlan, FlightPlanDocument, FlightPlanModel } from "../models/FlightPlan.mjs";
 import { VatsimFlightPlanModel } from "../models/VatsimFlightPlan.mjs";
 import Result from "../types/result.mjs";
-import debug from "debug";
 import { uppercaseStringProperties } from "../utils/formatting.mjs";
 
-const logger = debug("plan-verifier:flightPlansController");
+const logger = mainLogger.child({ service: "flightPlans" });
 
 export type FlightPlanFailureErrorTypes =
   | "VatsimFlightPlanNotFound"
@@ -25,7 +25,7 @@ export async function putFlightPlan(flightPlanData: FlightPlan): Promise<FlightP
       data: savedFlightPlan,
     };
   } catch (error) {
-    logger(`Unable to save flight plan: ${error}`);
+    logger.error(`Unable to save flight plan: ${error}`);
 
     return {
       success: false,
@@ -52,7 +52,7 @@ export async function getFlightPlan(id: string): Promise<FlightPlanResult> {
       data: flightPlan,
     };
   } catch (error) {
-    logger(`Unable to retrieve flight plan ${id}: ${error}`);
+    logger.error(`Unable to retrieve flight plan ${id}: ${error}`);
     return {
       success: false,
       errorType: "UnknownError",
@@ -89,7 +89,7 @@ export async function importFlightPlan(callsign: string): Promise<FlightPlanResu
 
     return putFlightPlan(flightPlan);
   } catch (error) {
-    logger(`Unable to retrieve flight plan for ${callsign}: ${error}`);
+    logger.error(`Unable to retrieve flight plan for ${callsign}: ${error}`);
     return {
       success: false,
       errorType: "UnknownError",

@@ -1,17 +1,17 @@
 import { isDocument } from "@typegoose/typegoose";
+import mainLogger from "../../logger.mjs";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
+import { GroundRestrictionModel } from "../../models/GroundRestrictions.mjs";
 import {
   VerifierResultDocument,
   VerifierResultModel,
   VerifierResultStatus,
 } from "../../models/VerifierResult.mjs";
 import { VerifierControllerMultiResult } from "../../types/verifierControllerResult.mjs";
-import debug from "debug";
 import applyMustacheValues from "../../utils/mustache.mjs";
-import { GroundRestrictionModel } from "../../models/GroundRestrictions.mjs";
 
 const verifierName = "checkForGroundRestrictions";
-const logger = debug(`plan-verifier:${verifierName}`);
+const logger = mainLogger.child({ service: verifierName });
 
 export default async function checkForGroundRestrictions(
   flightPlan: FlightPlan
@@ -81,7 +81,7 @@ export default async function checkForGroundRestrictions(
       data: results,
     };
   } catch (error) {
-    logger(`Error running checkForGroundRestrictions: ${error}`);
+    logger.error(`Error running checkForGroundRestrictions: ${error}`);
 
     return {
       success: false,

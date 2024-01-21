@@ -1,12 +1,13 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
-import { AirportInfoModel, AirportInfoDocument } from "../models/AirportInfo.mjs";
-import Result from "../types/result.mjs";
-import { ENV } from "../env.mjs";
-import debug from "debug";
-import { IAvioWikiAirport } from "../interfaces/IAvioWikiAirport.mjs";
 import AdmZip from "adm-zip";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { ENV } from "../env.mjs";
+import { IAvioWikiAirport } from "../interfaces/IAvioWikiAirport.mjs";
+import mainLogger from "../logger.mjs";
+import { AirportInfoDocument, AirportInfoModel } from "../models/AirportInfo.mjs";
+import Result from "../types/result.mjs";
 
-const logger = debug("plan-verifier:getAirportInfoController");
+const logger = mainLogger.child({ service: "airportInfo" });
+
 type AirportInfoResult = Result<AirportInfoDocument, "AirportNotFound" | "UnknownError">;
 type FetchAvioWikiAirportsResult = Result<number, "UnknownError">;
 
@@ -32,7 +33,7 @@ export async function getAirportInfo(airportCode: string): Promise<AirportInfoRe
     const fetchedAirport = await fetchAirportFromFlightAware(airportCode);
 
     if (!fetchedAirport) {
-      logger(`No airport found for ${airportCode}`);
+      logger.error(`No airport found for ${airportCode}`);
 
       // Store an empty airport in the database so Flight Aware won't keep getting called for
       // airports that don't exist. These will automatically get cleared out of the database every
@@ -60,7 +61,7 @@ export async function getAirportInfo(airportCode: string): Promise<AirportInfoRe
     };
   } catch (err) {
     const error = err as Error;
-    logger(error.message);
+    logger.error(error.message);
     return {
       success: false,
       errorType: "UnknownError",
@@ -107,7 +108,7 @@ async function fetchAirportFromFlightAware(
 // to an array of IAirportInfo for later use.
 export async function fetchAirportsFromAvioWiki(): Promise<FetchAvioWikiAirportsResult> {
   try {
-    logger("Downloading and extracting airport information from AvioWiki");
+    logger.info("Downloading and extracting airport information from AvioWiki");
     const zippedResponse = await axios.get("https://exports.aviowiki.com/free_airports.json.zip", {
       responseType: "arraybuffer",
     });
@@ -122,7 +123,9 @@ export async function fetchAirportsFromAvioWiki(): Promise<FetchAvioWikiAirports
       // Convert all the incoming data to AirportInfoModels
       .map((airport) => {
         if (!airport.icao && !airport.iata && !airport.localIdentifier) {
-          logger(`Skipping ${airport.name} because it has no ICAO, IATA, or local identifier`);
+          logger.debug(
+            `Skipping ${airport.name} because it has no ICAO, IATA, or local identifier`
+          );
         }
 
         return new AirportInfoModel({
@@ -139,7 +142,7 @@ export async function fetchAirportsFromAvioWiki(): Promise<FetchAvioWikiAirports
         });
       });
 
-    logger(`Saving ${models.length} airports to database`);
+    logger.info(`Saving ${models.length} airports to database`);
     // Save the world. Good god.
     await AirportInfoModel.deleteMany({});
     await Promise.all(
@@ -148,11 +151,11 @@ export async function fetchAirportsFromAvioWiki(): Promise<FetchAvioWikiAirports
           await model.save();
         } catch (err) {
           const error = err as Error;
-          logger(`Unable to save ${model.name} to database: ${error.message}. Skipping.`);
+          logger.error(`Unable to save ${model.name} to database: ${error.message}. Skipping.`);
         }
       })
     );
-    logger(`Done!`);
+    logger.info(`Done!`);
 
     return {
       success: true,

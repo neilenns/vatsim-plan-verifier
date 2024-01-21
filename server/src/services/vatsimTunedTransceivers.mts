@@ -1,17 +1,16 @@
 import axios from "axios";
-import debug from "debug";
 import _ from "lodash";
 import { ITunedTransceivers } from "../interfaces/IVatsimTransceiver.mjs";
+import mainLogger from "../logger.mjs";
 import { TunedTransceiversModel } from "../models/VatsimTunedTransceivers.mjs";
 import { copyPropertyValue } from "../utils/properties.mjs";
 
-const logger = debug("plan-verifier:vatsimTransceivers");
-const updateLogger = debug("vatsim:updateTransceivers");
+const logger = mainLogger.child({ service: "vatsimTunedTransceivers" });
 
 const updateProperties = ["transceivers"] as (keyof ITunedTransceivers)[];
 
 export async function getVatsimTunedTransceivers(endpoint: string) {
-  logger("Downloading latest VATSIM transceivers");
+  logger.info("Downloading latest VATSIM transceivers");
 
   try {
     const response = await axios.get(endpoint);
@@ -48,30 +47,30 @@ function transceiverToVatsimModel(transceiver: ITunedTransceivers) {
 
 async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
   if (!clients || clients.length === 0) {
-    logger(`No clients received from VATSIM.`);
+    logger.info(`No clients received from VATSIM.`);
     return;
   }
 
   const incomingData = clients.map(transceiverToVatsimModel);
 
-  logger(`Processing ${incomingData.length} incoming VATSIM transceivers`);
+  logger.info(`Processing ${incomingData.length} incoming VATSIM transceivers`);
 
   // Find all the transceivers for the current data in the database to use when figuring out
   // what updates to apply.
   const currentData = await TunedTransceiversModel.find({});
-  updateLogger(`Current data count: ${currentData.length}`);
+  logger.debug(`Current transceiver count: ${currentData.length}`);
 
   // Find all the new data that doesn't exist in the database.
   const newData = _.differenceBy(incomingData, currentData, "callsign");
-  updateLogger(`New data count: ${newData.length}`);
+  logger.debug(`New transceiver count: ${newData.length}`);
 
   // Find the data in the database that no longer exists on vatsim.
   const deletedData = _.differenceBy(currentData, incomingData, "callsign");
-  updateLogger(`Deleted data count: ${deletedData.length}`);
+  logger.debug(`Deleted transceiver count: ${deletedData.length}`);
 
   // Find the overlapping data that need to have updates applied
   const overlappingData = _.intersectionBy(incomingData, currentData, "callsign");
-  updateLogger(`Overlapping data count: ${overlappingData.length}`);
+  logger.debug(`Overlapping transceiver count: ${overlappingData.length}`);
 
   // Build out a dictionary of the current data to improve performance of the update
   const currentDataDictionary = _.keyBy(currentData, "callsign");
@@ -81,7 +80,7 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
     const currentData = currentDataDictionary[incomingData.callsign];
 
     updateProperties.forEach((property) =>
-      copyPropertyValue(incomingData, currentData, property, updateLogger)
+      copyPropertyValue(incomingData, currentData, property, logger)
     );
 
     return currentData;
@@ -101,5 +100,5 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
     await Promise.all([...updatedData.map(async (data) => await data.save())]),
   ]);
 
-  logger(`Done processing ${incomingData.length} incoming VATSIM transceivers`);
+  logger.info(`Done processing ${incomingData.length} incoming VATSIM transceivers`);
 }

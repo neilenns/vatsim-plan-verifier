@@ -1,7 +1,7 @@
-import debug from "debug";
 import _ from "lodash";
 import { ENV } from "../env.mjs";
 import { IVatsimData, IVatsimPilot, IVatsimPrefile } from "../interfaces/IVatsimData.mjs";
+import mainLogger from "../logger.mjs";
 import { AirportInfoModel } from "../models/AirportInfo.mjs";
 import {
   VatsimCommunicationMethod,
@@ -11,8 +11,7 @@ import {
 } from "../models/VatsimFlightPlan.mjs";
 import { copyPropertyValue } from "../utils/properties.mjs";
 
-const logger = debug("plan-verifier:vatsimFlightPlans");
-const updateLogger = debug("vatsim:updateFlightPlans");
+const logger = mainLogger.child({ service: "vatsimFlightPlans" });
 
 // List of the properties on a vatsim flight plan that are eligible to
 // be updated when new data is received. departure airport is intentionally
@@ -181,12 +180,12 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
     ...vatsimData.pilots.map(pilotToVatsimModel),
     ...vatsimData.prefiles.map(prefileToVatsimModel),
   ];
-  logger(`Processing ${incomingPlans.length} incoming VATSIM flight plans`);
+  logger.info(`Processing ${incomingPlans.length} incoming VATSIM flight plans`);
 
   // Find all the callsigns for the current plans in the database to use when figuring out
   // what updates to apply.
   const currentPlans = await VatsimFlightPlanModel.find({});
-  updateLogger(`Current data count: ${currentPlans.length}`);
+  logger.debug(`Current flight plan count: ${currentPlans.length}`);
 
   // Find the new plans that don't currently exist in the database and set their
   // initial state. This method of awaiting mapped arrays is from https://stackoverflow.com/a/59471024/9206264
@@ -197,15 +196,15 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
     }
   );
   const newPlans = await Promise.all(newPlanPromises);
-  updateLogger(`New data count: ${newPlans.length}`);
+  logger.debug(`New flight plan count: ${newPlans.length}`);
 
   // Find the plans in the database that no longer exist on vatsim.
   const deletedPlans = _.differenceBy(currentPlans, incomingPlans, "callsign");
-  updateLogger(`Deleted data count: ${deletedPlans.length}`);
+  logger.debug(`Deleted flight plan count: ${deletedPlans.length}`);
 
   // Find the overlapping plans that need to have updates applied
   const overlappingPlans = _.intersectionBy(incomingPlans, currentPlans, "callsign");
-  updateLogger(`Overlapping data count: ${overlappingPlans.length}`);
+  logger.debug(`Overlapping flight plan count: ${overlappingPlans.length}`);
 
   // Build out a dictionary of the current plans to improve performance of the update
   const currentPlansDictionary = _.keyBy(currentPlans, "callsign");
@@ -216,7 +215,7 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
 
     // Update any changed properties
     updateProperties.forEach((property) =>
-      copyPropertyValue(incomingPlan, currentPlan, property, updateLogger)
+      copyPropertyValue(incomingPlan, currentPlan, property, logger)
     );
 
     // Update the flight status
@@ -240,5 +239,5 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
     await Promise.all([...updatedPlans.map(async (plan) => await plan.save())]),
   ]);
 
-  logger(`Done processing ${incomingPlans.length} incoming VATSIM flight plans`);
+  logger.info(`Done processing ${incomingPlans.length} incoming VATSIM flight plans`);
 }

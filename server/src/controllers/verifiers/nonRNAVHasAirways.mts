@@ -1,10 +1,10 @@
-import debug from "debug";
+import mainLogger from "../../logger.mjs";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 
 const verifierName = "nonRNAVHasAirways";
-const logger = debug(`plan-verifier:${verifierName}`);
+const logger = mainLogger.child({ service: verifierName });
 
 export default async function nonRNAVHasAirways({
   _id,
@@ -52,7 +52,7 @@ export default async function nonRNAVHasAirways({
       data: doc,
     };
   } catch (error) {
-    logger(`Error running verifyNonRNAVHasAirways: ${error}`);
+    logger.error(`Error running verifyNonRNAVHasAirways: ${error}`);
 
     return {
       success: false,

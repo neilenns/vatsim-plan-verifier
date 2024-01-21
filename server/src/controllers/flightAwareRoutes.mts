@@ -1,11 +1,12 @@
 import axios, { AxiosResponse } from "axios";
-import { FlightAwareRouteModel, FlightAwareRouteDocument } from "../models/FlightAwareRoute.mjs";
-import Result from "../types/result.mjs";
 import { ENV } from "../env.mjs";
-import debug from "debug";
+import mainLogger from "../logger.mjs";
+import { FlightAwareRouteDocument, FlightAwareRouteModel } from "../models/FlightAwareRoute.mjs";
 import { FlightPlan } from "../models/FlightPlan.mjs";
+import Result from "../types/result.mjs";
 
-const logger = debug("plan-verifier:flightAwareRoutesController");
+const logger = mainLogger.child({ service: "flightAwareRoutes" });
+
 type FlightAwareRoutesResult = Result<FlightAwareRouteDocument[], "UnknownError">;
 
 interface FlightAwareRoutesResponse {
@@ -26,7 +27,7 @@ export async function getFlightAwareRoutes({
     const routes = await FlightAwareRouteModel.find({ departure, arrival });
 
     if (routes && routes.length > 0) {
-      logger(`Found cached routes for ${departure}-${arrival}`);
+      logger.debug(`Found cached routes for ${departure}-${arrival}`);
 
       return {
         success: true,
@@ -34,7 +35,7 @@ export async function getFlightAwareRoutes({
       };
     }
   } catch (error) {
-    logger(`Error fetching cached routes for ${departure}-${arrival}: ${error}`);
+    logger.error(`Error fetching cached routes for ${departure}-${arrival}: ${error}`);
   }
 
   // create a new FlightAwareRoutesResponse object and initialize the routes to an empty array
@@ -46,7 +47,7 @@ export async function getFlightAwareRoutes({
     fetchedRoutes = await fetchFlightRoutes(departure, arrival);
 
     if (fetchedRoutes.routes.length === 0) {
-      logger(`No routes found for ${departure}-${arrival}`);
+      logger.debug(`No routes found for ${departure}-${arrival}`);
     }
 
     await Promise.all(
@@ -62,7 +63,7 @@ export async function getFlightAwareRoutes({
     );
   } catch (err) {
     const error = err as Error;
-    logger(error.message);
+    logger.error(error.message);
     return {
       success: false,
       errorType: "UnknownError",

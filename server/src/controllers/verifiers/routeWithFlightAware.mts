@@ -1,12 +1,12 @@
+import pluralize from "pluralize";
+import mainLogger from "../../logger.mjs";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import { getFlightAwareRoutes } from "../flightAwareRoutes.mjs";
-import pluralize from "pluralize";
-import debug from "debug";
 
 const verifierName = "routeWithFlightAware";
-const logger = debug(`plan-verifier:${verifierName}`);
+const logger = mainLogger.child({ service: verifierName });
 
 export default async function routeWithFlightAware({
   _id,
@@ -100,7 +100,7 @@ export default async function routeWithFlightAware({
     };
   } catch (err) {
     const error = err as Error;
-    logger(`Error running verifyRouteWithFlightAware: ${error.message}}`);
+    logger.error(`Error running verifyRouteWithFlightAware: ${error.message}}`);
 
     return {
       success: false,

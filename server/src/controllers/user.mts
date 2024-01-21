@@ -1,8 +1,9 @@
+import mainLogger from "../logger.mjs";
 import UserModel, { IUser } from "../models/User.mjs";
 import Result from "../types/result.mjs";
-import debug from "debug";
 
-const logger = debug("plan-verifier:navaidController");
+const logger = mainLogger.child({ service: "user" });
+
 type UsersResult = Result<IUser[], "UnknownError">;
 type UserResult = Result<IUser, "UnknownError">;
 
@@ -20,7 +21,7 @@ export async function getUser(id: string): Promise<UserResult> {
       };
     }
   } catch (error) {
-    logger(`Error fetching user ${id}: ${error}`);
+    logger.error(`Error fetching user ${id}: ${error}`);
 
     return {
       success: false,
@@ -44,7 +45,7 @@ export async function getUsers(): Promise<UsersResult> {
       };
     }
   } catch (error) {
-    logger(`Error fetching users: ${error}`);
+    logger.error(`Error fetching users: ${error}`);
 
     return {
       success: false,
@@ -68,7 +69,7 @@ export async function updateUser(user: IUser): Promise<UserResult> {
       };
     }
   } catch (error) {
-    logger(`Error updating user: ${error}`);
+    logger.error(`Error updating user: ${error}`);
 
     return {
       success: false,

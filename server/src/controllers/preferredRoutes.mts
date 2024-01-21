@@ -1,8 +1,8 @@
+import mainLogger from "../logger.mjs";
 import { PreferredRouteDocument, PreferredRouteModel } from "../models/PreferredRoute.mjs";
 import Result from "../types/result.mjs";
-import debug from "debug";
 
-const logger = debug("plan-verifier:preferredRoutesController");
+const logger = mainLogger.child({ service: "preferredRoutes" });
 
 export type PreferredRoutesFailureTypes = "NoPreferredRoutesFound" | "UnknownError";
 export type PreferredRoutesResult = Result<PreferredRouteDocument[], PreferredRoutesFailureTypes>;
@@ -30,7 +30,7 @@ export async function getPreferredRoutes(
       data: preferredRoutes,
     };
   } catch (error) {
-    logger(`Unable to retrieve preferred routes for ${departure} to ${arrival}: ${error}`);
+    logger.error(`Unable to retrieve preferred routes for ${departure} to ${arrival}: ${error}`);
     return {
       success: false,
       errorType: "UnknownError",

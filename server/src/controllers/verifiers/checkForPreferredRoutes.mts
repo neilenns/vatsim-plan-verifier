@@ -1,5 +1,5 @@
 import { isDocument } from "@typegoose/typegoose";
-import debug from "debug";
+import mainLogger from "../../logger.mjs";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { PreferredRouteModel } from "../../models/PreferredRoute.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
@@ -7,7 +7,7 @@ import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import { formatAltitude } from "../../utils.mjs";
 
 const verifierName = "checkForPreferredRoutes";
-const logger = debug(`plan-verifier:${verifierName}`);
+const logger = mainLogger.child({ service: verifierName });
 
 export default async function checkForPreferredRoutes(
   flightPlan: FlightPlan
@@ -110,7 +110,7 @@ export default async function checkForPreferredRoutes(
       data: doc,
     };
   } catch (error) {
-    logger(`Error running checkForPreferredRoutes: ${error}`);
+    logger.error(`Error running checkForPreferredRoutes: ${error}`);
 
     return {
       success: false,

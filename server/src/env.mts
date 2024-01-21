@@ -2,6 +2,7 @@ import "dotenv/config";
 import z from "zod";
 
 const envSchema = z.object({
+  LOG_LEVEL: z.enum(["error", "warn", "info", "http", "debug", "trace"]).optional(),
   PORT: z.coerce.number().default(4001),
   MONGO_DB_CONNECTION_STRING: z.string(),
   MONGO_DB_NAME: z.string().default("plan-verifier"),

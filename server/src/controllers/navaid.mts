@@ -1,8 +1,9 @@
-import { NavaidModel, NavaidDocument } from "../models/Navaid.mjs";
+import mainLogger from "../logger.mjs";
+import { NavaidDocument, NavaidModel } from "../models/Navaid.mjs";
 import Result from "../types/result.mjs";
-import debug from "debug";
 
-const logger = debug("plan-verifier:navaidController");
+const logger = mainLogger.child({ service: "navaid" });
+
 type NavaidResult = Result<NavaidDocument, "NavaidNotFound" | "UnknownError">;
 
 export async function getNavaidById(id: string): Promise<NavaidResult> {
@@ -19,7 +20,7 @@ export async function getNavaidById(id: string): Promise<NavaidResult> {
       };
     }
   } catch (error) {
-    logger(`Error fetching navaid ${id}: ${error}`);
+    logger.error(`Error fetching navaid ${id}: ${error}`);
 
     return {
       success: false,
@@ -43,7 +44,7 @@ export async function getNavaidByIdent(ident: string): Promise<NavaidResult> {
       };
     }
   } catch (error) {
-    logger(`Error fetching navaid ${ident}: ${error}`);
+    logger.error(`Error fetching navaid ${ident}: ${error}`);
 
     return {
       success: false,

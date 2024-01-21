@@ -6,15 +6,26 @@ import { ENV } from "./env.mjs";
 
 const logtail = new Logtail(ENV.LOGTAIL_TOKEN);
 
+// This way of extending the logger to support a .trace() function
+// comes from https://github.com/winstonjs/winston/issues/1523#issuecomment-436365549
+export interface CustomLevelsLogger extends winston.Logger {
+  trace: winston.LeveledLogMethod;
+}
+
 const levels = {
   error: 0,
   warn: 1,
   info: 2,
   http: 3,
   debug: 4,
+  trace: 5,
 };
 
 const level = () => {
+  if (!ENV.LOG_LEVEL) {
+    return ENV.LOG_LEVEL;
+  }
+
   return ENV.NODE_ENV === "development" ? "debug" : "warn";
 };
 
@@ -44,6 +55,6 @@ const Logger = winston.createLogger({
   level: level(),
   levels,
   transports,
-});
+}) as CustomLevelsLogger;
 
 export default Logger;

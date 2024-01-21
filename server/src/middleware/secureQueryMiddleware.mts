@@ -1,11 +1,13 @@
-import { Request, Response, NextFunction } from "express";
-import debug from "debug";
+import { NextFunction, Request, Response } from "express";
+import mainLogger from "../logger.mjs";
 
-const logger = debug("plan-verifier:secureQueryMiddleware");
+const logger = mainLogger.child({ service: "secureQueryMiddleware" });
 
 function hasInjectionRisk(key: string, value: unknown): boolean {
   if (typeof value === "string" && value.startsWith("$")) {
-    logger(`Detected potential NoSQL injection in query parameter '${key}' with value '${value}'`);
+    logger.warn(
+      `Detected potential NoSQL injection in query parameter '${key}' with value '${value}'`
+    );
     return true;
   }
   return false;

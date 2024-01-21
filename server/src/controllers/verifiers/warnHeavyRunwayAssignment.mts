@@ -1,13 +1,12 @@
+import { isDocument } from "@typegoose/typegoose";
+import mainLogger from "../../logger.mjs";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
-import debug from "debug";
-import _ from "lodash";
 import { joinWithWord } from "../../utils/formatting.mjs";
-import { isDocument } from "@typegoose/typegoose";
 
 const verifierName = "warnHeavyRunwayAssignment";
-const logger = debug(`plan-verifier:${verifierName}`);
+const logger = mainLogger.child({ service: verifierName });
 
 export default async function warnHeavyRunwayAssignment({
   _id,
@@ -65,7 +64,7 @@ export default async function warnHeavyRunwayAssignment({
       data: doc,
     };
   } catch (error) {
-    logger(`Error running ${verifierName}: ${error}`);
+    logger.error(`Error running ${verifierName}: ${error}`);
 
     return {
       success: false,

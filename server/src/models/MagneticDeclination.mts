@@ -1,15 +1,15 @@
 import {
-  prop,
+  DocumentType,
+  ReturnModelType,
+  defaultClasses,
   getModelForClass,
   modelOptions,
-  ReturnModelType,
-  DocumentType,
-  defaultClasses,
+  prop,
 } from "@typegoose/typegoose";
-import debug from "debug";
 import { ENV } from "../env.mjs";
+import mainLogger from "../logger.mjs";
 
-const logger = debug("plan-verifier:magneticDeclinationModel");
+const logger = mainLogger.child({ service: "magneticDeclination" });
 
 @modelOptions({ options: { customName: "magneticdeclination" } })
 class MagneticDeclination extends defaultClasses.TimeStamps {
@@ -34,10 +34,10 @@ class MagneticDeclination extends defaultClasses.TimeStamps {
     const cacheExpiryTime = ENV.MAGNETIC_DECLINATION_CACHE_EXPIRY;
 
     if (timeDifference > cacheExpiryTime) {
-      logger(`Cached magnetic declination for ${this.icao} is expired.`);
+      logger.debug(`Cached magnetic declination for ${this.icao} is expired.`);
       return true;
     } else {
-      logger(`Cached magnetic decliniation for ${this.icao} is still valid.`);
+      logger.debug(`Cached magnetic decliniation for ${this.icao} is still valid.`);
       return false;
     }
   }

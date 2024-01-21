@@ -1,21 +1,15 @@
 import axios, { AxiosResponse } from "axios";
-import debug from "debug";
 import pluralize from "pluralize";
 import { Server as SocketIOServer } from "socket.io";
 import { getVatsimEDCTFlightPlans } from "../controllers/vatsim.mjs";
 import { IVatsimData } from "../interfaces/IVatsimData.mjs";
 import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
+import mainLogger from "../logger.mjs";
 import { VatsimFlightPlanModel, VatsimFlightStatus } from "../models/VatsimFlightPlan.mjs";
 import { processVatsimATISData } from "./vatsimATIS.mjs";
 import { processVatsimFlightPlanData } from "./vatsimFlightPlans.mjs";
 
-const logger = debug("plan-verifier:vatsimService");
-
-let io: SocketIOServer;
-let dataUpdateTimer: NodeJS.Timeout | undefined;
-let transceiverUpdateTimer: NodeJS.Timeout | undefined;
-let dataUpdateTimerInterval: number;
-let vatsimEndpoints: IVatsimEndpoints | null;
+const logger = mainLogger.child({ service: "vatsim" });
 
 // Retrieves the published vatsim endpoints for the services. This is used to get
 // the endpoint to retrieve all the current flight plans.
@@ -23,18 +17,20 @@ export async function getVatsimEndpoints() {
   try {
     const endpointUrl = "https://status.vatsim.net/status.json";
 
-    logger("Downloading latest VATSIM endpoints");
+    logger.info("Downloading latest VATSIM endpoints");
 
     const response: AxiosResponse<IVatsimEndpoints> = await axios.get(endpointUrl);
 
     if (response.status === 200) {
       return response.data;
     } else {
-      debug(`Unable to retrieve VATSIM endpoints: ${response.status} ${response.statusText}`);
+      logger.error(
+        `Unable to retrieve VATSIM endpoints: ${response.status} ${response.statusText}`
+      );
       return null;
     }
   } catch (error) {
-    debug(`Unable to retrieve VATSIM endpoints: ${error}`);
+    logger.error(`Unable to retrieve VATSIM endpoints: ${error}`);
     return null;
   }
 }
@@ -42,7 +38,7 @@ export async function getVatsimEndpoints() {
 // Loads data from vatsim then processes the relevant parts: filed and prefiled flight plans, and
 // ATIS messages.
 export async function getVatsimData(endpoint: string) {
-  logger("Downloading latest VATSIM data");
+  logger.info("Downloading latest VATSIM data");
 
   try {
     const response = await axios.get(endpoint);
@@ -72,7 +68,7 @@ export async function getVatsimData(endpoint: string) {
 // Handles publishing updated data to all connected clients.
 export async function publishUpdates(io: SocketIOServer) {
   if (!io) {
-    logger(`Unable to publish updates, no sockets defined`);
+    logger.warn(`Unable to publish updates, no sockets defined`);
     return;
   }
 
@@ -86,7 +82,7 @@ export async function publishUpdates(io: SocketIOServer) {
 // Publishes flight plan updates to a specific room.
 export async function publishFlightPlanUpdate(io: SocketIOServer, roomName: string) {
   if (!io) {
-    logger(`Unable to publish updates, no sockets defined`);
+    logger.warn(`Unable to publish updates, no sockets defined`);
     return;
   }
 
@@ -102,7 +98,7 @@ export async function publishFlightPlanUpdate(io: SocketIOServer, roomName: stri
     status: { $eq: VatsimFlightStatus.DEPARTING },
   }).sort({ callsign: 1 });
 
-  logger(
+  logger.info(
     `Emitting ${pluralize("result", flightPlans.length, true)} for ${airportCodes.join(", ")}`
   );
   io.to(roomName).emit("vatsimFlightPlansUpdate", flightPlans);
@@ -111,7 +107,7 @@ export async function publishFlightPlanUpdate(io: SocketIOServer, roomName: stri
 // Publishes EDCT updates to a specific room.
 export async function publishEDCTupdate(io: SocketIOServer, roomName: string) {
   if (!io) {
-    logger(`Unable to publish updates, no sockets defined`);
+    logger.warn(`Unable to publish updates, no sockets defined`);
     return;
   }
 
@@ -129,7 +125,7 @@ export async function publishEDCTupdate(io: SocketIOServer, roomName: string) {
   const flightPlans = await getVatsimEDCTFlightPlans(departureCodes, arrivalCodes);
 
   if (flightPlans.success) {
-    logger(`Emitting ${pluralize("result", flightPlans.data.length, true)} for ${roomName}`);
+    logger.info(`Emitting ${pluralize("result", flightPlans.data.length, true)} for ${roomName}`);
     io.to(roomName).emit("vatsimEDCTupdate", flightPlans.data);
   }
 }

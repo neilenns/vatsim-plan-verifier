@@ -1,11 +1,11 @@
 import { isDocument } from "@typegoose/typegoose";
-import debug from "debug";
+import mainLogger from "../../logger.mjs";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 
 const verifierName = "jetsOnlyOnRNAV";
-const logger = debug(`plan-verifier:${verifierName}`);
+const logger = mainLogger.child({ service: verifierName });
 
 export default async function jetsOnlyOnRNAV({
   _id,
@@ -51,7 +51,7 @@ export default async function jetsOnlyOnRNAV({
       data: doc,
     };
   } catch (error) {
-    logger(`Error running jetsOnlyOnRNAV: ${error}`);
+    logger.error(`Error running jetsOnlyOnRNAV: ${error}`);
 
     return {
       success: false,

@@ -1,10 +1,10 @@
-import debug from "debug";
+import mainLogger from "../../logger.mjs";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 
 const verifierName = "nonRVSMIsBelow290";
-const logger = debug(`plan-verifier:${verifierName}`);
+const logger = mainLogger.child({ service: verifierName });
 
 export default async function nonRVSMIsBelow290({
   _id,
@@ -53,7 +53,7 @@ export default async function nonRVSMIsBelow290({
       data: doc,
     };
   } catch (error) {
-    logger(`Error running verifyNonRVSMIsBelow290: ${error}`);
+    logger.error(`Error running verifyNonRVSMIsBelow290: ${error}`);
 
     return {
       success: false,

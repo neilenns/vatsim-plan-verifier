@@ -1,11 +1,11 @@
 import { isDocument } from "@typegoose/typegoose";
+import mainLogger from "../../logger.mjs";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
-import debug from "debug";
 
 const verifierName = "checkEquipmentSuffixAgainstKnown";
-const logger = debug(`plan-verifier:${verifierName}`);
+const logger = mainLogger.child({ service: verifierName });
 
 export default async function checkEquipmentSuffixAgainstKnown({
   _id,
@@ -66,7 +66,7 @@ export default async function checkEquipmentSuffixAgainstKnown({
       data: doc,
     };
   } catch (error) {
-    logger(`Error running ${verifierName}: ${error}`);
+    logger.error(`Error running ${verifierName}: ${error}`);
 
     return {
       success: false,

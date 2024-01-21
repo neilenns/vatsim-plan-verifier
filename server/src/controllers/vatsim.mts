@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
-import debug from "debug";
 import { IVatsimPilotStats } from "../interfaces/IVatsimPilotStats.mjs";
+import mainLogger from "../logger.mjs";
 import { PilotStatsDocument, PilotStatsModel } from "../models/PilotStats.mjs";
 import { VatsimATISDocument, VatsimATISModel } from "../models/VatsimATIS.mjs";
 import {
@@ -10,7 +10,7 @@ import {
 } from "../models/VatsimFlightPlan.mjs";
 import Result from "../types/result.mjs";
 
-const logger = debug("plan-verifier:vatsimController");
+const logger = mainLogger.child({ service: "vatsim" });
 
 type VatsimFlightPlanResult = Result<
   VatsimFlightPlanDocument,
@@ -50,7 +50,7 @@ export async function getVatsimPilotStats(cid: number): Promise<VatsimPilotStats
       data: doc,
     };
   } catch (error) {
-    logger(`Error fetching pilot stats for ${cid}: ${error}`);
+    logger.error(`Error fetching pilot stats for ${cid}: ${error}`);
     return {
       success: false,
       errorType: "UnknownError",
@@ -99,7 +99,7 @@ export async function getVatsimFlightPlans(
       };
     }
   } catch (error) {
-    logger(`Error fetching flight plans for ${departure}: ${error}`);
+    logger.error(`Error fetching flight plans for ${departure}: ${error}`);
 
     return {
       success: false,
@@ -130,7 +130,7 @@ export async function getVatsimEDCTFlightPlans(
       };
     }
   } catch (error) {
-    logger(`Error fetching flight plans for ${departures} ${arrivals}: ${error}`);
+    logger.error(`Error fetching flight plans for ${departures} ${arrivals}: ${error}`);
 
     return {
       success: false,
@@ -156,7 +156,7 @@ export async function getVatsimFlightPlan(callsign: string): Promise<VatsimFligh
       };
     }
   } catch (error) {
-    logger(`Error fetching flight plan for ${callsign}: ${error}`);
+    logger.error(`Error fetching flight plan for ${callsign}: ${error}`);
 
     return {
       success: false,
@@ -180,7 +180,7 @@ export async function getVatsimAtis(callsign: string): Promise<VatsimATISResult>
       };
     }
   } catch (error) {
-    logger(`Error fetching ATIS for ${callsign}: ${error}`);
+    logger.error(`Error fetching ATIS for ${callsign}: ${error}`);
 
     return {
       success: false,

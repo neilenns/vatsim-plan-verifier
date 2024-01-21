@@ -15,7 +15,7 @@ try {
   const dataEndpoint = await VatsimEndpointModel.findEndpoint("v3");
 
   if (!dataEndpoint) {
-    logger.error(`No VATSIM data endpoint available`);
+    logger.warn(`No VATSIM data endpoint available`);
     process.exit(0);
   }
 

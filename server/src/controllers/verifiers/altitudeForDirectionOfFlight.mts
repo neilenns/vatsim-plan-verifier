@@ -1,11 +1,11 @@
+import mainLogger from "../../logger.mjs";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import { formatAltitude } from "../../utils.mjs";
-import debug from "debug";
 
 const verifierName = "altitudeForDirectionOfFlight";
-const logger = debug(`plan-verifier:${verifierName}`);
+const logger = mainLogger.child({ service: verifierName });
 
 const eastboundRVSMAltitudes: number[] = [450, 490, 530, 570];
 const westboundRVSMAltiudes: number[] = [430, 470, 510, 550, 590];
@@ -100,7 +100,7 @@ export default async function altitudeForDirectionOfFlight({
       data: doc,
     };
   } catch (error) {
-    logger(`Error running ${verifierName}: ${error}`);
+    logger.error(`Error running ${verifierName}: ${error}`);
 
     return {
       success: false,

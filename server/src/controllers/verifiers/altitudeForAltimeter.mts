@@ -1,11 +1,11 @@
-import debug from "debug";
+import mainLogger from "../../logger.mjs";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import { getMetar } from "../metar.mjs";
 
 const verifierName = "altitudeForAltimeter";
-const logger = debug(`plan-verifier:${verifierName}`);
+const logger = mainLogger.child({ service: verifierName });
 
 export default async function altitudeForAltimeter({
   _id,
@@ -70,7 +70,7 @@ export default async function altitudeForAltimeter({
     }
     await result.data.save();
   } catch (error) {
-    logger(`Error running altitudeForAltiemter: ${error}`);
+    logger.error(`Error running altitudeForAltiemter: ${error}`);
 
     result = {
       success: false,

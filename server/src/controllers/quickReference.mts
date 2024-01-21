@@ -1,8 +1,8 @@
-import { QuickReferenceModel, QuickReferenceDocument } from "../models/QuickReference.mjs";
+import mainLogger from "../logger.mjs";
+import { QuickReferenceDocument, QuickReferenceModel } from "../models/QuickReference.mjs";
 import Result from "../types/result.mjs";
-import debug from "debug";
 
-const logger = debug("plan-verifier:quickReference");
+const logger = mainLogger.child({ service: "quickReference" });
 
 type QuickReferenceList = { key: string; label: string }[];
 
@@ -26,7 +26,7 @@ export async function getQuickReference(key: string): Promise<QuickReferenceResu
       };
     }
   } catch (error) {
-    logger(`Error fetching quick reference ${key}: ${error}`);
+    logger.error(`Error fetching quick reference ${key}: ${error}`);
 
     return {
       success: false,
@@ -52,7 +52,7 @@ export async function getQuickReferenceList(): Promise<QuickReferenceListResult>
       };
     }
   } catch (error) {
-    logger(`Error fetching quick references: ${error}`);
+    logger.error(`Error fetching quick references: ${error}`);
 
     return {
       success: false,

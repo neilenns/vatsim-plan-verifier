@@ -1,22 +1,21 @@
-import { getMagneticDeclination } from "../controllers/magneticDeclination.mjs";
-import autopopulate from "mongoose-autopopulate";
-import { MagneticDeclinationModel } from "./MagneticDeclination.mjs";
 import {
-  modelOptions,
-  prop,
   DocumentType,
-  plugin,
-  getModelForClass,
   Ref,
   ReturnModelType,
+  getModelForClass,
+  modelOptions,
+  plugin,
+  prop,
 } from "@typegoose/typegoose";
-import { ExtendedAirportInfo } from "./ExtendedAirportInfo.mjs";
-import { MagneticDeclinationDocument } from "./MagneticDeclination.mjs";
-import debug from "debug";
-import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
+import autopopulate from "mongoose-autopopulate";
+import { getAirportInfo } from "../controllers/airportInfo.mjs";
+import { getMagneticDeclination } from "../controllers/magneticDeclination.mjs";
+import mainLogger from "../logger.mjs";
+import { ExtendedAirportInfo } from "./ExtendedAirportInfo.mjs";
+import { MagneticDeclinationDocument, MagneticDeclinationModel } from "./MagneticDeclination.mjs";
 
-const logger = debug("plan-verifier:airportInfoModel");
+const logger = mainLogger.child({ service: "airportInfoModel" });
 
 @modelOptions({
   options: { customName: "airportinfo" },
@@ -130,7 +129,7 @@ export class AirportInfo {
 
     // If fetch fails then we will fall back to cached data if it is available.
     if (!result.success) {
-      logger(
+      logger.error(
         `Unable to fetch updated magnetic declination for ${this.airportCode}: ${result.error}`
       );
       return cachedMagneticDeclination?.magneticDeclination ?? null;
@@ -138,7 +137,7 @@ export class AirportInfo {
 
     // If no data was returned fall back to the cached data if it is available.
     if (!result.data) {
-      logger(`No magnetic declination data returned for ${this.airportCode}`);
+      logger.info(`No magnetic declination data returned for ${this.airportCode}`);
       return cachedMagneticDeclination?.magneticDeclination ?? null;
     }
 

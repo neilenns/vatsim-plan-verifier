@@ -1,15 +1,15 @@
 import {
-  prop,
-  getModelForClass,
   DocumentType,
+  defaultClasses,
+  getModelForClass,
   modelOptions,
   pre,
-  defaultClasses,
+  prop,
 } from "@typegoose/typegoose";
-import { parseMetar, AltimeterUnit } from "metar-taf-parser";
-import debug from "debug";
+import { AltimeterUnit, parseMetar } from "metar-taf-parser";
+import mainLogger from "../logger.mjs";
 
-const logger = debug("plan-verifier:metarModel");
+const logger = mainLogger.child({ service: "metar" });
 
 // Always strip the + off the route before saving
 @pre<Metar>("save", function (next) {
@@ -49,10 +49,10 @@ export class Metar extends defaultClasses.TimeStamps {
     // const cacheExpiryTime = 1 * 60 * 1000; // 1 minute
 
     if (timeDifference > cacheExpiryTime) {
-      logger(`Cached metar for ${this.icao} is expired.`);
+      logger.debug(`Cached metar for ${this.icao} is expired.`);
       return true;
     } else {
-      logger(`Cached metar for ${this.icao} is still valid.`);
+      logger.debug(`Cached metar for ${this.icao} is still valid.`);
       return false;
     }
   }

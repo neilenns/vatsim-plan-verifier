@@ -1,12 +1,12 @@
 import { isDocument } from "@typegoose/typegoose";
-import debug from "debug";
 import pluralize from "pluralize";
+import mainLogger from "../../logger.mjs";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 
 const verifierName = "warnNewPilot";
-const logger = debug(`plan-verifier:${verifierName}`);
+const logger = mainLogger.child({ service: verifierName });
 
 export default async function warnNewPilot({
   _id,
@@ -48,7 +48,7 @@ export default async function warnNewPilot({
       data: doc,
     };
   } catch (error) {
-    logger(`Error running warnNewPilot: ${error}`);
+    logger.error(`Error running warnNewPilot: ${error}`);
 
     return {
       success: false,

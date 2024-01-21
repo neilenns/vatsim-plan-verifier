@@ -1,11 +1,11 @@
 import { isDocument } from "@typegoose/typegoose";
-import debug from "debug";
+import mainLogger from "../../logger.mjs";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 
 const verifierName = "hasSID";
-const logger = debug(`plan-verifier:${verifierName}`);
+const logger = mainLogger.child({ service: verifierName });
 
 export default async function hasSID({
   _id,
@@ -49,7 +49,7 @@ export default async function hasSID({
       data: doc,
     };
   } catch (error) {
-    logger(`Error running hasSID: ${error}`);
+    logger.error(`Error running hasSID: ${error}`);
 
     return {
       success: false,
