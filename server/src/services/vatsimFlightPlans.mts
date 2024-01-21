@@ -1,9 +1,8 @@
 import debug from "debug";
-import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
 import _ from "lodash";
-import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import { ENV } from "../env.mjs";
 import { IVatsimData, IVatsimPilot, IVatsimPrefile } from "../interfaces/IVatsimData.mjs";
+import { AirportInfoModel } from "../models/AirportInfo.mjs";
 import {
   VatsimCommunicationMethod,
   VatsimFlightPlanDocument,
@@ -11,7 +10,6 @@ import {
   VatsimFlightStatus,
 } from "../models/VatsimFlightPlan.mjs";
 import { copyPropertyValue } from "../utils/properties.mjs";
-import { AirportInfoModel } from "../models/AirportInfo.mjs";
 
 const logger = debug("plan-verifier:vatsimFlightPlans");
 const updateLogger = debug("vatsim:updateFlightPlans");
@@ -31,7 +29,7 @@ const updateProperties = [
   "isPrefile",
   "cruiseAltitude",
   "communicationMethod",
-  "deptime",
+  "departureTime",
 ] as (keyof VatsimFlightPlanDocument)[];
 
 function cleanRoute(route: string) {
