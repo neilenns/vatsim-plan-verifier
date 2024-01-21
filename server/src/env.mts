@@ -16,8 +16,8 @@ const envSchema = z.object({
   API_RATE_LIMIT_MAX: z.coerce.number().default(100),
   API_RATE_LIMIT_MINUTE_WINDOW: z.coerce.number().default(5),
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
-  VATSIM_CONNECTIONS_AUTO_UPDATE_INTERVAL_MS: z.coerce.number().default(1000 * 15), // 15 seconds
-  VATSIM_NO_CONNECTIONS_AUTO_UPDATE_INTERVAL_MS: z.coerce.number().default(1000 * 60), // 1 minute
+  VATSIM_DATA_AUTO_UPDATE_INTERVAL_CONNECTIONS: z.string().default("every 15 seconds"),
+  VATSIM_DATA_AUTO_UPDATE_INTERVAL_NO_CONNECTIONS: z.string().default("every minute"),
   VATSIM_TRANSCEIVER_AUTO_UPDATE_INTERVAL: z.string().default("every 2 minutes"),
   MAGNETIC_DECLINATION_CACHE_EXPIRY: z.coerce.number().default(30 * 24 * 60 * 60 * 1000), // 30 days
   AIRPORT_REFRESH_INTERVAL: z.string().default("every 24 hours"),

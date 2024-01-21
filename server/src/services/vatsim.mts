@@ -3,7 +3,6 @@ import debug from "debug";
 import pluralize from "pluralize";
 import { Server as SocketIOServer } from "socket.io";
 import { getVatsimEDCTFlightPlans } from "../controllers/vatsim.mjs";
-import { ENV } from "../env.mjs";
 import { IVatsimData } from "../interfaces/IVatsimData.mjs";
 import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
 import { VatsimFlightPlanModel, VatsimFlightStatus } from "../models/VatsimFlightPlan.mjs";
@@ -40,82 +39,20 @@ export async function getVatsimEndpoints() {
   }
 }
 
-function startVatsimDataAutoUpdate(updateInterval: number) {
-  if (dataUpdateTimerInterval === updateInterval) {
-    logger(`VATSIM auto update already running every ${updateInterval / 1000} seconds`);
-    return;
-  }
-
-  dataUpdateTimerInterval = updateInterval;
-
-  // If there's already a timer running and its interval is different kill it off
-  stopVatsimDataAutoUpdate();
-
-  logger(`Starting VATSIM data auto update every ${updateInterval / 1000} seconds`);
-
-  dataUpdateTimer = setInterval(() => {
-    getVatsimData(vatsimEndpoints, io);
-  }, updateInterval);
-}
-
-export async function startVatsimAutoUpdate(ioInstance: SocketIOServer) {
-  io = ioInstance;
-
-  // Only get the VATSIM endpoints if they haven't previously been retrieved.
-  if (!vatsimEndpoints) {
-    vatsimEndpoints = await getVatsimEndpoints();
-  }
-
-  // The speed of the data update depends on whether there are clients connected.
-  let dataUpdateInterval: number;
-  if (io.sockets.sockets.size > 0) {
-    dataUpdateInterval = ENV.VATSIM_CONNECTIONS_AUTO_UPDATE_INTERVAL_MS;
-  } else {
-    dataUpdateInterval = ENV.VATSIM_NO_CONNECTIONS_AUTO_UPDATE_INTERVAL_MS;
-  }
-
-  startVatsimDataAutoUpdate(dataUpdateInterval);
-}
-
-export function stopVatsimAutoUpdate() {
-  stopVatsimDataAutoUpdate();
-}
-
-export function stopVatsimDataAutoUpdate() {
-  if (!dataUpdateTimer) {
-    return;
-  }
-
-  logger("Stopping VATSIM data auto update");
-  if (dataUpdateTimer) clearInterval(dataUpdateTimer);
-  dataUpdateTimer = undefined;
-}
-
 // Loads data from vatsim then processes the relevant parts: filed and prefiled flight plans, and
 // ATIS messages.
-// After updating the database publishes the updated flight plan list to all connected clients.
-async function getVatsimData(endpoints: IVatsimEndpoints | null, io: SocketIOServer) {
+export async function getVatsimData(endpoint: string) {
   logger("Downloading latest VATSIM data");
 
-  const dataEndpoint = vatsimEndpoints?.data.v3[0];
-
-  if (!dataEndpoint) {
-    return {
-      success: false,
-      errorType: "VatsimFailure",
-      error: `Unable to retrieve VATSIM data, no endpoints available.`,
-    };
-  }
-
   try {
-    const response = await axios.get(dataEndpoint);
+    const response = await axios.get(endpoint);
 
     if (response.status === 200) {
       await Promise.all([
         await processVatsimATISData(response.data as IVatsimData),
         await processVatsimFlightPlanData(response.data as IVatsimData),
       ]);
-      await publishUpdates(io);
+      // await publishUpdates(io);
     } else {
       return {
         success: false,
@@ -133,7 +70,7 @@ async function getVatsimData(endpoints: IVatsimEndpoints | null, io: SocketIOSer
 }
 
 // Handles publishing updated data to all connected clients.
-async function publishUpdates(io: SocketIOServer) {
+export async function publishUpdates(io: SocketIOServer) {
   if (!io) {
     logger(`Unable to publish updates, no sockets defined`);
     return;

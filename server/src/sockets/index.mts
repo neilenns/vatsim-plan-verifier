@@ -1,6 +1,7 @@
 import debug from "debug";
 import { Server } from "http";
 import { Socket, Server as SocketIOServer } from "socket.io";
+import { setVastimDataUpdateInterval } from "../bree.mjs";
 import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import { ENV } from "../env.mjs";
 import { publishEDCTupdate, publishFlightPlanUpdate } from "../services/vatsim.mjs";
@@ -110,8 +111,10 @@ export function setupSockets(server: Server): SocketIOServer {
 
   // io.use(verifySocketApiKey);
 
-  io.on("connection", (socket) => {
+  io.on("connection", async (socket) => {
     logger(`Client connected: ${socket.id}. Total connected clients: ${io.sockets.sockets.size}`);
+
+    await setVastimDataUpdateInterval(ENV.VATSIM_DATA_AUTO_UPDATE_INTERVAL_CONNECTIONS);
 
     // Listen for the 'setAirport' event from the client
     socket.on("watchAirports", async (airportCodes: string[]) => {
@@ -135,10 +138,13 @@ export function setupSockets(server: Server): SocketIOServer {
       );
     });
 
-    socket.on("disconnect", () => {
+    socket.on("disconnect", async () => {
       logger(
         `Client disconnected: ${socket.id}. Total connected clients: ${io.sockets.sockets.size}`
       );
+      if (io.sockets.sockets.size === 0) {
+        await setVastimDataUpdateInterval(ENV.VATSIM_DATA_AUTO_UPDATE_INTERVAL_NO_CONNECTIONS);
+      }
     });
   });
 

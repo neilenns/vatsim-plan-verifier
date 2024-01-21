@@ -1,13 +1,13 @@
-import mongoose from "mongoose";
-import "./models/Aircraft.mjs";
-import "./models/FlightPlan.mjs";
-import "./models/AirportInfo.mjs";
-import "./models/FlightAwareRoute.mjs";
-import "./models/Departure.mjs";
-import { ENV } from "./env.mjs";
 import debug from "debug";
+import mongoose from "mongoose";
+import { ENV } from "./env.mjs";
+import "./models/Aircraft.mjs";
+import "./models/AirportInfo.mjs";
+import "./models/Departure.mjs";
+import "./models/FlightAwareRoute.mjs";
+import "./models/FlightPlan.mjs";
 
-const logger = debug("plan-verifier:database");
+const logger = debug("database:mongodb");
 
 export async function connectToDatabase() {
   const url = ENV.MONGO_DB_CONNECTION_STRING;

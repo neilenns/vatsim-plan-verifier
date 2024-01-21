@@ -13,7 +13,6 @@ import { createHttpTerminator, HttpTerminator } from "http-terminator";
 import https from "https";
 import passport from "passport";
 import { ENV } from "./env.mjs";
-import { startVatsimAutoUpdate, stopVatsimAutoUpdate } from "./services/vatsim.mjs";
 import { setupSockets } from "./sockets/index.mjs";
 
 // Workaround for lodash being a CommonJS module
@@ -46,6 +45,7 @@ import userRouter from "./routes/users.mjs";
 import verifyRouter from "./routes/verify.mjs";
 
 // Vatsim routes
+import { startBree, stopBree } from "./bree.mjs";
 import vatsimATISRouter from "./routes/vatsim/ATIS.mjs";
 import vatsimFlightPlansRouter from "./routes/vatsim/flightPlans.mjs";
 import vatsimPilotsRouter from "./routes/vatsim/pilots.mjs";
@@ -82,7 +82,7 @@ function readCertsSync() {
   };
 }
 
-export function startServer(port: number): void {
+export async function startServer(port: number): Promise<void> {
   app.use(compression());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
@@ -164,17 +164,11 @@ export function startServer(port: number): void {
   // Start the sockets
   const io = setupSockets(server);
   io.on("connection", (socket) => {
-    // Increase the vatsim update interval to the max speed.
-    startVatsimAutoUpdate(io);
-
-    socket.on("disconnect", () => {
-      // If the last client disconnected this will slow down the vatsim update interval
-      startVatsimAutoUpdate(io);
-    });
+    socket.on("disconnect", () => {});
   });
 
-  // Start vatsim data auto-update
-  startVatsimAutoUpdate(io);
+  // Start the jobs
+  await startBree(io);
 
   // With the server up and running start watching for SSL file changes.
   startWatching();
@@ -182,7 +176,8 @@ export function startServer(port: number): void {
 
 export async function stopServer() {
   stopWatching();
-  stopVatsimAutoUpdate();
+  await stopBree();
+
   if (server) {
     logger("Stopping web server...");
     await httpTerminator.terminate();
