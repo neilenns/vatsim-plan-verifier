@@ -1,15 +1,15 @@
 import Bree from "bree";
+import debug from "debug";
 import path from "path";
-import signale from "signale";
 import { Server as SocketIOServer } from "socket.io";
 import { fileURLToPath } from "url";
 import { ENV } from "./env.mjs";
 import { publishUpdates } from "./services/vatsim.mjs";
 
 const getVatsimDataJobName = "getVatsimData";
+const logger = debug("plan-verifier:jobs");
 
 let io: SocketIOServer;
-const logger = signale.scope("bree");
 
 const bree = new Bree({
   root: path.join(path.dirname(fileURLToPath(import.meta.url)), "jobs"),
@@ -40,13 +40,11 @@ const bree = new Bree({
     },
   ],
   errorHandler: (error, workerMetadata) => {
-    logger.error(`Error running worker ${workerMetadata.name}: ${error}`);
+    logger(`Error running worker ${workerMetadata.name}: ${error}`);
   },
   workerMessageHandler: async ({ name, message }) => {
     if (message === "sendUpdates") {
-      logger.time("Publishing updates");
       await publishUpdates(io);
-      logger.timeEnd("Publishing updates");
     }
   },
 });
@@ -74,22 +72,22 @@ async function setUpdateInterval(jobName: string, interval: string) {
     const jobIndex = bree.config.jobs.findIndex((j) => j.name === jobName);
 
     if (!jobIndex) {
-      logger.error(`Unable to find job ${jobName}`);
+      logger(`Unable to find job ${jobName} to set the job interval`);
       return;
     }
 
     const job = bree.config.jobs[jobIndex];
 
     if (job.interval === interval) {
-      logger.info(`Job ${jobName} is already running on interval ${interval}`);
+      logger(`Job ${jobName} is already running on interval ${interval}`);
       return;
     }
 
     bree.config.jobs[jobIndex] = { ...bree.config.jobs[jobIndex], interval: interval };
     await bree.start(jobName);
 
-    logger.info(`Updated ${jobName} to run on interval ${interval}`);
+    logger(`Updated ${jobName} to run on interval ${interval}`);
   } catch (error) {
-    logger.error(`Failed to update ${jobName} interval: ${error}`);
+    logger(`Failed to update ${jobName} interval: ${error}`);
   }
 }
