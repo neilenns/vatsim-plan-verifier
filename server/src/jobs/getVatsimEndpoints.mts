@@ -6,6 +6,9 @@ import { connectToDatabase, disconnectFromDatabase } from "../database.mjs";
 import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
 import { VatsimEndpointModel } from "../models/VatsimEndpoint.mjs";
 import postMessage from "../utils/postMessage.mjs";
+import debug from "debug";
+
+const logger = debug("jobs:getVatsimEndpoints");
 
 // Mongoose has to be set up explicitly here since this is running in an entirely
 // different process from the main app.
@@ -14,7 +17,7 @@ await connectToDatabase();
 try {
   const endpointUrl = "https://status.vatsim.net/status.json";
 
-  postMessage("Downloading latest VATSIM endpoints");
+  logger("Downloading latest VATSIM endpoints");
 
   const response: AxiosResponse<IVatsimEndpoints> = await axios.get(endpointUrl);
 
@@ -32,16 +35,16 @@ try {
       feed: "transceivers",
       href: response.data.data.transceivers[0],
     }).save();
+
+    logger("Done downloading latest VATSIM endpoints");
   } else {
-    postMessage(`Unable to retrieve VATSIM endpoints: ${response.status} ${response.statusText}`);
+    logger(`Unable to retrieve VATSIM endpoints: ${response.status} ${response.statusText}`);
   }
 } catch (error) {
-  postMessage(`Unable to retrieve VATSIM endpoints: ${error}`);
+  logger(`Unable to retrieve VATSIM endpoints: ${error}`);
 }
 
 await disconnectFromDatabase();
-
-if (parentPort) parentPort.postMessage("Done downloading vatsim endpoints");
 
 // Signal the job is complete
 // eslint-disable-next-line unicorn/no-process-exit
