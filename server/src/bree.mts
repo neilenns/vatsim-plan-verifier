@@ -70,6 +70,7 @@ export async function setVastimDataUpdateInterval(interval: string) {
 
 /**
  * Sets the update interval for a bree job to the new interval
+ * @param jobName The name of the job
  * @param interval The update interval
  */
 async function setUpdateInterval(jobName: JobName, interval: string) {
