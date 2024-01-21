@@ -1,7 +1,7 @@
 import Bree from "bree";
+import debug from "debug";
 import path from "path";
 import { fileURLToPath } from "url";
-import debug from "debug";
 import { ENV } from "./env.mjs";
 
 const logger = debug("plan-verifier:bree");
@@ -21,7 +21,12 @@ const bree = new Bree({
     {
       name: "getVatsimEndpoints",
       timeout: 0,
-      interval: "24 hours",
+      interval: "every 24 hours",
+    },
+    {
+      name: "getVatsimTransceivers",
+      timeout: "10 seconds", // Delay the initial retrieval to give time for things to spin up.
+      interval: ENV.VATSIM_TRANSCEIVER_AUTO_UPDATE_INTERVAL,
     },
   ],
   errorHandler: (error, workerMetadata) => {

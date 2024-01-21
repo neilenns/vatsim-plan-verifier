@@ -1,12 +1,9 @@
 import axios, { AxiosResponse } from "axios";
-import { parentPort } from "node:worker_threads";
+import debug from "debug";
 import process from "node:process";
-import {} from "../controllers/airportInfo.mjs";
 import { connectToDatabase, disconnectFromDatabase } from "../database.mjs";
 import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
 import { VatsimEndpointModel } from "../models/VatsimEndpoint.mjs";
-import postMessage from "../utils/postMessage.mjs";
-import debug from "debug";
 
 const logger = debug("jobs:getVatsimEndpoints");
 
