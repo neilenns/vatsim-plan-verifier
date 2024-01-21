@@ -60,11 +60,18 @@ const bree = new Bree({
 });
 
 export async function startBree(ioInstance: SocketIOServer) {
+  if (ENV.NODE_ENV === "test") {
+    return;
+  }
+
   io = ioInstance;
   await bree.start();
 }
 
 export async function stopBree() {
+  if (ENV.NODE_ENV === "test") {
+    return;
+  }
   await bree.stop();
 }
 
@@ -78,6 +85,10 @@ export async function setVastimDataUpdateInterval(interval: string) {
  * @param interval The update interval
  */
 async function setUpdateInterval(jobName: JobName, interval: string) {
+  if (ENV.NODE_ENV === "test") {
+    return;
+  }
+
   try {
     await bree.stop(jobName);
     const jobIndex = bree.config.jobs.findIndex((j) => j.name === jobName);
