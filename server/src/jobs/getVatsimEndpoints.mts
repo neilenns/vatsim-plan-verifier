@@ -1,11 +1,11 @@
 import axios, { AxiosResponse } from "axios";
-import debug from "debug";
 import process from "node:process";
 import { connectToDatabase, disconnectFromDatabase } from "../database.mjs";
 import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
+import mainLogger from "../logger.mjs";
 import { VatsimEndpointModel } from "../models/VatsimEndpoint.mjs";
 
-const logger = debug("jobs:getVatsimEndpoints");
+const logger = mainLogger.child({ service: "getVatsimEndpoints" });
 
 // Mongoose has to be set up explicitly here since this is running in an entirely
 // different process from the main app.
@@ -14,7 +14,7 @@ await connectToDatabase();
 try {
   const endpointUrl = "https://status.vatsim.net/status.json";
 
-  logger("Downloading latest VATSIM endpoints");
+  logger.info("Downloading latest VATSIM endpoints");
 
   const response: AxiosResponse<IVatsimEndpoints> = await axios.get(endpointUrl);
 
@@ -33,12 +33,12 @@ try {
       href: response.data.data.transceivers[0],
     }).save();
 
-    logger("Done downloading latest VATSIM endpoints");
+    logger.info("Done downloading latest VATSIM endpoints");
   } else {
-    logger(`Unable to retrieve VATSIM endpoints: ${response.status} ${response.statusText}`);
+    logger.error(`Unable to retrieve VATSIM endpoints: ${response.status} ${response.statusText}`);
   }
 } catch (error) {
-  logger(`Unable to retrieve VATSIM endpoints: ${error}`);
+  logger.error(`Unable to retrieve VATSIM endpoints: ${error}`);
 }
 
 await disconnectFromDatabase();

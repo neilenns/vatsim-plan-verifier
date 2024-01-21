@@ -1,8 +1,9 @@
 import { AircraftDocument, AircraftModel } from "../models/Aircraft.mjs";
 import Result from "../types/result.mjs";
-import debug from "debug";
 
-const logger = debug("plan-verifier:aircraftController");
+import mainLogger from "../logger.mjs";
+
+const logger = mainLogger.child({ service: "aircraft" });
 
 type AircraftResult = Result<AircraftDocument, "AircraftNotFound" | "UnknownError">;
 type AircraftsResult = Result<AircraftDocument[], "AircraftNotFound" | "UnknownError">;
@@ -21,7 +22,7 @@ export async function getAircraftByName(name: string): Promise<AircraftsResult> 
       };
     }
   } catch (error) {
-    logger(`Error fetching aircraft ${name}: ${error}`);
+    logger.error(`Error fetching aircraft ${name}: ${error}`);
 
     return {
       success: false,
@@ -45,7 +46,7 @@ export async function getAircraftById(id: string): Promise<AircraftResult> {
       };
     }
   } catch (error) {
-    logger(`Error fetching aircraft ${id}: ${error}`);
+    logger.error(`Error fetching aircraft ${id}: ${error}`);
 
     return {
       success: false,

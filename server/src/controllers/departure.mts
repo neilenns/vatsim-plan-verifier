@@ -1,8 +1,9 @@
-import { DepartureModel, DepartureDocument } from "../models/Departure.mjs";
+import mainLogger from "../logger.mjs";
+import { DepartureDocument, DepartureModel } from "../models/Departure.mjs";
 import Result from "../types/result.mjs";
-import debug from "debug";
 
-const logger = debug("plan-verifier:departureController");
+const logger = mainLogger.child({ service: "departure" });
+
 type DepartureResult = Result<DepartureDocument, "DepartureNotFound" | "UnknownError">;
 
 export async function getDeparture(id: string): Promise<DepartureResult> {
@@ -19,7 +20,7 @@ export async function getDeparture(id: string): Promise<DepartureResult> {
       };
     }
   } catch (error) {
-    logger(`Error fetching departure ${id}: ${error}`);
+    logger.error(`Error fetching departure ${id}: ${error}`);
 
     return {
       success: false,

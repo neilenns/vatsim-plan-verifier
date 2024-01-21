@@ -1,11 +1,11 @@
+import mainLogger from "../logger.mjs";
 import {
-  ExtendedAirportInfoModel,
   ExtendedAirportInfoDocument,
+  ExtendedAirportInfoModel,
 } from "../models/ExtendedAirportInfo.mjs";
 import Result from "../types/result.mjs";
-import debug from "debug";
 
-const logger = debug("plan-verifier:extendedAirportInfo");
+const logger = mainLogger.child({ service: "extendedAirportInfo" });
 
 type ExtendedAirportInfoResult = Result<
   ExtendedAirportInfoDocument,
@@ -28,7 +28,7 @@ export async function getExtendedAirportInfo(
       };
     }
   } catch (error) {
-    logger(`Error fetching extended airport info for ${airportCode}: ${error}`);
+    logger.error(`Error fetching extended airport info for ${airportCode}: ${error}`);
 
     return {
       success: false,

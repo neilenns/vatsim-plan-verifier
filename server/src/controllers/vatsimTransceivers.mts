@@ -1,11 +1,11 @@
+import mainLogger from "../logger.mjs";
 import {
   TunedTransceiversDocument,
   TunedTransceiversModel,
 } from "../models/VatsimTunedTransceivers.mjs";
 import Result from "../types/result.mjs";
-import debug from "debug";
 
-const logger = debug("plan-verifier:vatsimTransceiversController");
+const logger = mainLogger.child({ service: "vatsimTransceivers" });
 
 type VatsimTransceiversResult = Result<
   TunedTransceiversDocument,
@@ -31,7 +31,7 @@ export async function getTunedTransceiversForCallsign(
       };
     }
   } catch (error) {
-    logger(`Error fetching transceivers for ${callsign}: ${error}`);
+    logger.error(`Error fetching transceivers for ${callsign}: ${error}`);
     return {
       success: false,
       errorType: "UnknownError",

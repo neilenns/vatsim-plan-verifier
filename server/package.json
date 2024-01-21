@@ -13,6 +13,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@logtail/node": "^0.4.19",
+    "@logtail/winston": "^0.4.19",
     "@typegoose/typegoose": "^11.4.1",
     "@types/debug": "^4.1.8",
     "adm-zip": "^0.5.10",

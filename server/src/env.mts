@@ -2,6 +2,7 @@ import "dotenv/config";
 import z from "zod";
 
 const envSchema = z.object({
+  LOG_LEVEL: z.enum(["error", "warn", "info", "http", "debug", "trace"]).optional(),
   PORT: z.coerce.number().default(4001),
   MONGO_DB_CONNECTION_STRING: z.string(),
   MONGO_DB_NAME: z.string().default("plan-verifier"),
@@ -13,6 +14,7 @@ const envSchema = z.object({
   COOKIE_SECRET: z.string(),
   REFRESH_TOKEN_EXPIRY: z.string().default("60 * 60 * 24 * 30"),
   SESSION_EXPIRY: z.string().default("60 * 15"),
+  LOGTAIL_TOKEN: z.string().optional(),
   API_RATE_LIMIT_MAX: z.coerce.number().default(100),
   API_RATE_LIMIT_MINUTE_WINDOW: z.coerce.number().default(5),
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),

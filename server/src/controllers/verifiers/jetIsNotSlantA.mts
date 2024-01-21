@@ -1,11 +1,11 @@
 import { isDocument } from "@typegoose/typegoose";
-import debug from "debug";
+import mainLogger from "../../logger.mjs";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 
 const verifierName = "jetIsNotSlantA";
-const logger = debug(`plan-verifier:${verifierName}`);
+const logger = mainLogger.child({ service: verifierName });
 
 export default async function jetIsNotSlantA({
   _id,
@@ -51,7 +51,7 @@ export default async function jetIsNotSlantA({
       data: doc,
     };
   } catch (error) {
-    logger(`Error running : ${error}`);
+    logger.error(`Error running : ${error}`);
 
     return {
       success: false,

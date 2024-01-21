@@ -1,11 +1,11 @@
 import { isDocument } from "@typegoose/typegoose";
-import debug from "debug";
+import mainLogger from "../../logger.mjs";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 
 const verifierName = "pistonNotSlantLorZ";
-const logger = debug(`plan-verifier:${verifierName}`);
+const logger = mainLogger.child({ service: verifierName });
 
 export default async function pistonNotSlantLorZ({
   _id,
@@ -54,7 +54,7 @@ export default async function pistonNotSlantLorZ({
       data: doc,
     };
   } catch (error) {
-    logger(`Error running pistonNotSlantLorZ: ${error}`);
+    logger.error(`Error running pistonNotSlantLorZ: ${error}`);
 
     return {
       success: false,

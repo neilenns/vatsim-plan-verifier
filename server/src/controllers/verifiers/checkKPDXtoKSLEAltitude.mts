@@ -1,11 +1,11 @@
-import debug from "debug";
+import mainLogger from "../../logger.mjs";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import { formatAltitude } from "../../utils.mjs";
 
 const verifierName = "checkKPDXtoKSLEAltitude";
-const logger = debug(`plan-verifier:${verifierName}`);
+const logger = mainLogger.child({ service: verifierName });
 
 export default async function checkKPDXtoKSLEAltitude({
   _id,
@@ -59,7 +59,7 @@ export default async function checkKPDXtoKSLEAltitude({
       data: doc,
     };
   } catch (error) {
-    logger(`Error running checkKPDXtoKSLEAltitude: ${error}`);
+    logger.error(`Error running checkKPDXtoKSLEAltitude: ${error}`);
 
     return {
       success: false,

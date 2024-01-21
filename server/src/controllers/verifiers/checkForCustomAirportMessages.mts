@@ -1,4 +1,4 @@
-import debug from "debug";
+import mainLogger from "../../logger.mjs";
 import { CustomMessageModel, MessageTarget } from "../../models/CustomMessages.mjs";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import {
@@ -10,7 +10,7 @@ import { VerifierControllerMultiResult } from "../../types/verifierControllerRes
 import applyMustacheValues from "../../utils/mustache.mjs";
 
 const verifierName = "checkForCustomAirportMessages";
-const logger = debug(`plan-verifier:${verifierName}`);
+const logger = mainLogger.child({ service: verifierName });
 
 export default async function checkForCustomAirportMessages(
   flightPlan: FlightPlan
@@ -67,7 +67,7 @@ export default async function checkForCustomAirportMessages(
       data: results,
     };
   } catch (error) {
-    logger(`Error running checkForCustomAirportMessages: ${error}`);
+    logger.error(`Error running checkForCustomAirportMessages: ${error}`);
 
     return {
       success: false,

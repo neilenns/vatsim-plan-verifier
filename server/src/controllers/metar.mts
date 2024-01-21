@@ -1,10 +1,11 @@
 import axios, { AxiosResponse } from "axios";
-import Result from "../types/result.mjs";
-import { MetarDocument, MetarModel } from "../models/Metar.mjs";
-import debug from "debug";
 import IAviationWeatherMetar from "../interfaces/IAviationWeather.mjs";
+import mainLogger from "../logger.mjs";
+import { MetarDocument, MetarModel } from "../models/Metar.mjs";
+import Result from "../types/result.mjs";
 
-const logger = debug("plan-verifier:getMetarController");
+const logger = mainLogger.child({ service: "metar" });
+
 type MetarResult = Result<MetarDocument, "NoMetarFound" | "UnknownError">;
 
 export async function getMetar(airportCode: string): Promise<MetarResult> {
@@ -24,7 +25,7 @@ export async function getMetar(airportCode: string): Promise<MetarResult> {
     const fetchedMetar = await fetchMetarFromAviationWeather(airportCode);
 
     if (!fetchedMetar) {
-      logger(`No metar found for ${airportCode}`);
+      logger.debug(`No metar found for ${airportCode}`);
       return {
         success: false,
         errorType: "NoMetarFound",
