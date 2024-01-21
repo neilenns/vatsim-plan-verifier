@@ -30,20 +30,19 @@ winston.addColors(colors);
 
 // const format = winston.format.combine(winston.format.timestamp(), winston.format.json());
 // const format = winston.format.combine(winston.format.timestamp(), winston.format.cli());
-const format = winston.format.combine(
+const consoleFormat = winston.format.combine(
   winston.format.colorize({ all: true }),
   winston.format.printf((info) => `[${info.service}] ${info.message}`)
 );
 
 const transports = [
-  new winston.transports.Console({ format }),
+  new winston.transports.Console({ format: consoleFormat }),
   new LogtailTransport(logtail, { format: winston.format.json() }),
 ];
 
 const Logger = winston.createLogger({
   level: level(),
   levels,
-  format: winston.format.json(),
   transports,
 });
 
