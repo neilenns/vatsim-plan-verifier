@@ -5,6 +5,9 @@ on:
 
 jobs:
   build-and-push-image:
+    env:
+      NODE_ENV: test
+
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
