@@ -180,7 +180,9 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
     ...vatsimData.pilots.map(pilotToVatsimModel),
     ...vatsimData.prefiles.map(prefileToVatsimModel),
   ];
+
   logger.info(`Processing ${incomingPlans.length} incoming VATSIM flight plans`);
+  const profiler = logger.startTimer();
 
   // Find all the callsigns for the current plans in the database to use when figuring out
   // what updates to apply.
@@ -235,9 +237,11 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
     await Promise.all([...updatedPlans.map(async (plan) => await plan.save())]),
   ]);
 
-  logger.info(`Done processing ${incomingPlans.length} incoming VATSIM flight plans`, {
+  profiler.done({
+    message: `Done processing ${incomingPlans.length} incoming VATSIM flight plans`,
     counts: {
       currentData: currentPlans.length,
+      incomingData: incomingPlans.length,
       newData: newPlans.length,
       deletedData: deletedPlans.length,
       overlappingData: overlappingPlans.length,

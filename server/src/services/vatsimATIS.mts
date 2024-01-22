@@ -28,6 +28,7 @@ export async function processVatsimATISData(vatsimData: IVatsimData) {
   const incomingData = vatsimData.atis.map(atisToVatsimModel);
 
   logger.info(`Processing ${incomingData.length} incoming VATSIM ATISes`);
+  const profiler = logger.startTimer();
 
   // Find all the callsigns for the current data in the database to use when figuring out
   // what updates to apply.
@@ -70,9 +71,11 @@ export async function processVatsimATISData(vatsimData: IVatsimData) {
     await Promise.all([...updatedData.map(async (data) => await data.save())]),
   ]);
 
-  logger.info(`Done processing ${incomingData.length} incoming VATSIM ATISes`, {
+  profiler.done({
+    message: `Done processing ${incomingData.length} incoming VATSIM ATISes`,
     counts: {
       currentData: currentData.length,
+      incomingData: incomingData.length,
       newData: newData.length,
       deletedData: deletedData.length,
       overlappingData: overlappingData.length,

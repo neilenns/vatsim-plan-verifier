@@ -54,6 +54,7 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
   const incomingData = clients.map(transceiverToVatsimModel);
 
   logger.info(`Processing ${incomingData.length} incoming VATSIM transceivers`);
+  const profiler = logger.startTimer();
 
   // Find all the transceivers for the current data in the database to use when figuring out
   // what updates to apply.
@@ -96,9 +97,11 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
     await Promise.all([...updatedData.map(async (data) => await data.save())]),
   ]);
 
-  logger.info(`Done processing ${incomingData.length} incoming VATSIM transceivers`, {
+  profiler.done({
+    message: `Done processing ${incomingData.length} incoming VATSIM transceivers`,
     counts: {
       currentData: currentData.length,
+      incomingData: incomingData.length,
       newData: newData.length,
       deletedData: deletedData.length,
       overlappingData: overlappingData.length,

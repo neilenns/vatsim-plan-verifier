@@ -1,5 +1,6 @@
 import AdmZip from "adm-zip";
 import axios, { AxiosError, AxiosResponse } from "axios";
+import winston from "winston";
 import { ENV } from "../env.mjs";
 import { IAvioWikiAirport } from "../interfaces/IAvioWikiAirport.mjs";
 import mainLogger from "../logger.mjs";
@@ -108,13 +109,27 @@ async function fetchAirportFromFlightAware(
 // to an array of IAirportInfo for later use.
 export async function fetchAirportsFromAvioWiki(): Promise<FetchAvioWikiAirportsResult> {
   try {
+    let profiler: winston.Profiler;
+
     logger.info("Downloading and extracting airport information from AvioWiki");
+    profiler = logger.startTimer();
+
     const zippedResponse = await axios.get("https://exports.aviowiki.com/free_airports.json.zip", {
       responseType: "arraybuffer",
     });
     const zipBuffer = Buffer.from(zippedResponse.data);
     const zip = new AdmZip(zipBuffer);
     const jsonData = JSON.parse(zip.readAsText(zip.getEntries()[0])) as IAvioWikiAirport[];
+
+    profiler.done({
+      message: `Done downloading ${jsonData.length} incoming airports`,
+      counts: {
+        incomingData: jsonData.length,
+      },
+    });
+
+    logger.info("Creating airport models");
+    profiler = logger.startTimer();
 
     const models = jsonData
       // There's lots of entries that don't have any airport code, which is the index used in the local
@@ -141,8 +156,15 @@ export async function fetchAirportsFromAvioWiki(): Promise<FetchAvioWikiAirports
           countryCode: airport.country?.iso2 ?? airport.country?.iso3 ?? undefined,
         });
       });
+    profiler.done({
+      level: "info",
+      message: `Done creating ${models.length} airport models`,
+      counts: { models: models.length },
+    });
 
     logger.info(`Saving ${models.length} airports to database`);
+    profiler = logger.startTimer();
+
     // Save the world. Good god.
     await AirportInfoModel.deleteMany({});
     await Promise.all(
@@ -155,8 +177,11 @@ export async function fetchAirportsFromAvioWiki(): Promise<FetchAvioWikiAirports
         }
       })
     );
-    logger.info(`Done!`);
-
+    profiler.done({
+      level: "info",
+      message: `Done saving ${models.length} airports to the database.`,
+      counts: { models: models.length },
+    });
     return {
       success: true,
       data: models.length,
