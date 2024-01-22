@@ -1,11 +1,10 @@
 import { Server } from "http";
 import { Socket, Server as SocketIOServer } from "socket.io";
-import { setVastimDataUpdateInterval } from "../bree.mjs";
 import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import { ENV } from "../env.mjs";
+import logger from "../logger.mjs";
 import { publishEDCTupdate, publishFlightPlanUpdate } from "../services/vatsim.mjs";
 import { ClientToServerEvents, ServerToClientEvents } from "../types/socketEvents.mjs";
-import logger from "../logger.mjs";
 
 // Takes an array of airport codes, converts them all to upper case, and trims whitespace
 function cleanAirportCodes(codes: string[]): string[] {
@@ -116,8 +115,6 @@ export function setupSockets(server: Server): SocketIOServer {
       `Client connected: ${socket.id}. Total connected clients: ${io.sockets.sockets.size}`
     );
 
-    await setVastimDataUpdateInterval(ENV.VATSIM_DATA_AUTO_UPDATE_INTERVAL_CONNECTIONS);
-
     // Listen for the 'setAirport' event from the client
     socket.on("watchAirports", async (airportCodes: string[]) => {
       logger.info(`Client requested data for ${airportCodes.join(", ")}`);
@@ -144,9 +141,6 @@ export function setupSockets(server: Server): SocketIOServer {
       logger.info(
         `Client disconnected: ${socket.id}. Total connected clients: ${io.sockets.sockets.size}`
       );
-      if (io.sockets.sockets.size === 0) {
-        await setVastimDataUpdateInterval(ENV.VATSIM_DATA_AUTO_UPDATE_INTERVAL_NO_CONNECTIONS);
-      }
     });
   });
 
