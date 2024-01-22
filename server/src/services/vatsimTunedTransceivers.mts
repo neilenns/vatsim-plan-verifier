@@ -97,9 +97,11 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
   ]);
 
   logger.info(`Done processing ${incomingData.length} incoming VATSIM transceivers`, {
-    currentDataCount: currentData.length,
-    newDataCount: newData.length,
-    deletedDataCount: deletedData.length,
-    overlappingDataCount: overlappingData.length,
+    counts: {
+      currentData: currentData.length,
+      newData: newData.length,
+      deletedData: deletedData.length,
+      overlappingData: overlappingData.length,
+    },
   });
 }

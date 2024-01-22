@@ -236,9 +236,11 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
   ]);
 
   logger.info(`Done processing ${incomingPlans.length} incoming VATSIM flight plans`, {
-    currentDataCount: currentPlans.length,
-    newDataCount: newPlans.length,
-    deletedDataCount: deletedPlans.length,
-    overlappingDataCount: overlappingPlans.length,
+    counts: {
+      currentData: currentPlans.length,
+      newData: newPlans.length,
+      deletedData: deletedPlans.length,
+      overlappingData: overlappingPlans.length,
+    },
   });
 }
