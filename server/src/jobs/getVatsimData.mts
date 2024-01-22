@@ -1,6 +1,6 @@
 import process from "node:process";
 import { connectToDatabase, disconnectFromDatabase } from "../database.mjs";
-import mainLogger from "../logger.mjs";
+import mainLogger, { flush } from "../logger.mjs";
 import { VatsimEndpointModel } from "../models/VatsimEndpoint.mjs";
 import { getVatsimData } from "../services/vatsim.mjs";
 import postMessage from "../utils/postMessage.mjs";
@@ -28,5 +28,6 @@ postMessage("sendUpdates");
 
 await disconnectFromDatabase();
 
-// Signal the job is complete
+await disconnectFromDatabase();
+await flush();
 process.exit(0);

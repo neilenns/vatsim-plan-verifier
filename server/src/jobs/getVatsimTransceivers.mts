@@ -1,6 +1,6 @@
 import process from "node:process";
 import { connectToDatabase, disconnectFromDatabase } from "../database.mjs";
-import mainLogger from "../logger.mjs";
+import mainLogger, { flush } from "../logger.mjs";
 import { VatsimEndpointModel } from "../models/VatsimEndpoint.mjs";
 import { getVatsimTunedTransceivers } from "../services/vatsimTunedTransceivers.mjs";
 
@@ -24,6 +24,5 @@ try {
 }
 
 await disconnectFromDatabase();
-
-// Signal the job is complete
+await flush();
 process.exit(0);

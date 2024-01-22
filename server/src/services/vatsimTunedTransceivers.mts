@@ -58,19 +58,15 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
   // Find all the transceivers for the current data in the database to use when figuring out
   // what updates to apply.
   const currentData = await TunedTransceiversModel.find({});
-  logger.debug(`Current transceiver count: ${currentData.length}`);
 
   // Find all the new data that doesn't exist in the database.
   const newData = _.differenceBy(incomingData, currentData, "callsign");
-  logger.debug(`New transceiver count: ${newData.length}`);
 
   // Find the data in the database that no longer exists on vatsim.
   const deletedData = _.differenceBy(currentData, incomingData, "callsign");
-  logger.debug(`Deleted transceiver count: ${deletedData.length}`);
 
   // Find the overlapping data that need to have updates applied
   const overlappingData = _.intersectionBy(incomingData, currentData, "callsign");
-  logger.debug(`Overlapping transceiver count: ${overlappingData.length}`);
 
   // Build out a dictionary of the current data to improve performance of the update
   const currentDataDictionary = _.keyBy(currentData, "callsign");
@@ -100,5 +96,10 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
     await Promise.all([...updatedData.map(async (data) => await data.save())]),
   ]);
 
-  logger.info(`Done processing ${incomingData.length} incoming VATSIM transceivers`);
+  logger.info(`Done processing ${incomingData.length} incoming VATSIM transceivers`, {
+    currentDataCount: currentData.length,
+    newDataCount: newData.length,
+    deletedDataCount: deletedData.length,
+    overlappingDataCount: overlappingData.length,
+  });
 }

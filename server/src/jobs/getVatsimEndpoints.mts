@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import process from "node:process";
 import { connectToDatabase, disconnectFromDatabase } from "../database.mjs";
 import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
-import mainLogger from "../logger.mjs";
+import mainLogger, { flush } from "../logger.mjs";
 import { VatsimEndpointModel } from "../models/VatsimEndpoint.mjs";
 
 const logger = mainLogger.child({ service: "getVatsimEndpoints" });
@@ -42,7 +42,5 @@ try {
 }
 
 await disconnectFromDatabase();
-
-// Signal the job is complete
-// eslint-disable-next-line unicorn/no-process-exit
+await flush();
 process.exit(0);

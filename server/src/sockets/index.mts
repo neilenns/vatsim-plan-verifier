@@ -3,9 +3,11 @@ import { Socket, Server as SocketIOServer } from "socket.io";
 import { setVatsimDataUpdateInterval } from "../bree.mjs";
 import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import { ENV } from "../env.mjs";
-import logger from "../logger.mjs";
+import mainLogger from "../logger.mjs";
 import { publishEDCTupdate, publishFlightPlanUpdate } from "../services/vatsim.mjs";
 import { ClientToServerEvents, ServerToClientEvents } from "../types/socketEvents.mjs";
+
+const logger = mainLogger.child("sockets");
 
 // Takes an array of airport codes, converts them all to upper case, and trims whitespace
 function cleanAirportCodes(codes: string[]): string[] {

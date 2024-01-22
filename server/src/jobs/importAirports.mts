@@ -1,7 +1,7 @@
-import { parentPort } from "node:worker_threads";
 import process from "node:process";
 import { fetchAirportsFromAvioWiki } from "../controllers/airportInfo.mjs";
 import { connectToDatabase, disconnectFromDatabase } from "../database.mjs";
+import { flush } from "../logger.mjs";
 import postMessage from "../utils/postMessage.mjs";
 
 // Mongoose has to be set up explicitly here since this is running in an entirely
@@ -12,6 +12,5 @@ await disconnectFromDatabase();
 
 postMessage("Done importing from AvioWiki");
 
-// Signal the job is complete
-// eslint-disable-next-line unicorn/no-process-exit
+await flush();
 process.exit(0);

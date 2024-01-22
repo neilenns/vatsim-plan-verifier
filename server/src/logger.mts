@@ -4,6 +4,8 @@ import { LogtailTransport } from "@logtail/winston";
 import winston from "winston";
 import { ENV } from "./env.mjs";
 
+let logtail: Logtail;
+
 // This way of extending the logger to support a .trace() function
 // comes from https://github.com/winstonjs/winston/issues/1523#issuecomment-436365549
 export interface CustomLevelsLogger extends winston.Logger {
@@ -54,11 +56,15 @@ const Logger = winston.createLogger({
 // If logtail was configured add it as a transport
 if (ENV.LOGTAIL_TOKEN) {
   Logger.info(`Enabling logging to Logtail`, { service: "logging" });
-  Logger.add(
-    new LogtailTransport(new Logtail(ENV.LOGTAIL_TOKEN), { format: winston.format.json() })
-  );
+  logtail = new Logtail(ENV.LOGTAIL_TOKEN);
+  Logger.add(new LogtailTransport(logtail, { format: winston.format.json() }));
 } else {
   Logger.info(`Logtail logging not configured`, { service: "logging" });
 }
 
+export async function flush() {
+  if (logtail) {
+    await logtail.flush();
+  }
+}
 export default Logger;
