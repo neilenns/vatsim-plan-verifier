@@ -20,7 +20,7 @@ const levels = {
 };
 
 const level = () => {
-  if (!ENV.LOG_LEVEL) {
+  if (ENV.LOG_LEVEL) {
     return ENV.LOG_LEVEL;
   }
 
