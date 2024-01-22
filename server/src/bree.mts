@@ -3,8 +3,8 @@ import path from "path";
 import { Server as SocketIOServer } from "socket.io";
 import { fileURLToPath } from "url";
 import { ENV } from "./env.mjs";
-import { publishUpdates } from "./services/vatsim.mjs";
 import mainLogger from "./logger.mjs";
+import { publishUpdates } from "./services/vatsim.mjs";
 
 const logger = mainLogger.child({ service: "bree" });
 
@@ -79,43 +79,4 @@ export async function stopBree() {
     return;
   }
   await bree.stop();
-}
-
-export async function setVastimDataUpdateInterval(interval: string) {
-  await setUpdateInterval(JobName.GetVatsimData, interval);
-}
-
-/**
- * Sets the update interval for a bree job to the new interval
- * @param jobName The name of the job
- * @param interval The update interval
- */
-async function setUpdateInterval(jobName: JobName, interval: string) {
-  if (ENV.NODE_ENV === "test") {
-    return;
-  }
-
-  try {
-    await bree.stop(jobName);
-    const jobIndex = bree.config.jobs.findIndex((j) => j.name === jobName);
-
-    if (!jobIndex) {
-      logger.warn(`Unable to find job ${jobName} to set the job interval`);
-      return;
-    }
-
-    const job = bree.config.jobs[jobIndex];
-
-    if (job.interval === interval) {
-      logger.warn(`Job ${jobName} is already running on interval ${interval}`);
-      return;
-    }
-
-    bree.config.jobs[jobIndex] = { ...bree.config.jobs[jobIndex], interval: interval };
-    await bree.start(jobName);
-
-    logger.info(`Updated ${jobName} to run on interval ${interval}`);
-  } catch (error) {
-    logger.error(`Failed to update ${jobName} interval: ${error}`);
-  }
 }

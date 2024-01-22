@@ -40,8 +40,9 @@ winston.addColors(colors);
 // const format = winston.format.combine(winston.format.timestamp(), winston.format.json());
 // const format = winston.format.combine(winston.format.timestamp(), winston.format.cli());
 const consoleFormat = winston.format.combine(
+  winston.format.timestamp(),
   winston.format.colorize({ all: true }),
-  winston.format.printf((info) => `[${info.service}] ${info.message}`)
+  winston.format.printf((info) => `${info.timestamp} [${info.service}] ${info.message}`)
 );
 
 const Logger = winston.createLogger({
