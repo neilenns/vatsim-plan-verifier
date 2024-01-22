@@ -12,8 +12,8 @@ import { createHttpTerminator, HttpTerminator } from "http-terminator";
 import https from "https";
 import passport from "passport";
 import { ENV } from "./env.mjs";
-import { setupSockets } from "./sockets/index.mjs";
 import mainLogger from "./logger.mjs";
+import { setupSockets } from "./sockets/index.mjs";
 
 const logger = mainLogger.child({ service: "server" });
 
@@ -47,7 +47,7 @@ import userRouter from "./routes/users.mjs";
 import verifyRouter from "./routes/verify.mjs";
 
 // Vatsim routes
-import { startBree, stopBree } from "./bree.mjs";
+import * as bree from "./bree.mjs";
 import vatsimATISRouter from "./routes/vatsim/ATIS.mjs";
 import vatsimFlightPlansRouter from "./routes/vatsim/flightPlans.mjs";
 import vatsimPilotsRouter from "./routes/vatsim/pilots.mjs";
@@ -168,7 +168,8 @@ export async function startServer(port: number): Promise<void> {
   });
 
   // Start the jobs
-  await startBree(io);
+  bree.initialize();
+  await bree.start(io);
 
   // With the server up and running start watching for SSL file changes.
   startWatching();
@@ -176,7 +177,7 @@ export async function startServer(port: number): Promise<void> {
 
 export async function stopServer() {
   stopWatching();
-  await stopBree();
+  await bree.stop();
 
   if (server) {
     logger.info("Stopping web server...");

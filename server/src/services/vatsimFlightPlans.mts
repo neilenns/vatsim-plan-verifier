@@ -185,7 +185,6 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
   // Find all the callsigns for the current plans in the database to use when figuring out
   // what updates to apply.
   const currentPlans = await VatsimFlightPlanModel.find({});
-  logger.debug(`Current flight plan count: ${currentPlans.length}`);
 
   // Find the new plans that don't currently exist in the database and set their
   // initial state. This method of awaiting mapped arrays is from https://stackoverflow.com/a/59471024/9206264
@@ -196,15 +195,12 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
     }
   );
   const newPlans = await Promise.all(newPlanPromises);
-  logger.debug(`New flight plan count: ${newPlans.length}`);
 
   // Find the plans in the database that no longer exist on vatsim.
   const deletedPlans = _.differenceBy(currentPlans, incomingPlans, "callsign");
-  logger.debug(`Deleted flight plan count: ${deletedPlans.length}`);
 
   // Find the overlapping plans that need to have updates applied
   const overlappingPlans = _.intersectionBy(incomingPlans, currentPlans, "callsign");
-  logger.debug(`Overlapping flight plan count: ${overlappingPlans.length}`);
 
   // Build out a dictionary of the current plans to improve performance of the update
   const currentPlansDictionary = _.keyBy(currentPlans, "callsign");
@@ -239,5 +235,12 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
     await Promise.all([...updatedPlans.map(async (plan) => await plan.save())]),
   ]);
 
-  logger.info(`Done processing ${incomingPlans.length} incoming VATSIM flight plans`);
+  logger.info(`Done processing ${incomingPlans.length} incoming VATSIM flight plans`, {
+    counts: {
+      currentData: currentPlans.length,
+      newData: newPlans.length,
+      deletedData: deletedPlans.length,
+      overlappingData: overlappingPlans.length,
+    },
+  });
 }

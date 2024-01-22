@@ -32,19 +32,15 @@ export async function processVatsimATISData(vatsimData: IVatsimData) {
   // Find all the callsigns for the current data in the database to use when figuring out
   // what updates to apply.
   const currentData = await VatsimATISModel.find({});
-  logger.debug(`Current data count: ${currentData.length}`);
 
   // Find all the new data that doesn't exist in the database.
   const newData = _.differenceBy(incomingData, currentData, "callsign");
-  logger.debug(`New data count: ${newData.length}`);
 
   // Find the data in the database that no longer exists on vatsim.
   const deletedData = _.differenceBy(currentData, incomingData, "callsign");
-  logger.debug(`Deleted data count: ${deletedData.length}`);
 
   // Find the overlapping data that need to have updates applied
   const overlappingData = _.intersectionBy(incomingData, currentData, "callsign");
-  logger.debug(`Overlapping data count: ${overlappingData.length}`);
 
   // Build out a dictionary of the current data to improve performance of the update
   const currentDataDictionary = _.keyBy(currentData, "callsign");
@@ -74,5 +70,12 @@ export async function processVatsimATISData(vatsimData: IVatsimData) {
     await Promise.all([...updatedData.map(async (data) => await data.save())]),
   ]);
 
-  logger.info(`Done processing ${incomingData.length} incoming VATSIM ATISes`);
+  logger.info(`Done processing ${incomingData.length} incoming VATSIM ATISes`, {
+    counts: {
+      currentData: currentData.length,
+      newData: newData.length,
+      deletedData: deletedData.length,
+      overlappingData: overlappingData.length,
+    },
+  });
 }
