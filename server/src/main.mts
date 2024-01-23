@@ -1,7 +1,9 @@
-import { ENV } from "./env.mjs";
+import fs from "fs";
+import path from "node:path";
 import * as db from "./database.mjs";
-import * as WebServer from "./server.mjs";
+import { ENV } from "./env.mjs";
 import mainLogger from "./logger.mjs";
+import * as WebServer from "./server.mjs";
 
 const logger = mainLogger.child({ service: "main" });
 
@@ -13,6 +15,16 @@ let restartTimer: NodeJS.Timeout;
 
 async function startup() {
   try {
+    // Clean up any stray lock file that may have been left behind by a prior
+    // run of the service.
+    const lockfilePath = path.resolve("airports.lock");
+    if (fs.existsSync(lockfilePath)) {
+      fs.rmdir(lockfilePath, (err) => {
+        if (!err) {
+          logger.warn(`Removed left behind ${lockfilePath} lockfile`);
+        }
+      });
+    }
     await db.connectToDatabase();
     await WebServer.startServer(ENV.PORT);
 

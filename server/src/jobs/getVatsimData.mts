@@ -1,3 +1,4 @@
+import DotLocker from "dotlocker";
 import process from "node:process";
 import { connectToDatabase, disconnectFromDatabase } from "../database.mjs";
 import mainLogger, { flush } from "../logger.mjs";
@@ -7,27 +8,37 @@ import postMessage from "../utils/postMessage.mjs";
 
 const logger = mainLogger.child({ service: "getVatsimData" });
 
-// Mongoose has to be set up explicitly here since this is running in an entirely
-// different process from the main app.
-await connectToDatabase();
+// Using lockSync since this is the only thing running in this process
+// and node was incorrectly exiting with code 13 when using the async method.
+const dispose = DotLocker.lockSync("airports", {
+  lockPath: "airports.lock",
+  retries: 0, // If the lock is in place there's no need to retry since bree will auto-run this job again anyway
+  staleInterval: 1000 * 60 * 10, // 10 minutes, to cover how long it takes for airports to update (~6 minutes)
+});
 
-try {
-  const dataEndpoint = await VatsimEndpointModel.findEndpoint("v3");
+if (!dispose) {
+  logger.warn(`Airport updates in progress, skipping VATSIM data update`);
+} else {
+  await connectToDatabase();
 
-  if (!dataEndpoint) {
-    logger.warn(`No VATSIM data endpoint available`);
-    process.exit(0);
+  try {
+    const dataEndpoint = await VatsimEndpointModel.findEndpoint("v3");
+
+    if (!dataEndpoint) {
+      logger.warn(`No VATSIM data endpoint available`);
+      process.exit(0);
+    }
+
+    await getVatsimData(dataEndpoint.href);
+  } catch (error) {
+    logger.error(`Unable to retrieve VATSIM data: ${error}`);
+  } finally {
+    dispose();
   }
 
-  await getVatsimData(dataEndpoint.href);
-} catch (error) {
-  logger.error(`Unable to retrieve VATSIM data: ${error}`);
+  await disconnectFromDatabase();
+  postMessage("sendUpdates");
 }
 
-postMessage("sendUpdates");
-
-await disconnectFromDatabase();
-
-await disconnectFromDatabase();
 await flush();
 process.exit(0);

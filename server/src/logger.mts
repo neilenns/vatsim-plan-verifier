@@ -39,21 +39,12 @@ const colors = {
 
 winston.addColors(colors);
 
-// const format = winston.format.combine(winston.format.timestamp(), winston.format.json());
-// const format = winston.format.combine(winston.format.timestamp(), winston.format.cli());
 const consoleFormat = winston.format.combine(
   winston.format.timestamp(),
   winston.format.printf((info) => {
-    let message = "";
-    if (info.durationMs) {
-      message = `${info.message} (${Math.floor(info.durationMs / 1000)} seconds)`;
-    } else {
-      message = `${info.message}`;
-    }
+    const message = `[${info.service}] ${info.message}`;
     // This method of applying colour comes from https://stackoverflow.com/a/63104828
-    return `${info.timestamp} [${info.service}] ${winston.format
-      .colorize()
-      .colorize(info.level, message)}`;
+    return `${info.timestamp} ${winston.format.colorize().colorize(info.level, message)}`;
   })
 );
 
@@ -65,11 +56,11 @@ const Logger = winston.createLogger({
 
 // If logtail was configured add it as a transport
 if (ENV.LOGTAIL_TOKEN) {
-  Logger.info(`Enabling logging to Logtail`, { service: "logging" });
+  Logger.debug(`Enabling logging to Logtail`, { service: "logging" });
   logtail = new Logtail(ENV.LOGTAIL_TOKEN);
   Logger.add(new LogtailTransport(logtail, { format: winston.format.json() }));
 } else {
-  Logger.info(`Logtail logging not configured`, { service: "logging" });
+  Logger.warn(`Logtail logging not configured`, { service: "logging" });
 }
 
 export async function flush() {
