@@ -35,7 +35,7 @@ jobDefinitions.set(JobName.GetVatsimEndpoints, {
 });
 jobDefinitions.set(JobName.ImportAirports, {
   options: {
-    timeout: "24 hours",
+    timeout: false, // Don't start this until its first scheduled instance
   },
 });
 jobDefinitions.set(JobName.GetVatsimTransceivers, {
@@ -124,7 +124,7 @@ export function initialize() {
   createBree(JobName.GetVatsimData, ENV.VATSIM_DATA_AUTO_UPDATE_INTERVAL_NO_CONNECTIONS);
   createBree(JobName.GetVatsimEndpoints, "every 24 hours");
   createBree(JobName.GetVatsimTransceivers, "every 1 hour");
-  createBree(JobName.ImportAirports, "every 24 hours");
+  createBree(JobName.ImportAirports, ENV.AIRPORT_INFO_AUTO_UPDATE_INTERVAL);
 }
 
 export async function start(ioInstance: SocketIOServer) {
