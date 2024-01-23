@@ -84,13 +84,21 @@ async function fetchAirportFromFlightAware(
     "x-apikey": ENV.FLIGHTAWARE_API_KEY,
   };
 
+  const endpointUrl = `https://aeroapi.flightaware.com/aeroapi/airports/${airportCode}`;
+
   try {
-    const endpointUrl = `https://aeroapi.flightaware.com/aeroapi/airports/${airportCode}`;
+    logger.debug(`Fetching FlightAware airport info for ${airportCode}`, {
+      url: endpointUrl,
+    });
     const response: AxiosResponse<AirportInfoDocument> = await axios.get(endpointUrl, { headers });
 
     if (response.status === 200) {
       return response.data;
     } else {
+      logger.error(`Error fetching airport information for ${airportCode}: ${response.status}`, {
+        url: endpointUrl,
+      });
+
       throw new Error(`Error fetching airport information for ${airportCode}: ${response.status}`);
     }
   } catch (error) {
@@ -101,7 +109,12 @@ async function fetchAirportFromFlightAware(
         return undefined;
       }
     }
-    throw new Error(`Error fetching airport information for ${airportCode}: ${error}`);
+    const err = error as Error;
+    logger.error(`Error fetching airport information for ${airportCode}: ${err.message}`, {
+      url: endpointUrl,
+    });
+
+    throw new Error(`Error fetching airport information for ${airportCode}: ${err.message}`);
   }
 }
 

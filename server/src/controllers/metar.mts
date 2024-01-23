@@ -69,11 +69,11 @@ async function fetchMetarFromFlyByWire(airportCode: string): Promise<MetarDocume
       return response.data;
     } else {
       throw new Error(
-        `Error fetching metar for ${airportCode}: ${response.status} ${response.statusText}`
+        `Error fetching METAR for ${airportCode}: ${response.status} ${response.statusText}`
       );
     }
   } catch (error) {
-    throw new Error(`Error fetching metar for ${airportCode}: ${error}`);
+    throw new Error(`Error fetching METAR for ${airportCode}: ${error}`);
   }
 }
 
@@ -81,9 +81,10 @@ async function fetchMetarFromFlyByWire(airportCode: string): Promise<MetarDocume
 async function fetchMetarFromAviationWeather(airportCode: string): Promise<MetarDocument> {
   const endpointUrl = `https://aviationweather.gov/cgi-bin/data/metar.php?ids=${airportCode}&hours=0&order=id%2C-obs&sep=true&format=json`;
 
-  const response: AxiosResponse<IAviationWeatherMetar[]> = await axios.get(endpointUrl);
-
   try {
+    logger.debug(`Fetching METAR for ${airportCode}`, { url: endpointUrl });
+    const response: AxiosResponse<IAviationWeatherMetar[]> = await axios.get(endpointUrl);
+
     if (response.status === 200 && response.data.length > 0) {
       return {
         icao: response.data[0].icaoId,
@@ -91,11 +92,14 @@ async function fetchMetarFromAviationWeather(airportCode: string): Promise<Metar
         source: "AviationWeather",
       } as MetarDocument;
     } else {
+      logger.error(`Error fetching METAR for ${airportCode}`, { url: endpointUrl });
       throw new Error(
-        `Error fetching metar for ${airportCode}: ${response.status} ${response.statusText}`
+        `Error fetching METAR for ${airportCode}: ${response.status} ${response.statusText}`
       );
     }
   } catch (error) {
-    throw new Error(`Error fetching metar for ${airportCode}: ${error}`);
+    const err = error as Error;
+    logger.error(`Error fetching METAR for ${airportCode}: ${err.message}`, { url: endpointUrl });
+    throw new Error(`Error fetching METAR for ${airportCode}: ${err.message}`);
   }
 }
