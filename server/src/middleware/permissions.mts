@@ -3,7 +3,6 @@
 // and the user's permissions in the mongo database.
 
 // Import the User model
-import { Request, Response, NextFunction } from "express";
 import passport from "passport";
 
 export const verifyUser = passport.authenticate("jwt", { session: false });
