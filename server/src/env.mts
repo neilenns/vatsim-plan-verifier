@@ -21,6 +21,7 @@ const envSchema = z.object({
   VATSIM_DATA_AUTO_UPDATE_INTERVAL_CONNECTIONS: z.string().default("every 15 seconds"),
   VATSIM_DATA_AUTO_UPDATE_INTERVAL_NO_CONNECTIONS: z.string().default("every minute"),
   VATSIM_TRANSCEIVER_AUTO_UPDATE_INTERVAL: z.string().default("every 2 minutes"),
+  AIRPORT_INFO_AUTO_UPDATE_INTERVAL: z.string().default("at 1:42 am"),
   MAGNETIC_DECLINATION_CACHE_EXPIRY: z.coerce.number().default(30 * 24 * 60 * 60 * 1000), // 30 days
   AIRPORT_REFRESH_INTERVAL: z.string().default("every 24 hours"),
   VATSIM_GROUNDSPEED_CUTOFF: z.coerce.number().default(50),
