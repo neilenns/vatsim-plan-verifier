@@ -14,6 +14,7 @@ import passport from "passport";
 import { ENV } from "./env.mjs";
 import mainLogger from "./logger.mjs";
 import { setupSockets } from "./sockets/index.mjs";
+import morgan from "./middleware/morgan.mjs";
 
 const logger = mainLogger.child({ service: "server" });
 
@@ -87,6 +88,7 @@ export async function startServer(port: number): Promise<void> {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
   app.use(cookieParser(ENV.COOKIE_SECRET));
+  app.use(morgan);
 
   const whitelist = ENV.WHITELISTED_DOMAINS ? ENV.WHITELISTED_DOMAINS.split(",") : [];
 

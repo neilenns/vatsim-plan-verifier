@@ -7,4 +7,8 @@ declare namespace Express {
     lastName?: string;
     role?: "user" | "admin";
   }
+
+  export interface CustomRequest extends Request {
+    user?: User;
+  }
 }
