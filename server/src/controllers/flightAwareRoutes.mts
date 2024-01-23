@@ -4,6 +4,7 @@ import mainLogger from "../logger.mjs";
 import { FlightAwareRouteDocument, FlightAwareRouteModel } from "../models/FlightAwareRoute.mjs";
 import { FlightPlan } from "../models/FlightPlan.mjs";
 import Result from "../types/result.mjs";
+import pluralize from "pluralize";
 
 const logger = mainLogger.child({ service: "flightAwareRoutes" });
 
@@ -46,10 +47,6 @@ export async function getFlightAwareRoutes({
   try {
     fetchedRoutes = await fetchFlightRoutes(departure, arrival);
 
-    if (fetchedRoutes.routes.length === 0) {
-      logger.debug(`No routes found for ${departure}-${arrival}`);
-    }
-
     await Promise.all(
       fetchedRoutes.routes.map(async (route) => {
         const newRoute = new FlightAwareRouteModel({
@@ -86,18 +83,38 @@ async function fetchFlightRoutes(
     "x-apikey": ENV.FLIGHTAWARE_API_KEY,
   };
 
+  const endpointUrl = `https://aeroapi.flightaware.com/aeroapi/airports/${departure}/routes/${arrival}`;
+
   try {
-    const endpointUrl = `https://aeroapi.flightaware.com/aeroapi/airports/${departure}/routes/${arrival}`;
+    logger.debug(`Fetching FlightAware routes for ${departure}-${arrival}`, {
+      url: endpointUrl,
+    });
     const response: AxiosResponse<FlightAwareRoutesResponse> = await axios.get(endpointUrl, {
       headers,
     });
 
     if (response.status === 200) {
+      logger.debug(
+        `Fetched ${pluralize(
+          "route",
+          response.data.routes.length,
+          true
+        )} for ${departure}-${arrival}`,
+        {
+          url: endpointUrl,
+        }
+      );
       return response.data;
     } else {
+      logger.error(`Error fetching routes for ${departure}-${arrival}: ${response.status}`, {
+        url: endpointUrl,
+      });
       throw new Error(`Error fetching routes for ${departure}-${arrival}: ${response.status}`);
     }
   } catch (error) {
+    logger.error(`Error fetching routes for ${departure}-${arrival}: ${error}`, {
+      url: endpointUrl,
+    });
     throw new Error(`Error fetching routes for ${departure}-${arrival}: ${error}`);
   }
 }
