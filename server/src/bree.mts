@@ -17,6 +17,7 @@ enum JobName {
 
 class JobRunner {
   runner: Bree | null = null;
+  interval: string = "";
   options: Partial<Bree.JobOptions> | null = null;
 }
 
@@ -44,7 +45,6 @@ jobDefinitions.set(JobName.GetVatsimTransceivers, {
 });
 
 let io: SocketIOServer;
-let vatsimDataBree: Bree;
 
 async function deleteBree(jobName: JobName) {
   if (!jobDefinitions.has(jobName)) {
@@ -61,23 +61,18 @@ async function deleteBree(jobName: JobName) {
   }
 
   await definition.runner?.stop();
-  jobDefinitions.delete(jobName);
+  definition.runner = null;
 }
 
 function createBree(jobName: JobName, interval: string): Bree | null {
-  if (!jobDefinitions.has(jobName)) {
-    logger.debug(`Unable to create job ${jobName}: no definition found.`);
-    return null;
-  }
-
   const definition = jobDefinitions.get(jobName);
 
-  // This should never happen
   if (!definition) {
     logger.debug(`Unable to create job ${jobName}: no definition found.`);
     return null;
   }
 
+  definition.interval = interval;
   definition.runner = new Bree({
     root: path.join(path.dirname(fileURLToPath(import.meta.url)), "jobs"),
     defaultExtension: process.env.TS_NODE ? "mts" : "mjs",
@@ -109,12 +104,15 @@ function createBree(jobName: JobName, interval: string): Bree | null {
 }
 
 export async function setVatsimDataUpdateInterval(interval: string) {
-  if (!vatsimDataBree) {
+  if (ENV.NODE_ENV === "test") {
     return;
   }
 
-  logger.info(`Setting VATSIM data updates to ${interval}`);
-  deleteBree(JobName.GetVatsimData);
+  if (jobDefinitions.get(JobName.GetVatsimData)?.interval === interval) {
+    logger.debug(`${JobName.GetVatsimData} is already running every ${interval}`);
+  }
+  logger.info(`Setting ${JobName.GetVatsimData} updates to ${interval}`);
+  await deleteBree(JobName.GetVatsimData);
   await createBree(JobName.GetVatsimData, interval)?.start();
 }
 

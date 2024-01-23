@@ -7,7 +7,7 @@ import mainLogger from "../logger.mjs";
 import { publishEDCTupdate, publishFlightPlanUpdate } from "../services/vatsim.mjs";
 import { ClientToServerEvents, ServerToClientEvents } from "../types/socketEvents.mjs";
 
-const logger = mainLogger.child("sockets");
+const logger = mainLogger.child({ service: "sockets" });
 
 // Takes an array of airport codes, converts them all to upper case, and trims whitespace
 function cleanAirportCodes(codes: string[]): string[] {
