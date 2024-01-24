@@ -153,7 +153,9 @@ export function setupSockets(server: Server) {
         `Client disconnected: ${socket.id}. Total connected clients: ${io.sockets.sockets.size}`
       );
 
-      setVatsimDataUpdateInterval(ENV.VATSIM_DATA_AUTO_UPDATE_INTERVAL_NO_CONNECTIONS);
+      if (io.sockets.sockets.size === 0) {
+        setVatsimDataUpdateInterval(ENV.VATSIM_DATA_AUTO_UPDATE_INTERVAL_NO_CONNECTIONS);
+      }
     });
   });
 }
