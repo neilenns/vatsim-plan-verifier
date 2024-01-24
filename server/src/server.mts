@@ -11,10 +11,11 @@ import { Server } from "http";
 import { createHttpTerminator, HttpTerminator } from "http-terminator";
 import https from "https";
 import passport from "passport";
+import * as bree from "./bree.mjs";
 import { ENV } from "./env.mjs";
 import mainLogger from "./logger.mjs";
-import { setupSockets } from "./sockets/index.mjs";
 import morgan from "./middleware/morgan.mjs";
+import { setupSockets } from "./sockets/index.mjs";
 
 const logger = mainLogger.child({ service: "server" });
 
@@ -48,11 +49,14 @@ import userRouter from "./routes/users.mjs";
 import verifyRouter from "./routes/verify.mjs";
 
 // Vatsim routes
-import * as bree from "./bree.mjs";
 import vatsimATISRouter from "./routes/vatsim/ATIS.mjs";
 import vatsimFlightPlansRouter from "./routes/vatsim/flightPlans.mjs";
 import vatsimPilotsRouter from "./routes/vatsim/pilots.mjs";
 import vatsimTransceiversRouter from "./routes/vatsim/transceivers.mjs";
+
+// Admin routes
+
+import endConnections from "./routes/endConnections.mjs";
 
 export const app = express();
 let server: https.Server | Server;
@@ -146,6 +150,9 @@ export async function startServer(port: number): Promise<void> {
   // Verifier routes
   app.use(verifyRouter);
 
+  // Admin routes
+  app.use(endConnections);
+
   // Start up the server
   if (certFilesExist) {
     server = https.createServer(readCertsSync(), app);
@@ -164,14 +171,11 @@ export async function startServer(port: number): Promise<void> {
   });
 
   // Start the sockets
-  const io = setupSockets(server);
-  io.on("connection", (socket) => {
-    socket.on("disconnect", () => {});
-  });
+  setupSockets(server);
 
   // Start the jobs
   bree.initialize();
-  await bree.start(io);
+  await bree.start();
 
   // With the server up and running start watching for SSL file changes.
   startWatching();

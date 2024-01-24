@@ -1,6 +1,5 @@
 import Bree from "bree";
 import path from "path";
-import { Server as SocketIOServer } from "socket.io";
 import { fileURLToPath } from "url";
 import { ENV } from "./env.mjs";
 import mainLogger from "./logger.mjs";
@@ -43,8 +42,6 @@ jobDefinitions.set(JobName.GetVatsimTransceivers, {
     timeout: "1 minute",
   },
 });
-
-let io: SocketIOServer;
 
 async function deleteBree(jobName: JobName) {
   if (!jobDefinitions.has(jobName)) {
@@ -89,7 +86,7 @@ function createBree(jobName: JobName, interval: string): Bree | null {
     },
     workerMessageHandler: async ({ name, message }) => {
       if (message === "sendUpdates") {
-        await publishUpdates(io);
+        await publishUpdates();
       }
     },
   })
@@ -127,12 +124,10 @@ export function initialize() {
   createBree(JobName.ImportAirports, ENV.AIRPORT_INFO_AUTO_UPDATE_INTERVAL);
 }
 
-export async function start(ioInstance: SocketIOServer) {
+export async function start() {
   if (ENV.NODE_ENV === "test") {
     return;
   }
-
-  io = ioInstance;
 
   const promises = Array.from(jobDefinitions.values()).map(async (value) => {
     await value.runner?.start();
