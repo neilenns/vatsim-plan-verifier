@@ -1,6 +1,24 @@
 import "dotenv/config";
 import z from "zod";
 
+function booleanTransformer(v: string, ctx: z.RefinementCtx) {
+  v = v.toLowerCase();
+  switch (v) {
+    case "true":
+      return true;
+    case "false":
+      return false;
+    default:
+      ctx.addIssue({
+        code: z.ZodIssueCode.invalid_type,
+        expected: z.ZodParsedType.boolean,
+        received: z.ZodParsedType.string,
+        message: 'Expected "true" or "false"',
+      });
+      return false;
+  }
+}
+
 const envSchema = z.object({
   LOG_LEVEL: z.enum(["error", "warn", "info", "http", "debug", "trace"]).optional(),
   PORT: z.coerce.number().default(4001),
@@ -27,27 +45,9 @@ const envSchema = z.object({
   AIRPORT_REFRESH_INTERVAL: z.string().default("every 24 hours"),
   VATSIM_GROUNDSPEED_CUTOFF: z.coerce.number().default(50),
   VATSIM_DISTANCE_CUTOFF_IN_KM: z.coerce.number().default(5.5),
+  TRUST_PROXY: z.coerce.number().default(0),
   // from https://github.com/colinhacks/zod/issues/1630#issuecomment-1623726247
-  MONGOOSE_DEBUG: z
-    .string()
-    .transform<boolean>((v, ctx) => {
-      v = v.toLowerCase();
-      switch (v) {
-        case "true":
-          return true;
-        case "false":
-          return false;
-        default:
-          ctx.addIssue({
-            code: z.ZodIssueCode.invalid_type,
-            expected: z.ZodParsedType.boolean,
-            received: z.ZodParsedType.string,
-            message: 'Expected "true" or "false"',
-          });
-          return false;
-      }
-    })
-    .default("false"),
+  MONGOOSE_DEBUG: z.string().transform<boolean>(booleanTransformer).default("false"),
 });
 
 export const ENV = envSchema.parse(process.env);

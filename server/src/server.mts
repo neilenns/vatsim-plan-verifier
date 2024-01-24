@@ -88,6 +88,7 @@ function readCertsSync() {
 }
 
 export async function startServer(port: number): Promise<void> {
+  app.set("trust proxy", ENV.TRUST_PROXY);
   app.use(compression());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
