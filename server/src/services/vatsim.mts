@@ -6,6 +6,7 @@ import { IVatsimData } from "../interfaces/IVatsimData.mjs";
 import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
 import mainLogger from "../logger.mjs";
 import { VatsimFlightPlanModel, VatsimFlightStatus } from "../models/VatsimFlightPlan.mjs";
+import { getIO } from "../sockets/index.mjs";
 import { processVatsimATISData } from "./vatsimATIS.mjs";
 import { processVatsimFlightPlanData } from "./vatsimFlightPlans.mjs";
 
@@ -48,7 +49,6 @@ export async function getVatsimData(endpoint: string) {
         await processVatsimATISData(response.data as IVatsimData),
         await processVatsimFlightPlanData(response.data as IVatsimData),
       ]);
-      // await publishUpdates(io);
     } else {
       return {
         success: false,
@@ -66,7 +66,9 @@ export async function getVatsimData(endpoint: string) {
 }
 
 // Handles publishing updated data to all connected clients.
-export async function publishUpdates(io: SocketIOServer) {
+export async function publishUpdates() {
+  const io = getIO();
+
   if (!io) {
     logger.warn(`Unable to publish updates, no sockets defined`);
     return;

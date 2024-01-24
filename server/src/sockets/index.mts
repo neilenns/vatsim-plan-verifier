@@ -9,6 +9,8 @@ import { ClientToServerEvents, ServerToClientEvents } from "../types/socketEvent
 
 const logger = mainLogger.child({ service: "sockets" });
 
+let io: SocketIOServer;
+
 // Takes an array of airport codes, converts them all to upper case, and trims whitespace
 function cleanAirportCodes(codes: string[]): string[] {
   return codes.map((code) => code.toUpperCase().trim());
@@ -103,8 +105,12 @@ async function registerForAirports(io: SocketIOServer, socket: Socket, airportCo
   publishFlightPlanUpdate(io, roomName);
 }
 
-export function setupSockets(server: Server): SocketIOServer {
-  const io = new SocketIOServer<ClientToServerEvents, ServerToClientEvents>(server, {
+export function getIO() {
+  return io;
+}
+
+export function setupSockets(server: Server) {
+  io = new SocketIOServer<ClientToServerEvents, ServerToClientEvents>(server, {
     cors: {
       origin: ENV.WHITELISTED_DOMAINS.split(","),
       credentials: true,
@@ -150,6 +156,4 @@ export function setupSockets(server: Server): SocketIOServer {
       setVatsimDataUpdateInterval(ENV.VATSIM_DATA_AUTO_UPDATE_INTERVAL_NO_CONNECTIONS);
     });
   });
-
-  return io;
 }
