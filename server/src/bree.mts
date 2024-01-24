@@ -25,7 +25,7 @@ const jobDefinitions = new Map<JobName, Partial<JobRunner>>();
 
 jobDefinitions.set(JobName.GetVatsimData, {
   options: {
-    timeout: "10 seconds",
+    timeout: "1 minute",
   },
 });
 jobDefinitions.set(JobName.GetVatsimEndpoints, {
@@ -40,7 +40,7 @@ jobDefinitions.set(JobName.ImportAirports, {
 });
 jobDefinitions.set(JobName.GetVatsimTransceivers, {
   options: {
-    timeout: "10 seconds",
+    timeout: "1 minute",
   },
 });
 
