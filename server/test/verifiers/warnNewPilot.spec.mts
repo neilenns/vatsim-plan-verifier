@@ -45,6 +45,18 @@ const testData = [
     route: "SEA8 SEA BUWZO KRATR2",
     squawk: "1234",
   },
+  // Inexperienced pilot, first flight
+  {
+    _id: new Types.ObjectId("5f9f7b3b9d3b3c1b1c9b4b4e"),
+    cid: 1525631,
+    callsign: "ASA42",
+    departure: "KSEA",
+    arrival: "KPDX",
+    cruiseAltitude: 210,
+    rawAircraftType: "H/A388/L",
+    route: "SEA8 SEA BUWZO KRATR2",
+    squawk: "1234",
+  },
 ];
 
 describe("verifier: warnNewPilot tests", () => {
@@ -92,5 +104,19 @@ describe("verifier: warnNewPilot tests", () => {
     expect(data.status).to.equal(VerifierResultStatus.WARNING);
     expect(data.flightPlanPart).to.equal("callsign");
     expect(data.messageId).to.equal("newPilot");
+  });
+
+  it("should warn, inexperienced pilot (first flight)", async () => {
+    const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b4e");
+    expect(flightPlan.success).to.equal(true);
+
+    const result = await warnNewPilot((flightPlan as SuccessResult<FlightPlanDocument>).data);
+
+    expect(result.success).to.equal(true);
+
+    const data = (result as SuccessResult<VerifierResultDocument>).data;
+    expect(data.status).to.equal(VerifierResultStatus.WARNING);
+    expect(data.flightPlanPart).to.equal("callsign");
+    expect(data.messageId).to.equal("brandNewPilot");
   });
 });
