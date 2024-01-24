@@ -35,6 +35,7 @@ const colors = {
   info: "green",
   http: "magenta",
   debug: "white",
+  trace: "grey",
 };
 
 winston.addColors(colors);
