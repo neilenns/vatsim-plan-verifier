@@ -6,6 +6,21 @@ import mainLogger from "./logger.mjs";
 import { publishUpdates } from "./services/vatsim.mjs";
 
 const logger = mainLogger.child({ service: "bree" });
+let bree = new Bree({
+  root: path.join(path.dirname(fileURLToPath(import.meta.url)), "jobs"),
+  defaultExtension: process.env.TS_NODE ? "mts" : "mjs",
+  logger,
+  doRootCheck: false,
+  jobs: [],
+  errorHandler: (error, workerMetadata) => {
+    logger.error(`Error running worker ${workerMetadata.name}: ${error}`);
+  },
+  workerMessageHandler: async ({ name, message }) => {
+    if (message === "sendUpdates") {
+      await publishUpdates();
+    }
+  },
+});
 
 enum JobName {
   GetVatsimData = "getVatsimData",
@@ -14,90 +29,73 @@ enum JobName {
   GetVatsimTransceivers = "getVatsimTransceivers",
 }
 
-class JobRunner {
-  runner: Bree | null = null;
+// Tracks the list of jobs to create, plus their current interval since Bree
+// doesn't store the original interval string anywhere.
+class Job {
   interval: string = "";
   options: Partial<Bree.JobOptions> | null = null;
 }
 
-const jobDefinitions = new Map<JobName, Partial<JobRunner>>();
+const jobs = new Map<JobName, Partial<Job>>();
 
-jobDefinitions.set(JobName.GetVatsimData, {
+jobs.set(JobName.GetVatsimData, {
   options: {
     timeout: "10 seconds",
   },
 });
-jobDefinitions.set(JobName.GetVatsimEndpoints, {
+jobs.set(JobName.GetVatsimEndpoints, {
   options: {
     timeout: 0,
   },
 });
-jobDefinitions.set(JobName.ImportAirports, {
+jobs.set(JobName.ImportAirports, {
   options: {
     timeout: false, // Don't start this until its first scheduled instance
   },
 });
-jobDefinitions.set(JobName.GetVatsimTransceivers, {
+jobs.set(JobName.GetVatsimTransceivers, {
   options: {
     timeout: "15 seconds",
   },
 });
 
-async function deleteBree(jobName: JobName) {
-  if (!jobDefinitions.has(jobName)) {
-    logger.debug(`Unable to delete job ${jobName}: no definition found.`);
-    return null;
-  }
-
-  const definition = jobDefinitions.get(jobName);
+async function deleteJob(jobName: JobName) {
+  const definition = jobs.get(jobName);
 
   // This should never happen
   if (!definition) {
-    logger.debug(`Unable to delete job ${jobName}: no definition found.`);
+    logger.debug(`Unable to remove job ${jobName}: no definition found.`);
     return null;
   }
 
-  await definition.runner?.stop();
-  definition.runner = null;
+  logger.debug(`Removing job ${jobName}`);
+  await bree.remove(jobName);
+
+  // Set the interval to blank so next time this is added it will always add, even if the old interval was the same
+  definition.interval = "";
 }
 
-function createBree(jobName: JobName, interval: string): Bree | null {
-  const definition = jobDefinitions.get(jobName);
+async function addJob(name: JobName, interval: string) {
+  const definition = jobs.get(name);
 
   if (!definition) {
-    logger.debug(`Unable to create job ${jobName}: no definition found.`);
+    logger.debug(`Unable to create job ${name}: no definition found.`);
     return null;
   }
 
-  definition.interval = interval;
-  definition.runner = new Bree({
-    root: path.join(path.dirname(fileURLToPath(import.meta.url)), "jobs"),
-    defaultExtension: process.env.TS_NODE ? "mts" : "mjs",
-    logger,
-    jobs: [
-      {
-        name: jobName,
-        interval,
-        ...definition.options,
-      },
-    ],
-    errorHandler: (error, workerMetadata) => {
-      logger.error(`Error running worker ${workerMetadata.name}: ${error}`);
-    },
-    workerMessageHandler: async ({ name, message }) => {
-      if (message === "sendUpdates") {
-        await publishUpdates();
-      }
-    },
-  })
-    .on("worker created", (name) => {
-      logger.debug(`Worker created: ${name}`);
-    })
-    .on("worker deleted", (name) => {
-      logger.debug(`Worker deleted: ${name}`);
-    });
+  if (definition.interval === interval) {
+    logger.debug(`${name} is already running with interval ${interval}`);
+    return;
+  }
 
-  return definition.runner;
+  logger.debug(`Adding ${name} with interval ${interval}`);
+  definition.interval = interval;
+  await bree.add({
+    ...definition.options,
+    name,
+    interval,
+  });
+  await bree.start(name);
 }
 
 export async function setVatsimDataUpdateInterval(interval: string) {
@@ -105,12 +103,14 @@ export async function setVatsimDataUpdateInterval(interval: string) {
     return;
   }
 
-  if (jobDefinitions.get(JobName.GetVatsimData)?.interval === interval) {
+  if (jobs.get(JobName.GetVatsimData)?.interval === interval) {
     logger.debug(`${JobName.GetVatsimData} is already running every ${interval}`);
+    return;
   }
+
   logger.info(`Setting ${JobName.GetVatsimData} updates to ${interval}`);
-  await deleteBree(JobName.GetVatsimData);
-  await createBree(JobName.GetVatsimData, interval)?.start();
+  await deleteJob(JobName.GetVatsimData);
+  await addJob(JobName.GetVatsimData, interval);
 }
 
 export function initialize() {
@@ -118,10 +118,10 @@ export function initialize() {
     return;
   }
 
-  createBree(JobName.GetVatsimData, ENV.VATSIM_DATA_AUTO_UPDATE_INTERVAL_NO_CONNECTIONS);
-  createBree(JobName.GetVatsimEndpoints, "every 24 hours");
-  createBree(JobName.GetVatsimTransceivers, "every 1 hour");
-  createBree(JobName.ImportAirports, ENV.AIRPORT_INFO_AUTO_UPDATE_INTERVAL);
+  addJob(JobName.GetVatsimData, ENV.VATSIM_DATA_AUTO_UPDATE_INTERVAL_NO_CONNECTIONS);
+  addJob(JobName.GetVatsimEndpoints, "every 24 hours");
+  addJob(JobName.GetVatsimTransceivers, "every 1 hour");
+  addJob(JobName.ImportAirports, ENV.AIRPORT_INFO_AUTO_UPDATE_INTERVAL);
 }
 
 export async function start() {
@@ -129,10 +129,7 @@ export async function start() {
     return;
   }
 
-  const promises = Array.from(jobDefinitions.values()).map(async (value) => {
-    await value.runner?.start();
-  });
-  await Promise.all(promises);
+  await bree.start();
 }
 
 export async function stop() {
@@ -140,8 +137,5 @@ export async function stop() {
     return;
   }
 
-  const promises = Array.from(jobDefinitions.values()).map(async (value) => {
-    await (value.runner?.stop() ?? Promise.resolve());
-  });
-  await Promise.all(promises);
+  await bree.stop();
 }
