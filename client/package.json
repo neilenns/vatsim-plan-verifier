@@ -27,6 +27,7 @@
     "pluralize": "^8.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-idle-timer": "^5.7.2",
     "react-markdown": "^8.0.7",
     "react-router-dom": "^6.14.2",
     "remark-gfm": "^3.0.1",
