@@ -52,6 +52,10 @@ const pilotStats = [
     sup: 0,
     adm: 0,
   },
+  {
+    _id: "64d816a144012e5b4de814a4",
+    cid: 1525631,
+  },
 ];
 
 export default async function setup() {

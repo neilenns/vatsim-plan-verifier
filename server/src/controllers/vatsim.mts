@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { IVatsimPilotStats } from "../interfaces/IVatsimPilotStats.mjs";
 import mainLogger from "../logger.mjs";
 import { PilotStatsDocument, PilotStatsModel } from "../models/PilotStats.mjs";
@@ -78,7 +78,15 @@ async function fetchPilotStatsFromVatsim(cid: number): Promise<IVatsimPilotStats
       throw new Error(`Error fetching pilot stats for ${cid}: ${response.status}`);
     }
   } catch (error) {
-    const err = error as Error;
+    const err = error as AxiosError;
+    // A 404 indicates the pilot is so new there is no data for them yet
+    if (err.response?.status === 404) {
+      logger.debug(`No pilot stats found for ${cid}. Returning 0s for all values.`);
+      return {
+        id: cid,
+      } as IVatsimPilotStats;
+    }
+
     logger.error(`Error fetching VATSIM pilot stats for ${err.message}`, { url: endpointUrl });
     throw new Error(`Error fetching pilot stats for ${cid}: ${err.message}`);
   }
