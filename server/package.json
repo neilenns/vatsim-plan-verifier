@@ -63,7 +63,7 @@
     "@types/luxon": "^3.3.6",
     "@types/mocha": "^10.0.1",
     "@types/mustache": "^4.2.2",
-    "@types/node": "^20.4.2",
+    "@types/node": "^20.11.6",
     "@types/passport": "^1.0.12",
     "@types/passport-jwt": "^3.0.9",
     "@types/passport-local": "^1.0.35",

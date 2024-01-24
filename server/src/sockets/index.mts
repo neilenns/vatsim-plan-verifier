@@ -1,6 +1,6 @@
 import { Server } from "http";
 import { Socket, Server as SocketIOServer } from "socket.io";
-import { setVatsimDataUpdateInterval } from "../bree.mjs";
+import { JobName, setJobUpdateInterval } from "../bree.mjs";
 import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import { ENV } from "../env.mjs";
 import mainLogger from "../logger.mjs";
@@ -124,7 +124,11 @@ export function setupSockets(server: Server) {
       `Client connected: ${socket.id}. Total connected clients: ${io.sockets.sockets.size}`
     );
 
-    setVatsimDataUpdateInterval(ENV.VATSIM_DATA_AUTO_UPDATE_INTERVAL_CONNECTIONS);
+    setJobUpdateInterval(JobName.GetVatsimData, ENV.VATSIM_DATA_AUTO_UPDATE_INTERVAL_CONNECTIONS);
+    setJobUpdateInterval(
+      JobName.GetVatsimTransceivers,
+      ENV.VATSIM_TRANSCEIVER_AUTO_UPDATE_INTERVAL_CONNECTIONS
+    );
 
     // Listen for the 'setAirport' event from the client
     socket.on("watchAirports", async (airportCodes: string[]) => {
@@ -154,7 +158,14 @@ export function setupSockets(server: Server) {
       );
 
       if (io.sockets.sockets.size === 0) {
-        setVatsimDataUpdateInterval(ENV.VATSIM_DATA_AUTO_UPDATE_INTERVAL_NO_CONNECTIONS);
+        setJobUpdateInterval(
+          JobName.GetVatsimData,
+          ENV.VATSIM_DATA_AUTO_UPDATE_INTERVAL_NO_CONNECTIONS
+        );
+        setJobUpdateInterval(
+          JobName.GetVatsimTransceivers,
+          ENV.VATSIM_TRANSCEIVER_AUTO_UPDATE_INTERVAL_NO_CONNECTIONS
+        );
       }
     });
   });

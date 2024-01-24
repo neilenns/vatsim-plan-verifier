@@ -22,7 +22,7 @@ let bree = new Bree({
   },
 });
 
-enum JobName {
+export enum JobName {
   GetVatsimData = "getVatsimData",
   GetVatsimEndpoints = "getVatsimEndpoints",
   ImportAirports = "importAirports",
@@ -98,19 +98,19 @@ async function addJob(name: JobName, interval: string) {
   await bree.start(name);
 }
 
-export async function setVatsimDataUpdateInterval(interval: string) {
+export async function setJobUpdateInterval(name: JobName, interval: string) {
   if (ENV.NODE_ENV === "test") {
     return;
   }
 
-  if (jobs.get(JobName.GetVatsimData)?.interval === interval) {
-    logger.debug(`${JobName.GetVatsimData} is already running every ${interval}`);
+  if (jobs.get(name)?.interval === interval) {
+    logger.debug(`${name} is already running every ${interval}`);
     return;
   }
 
-  logger.info(`Setting ${JobName.GetVatsimData} updates to ${interval}`);
-  await deleteJob(JobName.GetVatsimData);
-  await addJob(JobName.GetVatsimData, interval);
+  logger.info(`Setting ${name} updates to ${interval}`);
+  await deleteJob(name);
+  await addJob(name, interval);
 }
 
 export function initialize() {
@@ -120,7 +120,7 @@ export function initialize() {
 
   addJob(JobName.GetVatsimData, ENV.VATSIM_DATA_AUTO_UPDATE_INTERVAL_NO_CONNECTIONS);
   addJob(JobName.GetVatsimEndpoints, "every 24 hours");
-  addJob(JobName.GetVatsimTransceivers, "every 1 hour");
+  addJob(JobName.GetVatsimTransceivers, ENV.VATSIM_TRANSCEIVER_AUTO_UPDATE_INTERVAL_NO_CONNECTIONS);
   addJob(JobName.ImportAirports, ENV.AIRPORT_INFO_AUTO_UPDATE_INTERVAL);
 }
 
