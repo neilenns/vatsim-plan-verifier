@@ -5,7 +5,7 @@ import { ENV } from "./env.mjs";
 import mainLogger from "./logger.mjs";
 import { publishUpdates } from "./services/vatsim.mjs";
 
-const logger = mainLogger.child({ service: "bree" });
+const logger = mainLogger.child({ service: "jobs" });
 let bree = new Bree({
   root: path.join(path.dirname(fileURLToPath(import.meta.url)), "jobs"),
   defaultExtension: process.env.TS_NODE ? "mts" : "mjs",
@@ -120,6 +120,7 @@ export async function setJobUpdateInterval(name: JobName, interval: string) {
   logger.info(`Setting ${name} updates to ${interval}`);
   await deleteJob(name);
   await addJob(name, interval);
+  logger.debug(`${name} updated to ${interval}`);
 }
 
 export async function initialize() {
@@ -127,6 +128,7 @@ export async function initialize() {
     return;
   }
 
+  logger.debug(`Initializing jobs`);
   await addJob(JobName.GetVatsimData, ENV.VATSIM_DATA_AUTO_UPDATE_INTERVAL_NO_CONNECTIONS, false);
   await addJob(JobName.GetVatsimEndpoints, "every 24 hours", false);
   await addJob(
@@ -135,6 +137,7 @@ export async function initialize() {
     false
   );
   await addJob(JobName.ImportAirports, ENV.AIRPORT_INFO_AUTO_UPDATE_INTERVAL, false);
+  logger.debug(`Jobs initialized`);
 }
 
 export async function start() {
@@ -144,6 +147,7 @@ export async function start() {
 
   logger.debug(`Starting jobs`);
   await bree.start();
+  logger.debug(`Jobs started`);
 }
 
 export async function stop() {
@@ -153,4 +157,5 @@ export async function stop() {
 
   logger.debug(`Stopping jobs`);
   await bree.stop();
+  logger.debug(`Jobs stopped`);
 }
