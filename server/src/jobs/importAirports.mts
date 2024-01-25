@@ -3,6 +3,7 @@ import process from "node:process";
 import { fetchAirportsFromAvioWiki } from "../controllers/airportInfo.mjs";
 import { connectToDatabase, disconnectFromDatabase } from "../database.mjs";
 import mainLogger, { flush } from "../logger.mjs";
+import postMessage from "../utils/postMessage.mjs";
 
 const logger = mainLogger.child({ service: "importAirports" });
 
@@ -31,4 +32,6 @@ if (!dispose) {
 }
 
 await flush();
-process.exit(0);
+if (!postMessage("done")) {
+  process.exit(0);
+}

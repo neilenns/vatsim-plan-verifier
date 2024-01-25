@@ -4,6 +4,7 @@ import { connectToDatabase, disconnectFromDatabase } from "../database.mjs";
 import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
 import mainLogger, { flush } from "../logger.mjs";
 import { VatsimEndpointModel } from "../models/VatsimEndpoint.mjs";
+import postMessage from "../utils/postMessage.mjs";
 
 const logger = mainLogger.child({ service: "getVatsimEndpoints" });
 
@@ -43,4 +44,6 @@ try {
 
 await disconnectFromDatabase();
 await flush();
-process.exit(0);
+if (!postMessage("done")) {
+  process.exit(0);
+}
