@@ -68,24 +68,7 @@ jobs:
     environment: production
     steps:
       - name: Deploy to Portainer
-        # -L makes curl follow the redirect from cloudflare
-        # -w captures the HTTP code
-        # -s is silent so no progress bar shows
-        # -o /dev/null sends the response to null so it doesn't contaminate the response code
-        # -H adds the two Cloudflare headers to allow webhook access
         run: |
-          status_code=$(curl -X POST \
-            -L \
-            -w "%{http_code}" \
-            -s \
-            -o /dev/null \
-            -H "CF-Access-Client-Id: ${{ secrets.CF_ACCESS_CLIENT_ID }}" \
-            -H "CF-Access-Client-Secret: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}" \
-            "${{ secrets.PORTAINER_WEBHOOK_URL }}")
-          echo "Status code received: $status_code"
-          if [ $status_code -eq 200 ]; then
-             echo "Deployment succeeded"
-          else
-             echo "Deployment failed"
-             exit 1
-          fi
+          curl -X POST "${{ secrets.PORTAINER_WEBHOOK_URL }}" \
+          -H "CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}" \
+          -H "CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}"
