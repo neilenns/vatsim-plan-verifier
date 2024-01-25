@@ -61,6 +61,18 @@ export async function getAirportInfo(airportCode: string): Promise<AirportInfoRe
       };
     }
 
+    // Issue 837:
+    // This handles the case of someone filing `KL77` when the airport code is actually `L77`.
+    // FightAware will happily find that and return the airport data but the reality is the
+    // airport code is wrong and it should not be treated as a found airport.
+    if (fetchedAirport.airportCode !== airportCode) {
+      return {
+        success: false,
+        errorType: "AirportNotFound",
+        error: `No airport found for ${airportCode}`,
+      };
+    }
+
     const airport = new AirportInfoModel({
       ...fetchedAirport,
     });
