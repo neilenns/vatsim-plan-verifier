@@ -175,7 +175,7 @@ export async function startServer(port: number): Promise<void> {
   setupSockets(server);
 
   // Start the jobs
-  bree.initialize();
+  await bree.initialize();
   await bree.start();
 
   // With the server up and running start watching for SSL file changes.

@@ -20,7 +20,13 @@ let bree = new Bree({
       await publishUpdates();
     }
   },
-});
+})
+  .on("worker created", (name) => {
+    logger.debug(`Worker created: ${name}`);
+  })
+  .on("worker deleted", (name) => {
+    logger.debug(`Worker deleted: ${name}`);
+  });
 
 export enum JobName {
   GetVatsimData = "getVatsimData",
@@ -75,7 +81,7 @@ async function deleteJob(jobName: JobName) {
   definition.interval = "";
 }
 
-async function addJob(name: JobName, interval: string) {
+async function addJob(name: JobName, interval: string, start = true) {
   const definition = jobs.get(name);
 
   if (!definition) {
@@ -95,7 +101,10 @@ async function addJob(name: JobName, interval: string) {
     name,
     interval,
   });
-  await bree.start(name);
+
+  if (start) {
+    await bree.start(name);
+  }
 }
 
 export async function setJobUpdateInterval(name: JobName, interval: string) {
@@ -113,15 +122,19 @@ export async function setJobUpdateInterval(name: JobName, interval: string) {
   await addJob(name, interval);
 }
 
-export function initialize() {
+export async function initialize() {
   if (ENV.NODE_ENV === "test") {
     return;
   }
 
-  addJob(JobName.GetVatsimData, ENV.VATSIM_DATA_AUTO_UPDATE_INTERVAL_NO_CONNECTIONS);
-  addJob(JobName.GetVatsimEndpoints, "every 24 hours");
-  addJob(JobName.GetVatsimTransceivers, ENV.VATSIM_TRANSCEIVER_AUTO_UPDATE_INTERVAL_NO_CONNECTIONS);
-  addJob(JobName.ImportAirports, ENV.AIRPORT_INFO_AUTO_UPDATE_INTERVAL);
+  await addJob(JobName.GetVatsimData, ENV.VATSIM_DATA_AUTO_UPDATE_INTERVAL_NO_CONNECTIONS, false);
+  await addJob(JobName.GetVatsimEndpoints, "every 24 hours", false);
+  await addJob(
+    JobName.GetVatsimTransceivers,
+    ENV.VATSIM_TRANSCEIVER_AUTO_UPDATE_INTERVAL_NO_CONNECTIONS,
+    false
+  );
+  await addJob(JobName.ImportAirports, ENV.AIRPORT_INFO_AUTO_UPDATE_INTERVAL, false);
 }
 
 export async function start() {
@@ -129,6 +142,7 @@ export async function start() {
     return;
   }
 
+  logger.debug(`Starting jobs`);
   await bree.start();
 }
 
@@ -137,5 +151,6 @@ export async function stop() {
     return;
   }
 
+  logger.debug(`Stopping jobs`);
   await bree.stop();
 }
