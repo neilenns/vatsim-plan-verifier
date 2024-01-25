@@ -68,7 +68,7 @@ jobs:
     environment: production
     steps:
       - name: Deploy to Portainer
-        uses: joelwmale/webhook-action@448a17bf857ead98546cfbdbe3b9d4cf979dda95 # v2.3.2
-        with:
-          url: ${{ secrets.PORTAINER_WEBHOOK_URL }}
-          headers: '{"CF_ACCESS_CLIENT_ID": "${{ secrets.CF_ACCESS_CLIENT_ID }}", "CF_ACCESS_CLIENT_SECRET": "${{ secrets.CF_ACCESS_CLIENT_SECRET }}" }'
+        run: |
+          curl -X POST "${{ secrets.PORTAINER_WEBHOOK_URL }}" \
+          -H "CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}" \
+          -H "CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}"
