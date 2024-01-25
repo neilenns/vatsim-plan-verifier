@@ -41,4 +41,6 @@ if (!dispose) {
 }
 
 await flush();
-process.exit(0);
+if (!postMessage("done")) {
+  process.exit(0);
+}

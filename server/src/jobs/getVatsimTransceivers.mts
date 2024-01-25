@@ -3,6 +3,7 @@ import { connectToDatabase, disconnectFromDatabase } from "../database.mjs";
 import mainLogger, { flush } from "../logger.mjs";
 import { VatsimEndpointModel } from "../models/VatsimEndpoint.mjs";
 import { getVatsimTunedTransceivers } from "../services/vatsimTunedTransceivers.mjs";
+import postMessage from "../utils/postMessage.mjs";
 
 const logger = mainLogger.child({ service: "getVatsimTransceivers" });
 
@@ -25,4 +26,6 @@ try {
 
 await disconnectFromDatabase();
 await flush();
-process.exit(0);
+if (!postMessage("done")) {
+  process.exit(0);
+}
