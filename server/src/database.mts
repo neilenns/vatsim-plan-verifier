@@ -29,7 +29,7 @@ export async function connectToDatabase() {
     return;
   }
 
-  logger.debug(`Connecting to ${url}...`);
+  logger.debug(`Connecting to database...`, { mongodb: { connectionString: url } });
   const connect = mongoose.connect(url, {
     dbName: ENV.MONGO_DB_NAME,
   });
