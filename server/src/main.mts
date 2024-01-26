@@ -15,6 +15,7 @@ let restartTimer: NodeJS.Timeout;
 
 async function startup() {
   try {
+    logger.info(`Plan verifier ${ENV.VERSION} starting`);
     // Clean up any stray lock file that may have been left behind by a prior
     // run of the service.
     const lockfilePath = path.resolve("airports.lock");

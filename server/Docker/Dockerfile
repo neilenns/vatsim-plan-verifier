@@ -34,5 +34,10 @@ RUN npm ci --only=production
 # Expose the port on which your Express.js app listens
 EXPOSE 4001
 
+# Pull the version from the github build environment
+ARG VERSION
+ENV VERSION=${VERSION:-dev}
+RUN echo $VERSION
+
 # Set the entrypoint file
 CMD ["node", "dist/main.mjs"]

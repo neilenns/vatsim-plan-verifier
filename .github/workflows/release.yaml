@@ -61,6 +61,8 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=registry,ref=neilenns/vatsim-plan-verifier-${{ matrix.context }}:latest
           cache-to: type=inline
+          build-args: |
+            VERSION=${{ github.event.release.tag_name }}
 
   # Issue 889: Disable for now until Portainer fixes the bug on their end preventing this from working
   # deploy:

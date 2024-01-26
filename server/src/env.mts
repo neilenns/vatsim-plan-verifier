@@ -20,6 +20,7 @@ function booleanTransformer(v: string, ctx: z.RefinementCtx) {
 }
 
 const envSchema = z.object({
+  VERSION: z.string().default("dev"),
   LOG_LEVEL: z.enum(["error", "warn", "info", "http", "debug", "trace"]).optional(),
   PORT: z.coerce.number().default(4001),
   MONGO_DB_CONNECTION_STRING: z.string(),
