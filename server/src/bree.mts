@@ -23,9 +23,17 @@ let bree = new Bree({
 })
   .on("worker created", (name) => {
     logger.debug(`Worker created: ${name}`);
+    const jobsRunning = bree.config.jobs.map((j: { name: string }) => j.name).join(", ");
+    const workers = Array.from(bree.workers.keys()).join(", ");
+    logger.debug(`Current jobs: ${jobsRunning}`);
+    logger.debug(`Current workers: ${workers}`);
   })
   .on("worker deleted", (name) => {
     logger.debug(`Worker deleted: ${name}`);
+    const jobsRunning = bree.config.jobs.map((j: { name: string }) => j.name).join(", ");
+    const workers = Array.from(bree.workers.keys()).join(", ");
+    logger.debug(`Current jobs: ${jobsRunning}`);
+    logger.debug(`Current workers: ${workers}`);
   });
 
 export enum JobName {
