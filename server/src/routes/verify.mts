@@ -15,7 +15,6 @@ import checkForNonStandardEquipmentSuffix from "../controllers/verifiers/checkFo
 import checkForPreferredRoutes from "../controllers/verifiers/checkForPreferredRoutes.mjs";
 import checkKPDXtoKSLEAltitude from "../controllers/verifiers/checkKPDXtoKSLEAltitude.mjs";
 import checkSEAInitialSID from "../controllers/verifiers/checkSEAInitialSID.mjs";
-import checkSEAvsMONTN from "../controllers/verifiers/checkSEAvsMONTN.mjs";
 import departureForLocalTime from "../controllers/verifiers/departureForLocalTime.mjs";
 import hasEquipmentSuffix from "../controllers/verifiers/hasEquipmentSuffix.mjs";
 import hasSID from "../controllers/verifiers/hasSID.mjs";
@@ -76,7 +75,6 @@ const verifiers: Verifier[] = [
   { name: "hasValidFirstFix", handler: hasValidFirstFix },
   { name: "pistonNotSlantLorZ", handler: pistonNotSlantLorZ },
   { name: "checkKPDXtoKSLEAltitude", handler: checkKPDXtoKSLEAltitude },
-  { name: "checkSEAvsMONTN", handler: checkSEAvsMONTN },
   { name: "warnNewPilot", handler: warnNewPilot },
   { name: "altitudeForAltimeter", handler: altitudeForAltimeter },
   { name: "warnTextOnlyPilot", handler: warnTextOnlyPilot },
