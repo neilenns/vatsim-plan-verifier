@@ -54,6 +54,19 @@ const FlightPlan = (props: FlightPlanProps) => {
     }
   }, [flightPlan]);
 
+  const copyPlan = async () => {
+    if (!flightPlan)
+    {
+      return;
+    }
+
+    // Convert cruiseAltitude to a string so padStart() can be called on it
+    const cruiseAltitude = flightPlan.cruiseAltitude?.toString() ?? "";
+
+    const formattedPlan = `${flightPlan.callsign ?? ""}  ${flightPlan.rawAircraftType ?? ""}  ${flightPlan.squawk ?? ""}  ${flightPlan.departure ?? ""} - ${flightPlan.arrival ?? ""}  ${cruiseAltitude.padStart(3, "0")}  ${flightPlan.route ?? ""}`;
+    await navigator.clipboard.writeText(formattedPlan);
+  }
+
   const parsePastedFlightPlan = (text: string): boolean => {
     const pastedFlightPlan = parseFlightPlan(text);
     const isValidFlightPlan = validateFlightPlan(pastedFlightPlan);
@@ -295,6 +308,22 @@ const FlightPlan = (props: FlightPlanProps) => {
               endIcon={<OpenInNew />}
             >
               View aircraft
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3} lg={2} key="copyPlan">
+            <Button
+              fullWidth
+              disabled={!flightPlan || !flightPlan.callsign || !flightPlan.rawAircraftType || !flightPlan.squawk || !flightPlan.departure || !flightPlan.arrival || !flightPlan.cruiseAltitude || !flightPlan.route}
+              onClick={
+                // All this nonsense to handle an async method in an onClick handler comes from
+                // https://stackoverflow.com/a/77162986
+                () => {
+                    void (async () => {
+                        await copyPlan()
+                    })();
+                 }
+             }>          
+              Copy plan
             </Button>
           </Grid>
         </Grid>
