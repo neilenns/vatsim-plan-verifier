@@ -1,11 +1,24 @@
+import { Stream as StreamIcon } from "@mui/icons-material";
+import {
+  Box,
+  IconButton,
+  Paper,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+} from "@mui/material";
+import debug from "debug";
+import pluralize from "pluralize";
 import { useEffect, useRef, useState } from "react";
+import { useIdleTimer } from "react-idle-timer";
 import socketIOClient, { Socket } from "socket.io-client";
 import { apiKey, serverUrl } from "../configs/planVerifierServer.mts";
 import { IVatsimFlightPlan } from "../interfaces/IVatsimFlightPlan.mts";
-import { IconButton, Box, Stack, TextField, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody } from "@mui/material";
-import debug from "debug";
-import { Stream as StreamIcon } from "@mui/icons-material";
-import pluralize from "pluralize";
 import AlertSnackbar, { AlertSnackBarOnClose, AlertSnackbarProps } from "./AlertSnackbar";
 import { useAudio } from "./AudioHook";
 
@@ -21,9 +34,7 @@ const VatsimEDCTFlightPlans = () => {
   const [departureCodes, setDepartureCodes] = useState(
     localStorage.getItem("edctDepartureCodes") || ""
   );
-  const [arrivalCodes, setArrivalCodes] = useState(
-    localStorage.getItem("edctArrivalCodes") || ""
-  );
+  const [arrivalCodes, setArrivalCodes] = useState(localStorage.getItem("edctArrivalCodes") || "");
   // Issue 709: This is a non-rendering version of airportCodesRef that can get safely used in useEffect()
   // to send the airport codes to the connected socket.
   const departureCodesRef = useRef<string>(localStorage.getItem("edctDepartureCodes") || "");
@@ -64,7 +75,11 @@ const VatsimEDCTFlightPlans = () => {
     socketRef.current.on("connect", () => {
       logger("Connected for VATSIM EDCT flight plan updates");
 
-      socketRef.current?.emit("watchEDCT", departureCodesRef.current?.split(","), arrivalCodesCodesRef.current?.split(","));
+      socketRef.current?.emit(
+        "watchEDCT",
+        departureCodesRef.current?.split(","),
+        arrivalCodesCodesRef.current?.split(",")
+      );
 
       setIsConnected(true);
     });
@@ -128,6 +143,25 @@ const VatsimEDCTFlightPlans = () => {
     };
   }, []);
 
+  const onIdle = () => {
+    if (isConnected) {
+      logger(`Inactivity detected, stopping auto-refresh.`);
+      socketRef.current?.disconnect();
+      setIsConnected(false);
+    }
+  };
+
+  const onPrompt = () => {
+    if (isConnected) {
+      const message = `Inactivity detected, auto-refresh will stop in five minutes.`;
+      logger(message);
+      setSnackbar({
+        children: message,
+        severity: "warning",
+      });
+    }
+  };
+
   const disconnectFromVatsim = () => {
     if (isConnected) {
       socketRef.current?.disconnect();
@@ -135,14 +169,15 @@ const VatsimEDCTFlightPlans = () => {
     }
   };
 
-  const cleanCodes = (codes: string) : string => {
-    return codes.split(",")
-    .map((code) => code.trim())
-    .join(",");
-  }
+  const cleanCodes = (codes: string): string => {
+    return codes
+      .split(",")
+      .map((code) => code.trim())
+      .join(",");
+  };
 
   const toggleVatsimConnection = () => {
-    if ((departureCodes === "") || (arrivalCodes === "")) return;
+    if (departureCodes === "" || arrivalCodes === "") return;
 
     // Not currently connected so connect
     if (!isConnected && socketRef.current) {
@@ -170,6 +205,13 @@ const VatsimEDCTFlightPlans = () => {
       disconnectFromVatsim();
     }
   };
+
+  useIdleTimer({
+    timeout: 1000 * 60 * 60, // 60 minutes
+    promptBeforeIdle: 1000 * 60 * 55, // 55 minutes
+    onIdle,
+    onPrompt,
+  });
 
   return (
     <>

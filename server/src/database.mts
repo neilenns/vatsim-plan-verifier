@@ -1,18 +1,25 @@
 import mongoose from "mongoose";
 import { ENV } from "./env.mjs";
+import mainLogger from "./logger.mjs";
 import "./models/Aircraft.mjs";
 import "./models/AirportInfo.mjs";
 import "./models/Departure.mjs";
 import "./models/FlightAwareRoute.mjs";
 import "./models/FlightPlan.mjs";
-import mainLogger from "./logger.mjs";
 
 const logger = mainLogger.child({ service: "database" });
 
 export async function connectToDatabase() {
   const url = ENV.MONGO_DB_CONNECTION_STRING;
 
-  mongoose.set("debug", ENV.MONGOOSE_DEBUG);
+  if (ENV.MONGOOSE_DEBUG) {
+    mongoose.set("debug", (collectionName, method, query, doc) => {
+      logger.log(`trace`, `${collectionName}.${method}`, {
+        query,
+        doc,
+      });
+    });
+  }
   if (ENV.NODE_ENV === "production") {
     mongoose.set("autoIndex", false);
   }
@@ -22,7 +29,7 @@ export async function connectToDatabase() {
     return;
   }
 
-  logger.debug(`Connecting to ${url}...`);
+  logger.debug(`Connecting to database...`, { mongodb: { connectionString: url } });
   const connect = mongoose.connect(url, {
     dbName: ENV.MONGO_DB_NAME,
   });

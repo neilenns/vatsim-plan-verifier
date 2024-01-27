@@ -27,6 +27,11 @@ export default async function warnNewPilot({
       result.message = `Pilot stats are not available for this flight plan.`;
       result.messageId = "pilotStatsNotAvailable";
       result.priority = 3;
+    } else if (pilotStats.pilot === 0) {
+      result.status = VerifierResultStatus.WARNING;
+      result.message = `Pilot is brand new, this is their first VATSIM flight.`;
+      result.messageId = "brandNewPilot";
+      result.priority = 1;
     } else if (pilotStats.pilot < 50) {
       result.status = VerifierResultStatus.WARNING;
       result.message = `Pilot is new with only ${pluralize(

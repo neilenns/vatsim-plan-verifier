@@ -17,13 +17,13 @@ jobs:
             image: ghcr.io/neilenns/vatsim-plan-verifier-server
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -31,7 +31,7 @@ jobs:
 
       - name: Generate Docker metadata
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           # list of Docker images to use as base name for tags
           images: |
@@ -52,7 +52,7 @@ jobs:
             type=sha
 
       - name: Build and push image
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.context }}/Docker/Dockerfile
@@ -61,3 +61,34 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=registry,ref=neilenns/vatsim-plan-verifier-${{ matrix.context }}:latest
           cache-to: type=inline
+          build-args: |
+            VERSION=${{ github.event.release.tag_name }}
+
+  # Issue 889: Disable for now until Portainer fixes the bug on their end preventing this from working
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   needs: build-and-push-image
+  #   environment: production
+  #   steps:
+  #     - name: Deploy to Portainer
+  # -L makes curl follow the redirect from cloudflare
+  # -w captures the HTTP code
+  # -s is silent so no progress bar shows
+  # -o /dev/null sends the response to null so it doesn't contaminate the response code
+  # -H adds the two Cloudflare headers to allow webhook access
+  # run: |
+  #   status_code=$(curl -X POST \
+  #     -L \
+  #     -w "%{http_code}" \
+  #     -s \
+  #     -o /dev/null \
+  #     -H "CF-Access-Client-Id: ${{ secrets.CF_ACCESS_CLIENT_ID }}" \
+  #     -H "CF-Access-Client-Secret: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}" \
+  #     "${{ secrets.PORTAINER_WEBHOOK_URL }}")
+  #   echo "Status code received: $status_code"
+  #   if [ $status_code -eq 200 ]; then
+  #      echo "Deployment succeeded"
+  #   else
+  #      echo "Deployment failed"
+  #      exit 1
+  #   fi

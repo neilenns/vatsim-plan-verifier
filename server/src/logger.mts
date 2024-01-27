@@ -35,9 +35,22 @@ const colors = {
   info: "green",
   http: "magenta",
   debug: "white",
+  trace: "grey",
 };
 
 winston.addColors(colors);
+
+function sanitizeMongoDBConnectionString(info: any) {
+  if (info.mongodb?.connectionString) {
+    // Replace only the username/password part in the MongoDB connection string
+    info.mongodb.connectionString = info.mongodb.connectionString.replace(
+      /\/\/[^:]+:([^@]+)@/,
+      "//*****:*****@"
+    );
+  }
+
+  return info;
+}
 
 const consoleFormat = winston.format.combine(
   winston.format.timestamp(),
@@ -45,7 +58,10 @@ const consoleFormat = winston.format.combine(
     const message = `[${info.service}] ${info.message}`;
     // This method of applying colour comes from https://stackoverflow.com/a/63104828
     return `${info.timestamp} ${winston.format.colorize().colorize(info.level, message)}`;
-  })
+  }),
+  // Note the extra () on the end, see https://github.com/winstonjs/winston/issues/1392#issuecomment-402545349
+  // for why.
+  winston.format((info) => sanitizeMongoDBConnectionString(info))()
 );
 
 const Logger = winston.createLogger({

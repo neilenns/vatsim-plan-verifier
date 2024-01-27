@@ -17,10 +17,20 @@ export async function getAirportInfo(airportCode: string): Promise<AirportInfoRe
     const airport = await AirportInfoModel.findOne({ airportCode });
 
     if (airport) {
-      return {
-        success: true,
-        data: airport,
-      };
+      // Airports with blank names are placeholders indicating it doesn't exist to prevent repeated checks with
+      // FlightAware
+      if (airport.name) {
+        return {
+          success: true,
+          data: airport,
+        };
+      } else {
+        return {
+          success: false,
+          errorType: "AirportNotFound",
+          error: `No airport found for ${airportCode}`,
+        };
+      }
     }
   } catch (error) {
     return {
@@ -44,6 +54,18 @@ export async function getAirportInfo(airportCode: string): Promise<AirportInfoRe
       });
       await failedAirport.save();
 
+      return {
+        success: false,
+        errorType: "AirportNotFound",
+        error: `No airport found for ${airportCode}`,
+      };
+    }
+
+    // Issue 837:
+    // This handles the case of someone filing `KL77` when the airport code is actually `L77`.
+    // FightAware will happily find that and return the airport data but the reality is the
+    // airport code is wrong and it should not be treated as a found airport.
+    if (fetchedAirport.airportCode !== airportCode) {
       return {
         success: false,
         errorType: "AirportNotFound",
@@ -94,6 +116,14 @@ async function fetchAirportFromFlightAware(
 
     if (response.status === 200) {
       return response.data;
+    } else if (response.status === 429) {
+      logger.error(
+        `Error fetching airport information for ${airportCode}: too many requests. ${response.headers["Retry-After"]}`,
+        {
+          url: endpointUrl,
+        }
+      );
+      return undefined;
     } else {
       logger.error(`Error fetching airport information for ${airportCode}: ${response.status}`, {
         url: endpointUrl,

@@ -1,5 +1,5 @@
 # Use a Node.js base image with a specific version
-FROM node:18-alpine as build
+FROM node:20.11.0-alpine3.18 as build
 
 # Set the working directory in the container
 WORKDIR /app
@@ -33,6 +33,11 @@ RUN npm ci --only=production
 
 # Expose the port on which your Express.js app listens
 EXPOSE 4001
+
+# Pull the version from the github build environment
+ARG VERSION
+ENV VERSION=${VERSION:-dev}
+RUN echo $VERSION
 
 # Set the entrypoint file
 CMD ["node", "dist/main.mjs"]

@@ -1,18 +1,21 @@
+import {
+  ArrowForwardOutlined as ArrowForwardOutlinedIcon,
+  Stream as StreamIcon,
+} from "@mui/icons-material";
+import { Box, IconButton, List, ListItem, ListItemText, Stack, TextField } from "@mui/material";
+import debug from "debug";
+import pluralize from "pluralize";
 import { useEffect, useRef, useState } from "react";
+import { useIdleTimer } from "react-idle-timer";
+import { useNavigate } from "react-router-dom";
 import socketIOClient, { Socket } from "socket.io-client";
 import { apiKey, serverUrl } from "../configs/planVerifierServer.mts";
-import { ImportState, IVatsimFlightPlan } from "../interfaces/IVatsimFlightPlan.mts";
-import { ArrowForwardOutlined as ArrowForwardOutlinedIcon } from "@mui/icons-material";
-import { List, ListItem, IconButton, ListItemText, Box, Stack, TextField } from "@mui/material";
-import debug from "debug";
-import { importFlightPlan } from "../services/flightPlan.mts";
-import { useNavigate } from "react-router-dom";
-import { Stream as StreamIcon } from "@mui/icons-material";
-import pluralize from "pluralize";
-import AlertSnackbar, { AlertSnackBarOnClose, AlertSnackbarProps } from "./AlertSnackbar";
-import { getColorByStatus, processFlightPlans } from "../utils/vatsim.mts";
-import { useAudio } from "./AudioHook";
 import useAppContext from "../context/AppContext";
+import { IVatsimFlightPlan, ImportState } from "../interfaces/IVatsimFlightPlan.mts";
+import { importFlightPlan } from "../services/flightPlan.mts";
+import { getColorByStatus, processFlightPlans } from "../utils/vatsim.mts";
+import AlertSnackbar, { AlertSnackBarOnClose, AlertSnackbarProps } from "./AlertSnackbar";
+import { useAudio } from "./AudioHook";
 
 const logger = debug("plan-verifier:vatsimFlightPlans");
 
@@ -219,6 +222,32 @@ const VatsimFlightPlans = () => {
       disconnectFromVatsim();
     }
   };
+
+  const onIdle = () => {
+    if (isConnected) {
+      logger(`Inactivity detected, stopping auto-refresh.`);
+      socketRef.current?.disconnect();
+      setIsConnected(false);
+    }
+  };
+
+  const onPrompt = () => {
+    if (isConnected) {
+      const message = `Inactivity detected, auto-refresh will stop in five minutes.`;
+      logger(message);
+      setSnackbar({
+        children: message,
+        severity: "warning",
+      });
+    }
+  };
+
+  useIdleTimer({
+    timeout: 1000 * 60 * 60, // 60 minutes
+    promptBeforeIdle: 1000 * 60 * 55, // 55 minutes
+    onIdle,
+    onPrompt,
+  });
 
   return (
     <>
