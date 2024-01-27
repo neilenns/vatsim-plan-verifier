@@ -33,9 +33,9 @@ export const CallsignTooltip = ({
       >
         {/* Without the <div> here this results in the error described at */}
         {/* https://stackoverflow.com/questions/56347839/material-ui-v4-0-1-warning-expected-an-element-that-can-hold-a-ref */}
-        <div>
+        <span>
           <HyperlinkedCallsign cid={cid} callsignTelephony={callsignTelephony} />
-        </div>
+        </span>
       </Tooltip>
     )
   );
