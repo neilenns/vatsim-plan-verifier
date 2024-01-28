@@ -23,6 +23,9 @@ RUN npm run build
 # From https://typeofnan.dev/how-to-serve-a-react-app-with-nginx-in-docker/
 FROM nginx:alpine
 
+# Install curl for the healthcheck
+RUN apk --no-cache add curl
+
 # This is key, it's the location that nginx expects to find the source files
 # for the website
 WORKDIR /usr/share/nginx/html
