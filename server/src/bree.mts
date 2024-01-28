@@ -82,11 +82,22 @@ async function deleteJob(jobName: JobName) {
     return null;
   }
 
-  logger.debug(`Removing job ${jobName}`);
-  await bree.remove(jobName);
+  if (definition.interval === "never") {
+    logger.debug(`Job ${jobName} doesn't exist, skipping removal.`);
+    return;
+  }
 
-  // Set the interval to blank so next time this is added it will always add, even if the old interval was the same
-  definition.interval = "";
+  logger.debug(`Removing job ${jobName}`);
+  try {
+    await bree.remove(jobName);
+  } catch (error) {
+    const err = error as Error;
+    logger.error(`Unable to remove job ${jobName}: ${err.message}`);
+    return;
+  } finally {
+    // Set the interval to blank so next time this is added it will always add, even if the old interval was the same
+    definition.interval = "";
+  }
 }
 
 async function addJob(name: JobName, interval: string, start = true) {
@@ -95,6 +106,12 @@ async function addJob(name: JobName, interval: string, start = true) {
   if (!definition) {
     logger.debug(`Unable to create job ${name}: no definition found.`);
     return null;
+  }
+
+  if (interval === "never") {
+    definition.interval = interval;
+    logger.debug(`${name} has an update interval of ${interval}, skipping creating it.`);
+    return;
   }
 
   if (definition.interval === interval) {
