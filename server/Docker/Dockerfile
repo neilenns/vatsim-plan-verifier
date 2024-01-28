@@ -21,6 +21,9 @@ RUN npm run build
 # Use a lightweight base image
 FROM node:18-alpine
 
+# Install curl for the healthcheck
+RUN apk --no-cache add curl
+
 # Set the working directory in the container
 WORKDIR /usr/src/app
 
