@@ -165,13 +165,14 @@ export async function fetchAirportsFromAvioWiki(): Promise<FetchAvioWikiAirports
     const jsonData = JSON.parse(zip.readAsText(zip.getEntries()[0])) as IAvioWikiAirport[];
 
     profiler.done({
+      level: "debug",
       message: `Done downloading ${jsonData.length} incoming airports`,
       counts: {
         incomingData: jsonData.length,
       },
     });
 
-    logger.info("Creating airport models");
+    logger.debug("Creating airport models");
     profiler = logger.startTimer();
 
     const models = jsonData
@@ -200,12 +201,12 @@ export async function fetchAirportsFromAvioWiki(): Promise<FetchAvioWikiAirports
         });
       });
     profiler.done({
-      level: "info",
+      level: "debug",
       message: `Done creating ${models.length} airport models`,
       counts: { models: models.length },
     });
 
-    logger.info(`Saving ${models.length} airports to database`);
+    logger.debug(`Saving ${models.length} airports to database`);
     profiler = logger.startTimer();
 
     // Save the world. Good god.
@@ -222,7 +223,7 @@ export async function fetchAirportsFromAvioWiki(): Promise<FetchAvioWikiAirports
     );
     profiler.done({
       level: "info",
-      message: `Done saving ${models.length} airports to the database.`,
+      message: `Done importing ${models.length} airports.`,
       counts: { models: models.length },
     });
     return {
