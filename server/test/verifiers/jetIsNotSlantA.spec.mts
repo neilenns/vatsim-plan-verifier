@@ -1,12 +1,12 @@
 import { expect } from "chai";
 import { describe, it } from "mocha";
+import { Types } from "mongoose";
 import { getFlightPlan } from "../../src/controllers/flightPlans.mjs";
 import jetIsNotSlantA from "../../src/controllers/verifiers/jetIsNotSlantA.mjs";
 import { FlightPlanDocument } from "../../src/models/FlightPlan.mjs";
 import { VerifierResultDocument, VerifierResultStatus } from "../../src/models/VerifierResult.mjs";
 import { SuccessResult } from "../../src/types/result.mjs";
 import { addFlightPlans, removeFlightPlans } from "../setup/manageFlightPlans.mjs";
-import { Types } from "mongoose";
 
 const testData = [
   // Jet with /A
@@ -61,7 +61,7 @@ describe("verifier: jetIsNotSlantA tests", function () {
   });
 
   after("Remove flight plans for tests", async function () {
-    await removeFlightPlans(testData);
+    await removeFlightPlans();
   });
 
   it("should warn because jet with /A is not ok", async function () {

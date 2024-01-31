@@ -1,12 +1,12 @@
 import { expect } from "chai";
 import { describe, it } from "mocha";
+import { Types } from "mongoose";
 import { getFlightPlan } from "../../src/controllers/flightPlans.mjs";
 import hasEquipmentSuffix from "../../src/controllers/verifiers/hasEquipmentSuffix.mjs";
 import { FlightPlanDocument } from "../../src/models/FlightPlan.mjs";
 import { VerifierResultDocument, VerifierResultStatus } from "../../src/models/VerifierResult.mjs";
 import { SuccessResult } from "../../src/types/result.mjs";
 import { addFlightPlans, removeFlightPlans } from "../setup/manageFlightPlans.mjs";
-import { Types } from "mongoose";
 
 const testData = [
   // Has equipment suffix
@@ -39,7 +39,7 @@ describe("verifier: hasEquipmentSuffix tests", () => {
   });
 
   after("Remove flight plans for tests", async function () {
-    await removeFlightPlans(testData);
+    await removeFlightPlans();
   });
 
   it("is missing an equipment suffix", async () => {

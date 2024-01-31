@@ -73,7 +73,7 @@
       "",
       "  after(",
       "    \"Remove flight plans for tests\",",
-      "    async () => await removeFlightPlans(testData)",
+      "    async () => await removeFlightPlans()",
       "  );",
       "",
       "  it(\"a test\", async () => {",

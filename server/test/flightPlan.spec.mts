@@ -1,6 +1,8 @@
 // tests/calculator.spec.tx
+import { isDocument } from "@typegoose/typegoose";
 import { expect } from "chai";
 import { describe, it } from "mocha";
+import { Types } from "mongoose";
 import {
   FlightPlanFailureErrorTypes,
   FlightPlanResult,
@@ -9,8 +11,6 @@ import {
 import { FlightPlanDocument } from "../src/models/FlightPlan.mjs";
 import { FailureResult, SuccessResult } from "../src/types/result.mjs";
 import { addFlightPlans, removeFlightPlans } from "./setup/manageFlightPlans.mjs";
-import { Types } from "mongoose";
-import { isDocument } from "@typegoose/typegoose";
 
 const testData = [
   // A388 flight plan
@@ -83,7 +83,7 @@ describe("Flight plan tests", function () {
   });
 
   after("Remove flight plans for tests", async function () {
-    await removeFlightPlans(testData);
+    await removeFlightPlans();
   });
 
   describe("Property cleanup", function () {

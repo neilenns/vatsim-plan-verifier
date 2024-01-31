@@ -1,10 +1,10 @@
-import { describe, it } from "mocha";
 import chai, { expect } from "chai";
 import chaiHttp from "chai-http";
+import { describe, it } from "mocha";
+import { Types } from "mongoose";
 import { app } from "../../src/server.mjs";
 import { addFlightPlans, removeFlightPlans } from "../setup/manageFlightPlans.mjs";
 import { serverSetup, serverTeardown } from "../setup/manageServer.mjs";
-import { Types } from "mongoose";
 
 chai.use(chaiHttp);
 
@@ -46,7 +46,7 @@ describe("verifier: responseCaching tests", function () {
   });
 
   after("Remove flight plans for tests", async function () {
-    await removeFlightPlans(testData);
+    await removeFlightPlans();
   });
 
   describe("verifier: one result", async function () {

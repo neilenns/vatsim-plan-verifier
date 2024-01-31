@@ -1,6 +1,7 @@
 import { isDocument } from "@typegoose/typegoose";
 import _ from "lodash";
 import mainLogger from "../../logger.mjs";
+import { AircraftDocument } from "../../models/Aircraft.mjs";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { AirportFlow } from "../../models/InitialAltitude.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
@@ -15,11 +16,31 @@ type InitialSid = {
 };
 
 /**
+ * Calculates the initial KSEA SID for a flight plan. Broken out into its own
+ * small function to enable unit testing.
+ * @param flightPlan
+ * @returns The InitialSid or undefined if none apply
+ */
+export function calculateInitialSID(flightPlan: FlightPlan): InitialSid | undefined {
+  // Jets get one set of rules. The HondaJet (HDJT) is not a jet.
+  if (
+    (flightPlan.equipmentInfo! as AircraftDocument).engineType === "J" &&
+    flightPlan.equipmentCode != "HDJT"
+  ) {
+    return calculateInitialSIDForJets(flightPlan);
+  }
+  // Everything else gets the other rules
+  else {
+    return calculateInitialSIDForNotJets(flightPlan);
+  }
+}
+
+/**
  * Figures out the initial SID for a KSEA departing aircraft regardless of aircraft group.
  * @param flightPlan The flight plan
  * @returns The initial SID given the route and reason why, or undefined if none could be deteremind
  */
-function calculateInitialSid(flightPlan: FlightPlan): InitialSid | undefined {
+function calculateInitialSidAllGroups(flightPlan: FlightPlan): InitialSid | undefined {
   // V2/V298/SEA 088R BLO FL230
   if (
     flightPlan.cruiseAltitude < 230 &&
@@ -105,7 +126,7 @@ export function calculateInitialSIDForJets(flightPlan: FlightPlan): InitialSid |
   }
 
   // No jet-specific rules applied so try the common ones.
-  return calculateInitialSid(flightPlan);
+  return calculateInitialSidAllGroups(flightPlan);
 }
 
 /**
@@ -156,7 +177,7 @@ export function calculateInitialSIDForNotJets(flightPlan: FlightPlan): InitialSi
     return { SID: "SEA8", extendedMessage: "Group B, C, D: OLM.V287, OLM.V165, OLM.V187" };
   }
 
-  return calculateInitialSid(flightPlan);
+  return calculateInitialSidAllGroups(flightPlan);
 }
 
 export default async function checkSEAInitialSID(
@@ -218,14 +239,7 @@ export default async function checkSEAInitialSID(
   }
 
   try {
-    let requiredSID: InitialSid | undefined;
-
-    // Jets get one set of rules. The HondaJet (HDJT) is not a jet.
-    if (flightPlan.equipmentInfo.engineType === "J" && flightPlan.equipmentCode != "HDJT") {
-      requiredSID = calculateInitialSIDForJets(flightPlan);
-    } else {
-      requiredSID = calculateInitialSIDForNotJets(flightPlan);
-    }
+    const requiredSID = calculateInitialSID(flightPlan);
 
     // This is the test the verifier is supposed to do.
     if (!requiredSID) {

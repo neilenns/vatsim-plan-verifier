@@ -1,12 +1,12 @@
 import { expect } from "chai";
 import { describe, it } from "mocha";
+import { Types } from "mongoose";
 import { getFlightPlan } from "../../src/controllers/flightPlans.mjs";
 import checkForGroundRestrictions from "../../src/controllers/verifiers/checkForGroundRestrictions.mjs";
 import { FlightPlanDocument } from "../../src/models/FlightPlan.mjs";
 import { VerifierResultDocument } from "../../src/models/VerifierResult.mjs";
 import { SuccessResult } from "../../src/types/result.mjs";
 import { addFlightPlans, removeFlightPlans } from "../setup/manageFlightPlans.mjs";
-import { Types } from "mongoose";
 
 const testData = [
   // Airport and aircraft with ground restrictions via group
@@ -80,7 +80,7 @@ const testData = [
 describe("verifier: checkForGroundRestrictions tests", () => {
   before("Add flight plans for tests", async () => await addFlightPlans(testData));
 
-  after("Remove flight plans for tests", async () => await removeFlightPlans(testData));
+  after("Remove flight plans for tests", async () => await removeFlightPlans());
 
   it("should have one ground restriction by group", async () => {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b51");
