@@ -49,6 +49,10 @@ const envSchema = z.object({
   TRUST_PROXY: z.coerce.number().default(0),
   // from https://github.com/colinhacks/zod/issues/1630#issuecomment-1623726247
   MONGOOSE_DEBUG: z.string().transform<boolean>(booleanTransformer).default("false"),
+  GET_AIRPORT_INFO_FROM_FLIGHT_AWARE: z
+    .string()
+    .transform<boolean>(booleanTransformer)
+    .default("false"),
 });
 
 export const ENV = envSchema.parse(process.env);

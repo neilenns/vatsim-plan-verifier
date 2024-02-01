@@ -16,79 +16,25 @@ export async function getAirportInfo(airportCode: string): Promise<AirportInfoRe
   try {
     const airport = await AirportInfoModel.findOne({ airportCode });
 
-    if (airport) {
-      // Airports with blank names are placeholders indicating it doesn't exist to prevent repeated checks with
-      // FlightAware
-      if (airport.name) {
-        return {
-          success: true,
-          data: airport,
-        };
-      } else {
-        return {
-          success: false,
-          errorType: "AirportNotFound",
-          error: `No airport found for ${airportCode}`,
-        };
-      }
+    // Airports with blank names are placeholders indicating it doesn't exist to prevent repeated checks with
+    // FlightAware
+    if (airport?.name) {
+      return {
+        success: true,
+        data: airport,
+      };
+    } else {
+      return {
+        success: false,
+        errorType: "AirportNotFound",
+        error: `No airport found for ${airportCode}`,
+      };
     }
   } catch (error) {
     return {
       success: false,
       errorType: "UnknownError",
       error: `Error fetching cached airport for ${airportCode}: ${error}`,
-    };
-  }
-
-  try {
-    const fetchedAirport = await fetchAirportFromFlightAware(airportCode);
-
-    if (!fetchedAirport) {
-      logger.error(`No airport found for ${airportCode}`);
-
-      // Store an empty airport in the database so Flight Aware won't keep getting called for
-      // airports that don't exist. These will automatically get cleared out of the database every
-      // time the job runs that pulls the entire airport database from AvioWiki.
-      const failedAirport = new AirportInfoModel({
-        airportCode,
-      });
-      await failedAirport.save();
-
-      return {
-        success: false,
-        errorType: "AirportNotFound",
-        error: `No airport found for ${airportCode}`,
-      };
-    }
-
-    // Issue 837:
-    // This handles the case of someone filing `KL77` when the airport code is actually `L77`.
-    // FightAware will happily find that and return the airport data but the reality is the
-    // airport code is wrong and it should not be treated as a found airport.
-    if (fetchedAirport.airportCode !== airportCode) {
-      return {
-        success: false,
-        errorType: "AirportNotFound",
-        error: `No airport found for ${airportCode}`,
-      };
-    }
-
-    const airport = new AirportInfoModel({
-      ...fetchedAirport,
-    });
-
-    await airport.save();
-    return {
-      success: true,
-      data: airport,
-    };
-  } catch (err) {
-    const error = err as Error;
-    logger.error(error.message);
-    return {
-      success: false,
-      errorType: "UnknownError",
-      error: `${error}`,
     };
   }
 }
@@ -107,6 +53,10 @@ async function fetchAirportFromFlightAware(
   };
 
   const endpointUrl = `https://aeroapi.flightaware.com/aeroapi/airports/${airportCode}`;
+
+  if (!ENV.GET_AIRPORT_INFO_FROM_FLIGHT_AWARE) {
+    throw new Error(`Fetching airport information from FlightAware is disabled.`);
+  }
 
   try {
     logger.debug(`Fetching FlightAware airport info for ${airportCode}`, {
