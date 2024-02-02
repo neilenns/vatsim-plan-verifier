@@ -41,6 +41,22 @@ export function calculateInitialSID(flightPlan: FlightPlan): InitialSid | undefi
  * @returns The initial SID given the route and reason why, or undefined if none could be deteremind
  */
 function calculateInitialSidAllGroups(flightPlan: FlightPlan): InitialSid | undefined {
+  // HAROB ABV FL240
+  if (
+    flightPlan.cruiseAltitude > 240 &&
+    (flightPlan.routeParts.includes("HAROB") || flightPlan.routeParts.includes("HAROB6"))
+  ) {
+    return { SID: "HAROB6", extendedMessage: "All: HAROB ABV FL240" };
+  }
+
+  // BANGR ABV 100
+  if (
+    flightPlan.cruiseAltitude > 100 &&
+    (flightPlan.routeParts.includes("BANGR") || flightPlan.routeParts.includes("BANGR9"))
+  ) {
+    return { SID: "BANGR9", extendedMessage: "All: BANGR ABV 100" };
+  }
+
   // V2/V298/SEA 088R BLO FL230
   if (
     flightPlan.cruiseAltitude < 230 &&
@@ -60,12 +76,12 @@ function calculateInitialSidAllGroups(flightPlan: FlightPlan): InitialSid | unde
     flightPlan.cruiseAltitude < 230 &&
     _.intersection(flightPlan.routeParts, ["V27", "J70"]).length > 0
   ) {
-    return { SID: "ELMAA", extendedMessage: "All: V27/J70/SEA 230R BTW 100-FL230" };
+    return { SID: "ELMAA4", extendedMessage: "All: V27/J70/SEA 230R BTW 100-FL230" };
   }
 
   // J70/SEA 230R ABV FL230
   if (flightPlan.cruiseAltitude > 230 && flightPlan.routeParts.includes("J70")) {
-    return { SID: "ELMAA", extendedMessage: "All: J70/SEA 230R ABV FL230" };
+    return { SID: "ELMAA4", extendedMessage: "All: J70/SEA 230R ABV FL230" };
   }
 
   // J523/SEA 281R ABV 100
@@ -79,16 +95,6 @@ function calculateInitialSidAllGroups(flightPlan: FlightPlan): InitialSid | unde
     _.intersection(flightPlan.routeParts, ["V4", "V495"]).length > 0
   ) {
     return { SID: "SEA8", extendedMessage: "All: V4/V495/SEA 310R BLW 100" };
-  }
-
-  // HAROB ABV FL240
-  if (flightPlan.cruiseAltitude > 240 && flightPlan.routeParts.includes("HAROB")) {
-    return { SID: "HAROB6", extendedMessage: "All: HAROB ABV FL240" };
-  }
-
-  // BANGR ABV 100
-  if (flightPlan.cruiseAltitude > 100 && flightPlan.routeParts.includes("BANGR")) {
-    return { SID: "BANGR9", extendedMessage: "All: BANGR ABV 100" };
   }
 
   return undefined;
