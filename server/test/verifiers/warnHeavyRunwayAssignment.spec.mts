@@ -1,12 +1,12 @@
 import { expect } from "chai";
 import { describe, it } from "mocha";
+import { Types } from "mongoose";
 import { getFlightPlan } from "../../src/controllers/flightPlans.mjs";
 import warnHeavyRunwayAssignment from "../../src/controllers/verifiers/warnHeavyRunwayAssignment.mjs";
 import { FlightPlanDocument } from "../../src/models/FlightPlan.mjs";
 import { VerifierResultDocument, VerifierResultStatus } from "../../src/models/VerifierResult.mjs";
 import { SuccessResult } from "../../src/types/result.mjs";
 import { addFlightPlans, removeFlightPlans } from "../setup/manageFlightPlans.mjs";
-import { Types } from "mongoose";
 
 const testData = [
   // Is heavy, no specific runways
@@ -72,7 +72,7 @@ describe("verifier: warnHeavyRunwayAssignment tests", () => {
   });
 
   after("Remove flight plans for tests", async function () {
-    await removeFlightPlans(testData);
+    await removeFlightPlans();
   });
   it("should warn general heavy runway warning", async function () {
     const flightPlan = await getFlightPlan("5f9f7b3b9d3b3c1b1c9b4b4b");

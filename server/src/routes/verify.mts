@@ -6,36 +6,36 @@ import VerifierControllerResult, {
 } from "../types/verifierControllerResult.mjs";
 
 import airwaysForEquipmentSuffix from "../controllers/verifiers/airwaysForEquipmentSuffix.mjs";
+import altitudeForAltimeter from "../controllers/verifiers/altitudeForAltimeter.mjs";
 import altitudeForDirectionOfFlight from "../controllers/verifiers/altitudeForDirectionOfFlight.mjs";
 import checkEquipmentSuffixAgainstKnown from "../controllers/verifiers/checkEquipmentSuffixAgainstKnown.mjs";
+import checkForCustomAirportMessages from "../controllers/verifiers/checkForCustomAirportMessages.mjs";
+import checkForCustomDepartureMessages from "../controllers/verifiers/checkForCustomDepartureMessages.mjs";
 import checkForNonStandardEquipmentSuffix from "../controllers/verifiers/checkForNonStandardEquipmentSuffix.mjs";
 import checkForPreferredRoutes from "../controllers/verifiers/checkForPreferredRoutes.mjs";
+import checkKPDXtoKSLEAltitude from "../controllers/verifiers/checkKPDXtoKSLEAltitude.mjs";
+import checkSEAInitialSID from "../controllers/verifiers/checkSEAInitialSID.mjs";
+import departureForLocalTime from "../controllers/verifiers/departureForLocalTime.mjs";
 import hasEquipmentSuffix from "../controllers/verifiers/hasEquipmentSuffix.mjs";
 import hasSID from "../controllers/verifiers/hasSID.mjs";
 import hasValidFirstFix from "../controllers/verifiers/hasValidFirstFix.mjs";
 import jetIsNotSlantA from "../controllers/verifiers/jetIsNotSlantA.mjs";
 import nonRNAVHasAirways from "../controllers/verifiers/nonRNAVHasAirways.mjs";
 import nonRVSMIsBelow290 from "../controllers/verifiers/nonRVSMIsBelow290.mjs";
+import pistonNotSlantLorZ from "../controllers/verifiers/pistonNotSlantLorZ.mjs";
 import routeWithFlightAware from "../controllers/verifiers/routeWithFlightAware.mjs";
 import validArrivalAirport from "../controllers/verifiers/validArrivalAirport.mjs";
 import validDepartureAirport from "../controllers/verifiers/validDepartureAirport.mjs";
 import warnHeavyRunwayAssignment from "../controllers/verifiers/warnHeavyRunwayAssignment.mjs";
 import warnNewPilot from "../controllers/verifiers/warnNewPilot.mjs";
-import findExistingResultsMiddleware from "../middleware/findExistingResults.mjs";
-import altitudeForAltimeter from "../controllers/verifiers/altitudeForAltimeter.mjs";
-import checkForCustomAirportMessages from "../controllers/verifiers/checkForCustomAirportMessages.mjs";
-import checkForCustomDepartureMessages from "../controllers/verifiers/checkForCustomDepartureMessages.mjs";
-import checkKPDXtoKSLEAltitude from "../controllers/verifiers/checkKPDXtoKSLEAltitude.mjs";
-import checkSEAvsMONTN from "../controllers/verifiers/checkSEAvsMONTN.mjs";
-import departureForLocalTime from "../controllers/verifiers/departureForLocalTime.mjs";
-import pistonNotSlantLorZ from "../controllers/verifiers/pistonNotSlantLorZ.mjs";
 import warnTextOnlyPilot from "../controllers/verifiers/warnTextOnlyPilot.mjs";
+import findExistingResultsMiddleware from "../middleware/findExistingResults.mjs";
 
+import checkForGroundRestrictions from "../controllers/verifiers/checkForGroundRestrictions.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
 import { FlightPlan } from "../models/FlightPlan.mjs";
 import { VerifierResultModel } from "../models/VerifierResult.mjs";
-import checkForGroundRestrictions from "../controllers/verifiers/checkForGroundRestrictions.mjs";
 
 const router = express.Router();
 
@@ -75,12 +75,12 @@ const verifiers: Verifier[] = [
   { name: "hasValidFirstFix", handler: hasValidFirstFix },
   { name: "pistonNotSlantLorZ", handler: pistonNotSlantLorZ },
   { name: "checkKPDXtoKSLEAltitude", handler: checkKPDXtoKSLEAltitude },
-  { name: "checkSEAvsMONTN", handler: checkSEAvsMONTN },
   { name: "warnNewPilot", handler: warnNewPilot },
   { name: "altitudeForAltimeter", handler: altitudeForAltimeter },
   { name: "warnTextOnlyPilot", handler: warnTextOnlyPilot },
   { name: "departureForLocalTime", handler: departureForLocalTime },
   { name: "checkForGroundRestrictions", handler: checkForGroundRestrictions },
+  { name: "checkSEAInitialSID", handler: checkSEAInitialSID },
 ];
 
 // Generic handler for verifier routes
