@@ -219,7 +219,7 @@ export default async function checkSEAInitialSID(
 
   // Airport flow must be north or south
   if (flightPlan.flow !== AirportFlow.North && flightPlan.flow !== AirportFlow.South) {
-    result.data.status = VerifierResultStatus.WARNING;
+    result.data.status = VerifierResultStatus.ERROR;
     result.data.message = `Unable to calcluate initial SID since the airport flow isn't north or south.`;
     result.data.messageId = "unknownAirportFlow";
     await result.data.save();
