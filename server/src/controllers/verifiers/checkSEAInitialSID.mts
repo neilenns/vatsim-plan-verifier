@@ -108,10 +108,10 @@ function calculateInitialSidAllGroups(flightPlan: FlightPlan): InitialSid | unde
 export function calculateInitialSIDForJets(flightPlan: FlightPlan): InitialSid | undefined {
   // V23/RV to PAE
   if (flightPlan.routeParts.includes("PAE")) {
-    if (AirportFlow.North) {
+    if (flightPlan.flow === AirportFlow.South) {
       return { SID: "MONTN2", extendedMessage: "Group A: V23/RV to PAE (South)" };
     }
-    if (AirportFlow.South) {
+    if (flightPlan.flow === AirportFlow.North) {
       return { SID: "SEA8", extendedMessage: "Group A: V23/RV to PAE (North)" };
     }
   }
