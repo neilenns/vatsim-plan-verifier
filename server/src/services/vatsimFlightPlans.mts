@@ -36,7 +36,9 @@ const updateProperties = [
 ] as (keyof VatsimFlightPlanDocument)[];
 
 function depTimeToDateTime(depTime: string | undefined): DateTime | undefined {
-  return depTime ? DateTime.fromFormat(depTime, "Hmm") : undefined;
+  const result = depTime ? DateTime.fromFormat(depTime, "Hmm", { zone: "UTC" }) : undefined;
+
+  return result;
 }
 
 function cleanRoute(route: string) {
@@ -63,10 +65,6 @@ export function getCommunicationMethod(inputString: string | undefined): VatsimC
 
 // Takes a pilot object from vatsim and converts it to a vatsim model
 export function pilotToVatsimModel(pilot: IVatsimPilot) {
-  const departureTime = pilot?.flight_plan?.deptime
-    ? DateTime.fromFormat(pilot?.flight_plan.deptime, "Hmm")
-    : undefined;
-
   const result = new VatsimFlightPlanModel({
     cid: pilot.cid,
     name: pilot?.name,
