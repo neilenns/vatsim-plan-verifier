@@ -18,7 +18,7 @@ import { useEffect, useRef, useState } from "react";
 import { useIdleTimer } from "react-idle-timer";
 import socketIOClient, { Socket } from "socket.io-client";
 import { apiKey, serverUrl } from "../configs/planVerifierServer.mts";
-import { IVatsimFlightPlan } from "../interfaces/IVatsimFlightPlan.mts";
+import { IVatsimFlightPlan, ImportState } from "../interfaces/IVatsimFlightPlan.mts";
 import AlertSnackbar, { AlertSnackBarOnClose, AlertSnackbarProps } from "./AlertSnackbar";
 import { useAudio } from "./AudioHook";
 import { getColorByStatus, processFlightPlans } from "../utils/vatsim.mts";
@@ -230,6 +230,18 @@ const VatsimEDCTFlightPlans = () => {
     onPrompt,
   });
 
+  const toggleFlightPlanState = (callsign?: string) => {
+    const planIndex = flightPlans.findIndex((plan) => plan.callsign === callsign);
+    if (planIndex !== -1) {
+      const updatedFlightPlans = [...flightPlans];
+
+      updatedFlightPlans[planIndex].importState !== ImportState.IMPORTED
+        ? (updatedFlightPlans[planIndex].importState = ImportState.IMPORTED)
+        : (updatedFlightPlans[planIndex].importState = ImportState.NEW);
+      setFlightPlans(updatedFlightPlans);
+    }
+  };
+
   return (
     <>
       <Box sx={{ mt: 2 }}>
@@ -274,11 +286,17 @@ const VatsimEDCTFlightPlans = () => {
               <TableBody>
                 {flightPlans.map((flightPlan) => (
                   <TableRow key={flightPlan.callsign}>
-                    <TableCell sx={{
-                      fontWeight: "bold",
-                      fontStyle: flightPlan.isPrefile ? "italic": "",
-                      color: getColorByStatus(flightPlan.importState)
-                    }}>{flightPlan.callsign}</TableCell>
+                    <TableCell
+                      onClick={() => toggleFlightPlanState(flightPlan.callsign)}
+                      sx={{
+                        fontWeight: "bold",
+                        fontStyle: flightPlan.isPrefile ? "italic" : "",
+                        color: getColorByStatus(flightPlan.importState),
+                        cursor: "pointer",
+                      }}
+                    >
+                      {flightPlan.callsign}
+                    </TableCell>
                     <TableCell>{flightPlan.departure}</TableCell>
                     <TableCell>{flightPlan.arrival}</TableCell>
                     <TableCell>{flightPlan.departureTime}</TableCell>
