@@ -26,6 +26,7 @@ import { processFlightPlans } from "../utils/vatsim.mts";
 const logger = debug("plan-verifier:EDCTFlightPlans");
 
 const VatsimEDCTFlightPlans = () => {
+  const bellPlayer = useAudio("/bell.mp3");
   const disconnectedPlayer = useAudio("/disconnected.mp3");
   const [flightPlans, setFlightPlans] = useState<IVatsimFlightPlan[]>([]);
   // isConnected is initialized to null so useEffect can tell the difference between first page load
@@ -42,10 +43,18 @@ const VatsimEDCTFlightPlans = () => {
   const arrivalCodesCodesRef = useRef<string>(localStorage.getItem("edctArrivalCodes") || "");
   const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
   const socketRef = useRef<Socket | null>(null);
-  const [, setHasNew] = useState(false);
-  const [, setHasUpdates] = useState(false);
+  const [hasNew, setHasNew] = useState(false);
+  const [hasUpdates, setHasUpdates] = useState(false);
 
   const handleSnackbarClose: AlertSnackBarOnClose = () => setSnackbar(null);
+
+  useEffect(() => {
+    if (hasNew || hasUpdates) {
+      void bellPlayer.play();
+      setHasNew(false);
+      setHasUpdates(false);
+    }
+  }, [hasNew, hasUpdates, bellPlayer]);
 
   useEffect(() => {
     if (isConnected !== null && !isConnected) {
