@@ -45,7 +45,7 @@ const EDCT = () => {
             EDCT planning
           </Typography>
           <Typography sx={{ mr: 1, color: "text.primary" }}>
-            {currentTime?.toLocaleString(DateTime.TIME_24_SIMPLE)}
+            {currentTime?.toLocaleString(DateTime.TIME_24_WITH_SECONDS)}
           </Typography>
           <IconButton
             component={Link}

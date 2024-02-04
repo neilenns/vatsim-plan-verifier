@@ -109,7 +109,7 @@ const getSelectedHoverBackgroundColor = (color: string, mode: string) =>
 
 function getRowClassName(params: GridRowParams) {
   const flightPlan = params.row as IVatsimFlightPlan;
-  if (!flightPlan || !flightPlan.minutesToEDCT) {
+  if (!flightPlan || flightPlan.minutesToEDCT === undefined) {
     return "";
   }
 
