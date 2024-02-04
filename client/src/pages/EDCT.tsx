@@ -1,11 +1,4 @@
-import {
-  AppBar,
-  Box,
-  IconButton,
-  Toolbar,
-  Typography,
-  useColorScheme,
-} from "@mui/material";
+import { AppBar, Box, IconButton, Toolbar, Typography, useColorScheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import {
   DarkMode as DarkModeIcon,
@@ -17,10 +10,23 @@ import {
 import NavMenu from "../components/NavMenu";
 import useAppContext from "../context/AppContext";
 import VatsimEDCTFlightPlans from "../components/EDCTFlightPlans";
+import { useEffect, useState } from "react";
+import { DateTime } from "luxon";
 
 const EDCT = () => {
   const { mode, setMode } = useColorScheme();
   const { muted, setMuted } = useAppContext();
+  const [currentTime, setCurrentTime] = useState<DateTime>(DateTime.utc());
+
+  useEffect(() => {
+    // Update current time every minute
+    const intervalId = setInterval(() => {
+      setCurrentTime(DateTime.utc());
+    }, 1000); // 1000 milliseconds = 1 second
+
+    // Clear interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []); // Empty dependency array ensures effect runs only once on mount
 
   const toggleDarkMode = () => {
     mode === "light" ? setMode("dark") : setMode("light");
@@ -37,6 +43,9 @@ const EDCT = () => {
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             EDCT planning
+          </Typography>
+          <Typography sx={{ mr: 1, color: "text.primary" }}>
+            {currentTime?.toLocaleString(DateTime.TIME_24_WITH_SECONDS)}
           </Typography>
           <IconButton
             component={Link}
@@ -62,7 +71,7 @@ const EDCT = () => {
 
       {/* Core page */}
       <Box sx={{ display: "flex", flex: 1 }}>
-        <VatsimEDCTFlightPlans/>
+        <VatsimEDCTFlightPlans />
       </Box>
     </Box>
   );

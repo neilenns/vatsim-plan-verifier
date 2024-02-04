@@ -1,6 +1,13 @@
+import clsx from "clsx";
 import { Stream as StreamIcon } from "@mui/icons-material";
-import { Box, IconButton, Stack, TextField } from "@mui/material";
-import { DataGrid, GridCellParams, GridColDef, GridValueFormatterParams } from "@mui/x-data-grid";
+import { Box, IconButton, Stack, TextField, darken, lighten, styled } from "@mui/material";
+import {
+  DataGrid,
+  GridCellParams,
+  GridColDef,
+  GridRowParams,
+  GridValueFormatterParams,
+} from "@mui/x-data-grid";
 import debug from "debug";
 import { DateTime } from "luxon";
 import pluralize from "pluralize";
@@ -9,7 +16,7 @@ import { useIdleTimer } from "react-idle-timer";
 import socketIOClient, { Socket } from "socket.io-client";
 import { apiKey, serverUrl } from "../configs/planVerifierServer.mts";
 import { IVatsimFlightPlan, ImportState } from "../interfaces/IVatsimFlightPlan.mts";
-import { getColorByStatus, processFlightPlans } from "../utils/vatsim.mts";
+import { processFlightPlans } from "../utils/vatsim.mts";
 import AlertSnackbar, { AlertSnackBarOnClose, AlertSnackbarProps } from "./AlertSnackbar";
 import { useAudio } from "./AudioHook";
 
@@ -33,21 +40,15 @@ const columns: GridColDef[] = [
     editable: false,
     type: "string",
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    renderCell: (params: GridCellParams<any, string>) => {
+    cellClassName: (params: GridCellParams<any, string>) => {
       const flightPlan = params.row as IVatsimFlightPlan;
 
-      return (
-        <Box
-          sx={{
-            fontWeight: "bold",
-            fontStyle: flightPlan.isPrefile ? "italic" : "",
-            color: getColorByStatus(flightPlan.importState),
-            cursor: "pointer",
-          }}
-        >
-          {flightPlan.callsign}
-        </Box>
-      );
+      return clsx({
+        "vatsim--callsign": true,
+        "vatsim--new": flightPlan.importState === ImportState.NEW,
+        "vatsim--updated": flightPlan.importState === ImportState.UPDATED,
+        "vatsim--imported": flightPlan.importState === ImportState.IMPORTED,
+      });
     },
   },
   {
@@ -55,7 +56,7 @@ const columns: GridColDef[] = [
     headerName: "Departure airport",
     align: "center",
     headerAlign: "center",
-    width: 200,
+    width: 175,
     editable: false,
   },
   {
@@ -63,7 +64,7 @@ const columns: GridColDef[] = [
     headerName: "Arrival airport",
     align: "center",
     headerAlign: "center",
-    width: 200,
+    width: 175,
     editable: false,
   },
   {
@@ -71,7 +72,7 @@ const columns: GridColDef[] = [
     headerName: "Departure time",
     align: "center",
     headerAlign: "center",
-    width: 200,
+    width: 175,
     editable: false,
     valueFormatter: formatDateTime,
   },
@@ -80,11 +81,93 @@ const columns: GridColDef[] = [
     headerName: "EDCT",
     align: "center",
     headerAlign: "center",
-    width: 200,
+    width: 100,
     editable: false,
     valueFormatter: formatDateTime,
   },
+  {
+    field: "minutesToEDCT",
+    headerName: "To EDCT",
+    align: "center",
+    headerAlign: "center",
+    width: 100,
+    editable: false,
+  },
 ];
+
+const getBackgroundColor = (color: string, mode: string) =>
+  mode === "dark" ? darken(color, 0.7) : lighten(color, 0.7);
+
+const getHoverBackgroundColor = (color: string, mode: string) =>
+  mode === "dark" ? darken(color, 0.6) : lighten(color, 0.6);
+
+const getSelectedBackgroundColor = (color: string, mode: string) =>
+  mode === "dark" ? darken(color, 0.5) : lighten(color, 0.5);
+
+const getSelectedHoverBackgroundColor = (color: string, mode: string) =>
+  mode === "dark" ? darken(color, 0.4) : lighten(color, 0.4);
+
+function getRowClassName(params: GridRowParams) {
+  const flightPlan = params.row as IVatsimFlightPlan;
+  if (!flightPlan || flightPlan.minutesToEDCT === undefined) {
+    return "";
+  }
+
+  return clsx({
+    "vatsim--EDCT--late": flightPlan.minutesToEDCT <= 0,
+    "vatsim--EDCT--urgent": flightPlan.minutesToEDCT > 0 && flightPlan.minutesToEDCT < 10,
+    "": flightPlan.minutesToEDCT >= 10,
+  });
+}
+
+const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
+  "& .vatsim--callsign": {
+    fontWeight: "bold",
+    cursor: "pointer",
+  },
+  "& .vatsim--prefile": {
+    fontStyle: "italic",
+  },
+  "& .vatsim--new": {
+    color: theme.palette.warning.main,
+  },
+  "& .vatsim-updated": {
+    color: theme.palette.error.main,
+  },
+  "& .vatsim-imported": {
+    color: theme.palette.text.primary,
+  },
+  "& .vatsim--EDCT--urgent": {
+    backgroundColor: getBackgroundColor(theme.palette.warning.main, theme.palette.mode),
+    "&:hover": {
+      backgroundColor: getHoverBackgroundColor(theme.palette.warning.main, theme.palette.mode),
+    },
+    "&.Mui-selected": {
+      backgroundColor: getSelectedBackgroundColor(theme.palette.warning.main, theme.palette.mode),
+      "&:hover": {
+        backgroundColor: getSelectedHoverBackgroundColor(
+          theme.palette.warning.main,
+          theme.palette.mode
+        ),
+      },
+    },
+  },
+  "& .vatsim--EDCT--late": {
+    backgroundColor: getBackgroundColor(theme.palette.error.main, theme.palette.mode),
+    "&:hover": {
+      backgroundColor: getHoverBackgroundColor(theme.palette.error.main, theme.palette.mode),
+    },
+    "&.Mui-selected": {
+      backgroundColor: getSelectedBackgroundColor(theme.palette.error.main, theme.palette.mode),
+      "&:hover": {
+        backgroundColor: getSelectedHoverBackgroundColor(
+          theme.palette.error.main,
+          theme.palette.mode
+        ),
+      },
+    },
+  },
+}));
 
 const VatsimEDCTFlightPlans = () => {
   const bellPlayer = useAudio("/bell.mp3");
@@ -143,7 +226,7 @@ const VatsimEDCTFlightPlans = () => {
       // This just feels like a giant hack to get around the closure issues of useEffect and
       // useState not having flightPlans be the current value every time the update event is received.
       setFlightPlans((currentPlans) => {
-        const result = processFlightPlans(currentPlans, vatsimPlans);
+        const result = processFlightPlans(currentPlans, vatsimPlans, true);
         setHasNew(result.hasNew);
         setHasUpdates(result.hasUpdates);
         return result.flightPlans;
@@ -337,14 +420,10 @@ const VatsimEDCTFlightPlans = () => {
             </IconButton>
           </Stack>
         </form>
-        <DataGrid
+        <StyledDataGrid
           sx={{
             mt: 2,
             ml: 1,
-            // Disables cell selection outline
-            "&.MuiDataGrid-root .MuiDataGrid-cell:focus-within": {
-              outline: "none !important",
-            },
           }}
           disableRowSelectionOnClick
           onCellClick={toggleFlightPlanState}
@@ -352,6 +431,7 @@ const VatsimEDCTFlightPlans = () => {
           rows={flightPlans}
           columns={columns}
           getRowId={(row) => (row as IVatsimFlightPlan)._id!}
+          getRowClassName={getRowClassName}
           initialState={{
             columns: {
               columnVisibilityModel: {
