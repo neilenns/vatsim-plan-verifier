@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { DateTime } from "luxon";
 import { ENV } from "../env.mjs";
 import { IVatsimData, IVatsimPilot, IVatsimPrefile } from "../interfaces/IVatsimData.mjs";
 import mainLogger from "../logger.mjs";
@@ -63,10 +64,11 @@ export function pilotToVatsimModel(pilot: IVatsimPilot) {
     name: pilot?.name,
     isPrefile: false,
     callsign: pilot?.callsign ?? "",
-    departureTime: pilot?.flight_plan?.deptime ?? "",
     groundspeed: pilot?.groundspeed ?? "",
     rawAircraftType: pilot?.flight_plan?.aircraft_faa ?? "",
-    departure: pilot?.flight_plan?.departure ?? "",
+    departure: pilot?.flight_plan?.departure,
+    departureTime: DateTime.fromFormat(pilot?.flight_plan?.deptime ?? "", "Hmm"),
+    EDCT: DateTime.fromFormat(pilot?.flight_plan?.deptime ?? "", "Hmm"),
     arrival: pilot?.flight_plan?.arrival ?? "",
     latitude: pilot?.latitude,
     longitude: pilot?.longitude,
@@ -93,7 +95,8 @@ export function prefileToVatsimModel(prefile: IVatsimPrefile) {
     isPrefile: true,
     callsign: prefile?.callsign ?? "",
     groundspeed: 0,
-    departureTime: prefile?.flight_plan?.deptime ?? "",
+    departureTime: DateTime.fromFormat(prefile?.flight_plan?.deptime ?? "", "Hmm"),
+    EDCT: DateTime.fromFormat(prefile?.flight_plan?.deptime ?? "", "Hmm"),
     rawAircraftType: prefile?.flight_plan?.aircraft_faa ?? "",
     departure: prefile?.flight_plan?.departure ?? "",
     arrival: prefile?.flight_plan?.arrival ?? "",

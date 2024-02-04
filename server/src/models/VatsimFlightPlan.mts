@@ -49,7 +49,10 @@ class VatsimFlightPlan {
   arrival?: string;
 
   @prop({ required: false })
-  departureTime?: string;
+  departureTime?: Date;
+
+  @prop({ required: false })
+  EDCT?: Date;
 
   @prop({ required: false })
   cruiseAltitude?: number;
