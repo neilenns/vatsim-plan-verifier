@@ -3,6 +3,7 @@
 //
 // It properly carries forward any state on the existing flight sim plans, and properly
 // reports whether any new or modified plans came in.
+import { DateTime } from "luxon";
 import { ImportState, IVatsimFlightPlan } from "../interfaces/IVatsimFlightPlan.mjs";
 import _ from "lodash";
 
@@ -23,6 +24,17 @@ export function getColorByStatus(status: ImportState | undefined): string {
   }
 }
 
+// Takes a JSON ISO date string and calculates the number of minutes between now and it.
+export function minutesToEDCT(edctTime: string | undefined) {
+  if (!edctTime) {
+    return undefined;
+  }
+
+  return Math.round(
+    DateTime.utc().diff(DateTime.fromISO(edctTime, { zone: "UTC" }), "minutes").minutes
+  );
+}
+
 // Takes a new plan and an existing plan and merges them together. The only
 // property from the existing plan that is retained is the vatsimStatus.
 //
@@ -40,6 +52,7 @@ function mergeFlightPlans(
     hasUpdates ==
       (incomingPlan.revision !== existingPlan.revision &&
         incomingPlan.departureTime !== existingPlan.departureTime);
+    incomingPlan.minutesToEDCT = minutesToEDCT(incomingPlan.EDCT);
   } else {
     hasUpdates = incomingPlan.revision != existingPlan.revision;
   }
@@ -76,6 +89,7 @@ export function processFlightPlans(
           ({
             ...plan,
             importState: ImportState.NEW,
+            minutesToEDCT: minutesToEDCT(plan.EDCT),
           } as IVatsimFlightPlan)
       ),
       hasNew: true,
@@ -111,6 +125,7 @@ export function processFlightPlans(
   const newPlans = _.differenceBy(incomingPlans, existingPlans, "callsign").map((plan) => ({
     ...plan,
     vatsimStatus: ImportState.NEW,
+    minutesToEDCT: minutesToEDCT(plan.EDCT),
   }));
 
   return {
