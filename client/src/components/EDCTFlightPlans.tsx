@@ -1,17 +1,6 @@
 import { Stream as StreamIcon } from "@mui/icons-material";
-import {
-  Box,
-  IconButton,
-  Paper,
-  Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TextField,
-} from "@mui/material";
+import { Box, IconButton, Stack, TextField, Typography } from "@mui/material";
+import { DataGrid, GridColDef, GridCellParams } from "@mui/x-data-grid";
 import debug from "debug";
 import pluralize from "pluralize";
 import { useEffect, useRef, useState } from "react";
@@ -24,6 +13,58 @@ import { useAudio } from "./AudioHook";
 import { getColorByStatus, processFlightPlans } from "../utils/vatsim.mts";
 
 const logger = debug("plan-verifier:EDCTFlightPlans");
+
+const columns: GridColDef[] = [
+  { field: "_id" },
+  {
+    field: "callsign",
+    headerName: "Callsign",
+    width: 150,
+    editable: false,
+    type: "string",
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    renderCell: (params: GridCellParams<any, string>) => {
+      const flightPlan = params.row as IVatsimFlightPlan;
+
+      return (
+        <Box
+          sx={{
+            fontWeight: "bold",
+            fontStyle: flightPlan.isPrefile ? "italic" : "",
+            color: getColorByStatus(flightPlan.importState),
+            cursor: "pointer",
+          }}
+        >
+          {flightPlan.callsign}
+        </Box>
+      );
+    },
+  },
+  {
+    field: "departure",
+    headerName: "Departure airport",
+    align: "center",
+    headerAlign: "center",
+    width: 200,
+    editable: false,
+  },
+  {
+    field: "arrival",
+    headerName: "Arrival airport",
+    align: "center",
+    headerAlign: "center",
+    width: 200,
+    editable: false,
+  },
+  {
+    field: "departureTime",
+    headerName: "Departure time",
+    align: "center",
+    headerAlign: "center",
+    width: 200,
+    editable: false,
+  },
+];
 
 const VatsimEDCTFlightPlans = () => {
   const bellPlayer = useAudio("/bell.mp3");
@@ -230,8 +271,12 @@ const VatsimEDCTFlightPlans = () => {
     onPrompt,
   });
 
-  const toggleFlightPlanState = (callsign?: string) => {
-    const planIndex = flightPlans.findIndex((plan) => plan.callsign === callsign);
+  const toggleFlightPlanState = (params: GridCellParams) => {
+    if (params.field !== "callsign") {
+      return;
+    }
+
+    const planIndex = flightPlans.findIndex((plan) => plan.callsign === params.value);
     if (planIndex !== -1) {
       const updatedFlightPlans = [...flightPlans];
 
@@ -272,40 +317,29 @@ const VatsimEDCTFlightPlans = () => {
             </IconButton>
           </Stack>
         </form>
-        {flightPlans.length > 0 && (
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Callsign</TableCell>
-                  <TableCell>Departure airport</TableCell>
-                  <TableCell>Arrival airport</TableCell>
-                  <TableCell>Departure time</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {flightPlans.map((flightPlan) => (
-                  <TableRow key={flightPlan.callsign}>
-                    <TableCell
-                      onClick={() => toggleFlightPlanState(flightPlan.callsign)}
-                      sx={{
-                        fontWeight: "bold",
-                        fontStyle: flightPlan.isPrefile ? "italic" : "",
-                        color: getColorByStatus(flightPlan.importState),
-                        cursor: "pointer",
-                      }}
-                    >
-                      {flightPlan.callsign}
-                    </TableCell>
-                    <TableCell>{flightPlan.departure}</TableCell>
-                    <TableCell>{flightPlan.arrival}</TableCell>
-                    <TableCell>{flightPlan.departureTime}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        )}
+        <DataGrid
+          sx={{
+            mt: 2,
+            ml: 1,
+            // Disables cell selection outline
+            "&.MuiDataGrid-root .MuiDataGrid-cell:focus-within": {
+              outline: "none !important",
+            },
+          }}
+          disableRowSelectionOnClick
+          onCellClick={toggleFlightPlanState}
+          autoHeight
+          rows={flightPlans}
+          columns={columns}
+          getRowId={(row) => (row as IVatsimFlightPlan)._id!}
+          initialState={{
+            columns: {
+              columnVisibilityModel: {
+                _id: false,
+              },
+            },
+          }}
+        />
       </Box>
       <AlertSnackbar {...snackbar} onClose={handleSnackbarClose} />
     </>
