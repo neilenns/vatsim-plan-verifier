@@ -114,7 +114,7 @@ function getRowClassName(params: GridRowParams) {
   }
 
   return clsx({
-    "vatsim--EDCT--late": flightPlan.minutesToEDCT < 0,
+    "vatsim--EDCT--late": flightPlan.minutesToEDCT <= 0,
     "vatsim--EDCT--urgent": flightPlan.minutesToEDCT > 0 && flightPlan.minutesToEDCT < 10,
     "": flightPlan.minutesToEDCT >= 10,
   });

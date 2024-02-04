@@ -31,7 +31,8 @@ export function minutesToEDCT(edctTime: string | undefined) {
   }
 
   return Math.round(
-    DateTime.utc().diff(DateTime.fromISO(edctTime, { zone: "UTC" }), "minutes").minutes
+    DateTime.fromISO(edctTime, { zone: "UTC" }).diff(DateTime.utc(), "minutes").minutes
+    //    DateTime.utc().diff(DateTime.fromISO(edctTime, { zone: "UTC" }), "minutes").minutes
   );
 }
 
