@@ -21,6 +21,7 @@ import { apiKey, serverUrl } from "../configs/planVerifierServer.mts";
 import { IVatsimFlightPlan } from "../interfaces/IVatsimFlightPlan.mts";
 import AlertSnackbar, { AlertSnackBarOnClose, AlertSnackbarProps } from "./AlertSnackbar";
 import { useAudio } from "./AudioHook";
+import { processFlightPlans } from "../utils/vatsim.mts";
 
 const logger = debug("plan-verifier:EDCTFlightPlans");
 
@@ -41,6 +42,8 @@ const VatsimEDCTFlightPlans = () => {
   const arrivalCodesCodesRef = useRef<string>(localStorage.getItem("edctArrivalCodes") || "");
   const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
   const socketRef = useRef<Socket | null>(null);
+  const [, setHasNew] = useState(false);
+  const [, setHasUpdates] = useState(false);
 
   const handleSnackbarClose: AlertSnackBarOnClose = () => setSnackbar(null);
 
@@ -69,7 +72,12 @@ const VatsimEDCTFlightPlans = () => {
 
       // This just feels like a giant hack to get around the closure issues of useEffect and
       // useState not having flightPlans be the current value every time the update event is received.
-      setFlightPlans(vatsimPlans);
+      setFlightPlans((currentPlans) => {
+        const result = processFlightPlans(currentPlans, vatsimPlans);
+        setHasNew(result.hasNew);
+        setHasUpdates(result.hasUpdates);
+        return result.flightPlans;
+      });
     });
 
     socketRef.current.on("connect", () => {
