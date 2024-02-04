@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { DateTime } from "luxon";
 import { ENV } from "../env.mjs";
 import { IVatsimData, IVatsimPilot, IVatsimPrefile } from "../interfaces/IVatsimData.mjs";
 import mainLogger from "../logger.mjs";
@@ -34,6 +35,12 @@ const updateProperties = [
   "longitude",
 ] as (keyof VatsimFlightPlanDocument)[];
 
+function depTimeToDateTime(depTime: string | undefined): DateTime | undefined {
+  const result = depTime ? DateTime.fromFormat(depTime, "Hmm", { zone: "UTC" }) : undefined;
+
+  return result;
+}
+
 function cleanRoute(route: string) {
   return route
     .replace(/DCT /g, "") // Get rid of all the DCTs
@@ -63,10 +70,11 @@ export function pilotToVatsimModel(pilot: IVatsimPilot) {
     name: pilot?.name,
     isPrefile: false,
     callsign: pilot?.callsign ?? "",
-    departureTime: pilot?.flight_plan?.deptime ?? "",
     groundspeed: pilot?.groundspeed ?? "",
     rawAircraftType: pilot?.flight_plan?.aircraft_faa ?? "",
-    departure: pilot?.flight_plan?.departure ?? "",
+    departure: pilot?.flight_plan?.departure,
+    departureTime: depTimeToDateTime(pilot?.flight_plan?.deptime),
+    EDCT: depTimeToDateTime(pilot?.flight_plan?.deptime),
     arrival: pilot?.flight_plan?.arrival ?? "",
     latitude: pilot?.latitude,
     longitude: pilot?.longitude,
@@ -93,7 +101,8 @@ export function prefileToVatsimModel(prefile: IVatsimPrefile) {
     isPrefile: true,
     callsign: prefile?.callsign ?? "",
     groundspeed: 0,
-    departureTime: prefile?.flight_plan?.deptime ?? "",
+    departureTime: depTimeToDateTime(prefile?.flight_plan?.deptime),
+    EDCT: depTimeToDateTime(prefile?.flight_plan?.deptime),
     rawAircraftType: prefile?.flight_plan?.aircraft_faa ?? "",
     departure: prefile?.flight_plan?.departure ?? "",
     arrival: prefile?.flight_plan?.arrival ?? "",

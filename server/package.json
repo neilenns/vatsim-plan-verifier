@@ -60,7 +60,7 @@
     "@types/geodesy": "^2.2.3",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/lodash": "^4.14.196",
-    "@types/luxon": "^3.3.6",
+    "@types/luxon": "^3.4.2",
     "@types/mocha": "^10.0.1",
     "@types/mustache": "^4.2.2",
     "@types/node": "^20.11.6",

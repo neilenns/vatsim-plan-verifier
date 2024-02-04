@@ -1,16 +1,26 @@
 import { Stream as StreamIcon } from "@mui/icons-material";
 import { Box, IconButton, Stack, TextField } from "@mui/material";
-import { DataGrid, GridColDef, GridCellParams } from "@mui/x-data-grid";
+import { DataGrid, GridCellParams, GridColDef, GridValueFormatterParams } from "@mui/x-data-grid";
 import debug from "debug";
+import { DateTime } from "luxon";
 import pluralize from "pluralize";
 import { useEffect, useRef, useState } from "react";
 import { useIdleTimer } from "react-idle-timer";
 import socketIOClient, { Socket } from "socket.io-client";
 import { apiKey, serverUrl } from "../configs/planVerifierServer.mts";
 import { IVatsimFlightPlan, ImportState } from "../interfaces/IVatsimFlightPlan.mts";
+import { getColorByStatus, processFlightPlans } from "../utils/vatsim.mts";
 import AlertSnackbar, { AlertSnackBarOnClose, AlertSnackbarProps } from "./AlertSnackbar";
 import { useAudio } from "./AudioHook";
-import { getColorByStatus, processFlightPlans } from "../utils/vatsim.mts";
+
+function formatDateTime(params: GridValueFormatterParams<string>) {
+  if (params.value === null) {
+    return;
+  }
+
+  const depTime = DateTime.fromISO(params.value, { zone: "UTC" });
+  return depTime.toLocaleString(DateTime.TIME_24_SIMPLE);
+}
 
 const logger = debug("plan-verifier:EDCTFlightPlans");
 
@@ -63,6 +73,16 @@ const columns: GridColDef[] = [
     headerAlign: "center",
     width: 200,
     editable: false,
+    valueFormatter: formatDateTime,
+  },
+  {
+    field: "EDCT",
+    headerName: "EDCT",
+    align: "center",
+    headerAlign: "center",
+    width: 200,
+    editable: false,
+    valueFormatter: formatDateTime,
   },
 ];
 
