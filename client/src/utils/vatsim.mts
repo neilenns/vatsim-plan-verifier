@@ -24,17 +24,25 @@ export function getColorByStatus(status: ImportState | undefined): string {
 }
 
 // Takes a new plan and an existing plan and merges them together. The only
-// property from the existing plan that is retained is the vatsimStatus,
-// unless the incoming object has updates.
+// property from the existing plan that is retained is the vatsimStatus.
 //
 // It also returns a boolean indicating whether any of the properties
 // were different.
 function mergeFlightPlans(
   incomingPlan: IVatsimFlightPlan,
-  existingPlan: IVatsimFlightPlan
+  existingPlan: IVatsimFlightPlan,
+  edctMode: boolean
 ): { flightPlan: IVatsimFlightPlan; hasUpdates: boolean } {
-  // Figure out if any of the properties (other than _id) and vatsimStatus changed.
-  const hasUpdates = incomingPlan.revision != existingPlan.revision;
+  let hasUpdates = false;
+
+  if (edctMode) {
+    // In EDCT mode the only changed property that matters is departureTime.
+    hasUpdates ==
+      (incomingPlan.revision !== existingPlan.revision &&
+        incomingPlan.departureTime !== existingPlan.departureTime);
+  } else {
+    hasUpdates = incomingPlan.revision != existingPlan.revision;
+  }
 
   const flightPlan = {
     ...incomingPlan,
@@ -46,7 +54,8 @@ function mergeFlightPlans(
 
 export function processFlightPlans(
   currentPlans: IVatsimFlightPlan[],
-  incomingPlans: IVatsimFlightPlan[]
+  incomingPlans: IVatsimFlightPlan[],
+  edctMode = false
 ): ProcessFlightPlansResult {
   let updatedPlansCount = 0;
 
@@ -88,7 +97,7 @@ export function processFlightPlans(
     (incomingPlan) => {
       const currentPlan = currentPlans.find((p) => p.callsign === incomingPlan.callsign);
       if (currentPlan) {
-        const mergeResult = mergeFlightPlans(incomingPlan, currentPlan);
+        const mergeResult = mergeFlightPlans(incomingPlan, currentPlan, edctMode);
         mergeResult.hasUpdates ? updatedPlansCount++ : null;
         return mergeResult.flightPlan;
       } else {
