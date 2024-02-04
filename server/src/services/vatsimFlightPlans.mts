@@ -35,6 +35,10 @@ const updateProperties = [
   "longitude",
 ] as (keyof VatsimFlightPlanDocument)[];
 
+function depTimeToDateTime(depTime: string | undefined): DateTime | undefined {
+  return depTime ? DateTime.fromFormat(depTime, "Hmm") : undefined;
+}
+
 function cleanRoute(route: string) {
   return route
     .replace(/DCT /g, "") // Get rid of all the DCTs
@@ -59,6 +63,10 @@ export function getCommunicationMethod(inputString: string | undefined): VatsimC
 
 // Takes a pilot object from vatsim and converts it to a vatsim model
 export function pilotToVatsimModel(pilot: IVatsimPilot) {
+  const departureTime = pilot?.flight_plan?.deptime
+    ? DateTime.fromFormat(pilot?.flight_plan.deptime, "Hmm")
+    : undefined;
+
   const result = new VatsimFlightPlanModel({
     cid: pilot.cid,
     name: pilot?.name,
@@ -67,8 +75,8 @@ export function pilotToVatsimModel(pilot: IVatsimPilot) {
     groundspeed: pilot?.groundspeed ?? "",
     rawAircraftType: pilot?.flight_plan?.aircraft_faa ?? "",
     departure: pilot?.flight_plan?.departure,
-    departureTime: DateTime.fromFormat(pilot?.flight_plan?.deptime ?? "", "Hmm"),
-    EDCT: DateTime.fromFormat(pilot?.flight_plan?.deptime ?? "", "Hmm"),
+    departureTime: depTimeToDateTime(pilot?.flight_plan?.deptime),
+    EDCT: depTimeToDateTime(pilot?.flight_plan?.deptime),
     arrival: pilot?.flight_plan?.arrival ?? "",
     latitude: pilot?.latitude,
     longitude: pilot?.longitude,
@@ -95,8 +103,8 @@ export function prefileToVatsimModel(prefile: IVatsimPrefile) {
     isPrefile: true,
     callsign: prefile?.callsign ?? "",
     groundspeed: 0,
-    departureTime: DateTime.fromFormat(prefile?.flight_plan?.deptime ?? "", "Hmm"),
-    EDCT: DateTime.fromFormat(prefile?.flight_plan?.deptime ?? "", "Hmm"),
+    departureTime: depTimeToDateTime(prefile?.flight_plan?.deptime),
+    EDCT: depTimeToDateTime(prefile?.flight_plan?.deptime),
     rawAircraftType: prefile?.flight_plan?.aircraft_faa ?? "",
     departure: prefile?.flight_plan?.departure ?? "",
     arrival: prefile?.flight_plan?.arrival ?? "",
