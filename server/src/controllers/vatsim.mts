@@ -10,6 +10,7 @@ import {
 } from "../models/VatsimFlightPlan.mjs";
 import Result from "../types/result.mjs";
 import { FlightPlanModel } from "../models/FlightPlan.mjs";
+import { Types } from "mongoose";
 
 const logger = mainLogger.child({ service: "vatsim" });
 
@@ -38,7 +39,7 @@ export async function setVatsimFlightPlanEDCT(
     // The way to find the flight plan depends on whether an _id or a callsign was provided.
     // _id takes precedence.
     if (_id) {
-      flightPlan = await VatsimFlightPlanModel.findById(_id);
+      flightPlan = await VatsimFlightPlanModel.findById(new Types.ObjectId(_id));
     } else {
       flightPlan = await VatsimFlightPlanModel.findOne({ callsign });
     }

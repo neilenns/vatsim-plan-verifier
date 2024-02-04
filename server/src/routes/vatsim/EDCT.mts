@@ -42,13 +42,11 @@ router.post(
 
     if (result.errorType === "FlightPlanNotFound") {
       res.status(404).json({
-        error: `Flight plan not found for ${req.body._id ? req.body._id : req.body.edct}.`,
+        error: `Flight plan not found for ${req.body._id ? req.body._id : req.body.callsign}.`,
       });
     } else {
       res.status(500).json({ error: "Failed to get the flight plans." });
     }
-
-    res.status(500).json({ error: "Unable to set EDCT on flight plan" });
   }
 );
 
