@@ -21,7 +21,7 @@ import { apiKey, serverUrl } from "../configs/planVerifierServer.mts";
 import { IVatsimFlightPlan } from "../interfaces/IVatsimFlightPlan.mts";
 import AlertSnackbar, { AlertSnackBarOnClose, AlertSnackbarProps } from "./AlertSnackbar";
 import { useAudio } from "./AudioHook";
-import { processFlightPlans } from "../utils/vatsim.mts";
+import { getColorByStatus, processFlightPlans } from "../utils/vatsim.mts";
 
 const logger = debug("plan-verifier:EDCTFlightPlans");
 
@@ -274,7 +274,11 @@ const VatsimEDCTFlightPlans = () => {
               <TableBody>
                 {flightPlans.map((flightPlan) => (
                   <TableRow key={flightPlan.callsign}>
-                    <TableCell>{flightPlan.callsign}</TableCell>
+                    <TableCell sx={{
+                      fontWeight: "bold",
+                      fontStyle: flightPlan.isPrefile ? "italic": "",
+                      color: getColorByStatus(flightPlan.importState)
+                    }}>{flightPlan.callsign}</TableCell>
                     <TableCell>{flightPlan.departure}</TableCell>
                     <TableCell>{flightPlan.arrival}</TableCell>
                     <TableCell>{flightPlan.departureTime}</TableCell>
