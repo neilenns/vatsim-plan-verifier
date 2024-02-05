@@ -1,11 +1,12 @@
 import clsx from "clsx";
 import { Stream as StreamIcon } from "@mui/icons-material";
-import { Box, IconButton, Stack, TextField, darken, lighten, styled } from "@mui/material";
+import { Box, Button, IconButton, Stack, TextField, darken, lighten, styled } from "@mui/material";
 import {
   DataGrid,
   GridCellParams,
   GridColDef,
   GridRowParams,
+  GridRowSelectionModel,
   GridValueFormatterParams,
 } from "@mui/x-data-grid";
 import debug from "debug";
@@ -19,9 +20,10 @@ import { IVatsimFlightPlan, ImportState } from "../interfaces/IVatsimFlightPlan.
 import { processFlightPlans } from "../utils/vatsim.mts";
 import AlertSnackbar, { AlertSnackBarOnClose, AlertSnackbarProps } from "./AlertSnackbar";
 import { useAudio } from "./AudioHook";
+import { updateEdct } from "../services/edct.mts";
 
 function formatDateTime(params: GridValueFormatterParams<string>) {
-  if (params.value === null) {
+  if (params.value === null || params.value === undefined) {
     return;
   }
 
@@ -114,9 +116,9 @@ function getRowClassName(params: GridRowParams) {
   }
 
   return clsx({
+    "": flightPlan.minutesToEDCT === undefined || flightPlan.minutesToEDCT >= 10,
     "vatsim--EDCT--late": flightPlan.minutesToEDCT <= 0,
     "vatsim--EDCT--urgent": flightPlan.minutesToEDCT > 0 && flightPlan.minutesToEDCT < 10,
-    "": flightPlan.minutesToEDCT >= 10,
   });
 }
 
@@ -189,8 +191,31 @@ const VatsimEDCTFlightPlans = () => {
   const socketRef = useRef<Socket | null>(null);
   const [hasNew, setHasNew] = useState(false);
   const [hasUpdates, setHasUpdates] = useState(false);
+  const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
+  const [selectedFlightPlan, setSelectedFlightPlan] = useState<IVatsimFlightPlan>();
+  const [selectedEDCT, setSelectedEDCT] = useState<string>();
 
   const handleSnackbarClose: AlertSnackBarOnClose = () => setSnackbar(null);
+
+  useEffect(() => {
+    if (!rowSelectionModel || rowSelectionModel.length === 0) {
+      setSelectedFlightPlan(undefined);
+      setSelectedEDCT("");
+      return;
+    }
+
+    const plan = flightPlans.find((plan) => plan._id === rowSelectionModel[0].toString());
+
+    setSelectedFlightPlan(plan);
+
+    if (plan?.EDCT) {
+      setSelectedEDCT(
+        DateTime.fromISO(plan.EDCT, { zone: "UTC" }).toLocaleString(DateTime.TIME_24_SIMPLE)
+      );
+    } else {
+      setSelectedEDCT(DateTime.utc().toLocaleString(DateTime.TIME_24_SIMPLE));
+    }
+  }, [rowSelectionModel, flightPlans]);
 
   useEffect(() => {
     if (hasNew || hasUpdates) {
@@ -390,6 +415,62 @@ const VatsimEDCTFlightPlans = () => {
     }
   };
 
+  const handleChangeEDCT = async (e: React.FormEvent<HTMLFormElement>) => {
+    const timeRegex = /^(\d{2}:\d{2})/; // hh:mm
+    const plusRegex = /^\+(\d+)$/; // +time
+
+    e.preventDefault();
+
+    if (!selectedEDCT) {
+      return;
+    }
+
+    let newEDCT: DateTime;
+
+    // If the string starts with + then the new EDCT time is the current time in UTC plus the requested minutes
+    if (selectedEDCT.startsWith("+") && plusRegex.test(selectedEDCT)) {
+      const minutes = parseInt(selectedEDCT.substring(1));
+      newEDCT = DateTime.utc().plus({ minutes });
+    }
+    // Otherwise assume it is a time in the format "HH:mm"
+    else if (timeRegex.test(selectedEDCT)) {
+      newEDCT = DateTime.fromFormat(selectedEDCT, "HH:mm", { zone: "UTC" });
+    } else {
+      setSnackbar({
+        children: `${selectedEDCT} isn't a valid EDCT time`,
+        severity: "error",
+      });
+      return;
+    }
+
+    try {
+      const result = await updateEdct(selectedFlightPlan?._id, newEDCT);
+
+      setSnackbar({
+        children: `EDCT for ${selectedFlightPlan?.callsign ?? ""} updated to ${
+          newEDCT.toISOTime() ?? ""
+        }`,
+        severity: "info",
+      });
+
+      const planIndex = flightPlans.findIndex((plan) => plan._id === selectedFlightPlan?._id);
+      if (planIndex !== -1) {
+        const updatedFlightPlans = [...flightPlans];
+
+        updatedFlightPlans[planIndex].EDCT = result?.EDCT;
+        setFlightPlans(updatedFlightPlans);
+      }
+    } catch (error) {
+      const err = error as Error;
+      setSnackbar({
+        children: `Unable to update EDCT for ${selectedFlightPlan?.callsign ?? ""}: ${err.message}`,
+        severity: "error",
+      });
+    } finally {
+      setSelectedEDCT("");
+    }
+  };
+
   return (
     <>
       <Box sx={{ mt: 2 }}>
@@ -424,14 +505,20 @@ const VatsimEDCTFlightPlans = () => {
           sx={{
             mt: 2,
             ml: 1,
+            "&.MuiDataGrid-root .MuiDataGrid-cell:focus-within": {
+              outline: "none !important",
+            },
           }}
-          disableRowSelectionOnClick
           onCellClick={toggleFlightPlanState}
           autoHeight
           rows={flightPlans}
           columns={columns}
           getRowId={(row) => (row as IVatsimFlightPlan)._id!}
           getRowClassName={getRowClassName}
+          onRowSelectionModelChange={(newRowSelectionModel) => {
+            setRowSelectionModel(newRowSelectionModel);
+          }}
+          rowSelectionModel={rowSelectionModel}
           initialState={{
             columns: {
               columnVisibilityModel: {
@@ -441,6 +528,22 @@ const VatsimEDCTFlightPlans = () => {
           }}
         />
       </Box>
+      <form // From https://stackoverflow.com/a/77162986/9206264
+        onSubmit={(e) => {
+          void (async () => {
+            await handleChangeEDCT(e);
+          })();
+        }}
+      >
+        <TextField
+          value={selectedEDCT}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setSelectedEDCT(event.target.value);
+          }}
+        />
+        <Button type="submit">Save</Button>
+      </form>
+
       <AlertSnackbar {...snackbar} onClose={handleSnackbarClose} />
     </>
   );
