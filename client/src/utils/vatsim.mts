@@ -92,7 +92,6 @@ export function processFlightPlans(
           ({
             ...plan,
             importState: ImportState.NEW,
-            EDCTDateTime: plan.EDCT ? DateTime.fromISO(plan.EDCT).toJSDate() : undefined,
             minutesToEDCT: minutesToEDCT(plan.EDCT),
           } as IVatsimFlightPlan)
       ),
@@ -129,7 +128,6 @@ export function processFlightPlans(
   const newPlans = _.differenceBy(incomingPlans, existingPlans, "callsign").map((plan) => ({
     ...plan,
     vatsimStatus: ImportState.NEW,
-    EDCTDateTime: plan.EDCT ? DateTime.fromISO(plan.EDCT, { zone: "UTC" }).toJSDate() : undefined,
     minutesToEDCT: minutesToEDCT(plan.EDCT),
   }));
 
