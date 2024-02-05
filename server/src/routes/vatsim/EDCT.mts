@@ -3,7 +3,6 @@ import { Query } from "express-serve-static-core";
 import { secureQueryMiddleware } from "../../middleware/secureQueryMiddleware.mjs";
 import { getVatsimEDCTFlightPlans, setVatsimFlightPlanEDCT } from "../../controllers/vatsim.mjs";
 import { verifyUser } from "../../middleware/permissions.mjs";
-import { DateTime } from "luxon";
 
 interface EDCTQueryParams extends Query {
   d: string[];
@@ -16,11 +15,11 @@ interface TypedEDCTRequestBody<T> extends Express.Request {
 
 const router = express.Router();
 
-router.post(
+router.put(
   "/vatsim/flightPlans/edct",
   verifyUser,
   async (
-    req: TypedEDCTRequestBody<{ _id: string; callsign: string; edct: Date }>,
+    req: TypedEDCTRequestBody<{ _id: string; callsign: string; EDCT: Date }>,
     res: Response
   ) => {
     if (!req.body._id && !req.body.callsign) {
@@ -28,12 +27,12 @@ router.post(
       return;
     }
 
-    if (!req.body.edct) {
+    if (!req.body.EDCT) {
       res.status(500).json({ error: "edct must be specified" });
       return;
     }
 
-    const result = await setVatsimFlightPlanEDCT(req.body._id, req.body.callsign, req.body.edct);
+    const result = await setVatsimFlightPlanEDCT(req.body._id, req.body.callsign, req.body.EDCT);
 
     if (result.success) {
       res.json(result.data);

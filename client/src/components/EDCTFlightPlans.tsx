@@ -20,6 +20,7 @@ import { IVatsimFlightPlan, ImportState } from "../interfaces/IVatsimFlightPlan.
 import { processFlightPlans } from "../utils/vatsim.mts";
 import AlertSnackbar, { AlertSnackBarOnClose, AlertSnackbarProps } from "./AlertSnackbar";
 import { useAudio } from "./AudioHook";
+import { updateEdct } from "../services/edct.mts";
 
 function formatDateTime(params: GridValueFormatterParams<string>) {
   if (params.value === null || params.value === undefined) {
@@ -78,7 +79,7 @@ const columns: GridColDef[] = [
     valueFormatter: formatDateTime,
   },
   {
-    field: "EDCTDateTime",
+    field: "EDCT",
     headerName: "EDCT",
     align: "center",
     headerAlign: "center",
@@ -115,8 +116,7 @@ function getRowClassName(params: GridRowParams) {
   }
 
   return clsx({
-    "": flightPlan.minutesToEDCT === undefined,
-    "": flightPlan.minutesToEDCT >= 10,
+    "": flightPlan.minutesToEDCT === undefined || flightPlan.minutesToEDCT >= 10,
     "vatsim--EDCT--late": flightPlan.minutesToEDCT <= 0,
     "vatsim--EDCT--urgent": flightPlan.minutesToEDCT > 0 && flightPlan.minutesToEDCT < 10,
   });
@@ -414,7 +414,7 @@ const VatsimEDCTFlightPlans = () => {
     }
   };
 
-  const handleChangeEDCT = () => {
+  const handleChangeEDCT = async () => {
     const timeRegex = /^(\d{2}:\d{2})/; // hh:mm
     const plusRegex = /^\+(\d+)$/; // +time
 
@@ -422,30 +422,34 @@ const VatsimEDCTFlightPlans = () => {
       return;
     }
 
-    let newEDCT: string | null;
+    let newEDCT: DateTime;
 
     // If the string starts with + then the new EDCT time is the current time in UTC plus the requested minutes
     if (selectedEDCT.startsWith("+") && plusRegex.test(selectedEDCT)) {
       const minutes = parseInt(selectedEDCT.substring(1));
-      newEDCT = DateTime.utc().plus({ minutes }).toISO();
-
-      setSnackbar({
-        children: newEDCT,
-        severity: "info",
-      });
+      newEDCT = DateTime.utc().plus({ minutes });
     }
     // Otherwise assume it is a time in the format "HH:mm"
     else if (timeRegex.test(selectedEDCT)) {
-      newEDCT = DateTime.fromFormat(selectedEDCT, "HH:mm", { zone: "UTC" }).toISO();
-      setSnackbar({
-        children: newEDCT,
-        severity: "info",
-      });
+      newEDCT = DateTime.fromFormat(selectedEDCT, "HH:mm", { zone: "UTC" });
     } else {
       setSnackbar({
         children: `${selectedEDCT} isn't a valid EDCT time`,
         severity: "error",
       });
+      return;
+    }
+
+    try {
+      await updateEdct(selectedFlightPlan?._id, newEDCT);
+      setSnackbar({
+        children: `EDCT for ${selectedFlightPlan?.callsign ?? ""} updated to ${
+          newEDCT.toISOTime() ?? ""
+        }`,
+        severity: "info",
+      });
+    } catch (error) {
+      throw new Error("Update failed."); // Throw an error in case of failure
     }
   };
 
@@ -513,7 +517,16 @@ const VatsimEDCTFlightPlans = () => {
             setSelectedEDCT(event.target.value);
           }}
         />
-        <Button onClick={handleChangeEDCT}>Save</Button>
+        <Button
+          // From https://stackoverflow.com/a/77162986/9206264
+          onClick={() => {
+            void (async () => {
+              await handleChangeEDCT();
+            })();
+          }}
+        >
+          Save
+        </Button>
       </form>
 
       <AlertSnackbar {...snackbar} onClose={handleSnackbarClose} />
