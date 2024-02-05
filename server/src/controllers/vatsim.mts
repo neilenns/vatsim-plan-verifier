@@ -9,6 +9,8 @@ import {
   VatsimFlightStatus,
 } from "../models/VatsimFlightPlan.mjs";
 import Result from "../types/result.mjs";
+import { FlightPlanModel } from "../models/FlightPlan.mjs";
+import { Types } from "mongoose";
 
 const logger = mainLogger.child({ service: "vatsim" });
 
@@ -25,6 +27,49 @@ type VatsimFlightPlansResult = Result<
 type VatsimPilotStatsResult = Result<PilotStatsDocument, "PilotNotFound" | "UnknownError">;
 
 type VatsimATISResult = Result<VatsimATISDocument, "ATISNotFound" | "UnknownError">;
+
+export async function setVatsimFlightPlanEDCT(
+  _id: string,
+  callsign: string,
+  edct: Date
+): Promise<VatsimFlightPlanResult> {
+  try {
+    let flightPlan;
+
+    // The way to find the flight plan depends on whether an _id or a callsign was provided.
+    // _id takes precedence.
+    if (_id) {
+      flightPlan = await VatsimFlightPlanModel.findById(new Types.ObjectId(_id));
+    } else {
+      flightPlan = await VatsimFlightPlanModel.findOne({ callsign });
+    }
+
+    if (!flightPlan) {
+      return {
+        success: false,
+        errorType: "FlightPlanNotFound",
+        error: `Unable to find flight plan for ${_id ? _id : callsign}`,
+      };
+    }
+
+    // Ok, we have a flight plan so update it.
+    flightPlan.EDCT = edct;
+    const savedPlan = await flightPlan.save();
+
+    return {
+      success: true,
+      data: savedPlan,
+    };
+  } catch (error) {
+    const message = `Error setting EDCT time for ${_id ? _id : callsign}: ${error}`;
+    logger.error(message);
+    return {
+      success: false,
+      errorType: "UnknownError",
+      error: message,
+    };
+  }
+}
 
 export async function getVatsimPilotStats(cid: number): Promise<VatsimPilotStatsResult> {
   try {

@@ -1,39 +1,10 @@
 import express, { Request, Response } from "express";
-import { Query } from "express-serve-static-core";
-import {
-  getVatsimEDCTFlightPlans,
-  getVatsimFlightPlan,
-  getVatsimFlightPlans,
-} from "../../controllers/vatsim.mjs";
+import { getVatsimFlightPlan, getVatsimFlightPlans } from "../../controllers/vatsim.mjs";
 import { verifyUser } from "../../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../../middleware/secureQueryMiddleware.mjs";
 import { VatsimFlightStatus } from "../../models/VatsimFlightPlan.mjs";
 
 const router = express.Router();
-
-interface EDCTQueryParams extends Query {
-  d: string[];
-  a: string[];
-}
-
-router.get(
-  "/vatsim/flightPlans/edct",
-  secureQueryMiddleware,
-  async (req: Request<{}, {}, {}, EDCTQueryParams>, res: Response) => {
-    const result = await getVatsimEDCTFlightPlans(req.query.d, req.query.a);
-
-    if (result.success) {
-      res.json(result.data);
-      return;
-    }
-
-    if (result.errorType === "FlightPlansNotFound") {
-      res.status(404).json({ error: `Flight plans not found for ${req.query.d} ${req.query.a}.` });
-    } else {
-      res.status(500).json({ error: "Failed to get the flight plans." });
-    }
-  }
-);
 
 router.get(
   "/vatsim/flightPlans/:airport/:flightRules/:status",

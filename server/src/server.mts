@@ -53,6 +53,7 @@ import vatsimATISRouter from "./routes/vatsim/ATIS.mjs";
 import vatsimFlightPlansRouter from "./routes/vatsim/flightPlans.mjs";
 import vatsimPilotsRouter from "./routes/vatsim/pilots.mjs";
 import vatsimTransceiversRouter from "./routes/vatsim/transceivers.mjs";
+import vatsimEDCTRouter from "./routes/vatsim/EDCT.mjs";
 
 // Admin routes
 
@@ -147,6 +148,7 @@ export async function startServer(port: number): Promise<void> {
   app.use(vatsimFlightPlansRouter);
   app.use(vatsimPilotsRouter);
   app.use(vatsimTransceiversRouter);
+  app.use(vatsimEDCTRouter);
 
   // Verifier routes
   app.use(verifyRouter);
