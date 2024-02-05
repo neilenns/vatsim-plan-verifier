@@ -415,15 +415,38 @@ const VatsimEDCTFlightPlans = () => {
   };
 
   const handleChangeEDCT = () => {
+    const timeRegex = /^(\d{2}:\d{2})/; // hh:mm
+    const plusRegex = /^\+(\d+)$/; // +time
+
     if (!selectedEDCT) {
       return;
     }
 
-    const newEDCT = DateTime.fromFormat(selectedEDCT, "HH:mm", { zone: "UTC" }).toISO();
-    setSnackbar({
-      children: newEDCT,
-      severity: "info",
-    });
+    let newEDCT: string | null;
+
+    // If the string starts with + then the new EDCT time is the current time in UTC plus the requested minutes
+    if (selectedEDCT.startsWith("+") && plusRegex.test(selectedEDCT)) {
+      const minutes = parseInt(selectedEDCT.substring(1));
+      newEDCT = DateTime.utc().plus({ minutes }).toISO();
+
+      setSnackbar({
+        children: newEDCT,
+        severity: "info",
+      });
+    }
+    // Otherwise assume it is a time in the format "HH:mm"
+    else if (timeRegex.test(selectedEDCT)) {
+      newEDCT = DateTime.fromFormat(selectedEDCT, "HH:mm", { zone: "UTC" }).toISO();
+      setSnackbar({
+        children: newEDCT,
+        severity: "info",
+      });
+    } else {
+      setSnackbar({
+        children: `${selectedEDCT} isn't a valid EDCT time`,
+        severity: "error",
+      });
+    }
   };
 
   return (
