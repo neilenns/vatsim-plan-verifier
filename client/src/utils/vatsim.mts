@@ -53,9 +53,6 @@ function mergeFlightPlans(
       (incomingPlan.revision !== existingPlan.revision &&
         incomingPlan.departureTime !== existingPlan.departureTime);
     incomingPlan.minutesToEDCT = minutesToEDCT(incomingPlan.EDCT);
-    incomingPlan.EDCTDateTime = incomingPlan.EDCT
-      ? DateTime.fromISO(incomingPlan.EDCT, { zone: "UTC" }).toJSDate()
-      : undefined;
   } else {
     hasUpdates = incomingPlan.revision != existingPlan.revision;
   }
