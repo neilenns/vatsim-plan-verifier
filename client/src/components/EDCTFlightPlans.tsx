@@ -200,6 +200,7 @@ const VatsimEDCTFlightPlans = () => {
   useEffect(() => {
     if (!rowSelectionModel || rowSelectionModel.length === 0) {
       setSelectedFlightPlan(undefined);
+      setSelectedEDCT("");
       return;
     }
 
@@ -414,9 +415,11 @@ const VatsimEDCTFlightPlans = () => {
     }
   };
 
-  const handleChangeEDCT = async () => {
+  const handleChangeEDCT = async (e: React.FormEvent<HTMLFormElement>) => {
     const timeRegex = /^(\d{2}:\d{2})/; // hh:mm
     const plusRegex = /^\+(\d+)$/; // +time
+
+    e.preventDefault();
 
     if (!selectedEDCT) {
       return;
@@ -441,15 +444,30 @@ const VatsimEDCTFlightPlans = () => {
     }
 
     try {
-      await updateEdct(selectedFlightPlan?._id, newEDCT);
+      const result = await updateEdct(selectedFlightPlan?._id, newEDCT);
+
       setSnackbar({
         children: `EDCT for ${selectedFlightPlan?.callsign ?? ""} updated to ${
           newEDCT.toISOTime() ?? ""
         }`,
         severity: "info",
       });
+
+      const planIndex = flightPlans.findIndex((plan) => plan._id === selectedFlightPlan?._id);
+      if (planIndex !== -1) {
+        const updatedFlightPlans = [...flightPlans];
+
+        updatedFlightPlans[planIndex].EDCT = result?.EDCT;
+        setFlightPlans(updatedFlightPlans);
+      }
     } catch (error) {
-      throw new Error("Update failed."); // Throw an error in case of failure
+      const err = error as Error;
+      setSnackbar({
+        children: `Unable to update EDCT for ${selectedFlightPlan?.callsign ?? ""}: ${err.message}`,
+        severity: "error",
+      });
+    } finally {
+      setSelectedEDCT("");
     }
   };
 
@@ -510,23 +528,20 @@ const VatsimEDCTFlightPlans = () => {
           }}
         />
       </Box>
-      <form>
+      <form // From https://stackoverflow.com/a/77162986/9206264
+        onSubmit={(e) => {
+          void (async () => {
+            await handleChangeEDCT(e);
+          })();
+        }}
+      >
         <TextField
           value={selectedEDCT}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             setSelectedEDCT(event.target.value);
           }}
         />
-        <Button
-          // From https://stackoverflow.com/a/77162986/9206264
-          onClick={() => {
-            void (async () => {
-              await handleChangeEDCT();
-            })();
-          }}
-        >
-          Save
-        </Button>
+        <Button type="submit">Save</Button>
       </form>
 
       <AlertSnackbar {...snackbar} onClose={handleSnackbarClose} />

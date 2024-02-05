@@ -10,18 +10,16 @@ export async function updateEdct(
     return;
   }
 
-  try {
-    const response = await http.put(`vatsim/flightPlans/edct`, {
-      _id,
-      EDCT: EDCT.toISO(),
-    });
+  const response = await http.put(`vatsim/flightPlans/edct`, {
+    _id,
+    EDCT: EDCT.toISO(),
+  });
 
-    if (response.status === 200) {
-      return response.data as IVatsimFlightPlan;
-    } else {
-      throw new Error("Failed to update EDCT");
-    }
-  } catch (error) {
-    throw new Error("Failed to update EDCT");
+  if (response.status === 200) {
+    return response.data as IVatsimFlightPlan;
+  } else if (response.status === 401) {
+    throw new Error(`Unauthorized`);
+  } else {
+    throw new Error(`${response.statusText}`);
   }
 }
