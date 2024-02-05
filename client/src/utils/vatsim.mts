@@ -53,6 +53,9 @@ function mergeFlightPlans(
       (incomingPlan.revision !== existingPlan.revision &&
         incomingPlan.departureTime !== existingPlan.departureTime);
     incomingPlan.minutesToEDCT = minutesToEDCT(incomingPlan.EDCT);
+    incomingPlan.EDCTDateTime = incomingPlan.EDCT
+      ? DateTime.fromISO(incomingPlan.EDCT, { zone: "UTC" }).toJSDate()
+      : undefined;
   } else {
     hasUpdates = incomingPlan.revision != existingPlan.revision;
   }
@@ -89,6 +92,7 @@ export function processFlightPlans(
           ({
             ...plan,
             importState: ImportState.NEW,
+            EDCTDateTime: plan.EDCT ? DateTime.fromISO(plan.EDCT).toJSDate() : undefined,
             minutesToEDCT: minutesToEDCT(plan.EDCT),
           } as IVatsimFlightPlan)
       ),
@@ -125,6 +129,7 @@ export function processFlightPlans(
   const newPlans = _.differenceBy(incomingPlans, existingPlans, "callsign").map((plan) => ({
     ...plan,
     vatsimStatus: ImportState.NEW,
+    EDCTDateTime: plan.EDCT ? DateTime.fromISO(plan.EDCT, { zone: "UTC" }).toJSDate() : undefined,
     minutesToEDCT: minutesToEDCT(plan.EDCT),
   }));
 

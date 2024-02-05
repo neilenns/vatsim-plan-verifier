@@ -6,6 +6,7 @@ import {
   GridCellParams,
   GridColDef,
   GridRowParams,
+  GridRowSelectionModel,
   GridValueFormatterParams,
 } from "@mui/x-data-grid";
 import debug from "debug";
@@ -21,7 +22,7 @@ import AlertSnackbar, { AlertSnackBarOnClose, AlertSnackbarProps } from "./Alert
 import { useAudio } from "./AudioHook";
 
 function formatDateTime(params: GridValueFormatterParams<string>) {
-  if (params.value === null) {
+  if (params.value === null || params.value === undefined) {
     return;
   }
 
@@ -77,7 +78,7 @@ const columns: GridColDef[] = [
     valueFormatter: formatDateTime,
   },
   {
-    field: "EDCT",
+    field: "EDCTDateTime",
     headerName: "EDCT",
     align: "center",
     headerAlign: "center",
@@ -114,9 +115,10 @@ function getRowClassName(params: GridRowParams) {
   }
 
   return clsx({
+    "": flightPlan.minutesToEDCT === undefined,
+    "": flightPlan.minutesToEDCT >= 10,
     "vatsim--EDCT--late": flightPlan.minutesToEDCT <= 0,
     "vatsim--EDCT--urgent": flightPlan.minutesToEDCT > 0 && flightPlan.minutesToEDCT < 10,
-    "": flightPlan.minutesToEDCT >= 10,
   });
 }
 
@@ -189,8 +191,21 @@ const VatsimEDCTFlightPlans = () => {
   const socketRef = useRef<Socket | null>(null);
   const [hasNew, setHasNew] = useState(false);
   const [hasUpdates, setHasUpdates] = useState(false);
+  const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
+  const [selectedFlightPlan, setSelectedFlightPlan] = useState<IVatsimFlightPlan>();
 
   const handleSnackbarClose: AlertSnackBarOnClose = () => setSnackbar(null);
+
+  useEffect(() => {
+    if (!rowSelectionModel || rowSelectionModel.length === 0) {
+      setSelectedFlightPlan(undefined);
+      return;
+    }
+
+    const plan = flightPlans.find((plan) => plan._id === rowSelectionModel[0].toString());
+
+    setSelectedFlightPlan(plan);
+  }, [rowSelectionModel, flightPlans]);
 
   useEffect(() => {
     if (hasNew || hasUpdates) {
@@ -424,14 +439,20 @@ const VatsimEDCTFlightPlans = () => {
           sx={{
             mt: 2,
             ml: 1,
+            "&.MuiDataGrid-root .MuiDataGrid-cell:focus-within": {
+              outline: "none !important",
+            },
           }}
-          disableRowSelectionOnClick
           onCellClick={toggleFlightPlanState}
           autoHeight
           rows={flightPlans}
           columns={columns}
           getRowId={(row) => (row as IVatsimFlightPlan)._id!}
           getRowClassName={getRowClassName}
+          onRowSelectionModelChange={(newRowSelectionModel) => {
+            setRowSelectionModel(newRowSelectionModel);
+          }}
+          rowSelectionModel={rowSelectionModel}
           initialState={{
             columns: {
               columnVisibilityModel: {
@@ -441,6 +462,8 @@ const VatsimEDCTFlightPlans = () => {
           }}
         />
       </Box>
+      <TextField value={selectedFlightPlan?.EDCT ?? ""} />
+
       <AlertSnackbar {...snackbar} onClose={handleSnackbarClose} />
     </>
   );
