@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { Stream as StreamIcon } from "@mui/icons-material";
-import { Box, IconButton, Stack, TextField, darken, lighten, styled } from "@mui/material";
+import { Box, Button, IconButton, Stack, TextField, darken, lighten, styled } from "@mui/material";
 import {
   DataGrid,
   GridCellParams,
@@ -193,6 +193,7 @@ const VatsimEDCTFlightPlans = () => {
   const [hasUpdates, setHasUpdates] = useState(false);
   const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
   const [selectedFlightPlan, setSelectedFlightPlan] = useState<IVatsimFlightPlan>();
+  const [selectedEDCT, setSelectedEDCT] = useState<string>();
 
   const handleSnackbarClose: AlertSnackBarOnClose = () => setSnackbar(null);
 
@@ -205,6 +206,14 @@ const VatsimEDCTFlightPlans = () => {
     const plan = flightPlans.find((plan) => plan._id === rowSelectionModel[0].toString());
 
     setSelectedFlightPlan(plan);
+
+    if (plan?.EDCT) {
+      setSelectedEDCT(
+        DateTime.fromISO(plan.EDCT, { zone: "UTC" }).toLocaleString(DateTime.TIME_24_SIMPLE)
+      );
+    } else {
+      setSelectedEDCT(DateTime.utc().toLocaleString(DateTime.TIME_24_SIMPLE));
+    }
   }, [rowSelectionModel, flightPlans]);
 
   useEffect(() => {
@@ -405,6 +414,18 @@ const VatsimEDCTFlightPlans = () => {
     }
   };
 
+  const handleChangeEDCT = () => {
+    if (!selectedEDCT) {
+      return;
+    }
+
+    const newEDCT = DateTime.fromFormat(selectedEDCT, "HH:mm", { zone: "UTC" }).toISO();
+    setSnackbar({
+      children: newEDCT,
+      severity: "info",
+    });
+  };
+
   return (
     <>
       <Box sx={{ mt: 2 }}>
@@ -462,7 +483,15 @@ const VatsimEDCTFlightPlans = () => {
           }}
         />
       </Box>
-      <TextField value={selectedFlightPlan?.EDCT ?? ""} />
+      <form>
+        <TextField
+          value={selectedEDCT}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setSelectedEDCT(event.target.value);
+          }}
+        />
+        <Button onClick={handleChangeEDCT}>Save</Button>
+      </form>
 
       <AlertSnackbar {...snackbar} onClose={handleSnackbarClose} />
     </>
