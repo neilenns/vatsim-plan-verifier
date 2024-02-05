@@ -131,18 +131,19 @@ export function prefileToVatsimModel(prefile: IVatsimPrefile) {
 async function updateFlightStatus(
   flightPlan: VatsimFlightPlanDocument
 ): Promise<VatsimFlightStatus> {
-  // All prefiles, planes without a departure airport, and planes without a lat/long, are assumed to be departing.
+  // All prefiles, planes without a departure airport, planes without a lat/long, and planes with no ground speed are assumed to be departing.
   if (
     flightPlan.isPrefile ||
     !flightPlan.departure ||
     !flightPlan.latitude ||
-    !flightPlan.longitude
+    !flightPlan.longitude ||
+    flightPlan.groundspeed === undefined
   ) {
     return VatsimFlightStatus.DEPARTING;
   }
 
   // Anything going faster than the groundspeed cutoff is considered enroute.
-  if (flightPlan?.groundspeed ?? 0 > ENV.VATSIM_GROUNDSPEED_CUTOFF) {
+  if (flightPlan.groundspeed > ENV.VATSIM_GROUNDSPEED_CUTOFF) {
     return VatsimFlightStatus.ENROUTE;
   }
 
@@ -153,8 +154,6 @@ async function updateFlightStatus(
     flightPlan.longitude
   );
 
-  // The 999 is a magic number to make this test fail if  the return from distanceTo()
-  // was undefined.
   if (
     distanceFromDepartureAirport &&
     distanceFromDepartureAirport < ENV.VATSIM_DISTANCE_CUTOFF_IN_KM
@@ -169,9 +168,7 @@ async function updateFlightStatus(
     flightPlan.longitude
   );
 
-  // The 999 is a magic number to make this test fail if  the return from distanceTo()
-  // was undefined.
-  if (distanceFromArrivalAirport ?? 999 < ENV.VATSIM_DISTANCE_CUTOFF_IN_KM) {
+  if (distanceFromArrivalAirport && distanceFromArrivalAirport < ENV.VATSIM_DISTANCE_CUTOFF_IN_KM) {
     return VatsimFlightStatus.ARRIVED;
   }
 
