@@ -68,6 +68,7 @@ const privateKeyPath = "/certs/privkey.pem";
 const fullChainPath = "/certs/fullchain.pem";
 
 const certFilesExist = fs.existsSync(privateKeyPath) && fs.existsSync(fullChainPath);
+const whitelist = ENV.WHITELISTED_DOMAINS ? ENV.WHITELISTED_DOMAINS.split(",") : [];
 
 function reloadCertificates() {
   logger.info("Certificate files changed");
@@ -88,6 +89,18 @@ function readCertsSync() {
   };
 }
 
+// Function to check if the origin matches any of the whitelisted domains
+function isOriginAllowed(origin: string): boolean {
+  return whitelist.some((domain) => {
+    if (domain.includes("*")) {
+      const regex = new RegExp("^" + domain.replace(/\*/g, "[^.]+") + "$");
+      return regex.test(origin);
+    } else {
+      return origin === domain;
+    }
+  });
+}
+
 export async function startServer(port: number): Promise<void> {
   app.set("trust proxy", ENV.TRUST_PROXY);
   app.use(compression());
@@ -96,11 +109,9 @@ export async function startServer(port: number): Promise<void> {
   app.use(cookieParser(ENV.COOKIE_SECRET));
   app.use(morgan);
 
-  const whitelist = ENV.WHITELISTED_DOMAINS ? ENV.WHITELISTED_DOMAINS.split(",") : [];
-
   const corsOptions = {
     origin: function (origin, callback) {
-      if (!origin || whitelist.indexOf(origin) !== -1) {
+      if (!origin || isOriginAllowed(origin)) {
         callback(null, true);
       } else {
         callback(new Error("Not allowed by CORS"));
