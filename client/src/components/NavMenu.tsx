@@ -44,9 +44,6 @@ const NavMenu = () => {
           </MenuItem>,
           <Divider key="divider2" />,
         ]}
-          <MenuItem key="edctPlanning" onClick={handleClose} component={Link} to="/edct">
-            EDCT planning
-          </MenuItem>
         <MenuItem
           key="711065"
           onClick={handleClose}

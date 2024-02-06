@@ -30,7 +30,6 @@ import { clientTransceiversLoader } from "./services/clientTransceiversLoader.mt
 import ClientTransceivers from "./pages/ClientTransceivers.tsx";
 import AircraftDetails from "./pages/AircraftDetails.tsx";
 import { aircraftDetailsLoader } from "./services/aircraftDetailsLoader.mts";
-import EDCT from "./pages/EDCT.tsx";
 
 const router = createBrowserRouter([
   {
@@ -52,12 +51,6 @@ const router = createBrowserRouter([
     id: "signup",
     path: "/signup",
     element: <LoginSignup />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    id: "edct",
-    path: "/edct",
-    element: <AuthenticationGuard role="user" component={<EDCT />} />,
     errorElement: <ErrorPage />,
   },
   {
