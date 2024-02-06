@@ -23,7 +23,6 @@
     "debug": "^4.3.4",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
-    "luxon": "^3.4.4",
     "match-sorter": "^6.3.1",
     "mongoose": "^7.6.1",
     "pluralize": "^8.0.0",
@@ -39,7 +38,6 @@
   "devDependencies": {
     "@types/debug": "^4.1.8",
     "@types/lodash": "^4.14.196",
-    "@types/luxon": "^3.4.2",
     "@types/pluralize": "^0.0.30",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",

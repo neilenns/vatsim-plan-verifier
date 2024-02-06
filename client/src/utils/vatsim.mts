@@ -3,7 +3,6 @@
 //
 // It properly carries forward any state on the existing flight sim plans, and properly
 // reports whether any new or modified plans came in.
-import { DateTime } from "luxon";
 import { ImportState, IVatsimFlightPlan } from "../interfaces/IVatsimFlightPlan.mjs";
 import _ from "lodash";
 
