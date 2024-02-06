@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import pluralize from "pluralize";
 import { Server as SocketIOServer } from "socket.io";
-import { getVatsimEDCTFlightPlans } from "../controllers/vatsim.mjs";
+import { getVatsimEDCTFlightPlans, getVatsimEDCTViewOnly } from "../controllers/vatsim.mjs";
 import { IVatsimData } from "../interfaces/IVatsimData.mjs";
 import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
 import mainLogger from "../logger.mjs";
@@ -78,6 +78,7 @@ export async function publishUpdates() {
   io.sockets.adapter.rooms.forEach(async (_, roomName) => {
     await publishFlightPlanUpdate(io, roomName);
     await publishEDCTupdate(io, roomName);
+    await publishEDCTViewOnlyupdate(io, roomName);
   });
 }
 
@@ -104,6 +105,30 @@ export async function publishFlightPlanUpdate(io: SocketIOServer, roomName: stri
     `Emitting ${pluralize("result", flightPlans.length, true)} for ${airportCodes.join(", ")}`
   );
   io.to(roomName).emit("vatsimFlightPlansUpdate", flightPlans);
+}
+
+// Publishes EDCT updates to a specific room.
+export async function publishEDCTViewOnlyupdate(io: SocketIOServer, roomName: string) {
+  if (!io) {
+    logger.warn(`Unable to publish updates, no sockets defined`);
+    return;
+  }
+
+  // Every client gets put in their own auto-generated room. Skip those since there won't be any matching
+  // database values.
+  if (!roomName.startsWith("EDCTViewOnly:")) return;
+
+  // Room names contain the departure codes the client requested, formatted like this:
+  // EDCTViewOnly:KPDX,KSEA
+  const rawDepartureCodes = roomName.replace("EDCTViewOnly:", "");
+  const departureCodes = rawDepartureCodes.split(",");
+
+  const flightPlans = await getVatsimEDCTViewOnly(departureCodes);
+
+  if (flightPlans.success) {
+    logger.info(`Emitting ${pluralize("result", flightPlans.data.length, true)} for ${roomName}`);
+    io.to(roomName).emit("vatsimEDCTViewOnlyUpdate", flightPlans.data);
+  }
 }
 
 // Publishes EDCT updates to a specific room.

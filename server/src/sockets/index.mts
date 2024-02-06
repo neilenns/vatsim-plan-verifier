@@ -4,7 +4,11 @@ import { JobName, setJobUpdateInterval } from "../bree.mjs";
 import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import { ENV } from "../env.mjs";
 import mainLogger from "../logger.mjs";
-import { publishEDCTupdate, publishFlightPlanUpdate } from "../services/vatsim.mjs";
+import {
+  publishEDCTViewOnlyupdate,
+  publishEDCTupdate,
+  publishFlightPlanUpdate,
+} from "../services/vatsim.mjs";
 import { ClientToServerEvents, ServerToClientEvents } from "../types/socketEvents.mjs";
 
 const logger = mainLogger.child({ service: "sockets" });
@@ -35,6 +39,38 @@ async function checkForInvalidAirports(codes: string[]): Promise<string[]> {
   );
 
   return invalidAirportCodes;
+}
+
+async function registerForEDCTViewOnly(
+  io: SocketIOServer,
+  socket: Socket,
+  departureCodes: string[]
+) {
+  const insecureCodes = departureCodes.filter((code) => code.startsWith("$"));
+
+  if (insecureCodes.length > 0) {
+    logger.warn(
+      `Detected potential NoSQL injection in airport code(s) '${insecureCodes.join(", ")}'`
+    );
+    socket.emit("insecureAirportCode", insecureCodes);
+    return;
+  }
+
+  const invalidAirportCodes = await checkForInvalidAirports(departureCodes);
+
+  if (invalidAirportCodes.length > 0) {
+    logger.warn(`Invalid airport code(s) '${invalidAirportCodes.joinWithWord("and")}'`);
+    socket.emit("airportNotFound", invalidAirportCodes);
+    return;
+  }
+
+  // Join the socket to the room based on a sorted list of trimmed airport codes.
+  // The EDCT: in the front allows this room to be distinguished from the auto-generated
+  // room that every client gets put in to.
+  const roomName = `EDCTViewOnly:${sortTrimAndJoin(departureCodes)}`;
+
+  socket.join(roomName);
+  publishEDCTViewOnlyupdate(io, roomName);
 }
 
 async function registerForEDCT(
@@ -150,6 +186,14 @@ export function setupSockets(server: Server) {
         cleanAirportCodes(departureCodes),
         cleanAirportCodes(arrivalCodes)
       );
+    });
+
+    socket.on("watchEDCTViewOnly", async (departureCodes: string[]) => {
+      logger.info(
+        `Client requested EDCT view only data for departures: "${departureCodes.join(", ")}"`
+      );
+
+      await registerForEDCTViewOnly(io, socket, cleanAirportCodes(departureCodes));
     });
 
     socket.on("disconnect", async () => {
