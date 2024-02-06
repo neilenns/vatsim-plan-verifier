@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
+import { Types } from "mongoose";
 import { IVatsimPilotStats } from "../interfaces/IVatsimPilotStats.mjs";
 import mainLogger from "../logger.mjs";
 import { PilotStatsDocument, PilotStatsModel } from "../models/PilotStats.mjs";
@@ -9,8 +10,6 @@ import {
   VatsimFlightStatus,
 } from "../models/VatsimFlightPlan.mjs";
 import Result from "../types/result.mjs";
-import { FlightPlanModel } from "../models/FlightPlan.mjs";
-import { Types } from "mongoose";
 
 const logger = mainLogger.child({ service: "vatsim" });
 
@@ -165,6 +164,37 @@ export async function getVatsimFlightPlans(
       success: false,
       errorType: "UnknownError",
       error: `Error fetching flight plans for ${departure}: ${error}`,
+    };
+  }
+}
+
+export async function getVatsimEDCTViewOnly(
+  departures: string[]
+): Promise<VatsimFlightPlansResult> {
+  try {
+    const result = await VatsimFlightPlanModel.find({
+      departure: { $in: departures },
+      EDCT: { $ne: undefined },
+      status: VatsimFlightStatus.DEPARTING,
+    }).sort({ callsign: 1 });
+
+    if (result) {
+      return { success: true, data: result };
+    } else {
+      return {
+        success: false,
+        errorType: "FlightPlansNotFound",
+        error: `Flight plans on the ground at ${departures} with an EDCT time not found.`,
+      };
+    }
+  } catch (error) {
+    const err = error as Error;
+    logger.error(`Error fetching flight plans for ${departures}: ${err.message}`);
+
+    return {
+      success: false,
+      errorType: "UnknownError",
+      error: `Error fetching flight plans for ${departures}: ${err.message}`,
     };
   }
 }
