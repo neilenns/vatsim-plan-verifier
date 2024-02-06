@@ -11,8 +11,6 @@ export interface IVatsimFlightPlan {
   departure?: string;
   arrival?: string;
   departureTime?: string;
-  EDCT?: string;
   importState?: ImportState;
   revision: number;
-  minutesToEDCT?: number;
 }

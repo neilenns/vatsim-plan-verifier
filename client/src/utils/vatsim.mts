@@ -24,17 +24,6 @@ export function getColorByStatus(status: ImportState | undefined): string {
   }
 }
 
-// Takes a JSON ISO date string and calculates the number of minutes between now and it.
-export function minutesToEDCT(edctTime: string | undefined) {
-  if (!edctTime) {
-    return undefined;
-  }
-
-  return Math.round(
-    DateTime.fromISO(edctTime, { zone: "UTC" }).diff(DateTime.utc(), "minutes").minutes
-  );
-}
-
 // Takes a new plan and an existing plan and merges them together. The only
 // property from the existing plan that is retained is the vatsimStatus.
 //
@@ -42,20 +31,11 @@ export function minutesToEDCT(edctTime: string | undefined) {
 // were different.
 function mergeFlightPlans(
   incomingPlan: IVatsimFlightPlan,
-  existingPlan: IVatsimFlightPlan,
-  edctMode: boolean
+  existingPlan: IVatsimFlightPlan
 ): { flightPlan: IVatsimFlightPlan; hasUpdates: boolean } {
   let hasUpdates = false;
 
-  if (edctMode) {
-    // In EDCT mode the only changed property that matters is departureTime.
-    hasUpdates ==
-      (incomingPlan.revision !== existingPlan.revision &&
-        incomingPlan.departureTime !== existingPlan.departureTime);
-    incomingPlan.minutesToEDCT = minutesToEDCT(incomingPlan.EDCT);
-  } else {
-    hasUpdates = incomingPlan.revision != existingPlan.revision;
-  }
+  hasUpdates = incomingPlan.revision != existingPlan.revision;
 
   const flightPlan = {
     ...incomingPlan,
@@ -67,8 +47,7 @@ function mergeFlightPlans(
 
 export function processFlightPlans(
   currentPlans: IVatsimFlightPlan[],
-  incomingPlans: IVatsimFlightPlan[],
-  edctMode = false
+  incomingPlans: IVatsimFlightPlan[]
 ): ProcessFlightPlansResult {
   let updatedPlansCount = 0;
 
@@ -89,7 +68,6 @@ export function processFlightPlans(
           ({
             ...plan,
             importState: ImportState.NEW,
-            minutesToEDCT: minutesToEDCT(plan.EDCT),
           } as IVatsimFlightPlan)
       ),
       hasNew: true,
@@ -111,7 +89,7 @@ export function processFlightPlans(
     (incomingPlan) => {
       const currentPlan = currentPlans.find((p) => p.callsign === incomingPlan.callsign);
       if (currentPlan) {
-        const mergeResult = mergeFlightPlans(incomingPlan, currentPlan, edctMode);
+        const mergeResult = mergeFlightPlans(incomingPlan, currentPlan);
         mergeResult.hasUpdates ? updatedPlansCount++ : null;
         return mergeResult.flightPlan;
       } else {
@@ -125,7 +103,6 @@ export function processFlightPlans(
   const newPlans = _.differenceBy(incomingPlans, existingPlans, "callsign").map((plan) => ({
     ...plan,
     vatsimStatus: ImportState.NEW,
-    minutesToEDCT: minutesToEDCT(plan.EDCT),
   }));
 
   return {

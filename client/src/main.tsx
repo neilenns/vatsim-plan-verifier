@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import "./index.css";
 import { AppContextProvider } from "./context/AppContext.tsx";
 import AppTheme from "./components/AppTheme.tsx";
@@ -30,7 +30,6 @@ import { clientTransceiversLoader } from "./services/clientTransceiversLoader.mt
 import ClientTransceivers from "./pages/ClientTransceivers.tsx";
 import AircraftDetails from "./pages/AircraftDetails.tsx";
 import { aircraftDetailsLoader } from "./services/aircraftDetailsLoader.mts";
-import EDCT from "./pages/EDCT.tsx";
 
 const router = createBrowserRouter([
   {
@@ -52,12 +51,6 @@ const router = createBrowserRouter([
     id: "signup",
     path: "/signup",
     element: <LoginSignup />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    id: "edct",
-    path: "/edct",
-    element: <AuthenticationGuard role="user" component={<EDCT />} />,
     errorElement: <ErrorPage />,
   },
   {
