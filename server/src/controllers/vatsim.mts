@@ -51,8 +51,10 @@ export async function setVatsimFlightPlanEDCT(
       };
     }
 
-    // Ok, we have a flight plan so update it.
-    flightPlan.EDCT = edct;
+    // Ok, we have a flight plan so update it. If EDCT was null
+    // that means it should be removed entirely so the plan has no
+    // EDCT anymore.
+    flightPlan.EDCT = edct ? edct : undefined;
     const savedPlan = await flightPlan.save();
 
     return {
