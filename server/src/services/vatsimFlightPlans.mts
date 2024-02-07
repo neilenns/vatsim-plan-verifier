@@ -38,7 +38,10 @@ const updateProperties = [
 function depTimeToDateTime(depTime: string | undefined): DateTime | undefined {
   const result = depTime ? DateTime.fromFormat(depTime, "Hmm", { zone: "UTC" }) : undefined;
 
-  return result;
+  // Issue #943: Super important to check that the fromFormat was successful, otherwise the string "Invalid date"
+  // winds up trying to get set on the typegoose Date-typed property and fails, which causes the entire processing
+  // of the data to fail.
+  return result?.isValid ? result : undefined;
 }
 
 function cleanRoute(route: string) {
@@ -73,7 +76,7 @@ export function pilotToVatsimModel(pilot: IVatsimPilot) {
     groundspeed: pilot?.groundspeed ?? "",
     rawAircraftType: pilot?.flight_plan?.aircraft_faa ?? "",
     departure: pilot?.flight_plan?.departure,
-    departureTime: depTimeToDateTime(pilot?.flight_plan?.deptime),
+    departureTime: depTimeToDateTime(pilot?.flight_plan?.deptime)?.toJSDate(),
     arrival: pilot?.flight_plan?.arrival ?? "",
     latitude: pilot?.latitude,
     longitude: pilot?.longitude,
@@ -100,7 +103,7 @@ export function prefileToVatsimModel(prefile: IVatsimPrefile) {
     isPrefile: true,
     callsign: prefile?.callsign ?? "",
     groundspeed: 0,
-    departureTime: depTimeToDateTime(prefile?.flight_plan?.deptime),
+    departureTime: depTimeToDateTime(prefile?.flight_plan?.deptime)?.toJSDate(),
     rawAircraftType: prefile?.flight_plan?.aircraft_faa ?? "",
     departure: prefile?.flight_plan?.departure ?? "",
     arrival: prefile?.flight_plan?.arrival ?? "",
