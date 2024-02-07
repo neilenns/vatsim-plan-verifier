@@ -31,7 +31,7 @@ router.put(
       return;
     }
 
-    if (!req.body.EDCT) {
+    if (req.body.EDCT === undefined) {
       res.status(500).json({ error: "edct must be specified" });
       return;
     }
