@@ -50,14 +50,15 @@ import verifyRouter from "./routes/verify.mjs";
 
 // Vatsim routes
 import vatsimATISRouter from "./routes/vatsim/ATIS.mjs";
+import vatsimEDCTRouter from "./routes/vatsim/EDCT.mjs";
 import vatsimFlightPlansRouter from "./routes/vatsim/flightPlans.mjs";
 import vatsimPilotsRouter from "./routes/vatsim/pilots.mjs";
 import vatsimTransceiversRouter from "./routes/vatsim/transceivers.mjs";
-import vatsimEDCTRouter from "./routes/vatsim/EDCT.mjs";
 
 // Admin routes
 
 import endConnections from "./routes/endConnections.mjs";
+import { isOriginAllowed } from "./utils/cors.mjs";
 
 export const app = express();
 let server: https.Server | Server;
@@ -68,7 +69,6 @@ const privateKeyPath = "/certs/privkey.pem";
 const fullChainPath = "/certs/fullchain.pem";
 
 const certFilesExist = fs.existsSync(privateKeyPath) && fs.existsSync(fullChainPath);
-const whitelist = ENV.WHITELISTED_DOMAINS ? ENV.WHITELISTED_DOMAINS.split(",") : [];
 
 function reloadCertificates() {
   logger.info("Certificate files changed");
@@ -87,18 +87,6 @@ function readCertsSync() {
     key: fs.readFileSync(privateKeyPath),
     cert: fs.readFileSync(fullChainPath),
   };
-}
-
-// Function to check if the origin matches any of the whitelisted domains
-function isOriginAllowed(origin: string): boolean {
-  return whitelist.some((domain) => {
-    if (domain.includes("*")) {
-      const regex = new RegExp("^" + domain.replace(/\*/g, "[^.]+") + "$");
-      return regex.test(origin);
-    } else {
-      return origin === domain;
-    }
-  });
 }
 
 export async function startServer(port: number): Promise<void> {
