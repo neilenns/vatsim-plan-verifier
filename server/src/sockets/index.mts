@@ -10,6 +10,7 @@ import {
   publishFlightPlanUpdate,
 } from "../services/vatsim.mjs";
 import { ClientToServerEvents, ServerToClientEvents } from "../types/socketEvents.mjs";
+import { isOriginAllowed } from "../utils/cors.mjs";
 
 const logger = mainLogger.child({ service: "sockets" });
 
@@ -148,7 +149,13 @@ export function getIO() {
 export function setupSockets(server: Server) {
   io = new SocketIOServer<ClientToServerEvents, ServerToClientEvents>(server, {
     cors: {
-      origin: ENV.WHITELISTED_DOMAINS.split(","),
+      origin: function (origin, callback) {
+        if (!origin || isOriginAllowed(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error("Not allowed by CORS"));
+        }
+      },
       credentials: true,
     },
   });
