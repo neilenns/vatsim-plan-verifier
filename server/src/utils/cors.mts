@@ -17,5 +17,6 @@ export function isOriginAllowed(origin: string): boolean {
       result = origin === domain;
     }
     logger.debug(`Tested ${domain} against ${origin}: ${result}`);
+    return result;
   });
 }
