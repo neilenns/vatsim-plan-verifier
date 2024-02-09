@@ -1,6 +1,6 @@
-import { ActionFunction, redirect } from "react-router-dom";
-import { serverUrl } from "../configs/planVerifierServer.mjs";
 import debug from "debug";
+import { ActionFunction, redirect } from "react-router-dom";
+import { ENV } from "../env.mjs";
 import http from "../utils/http.mts";
 
 const logger = debug("plan-verifier:signupAction");
@@ -10,7 +10,7 @@ export const signupAction: ActionFunction = async ({ request }) => {
 
   await http
     .post(
-      new URL("signup", serverUrl).toString(),
+      new URL("signup", ENV.VITE_SERVER_URL).toString(),
       {
         username: formData.get("email"),
         firstName: formData.get("firstName"),
