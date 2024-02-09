@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 import cors, { CorsOptions } from "cors";
 import express from "express";
 import rateLimit from "express-rate-limit";
-import fs from "fs";
+import fs, { read } from "fs";
 import helmet from "helmet";
 import { Server } from "http";
 import { createHttpTerminator, HttpTerminator } from "http-terminator";
@@ -65,16 +65,29 @@ let server: https.Server | Server;
 let httpTerminator: HttpTerminator;
 var watcher: chokidar.FSWatcher;
 
-const privateKeyPath = "/certs/privkey.pem";
-const fullChainPath = "/certs/fullchain.pem";
-
-const certFilesExist = fs.existsSync(privateKeyPath) && fs.existsSync(fullChainPath);
+const certFilesExist =
+  ENV.SSL_FULL_CHAIN_PATH &&
+  ENV.SSL_PRIVATE_KEY_PATH &&
+  fs.existsSync(ENV.SSL_PRIVATE_KEY_PATH) &&
+  fs.existsSync(ENV.SSL_FULL_CHAIN_PATH);
 
 function reloadCertificates() {
+  if (!certFilesExist) {
+    return;
+  }
+
   logger.info("Certificate files changed");
   if (server instanceof https.Server) {
     logger.info("Reloading SSL...");
-    server.setSecureContext(readCertsSync());
+
+    const certs = readCertsSync();
+
+    if (!certs) {
+      logger.error("Unable to load SSL certs.");
+      return;
+    }
+
+    server.setSecureContext(certs);
     logger.info("SSL reload complete!");
   }
 }
@@ -83,9 +96,12 @@ function reloadCertificates() {
 const debouncedReloadSSL = debounce(reloadCertificates, 1000);
 
 function readCertsSync() {
+  if (!ENV.SSL_FULL_CHAIN_PATH || !ENV.SSL_PRIVATE_KEY_PATH) {
+    return undefined;
+  }
   return {
-    key: fs.readFileSync(privateKeyPath),
-    cert: fs.readFileSync(fullChainPath),
+    key: fs.readFileSync(ENV.SSL_PRIVATE_KEY_PATH),
+    cert: fs.readFileSync(ENV.SSL_FULL_CHAIN_PATH),
   };
 }
 
@@ -157,7 +173,12 @@ export async function startServer(port: number): Promise<void> {
 
   // Start up the server
   if (certFilesExist) {
-    server = https.createServer(readCertsSync(), app);
+    const certs = readCertsSync();
+    if (!certs) {
+      logger.error("Unable to load certs");
+      return;
+    }
+    server = https.createServer(certs, app);
     server.listen(port, () => {
       logger.debug("Certificate files exist, using HTTPS");
       logger.info(`Listening on port ${port}`);
@@ -194,7 +215,7 @@ export async function stopServer() {
 }
 
 function startWatching() {
-  if (!certFilesExist) {
+  if (!ENV.SSL_FULL_CHAIN_PATH || !ENV.SSL_PRIVATE_KEY_PATH) {
     return;
   }
 
@@ -202,11 +223,13 @@ function startWatching() {
   // The debounced method is used to wait for changes to happen to both files
   // and only restart SSL once.
   watcher = chokidar
-    .watch([fullChainPath, privateKeyPath], {
+    .watch([ENV.SSL_FULL_CHAIN_PATH, ENV.SSL_PRIVATE_KEY_PATH], {
       awaitWriteFinish: true,
     })
     .on("change", debouncedReloadSSL);
-  logger.debug(`Watching for changes to ${fullChainPath} and ${privateKeyPath}`);
+  logger.debug(
+    `Watching for changes to ${ENV.SSL_FULL_CHAIN_PATH} and ${ENV.SSL_PRIVATE_KEY_PATH}`
+  );
 }
 
 async function stopWatching() {
