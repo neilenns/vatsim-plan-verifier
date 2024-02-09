@@ -66,10 +66,7 @@ let httpTerminator: HttpTerminator;
 var watcher: chokidar.FSWatcher;
 
 const certFilesExist =
-  ENV.SSL_FULL_CHAIN_PATH &&
-  ENV.SSL_PRIVATE_KEY_PATH &&
-  fs.existsSync(ENV.SSL_PRIVATE_KEY_PATH) &&
-  fs.existsSync(ENV.SSL_FULL_CHAIN_PATH);
+  fs.existsSync(ENV.SSL_PRIVATE_KEY_PATH) && fs.existsSync(ENV.SSL_FULL_CHAIN_PATH);
 
 function reloadCertificates() {
   if (!certFilesExist) {
@@ -96,9 +93,6 @@ function reloadCertificates() {
 const debouncedReloadSSL = debounce(reloadCertificates, 1000);
 
 function readCertsSync() {
-  if (!ENV.SSL_FULL_CHAIN_PATH || !ENV.SSL_PRIVATE_KEY_PATH) {
-    return undefined;
-  }
   return {
     key: fs.readFileSync(ENV.SSL_PRIVATE_KEY_PATH),
     cert: fs.readFileSync(ENV.SSL_FULL_CHAIN_PATH),
@@ -173,12 +167,7 @@ export async function startServer(port: number): Promise<void> {
 
   // Start up the server
   if (certFilesExist) {
-    const certs = readCertsSync();
-    if (!certs) {
-      logger.error("Unable to load certs");
-      return;
-    }
-    server = https.createServer(certs, app);
+    server = https.createServer(readCertsSync(), app);
     server.listen(port, () => {
       logger.debug("Certificate files exist, using HTTPS");
       logger.info(`Listening on port ${port}`);
@@ -215,7 +204,7 @@ export async function stopServer() {
 }
 
 function startWatching() {
-  if (!ENV.SSL_FULL_CHAIN_PATH || !ENV.SSL_PRIVATE_KEY_PATH) {
+  if (!certFilesExist) {
     return;
   }
 

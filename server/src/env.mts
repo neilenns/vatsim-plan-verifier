@@ -26,8 +26,8 @@ const envSchema = z.object({
   API_RATE_LIMIT_MAX: z.coerce.number().default(100),
   API_RATE_LIMIT_MINUTE_WINDOW: z.coerce.number().default(5),
   COOKIE_SECRET: z.string(),
-  SSL_PRIVATE_KEY_PATH: z.string().optional(),
-  SSL_FULL_CHAIN_PATH: z.string().optional(),
+  SSL_PRIVATE_KEY_PATH: z.string().default(""),
+  SSL_FULL_CHAIN_PATH: z.string().default(""),
   FLIGHTAWARE_API_KEY: z.string(),
   GEOMAG_API_KEY: z.string(),
   GET_AIRPORT_INFO_FROM_FLIGHT_AWARE: z
