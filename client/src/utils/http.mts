@@ -1,15 +1,15 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
-import { serverUrl, apiKey } from "../configs/planVerifierServer.mts";
+import { ENV } from "../env.mjs";
 
 class CustomHttp {
   private instance: AxiosInstance;
 
   constructor() {
     this.instance = axios.create({
-      baseURL: serverUrl,
+      baseURL: ENV.VITE_SERVER_URL,
     });
 
-    this.instance.defaults.headers.common["x-api-key"] = apiKey;
+    this.instance.defaults.headers.common["x-api-key"] = ENV.VITE_API_KEY;
     this.instance.defaults.withCredentials = true;
 
     // Automatically add the authentication token if it exists

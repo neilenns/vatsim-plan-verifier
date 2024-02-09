@@ -1,7 +1,7 @@
 {
   "configurations": [
     {
-      "name": "Launch Edge",
+      "name": "Launch client and server",
       "request": "launch",
       "type": "msedge",
       "runtimeExecutable": "dev",
@@ -9,6 +9,16 @@
       "webRoot": "${workspaceFolder}/client/src",
       "skipFiles": ["${workspaceFolder}/src/node_modules/**/*.js"],
       "preLaunchTask": "run server and client"
+    },
+    {
+      "name": "Launch client only",
+      "request": "launch",
+      "type": "msedge",
+      "runtimeExecutable": "dev",
+      "url": "http://localhost:4000",
+      "webRoot": "${workspaceFolder}/client/src",
+      "skipFiles": ["${workspaceFolder}/src/node_modules/**/*.js"],
+      "preLaunchTask": "run client"
     }
   ]
 }

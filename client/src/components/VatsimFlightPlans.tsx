@@ -9,8 +9,8 @@ import { useEffect, useRef, useState } from "react";
 import { useIdleTimer } from "react-idle-timer";
 import { useNavigate } from "react-router-dom";
 import socketIOClient, { Socket } from "socket.io-client";
-import { apiKey, serverUrl } from "../configs/planVerifierServer.mts";
 import useAppContext from "../context/AppContext";
+import { ENV } from "../env.mjs";
 import { IVatsimFlightPlan, ImportState } from "../interfaces/IVatsimFlightPlan.mts";
 import { importFlightPlan } from "../services/flightPlan.mts";
 import { getColorByStatus, processFlightPlans } from "../utils/vatsim.mts";
@@ -62,11 +62,11 @@ const VatsimFlightPlans = () => {
   }, [isConnected, disconnectedPlayer]);
 
   useEffect(() => {
-    socketRef.current = socketIOClient(serverUrl, {
+    socketRef.current = socketIOClient(ENV.VITE_SERVER_URL, {
       autoConnect: false,
       reconnection: true,
       reconnectionAttempts: 5,
-      auth: { token: apiKey },
+      auth: { token: ENV.VITE_API_KEY },
     });
 
     socketRef.current.on("vatsimFlightPlansUpdate", (vatsimPlans: IVatsimFlightPlan[]) => {

@@ -1,6 +1,6 @@
 import { Alert, AlertProps, Snackbar, SnackbarCloseReason } from "@mui/material";
 import { SyntheticEvent, useEffect, useState } from "react";
-import { snackbarAutoHideDuration } from "../configs/planVerifierServer.mts";
+import { ENV } from "../env.mjs";
 
 export type AlertSnackBarOnClose = (reason: SnackbarCloseReason) => void | undefined;
 
@@ -33,7 +33,7 @@ const AlertSnackbar = (props: AlertSnackbarProps) => {
         open={isOpen}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         onClose={handleClose}
-        autoHideDuration={snackbarAutoHideDuration}
+        autoHideDuration={ENV.VITE_SNACKBAR_AUTOHIDE_DURATION}
       >
         <Alert children={snackbar.children} severity={snackbar.severity} />
       </Snackbar>
