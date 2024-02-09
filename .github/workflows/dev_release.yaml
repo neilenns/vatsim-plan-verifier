@@ -42,7 +42,8 @@ jobs:
             org.opencontainers.image.licenses=MIT
           # generate Docker tags based on the following events/attributes
           tags: |
-            ${{ github.ref_name }}
+            # ${{ github.ref_name }}
+            dev
 
       - name: Build and push image
         uses: docker/build-push-action@v5
@@ -51,5 +52,5 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=registry,ref=neilenns/vatsim-plan-verifier-${{ matrix.context }}:${{ github.ref_name }}
+          cache-from: type=registry,ref=neilenns/vatsim-plan-verifier-${{ matrix.context }}:dev
           cache-to: type=inline
