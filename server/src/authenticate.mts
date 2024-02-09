@@ -1,5 +1,5 @@
-import jwt from "jsonwebtoken";
 import { CookieOptions } from "express";
+import jwt from "jsonwebtoken";
 import { ENV } from "./env.mjs";
 
 const dev = ENV.NODE_ENV !== "production";
@@ -9,7 +9,7 @@ export const COOKIE_OPTIONS = {
   secure: !dev,
   signed: true,
   maxAge: eval(ENV.REFRESH_TOKEN_EXPIRY) * 1000,
-  sameSite: dev ? false : "none",
+  sameSite: dev ? "none" : "strict",
 } as CookieOptions;
 
 export const getAuthToken = (user: any): string => {
