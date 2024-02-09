@@ -1,5 +1,7 @@
 import express from "express";
-import { fetchAirportsFromAvioWiki, getAirportInfo } from "../controllers/airportInfo.mjs";
+import * as bree from "../bree.mjs";
+import { JobName } from "../bree.mjs";
+import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
 
@@ -23,15 +25,12 @@ router.get("/airportInfo/:airportCode", verifyUser, secureQueryMiddleware, async
 
 router.get("/fetchAirportsFromAvioWiki", verifyUser, async (req, res) => {
   try {
-    const result = await fetchAirportsFromAvioWiki();
+    bree.runJob(JobName.ImportAirports);
 
-    if (!result.success) {
-      return res.status(404).json({ error: result.error });
-    }
-
-    res.json(result.data);
+    res.send("Airport data import started");
   } catch (error) {
     res.status(500).json({ error: (error as Error).message });
   }
 });
+
 export default router;

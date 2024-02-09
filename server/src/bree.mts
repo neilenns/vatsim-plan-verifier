@@ -73,6 +73,18 @@ jobs.set(JobName.GetVatsimTransceivers, {
   },
 });
 
+export async function runJob(jobName: JobName) {
+  const definition = jobs.get(jobName);
+
+  // This should never happen
+  if (!definition) {
+    logger.debug(`Unable to start job ${jobName}: no definition found.`);
+    return null;
+  }
+
+  bree.run(jobName);
+}
+
 async function deleteJob(jobName: JobName) {
   const definition = jobs.get(jobName);
 
