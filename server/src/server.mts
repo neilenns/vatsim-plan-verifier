@@ -56,8 +56,8 @@ import vatsimPilotsRouter from "./routes/vatsim/pilots.mjs";
 import vatsimTransceiversRouter from "./routes/vatsim/transceivers.mjs";
 
 // Admin routes
+import adminRouter from "./routes/admin.mjs";
 
-import endConnections from "./routes/endConnections.mjs";
 import { isOriginAllowed } from "./utils/cors.mjs";
 
 export const app = express();
@@ -163,7 +163,7 @@ export async function startServer(port: number): Promise<void> {
   app.use(verifyRouter);
 
   // Admin routes
-  app.use(endConnections);
+  app.use(adminRouter);
 
   // Start up the server
   if (certFilesExist) {
