@@ -5,6 +5,7 @@ on:
 
 jobs:
   build-and-push-image:
+    environment: development
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
