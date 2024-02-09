@@ -6,7 +6,7 @@ const dev = ENV.NODE_ENV !== "production";
 
 export const COOKIE_OPTIONS = {
   httpOnly: true,
-  secure: !dev,
+  secure: true,
   signed: true,
   maxAge: eval(ENV.REFRESH_TOKEN_EXPIRY) * 1000,
   sameSite: dev ? "none" : "strict",
