@@ -1,5 +1,8 @@
 import { DocumentType, getModelForClass, modelOptions, pre, prop } from "@typegoose/typegoose";
 import { parseStringToNumber } from "../utils.mjs";
+import mainLogger from "../logger.mjs";
+
+const logger = mainLogger.child({ service: "vatsimFlightPlanModel" });
 
 export enum VatsimFlightStatus {
   UNKNOWN = "UNKNOWN",
@@ -26,10 +29,9 @@ const excludedPaths = ["latitude", "longitude", "groundspeed"];
   // Find all the modified paths that trigger a revision bump.
   const modifiedPaths = this.modifiedPaths().filter((path) => !excludedPaths.includes(path));
 
-  if (modifiedPaths.length > 0)
-    if (this.isModified()) {
-      this.revision++;
-    }
+  if (modifiedPaths.length > 0) {
+    this.revision++;
+  }
 })
 class VatsimFlightPlan {
   @prop({ required: true })
