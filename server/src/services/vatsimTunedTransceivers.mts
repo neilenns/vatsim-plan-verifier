@@ -81,7 +81,6 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
     return currentData;
   });
 
-  let savedDataCount = 0;
   // Save all the changes to the database
   await Promise.all([
     // Delete the data that no longer exists
@@ -96,13 +95,11 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
     await Promise.all([
       ...updatedData.map(async (data) => {
         if (data.isModified()) {
-          savedDataCount++;
           await data.save();
         }
       }),
     ]),
   ]);
-  logger.debug(`Saved ${savedDataCount} updated transceivers`);
 
   profiler.done({
     message: `Done processing ${incomingData.length} incoming VATSIM transceivers`,
