@@ -82,6 +82,12 @@ export async function runJob(jobName: JobName) {
     return null;
   }
 
+  // If the job doesn't exist (because it's in the never state) add it first.
+  if (!bree.config.jobs.some((job) => job.name === jobName)) {
+    await bree.add(jobName);
+  }
+
+  // Force the job to run
   bree.run(jobName);
 }
 
