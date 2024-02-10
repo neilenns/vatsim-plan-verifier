@@ -14,11 +14,22 @@ export enum VatsimCommunicationMethod {
   RECEIVE = "RECEIVE",
 }
 
+// Issue 980:
+// There are some properties that are super noisy and if they wind up triggering
+// an update to the revision the various websites just wind up dinging every 15 seconds
+// for the plane. This list covers the properties that will not cause a revision
+// bump if they are the only properties that got changed.
+const excludedPaths = ["latitude", "longitude", "groundspeed"];
+
 @modelOptions({ options: { customName: "vatsimflightplan" } })
 @pre<VatsimFlightPlan>("save", function (this: DocumentType<VatsimFlightPlan>) {
-  if (this.isModified()) {
-    this.revision++;
-  }
+  // Find all the modified paths that trigger a revision bump.
+  const modifiedPaths = this.modifiedPaths().filter((path) => !excludedPaths.includes(path));
+
+  if (modifiedPaths.length > 0)
+    if (this.isModified()) {
+      this.revision++;
+    }
 })
 class VatsimFlightPlan {
   @prop({ required: true })
