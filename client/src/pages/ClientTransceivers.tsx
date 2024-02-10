@@ -44,13 +44,13 @@ const ClientTransceivers = () => {
             <TableRow>
               <TableCell>{clientTransceivers.callsign}</TableCell>
               <TableCell>
-                {clientTransceivers.transceivers[0]
-                  ? (clientTransceivers.transceivers[0].frequency / 1000000).toFixed(3)
+                {clientTransceivers.com1
+                  ? (clientTransceivers.com1 / 1000000).toFixed(3)
                   : "not tuned"}
               </TableCell>
               <TableCell>
-                {clientTransceivers.transceivers[1]
-                  ? (clientTransceivers.transceivers[1].frequency / 1000000).toFixed(3)
+                {clientTransceivers.com2
+                  ? (clientTransceivers.com2 / 1000000).toFixed(3)
                   : "not tuned"}
               </TableCell>
             </TableRow>

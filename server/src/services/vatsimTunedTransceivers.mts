@@ -2,12 +2,7 @@ import axios from "axios";
 import _ from "lodash";
 import { ITunedTransceivers } from "../interfaces/IVatsimTransceiver.mjs";
 import mainLogger from "../logger.mjs";
-import {
-  Transceiver,
-  TunedTransceivers,
-  TunedTransceiversModel,
-} from "../models/VatsimTunedTransceivers.mjs";
-import { copyPropertyValue } from "../utils/properties.mjs";
+import { TunedTransceivers, TunedTransceiversModel } from "../models/VatsimTunedTransceivers.mjs";
 
 const logger = mainLogger.child({ service: "vatsimTunedTransceivers" });
 
@@ -43,28 +38,11 @@ export async function getVatsimTunedTransceivers(endpoint: string) {
 function transceiverToVatsimModel(transceiver: ITunedTransceivers) {
   const result = new TunedTransceiversModel({
     callsign: transceiver.callsign,
-    com1: transceiver.transceivers[0] ?? undefined,
-    com2: transceiver.transceivers[1] ?? undefined,
+    com1: transceiver.transceivers[0]?.frequency ?? undefined,
+    com2: transceiver.transceivers[1]?.frequency ?? undefined,
   });
 
   return result;
-}
-
-let count = 0;
-let sumOfDelta = 0;
-function updateTransceiver(currentData?: Transceiver, incomingData?: Transceiver) {
-  if (incomingData === undefined || currentData === undefined) {
-    currentData = incomingData;
-  } else {
-    const delta = Math.abs(currentData.latDeg - incomingData.latDeg);
-    count++;
-    sumOfDelta += delta;
-    currentData.frequency = incomingData.frequency;
-    currentData.heightAglM = incomingData.heightAglM;
-    currentData.heightMslM = incomingData.heightMslM;
-    currentData.latDeg = incomingData.latDeg;
-    currentData.lonDeg = incomingData.lonDeg;
-  }
 }
 
 async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
@@ -97,9 +75,8 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
   // Save the new data
   const updatedData = overlappingData.map((incomingData) => {
     const currentData = currentDataDictionary[incomingData.callsign];
-
-    updateTransceiver(currentData.com1, incomingData.com1);
-    updateTransceiver(currentData.com2, incomingData.com2);
+    currentData.com1 = incomingData.com1;
+    currentData.com2 = incomingData.com2;
 
     return currentData;
   });
