@@ -25,8 +25,11 @@ export class TunedTransceivers {
   @prop({ required: true })
   callsign!: string;
 
-  @prop({ type: Transceiver })
-  transceivers!: Transceiver[];
+  @prop()
+  com1?: Transceiver;
+
+  @prop()
+  com2?: Transceiver;
 }
 
 export const TunedTransceiversModel = getModelForClass(TunedTransceivers);

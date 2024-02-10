@@ -2,12 +2,16 @@ import axios from "axios";
 import _ from "lodash";
 import { ITunedTransceivers } from "../interfaces/IVatsimTransceiver.mjs";
 import mainLogger from "../logger.mjs";
-import { TunedTransceiversModel } from "../models/VatsimTunedTransceivers.mjs";
+import {
+  Transceiver,
+  TunedTransceivers,
+  TunedTransceiversModel,
+} from "../models/VatsimTunedTransceivers.mjs";
 import { copyPropertyValue } from "../utils/properties.mjs";
 
 const logger = mainLogger.child({ service: "vatsimTunedTransceivers" });
 
-const updateProperties = ["transceivers"] as (keyof ITunedTransceivers)[];
+const updateProperties = ["com1", "com2"] as (keyof TunedTransceivers)[];
 
 export async function getVatsimTunedTransceivers(endpoint: string) {
   logger.info("Downloading latest VATSIM transceivers");
@@ -39,10 +43,28 @@ export async function getVatsimTunedTransceivers(endpoint: string) {
 function transceiverToVatsimModel(transceiver: ITunedTransceivers) {
   const result = new TunedTransceiversModel({
     callsign: transceiver.callsign,
-    transceivers: transceiver.transceivers,
+    com1: transceiver.transceivers[0] ?? undefined,
+    com2: transceiver.transceivers[1] ?? undefined,
   });
 
   return result;
+}
+
+let count = 0;
+let sumOfDelta = 0;
+function updateTransceiver(currentData?: Transceiver, incomingData?: Transceiver) {
+  if (incomingData === undefined || currentData === undefined) {
+    currentData = incomingData;
+  } else {
+    const delta = Math.abs(currentData.latDeg - incomingData.latDeg);
+    count++;
+    sumOfDelta += delta;
+    currentData.frequency = incomingData.frequency;
+    currentData.heightAglM = incomingData.heightAglM;
+    currentData.heightMslM = incomingData.heightMslM;
+    currentData.latDeg = incomingData.latDeg;
+    currentData.lonDeg = incomingData.lonDeg;
+  }
 }
 
 async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
@@ -76,9 +98,8 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
   const updatedData = overlappingData.map((incomingData) => {
     const currentData = currentDataDictionary[incomingData.callsign];
 
-    updateProperties.forEach((property) =>
-      copyPropertyValue(incomingData, currentData, property, logger)
-    );
+    updateTransceiver(currentData.com1, incomingData.com1);
+    updateTransceiver(currentData.com2, incomingData.com2);
 
     return currentData;
   });
