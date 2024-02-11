@@ -1,4 +1,4 @@
-import { prop, getModelForClass, modelOptions, DocumentType } from "@typegoose/typegoose";
+import { DocumentType, getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
 import { formatAltitude } from "../utils.mjs";
 
 @modelOptions({
@@ -36,7 +36,7 @@ class FlightAwareRoute {
   @prop({ required: true, alias: "route_distance" })
   routeDistance!: string;
 
-  @prop({ required: true, expires: "30d", default: Date.now })
+  @prop({ required: true, expires: "60d", default: Date.now })
   createdAt!: Date;
 
   // Formats the min and max filed altitude for the route so it displays nicely.
