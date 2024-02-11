@@ -1,4 +1,4 @@
-import { prop, getModelForClass, modelOptions, DocumentType } from "@typegoose/typegoose";
+import { DocumentType, getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
 
 @modelOptions({ options: { customName: "tunedtransceivers" } })
 export class TunedTransceivers {
@@ -10,6 +10,20 @@ export class TunedTransceivers {
 
   @prop()
   com2?: number;
+
+  /**
+   * Saves a document to the database but only if it was modified. Otherwise it does nothing.
+   * @param this The document to save
+   * @returns 1 if saved, 0 if not.
+   */
+  public async saveIfModified(this: DocumentType<TunedTransceivers>) {
+    if (this.isModified()) {
+      await this.save();
+      return true;
+    }
+
+    return false;
+  }
 }
 
 export const TunedTransceiversModel = getModelForClass(TunedTransceivers);

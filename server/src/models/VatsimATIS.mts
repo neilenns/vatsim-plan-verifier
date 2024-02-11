@@ -36,6 +36,20 @@ class VatsimATIS {
   public get Airport(): string {
     return this.callsign.split("_")?.[0] ?? "";
   }
+
+  /**
+   * Saves a document to the database but only if it was modified. Otherwise it does nothing.
+   * @param this The document to save
+   * @returns 1 if saved, 0 if not.
+   */
+  public async saveIfModified(this: DocumentType<VatsimATIS>) {
+    if (this.isModified()) {
+      await this.save();
+      return true;
+    }
+
+    return false;
+  }
 }
 
 export const VatsimATISModel = getModelForClass(VatsimATIS);
