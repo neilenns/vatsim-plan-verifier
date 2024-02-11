@@ -22,7 +22,8 @@ export enum VatsimCommunicationMethod {
 // an update to the revision the various websites just wind up dinging every 15 seconds
 // for the plane. This list covers the properties that will not cause a revision
 // bump if they are the only properties that got changed.
-const excludedPaths = ["latitude", "longitude", "groundspeed"];
+// coastAt is included to ensure planes dropping off temporarily do so silently.
+const excludedPaths = ["latitude", "longitude", "groundspeed", "coastAt"];
 
 @modelOptions({
   options: { customName: "vatsimflightplan" },
