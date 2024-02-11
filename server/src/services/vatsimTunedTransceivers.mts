@@ -81,8 +81,6 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
     return currentData;
   });
 
-  let savedOverlappingData = 0;
-  // Save all the changes to the database
   let savedDataCount = 0;
   await Promise.all([
     // Delete the data that no longer exists
@@ -98,11 +96,10 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
     // Update the changed data. This has to be done via save() to ensure middleware runs.
     await Promise.all([
       ...updatedData.map(async (data) => {
-        // Issue #986: Only call save() if the data actually changed.
-        if (data.isModified()) {
-          savedOverlappingData++;
-          await data.save();
-        }
+        // Issue 982: Turns out the save() method isn't smart and still does something even if there are
+        // no modifications, which slows things down a TON. Check for modifications before calling save.
+        const wasUpdated = await data.saveIfModified();
+        if (wasUpdated) savedDataCount++;
       }),
     ]),
   ]);
@@ -111,12 +108,12 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
   profiler.done({
     message: `Done processing ${incomingData.length} incoming VATSIM transceivers`,
     counts: {
-      currentData: currentData.length,
-      incomingData: incomingData.length,
-      newData: newData.length,
-      deletedData: deletedData.length,
-      overlappingData: overlappingData.length,
-      savedOverlappingData,
+      current: currentData.length,
+      incoming: incomingData.length,
+      new: newData.length,
+      deleted: deletedData.length,
+      overlapping: overlappingData.length,
+      saved: savedDataCount,
     },
   });
 }
