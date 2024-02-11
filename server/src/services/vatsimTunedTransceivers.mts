@@ -39,7 +39,8 @@ export async function getVatsimTunedTransceivers(endpoint: string) {
 function transceiverToVatsimModel(transceiver: ITunedTransceivers) {
   const result = new TunedTransceiversModel({
     callsign: transceiver.callsign,
-    transceivers: transceiver.transceivers,
+    com1: transceiver.transceivers[0]?.frequency ?? undefined,
+    com2: transceiver.transceivers[1]?.frequency ?? undefined,
   });
 
   return result;
@@ -72,17 +73,16 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
   // Build out a dictionary of the current data to improve performance of the update
   const currentDataDictionary = _.keyBy(currentData, "callsign");
 
-  // Save the new data
+  // Udpate with new data
   const updatedData = overlappingData.map((incomingData) => {
     const currentData = currentDataDictionary[incomingData.callsign];
-
-    updateProperties.forEach((property) =>
-      copyPropertyValue(incomingData, currentData, property, logger)
-    );
+    currentData.com1 = incomingData.com1;
+    currentData.com2 = incomingData.com2;
 
     return currentData;
   });
 
+  let savedOverlappingData = 0;
   // Save all the changes to the database
   await Promise.all([
     // Delete the data that no longer exists
@@ -91,10 +91,20 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
         $in: deletedData.map((data) => data.callsign),
       },
     }),
+
     // Add the new data
     await Promise.all([...newData.map(async (data) => await data.save())]),
+
     // Update the changed data. This has to be done via save() to ensure middleware runs.
-    await Promise.all([...updatedData.map(async (data) => await data.save())]),
+    await Promise.all([
+      ...updatedData.map(async (data) => {
+        // Issue #986: Only call save() if the data actually changed.
+        if (data.isModified()) {
+          savedOverlappingData++;
+          await data.save();
+        }
+      }),
+    ]),
   ]);
 
   profiler.done({
@@ -105,6 +115,7 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
       newData: newData.length,
       deletedData: deletedData.length,
       overlappingData: overlappingData.length,
+      savedOverlappingData,
     },
   });
 }
