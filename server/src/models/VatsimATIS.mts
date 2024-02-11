@@ -1,4 +1,7 @@
 import { DocumentType, getModelForClass, modelOptions, pre, prop } from "@typegoose/typegoose";
+import mainLogger from "../logger.mjs";
+
+const logger = mainLogger.child({ service: "vatsimATISModel" });
 
 @modelOptions({
   options: { customName: "vatsimatis" },
@@ -43,9 +46,12 @@ class VatsimATIS {
    * @returns 1 if saved, 0 if not.
    */
   public async saveIfModified(this: DocumentType<VatsimATIS>) {
-    if (this.isModified()) {
+    try {
       await this.save();
       return true;
+    } catch (error) {
+      const err = error as Error;
+      logger.error(`Unable to save ATIS ${this.callsign}: ${err.message}`);
     }
 
     return false;
