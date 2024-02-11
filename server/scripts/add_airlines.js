@@ -20676,4 +20676,12 @@ db.airlines.insertMany([
     airlineCode: "DFO",
     telephony: "D'FALOV",
   },
+  {
+    airlineCode: "FDC",
+    telephony: "FREIGHT DOG",
+  },
+  {
+    airlineCode: "EGF",
+    telephony: "EAGLE FLIGHT",
+  },
 ]);
