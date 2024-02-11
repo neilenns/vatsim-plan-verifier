@@ -57,7 +57,7 @@ export async function processVatsimATISData(vatsimData: IVatsimData) {
     return currentData;
   });
 
-  let savedDataCount = 0;
+  let savedOverlappingData = 0;
   // Save all the changes to the database
   await Promise.all([
     // Delete the data that no longer exists
@@ -71,8 +71,9 @@ export async function processVatsimATISData(vatsimData: IVatsimData) {
     // Update the changed data. This has to be done via save() to ensure middleware runs.
     await Promise.all([
       ...updatedData.map(async (data) => {
+        // Issue #986: Don't save unless something actually changed
         if (data.isModified()) {
-          savedDataCount++;
+          savedOverlappingData++;
           await data.save();
         }
       }),
@@ -88,6 +89,7 @@ export async function processVatsimATISData(vatsimData: IVatsimData) {
       newData: newData.length,
       deletedData: deletedData.length,
       overlappingData: overlappingData.length,
+      savedOverlappingData,
     },
   });
 }

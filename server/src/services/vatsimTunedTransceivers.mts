@@ -72,7 +72,7 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
   // Build out a dictionary of the current data to improve performance of the update
   const currentDataDictionary = _.keyBy(currentData, "callsign");
 
-  // Save the new data
+  // Udpate with new data
   const updatedData = overlappingData.map((incomingData) => {
     const currentData = currentDataDictionary[incomingData.callsign];
     currentData.com1 = incomingData.com1;
@@ -81,6 +81,7 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
     return currentData;
   });
 
+  let savedOverlappingData = 0;
   // Save all the changes to the database
   let savedDataCount = 0;
   await Promise.all([
@@ -90,13 +91,16 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
         $in: deletedData.map((data) => data.callsign),
       },
     }),
+
     // Add the new data
     await Promise.all([...newData.map(async (data) => await data.save())]),
+
     // Update the changed data. This has to be done via save() to ensure middleware runs.
     await Promise.all([
       ...updatedData.map(async (data) => {
+        // Issue #986: Only call save() if the data actually changed.
         if (data.isModified()) {
-          savedDataCount++;
+          savedOverlappingData++;
           await data.save();
         }
       }),
@@ -112,6 +116,7 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
       newData: newData.length,
       deletedData: deletedData.length,
       overlappingData: overlappingData.length,
+      savedOverlappingData,
     },
   });
 }
