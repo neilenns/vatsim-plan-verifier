@@ -2,12 +2,11 @@ import axios from "axios";
 import _ from "lodash";
 import { ITunedTransceivers } from "../interfaces/IVatsimTransceiver.mjs";
 import mainLogger from "../logger.mjs";
-import { TunedTransceiversModel } from "../models/VatsimTunedTransceivers.mjs";
-import { copyPropertyValue } from "../utils/properties.mjs";
+import { TunedTransceivers, TunedTransceiversModel } from "../models/VatsimTunedTransceivers.mjs";
 
 const logger = mainLogger.child({ service: "vatsimTunedTransceivers" });
 
-const updateProperties = ["transceivers"] as (keyof ITunedTransceivers)[];
+const updateProperties = ["com1", "com2"] as (keyof TunedTransceivers)[];
 
 export async function getVatsimTunedTransceivers(endpoint: string) {
   logger.info("Downloading latest VATSIM transceivers");
@@ -84,6 +83,7 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
 
   let savedOverlappingData = 0;
   // Save all the changes to the database
+  let savedDataCount = 0;
   await Promise.all([
     // Delete the data that no longer exists
     await TunedTransceiversModel.deleteMany({
@@ -106,6 +106,7 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
       }),
     ]),
   ]);
+  logger.debug(`Saved ${savedDataCount} updated transceivers`, { savedDataCount });
 
   profiler.done({
     message: `Done processing ${incomingData.length} incoming VATSIM transceivers`,

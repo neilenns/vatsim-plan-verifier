@@ -17,6 +17,8 @@ const logger = mainLogger.child({ service: "vatsimFlightPlans" });
 // List of the properties on a vatsim flight plan that are eligible to
 // be updated when new data is received. departure airport is intentionally
 // not in this list as it is updated separately as part of the fix for issue 672.
+// latitude, longitude, and groundspeed are not in this list and are handled
+// separately as part of the fix for issue 982.
 const updateProperties = [
   "flightRules",
   "name",
@@ -30,9 +32,6 @@ const updateProperties = [
   "cruiseAltitude",
   "communicationMethod",
   "departureTime",
-  "groundspeed",
-  "latitude",
-  "longitude",
 ] as (keyof VatsimFlightPlanDocument)[];
 
 function depTimeToDateTime(depTime: string | undefined): DateTime | undefined {
@@ -178,6 +177,33 @@ async function updateFlightStatus(
   return VatsimFlightStatus.UNKNOWN;
 }
 
+// Some properties change a *lot* and cause a ton of database updates. Instead of updating them
+// every time only update them if the value changed a bit.
+function updateNoisyProperties(
+  currentPlan: VatsimFlightPlanDocument,
+  incomingPlan: VatsimFlightPlanDocument
+) {
+  let delta: number;
+
+  // Groundspeed
+  delta = Math.abs((incomingPlan?.groundspeed ?? 0) - (currentPlan?.groundspeed ?? 0));
+  if (delta > ENV.UPDATE_DELTA_GROUND_SPEED) {
+    currentPlan.groundspeed = incomingPlan.groundspeed;
+  }
+
+  // Latitude
+  delta = Math.abs((incomingPlan?.latitude ?? 0) - (currentPlan?.latitude ?? 0));
+  if (delta > ENV.UPDATE_DELTA_LATITUDE) {
+    currentPlan.latitude = incomingPlan.latitude;
+  }
+
+  // Longitude
+  delta = Math.abs((incomingPlan?.longitude ?? 0) - (currentPlan?.longitude ?? 0));
+  if (delta > ENV.UPDATE_DELTA_LONGITUDE) {
+    currentPlan.longitude = incomingPlan.longitude;
+  }
+}
+
 // Takes the massive list of data from vatsim and processes it into the database.
 // Both pilots (a.k.a flight plans) and prefiles are processed.
 export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
@@ -223,13 +249,18 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
       copyPropertyValue(incomingPlan, currentPlan, property, logger)
     );
 
-    // Update the flight status
+    // Update the noisy properties
+    updateNoisyProperties(currentPlan, incomingPlan);
+
+    // Update the flight status. This has to happen after noisy property update
+    // as it depends on groundspeed, latitude, and longitude.
     currentPlan.status = await updateFlightStatus(currentPlan);
 
     return currentPlan;
   });
   const updatedPlans = await Promise.all(updatedPlansPromises);
 
+  let savedDataCount = 0;
   // Save all the changes to the database
   await Promise.all([
     // Delete the plans that no longer exist
@@ -241,8 +272,19 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
     // Add the new plans
     await Promise.all([...newPlans.map(async (plan) => await plan.save())]),
     // Update the changed plans. This has to be done via save() to ensure middleware runs.
-    await Promise.all([...updatedPlans.map(async (plan) => await plan.save())]),
+    await Promise.all([
+      ...updatedPlans.map(async (plan) => {
+        // Issue 982: Turns out the save() method isn't smart and still does something even if there are
+        // no modifications, which slows things down a TON. Check for modifications before calling save.
+        if (plan.isModified()) {
+          savedDataCount++;
+          await plan.save();
+        }
+      }),
+    ]),
   ]);
+
+  logger.debug(`Saved ${savedDataCount} updated plans`, { savedDataCount });
 
   profiler.done({
     message: `Done processing ${incomingPlans.length} incoming VATSIM flight plans`,
