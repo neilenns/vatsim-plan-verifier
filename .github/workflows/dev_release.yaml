@@ -29,6 +29,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Get the short commit hash
+        shell: bash
+        run: |
+          echo "sha_short=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
+
       - name: Generate Docker metadata
         id: meta
         uses: docker/metadata-action@v5
@@ -43,7 +48,7 @@ jobs:
             org.opencontainers.image.licenses=MIT
           # generate Docker tags based on the following events/attributes
           tags: |
-            # ${{ github.ref_name }}
+            ${{ env.sha_short }}
             dev
 
       - name: Build and push image
@@ -56,3 +61,5 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=registry,ref=neilenns/vatsim-plan-verifier-${{ matrix.context }}:dev
           cache-to: type=inline
+          build-args: |
+            VERSION="dev ${{ env.sha_short}}"
