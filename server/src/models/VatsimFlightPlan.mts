@@ -74,6 +74,9 @@ class VatsimFlightPlan {
   @prop({ required: false })
   EDCT?: Date;
 
+  @prop({ required: true })
+  sentEDCT: boolean = false;
+
   @prop({ required: false })
   cruiseAltitude?: number;
 
