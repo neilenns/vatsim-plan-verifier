@@ -294,6 +294,7 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
   let savedDataCount = 0;
   let coastingCount = 0;
 
+  const dbProfiler = logger.startTimer();
   try {
     // Save all the changes to the database
     await Promise.all([
@@ -334,6 +335,7 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
     const err = error as Error;
     logger.error(`Error updating flight plans: ${err.message}`);
   }
+  dbProfiler.done({ message: `Done processing database updates` });
 
   logger.debug(
     `Total deleted from server: ${deletedPlans.length} (${coastingCount} coasting and ${plansToDelete.length} to delete)`
