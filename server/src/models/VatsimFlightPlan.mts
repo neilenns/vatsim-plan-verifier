@@ -74,9 +74,6 @@ class VatsimFlightPlan {
   @prop({ required: false })
   EDCT?: Date;
 
-  @prop({ required: true })
-  sentEDCT: boolean = false;
-
   @prop({ required: false })
   cruiseAltitude?: number;
 
@@ -107,6 +104,9 @@ class VatsimFlightPlan {
   @prop()
   coastAt?: Date;
 
+  @prop({ required: false, default: false })
+  sentEDCT: boolean = false;
+
   public get isCoasting() {
     return this.coastAt !== undefined;
   }
@@ -118,8 +118,13 @@ class VatsimFlightPlan {
    */
   public async saveIfModified(this: DocumentType<VatsimFlightPlan>) {
     if (this.isModified()) {
-      await this.save();
-      return true;
+      try {
+        await this.save();
+        return true;
+      } catch (error) {
+        const err = error as Error;
+        logger.error(`Unable to save flight plan for ${this.callsign}: ${err.message}`);
+      }
     }
 
     return false;

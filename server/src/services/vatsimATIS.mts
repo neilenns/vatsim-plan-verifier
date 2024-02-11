@@ -58,26 +58,32 @@ export async function processVatsimATISData(vatsimData: IVatsimData) {
   });
 
   let savedDataCount = 0;
-  // Save all the changes to the database
-  await Promise.all([
-    // Delete the data that no longer exists
-    await VatsimATISModel.deleteMany({
-      callsign: {
-        $in: deletedData.map((data) => data.callsign),
-      },
-    }),
-    // Add the new data
-    await Promise.all([...newData.map(async (data) => await data.save())]),
-    // Update the changed data. This has to be done via save() to ensure middleware runs.
+
+  try {
+    // Save all the changes to the database
     await Promise.all([
-      ...updatedData.map(async (data) => {
-        // Issue 982: Turns out the save() method isn't smart and still does something even if there are
-        // no modifications, which slows things down a TON. Check for modifications before calling save.
-        const wasUpdated = await data.saveIfModified();
-        if (wasUpdated) savedDataCount++;
+      // Delete the data that no longer exists
+      await VatsimATISModel.deleteMany({
+        callsign: {
+          $in: deletedData.map((data) => data.callsign),
+        },
       }),
-    ]),
-  ]);
+      // Add the new data
+      await Promise.all([...newData.map(async (data) => await data.save())]),
+      // Update the changed data. This has to be done via save() to ensure middleware runs.
+      await Promise.all([
+        ...updatedData.map(async (data) => {
+          // Issue 982: Turns out the save() method isn't smart and still does something even if there are
+          // no modifications, which slows things down a TON. Check for modifications before calling save.
+          const wasUpdated = await data.saveIfModified();
+          if (wasUpdated) savedDataCount++;
+        }),
+      ]),
+    ]);
+  } catch (error) {
+    const err = error as Error;
+    logger.error(`Error updating ATISes: ${err.message}`);
+  }
 
   profiler.done({
     message: `Done processing ${incomingData.length} incoming VATSIM ATISes`,
