@@ -23,7 +23,7 @@ router.put(
   "/vatsim/flightPlans/edct",
   verifyUser,
   async (
-    req: TypedEDCTRequestBody<{ _id: string; callsign: string; EDCT: Date }>,
+    req: TypedEDCTRequestBody<{ _id: string; callsign: string; sentEDCT?: boolean; EDCT?: Date }>,
     res: Response
   ) => {
     if (!req.body._id && !req.body.callsign) {
@@ -31,12 +31,17 @@ router.put(
       return;
     }
 
-    if (req.body.EDCT === undefined) {
-      res.status(500).json({ error: "edct must be specified" });
+    if (req.body.EDCT === undefined && req.body.sentEDCT === undefined) {
+      res.status(500).json({ error: "edct or sentEDCT must be specified" });
       return;
     }
 
-    const result = await setVatsimFlightPlanEDCT(req.body._id, req.body.callsign, req.body.EDCT);
+    const result = await setVatsimFlightPlanEDCT(
+      req.body._id,
+      req.body.callsign,
+      req.body.sentEDCT,
+      req.body.EDCT
+    );
 
     if (result.success) {
       res.json(result.data);

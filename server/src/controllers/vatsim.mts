@@ -30,7 +30,8 @@ type VatsimATISResult = Result<VatsimATISDocument, "ATISNotFound" | "UnknownErro
 export async function setVatsimFlightPlanEDCT(
   _id: string,
   callsign: string,
-  edct: Date
+  sentEDCT?: boolean,
+  edct?: Date
 ): Promise<VatsimFlightPlanResult> {
   try {
     let flightPlan;
@@ -55,6 +56,10 @@ export async function setVatsimFlightPlanEDCT(
     // that means it should be removed entirely so the plan has no
     // EDCT anymore.
     flightPlan.EDCT = edct ? edct : undefined;
+
+    // sentEDCT property only gets updated if it was provided
+    flightPlan.sentEDCT = sentEDCT !== undefined ? sentEDCT : flightPlan.sentEDCT;
+
     const savedPlan = await flightPlan.save();
 
     return {
@@ -62,7 +67,7 @@ export async function setVatsimFlightPlanEDCT(
       data: savedPlan,
     };
   } catch (error) {
-    const message = `Error setting EDCT time for ${_id ? _id : callsign}: ${error}`;
+    const message = `Error setting EDCT info for ${_id ? _id : callsign}: ${error}`;
     logger.error(message);
     return {
       success: false,
