@@ -284,7 +284,7 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
     ]),
   ]);
 
-  logger.debug(`Saved ${savedDataCount} updated plans`);
+  logger.debug(`Saved ${savedDataCount} updated plans`, { savedDataCount });
 
   profiler.done({
     message: `Done processing ${incomingPlans.length} incoming VATSIM flight plans`,
