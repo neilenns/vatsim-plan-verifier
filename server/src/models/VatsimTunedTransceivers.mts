@@ -20,14 +20,15 @@ export class TunedTransceivers {
    * @returns 1 if saved, 0 if not.
    */
   public async saveIfModified(this: DocumentType<TunedTransceivers>) {
-    try {
-      await this.save();
-      return true;
-    } catch (error) {
-      const err = error as Error;
-      logger.error(`Unable to save transceivers for ${this.callsign}: ${err.message}`);
+    if (this.isModified()) {
+      try {
+        await this.save();
+        return true;
+      } catch (error) {
+        const err = error as Error;
+        logger.error(`Unable to save transceivers for ${this.callsign}: ${err.message}`);
+      }
     }
-
     return false;
   }
 }

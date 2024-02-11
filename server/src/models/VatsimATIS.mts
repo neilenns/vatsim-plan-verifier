@@ -46,12 +46,14 @@ class VatsimATIS {
    * @returns 1 if saved, 0 if not.
    */
   public async saveIfModified(this: DocumentType<VatsimATIS>) {
-    try {
-      await this.save();
-      return true;
-    } catch (error) {
-      const err = error as Error;
-      logger.error(`Unable to save ATIS ${this.callsign}: ${err.message}`);
+    if (this.isModified()) {
+      try {
+        await this.save();
+        return true;
+      } catch (error) {
+        const err = error as Error;
+        logger.error(`Unable to save ATIS ${this.callsign}: ${err.message}`);
+      }
     }
 
     return false;

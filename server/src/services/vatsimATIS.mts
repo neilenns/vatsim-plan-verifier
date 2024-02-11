@@ -85,6 +85,8 @@ export async function processVatsimATISData(vatsimData: IVatsimData) {
     logger.error(`Error updating ATISes: ${err.message}`);
   }
 
+  logger.debug(`Saved ${savedDataCount} updated ATISes`, { savedDataCount });
+
   profiler.done({
     message: `Done processing ${incomingData.length} incoming VATSIM ATISes`,
     counts: {
