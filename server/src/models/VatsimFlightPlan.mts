@@ -24,7 +24,13 @@ export enum VatsimCommunicationMethod {
 // bump if they are the only properties that got changed.
 const excludedPaths = ["latitude", "longitude", "groundspeed"];
 
-@modelOptions({ options: { customName: "vatsimflightplan" } })
+@modelOptions({
+  options: { customName: "vatsimflightplan" },
+  schemaOptions: {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  },
+})
 @pre<VatsimFlightPlan>("save", function (this: DocumentType<VatsimFlightPlan>) {
   // Find all the modified paths that trigger a revision bump.
   const modifiedPaths = this.modifiedPaths().filter((path) => !excludedPaths.includes(path));
@@ -96,6 +102,24 @@ class VatsimFlightPlan {
 
   @prop()
   coastAt?: Date;
+
+  public get isCoasting() {
+    return this.coastAt !== undefined;
+  }
+
+  /**
+   * Saves a document to the database but only if it was modified. Otherwise it does nothing.
+   * @param this The document to save
+   * @returns 1 if saved, 0 if not.
+   */
+  public async saveIfModified(this: DocumentType<VatsimFlightPlan>) {
+    if (this.isModified()) {
+      await this.save();
+      return true;
+    }
+
+    return false;
+  }
 
   // Sets the cruise altitude and flight rules, taking into account how vNAS flight plans
   // mark VFR flights with "VFR" in the cruise altitude field.

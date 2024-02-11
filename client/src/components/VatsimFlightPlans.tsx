@@ -304,7 +304,7 @@ const VatsimFlightPlans = () => {
                     }
                   >
                     <ListItemText
-                      primary={flightPlan.callsign}
+                      primary={`${flightPlan.callsign ?? ""}${flightPlan.isCoasting ? " CST" : ""}`}
                       primaryTypographyProps={{
                         fontWeight: "bold",
                         fontStyle: flightPlan.isPrefile ? "italic" : "",
