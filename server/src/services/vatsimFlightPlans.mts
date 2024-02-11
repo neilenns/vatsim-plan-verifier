@@ -204,6 +204,30 @@ function updateNoisyProperties(
   }
 }
 
+function calculateCoastingPlans(flightPlans: VatsimFlightPlanDocument[]) {
+  return flightPlans.map((plan) => {
+    const now = DateTime.utc();
+
+    // If it's not coasting yet give it a coasting time and add it to the overlapping plans list.
+    // This will prevent it from getting deleted later on.
+    if (!plan.coastAt) {
+      plan.coastAt = now.toJSDate();
+      return plan;
+    }
+
+    // Check and see how long the plane's been coasting. If it's longer than the threshold
+    // then set its coastAt to undefined.
+    const coastDiff = now.diff(DateTime.fromJSDate(plan.coastAt), "minutes").minutes;
+    if (coastDiff > 0.5) {
+      plan.coastAt = undefined;
+      return plan;
+    }
+
+    // This is a coasting plane that hasn't exceeded the threshold yet so just return it.
+    return plan;
+  });
+}
+
 // Takes the massive list of data from vatsim and processes it into the database.
 // Both pilots (a.k.a flight plans) and prefiles are processed.
 export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
@@ -231,8 +255,18 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
   );
   const newPlans = await Promise.all(newPlanPromises);
 
-  // Find the plans in the database that no longer exist on vatsim.
-  const deletedPlans = _.differenceBy(currentPlans, incomingPlans, "callsign");
+  // Find the plans in the database that no longer exist on vatsim. Anything in the initial
+  // list of deleted plans first has to move through a coasting phase. This covers the case
+  // where a plane briefly disconnects over the update interval, to ensure it doesn't disappear
+  // then come back as new flight.
+  let deletedPlans = _.differenceBy(currentPlans, incomingPlans, "callsign");
+
+  logger.debug(`${deletedPlans.length} possible plans to delete`);
+  const coastingPlans = calculateCoastingPlans(deletedPlans);
+  deletedPlans = coastingPlans.filter((plan) => plan.coastAt === undefined);
+
+  logger.debug(`${coastingPlans.length} coasting planes`);
+  logger.debug(`${deletedPlans.length} to actually delete`);
 
   // Find the overlapping plans that need to have updates applied
   const overlappingPlans = _.intersectionBy(incomingPlans, currentPlans, "callsign");
@@ -269,8 +303,19 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
         $in: deletedPlans.map((plan) => plan.callsign),
       },
     }),
+
     // Add the new plans
     await Promise.all([...newPlans.map(async (plan) => await plan.save())]),
+
+    // Save the coasting plans
+    await Promise.all([
+      ...coastingPlans.map(async (plan) => {
+        if (plan.isModified()) {
+          await plan.save();
+        }
+      }),
+    ]),
+
     // Update the changed plans. This has to be done via save() to ensure middleware runs.
     await Promise.all([
       ...updatedPlans.map(async (plan) => {

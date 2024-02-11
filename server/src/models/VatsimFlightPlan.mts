@@ -1,6 +1,6 @@
 import { DocumentType, getModelForClass, modelOptions, pre, prop } from "@typegoose/typegoose";
-import { parseStringToNumber } from "../utils.mjs";
 import mainLogger from "../logger.mjs";
+import { parseStringToNumber } from "../utils.mjs";
 
 const logger = mainLogger.child({ service: "vatsimFlightPlanModel" });
 
@@ -93,6 +93,9 @@ class VatsimFlightPlan {
 
   @prop({ required: true, type: String, default: VatsimCommunicationMethod.VOICE })
   communicationMethod!: VatsimCommunicationMethod;
+
+  @prop()
+  coastAt?: Date;
 
   // Sets the cruise altitude and flight rules, taking into account how vNAS flight plans
   // mark VFR flights with "VFR" in the cruise altitude field.
