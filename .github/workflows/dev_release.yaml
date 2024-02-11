@@ -62,4 +62,4 @@ jobs:
           cache-from: type=registry,ref=neilenns/vatsim-plan-verifier-${{ matrix.context }}:dev
           cache-to: type=inline
           build-args: |
-            VERSION="dev ${{ env.sha_short}}"
+            VERSION="dev (${{ env.sha_short}})"
