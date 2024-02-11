@@ -199,8 +199,6 @@ const VatsimFlightPlans = () => {
 
     // Not currently connected so connect
     if (!isConnected && socketRef.current) {
-      setFlightPlans([]);
-
       // Clean up the airport codes
       const cleanCodes = airportCodes
         .split(",")
