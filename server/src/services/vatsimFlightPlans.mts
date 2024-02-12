@@ -187,7 +187,7 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
   logger.info(`Processing ${_.size(incomingPlans)} incoming VATSIM flight plans`);
   profiler.done({ message: "Done creating list from incoming plans" });
 
-  // Find all the callsigns for the current plans in the database to use when figuring out
+  // Find all the current plans in the database to use when figuring out
   // what updates to apply and convert them to a dictionary to speed access later.
   profiler = logger.startTimer();
   const currentPlans = _.keyBy(await VatsimFlightPlanModel.find({}), "callsign");
