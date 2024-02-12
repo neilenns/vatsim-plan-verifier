@@ -46,6 +46,7 @@ export interface IVatsimPilot {
   flight_plan: IVatsimFlightPlan;
   logon_time: string;
   last_updated: string;
+  isPrefile: boolean;
 }
 
 export interface IVatsimController {
@@ -144,7 +145,7 @@ export interface IVatsimData {
   controllers: IVatsimController[];
   atis: IVatsimATIS[];
   servers: IVatsimServer[];
-  prefiles: IVatsimPrefile[];
+  prefiles: IVatsimPilot[];
   facilities: IVatsimFacility[];
   ratings: IVatsimRating[];
   pilot_ratings: IVatsimPilotRating[];
