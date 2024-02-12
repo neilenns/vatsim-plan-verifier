@@ -25,6 +25,7 @@ const envSchema = z.object({
   AIRPORT_REFRESH_INTERVAL: z.string().default("every 24 hours"),
   API_RATE_LIMIT_MAX: z.coerce.number().default(100),
   API_RATE_LIMIT_MINUTE_WINDOW: z.coerce.number().default(5),
+  CACHE_DIR: z.string().default("/cache"),
   COOKIE_SECRET: z.string(),
   COAST_TIME_MINUTES: z.coerce.number().default(2),
   SSL_PRIVATE_KEY_PATH: z.string().default(""),
@@ -39,7 +40,6 @@ const envSchema = z.object({
   LOG_LEVEL: z.enum(["error", "warn", "info", "http", "debug", "trace"]).optional(),
   LOGTAIL_TOKEN: z.string().optional(),
   MAGNETIC_DECLINATION_CACHE_EXPIRY: z.coerce.number().default(30 * 24 * 60 * 60 * 1000), // 30 days
-  MEMCACHED_SERVER: z.string(),
   MONGO_DB_CONNECTION_STRING: z.string(),
   MONGO_DB_NAME: z.string().default("plan-verifier"),
   MONGOOSE_DEBUG: z.string().transform<boolean>(booleanTransformer).default("false"),

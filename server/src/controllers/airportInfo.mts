@@ -1,7 +1,7 @@
 import AdmZip from "adm-zip";
 import axios, { AxiosError, AxiosResponse } from "axios";
-import Memcached from "memcached";
 import winston from "winston";
+import { CacheManager } from "../cacheManager.mjs";
 import { ENV } from "../env.mjs";
 import { IAvioWikiAirport } from "../interfaces/IAvioWikiAirport.mjs";
 import mainLogger from "../logger.mjs";
@@ -9,12 +9,7 @@ import { AirportInfoDocument, AirportInfoModel } from "../models/AirportInfo.mjs
 import Result from "../types/result.mjs";
 
 const logger = mainLogger.child({ service: "airportInfo" });
-
-const memcached = new Memcached(ENV.MEMCACHED_SERVER);
-
-memcached.on("failure", (err) => {
-  logger.error(err);
-});
+const cache = CacheManager.getInstance<AirportInfoDocument>("airportInfo");
 
 type AirportInfoResult = Result<AirportInfoDocument, "AirportNotFound" | "UnknownError">;
 type FetchAvioWikiAirportsResult = Result<number, "UnknownError">;
@@ -23,18 +18,13 @@ export async function getAirportInfo(airportCode: string): Promise<AirportInfoRe
   try {
     let airport: AirportInfoDocument | null = null;
 
-    memcached.get(airportCode, (err, data) => {
-      if (err) {
-        logger.error(`Unable to retrieve airport from cache: ${err}`);
-      }
-      airport = data;
-    });
+    airport = cache.get(airportCode);
 
     if (!airport) {
       airport = await AirportInfoModel.findOne({ airportCode });
-      memcached.set(airportCode, airport, 60 * 60, (err) => {
-        logger.error(`Unable to cache airport: ${err}`);
-      }); // Cache for one hour
+      if (airport) {
+        cache.set(airportCode, airport);
+      }
     }
 
     // Airports with blank names are placeholders indicating it doesn't exist to prevent repeated checks with
