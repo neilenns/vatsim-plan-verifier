@@ -37,14 +37,6 @@ const excludedPaths = ["latitude", "longitude", "groundspeed", "coastAt"];
     toObject: { virtuals: true },
   },
 })
-@pre<VatsimFlightPlan>("save", function (this: DocumentType<VatsimFlightPlan>) {
-  // Find all the modified paths that trigger a revision bump.
-  const modifiedPaths = this.modifiedPaths().filter((path) => !excludedPaths.includes(path));
-
-  if (modifiedPaths.length > 0) {
-    this.revision++;
-  }
-})
 class VatsimFlightPlan {
   @prop({ required: true })
   cid!: number;
@@ -112,6 +104,15 @@ class VatsimFlightPlan {
   @prop({ required: false, default: false })
   sentEDCT: boolean = false;
 
+  public setRevision(this: VatsimFlightPlanDocument) {
+    // Find all the modified paths that trigger a revision bump.
+    const modifiedPaths = this.modifiedPaths().filter((path) => !excludedPaths.includes(path));
+
+    if (modifiedPaths.length > 0) {
+      this.revision++;
+    }
+  }
+
   public get isCoasting() {
     return this.coastAt !== undefined;
   }
@@ -141,6 +142,9 @@ class VatsimFlightPlan {
       this.updateNoisyProperties(incomingPlan);
       await this.updateFlightStatus();
     }
+
+    // Calculate the revision last
+    this.setRevision();
   }
 
   public setCoast(this: VatsimFlightPlanDocument) {

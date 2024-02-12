@@ -14,26 +14,6 @@ import { cleanRoute, depTimeToDateTime, getCommunicationMethod } from "../utils/
 
 const logger = mainLogger.child({ service: "vatsimFlightPlans" });
 
-// List of the properties on a vatsim flight plan that are eligible to
-// be updated when new data is received. departure airport is intentionally
-// not in this list as it is updated separately as part of the fix for issue 672.
-// latitude, longitude, and groundspeed are not in this list and are handled
-// separately as part of the fix for issue 982.
-const updateProperties = [
-  "flightRules",
-  "name",
-  "rawAircraftType",
-  "departure",
-  "arrival",
-  "route",
-  "squawk",
-  "remarks",
-  "isPrefile",
-  "cruiseAltitude",
-  "communicationMethod",
-  "departureTime",
-] as (keyof VatsimFlightPlanDocument)[];
-
 // Takes a pilot object from vatsim and converts it to a vatsim model
 export function pilotToVatsimModel(pilot: IVatsimPilot) {
   const result = new VatsimFlightPlanModel({
@@ -203,26 +183,8 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
   profiler = logger.startTimer();
   try {
     await Promise.all([
-      // Add the new plans
-      await Promise.all(
-        plansToAdd.map(async (plan) => {
-          return plan.save();
-        })
-      ),
-
-      // Update the coasting plans. This has to be done via save() to ensure middleware runs.
-      await Promise.all(
-        plansToCoast.map(async (plan) => {
-          return plan.save();
-        })
-      ),
-
-      // Update the changed plans. This has to be done via save() to ensure middleware runs.
-      await Promise.all(
-        plansToUpdate.map(async (plan) => {
-          return plan.save();
-        })
-      ),
+      // Save the new, updated, and coasting plans.
+      await VatsimFlightPlanModel.bulkSave([...plansToAdd, ...plansToUpdate, ...plansToCoast]),
 
       // Delete the non-coasting plans
       await VatsimFlightPlanModel.deleteMany({
