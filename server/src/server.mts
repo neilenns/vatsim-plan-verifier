@@ -165,10 +165,6 @@ export async function startServer(port: number): Promise<void> {
   // Admin routes
   app.use(adminRouter);
 
-  app.get("/end", function (req, res) {
-    process.exit(0);
-  });
-
   // Start up the server
   if (certFilesExist) {
     server = https.createServer(readCertsSync(), app);
