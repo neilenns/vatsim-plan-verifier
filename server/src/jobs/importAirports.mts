@@ -1,11 +1,15 @@
 import DotLocker from "dotlocker";
 import process from "node:process";
+import { CacheManager, CacheName } from "../cacheManager.mjs";
 import { fetchAirportsFromAvioWiki } from "../controllers/airportInfo.mjs";
 import { connectToDatabase, disconnectFromDatabase } from "../database.mjs";
+import { ENV } from "../env.mjs";
 import mainLogger, { flush } from "../logger.mjs";
+import { AirportInfoDocument } from "../models/AirportInfo.mjs";
 import postMessage from "../utils/postMessage.mjs";
 
 const logger = mainLogger.child({ service: "importAirports" });
+const cache = CacheManager.getInstance<AirportInfoDocument>(CacheName.AirportInfo);
 
 // Using lockSync since this is the only thing running in this process
 // and node was incorrectly exiting with code 13 when using the async method.
@@ -22,12 +26,14 @@ if (!dispose) {
   try {
     await connectToDatabase();
     await fetchAirportsFromAvioWiki();
-    await disconnectFromDatabase();
   } catch (error) {
     const err = error as Error;
     logger.error(`Error updating airports: ${err.message}`);
   } finally {
     dispose();
+    await disconnectFromDatabase();
+    cache.clear();
+    await cache.saveToFile(ENV.CACHE_DIRECTORY);
   }
 }
 

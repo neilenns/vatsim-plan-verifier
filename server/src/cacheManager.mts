@@ -8,18 +8,22 @@ interface CacheItem<T> {
   [key: string]: T;
 }
 
+export enum CacheName {
+  AirportInfo = "airportInfo",
+}
+
 export class CacheManager<T> {
-  private static instances: Map<string, CacheManager<any>> = new Map();
+  private static instances: Map<CacheName, CacheManager<any>> = new Map();
   private cache: CacheItem<T> = {};
   private hits: number = 0;
   private misses: number = 0;
   private cacheName: string = "";
 
-  private constructor(cacheName: string) {
+  private constructor(cacheName: CacheName) {
     this.cacheName = cacheName;
   }
 
-  public static getInstance<T>(cacheName: string): CacheManager<T> {
+  public static getInstance<T>(cacheName: CacheName): CacheManager<T> {
     if (!CacheManager.instances.has(cacheName)) {
       CacheManager.instances.set(cacheName, new CacheManager<T>(cacheName));
     }

@@ -1,6 +1,6 @@
 import DotLocker from "dotlocker";
 import process from "node:process";
-import { CacheManager } from "../cacheManager.mjs";
+import { CacheManager, CacheName } from "../cacheManager.mjs";
 import { connectToDatabase, disconnectFromDatabase } from "../database.mjs";
 import { ENV } from "../env.mjs";
 import mainLogger, { flush } from "../logger.mjs";
@@ -10,7 +10,7 @@ import { getVatsimData } from "../services/vatsim.mjs";
 import postMessage from "../utils/postMessage.mjs";
 
 const logger = mainLogger.child({ service: "getVatsimData" });
-const cache = CacheManager.getInstance<AirportInfoDocument>("airportInfo");
+const cache = CacheManager.getInstance<AirportInfoDocument>(CacheName.AirportInfo);
 
 // Using lockSync since this is the only thing running in this process
 // and node was incorrectly exiting with code 13 when using the async method.

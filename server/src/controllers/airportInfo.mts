@@ -1,7 +1,7 @@
 import AdmZip from "adm-zip";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import winston from "winston";
-import { CacheManager } from "../cacheManager.mjs";
+import { CacheManager, CacheName } from "../cacheManager.mjs";
 import { ENV } from "../env.mjs";
 import { IAvioWikiAirport } from "../interfaces/IAvioWikiAirport.mjs";
 import mainLogger from "../logger.mjs";
@@ -9,7 +9,7 @@ import { AirportInfoDocument, AirportInfoModel } from "../models/AirportInfo.mjs
 import Result from "../types/result.mjs";
 
 const logger = mainLogger.child({ service: "airportInfo" });
-const cache = CacheManager.getInstance<AirportInfoDocument>("airportInfo");
+const cache = CacheManager.getInstance<AirportInfoDocument>(CacheName.AirportInfo);
 
 type AirportInfoResult = Result<AirportInfoDocument, "AirportNotFound" | "UnknownError">;
 type FetchAvioWikiAirportsResult = Result<number, "UnknownError">;
