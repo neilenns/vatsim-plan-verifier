@@ -103,18 +103,57 @@ async function calculateNewAndUpdated(
         // and .then() is the magic that lets all of the promises run in parallel instead of
         // blocking the for loop awaiting every single updated flight plan, of which there
         // are typically 1000+.
-        return currentPlan
-          .updateFlightPlan(incomingPlan)
-          .then(() => plansToUpdate.push(currentPlan));
+        return currentPlan.updateFlightPlan(incomingPlan).then(() => {
+          // Only add to the modified list if it is actually modified. This saves filtering the list
+          // again later on.
+          if (currentPlan.isModified()) {
+            plansToUpdate.push(currentPlan);
+          }
+        });
       } catch (error) {
         logger.error(error);
       }
     })
   );
 
-  profiler.done({ message: "Done creating list of new and updated plans" });
+  profiler.done({
+    message: `Done calculating new and updated plans: ${plansToAdd.length} new and ${plansToUpdate.length} to update`,
+  });
 
   return [plansToAdd, plansToUpdate];
+}
+
+function calculateDeletedAndCoasting(
+  currentPlans: _.Dictionary<VatsimFlightPlanDocument>,
+  incomingPlans: _.Dictionary<IVatsimPilot>
+) {
+  let profiler = logger.startTimer();
+
+  let totalDeleted = 0;
+  const plansToDelete: VatsimFlightPlanDocument[] = [];
+  const plansToCoast: VatsimFlightPlanDocument[] = [];
+
+  for (const key in currentPlans) {
+    const deletedOnServer = incomingPlans[key] === undefined;
+
+    // If the plan wasn't deleted then just return, it was either new or updated.
+    if (!deletedOnServer) continue;
+
+    totalDeleted++;
+    // Since the plan was deleted it needs its coast value calculated. If it
+    // is coasting add it to the updated plans list. If it wasn't then it's really gone
+    // and add it to the deleted plans list.
+    const currentPlan = currentPlans[key];
+
+    currentPlan.setCoast();
+    currentPlan.isCoasting ? plansToCoast.push(currentPlan) : plansToDelete.push(currentPlan);
+  }
+
+  profiler.done({
+    message: `Done calculating deleted and coast plans: ${totalDeleted} on server, ${plansToDelete.length} to delete and ${plansToCoast.length} to coast`,
+  });
+
+  return [plansToDelete, plansToCoast];
 }
 
 // Takes the massive list of data from vatsim and processes it into the database.
@@ -143,44 +182,22 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
   logger.info(`Processing ${_.size(incomingPlans)} incoming VATSIM flight plans`);
   profiler.done({ message: "Done creating list from incoming plans" });
 
-  profiler = logger.startTimer();
   // Find all the callsigns for the current plans in the database to use when figuring out
   // what updates to apply and convert them to a dictionary to speed access later.
+  profiler = logger.startTimer();
   const currentPlans = _.keyBy(await VatsimFlightPlanModel.find({}), "callsign");
   profiler.done({ message: "Done loading current plans from the database" });
 
-  const plansToDelete: VatsimFlightPlanDocument[] = [];
-  let coastingCount = 0;
-  let savedDataCount = 0;
-
+  // Calculate the new and updated plans
   const [plansToAdd, plansToUpdate] = await calculateNewAndUpdated(currentPlans, incomingPlans);
 
-  // Now look for deleted plans
-  profiler = logger.startTimer();
-  for (const key in currentPlans) {
-    const deletedOnServer = incomingPlans[key] === undefined;
+  // Calculate the deleted and coasting plans
+  const [plansToDelete, plansToCoast] = calculateDeletedAndCoasting(currentPlans, incomingPlans);
 
-    // If the plan wasn't deleted then just return, it was either new or updated.
-    if (!deletedOnServer) continue;
-
-    // Since the plan was deleted it needs its coast value calculated. If it
-    // is coasting add it to the updated plans list. If it wasn't then it's really gone
-    // and add it to the deleted plans list.
-    const currentPlan = currentPlans[key];
-
-    currentPlan.setCoast();
-    if (currentPlan.isCoasting) {
-      plansToUpdate.push(currentPlan);
-      coastingCount++;
-    } else {
-      plansToDelete.push(currentPlan);
-    }
-  }
-  profiler.done({ message: "Done calculating deleted and coast plans" });
-
+  // Save all the changes to the database
+  let savedDataCount = 0;
   profiler = logger.startTimer();
   try {
-    // Save all the changes to the database
     await Promise.all([
       // Delete the non-coasting plans
       await VatsimFlightPlanModel.deleteMany({
@@ -190,29 +207,31 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
       }),
 
       // Add the new plans
-      await Promise.all([...plansToAdd.map(async (plan) => await plan.save())]),
+      await Promise.all(
+        plansToAdd.map(async (plan) => {
+          return plan.save();
+        })
+      ),
+
+      // Update the coasting plans. This has to be done via save() to ensure middleware runs.
+      await Promise.all(
+        plansToCoast.map(async (plan) => {
+          return plan.save();
+        })
+      ),
 
       // Update the changed plans. This has to be done via save() to ensure middleware runs.
-      await Promise.all([
-        ...plansToUpdate.map(async (plan) => {
-          // Issue 982: Turns out the save() method isn't smart and still does something even if there are
-          // no modifications, which slows things down a TON. Check for modifications before calling save.
-          const wasUpdated = await plan.saveIfModified();
-          if (wasUpdated) savedDataCount++;
-        }),
-      ]),
+      await Promise.all(
+        plansToUpdate.map(async (plan) => {
+          return plan.save();
+        })
+      ),
     ]);
   } catch (error) {
     const err = error as Error;
     logger.error(`Error updating flight plans: ${err.message}`);
   }
   profiler.done({ message: `Done processing database updates` });
-
-  logger.debug(
-    `Total deleted from server: ${plansToDelete.length} (${coastingCount} coasting and ${plansToDelete.length} to delete)`
-  );
-
-  logger.debug(`Saved ${savedDataCount} updated plans`, { savedDataCount });
 
   overallProfiler.done({
     message: `Done processing ${_.size(incomingPlans)} incoming VATSIM flight plans`,
@@ -222,8 +241,7 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
       new: plansToAdd.length,
       updated: plansToUpdate.length,
       deleted: plansToDelete.length,
-      coasting: coastingCount,
-      saved: savedDataCount,
+      coasting: plansToCoast.length,
     },
   });
 }

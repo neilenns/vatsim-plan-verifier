@@ -56,8 +56,8 @@ const envSchema = z.object({
   VATSIM_TRANSCEIVER_AUTO_UPDATE_INTERVAL_NO_CONNECTIONS: z.string().default("every 2 minutes"),
   VERSION: z.string().default("dev"),
   UPDATE_DELTA_GROUND_SPEED: z.coerce.number().default(5),
-  UPDATE_DELTA_LATITUDE: z.coerce.number().default(0.5),
-  UPDATE_DELTA_LONGITUDE: z.coerce.number().default(0.5),
+  UPDATE_DELTA_LATITUDE: z.coerce.number().default(0.6),
+  UPDATE_DELTA_LONGITUDE: z.coerce.number().default(0.6),
   WHITELISTED_DOMAINS: z.string(),
 });
 
