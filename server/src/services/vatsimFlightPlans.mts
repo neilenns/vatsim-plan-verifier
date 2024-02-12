@@ -93,6 +93,8 @@ export function pilotToVatsimModel(pilot: IVatsimPilot) {
   return result;
 }
 
+let badUpdates = 0;
+
 /**
  * Determines a plane's flight state based on its location and ground speed. Anything over VATSIM_GROUNDSPEED_CUTOFF
  * is considered ENROUTE. Anything slower than that within 3nm of the departure airport is considered DEPARTING.
@@ -118,6 +120,8 @@ async function updateFlightStatus(
   if (flightPlan.groundspeed > ENV.VATSIM_GROUNDSPEED_CUTOFF) {
     return VatsimFlightStatus.ENROUTE;
   }
+
+  badUpdates++;
 
   // Check and see if the plane is within the required distance of the departure airport.
   const distanceFromDepartureAirport = await AirportInfoModel.distanceTo(
@@ -337,6 +341,10 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
 
   logger.debug(
     `Total deleted from server: ${plansToDelete.length} (${coastingCount} coasting and ${plansToDelete.length} to delete)`
+  );
+
+  logger.debug(
+    `There were ${badUpdates} updates that required calculating distance from the airport`
   );
 
   logger.debug(`Saved ${savedDataCount} updated plans`, { savedDataCount });
