@@ -2,6 +2,7 @@ import DotLocker from "dotlocker";
 import process from "node:process";
 import { CacheManager } from "../cacheManager.mjs";
 import { connectToDatabase, disconnectFromDatabase } from "../database.mjs";
+import { ENV } from "../env.mjs";
 import mainLogger, { flush } from "../logger.mjs";
 import { AirportInfoDocument } from "../models/AirportInfo.mjs";
 import { VatsimEndpointModel } from "../models/VatsimEndpoint.mjs";
@@ -23,7 +24,7 @@ if (!dispose) {
   logger.warn(`Airport updates in progress, skipping VATSIM data update`);
 } else {
   await connectToDatabase();
-  await cache.loadFromFile("airportInfoCache.json");
+  await cache.loadFromFile(ENV.CACHE_DIRECTORY);
 
   try {
     const dataEndpoint = await VatsimEndpointModel.findEndpoint("v3");
@@ -39,7 +40,7 @@ if (!dispose) {
   } finally {
     dispose();
     cache.printStatistics();
-    await cache.saveToFile("airportInfoCache.json");
+    await cache.saveToFile(ENV.CACHE_DIRECTORY);
   }
 
   await disconnectFromDatabase();

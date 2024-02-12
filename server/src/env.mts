@@ -25,7 +25,7 @@ const envSchema = z.object({
   AIRPORT_REFRESH_INTERVAL: z.string().default("every 24 hours"),
   API_RATE_LIMIT_MAX: z.coerce.number().default(100),
   API_RATE_LIMIT_MINUTE_WINDOW: z.coerce.number().default(5),
-  CACHE_DIR: z.string().default("/cache"),
+  CACHE_DIRECTORY: z.string().default("/cache"),
   COOKIE_SECRET: z.string(),
   COAST_TIME_MINUTES: z.coerce.number().default(2),
   SSL_PRIVATE_KEY_PATH: z.string().default(""),
