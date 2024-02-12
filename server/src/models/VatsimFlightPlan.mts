@@ -245,6 +245,11 @@ class VatsimFlightPlan {
       return;
     }
 
+    // Still unknown even after the udpate, that seems bad. Log it.
+    if (this.status === VatsimFlightStatus.UNKNOWN) {
+      logger.debug(`Unable to set flight status for ${this.callsign}`, { flightPlan: this });
+    }
+
     // This will happen if the airport distances couldn't be calculated for some reason, e.g. there's no
     // information available for the departure or arrival airport.
     this.status = VatsimFlightStatus.UNKNOWN;
