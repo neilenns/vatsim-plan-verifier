@@ -10,6 +10,7 @@ import {
   VatsimFlightPlanModel,
   VatsimFlightStatus,
 } from "../models/VatsimFlightPlan.mjs";
+import { cleanRoute, depTimeToDateTime, getCommunicationMethod } from "../utils/vatsim.mjs";
 
 const logger = mainLogger.child({ service: "vatsimFlightPlans" });
 
@@ -32,37 +33,6 @@ const updateProperties = [
   "communicationMethod",
   "departureTime",
 ] as (keyof VatsimFlightPlanDocument)[];
-
-function depTimeToDateTime(depTime: string | undefined): Date | undefined {
-  const result = depTime ? DateTime.fromFormat(depTime, "Hmm", { zone: "UTC" }) : undefined;
-
-  // Issue #943: Super important to check that the fromFormat was successful, otherwise the string "Invalid date"
-  // winds up trying to get set on the typegoose Date-typed property and fails, which causes the entire processing
-  // of the data to fail.
-  return result?.isValid ? result.toJSDate() : undefined;
-}
-
-function cleanRoute(route: string) {
-  return route
-    .replace(/DCT /g, "") // Get rid of all the DCTs
-    .replace(/^\w{3,4}\/\w{2,3}\s*/, "") // Get rid of departure airport/runway making sure to catch the space after it as well
-    .replace(/\s*\w{3,4}\/\w{2,3}$/, "") // Get rid of arrival airport/runway making sure to catch the space before it as well
-    .replace(/(?<!\/)N\d+F\d+\s*/g, "") // Get rid of step climbs making sure to catch spaces after it so double spaces don't get left behind
-    .trim() // Trim leading and trailing whitespace
-    .replace(/\s+/g, " "); // Issue 601: Get rid of any multiple spaces between route parts
-}
-
-export function getCommunicationMethod(inputString: string | undefined): VatsimCommunicationMethod {
-  if (inputString?.includes("/T/")) {
-    return VatsimCommunicationMethod.TEXTONLY;
-  } else if (inputString?.includes("/R/")) {
-    return VatsimCommunicationMethod.RECEIVE;
-  } else if (inputString?.includes("/V/")) {
-    return VatsimCommunicationMethod.VOICE;
-  } else {
-    return VatsimCommunicationMethod.VOICE;
-  }
-}
 
 // Takes a pilot object from vatsim and converts it to a vatsim model
 export function pilotToVatsimModel(pilot: IVatsimPilot) {
@@ -93,108 +63,58 @@ export function pilotToVatsimModel(pilot: IVatsimPilot) {
   return result;
 }
 
-let badUpdates = 0;
-
 /**
- * Determines a plane's flight state based on its location and ground speed. Anything over VATSIM_GROUNDSPEED_CUTOFF
- * is considered ENROUTE. Anything slower than that within 3nm of the departure airport is considered DEPARTING.
- * Anything slower than that within 3nm of the arrival airport is considered ARRIVING.
- * @param flightPlan The flight plan.
- * @returns The plane's flight state.
+ * Builds the  list of VastimFlightPlanDocuments to add and update based on the current plans and the incoming plans.
+ * @param currentPlans The list of current plans
+ * @param incomingPlans The list of incoming plans
+ * @returns A tuple [plansToAdd, plansToUpdate] that are arrays of the plans to add and plans to update
  */
-async function updateFlightStatus(
-  flightPlan: VatsimFlightPlanDocument
-): Promise<VatsimFlightStatus> {
-  // All prefiles, planes without a departure airport, planes without a lat/long, and planes with no ground speed are assumed to be departing.
-  if (
-    flightPlan.isPrefile ||
-    !flightPlan.departure ||
-    !flightPlan.latitude ||
-    !flightPlan.longitude ||
-    flightPlan.groundspeed === undefined
-  ) {
-    return VatsimFlightStatus.DEPARTING;
-  }
+async function calculateNewAndUpdated(
+  currentPlans: _.Dictionary<VatsimFlightPlanDocument>,
+  incomingPlans: _.Dictionary<IVatsimPilot>
+) {
+  let profiler = logger.startTimer();
 
-  // Anything going faster than the groundspeed cutoff is considered enroute.
-  if (flightPlan.groundspeed > ENV.VATSIM_GROUNDSPEED_CUTOFF) {
-    return VatsimFlightStatus.ENROUTE;
-  }
+  const plansToAdd: VatsimFlightPlanDocument[] = [];
+  const plansToUpdate: VatsimFlightPlanDocument[] = [];
 
-  badUpdates++;
+  // Handle all the new and upated plans first
+  profiler = logger.startTimer();
+  // Doing waits inside a loop is a recipe for extremely slow performance. Instead return promises
+  // and await them all at once. This method comes from https://dev.to/imichaelowolabi/this-is-why-your-nodejs-application-is-slow-206j.
+  await Promise.all(
+    _.map(incomingPlans, async (incomingPlan, key) => {
+      try {
+        const incomingPlan = incomingPlans[key];
+        const currentPlan = currentPlans[incomingPlan.callsign];
 
-  // Check and see if the plane is within the required distance of the departure airport.
-  const distanceFromDepartureAirport = await AirportInfoModel.distanceTo(
-    flightPlan.departure,
-    flightPlan.latitude,
-    flightPlan.longitude
+        // If it's not found then it's a new plan so just make the model object and add it to
+        // the new plan array.
+        if (!currentPlan) {
+          const newPlan = pilotToVatsimModel(incomingPlan);
+          // Important to set the initial flight status for the new plan. It could be in the air
+          // or already arrived.
+          // await updateFlightStatus(newPlan);
+          plansToAdd.push(newPlan);
+          return;
+        }
+
+        // This means it's an existing plan so we need to update properties. This return
+        // and .then() is the magic that lets all of the promises run in parallel instead of
+        // blocking the for loop awaiting every single updated flight plan, of which there
+        // are typically 1000+.
+        return currentPlan
+          .updateFlightPlan(incomingPlan)
+          .then(() => plansToUpdate.push(currentPlan));
+      } catch (error) {
+        logger.error(error);
+      }
+    })
   );
 
-  if (
-    distanceFromDepartureAirport &&
-    distanceFromDepartureAirport < ENV.VATSIM_DISTANCE_CUTOFF_IN_KM
-  ) {
-    return VatsimFlightStatus.DEPARTING;
-  }
+  profiler.done({ message: "Done creating list of new and updated plans" });
 
-  // Check and see if the plane is within the required distance of the arrival airport.
-  const distanceFromArrivalAirport = await AirportInfoModel.distanceTo(
-    flightPlan.arrival,
-    flightPlan.latitude,
-    flightPlan.longitude
-  );
-
-  if (distanceFromArrivalAirport && distanceFromArrivalAirport < ENV.VATSIM_DISTANCE_CUTOFF_IN_KM) {
-    return VatsimFlightStatus.ARRIVED;
-  }
-
-  // This will happen if the airport distances couldn't be calculated for some reason, e.g. there's no
-  // information available for the departure or arrival airport.
-  return VatsimFlightStatus.UNKNOWN;
-}
-
-// Some properties change a *lot* and cause a ton of database updates. Instead of updating them
-// every time only update them if the value changed a bit.
-function updateNoisyProperties(currentPlan: VatsimFlightPlanDocument, incomingPlan: IVatsimPilot) {
-  let delta: number;
-
-  // Groundspeed
-  delta = Math.abs((incomingPlan?.groundspeed ?? 0) - (currentPlan?.groundspeed ?? 0));
-  if (delta > ENV.UPDATE_DELTA_GROUND_SPEED) {
-    currentPlan.groundspeed = incomingPlan.groundspeed;
-  }
-
-  // Latitude
-  delta = Math.abs((incomingPlan?.latitude ?? 0) - (currentPlan?.latitude ?? 0));
-  if (delta > ENV.UPDATE_DELTA_LATITUDE) {
-    currentPlan.latitude = incomingPlan.latitude;
-  }
-
-  // Longitude
-  delta = Math.abs((incomingPlan?.longitude ?? 0) - (currentPlan?.longitude ?? 0));
-  if (delta > ENV.UPDATE_DELTA_LONGITUDE) {
-    currentPlan.longitude = incomingPlan.longitude;
-  }
-}
-
-function setCoast(plan: VatsimFlightPlanDocument) {
-  const now = DateTime.utc();
-
-  // If it's not coasting yet give it a coasting time and add it to the overlapping plans list.
-  // This will prevent it from getting deleted later on.
-  if (!plan.coastAt) {
-    plan.coastAt = now.toJSDate();
-  }
-
-  // Check and see how long the plane's been coasting. If it's longer than the threshold
-  // then set its coastAt to undefined and it will wind up getting marked as not coasting
-  // anymore and deleted. Otherwise do nothing (it's still coasting).
-  const coastDiff = now.diff(DateTime.fromJSDate(plan.coastAt), "minutes").minutes;
-  if (coastDiff > ENV.COAST_TIME_MINUTES) {
-    plan.coastAt = undefined;
-  }
-
-  return plan;
+  return [plansToAdd, plansToUpdate];
 }
 
 // Takes the massive list of data from vatsim and processes it into the database.
@@ -229,62 +149,11 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
   const currentPlans = _.keyBy(await VatsimFlightPlanModel.find({}), "callsign");
   profiler.done({ message: "Done loading current plans from the database" });
 
-  const plansToAdd: VatsimFlightPlanDocument[] = [];
-  const plansToUpdate: VatsimFlightPlanDocument[] = [];
   const plansToDelete: VatsimFlightPlanDocument[] = [];
   let coastingCount = 0;
   let savedDataCount = 0;
 
-  // Handle all the new and upated plans first
-  profiler = logger.startTimer();
-  for (const key in incomingPlans) {
-    try {
-      const incomingPlan = incomingPlans[key];
-      const currentPlan = currentPlans[incomingPlan.callsign];
-
-      // If it's not found then it's a new plan so just make the model object and add it to
-      // the new plan array.
-      if (!currentPlan) {
-        const newPlan = pilotToVatsimModel(incomingPlan);
-        // Important to set the initial flight status for the new plan. It could be in the air
-        // or already arrived.
-        await updateFlightStatus(newPlan);
-        plansToAdd.push(newPlan);
-        continue;
-      }
-
-      // This means it's an existing plan so we need to update properties
-      currentPlan.flightRules = incomingPlan.flight_plan?.flight_rules ?? "";
-      currentPlan.name = incomingPlan.flight_plan?.name ?? "";
-      currentPlan.rawAircraftType = incomingPlan.flight_plan?.aircraft_faa ?? "";
-      currentPlan.departure = incomingPlan.flight_plan?.departure ?? "";
-      currentPlan.arrival = incomingPlan.flight_plan?.arrival ?? "";
-      currentPlan.squawk = incomingPlan.flight_plan?.assigned_transponder ?? "";
-      currentPlan.remarks = incomingPlan.flight_plan?.remarks ?? "";
-      currentPlan.isPrefile = incomingPlan.isPrefile;
-      currentPlan.coastAt = undefined; // Handles planes that reconnect after briefly disconnecting
-
-      // Set the special properties that need calculations
-      currentPlan.route = cleanRoute(incomingPlan.flight_plan?.route ?? "");
-      currentPlan.departureTime = depTimeToDateTime(incomingPlan?.flight_plan?.deptime);
-      currentPlan.communicationMethod = getCommunicationMethod(currentPlan.remarks);
-      currentPlan.setCruiseAltitudeAndFlightRules(
-        incomingPlan.flight_plan?.altitude,
-        incomingPlan.flight_plan?.flight_rules
-      );
-
-      // Set the special properties that only apply to real plans (not prefiles)
-      if (!currentPlan.isPrefile) {
-        updateNoisyProperties(currentPlan, incomingPlan);
-        await updateFlightStatus(currentPlan);
-      }
-
-      plansToUpdate.push(currentPlan);
-    } catch (error) {
-      logger.error(error);
-    }
-  }
-  profiler.done({ message: "Done calculating new and updated plans" });
+  const [plansToAdd, plansToUpdate] = await calculateNewAndUpdated(currentPlans, incomingPlans);
 
   // Now look for deleted plans
   profiler = logger.startTimer();
@@ -299,8 +168,8 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
     // and add it to the deleted plans list.
     const currentPlan = currentPlans[key];
 
-    setCoast(currentPlan);
-    if (currentPlans.isCoasting) {
+    currentPlan.setCoast();
+    if (currentPlan.isCoasting) {
       plansToUpdate.push(currentPlan);
       coastingCount++;
     } else {
@@ -341,10 +210,6 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
 
   logger.debug(
     `Total deleted from server: ${plansToDelete.length} (${coastingCount} coasting and ${plansToDelete.length} to delete)`
-  );
-
-  logger.debug(
-    `There were ${badUpdates} updates that required calculating distance from the airport`
   );
 
   logger.debug(`Saved ${savedDataCount} updated plans`, { savedDataCount });
