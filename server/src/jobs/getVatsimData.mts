@@ -1,12 +1,16 @@
 import DotLocker from "dotlocker";
 import process from "node:process";
+import { CacheManager, CacheName } from "../cacheManager.mjs";
 import { connectToDatabase, disconnectFromDatabase } from "../database.mjs";
+import { ENV } from "../env.mjs";
 import mainLogger, { flush } from "../logger.mjs";
+import { AirportInfoDocument } from "../models/AirportInfo.mjs";
 import { VatsimEndpointModel } from "../models/VatsimEndpoint.mjs";
 import { getVatsimData } from "../services/vatsim.mjs";
 import postMessage from "../utils/postMessage.mjs";
 
 const logger = mainLogger.child({ service: "getVatsimData" });
+const cache = CacheManager.getInstance<AirportInfoDocument>(CacheName.AirportInfo);
 
 // Using lockSync since this is the only thing running in this process
 // and node was incorrectly exiting with code 13 when using the async method.
@@ -20,6 +24,7 @@ if (!dispose) {
   logger.warn(`Airport updates in progress, skipping VATSIM data update`);
 } else {
   await connectToDatabase();
+  await cache.loadFromFile(ENV.CACHE_DIRECTORY);
 
   try {
     const dataEndpoint = await VatsimEndpointModel.findEndpoint("v3");
@@ -34,6 +39,8 @@ if (!dispose) {
     logger.error(`Unable to retrieve VATSIM data: ${error}`);
   } finally {
     dispose();
+    cache.printStatistics();
+    await cache.saveToFile(ENV.CACHE_DIRECTORY);
   }
 
   await disconnectFromDatabase();

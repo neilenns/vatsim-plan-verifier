@@ -42,5 +42,8 @@ ARG VERSION
 ENV VERSION=${VERSION:-dev}
 RUN echo $VERSION
 
+# Create the default cache folder
+RUN mkdir /cache
+
 # Set the entrypoint file
 CMD ["node", "dist/main.mjs"]

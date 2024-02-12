@@ -55,7 +55,13 @@ function sanitizeMongoDBConnectionString(info: any) {
 const consoleFormat = winston.format.combine(
   winston.format.timestamp(),
   winston.format.printf((info) => {
-    const message = `[${info.service}] ${info.message}`;
+    let message: string;
+
+    if (info.durationMs) {
+      message = `[${info.service}] ${info.message} (${info.durationMs / 1000})`;
+    } else {
+      message = `[${info.service}] ${info.message}`;
+    }
     // This method of applying colour comes from https://stackoverflow.com/a/63104828
     return `${info.timestamp} ${winston.format.colorize().colorize(info.level, message)}`;
   }),

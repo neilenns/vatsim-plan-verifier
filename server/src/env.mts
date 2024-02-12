@@ -1,5 +1,5 @@
 import "dotenv/config";
-import z, { boolean } from "zod";
+import z from "zod";
 
 function booleanTransformer(v: string, ctx: z.RefinementCtx) {
   v = v.toLowerCase();
@@ -25,6 +25,7 @@ const envSchema = z.object({
   AIRPORT_REFRESH_INTERVAL: z.string().default("every 24 hours"),
   API_RATE_LIMIT_MAX: z.coerce.number().default(100),
   API_RATE_LIMIT_MINUTE_WINDOW: z.coerce.number().default(5),
+  CACHE_DIRECTORY: z.string().default("/cache"),
   COOKIE_SECRET: z.string(),
   COAST_TIME_MINUTES: z.coerce.number().default(2),
   SSL_PRIVATE_KEY_PATH: z.string().default(""),
@@ -56,8 +57,8 @@ const envSchema = z.object({
   VATSIM_TRANSCEIVER_AUTO_UPDATE_INTERVAL_NO_CONNECTIONS: z.string().default("every 2 minutes"),
   VERSION: z.string().default("dev"),
   UPDATE_DELTA_GROUND_SPEED: z.coerce.number().default(5),
-  UPDATE_DELTA_LATITUDE: z.coerce.number().default(0.5),
-  UPDATE_DELTA_LONGITUDE: z.coerce.number().default(0.5),
+  UPDATE_DELTA_LATITUDE: z.coerce.number().default(0.6),
+  UPDATE_DELTA_LONGITUDE: z.coerce.number().default(0.6),
   WHITELISTED_DOMAINS: z.string(),
 });
 

@@ -1,6 +1,11 @@
-import { DocumentType, getModelForClass, modelOptions, pre, prop } from "@typegoose/typegoose";
+import { DocumentType, getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
+import { DateTime } from "luxon";
+import { ENV } from "../env.mjs";
+import { IVatsimPilot } from "../interfaces/IVatsimData.mjs";
 import mainLogger from "../logger.mjs";
 import { parseStringToNumber } from "../utils.mjs";
+import { cleanRoute, depTimeToDateTime, getCommunicationMethod } from "../utils/vatsim.mjs";
+import { AirportInfoModel } from "./AirportInfo.mjs";
 
 const logger = mainLogger.child({ service: "vatsimFlightPlanModel" });
 
@@ -31,14 +36,6 @@ const excludedPaths = ["latitude", "longitude", "groundspeed", "coastAt"];
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
   },
-})
-@pre<VatsimFlightPlan>("save", function (this: DocumentType<VatsimFlightPlan>) {
-  // Find all the modified paths that trigger a revision bump.
-  const modifiedPaths = this.modifiedPaths().filter((path) => !excludedPaths.includes(path));
-
-  if (modifiedPaths.length > 0) {
-    this.revision++;
-  }
 })
 class VatsimFlightPlan {
   @prop({ required: true })
@@ -107,8 +104,168 @@ class VatsimFlightPlan {
   @prop({ required: false, default: false })
   sentEDCT: boolean = false;
 
+  public setRevision(this: VatsimFlightPlanDocument) {
+    // Find all the modified paths that trigger a revision bump.
+    const modifiedPaths = this.modifiedPaths().filter((path) => !excludedPaths.includes(path));
+
+    if (modifiedPaths.length > 0) {
+      this.revision++;
+    }
+  }
+
   public get isCoasting() {
     return this.coastAt !== undefined;
+  }
+
+  public async updateFlightPlan(this: VatsimFlightPlanDocument, incomingPlan: IVatsimPilot) {
+    this.flightRules = incomingPlan.flight_plan?.flight_rules ?? "";
+    this.name = incomingPlan.flight_plan?.name ?? "";
+    this.rawAircraftType = incomingPlan.flight_plan?.aircraft_faa ?? "";
+    this.departure = incomingPlan.flight_plan?.departure ?? "";
+    this.arrival = incomingPlan.flight_plan?.arrival ?? "";
+    this.squawk = incomingPlan.flight_plan?.assigned_transponder ?? "";
+    this.remarks = incomingPlan.flight_plan?.remarks ?? "";
+    this.isPrefile = incomingPlan.isPrefile;
+    this.coastAt = undefined; // Handles planes that reconnect after briefly disconnecting
+
+    // Set the special properties that need calculations
+    this.route = cleanRoute(incomingPlan.flight_plan?.route ?? "");
+    this.departureTime = depTimeToDateTime(incomingPlan?.flight_plan?.deptime);
+    this.communicationMethod = getCommunicationMethod(this.remarks);
+    this.setCruiseAltitudeAndFlightRules(
+      incomingPlan.flight_plan?.altitude,
+      incomingPlan.flight_plan?.flight_rules
+    );
+
+    // Set the special properties that only apply to real plans (not prefiles)
+    if (!this.isPrefile) {
+      this.updateNoisyProperties(incomingPlan);
+      return this.updateFlightStatus().then(() => {
+        // Calculate the revision last
+        this.setRevision();
+      });
+    }
+  }
+
+  public setCoast(this: VatsimFlightPlanDocument) {
+    const now = DateTime.utc();
+
+    // If it's not coasting yet give it a coasting time.
+    if (!this.coastAt) {
+      this.coastAt = now.toJSDate();
+      return;
+    }
+
+    // Check and see how long the plane's been coasting. If it's longer than the threshold
+    // then set its coastAt to undefined and it will wind up getting marked as not coasting
+    // anymore and deleted. Otherwise do nothing (it's still coasting).
+    const coastDiff = now.diff(DateTime.fromJSDate(this.coastAt), "minutes").minutes;
+    if (coastDiff > ENV.COAST_TIME_MINUTES) {
+      this.coastAt = undefined;
+    }
+  }
+
+  // Some properties change a *lot* and cause a ton of database updates. Instead of updating them
+  // every time only update them if the value changed a bit.
+  public updateNoisyProperties(this: VatsimFlightPlanDocument, incomingPlan: IVatsimPilot) {
+    let delta: number;
+
+    // Groundspeed
+    delta = Math.abs((incomingPlan?.groundspeed ?? 0) - (this?.groundspeed ?? 0));
+    if (delta > ENV.UPDATE_DELTA_GROUND_SPEED) {
+      this.groundspeed = incomingPlan.groundspeed;
+    }
+
+    // Latitude
+    delta = Math.abs((incomingPlan?.latitude ?? 0) - (this?.latitude ?? 0));
+    if (delta > ENV.UPDATE_DELTA_LATITUDE) {
+      this.latitude = incomingPlan.latitude;
+    }
+
+    // Longitude
+    delta = Math.abs((incomingPlan?.longitude ?? 0) - (this?.longitude ?? 0));
+    if (delta > ENV.UPDATE_DELTA_LONGITUDE) {
+      this.longitude = incomingPlan.longitude;
+    }
+  }
+
+  /**
+   * Determines a plane's flight state based on its location and ground speed. Anything over VATSIM_GROUNDSPEED_CUTOFF
+   * is considered ENROUTE. Anything slower than that within 3nm of the departure airport is considered DEPARTING.
+   * Anything slower than that within 3nm of the arrival airport is considered ARRIVING.
+   * @param flightPlan The flight plan.
+   * @returns The plane's flight state.
+   */
+  public async updateFlightStatus() {
+    // All prefiles, planes without a departure airport, planes without a lat/long, and planes with no ground speed are assumed to be departing.
+    if (
+      this.isPrefile ||
+      !this.departure ||
+      !this.latitude ||
+      !this.longitude ||
+      this.groundspeed === undefined
+    ) {
+      this.status = VatsimFlightStatus.DEPARTING;
+      return;
+    }
+
+    // Anything going faster than the groundspeed cutoff is considered enroute.
+    if (this.groundspeed > ENV.VATSIM_GROUNDSPEED_CUTOFF) {
+      this.status = VatsimFlightStatus.ENROUTE;
+      return;
+    }
+
+    // Checking distance to the departure airport and arrival airport is done separately with
+    // a test for distance cutoff to avoid calculating the distance to the arrival airport
+    // unnecessarily. There are far more aircraft on vatsim in the deprating state than the arriving
+    // state so this cuts down on database calls quite a bit.
+
+    // Check and see if the plane is within the required distance of the departure airport.
+    const distanceFromDepartureAirport = await AirportInfoModel.distanceTo(
+      this.departure,
+      this.latitude,
+      this.longitude
+    );
+
+    if (
+      distanceFromDepartureAirport &&
+      distanceFromDepartureAirport < ENV.VATSIM_DISTANCE_CUTOFF_IN_KM
+    ) {
+      this.status = VatsimFlightStatus.DEPARTING;
+      return;
+    }
+
+    // Check and see if the plane is within the required distance of the arrival airport.
+    const distanceFromArrivalAirport = await AirportInfoModel.distanceTo(
+      this.arrival,
+      this.latitude,
+      this.longitude
+    );
+
+    if (
+      distanceFromArrivalAirport &&
+      distanceFromArrivalAirport < ENV.VATSIM_DISTANCE_CUTOFF_IN_KM
+    ) {
+      this.status = VatsimFlightStatus.ARRIVED;
+      return;
+    }
+
+    // There's an edge case where planes are going slower than the groundspeed cutoff but
+    // their distance from either departure or arrival airport is above the cutoff distance.
+    // in that case check the distances and set the DEPARTING or ARRIVING state based on
+    // which airport is closer.
+    if (distanceFromArrivalAirport && distanceFromDepartureAirport) {
+      distanceFromArrivalAirport < distanceFromDepartureAirport
+        ? (this.status = VatsimFlightStatus.ARRIVED)
+        : (this.status = VatsimFlightStatus.DEPARTING);
+      return;
+    }
+
+    // This will happen if the airport distances couldn't be calculated for some reason, e.g. there's no
+    // information available for the departure or arrival airport, or they were lower than
+    // ground
+    logger.debug(`Unable to set flight status for ${this.callsign}`, { flightPlan: this });
+    this.status = VatsimFlightStatus.UNKNOWN;
   }
 
   /**
