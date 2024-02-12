@@ -43,4 +43,4 @@ ENV VERSION=${VERSION:-dev}
 RUN echo $VERSION
 
 # Set the entrypoint file
-CMD ["node", "--inspect", "dist/main.mjs"]
+CMD ["node", "--cpu-prof", "dist/main.mjs"]

@@ -227,7 +227,7 @@ function setCoast(plan: VatsimFlightPlanDocument) {
 // Takes the massive list of data from vatsim and processes it into the database.
 // Both pilots (a.k.a flight plans) and prefiles are processed.
 export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
-  console.profile();
+  let profiler = logger.startTimer();
 
   // Build a list of all the incoming plans, regardless of whether it's a prefile,
   // for use with the rest of the update logic.
@@ -235,16 +235,19 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
     ...vatsimData.pilots.map(pilotToVatsimModel),
     ...vatsimData.prefiles.map(prefileToVatsimModel),
   ];
+  profiler.done({ message: "Done creating models from incoming plans" });
 
   logger.info(`Processing ${incomingPlans.length} incoming VATSIM flight plans`);
-  const profiler = logger.startTimer();
 
+  profiler = logger.startTimer();
   // Find all the callsigns for the current plans in the database to use when figuring out
   // what updates to apply.
   const currentPlans = await VatsimFlightPlanModel.find({});
+  profiler.done({ message: "Done loading current plans from the database" });
 
   // Find the new plans that don't currently exist in the database and set their
   // initial state. This method of awaiting mapped arrays is from https://stackoverflow.com/a/59471024/9206264
+  profiler = logger.startTimer();
   const newPlanPromises = _.differenceBy(incomingPlans, currentPlans, "callsign").map(
     async (plan) => {
       plan.status = await updateFlightStatus(plan);
@@ -252,25 +255,33 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
     }
   );
   const newPlans = await Promise.all(newPlanPromises);
+  profiler.done({ message: "Done creating new flight plans and setting their initial state" });
 
   // Find the plans in the database that no longer exist on vatsim. Anything in the initial
   // list of deleted plans first has to move through a coasting phase. This covers the case
   // where a plane briefly disconnects over the update interval, to ensure it doesn't disappear
   // then come back as new flight.
+  profiler = logger.startTimer();
   let deletedPlans = _.differenceBy(currentPlans, incomingPlans, "callsign").map((plan) =>
     setCoast(plan)
   );
   // Split out only the plans that need deleting so they can be deleted in bulk
   // instead of one by one.
   const plansToDelete = deletedPlans.filter((plan) => !plan.isCoasting);
+  profiler.done({ message: "Done calculating deleted and coast plans" });
 
   // Find the overlapping plans that need to have updates applied
+  profiler = logger.startTimer();
   const overlappingPlans = _.intersectionBy(incomingPlans, currentPlans, "callsign");
+  profiler.done({ message: "Done finding overlapping plans" });
 
   // Build out a dictionary of the current plans to improve performance of the update
+  profiler = logger.startTimer();
   const currentPlansDictionary = _.keyBy(currentPlans, "callsign");
+  profiler.done({ message: "Done building the dictionary of current plans" });
 
   // Loop through all the overlapping plans and apply any updated properties.
+  profiler = logger.startTimer();
   const updatedPlansPromises = overlappingPlans.map(async (incomingPlan) => {
     const currentPlan = currentPlansDictionary[incomingPlan.callsign];
 
@@ -292,11 +303,12 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
     return currentPlan;
   });
   const updatedPlans = await Promise.all(updatedPlansPromises);
+  profiler.done({ message: "Done updating all the existing plans" });
 
   let savedDataCount = 0;
   let coastingCount = 0;
 
-  const dbProfiler = logger.startTimer();
+  profiler = logger.startTimer();
   try {
     // Save all the changes to the database
     await Promise.all([
@@ -337,7 +349,7 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
     const err = error as Error;
     logger.error(`Error updating flight plans: ${err.message}`);
   }
-  dbProfiler.done({ message: `Done processing database updates` });
+  profiler.done({ message: `Done processing database updates` });
 
   logger.debug(
     `Total deleted from server: ${deletedPlans.length} (${coastingCount} coasting and ${plansToDelete.length} to delete)`
@@ -358,6 +370,4 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
       saved: savedDataCount,
     },
   });
-
-  console.profileEnd();
 }
