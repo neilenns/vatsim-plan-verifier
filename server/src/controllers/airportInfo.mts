@@ -138,16 +138,11 @@ export async function fetchAirportsFromAvioWiki(): Promise<FetchAvioWikiAirports
 
     const models = jsonData
       // There's lots of entries that don't have any airport code, which is the index used in the local
-      // database. Skip importing those airports.
+      // database. Skip importing those airports. This is done as a filter so the
+      // returned value from the map is always just a list of AirportInfoModel objects.
       .filter((airport) => airport.icao || airport.iata || airport.localIdentifier)
       // Convert all the incoming data to AirportInfoModels
       .map((airport) => {
-        if (!airport.icao && !airport.iata && !airport.localIdentifier) {
-          logger.debug(
-            `Skipping ${airport.name} because it has no ICAO, IATA, or local identifier`
-          );
-        }
-
         return new AirportInfoModel({
           airportCode: airport.icao ?? airport.iata ?? airport.localIdentifier,
           icaoCode: airport.icao ?? undefined,
@@ -170,18 +165,17 @@ export async function fetchAirportsFromAvioWiki(): Promise<FetchAvioWikiAirports
     logger.debug(`Saving ${models.length} airports to database`);
     profiler = logger.startTimer();
 
-    // Save the world. Good god.
+    // Delete everything
     await AirportInfoModel.deleteMany({});
-    await Promise.all(
-      models.map(async (model) => {
-        try {
-          await model.save();
-        } catch (err) {
-          const error = err as Error;
-          logger.error(`Unable to save ${model.name} to database: ${error.message}. Skipping.`);
-        }
-      })
-    );
+
+    // Add everything back
+    try {
+      await AirportInfoModel.bulkSave(models);
+    } catch (err) {
+      const error = err as Error;
+      logger.error(`Unable to save updated airport info to database: ${error.message}. Skipping.`);
+    }
+
     profiler.done({
       level: "info",
       message: `Done importing ${models.length} airports.`,
