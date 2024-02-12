@@ -227,6 +227,8 @@ function setCoast(plan: VatsimFlightPlanDocument) {
 // Takes the massive list of data from vatsim and processes it into the database.
 // Both pilots (a.k.a flight plans) and prefiles are processed.
 export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
+  console.profile();
+
   // Build a list of all the incoming plans, regardless of whether it's a prefile,
   // for use with the rest of the update logic.
   const incomingPlans = [
@@ -356,4 +358,6 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
       saved: savedDataCount,
     },
   });
+
+  console.profileEnd();
 }
