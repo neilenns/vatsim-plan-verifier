@@ -216,7 +216,7 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
     "callsign"
   );
 
-  logger.info(`Processing ${incomingPlans.length} incoming VATSIM flight plans`);
+  logger.info(`Processing ${_.size(incomingPlans)} incoming VATSIM flight plans`);
   profiler.done({ message: "Done creating list from incoming plans" });
 
   profiler = logger.startTimer();
@@ -232,56 +232,63 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
   let savedDataCount = 0;
 
   // Handle all the new and upated plans first
+  profiler = logger.startTimer();
   for (const key in incomingPlans) {
-    const incomingPlan = incomingPlans[key];
-    const currentPlan = currentPlans[incomingPlan.callsign];
+    try {
+      const incomingPlan = incomingPlans[key];
+      const currentPlan = currentPlans[incomingPlan.callsign];
 
-    // If it's not found then it's a new plan so just make the model object and add it to
-    // the new plan array.
-    if (!currentPlan) {
-      const newPlan = pilotToVatsimModel(incomingPlan);
-      // Important to set the initial flight status for the new plan. It could be in the air
-      // or already arrived.
-      await updateFlightStatus(newPlan);
-      plansToAdd.push(newPlan);
-      return;
+      // If it's not found then it's a new plan so just make the model object and add it to
+      // the new plan array.
+      if (!currentPlan) {
+        const newPlan = pilotToVatsimModel(incomingPlan);
+        // Important to set the initial flight status for the new plan. It could be in the air
+        // or already arrived.
+        await updateFlightStatus(newPlan);
+        plansToAdd.push(newPlan);
+        continue;
+      }
+
+      // This means it's an existing plan so we need to update properties
+      currentPlan.flightRules = incomingPlan.flight_plan?.flight_rules ?? "";
+      currentPlan.name = incomingPlan.flight_plan?.name ?? "";
+      currentPlan.rawAircraftType = incomingPlan.flight_plan?.aircraft_faa ?? "";
+      currentPlan.departure = incomingPlan.flight_plan?.departure ?? "";
+      currentPlan.arrival = incomingPlan.flight_plan?.arrival ?? "";
+      currentPlan.squawk = incomingPlan.flight_plan?.assigned_transponder ?? "";
+      currentPlan.remarks = incomingPlan.flight_plan?.remarks ?? "";
+      currentPlan.isPrefile = incomingPlan.isPrefile;
+      currentPlan.coastAt = undefined; // Handles planes that reconnect after briefly disconnecting
+
+      // Set the special properties that need calculations
+      currentPlan.route = cleanRoute(incomingPlan.flight_plan?.route ?? "");
+      currentPlan.departureTime = depTimeToDateTime(incomingPlan?.flight_plan?.deptime);
+      currentPlan.communicationMethod = getCommunicationMethod(currentPlan.remarks);
+      currentPlan.setCruiseAltitudeAndFlightRules(
+        incomingPlan.flight_plan?.altitude,
+        incomingPlan.flight_plan?.flight_rules
+      );
+
+      // Set the special properties that only apply to real plans (not prefiles)
+      if (!currentPlan.isPrefile) {
+        updateNoisyProperties(currentPlan, incomingPlan);
+        await updateFlightStatus(currentPlan);
+      }
+
+      plansToUpdate.push(currentPlan);
+    } catch (error) {
+      logger.error(error);
     }
-
-    // This means it's an existing plan so we need to update properties
-    currentPlan.flightRules = incomingPlan.flight_plan.flight_rules ?? "";
-    currentPlan.name = incomingPlan.flight_plan.name ?? "";
-    currentPlan.rawAircraftType = incomingPlan.flight_plan.aircraft_faa ?? "";
-    currentPlan.departure = incomingPlan.flight_plan.departure ?? "";
-    currentPlan.arrival = incomingPlan.flight_plan.arrival ?? "";
-    currentPlan.squawk = incomingPlan.flight_plan.assigned_transponder ?? "";
-    currentPlan.remarks = incomingPlan.flight_plan.remarks ?? "";
-    currentPlan.isPrefile = incomingPlan.isPrefile;
-    currentPlan.coastAt = undefined; // Handles planes that reconnect after briefly disconnecting
-
-    // Set the special properties that need calculations
-    currentPlan.route = cleanRoute(incomingPlan.flight_plan.route ?? "");
-    currentPlan.departureTime = depTimeToDateTime(incomingPlan?.flight_plan?.deptime);
-    currentPlan.communicationMethod = getCommunicationMethod(currentPlan.remarks);
-    currentPlan.setCruiseAltitudeAndFlightRules(
-      incomingPlan.flight_plan.altitude,
-      incomingPlan.flight_plan.flight_rules
-    );
-
-    // Set the special properties that only apply to real plans (not prefiles)
-    if (!currentPlan.isPrefile) {
-      updateNoisyProperties(currentPlan, incomingPlan);
-      await updateFlightStatus(currentPlan);
-    }
-
-    plansToUpdate.push(currentPlan);
   }
+  profiler.done({ message: "Done calculating new and updated plans" });
 
   // Now look for deleted plans
+  profiler = logger.startTimer();
   for (const key in currentPlans) {
     const deletedOnServer = incomingPlans[key] === undefined;
 
     // If the plan wasn't deleted then just return, it was either new or updated.
-    if (!deletedOnServer) return;
+    if (!deletedOnServer) continue;
 
     // Since the plan was deleted it needs its coast value calculated. If it
     // is coasting add it to the updated plans list. If it wasn't then it's really gone
@@ -296,6 +303,7 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
       plansToDelete.push(currentPlan);
     }
   }
+  profiler.done({ message: "Done calculating deleted and coast plans" });
 
   profiler = logger.startTimer();
   try {
@@ -334,14 +342,14 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
   logger.debug(`Saved ${savedDataCount} updated plans`, { savedDataCount });
 
   overallProfiler.done({
-    message: `Done processing ${incomingPlans.length} incoming VATSIM flight plans`,
+    message: `Done processing ${_.size(incomingPlans)} incoming VATSIM flight plans`,
     counts: {
-      current: currentPlans.length,
-      incoming: incomingPlans.length,
+      current: _.size(currentPlans),
+      incoming: _.size(incomingPlans),
       new: plansToAdd.length,
+      updated: plansToUpdate.length,
       deleted: plansToDelete.length,
       coasting: coastingCount,
-      overlapping: plansToUpdate.length,
       saved: savedDataCount,
     },
   });
