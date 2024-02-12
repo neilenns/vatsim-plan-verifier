@@ -126,11 +126,14 @@ async function calculateNewAndUpdated(
 function calculateDeletedAndCoasting(
   currentPlans: _.Dictionary<VatsimFlightPlanDocument>,
   incomingPlans: _.Dictionary<IVatsimPilot>
-) {
+): [string[], VatsimFlightPlanDocument[]] {
   let profiler = logger.startTimer();
 
   let totalDeleted = 0;
-  const plansToDelete: VatsimFlightPlanDocument[] = [];
+  // plansToDelete is just an array of callsigns since that's all that has to be passed
+  // in the database call to delete them. No need to return full flight plan documents
+  // and then map over them later to get the callsigns.
+  const plansToDelete: string[] = [];
   const plansToCoast: VatsimFlightPlanDocument[] = [];
 
   for (const key in currentPlans) {
@@ -146,7 +149,9 @@ function calculateDeletedAndCoasting(
     const currentPlan = currentPlans[key];
 
     currentPlan.setCoast();
-    currentPlan.isCoasting ? plansToCoast.push(currentPlan) : plansToDelete.push(currentPlan);
+    currentPlan.isCoasting
+      ? plansToCoast.push(currentPlan)
+      : plansToDelete.push(currentPlan.callsign);
   }
 
   profiler.done({
@@ -195,17 +200,9 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
   const [plansToDelete, plansToCoast] = calculateDeletedAndCoasting(currentPlans, incomingPlans);
 
   // Save all the changes to the database
-  let savedDataCount = 0;
   profiler = logger.startTimer();
   try {
     await Promise.all([
-      // Delete the non-coasting plans
-      await VatsimFlightPlanModel.deleteMany({
-        callsign: {
-          $in: plansToDelete.map((plan) => plan.callsign),
-        },
-      }),
-
       // Add the new plans
       await Promise.all(
         plansToAdd.map(async (plan) => {
@@ -226,6 +223,13 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
           return plan.save();
         })
       ),
+
+      // Delete the non-coasting plans
+      await VatsimFlightPlanModel.deleteMany({
+        callsign: {
+          $in: plansToDelete,
+        },
+      }),
     ]);
   } catch (error) {
     const err = error as Error;
