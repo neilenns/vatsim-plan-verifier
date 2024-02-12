@@ -1,5 +1,5 @@
 import "dotenv/config";
-import z, { boolean } from "zod";
+import z from "zod";
 
 function booleanTransformer(v: string, ctx: z.RefinementCtx) {
   v = v.toLowerCase();
@@ -39,6 +39,7 @@ const envSchema = z.object({
   LOG_LEVEL: z.enum(["error", "warn", "info", "http", "debug", "trace"]).optional(),
   LOGTAIL_TOKEN: z.string().optional(),
   MAGNETIC_DECLINATION_CACHE_EXPIRY: z.coerce.number().default(30 * 24 * 60 * 60 * 1000), // 30 days
+  MEMCACHED_SERVER: z.string(),
   MONGO_DB_CONNECTION_STRING: z.string(),
   MONGO_DB_NAME: z.string().default("plan-verifier"),
   MONGOOSE_DEBUG: z.string().transform<boolean>(booleanTransformer).default("false"),

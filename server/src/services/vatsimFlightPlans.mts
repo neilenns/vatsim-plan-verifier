@@ -1,15 +1,7 @@
 import _ from "lodash";
-import { DateTime } from "luxon";
-import { ENV } from "../env.mjs";
 import { IVatsimData, IVatsimPilot } from "../interfaces/IVatsimData.mjs";
 import mainLogger from "../logger.mjs";
-import { AirportInfoModel } from "../models/AirportInfo.mjs";
-import {
-  VatsimCommunicationMethod,
-  VatsimFlightPlanDocument,
-  VatsimFlightPlanModel,
-  VatsimFlightStatus,
-} from "../models/VatsimFlightPlan.mjs";
+import { VatsimFlightPlanDocument, VatsimFlightPlanModel } from "../models/VatsimFlightPlan.mjs";
 import { cleanRoute, depTimeToDateTime, getCommunicationMethod } from "../utils/vatsim.mjs";
 
 const logger = mainLogger.child({ service: "vatsimFlightPlans" });

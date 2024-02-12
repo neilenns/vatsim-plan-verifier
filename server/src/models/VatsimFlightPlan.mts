@@ -1,11 +1,11 @@
-import { DocumentType, getModelForClass, modelOptions, pre, prop } from "@typegoose/typegoose";
+import { DocumentType, getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
+import { DateTime } from "luxon";
+import { ENV } from "../env.mjs";
+import { IVatsimPilot } from "../interfaces/IVatsimData.mjs";
 import mainLogger from "../logger.mjs";
 import { parseStringToNumber } from "../utils.mjs";
-import { ENV } from "../env.mjs";
-import { AirportInfoModel } from "./AirportInfo.mjs";
-import { IVatsimPilot } from "../interfaces/IVatsimData.mjs";
 import { cleanRoute, depTimeToDateTime, getCommunicationMethod } from "../utils/vatsim.mjs";
-import { DateTime } from "luxon";
+import { AirportInfoModel } from "./AirportInfo.mjs";
 
 const logger = mainLogger.child({ service: "vatsimFlightPlanModel" });
 
@@ -140,11 +140,11 @@ class VatsimFlightPlan {
     // Set the special properties that only apply to real plans (not prefiles)
     if (!this.isPrefile) {
       this.updateNoisyProperties(incomingPlan);
-      await this.updateFlightStatus();
+      return this.updateFlightStatus().then(() => {
+        // Calculate the revision last
+        this.setRevision();
+      });
     }
-
-    // Calculate the revision last
-    this.setRevision();
   }
 
   public setCoast(this: VatsimFlightPlanDocument) {

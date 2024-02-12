@@ -1,5 +1,6 @@
 import AdmZip from "adm-zip";
 import axios, { AxiosError, AxiosResponse } from "axios";
+import Memcached from "memcached";
 import winston from "winston";
 import { ENV } from "../env.mjs";
 import { IAvioWikiAirport } from "../interfaces/IAvioWikiAirport.mjs";
@@ -9,12 +10,32 @@ import Result from "../types/result.mjs";
 
 const logger = mainLogger.child({ service: "airportInfo" });
 
+const memcached = new Memcached(ENV.MEMCACHED_SERVER);
+
+memcached.on("failure", (err) => {
+  logger.error(err);
+});
+
 type AirportInfoResult = Result<AirportInfoDocument, "AirportNotFound" | "UnknownError">;
 type FetchAvioWikiAirportsResult = Result<number, "UnknownError">;
 
 export async function getAirportInfo(airportCode: string): Promise<AirportInfoResult> {
   try {
-    const airport = await AirportInfoModel.findOne({ airportCode });
+    let airport: AirportInfoDocument | null = null;
+
+    memcached.get(airportCode, (err, data) => {
+      if (err) {
+        logger.error(`Unable to retrieve airport from cache: ${err}`);
+      }
+      airport = data;
+    });
+
+    if (!airport) {
+      airport = await AirportInfoModel.findOne({ airportCode });
+      memcached.set(airportCode, airport, 60 * 60, (err) => {
+        logger.error(`Unable to cache airport: ${err}`);
+      }); // Cache for one hour
+    }
 
     // Airports with blank names are placeholders indicating it doesn't exist to prevent repeated checks with
     // FlightAware
