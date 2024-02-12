@@ -50,14 +50,12 @@ async function calculateNewAndUpdated(
   const plansToAdd: VatsimFlightPlanDocument[] = [];
   const plansToUpdate: VatsimFlightPlanDocument[] = [];
 
-  // Handle all the new and upated plans first
   profiler = logger.startTimer();
   // Doing waits inside a loop is a recipe for extremely slow performance. Instead return promises
   // and await them all at once. This method comes from https://dev.to/imichaelowolabi/this-is-why-your-nodejs-application-is-slow-206j.
   await Promise.all(
     _.map(incomingPlans, async (incomingPlan, key) => {
       try {
-        const incomingPlan = incomingPlans[key];
         const currentPlan = currentPlans[incomingPlan.callsign];
 
         // If it's not found then it's a new plan so just make the model object and add it to

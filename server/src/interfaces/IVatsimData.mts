@@ -145,6 +145,9 @@ export interface IVatsimData {
   controllers: IVatsimController[];
   atis: IVatsimATIS[];
   servers: IVatsimServer[];
+  // This is intentially using IVatsimPilot instead of IVatsimPrefile. The two interfaces
+  // overlap in all the parts that matter for this app, and it makes managing the updates
+  // of all the data much easier to have them the same type.
   prefiles: IVatsimPilot[];
   facilities: IVatsimFacility[];
   ratings: IVatsimRating[];
