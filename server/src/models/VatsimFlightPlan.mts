@@ -215,6 +215,11 @@ class VatsimFlightPlan {
       return;
     }
 
+    // Checking distance to the departure airport and arrival airport is done separately with
+    // a test for distance cutoff to avoid calculating the distance to the arrival airport
+    // unnecessarily. There are far more aircraft on vatsim in the deprating state than the arriving
+    // state so this cuts down on database calls quite a bit.
+
     // Check and see if the plane is within the required distance of the departure airport.
     const distanceFromDepartureAirport = await AirportInfoModel.distanceTo(
       this.departure,
@@ -245,13 +250,21 @@ class VatsimFlightPlan {
       return;
     }
 
-    // Still unknown even after the udpate, that seems bad. Log it.
-    if (this.status === VatsimFlightStatus.UNKNOWN) {
-      logger.debug(`Unable to set flight status for ${this.callsign}`, { flightPlan: this });
+    // There's an edge case where planes are going slower than the groundspeed cutoff but
+    // their distance from either departure or arrival airport is above the cutoff distance.
+    // in that case check the distances and set the DEPARTING or ARRIVING state based on
+    // which airport is closer.
+    if (distanceFromArrivalAirport && distanceFromDepartureAirport) {
+      distanceFromArrivalAirport < distanceFromDepartureAirport
+        ? (this.status = VatsimFlightStatus.ARRIVED)
+        : (this.status = VatsimFlightStatus.DEPARTING);
+      return;
     }
 
     // This will happen if the airport distances couldn't be calculated for some reason, e.g. there's no
-    // information available for the departure or arrival airport.
+    // information available for the departure or arrival airport, or they were lower than
+    // ground
+    logger.debug(`Unable to set flight status for ${this.callsign}`, { flightPlan: this });
     this.status = VatsimFlightStatus.UNKNOWN;
   }
 
