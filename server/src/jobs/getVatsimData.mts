@@ -25,6 +25,7 @@ if (!dispose) {
   logger.warn(`Airport updates in progress, skipping VATSIM data update`);
 } else {
   await connectToDatabase();
+  await cache.loadFromFile(ENV.CACHE_DIRECTORY);
 
   try {
     const dataEndpoint = await VatsimEndpointModel.findEndpoint("v3");
