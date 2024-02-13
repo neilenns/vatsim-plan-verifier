@@ -9,7 +9,6 @@ import { AirportInfoDocument } from "../models/AirportInfo.mjs";
 import postMessage from "../utils/postMessage.mjs";
 
 const logger = mainLogger.child({ service: "importAirports" });
-const cache = CacheManager.getInstance<AirportInfoDocument>(CacheName.AirportInfo);
 
 // Using lockSync since this is the only thing running in this process
 // and node was incorrectly exiting with code 13 when using the async method.
@@ -32,8 +31,6 @@ if (!dispose) {
   } finally {
     dispose();
     await disconnectFromDatabase();
-    cache.clear();
-    await cache.saveToFile(ENV.CACHE_DIRECTORY);
   }
 }
 
