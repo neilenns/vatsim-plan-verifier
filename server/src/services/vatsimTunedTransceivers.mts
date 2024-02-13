@@ -3,12 +3,15 @@ import _ from "lodash";
 import { ITunedTransceivers } from "../interfaces/IVatsimTransceiver.mjs";
 import mainLogger from "../logger.mjs";
 import {
-  TunedTransceivers,
-  TunedTransceiversModel,
   TunedTransceiversDocument,
+  TunedTransceiversModel,
 } from "../models/VatsimTunedTransceivers.mjs";
 
 const logger = mainLogger.child({ service: "vatsimTunedTransceivers" });
+
+// Counts how many incoming transceivers wind up not being modified because their
+// data didn't change from what was already in the database.
+let unchangedCount = 0;
 
 export async function getVatsimTunedTransceivers(endpoint: string) {
   logger.info("Downloading latest VATSIM transceivers");
@@ -47,8 +50,6 @@ function transceiverToVatsimModel(transceiver: ITunedTransceivers) {
   return result;
 }
 
-let unmodifiedCount = 0;
-
 function calculateNewAndUpdated(
   currentTransceivers: _.Dictionary<TunedTransceiversDocument>,
   incomingTransceivers: _.Dictionary<ITunedTransceivers>
@@ -69,19 +70,22 @@ function calculateNewAndUpdated(
       return;
     }
 
-    // It's an existing plan, update it
+    // It's an existing transceiver so update it
     currentTransceiver.com1 = incomingTransceiver.transceivers[0]?.frequency ?? undefined;
     currentTransceiver.com2 = incomingTransceiver.transceivers[1]?.frequency ?? undefined;
 
+    // Only add to update list if something changed. This saves a huge amount of
+    // execution time by avoiding unnecessary saves back to the database.
     if (currentTransceiver.isModified()) {
       dataToUpdate.push(currentTransceiver);
     } else {
-      unmodifiedCount++;
+      unchangedCount++;
     }
   });
 
   profiler.done({
-    message: `Done calculating new and updated transceivers: ${dataToAdd.length} new, ${dataToUpdate.length} to update, ${unmodifiedCount} unchanged`,
+    level: "debug",
+    message: `Done calculating new and updated transceivers: ${dataToAdd.length} new, ${dataToUpdate.length} to update, ${unchangedCount} unchanged`,
   });
 
   return [dataToAdd, dataToUpdate];
@@ -94,30 +98,28 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
     logger.info(`No clients received from VATSIM.`);
     return;
   }
+  logger.info(`Processing ${clients.length} incoming VATSIM transceivers`, {
+    transceivers: clients.length,
+  });
 
+  // Build dictionaries of the current and incoming data to speed up
+  // looking for items.
   const incomingData = _.keyBy(clients, "callsign");
-  logger.info(`Processing ${_.size(incomingData)} incoming VATSIM transceivers`);
-  profiler.done({ message: "Done creating the list of incoming transceivers" });
-
-  // Find all the transceivers for the current data in the database to use when figuring out
-  // what updates to apply.
   const currentData = _.keyBy(await TunedTransceiversModel.find({}), "callsign");
-  profiler.done({ message: "Done loading current transceivers from the database" });
 
+  // Build the lists of data to add, update, and delete.
   const [dataToAdd, dataToUpdate] = calculateNewAndUpdated(currentData, incomingData);
   const dataToDelete = _.differenceBy(_.keys(currentData), _.keys(incomingData));
 
+  // Apply all the changes to the database.
   try {
     await Promise.all([
-      // Delete the data that no longer exists
+      await Promise.all([...dataToAdd, ...dataToUpdate]),
       await TunedTransceiversModel.deleteMany({
         callsign: {
           $in: dataToDelete,
         },
       }),
-
-      // Save the new and udpated data
-      await Promise.all([...dataToAdd, ...dataToUpdate]),
     ]);
   } catch (error) {
     const err = error as Error;
@@ -127,12 +129,12 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
   profiler.done({
     message: `Done processing ${_.size(incomingData)} incoming VATSIM transceivers`,
     counts: {
-      current: currentData.length,
-      incoming: incomingData.length,
-      new: dataToAdd.length,
+      current: _.size(currentData),
       deleted: dataToDelete.length,
+      incoming: _.size(incomingData),
+      new: dataToAdd.length,
+      unchanged: unchangedCount,
       updated: dataToUpdate.length,
-      unchanged: unmodifiedCount,
     },
   });
 }
