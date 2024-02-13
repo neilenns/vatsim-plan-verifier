@@ -56,7 +56,7 @@ async function calculateNewAndUpdated(
 
   profiler = logger.startTimer();
 
-  // Doing waits inside a loop is a recipe for extremely slow performance. Instead return promises
+  // Doing awaits inside a loop is a recipe for extremely slow performance. Instead return promises
   // and await them all at once. This method comes from https://dev.to/imichaelowolabi/this-is-why-your-nodejs-application-is-slow-206j.
   await Promise.all(
     _.map(incomingPlans, async (incomingPlan, key) => {
