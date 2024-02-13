@@ -1,5 +1,7 @@
-import { DateTime } from "luxon";
 import { VatsimCommunicationMethod } from "../models/VatsimFlightPlan.mjs";
+import mainLogger from "../logger.mjs";
+
+const logger = mainLogger.child({ service: "utils" });
 
 export function cleanRoute(route: string) {
   return route
@@ -12,12 +14,28 @@ export function cleanRoute(route: string) {
 }
 
 export function depTimeToDateTime(depTime: string | undefined): Date | undefined {
-  const result = depTime ? DateTime.fromFormat(depTime, "Hmm", { zone: "UTC" }) : undefined;
+  if (!depTime) {
+    return undefined;
+  }
 
-  // Issue #943: Super important to check that the fromFormat was successful, otherwise the string "Invalid date"
-  // winds up trying to get set on the typegoose Date-typed property and fails, which causes the entire processing
-  // of the data to fail.
-  return result?.isValid ? result.toJSDate() : undefined;
+  try {
+    const departureTime = new Date();
+    const hour = parseInt(depTime.substring(0, 2));
+    const minute = parseInt(depTime.substring(2, 4));
+
+    departureTime.setUTCHours(hour);
+    departureTime.setUTCMinutes(minute);
+    // Otherwise every time this runs the time is different and it causes a database save
+    departureTime.setUTCSeconds(0);
+    departureTime.setUTCMilliseconds(0);
+
+    return departureTime;
+  } catch (error) {
+    const err = error as Error;
+    logger.error(`Unable to parse ${depTime} to a time: ${err.message}`);
+
+    return undefined;
+  }
 }
 
 export function getCommunicationMethod(inputString: string | undefined): VatsimCommunicationMethod {
