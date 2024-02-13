@@ -2,11 +2,16 @@ import axios from "axios";
 import _ from "lodash";
 import { ITunedTransceivers } from "../interfaces/IVatsimTransceiver.mjs";
 import mainLogger from "../logger.mjs";
-import { TunedTransceivers, TunedTransceiversModel } from "../models/VatsimTunedTransceivers.mjs";
+import {
+  TunedTransceiversDocument,
+  TunedTransceiversModel,
+} from "../models/VatsimTunedTransceivers.mjs";
 
 const logger = mainLogger.child({ service: "vatsimTunedTransceivers" });
 
-const updateProperties = ["com1", "com2"] as (keyof TunedTransceivers)[];
+// Counts how many incoming transceivers wind up not being modified because their
+// data didn't change from what was already in the database.
+let unchangedCount = 0;
 
 export async function getVatsimTunedTransceivers(endpoint: string) {
   logger.info("Downloading latest VATSIM transceivers");
@@ -45,82 +50,91 @@ function transceiverToVatsimModel(transceiver: ITunedTransceivers) {
   return result;
 }
 
+function calculateNewAndUpdated(
+  currentTransceivers: _.Dictionary<TunedTransceiversDocument>,
+  incomingTransceivers: _.Dictionary<ITunedTransceivers>
+) {
+  let profiler = logger.startTimer();
+
+  const dataToAdd: TunedTransceiversDocument[] = [];
+  const dataToUpdate: TunedTransceiversDocument[] = [];
+
+  profiler = logger.startTimer();
+
+  _.map(incomingTransceivers, (incomingTransceiver, key) => {
+    const currentTransceiver = currentTransceivers[incomingTransceiver.callsign];
+
+    // If it's not found it's new
+    if (!currentTransceiver) {
+      dataToAdd.push(transceiverToVatsimModel(incomingTransceiver));
+      return;
+    }
+
+    // It's an existing transceiver so update it
+    currentTransceiver.com1 = incomingTransceiver.transceivers[0]?.frequency ?? undefined;
+    currentTransceiver.com2 = incomingTransceiver.transceivers[1]?.frequency ?? undefined;
+
+    // Only add to update list if something changed. This saves a huge amount of
+    // execution time by avoiding unnecessary saves back to the database.
+    if (currentTransceiver.isModified()) {
+      dataToUpdate.push(currentTransceiver);
+    } else {
+      unchangedCount++;
+    }
+  });
+
+  profiler.done({
+    level: "debug",
+    message: `Done calculating new and updated transceivers: ${dataToAdd.length} new, ${dataToUpdate.length} to update, ${unchangedCount} unchanged`,
+  });
+
+  return [dataToAdd, dataToUpdate];
+}
+
 async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
+  const profiler = logger.startTimer();
+
   if (!clients || clients.length === 0) {
     logger.info(`No clients received from VATSIM.`);
     return;
   }
-
-  const incomingData = clients.map(transceiverToVatsimModel);
-
-  logger.info(`Processing ${incomingData.length} incoming VATSIM transceivers`);
-  const profiler = logger.startTimer();
-
-  // Find all the transceivers for the current data in the database to use when figuring out
-  // what updates to apply.
-  const currentData = await TunedTransceiversModel.find({});
-
-  // Find all the new data that doesn't exist in the database.
-  const newData = _.differenceBy(incomingData, currentData, "callsign");
-
-  // Find the data in the database that no longer exists on vatsim.
-  const deletedData = _.differenceBy(currentData, incomingData, "callsign");
-
-  // Find the overlapping data that need to have updates applied
-  const overlappingData = _.intersectionBy(incomingData, currentData, "callsign");
-
-  // Build out a dictionary of the current data to improve performance of the update
-  const currentDataDictionary = _.keyBy(currentData, "callsign");
-
-  // Udpate with new data
-  const updatedData = overlappingData.map((incomingData) => {
-    const currentData = currentDataDictionary[incomingData.callsign];
-    currentData.com1 = incomingData.com1;
-    currentData.com2 = incomingData.com2;
-
-    return currentData;
+  logger.info(`Processing ${clients.length} incoming VATSIM transceivers`, {
+    transceivers: clients.length,
   });
 
-  let savedDataCount = 0;
+  // Build dictionaries of the current and incoming data to speed up
+  // looking for items.
+  const incomingData = _.keyBy(clients, "callsign");
+  const currentData = _.keyBy(await TunedTransceiversModel.find({}), "callsign");
 
+  // Build the lists of data to add, update, and delete.
+  const [dataToAdd, dataToUpdate] = calculateNewAndUpdated(currentData, incomingData);
+  const dataToDelete = _.differenceBy(_.keys(currentData), _.keys(incomingData));
+
+  // Apply all the changes to the database.
   try {
     await Promise.all([
-      // Delete the data that no longer exists
+      await Promise.all([...dataToAdd, ...dataToUpdate]),
       await TunedTransceiversModel.deleteMany({
         callsign: {
-          $in: deletedData.map((data) => data.callsign),
+          $in: dataToDelete,
         },
       }),
-
-      // Add the new data
-      await Promise.all([...newData.map(async (data) => await data.save())]),
-
-      // Update the changed data. This has to be done via save() to ensure middleware runs.
-      await Promise.all([
-        ...updatedData.map(async (data) => {
-          // Issue 982: Turns out the save() method isn't smart and still does something even if there are
-          // no modifications, which slows things down a TON. Check for modifications before calling save.
-          const wasUpdated = await data.saveIfModified();
-          if (wasUpdated) savedDataCount++;
-        }),
-      ]),
     ]);
   } catch (error) {
     const err = error as Error;
     logger.error(`Error updating transceivers: ${err.message}`);
   }
 
-  logger.debug(`Saved ${savedDataCount} updated transceivers`, { savedDataCount });
-
   profiler.done({
-    message: `Done processing ${incomingData.length} incoming VATSIM transceivers`,
+    message: `Done processing ${_.size(incomingData)} incoming VATSIM transceivers`,
     counts: {
-      current: currentData.length,
-      incoming: incomingData.length,
-      new: newData.length,
-      deleted: deletedData.length,
-      overlapping: overlappingData.length,
-      saved: savedDataCount,
+      current: _.size(currentData),
+      deleted: dataToDelete.length,
+      incoming: _.size(incomingData),
+      new: dataToAdd.length,
+      unchanged: unchangedCount,
+      updated: dataToUpdate.length,
     },
   });
 }

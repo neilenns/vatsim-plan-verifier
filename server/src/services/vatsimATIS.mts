@@ -2,14 +2,12 @@ import _ from "lodash";
 import { IVatsimATIS, IVatsimData } from "../interfaces/IVatsimData.mjs";
 import mainLogger from "../logger.mjs";
 import { VatsimATISDocument, VatsimATISModel } from "../models/VatsimATIS.mjs";
-import { copyPropertyValue } from "../utils/properties.mjs";
 
 const logger = mainLogger.child({ service: "vatsimATIS" });
 
-// List of the properties on a vatsim flight plan that are eligible to
-// be updated when new data is received. departure airport is intentionally
-// not in this list as it is updated separately as part of the fix for issue 672.
-const updateProperties = ["code", "rawText"] as (keyof VatsimATISDocument)[];
+// Counts how many incoming ATISes wind up not being modified because their
+// data didn't change from what was already in the database.
+let unchangedCount = 0;
 
 // Takes an ATIS object from vatsim and converts it to a vatsim model
 function atisToVatsimModel(atis: IVatsimATIS) {
@@ -23,79 +21,81 @@ function atisToVatsimModel(atis: IVatsimATIS) {
   return result;
 }
 
-export async function processVatsimATISData(vatsimData: IVatsimData) {
-  // Process all the incoming data into a known model.
-  const incomingData = vatsimData.atis.map(atisToVatsimModel);
+function calculateNewAndChanged(
+  currentATISes: _.Dictionary<VatsimATISDocument>,
+  incomingATISes: _.Dictionary<IVatsimATIS>
+) {
+  let profiler = logger.startTimer();
 
-  logger.info(`Processing ${incomingData.length} incoming VATSIM ATISes`);
-  const profiler = logger.startTimer();
+  const dataToAdd: VatsimATISDocument[] = [];
+  const dataToUpdate: VatsimATISDocument[] = [];
 
-  // Find all the callsigns for the current data in the database to use when figuring out
-  // what updates to apply.
-  const currentData = await VatsimATISModel.find({});
+  profiler = logger.startTimer();
+  _.map(incomingATISes, (incomingATIS, key) => {
+    const currentATIS = currentATISes[incomingATIS.callsign];
 
-  // Find all the new data that doesn't exist in the database.
-  const newData = _.differenceBy(incomingData, currentData, "callsign");
+    // If it's not found it's new
+    if (!currentATIS) {
+      dataToAdd.push(atisToVatsimModel(incomingATIS));
+      return;
+    }
 
-  // Find the data in the database that no longer exists on vatsim.
-  const deletedData = _.differenceBy(currentData, incomingData, "callsign");
+    // It's an existing ATIS so update it
+    currentATIS.code = incomingATIS.atis_code;
+    currentATIS.rawText = incomingATIS.text_atis;
 
-  // Find the overlapping data that need to have updates applied
-  const overlappingData = _.intersectionBy(incomingData, currentData, "callsign");
-
-  // Build out a dictionary of the current data to improve performance of the update
-  const currentDataDictionary = _.keyBy(currentData, "callsign");
-
-  // Save the new data
-  const updatedData = overlappingData.map((incomingData) => {
-    const currentData = currentDataDictionary[incomingData.callsign];
-
-    updateProperties.forEach((property) =>
-      copyPropertyValue(incomingData, currentData, property, logger)
-    );
-
-    return currentData;
+    // Only push updates if something changed. This saves a huge amount of
+    // execution time by avoiding unnecessary saves back to the database.
+    if (currentATIS.isModified()) {
+      dataToUpdate.push(currentATIS);
+    } else {
+      unchangedCount++;
+    }
   });
 
-  let savedDataCount = 0;
+  return [dataToAdd, dataToUpdate];
+}
 
+export async function processVatsimATISData(vatsimData: IVatsimData) {
+  const profiler = logger.startTimer();
+
+  logger.info(`Processing ${vatsimData.atis.length} incoming VATSIM ATISes`, {
+    ATISes: vatsimData.atis.length,
+  });
+
+  // Build dictionaries of the current and incoming data to speed up
+  // looking for items.
+  const incomingData = _.keyBy(vatsimData.atis, "callsign");
+  const currentData = _.keyBy(await VatsimATISModel.find({}), "callsign");
+
+  // Build the lists of data to add, update, and delete.
+  const [dataToAdd, dataToUpdate] = calculateNewAndChanged(currentData, incomingData);
+  const dataToDelete = _.differenceBy(_.keys(currentData), _.keys(incomingData));
+
+  // Apply all the changes to the database.
   try {
-    // Save all the changes to the database
     await Promise.all([
-      // Delete the data that no longer exists
+      await VatsimATISModel.bulkSave([...dataToAdd, ...dataToUpdate]),
       await VatsimATISModel.deleteMany({
         callsign: {
-          $in: deletedData.map((data) => data.callsign),
+          $in: dataToDelete,
         },
       }),
-      // Add the new data
-      await Promise.all([...newData.map(async (data) => await data.save())]),
-      // Update the changed data. This has to be done via save() to ensure middleware runs.
-      await Promise.all([
-        ...updatedData.map(async (data) => {
-          // Issue 982: Turns out the save() method isn't smart and still does something even if there are
-          // no modifications, which slows things down a TON. Check for modifications before calling save.
-          const wasUpdated = await data.saveIfModified();
-          if (wasUpdated) savedDataCount++;
-        }),
-      ]),
     ]);
   } catch (error) {
     const err = error as Error;
     logger.error(`Error updating ATISes: ${err.message}`);
   }
 
-  logger.debug(`Saved ${savedDataCount} updated ATISes`, { savedDataCount });
-
   profiler.done({
-    message: `Done processing ${incomingData.length} incoming VATSIM ATISes`,
+    message: `Done processing ${_.size(incomingData)} incoming VATSIM ATISes`,
     counts: {
-      current: currentData.length,
-      incoming: incomingData.length,
-      new: newData.length,
-      deleted: deletedData.length,
-      overlapping: overlappingData.length,
-      saved: savedDataCount,
+      current: _.size(currentData),
+      deleted: dataToDelete.length,
+      incoming: _.size(incomingData),
+      new: dataToAdd.length,
+      unchanged: unchangedCount,
+      updated: dataToUpdate.length,
     },
   });
 }

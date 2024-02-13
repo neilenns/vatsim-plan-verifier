@@ -6,6 +6,10 @@ import { cleanRoute, depTimeToDateTime, getCommunicationMethod } from "../utils/
 
 const logger = mainLogger.child({ service: "vatsimFlightPlans" });
 
+// Counts how many incoming flight plans wind up not being modified because their
+// data didn't change from what was already in the database.
+let unchangedCount = 0;
+
 // Takes a pilot object from vatsim and converts it to a vatsim model
 export function pilotToVatsimModel(pilot: IVatsimPilot) {
   const result = new VatsimFlightPlanModel({
@@ -50,14 +54,13 @@ async function calculateNewAndUpdated(
   const plansToAdd: VatsimFlightPlanDocument[] = [];
   const plansToUpdate: VatsimFlightPlanDocument[] = [];
 
-  // Handle all the new and upated plans first
   profiler = logger.startTimer();
-  // Doing waits inside a loop is a recipe for extremely slow performance. Instead return promises
+
+  // Doing awaits inside a loop is a recipe for extremely slow performance. Instead return promises
   // and await them all at once. This method comes from https://dev.to/imichaelowolabi/this-is-why-your-nodejs-application-is-slow-206j.
   await Promise.all(
     _.map(incomingPlans, async (incomingPlan, key) => {
       try {
-        const incomingPlan = incomingPlans[key];
         const currentPlan = currentPlans[incomingPlan.callsign];
 
         // If it's not found then it's a new plan so just make the model object and add it to
@@ -65,10 +68,11 @@ async function calculateNewAndUpdated(
         if (!currentPlan) {
           const newPlan = pilotToVatsimModel(incomingPlan);
           // Important to set the initial flight status for the new plan. It could be in the air
-          // or already arrived.
-          // await updateFlightStatus(newPlan);
-          plansToAdd.push(newPlan);
-          return;
+          // or already arrived when it first appears in the list from VATSIM.
+          return newPlan.updateFlightStatus().then(() => {
+            plansToAdd.push(newPlan);
+            return;
+          });
         }
 
         // This means it's an existing plan so we need to update properties. This return
@@ -76,10 +80,12 @@ async function calculateNewAndUpdated(
         // blocking the for loop awaiting every single updated flight plan, of which there
         // are typically 1000+.
         return currentPlan.updateFlightPlan(incomingPlan).then(() => {
-          // Only add to the modified list if it is actually modified. This saves filtering the list
-          // again later on.
+          // Only add to update list if something changed. This saves a huge amount of
+          // execution time by avoiding unnecessary saves back to the database.
           if (currentPlan.isModified()) {
             plansToUpdate.push(currentPlan);
+          } else {
+            unchangedCount++;
           }
         });
       } catch (error) {
@@ -89,6 +95,7 @@ async function calculateNewAndUpdated(
   );
 
   profiler.done({
+    level: "debug",
     message: `Done calculating new and updated plans: ${plansToAdd.length} new and ${plansToUpdate.length} to update`,
   });
 
@@ -115,6 +122,7 @@ function calculateDeletedAndCoasting(
     if (!deletedOnServer) continue;
 
     totalDeleted++;
+
     // Since the plan was deleted it needs its coast value calculated. If it
     // is coasting add it to the updated plans list. If it wasn't then it's really gone
     // and add it to the deleted plans list.
@@ -127,6 +135,7 @@ function calculateDeletedAndCoasting(
   }
 
   profiler.done({
+    level: "debug",
     message: `Done calculating deleted and coast plans: ${totalDeleted} on server, ${plansToDelete.length} to delete and ${plansToCoast.length} to coast`,
   });
 
@@ -139,9 +148,18 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
   const overallProfiler = logger.startTimer();
   let profiler = logger.startTimer();
 
+  logger.info(
+    `Processing ${
+      vatsimData.pilots.length + vatsimData.prefiles.length
+    } incoming VATSIM flight plans `,
+    {
+      flightPlans: vatsimData.pilots.length,
+      prefiles: vatsimData.prefiles.length,
+    }
+  );
+
   // Build a dictionary of all the incoming plans, regardless of whether it's a prefile,
-  // for use with the rest of the update logic. The dictionary is used when looking
-  // for planes that were deleted.
+  // for use with the rest of the update logic.
   const incomingPlans = _.keyBy(
     [
       ...vatsimData.pilots,
@@ -156,29 +174,21 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
     "callsign"
   );
 
-  logger.info(`Processing ${_.size(incomingPlans)} incoming VATSIM flight plans`);
-  profiler.done({ message: "Done creating list from incoming plans" });
-
   // Find all the current plans in the database to use when figuring out
   // what updates to apply and convert them to a dictionary to speed access later.
   profiler = logger.startTimer();
   const currentPlans = _.keyBy(await VatsimFlightPlanModel.find({}), "callsign");
-  profiler.done({ message: "Done loading current plans from the database" });
+  profiler.done({ level: "debug", message: "Done loading current plans from the database" });
 
-  // Calculate the new and updated plans
+  // Build the lists of data to add, update, and delete.
   const [plansToAdd, plansToUpdate] = await calculateNewAndUpdated(currentPlans, incomingPlans);
-
-  // Calculate the deleted and coasting plans
   const [plansToDelete, plansToCoast] = calculateDeletedAndCoasting(currentPlans, incomingPlans);
 
-  // Save all the changes to the database
+  // Apply all the changes to the database.
   profiler = logger.startTimer();
   try {
     await Promise.all([
-      // Save the new, updated, and coasting plans.
       await VatsimFlightPlanModel.bulkSave([...plansToAdd, ...plansToUpdate, ...plansToCoast]),
-
-      // Delete the non-coasting plans
       await VatsimFlightPlanModel.deleteMany({
         callsign: {
           $in: plansToDelete,
@@ -189,17 +199,18 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
     const err = error as Error;
     logger.error(`Error updating flight plans: ${err.message}`);
   }
-  profiler.done({ message: `Done processing database updates` });
+  profiler.done({ level: "debug", message: `Done processing database updates` });
 
   overallProfiler.done({
     message: `Done processing ${_.size(incomingPlans)} incoming VATSIM flight plans`,
     counts: {
+      coasting: plansToCoast.length,
       current: _.size(currentPlans),
+      deleted: plansToDelete.length,
       incoming: _.size(incomingPlans),
       new: plansToAdd.length,
+      unchanged: unchangedCount,
       updated: plansToUpdate.length,
-      deleted: plansToDelete.length,
-      coasting: plansToCoast.length,
     },
   });
 }
