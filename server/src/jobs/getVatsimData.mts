@@ -41,9 +41,9 @@ if (!dispose) {
     dispose();
     cache.printStatistics();
     await cache.saveToFile(ENV.CACHE_DIRECTORY);
+    await disconnectFromDatabase();
   }
 
-  await disconnectFromDatabase();
   postMessage("sendUpdates");
 }
 
