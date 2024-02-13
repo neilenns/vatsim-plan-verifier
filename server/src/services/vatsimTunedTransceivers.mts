@@ -114,7 +114,7 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
   // Apply all the changes to the database.
   try {
     await Promise.all([
-      await Promise.all([...dataToAdd, ...dataToUpdate]),
+      await TunedTransceiversModel.bulkSave([...dataToAdd, ...dataToUpdate]),
       await TunedTransceiversModel.deleteMany({
         callsign: {
           $in: dataToDelete,
