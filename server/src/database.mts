@@ -7,11 +7,8 @@ import "./models/AirportInfo.mjs";
 import "./models/Departure.mjs";
 import "./models/FlightAwareRoute.mjs";
 import "./models/FlightPlan.mjs";
-import { CacheManager, CacheName } from "./cacheManager.mjs";
-import { AirportInfoDocument } from "./models/AirportInfo.mjs";
 
 const logger = mainLogger.child({ service: "database" });
-const cache = CacheManager.getInstance<AirportInfoDocument>(CacheName.AirportInfo);
 
 export async function connectToDatabase() {
   const url = ENV.MONGO_DB_CONNECTION_STRING;
@@ -41,7 +38,6 @@ export async function connectToDatabase() {
   await connect
     .then(async (db) => {
       logger.debug("Connected");
-      await cache.loadFromFile(ENV.CACHE_DIRECTORY);
       applySpeedGooseCacheLayer(mongoose, {
         sharedCacheStrategy: SharedCacheStrategies.IN_MEMORY,
         defaultTtl: 60 * 10,
@@ -58,7 +54,5 @@ export async function connectToDatabase() {
 export async function disconnectFromDatabase() {
   logger.debug("Disconnecting...");
   await mongoose.disconnect();
-  await cache.saveToFile(ENV.CACHE_DIRECTORY);
-  cache.printStatistics();
   logger.debug("Disconnected");
 }

@@ -6,8 +6,12 @@ import mainLogger, { flush } from "../logger.mjs";
 import { VatsimEndpointModel } from "../models/VatsimEndpoint.mjs";
 import { getVatsimData } from "../services/vatsim.mjs";
 import postMessage from "../utils/postMessage.mjs";
+import { CacheManager, CacheName } from "../cacheManager.mjs";
+import { AirportInfoDocument } from "../models/AirportInfo.mjs";
 
 const logger = mainLogger.child({ service: "getVatsimData" });
+
+const cache = CacheManager.getInstance<AirportInfoDocument>(CacheName.AirportInfo);
 
 // Using lockSync since this is the only thing running in this process
 // and node was incorrectly exiting with code 13 when using the async method.
@@ -34,14 +38,16 @@ if (!dispose) {
   } catch (error) {
     logger.error(`Unable to retrieve VATSIM data: ${error}`);
   } finally {
+    await disconnectFromDatabase();
+    await cache.saveToFile(ENV.CACHE_DIRECTORY);
+    cache.printStatistics();
+    await flush();
     dispose();
   }
 
-  await disconnectFromDatabase();
   postMessage("sendUpdates");
 }
 
-await flush();
 if (!postMessage("done")) {
   process.exit(0);
 }
