@@ -1,6 +1,8 @@
-import { prop, getModelForClass, modelOptions, DocumentType } from "@typegoose/typegoose";
+import { DocumentType, getModelForClass, modelOptions, plugin, prop } from "@typegoose/typegoose";
+import { SpeedGooseCacheAutoCleaner } from "speedgoose";
 
 @modelOptions({ options: { customName: "navaid" } })
+@plugin(SpeedGooseCacheAutoCleaner)
 class Navaid {
   @prop({ required: true })
   class!: string;

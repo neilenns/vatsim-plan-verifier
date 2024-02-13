@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { SharedCacheStrategies, applySpeedGooseCacheLayer } from "speedgoose";
 import { ENV } from "./env.mjs";
 import mainLogger from "./logger.mjs";
 import "./models/Aircraft.mjs";
@@ -37,6 +38,10 @@ export async function connectToDatabase() {
   await connect
     .then((db) => {
       logger.debug("Connected");
+      applySpeedGooseCacheLayer(mongoose, {
+        sharedCacheStrategy: SharedCacheStrategies.IN_MEMORY,
+        defaultTtl: 60 * 10,
+      });
     })
     .catch((err) => {
       // Auto-reconnect logic from:

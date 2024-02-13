@@ -3,8 +3,10 @@ import {
   ReturnModelType,
   getModelForClass,
   modelOptions,
+  plugin,
   prop,
 } from "@typegoose/typegoose";
+import { SpeedGooseCacheAutoCleaner } from "speedgoose";
 
 @modelOptions({
   options: { customName: "vatsimendpoint" },
@@ -13,6 +15,7 @@ import {
     toObject: { virtuals: true, aliases: false },
   },
 })
+@plugin(SpeedGooseCacheAutoCleaner)
 class VatsimEndpoint {
   @prop({ required: true })
   feed!: string;
@@ -27,7 +30,7 @@ class VatsimEndpoint {
    * @returns The VatsimEndpoint for the feed
    */
   public static async findEndpoint(this: ReturnModelType<typeof VatsimEndpoint>, feed: string) {
-    return VatsimEndpointModel.findOne({ feed });
+    return VatsimEndpointModel.findOne({ feed }).cacheQuery({ ttl: 60 * 60 });
   }
 }
 
