@@ -132,7 +132,9 @@ router.get(
   secureQueryMiddleware,
   async (req: Request, res: Response) => {
     try {
-      const rawResults = await VerifierResultModel.find({ flightPlanId: req.params.id });
+      const rawResults = await VerifierResultModel.find({
+        flightPlanId: req.params.id,
+      }).cacheQuery();
 
       // If there are no results send back an empty object. This ensures the
       // UI can tell the difference between no results and some results when it
