@@ -6,7 +6,7 @@ import { cleanRoute, depTimeToDateTime, getCommunicationMethod } from "../utils/
 
 const logger = mainLogger.child({ service: "vatsimFlightPlans" });
 
-// Counts how many incoming transceivers wind up not being modified because their
+// Counts how many incoming flight plans wind up not being modified because their
 // data didn't change from what was already in the database.
 let unchangedCount = 0;
 
