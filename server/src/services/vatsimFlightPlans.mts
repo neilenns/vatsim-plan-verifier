@@ -109,6 +109,8 @@ function calculateDeletedAndCoasting(
   let profiler = logger.startTimer();
 
   let totalDeleted = 0;
+  let alreadyCoasting = 0;
+
   // plansToDelete is just an array of callsigns since that's all that has to be passed
   // in the database call to delete them. No need to return full flight plan documents
   // and then map over them later to get the callsigns.
@@ -129,14 +131,23 @@ function calculateDeletedAndCoasting(
     const currentPlan = currentPlans[key];
 
     currentPlan.setCoast();
-    currentPlan.isCoasting
-      ? plansToCoast.push(currentPlan)
-      : plansToDelete.push(currentPlan.callsign);
+
+    // Don't add a plane to the coasting list if it was already coasting. This avoids unnecessary database
+    // saves for coasting planes that don't need updating.
+    if (currentPlan.isCoasting && currentPlan.isModified("coastAt")) {
+      plansToCoast.push(currentPlan);
+    }
+    // Planes no longer coasting get deleted
+    else if (!currentPlan.isCoasting) {
+      plansToDelete.push(currentPlan.callsign);
+    } else {
+      alreadyCoasting++;
+    }
   }
 
   profiler.done({
     level: "debug",
-    message: `Done calculating deleted and coast plans: ${totalDeleted} on server, ${plansToDelete.length} to delete and ${plansToCoast.length} to coast`,
+    message: `Done calculating deleted and coast plans: ${totalDeleted} on server, ${plansToDelete.length} to delete, ${plansToCoast.length} to coast, ${alreadyCoasting} already coasting`,
   });
 
   return [plansToDelete, plansToCoast];

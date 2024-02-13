@@ -1,11 +1,11 @@
 import fs from "fs";
 import path from "node:path";
+import { CacheManager, CacheName } from "./cacheManager.mjs";
 import * as db from "./database.mjs";
 import { ENV } from "./env.mjs";
 import mainLogger from "./logger.mjs";
-import * as WebServer from "./server.mjs";
-import { CacheManager, CacheName } from "./cacheManager.mjs";
 import { AirportInfoDocument } from "./models/AirportInfo.mjs";
+import * as WebServer from "./server.mjs";
 
 const logger = mainLogger.child({ service: "main" });
 
@@ -66,6 +66,8 @@ async function shutdown() {
   clearTimeout(restartTimer);
   await WebServer.stopServer();
   await db.disconnectFromDatabase();
+  await cache.saveToFile(ENV.CACHE_DIRECTORY);
+  cache.printStatistics();
   logger.debug("Shutdown complete.");
 }
 

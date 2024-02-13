@@ -1,13 +1,13 @@
 import DotLocker from "dotlocker";
 import process from "node:process";
+import { CacheManager, CacheName } from "../cacheManager.mjs";
 import { connectToDatabase, disconnectFromDatabase } from "../database.mjs";
 import { ENV } from "../env.mjs";
 import mainLogger, { flush } from "../logger.mjs";
+import { AirportInfoDocument } from "../models/AirportInfo.mjs";
 import { VatsimEndpointModel } from "../models/VatsimEndpoint.mjs";
 import { getVatsimData } from "../services/vatsim.mjs";
 import postMessage from "../utils/postMessage.mjs";
-import { CacheManager, CacheName } from "../cacheManager.mjs";
-import { AirportInfoDocument } from "../models/AirportInfo.mjs";
 
 const logger = mainLogger.child({ service: "getVatsimData" });
 

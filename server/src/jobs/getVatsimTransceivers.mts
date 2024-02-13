@@ -22,10 +22,11 @@ try {
   await getVatsimTunedTransceivers(transceiverEndpoint.href);
 } catch (error) {
   logger.error(`Unable to retrieve VATSIM transceivers: ${error}`);
+} finally {
+  await disconnectFromDatabase();
+  await flush();
 }
 
-await disconnectFromDatabase();
-await flush();
 if (!postMessage("done")) {
   process.exit(0);
 }
