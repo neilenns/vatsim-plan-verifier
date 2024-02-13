@@ -5,7 +5,7 @@ import {
   getVatsimEDCTViewOnly,
   setVatsimFlightPlanEDCT,
 } from "../../controllers/vatsim.mjs";
-import { verifyUser } from "../../middleware/permissions.mjs";
+import { verifyApiAccess } from "../../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../../middleware/secureQueryMiddleware.mjs";
 
 interface EDCTQueryParams extends Query {
@@ -21,7 +21,7 @@ const router = express.Router();
 
 router.put(
   "/vatsim/flightPlans/edct",
-  verifyUser,
+  verifyApiAccess,
   async (
     req: TypedEDCTRequestBody<{ _id: string; callsign: string; sentEDCT?: boolean; EDCT?: Date }>,
     res: Response
