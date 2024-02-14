@@ -3,10 +3,12 @@ import {
   getModelForClass,
   isDocument,
   modelOptions,
+  plugin,
   prop,
 } from "@typegoose/typegoose";
 import { find } from "geo-tz";
 import { DateTime } from "luxon";
+import { SpeedGooseCacheAutoCleaner } from "speedgoose";
 import { AirportInfoModel } from "./AirportInfo.mjs";
 import { InitialAltitude } from "./InitialAltitude.mjs";
 
@@ -34,6 +36,7 @@ export class IsValidResult {
     toObject: { virtuals: true, aliases: false },
   },
 })
+@plugin(SpeedGooseCacheAutoCleaner)
 export class Departure {
   @prop({ required: true })
   AirportCode!: string;
@@ -71,7 +74,9 @@ export class Departure {
 
     // Look up the departure airport in the database so the lat/long can be used to get the local
     // timezone.
-    const airportInfo = await AirportInfoModel.findOne({ airportCode: this.AirportCode }).exec();
+    const airportInfo = await AirportInfoModel.findOne({
+      airportCode: this.AirportCode,
+    }).cacheQuery({ ttl: 60 * 10 }); // 10 minutes
 
     // If for some reason airport info can't be found or there's no lat/long info things are really whack
     //  and just say the SID is valid anyway.

@@ -4,14 +4,17 @@ import {
   defaultClasses,
   getModelForClass,
   modelOptions,
+  plugin,
   prop,
 } from "@typegoose/typegoose";
+import { SpeedGooseCacheAutoCleaner } from "speedgoose";
 import { ENV } from "../env.mjs";
 import mainLogger from "../logger.mjs";
 
 const logger = mainLogger.child({ service: "magneticDeclination" });
 
 @modelOptions({ options: { customName: "magneticdeclination" } })
+@plugin(SpeedGooseCacheAutoCleaner)
 class MagneticDeclination extends defaultClasses.TimeStamps {
   @prop({ required: true })
   icao!: string;
@@ -23,7 +26,7 @@ class MagneticDeclination extends defaultClasses.TimeStamps {
     this: ReturnModelType<typeof MagneticDeclination>,
     icao: string
   ): Promise<MagneticDeclinationDocument | null> {
-    return await this.findOne({ icao });
+    return await this.findOne({ icao }).cacheQuery({ ttl: 60 * 60 }); // One hour
   }
 
   public async isExpired(this: DocumentType<MagneticDeclination>): Promise<boolean> {

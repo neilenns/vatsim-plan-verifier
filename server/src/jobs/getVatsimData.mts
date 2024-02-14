@@ -10,6 +10,7 @@ import { getVatsimData } from "../services/vatsim.mjs";
 import postMessage from "../utils/postMessage.mjs";
 
 const logger = mainLogger.child({ service: "getVatsimData" });
+
 const cache = CacheManager.getInstance<AirportInfoDocument>(CacheName.AirportInfo);
 
 // Using lockSync since this is the only thing running in this process
@@ -38,16 +39,16 @@ if (!dispose) {
   } catch (error) {
     logger.error(`Unable to retrieve VATSIM data: ${error}`);
   } finally {
-    dispose();
-    cache.printStatistics();
-    await cache.saveToFile(ENV.CACHE_DIRECTORY);
     await disconnectFromDatabase();
+    await cache.saveToFile(ENV.CACHE_DIRECTORY);
+    cache.printStatistics();
+    await flush();
+    dispose();
   }
 
   postMessage("sendUpdates");
 }
 
-await flush();
 if (!postMessage("done")) {
   process.exit(0);
 }
