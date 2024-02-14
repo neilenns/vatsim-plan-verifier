@@ -1,19 +1,24 @@
 import express, { Request, Response } from "express";
-import { getUser, getUsers, updateUser } from "../controllers/user.mjs";
-import { verifyUser } from "../middleware/permissions.mjs";
+import { getAuth0User, getUser, getUsers, updateUser } from "../controllers/user.mjs";
+import { Auth0UserRequest, verifyApiAccess, verifyUser } from "../middleware/permissions.mjs";
 import { IUser } from "../models/User.mjs";
+import { Auth0UserModel } from "../models/Auth0User.mjs";
 
 const router = express.Router();
 
-router.get("/users/me", verifyUser, async (req: Request, res: Response) => {
-  const result = await getUser(req.user?._id?.toString() ?? "");
+router.get("/users/me", verifyApiAccess, async (req: Auth0UserRequest, res: Response) => {
+  const sub = req.auth?.payload.sub;
 
-  if (result.success) {
-    res.json(result.data);
-    return;
+  if (!sub) {
+    return res.status(401).send("Unauthorized");
   }
 
-  res.status(500).json({ error: "Failed to get the user." });
+  const result = await getAuth0User(sub);
+  if (result.success) {
+    res.json(result.data);
+  } else {
+    res.status(500).json({ error: "Failed to get the user." });
+  }
 });
 
 // GET route for reading all the users from the database
