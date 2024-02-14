@@ -20,7 +20,7 @@ class Auth0User {
 
   public static async findOrCreate(this: ReturnModelType<typeof Auth0User>, sub: string) {
     // Check for an existing user in the database first and return that if found.
-    const existingUser = await this.findOne({ sub });
+    const existingUser = await this.findOne({ sub }).cacheQuery({ ttl: 30 });
 
     if (existingUser) {
       return existingUser;
