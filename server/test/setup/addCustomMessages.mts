@@ -23,14 +23,10 @@ const messages = [
 ];
 
 export default async function setup() {
-  await Promise.all(
-    messages.map(async (message) => {
-      const record = new CustomMessageModel(message);
-      try {
-        await record.save();
-      } catch (err) {
-        console.log(err);
-      }
-    })
-  );
+  const models = messages.map((message) => new CustomMessageModel(message));
+  try {
+    await CustomMessageModel.bulkSave(models);
+  } catch (err) {
+    console.log(err);
+  }
 }

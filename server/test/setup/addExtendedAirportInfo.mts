@@ -16,14 +16,10 @@ const extendedAirportInfo = [
 ];
 
 export default async function setup() {
-  await Promise.all(
-    extendedAirportInfo.map(async (info) => {
-      const record = new ExtendedAirportInfoModel(info);
-      try {
-        await record.save();
-      } catch (err) {
-        console.log(err);
-      }
-    })
-  );
+  const models = extendedAirportInfo.map((info) => new ExtendedAirportInfoModel(info));
+  try {
+    await ExtendedAirportInfoModel.bulkSave(models);
+  } catch (err) {
+    console.log(err);
+  }
 }

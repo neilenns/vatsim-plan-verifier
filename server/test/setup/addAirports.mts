@@ -95,14 +95,10 @@ const airports = [
 ];
 
 export default async function setup() {
-  await Promise.all(
-    airports.map(async (airport) => {
-      const record = new AirportInfoModel(airport);
-      try {
-        await record.save();
-      } catch (err) {
-        console.log(err);
-      }
-    })
-  );
+  const models = airports.map((airport) => new AirportInfoModel(airport));
+  try {
+    await AirportInfoModel.bulkSave(models);
+  } catch (err) {
+    console.log(err);
+  }
 }

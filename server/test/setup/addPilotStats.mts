@@ -59,14 +59,10 @@ const pilotStats = [
 ];
 
 export default async function setup() {
-  await Promise.all(
-    pilotStats.map(async (pilot) => {
-      const record = new PilotStatsModel(pilot);
-      try {
-        await record.save();
-      } catch (err) {
-        console.log(err);
-      }
-    })
-  );
+  const models = pilotStats.map((pilot) => new PilotStatsModel(pilot));
+  try {
+    await PilotStatsModel.bulkSave(models);
+  } catch (err) {
+    console.log(err);
+  }
 }

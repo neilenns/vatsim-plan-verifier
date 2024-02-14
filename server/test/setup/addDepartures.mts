@@ -116,14 +116,10 @@ const departures = [
 ];
 
 export default async function setup() {
-  await Promise.all(
-    departures.map(async (departure) => {
-      const record = new DepartureModel(departure);
-      try {
-        await record.save();
-      } catch (err) {
-        console.log(err);
-      }
-    })
-  );
+  const models = departures.map((departure) => new DepartureModel(departure));
+  try {
+    await DepartureModel.bulkSave(models);
+  } catch (err) {
+    console.log(err);
+  }
 }

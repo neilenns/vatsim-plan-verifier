@@ -14,14 +14,12 @@ const magneticDecliations = [
 ];
 
 export default async function setup() {
-  await Promise.all(
-    magneticDecliations.map(async (magneticDecliation) => {
-      const record = new MagneticDeclinationModel(magneticDecliation);
-      try {
-        await record.save();
-      } catch (err) {
-        console.log(err);
-      }
-    })
+  const models = magneticDecliations.map(
+    (magneticDecliation) => new MagneticDeclinationModel(magneticDecliation)
   );
+  try {
+    await MagneticDeclinationModel.bulkSave(models);
+  } catch (err) {
+    console.log(err);
+  }
 }
