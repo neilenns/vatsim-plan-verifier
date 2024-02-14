@@ -31,14 +31,10 @@ const data = [
 ];
 
 export default async function setup() {
-  await Promise.all(
-    data.map(async (item) => {
-      const record = new PreferredRouteModel(item);
-      try {
-        await record.save();
-      } catch (err) {
-        console.log(err);
-      }
-    })
-  );
+  const models = data.map((item) => new PreferredRouteModel(item));
+  try {
+    await PreferredRouteModel.bulkSave(models);
+  } catch (err) {
+    console.log(err);
+  }
 }

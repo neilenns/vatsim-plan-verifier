@@ -37,14 +37,10 @@ const metar = [
 ];
 
 export default async function setup() {
-  await Promise.all(
-    metar.map(async (metar) => {
-      const record = new MetarModel(metar);
-      try {
-        await record.save();
-      } catch (err) {
-        console.log(err);
-      }
-    })
-  );
+  const models = metar.map((metar) => new MetarModel(metar));
+  try {
+    await MetarModel.bulkSave(models);
+  } catch (err) {
+    console.log(err);
+  }
 }

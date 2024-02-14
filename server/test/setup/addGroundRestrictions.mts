@@ -23,14 +23,10 @@ const restrictions = [
 ];
 
 export default async function setup() {
-  await Promise.all(
-    restrictions.map(async (restriction) => {
-      const record = new GroundRestrictionModel(restriction);
-      try {
-        await record.save();
-      } catch (err) {
-        console.log(err);
-      }
-    })
-  );
+  const models = restrictions.map((restriction) => new GroundRestrictionModel(restriction));
+  try {
+    await GroundRestrictionModel.bulkSave(models);
+  } catch (err) {
+    console.log(err);
+  }
 }

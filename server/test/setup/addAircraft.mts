@@ -78,14 +78,11 @@ const aircraft = [
 ];
 
 export default async function setup() {
-  await Promise.all(
-    aircraft.map(async (aircraft) => {
-      const record = new AircraftModel(aircraft);
-      try {
-        await record.save();
-      } catch (err) {
-        console.log(err);
-      }
-    })
-  );
+  const models = aircraft.map((aircraft) => new AircraftModel(aircraft));
+
+  try {
+    await AircraftModel.bulkSave(models);
+  } catch (err) {
+    console.log(err);
+  }
 }
