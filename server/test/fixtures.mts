@@ -3,18 +3,19 @@ import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
+import { applySpeedGooseCacheLayer, SharedCacheStrategies } from "speedgoose";
 import addAircraft from "./setup/addAircraft.mjs";
 import addAirlines from "./setup/addAirlines.mjs";
 import addAirports from "./setup/addAirports.mjs";
-import addFlightAwareRoutes from "./setup/addFlightAwareRoutes.mjs";
-import addPreferredRoutes from "./setup/addPreferredRoutes.mjs";
-import addDepartures from "./setup/addDepartures.mjs";
 import addCustomMessages from "./setup/addCustomMessages.mjs";
+import addDepartures from "./setup/addDepartures.mjs";
 import addExtendedAirportInfo from "./setup/addExtendedAirportInfo.mjs";
-import addMagneticDeclination from "./setup/addMagneticDeclination.mjs";
-import addPilotStats from "./setup/addPilotStats.mjs";
-import addMetar from "./setup/addMetar.mjs";
+import addFlightAwareRoutes from "./setup/addFlightAwareRoutes.mjs";
 import addGroundRestrictions from "./setup/addGroundRestrictions.mjs";
+import addMagneticDeclination from "./setup/addMagneticDeclination.mjs";
+import addMetar from "./setup/addMetar.mjs";
+import addPilotStats from "./setup/addPilotStats.mjs";
+import addPreferredRoutes from "./setup/addPreferredRoutes.mjs";
 
 let mongoServer: MongoMemoryServer;
 // This is to ensure any network calls made by the tests don't actually
@@ -52,6 +53,13 @@ export async function mochaGlobalSetup() {
     addMetar(),
     addGroundRestrictions(),
   ]);
+
+  // Caching isn't really needed but without it the tests won't run
+  // since so much of the main code needs cacheResult() to be defined.
+  applySpeedGooseCacheLayer(mongoose, {
+    sharedCacheStrategy: SharedCacheStrategies.IN_MEMORY,
+    defaultTtl: 60 * 10,
+  });
 }
 
 export async function mochaGlobalTeardown() {

@@ -16,7 +16,7 @@ export async function getTunedTransceiversForCallsign(
   callsign: string
 ): Promise<VatsimTransceiversResult> {
   try {
-    const transceivers = await TunedTransceiversModel.findOne({ callsign });
+    const transceivers = await TunedTransceiversModel.findOne({ callsign }).cacheQuery({ ttl: 30 });
 
     if (transceivers) {
       return {

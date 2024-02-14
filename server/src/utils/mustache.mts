@@ -1,7 +1,7 @@
+import { isDocument } from "@typegoose/typegoose";
 import Mustache from "mustache";
 import { FlightPlan } from "../models/FlightPlan.mjs";
 import { NavaidModel } from "../models/Navaid.mjs";
-import { isDocument } from "@typegoose/typegoose";
 
 function normalizeAirportName(airportName: string) {
   if (airportName.endsWith("Airport")) {
@@ -15,7 +15,9 @@ export default async function applyMustacheValues(
   template: string,
   flightPlan: FlightPlan
 ): Promise<string> {
-  const initialFix = await NavaidModel.findOne({ ident: flightPlan.routeParts?.[1] ?? "" });
+  const initialFix = await NavaidModel.findOne({
+    ident: flightPlan.routeParts?.[1] ?? "",
+  }).cacheQuery({ ttl: 60 * 60 });
 
   const equipmentInfo = isDocument(flightPlan.equipmentInfo) ? flightPlan.equipmentInfo : null;
 

@@ -1,10 +1,10 @@
 import axios, { AxiosResponse } from "axios";
+import pluralize from "pluralize";
 import { ENV } from "../env.mjs";
 import mainLogger from "../logger.mjs";
 import { FlightAwareRouteDocument, FlightAwareRouteModel } from "../models/FlightAwareRoute.mjs";
 import { FlightPlan } from "../models/FlightPlan.mjs";
 import Result from "../types/result.mjs";
-import pluralize from "pluralize";
 
 const logger = mainLogger.child({ service: "flightAwareRoutes" });
 
@@ -47,17 +47,20 @@ export async function getFlightAwareRoutes({
   try {
     fetchedRoutes = await fetchFlightRoutes(departure, arrival);
 
-    await Promise.all(
-      fetchedRoutes.routes.map(async (route) => {
-        const newRoute = new FlightAwareRouteModel({
-          ...route,
-          departure,
-          arrival,
-        });
-        await newRoute.save();
-        resultRoutes.push(newRoute);
-      })
-    );
+    const resultRoutes = fetchedRoutes.routes.map((route) => {
+      return new FlightAwareRouteModel({
+        ...route,
+        departure,
+        arrival,
+      });
+    });
+
+    await FlightAwareRouteModel.bulkSave(resultRoutes);
+
+    return {
+      success: true,
+      data: resultRoutes,
+    };
   } catch (err) {
     const error = err as Error;
     logger.error(error.message);
@@ -67,11 +70,6 @@ export async function getFlightAwareRoutes({
       error: `${error}`,
     };
   }
-
-  return {
-    success: true,
-    data: resultRoutes,
-  };
 }
 
 async function fetchFlightRoutes(

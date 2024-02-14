@@ -1,6 +1,8 @@
-import { prop, getModelForClass, modelOptions, DocumentType } from "@typegoose/typegoose";
+import { DocumentType, getModelForClass, modelOptions, plugin, prop } from "@typegoose/typegoose";
+import { SpeedGooseCacheAutoCleaner } from "speedgoose";
 
 @modelOptions({ options: { customName: "apikeys" } })
+@plugin(SpeedGooseCacheAutoCleaner)
 class ApiKey {
   @prop()
   notes?: string;

@@ -202,7 +202,7 @@ export enum VatsimCommsEnum {
   // See if the first route part is a known SID. If so, replace it with
   // the telephony for the SID.
   if (routeParts.length > 0) {
-    const sid = await DepartureModel.findOne({ SID: routeParts[0] });
+    const sid = await DepartureModel.findOne({ SID: routeParts[0] }).cacheQuery({ ttl: 60 * 60 }); // One hour
     if (sid) {
       routeParts[0] = sid.Telephony ?? routeParts[0];
     }
@@ -212,7 +212,7 @@ export enum VatsimCommsEnum {
   const expandedRouteArray = await Promise.all(
     routeParts.map(async (part) => {
       if (part.length === 3) {
-        const navaid = await NavaidModel.findOne({ ident: part });
+        const navaid = await NavaidModel.findOne({ ident: part }).cacheQuery({ ttl: 60 * 60 }); // One hour
         return navaid ? navaid.name : part;
       } else {
         return part;

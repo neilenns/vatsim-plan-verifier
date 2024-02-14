@@ -39,9 +39,9 @@ export async function setVatsimFlightPlanEDCT(
     // The way to find the flight plan depends on whether an _id or a callsign was provided.
     // _id takes precedence.
     if (_id) {
-      flightPlan = await VatsimFlightPlanModel.findById(new Types.ObjectId(_id));
+      flightPlan = await VatsimFlightPlanModel.findById(new Types.ObjectId(_id)).cacheQuery();
     } else {
-      flightPlan = await VatsimFlightPlanModel.findOne({ callsign });
+      flightPlan = await VatsimFlightPlanModel.findOne({ callsign }).cacheQuery();
     }
 
     if (!flightPlan) {
@@ -79,7 +79,7 @@ export async function setVatsimFlightPlanEDCT(
 
 export async function getVatsimPilotStats(cid: number): Promise<VatsimPilotStatsResult> {
   try {
-    const cachedData = await PilotStatsModel.findOne({ cid });
+    const cachedData = await PilotStatsModel.findOne({ cid }).cacheQuery();
 
     if (cachedData) {
       return { success: true, data: cachedData };
@@ -265,7 +265,7 @@ export async function getVatsimFlightPlan(callsign: string): Promise<VatsimFligh
 
 export async function getVatsimAtis(callsign: string): Promise<VatsimATISResult> {
   try {
-    const result = await VatsimATISModel.findOne({ callsign });
+    const result = await VatsimATISModel.findOne({ callsign }).cacheQuery({ ttl: 60 });
 
     if (result) {
       return { success: true, data: result };

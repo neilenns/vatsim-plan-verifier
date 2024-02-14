@@ -75,8 +75,8 @@ export async function processVatsimATISData(vatsimData: IVatsimData) {
   // Apply all the changes to the database.
   try {
     await Promise.all([
-      await VatsimATISModel.bulkSave([...dataToAdd, ...dataToUpdate]),
-      await VatsimATISModel.deleteMany({
+      VatsimATISModel.bulkSave([...dataToAdd, ...dataToUpdate]),
+      VatsimATISModel.deleteMany({
         callsign: {
           $in: dataToDelete,
         },

@@ -10,7 +10,7 @@ export const verifyApiKey = async function (req: Request, res: Response, next: N
     const apiKey = req.headers["x-api-key"] || req.query["x-api-key"];
 
     // Check if the API key exists in the database and is active
-    const apiKeyDoc = await ApiKeyModel.findOne({ _id: apiKey, isActive: true });
+    const apiKeyDoc = await ApiKeyModel.findOne({ _id: apiKey, isActive: true }).cacheQuery();
 
     if (!apiKeyDoc) {
       return res.status(401).json({ error: "Unauthorized - Invalid API key" });
@@ -30,7 +30,7 @@ export const verifySocketApiKey = async function (socket: Socket, next: any) {
     const apiKey = socket.handshake.auth.token;
 
     // Check if the API key exists in the database and is active
-    const apiKeyDoc = await ApiKeyModel.findOne({ _id: apiKey, isActive: true });
+    const apiKeyDoc = await ApiKeyModel.findOne({ _id: apiKey, isActive: true }).cacheQuery();
     if (!apiKeyDoc) {
       const err = new Error("Unauthorized - Invalid API key");
       next(err);

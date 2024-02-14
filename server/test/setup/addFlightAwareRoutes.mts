@@ -76,14 +76,10 @@ const routes = [
 ];
 
 export default async function setup() {
-  await Promise.all(
-    routes.map(async (route) => {
-      const record = new FlightAwareRouteModel(route);
-      try {
-        await record.save();
-      } catch (err) {
-        console.log(err);
-      }
-    })
-  );
+  const models = routes.map((route) => new FlightAwareRouteModel(route));
+  try {
+    await FlightAwareRouteModel.bulkSave(models);
+  } catch (err) {
+    console.log(err);
+  }
 }

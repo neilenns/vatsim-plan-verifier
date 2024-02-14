@@ -1,21 +1,21 @@
 import fs from "fs";
 import path from "node:path";
+import { CacheManager, CacheName } from "./cacheManager.mjs";
 import * as db from "./database.mjs";
 import { ENV } from "./env.mjs";
 import mainLogger from "./logger.mjs";
-import * as WebServer from "./server.mjs";
-import { CacheManager, CacheName } from "./cacheManager.mjs";
 import { AirportInfoDocument } from "./models/AirportInfo.mjs";
+import * as WebServer from "./server.mjs";
 
 const logger = mainLogger.child({ service: "main" });
+
+const cache = CacheManager.getInstance<AirportInfoDocument>(CacheName.AirportInfo);
 
 // If startup fails restart is reattempted 5 times every 30 seconds.
 const restartAttemptWaitTime = 30 * 1000;
 const maxRestartAttempts = 5;
 let restartAttemptCount = 0;
 let restartTimer: NodeJS.Timeout;
-
-const cache = CacheManager.getInstance<AirportInfoDocument>(CacheName.AirportInfo);
 
 async function startup() {
   try {
@@ -72,6 +72,8 @@ async function shutdown() {
 }
 
 async function handleDeath() {
+  await cache.saveToFile(ENV.CACHE_DIRECTORY);
+  cache.printStatistics();
   await shutdown();
   process.exit();
 }

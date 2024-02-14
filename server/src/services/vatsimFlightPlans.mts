@@ -199,8 +199,8 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
   profiler = logger.startTimer();
   try {
     await Promise.all([
-      await VatsimFlightPlanModel.bulkSave([...plansToAdd, ...plansToUpdate, ...plansToCoast]),
-      await VatsimFlightPlanModel.deleteMany({
+      VatsimFlightPlanModel.bulkSave([...plansToAdd, ...plansToUpdate, ...plansToCoast]),
+      VatsimFlightPlanModel.deleteMany({
         callsign: {
           $in: plansToDelete,
         },
