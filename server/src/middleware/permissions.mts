@@ -12,11 +12,6 @@ export interface Auth0UserRequest extends Request {
   auth?: AuthResult;
 }
 
-export const verifyApiAccess = auth({
-  audience: ENV.AUTH0_AUDIENCE,
-  issuerBaseURL: ENV.AUTH0_ISSUER_BASE_URL,
-});
-
 type VerifyErrorResponse = {
   error: {
     isPending: boolean;
@@ -24,47 +19,31 @@ type VerifyErrorResponse = {
   };
 };
 
+export const verifyApiAccess = auth({
+  audience: ENV.AUTH0_AUDIENCE,
+  issuerBaseURL: ENV.AUTH0_ISSUER_BASE_URL,
+});
+
 export const verifyApiRole =
   (role: string) => async (req: Auth0UserRequest, res: Response, next: NextFunction) => {
     const sub = req.auth?.payload.sub;
 
     if (!sub) {
-      return res.status(401).send("Unauthorized");
+      return res.status(401).json({ error: { message: "Unauthorized" } } as VerifyErrorResponse);
     }
 
-    // Check and see if the user already exists in the database
-    let existingUser = await Auth0UserModel.findOne({ sub });
+    const userInfo = await Auth0UserModel.findOrCreate(sub);
 
-    // If there's no existing user it means they signed up but haven't been created on the backend yet. Fetch
-    // their email address to store in the DB then create a new record.
-    if (!existingUser) {
-      const management = new ManagementClient({
-        domain: ENV.AUTH0_DOMAIN,
-        clientId: ENV.AUTH0_CLIENT_ID,
-        clientSecret: ENV.AUTH0_CLIENT_SECRET,
-      });
-
-      const result = await management.users.get({ id: sub });
-
-      if (!result) {
-        return res.status(401).send({ error: { message: "Unauthorized" } } as VerifyErrorResponse);
-      }
-
-      existingUser = await new Auth0UserModel({
-        sub,
-        email: result.data.email,
-        isPending: true,
-      }).save();
-
-      logger.debug(`Stored new user ${sub}`);
+    if (!userInfo) {
+      return res.status(401).json({ error: { message: "Unauthorized" } } as VerifyErrorResponse);
     }
 
-    if (existingUser.isPending) {
-      return res.status(403).send({
+    if (userInfo.isPending) {
+      return res.status(403).json({
         error: { isPending: true, message: "Account not verified" },
       } as VerifyErrorResponse);
-    } else if (!existingUser.roles.includes(role)) {
-      return res.status(403).send({ error: { message: "Unauthorized" } } as VerifyErrorResponse);
+    } else if (!userInfo.roles.includes(role)) {
+      return res.status(403).json({ error: { message: "Unauthorized" } } as VerifyErrorResponse);
     }
 
     return next();

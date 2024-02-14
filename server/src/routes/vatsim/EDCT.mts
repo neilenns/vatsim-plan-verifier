@@ -22,7 +22,7 @@ const router = express.Router();
 router.put(
   "/vatsim/flightPlans/edct",
   verifyApiAccess,
-  verifyApiRole("admin"),
+  verifyApiRole("TMU"),
   async (
     req: TypedEDCTRequestBody<{ _id: string; callsign: string; sentEDCT?: boolean; EDCT?: Date }>,
     res: Response
