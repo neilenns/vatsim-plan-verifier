@@ -37,6 +37,8 @@ export const verifyAndAddUserInfo = (req: Auth0UserRequest, res: Response, next:
       const sub = req.auth?.payload.sub;
       const user = await Auth0UserModel.findOne({ sub });
 
+      logger.debug(`Auth: ${req.auth}`);
+
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }

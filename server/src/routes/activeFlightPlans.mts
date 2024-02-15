@@ -7,6 +7,9 @@ import {
 } from "../controllers/activeFlightPlan.mjs";
 import { Auth0UserRequest, verifyAndAddUserInfo } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
+import mainLogger from "../logger.mjs";
+
+const logger = mainLogger.child({ service: "activeFlightPlans" });
 
 const router = express.Router();
 
@@ -19,6 +22,7 @@ router.get(
     const controllerId = req.auth?.payload.sub;
 
     if (!controllerId) {
+      logger.error(`No sub specified for controllerId. This should never happen. ${req.auth}`);
       return res.status(401).json({ error: `Unauthorized` });
     }
 
