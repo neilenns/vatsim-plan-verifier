@@ -5,6 +5,7 @@ import { PreferredRouteModel } from "../../models/PreferredRoute.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import { formatAltitude } from "../../utils.mjs";
+import { AirportFlow } from "../../models/InitialAltitude.mjs";
 
 const verifierName = "checkForPreferredRoutes";
 const logger = mainLogger.child({ service: verifierName });
@@ -70,6 +71,7 @@ export default async function checkForPreferredRoutes(
       return (
         isDocument(flightPlan.equipmentInfo) &&
         route.route === flightPlan.route &&
+        (route.flow === AirportFlow.Any || route.flow === flightPlan.flow) &&
         flightPlan.cruiseAltitude >= route.minimumRequiredAltitude &&
         (flightPlan.equipmentInfo?.maxCruiseSpeed ?? 999) >= route.minimumRequiredSpeed
       );

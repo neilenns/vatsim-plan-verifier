@@ -6,6 +6,7 @@ import {
   isDocument,
 } from "@typegoose/typegoose";
 import { FlightPlan } from "./FlightPlan.mjs";
+import { AirportFlow } from "./InitialAltitude.mjs";
 
 class PreferredRoute {
   @prop({ required: true })
@@ -31,6 +32,9 @@ class PreferredRoute {
 
   @prop({ type: String })
   remarks?: string;
+
+  @prop({ required: true, enum: AirportFlow, default: AirportFlow.Any })
+  flow!: AirportFlow;
 
   public static async findByFlightPlan(
     this: ReturnModelType<typeof PreferredRoute>,
