@@ -3,12 +3,12 @@ import * as chokidar from "chokidar";
 import compression from "compression";
 import cookieParser from "cookie-parser";
 import cors, { CorsOptions } from "cors";
-import express from "express";
+import express, { ErrorRequestHandler } from "express";
 import rateLimit from "express-rate-limit";
-import fs, { read } from "fs";
+import fs from "fs";
 import helmet from "helmet";
 import { Server } from "http";
-import { createHttpTerminator, HttpTerminator } from "http-terminator";
+import { HttpTerminator, createHttpTerminator } from "http-terminator";
 import https from "https";
 import * as bree from "./bree.mjs";
 import { ENV } from "./env.mjs";
@@ -155,6 +155,13 @@ export async function startServer(port: number): Promise<void> {
 
   // Admin routes
   app.use(adminRouter);
+
+  const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+    logger.error(err);
+  };
+
+  // Default error handler. This must be the last app.use()
+  app.use(errorHandler);
 
   // Start up the server
   if (certFilesExist) {

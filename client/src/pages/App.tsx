@@ -1,7 +1,7 @@
 import { Help } from "@mui/icons-material";
+import { useMemo } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { AuthenticationGuard } from "../components/AuthenticationGuard";
-import { activeFlightPlansLoader } from "../services/activeFlightPlansLoader.mts";
 import { aircraftDetailsLoader } from "../services/aircraftDetailsLoader.mts";
 import { appActions } from "../services/appActions.mts";
 import { clientTransceiversLoader } from "../services/clientTransceiversLoader.mts";
@@ -12,11 +12,10 @@ import AircraftDetails from "./AircraftDetails";
 import ClientTransceivers from "./ClientTransceivers";
 import ErrorPage from "./ErrorPage";
 import FlightPlanDetails from "./FlightPlanDetails";
+import Logout from "./Logout";
 import QuickReference from "./QuickReference";
 import Verifier from "./Verifier";
 import WelcomePage from "./Welcome";
-import { useMemo } from "react";
-import Logout from "./Logout";
 
 const App = () => {
   const router = useMemo(() => {
@@ -59,7 +58,7 @@ const App = () => {
           {
             path: "/verifier",
             element: <AuthenticationGuard role="user" component={Verifier} />,
-            loader: activeFlightPlansLoader,
+            // loader: activeFlightPlansLoader,
             action: appActions,
             errorElement: <ErrorPage />,
             children: [

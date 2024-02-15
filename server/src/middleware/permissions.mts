@@ -1,7 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import { auth, AuthResult } from "express-oauth2-jwt-bearer";
+import { AuthResult, auth } from "express-oauth2-jwt-bearer";
 import { ENV } from "../env.mjs";
+import mainLogger from "../logger.mjs";
 import { Auth0UserModel } from "../models/Auth0User.mjs";
+
+const logger = mainLogger.child({ service: "permissions" });
 
 export interface Auth0UserRequest extends Request {
   auth?: AuthResult;
@@ -18,6 +21,10 @@ export const verifyUser = auth({
   audience: ENV.AUTH0_AUDIENCE,
   issuerBaseURL: ENV.AUTH0_ISSUER_BASE_URL,
 });
+
+export const dumpJWT = (req: Request, res: Response, next: NextFunction) => {
+  logger.debug(req.headers.authorization);
+};
 
 export const verifyRole =
   (role: string) => async (req: Auth0UserRequest, res: Response, next: NextFunction) => {

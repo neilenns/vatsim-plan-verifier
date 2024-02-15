@@ -1,10 +1,10 @@
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
-import { PageLoader } from "./PageLoader";
-import { useEffect, useState } from "react";
-import ErrorDisplay from "./ErrorDisplay";
 import { Typography } from "@mui/material";
-import { getUserInfo } from "../services/user.mts";
+import { useEffect, useState } from "react";
 import { IAuth0User } from "../interfaces/IAuth0User.mts";
+import { getUserInfo } from "../services/user.mts";
+import ErrorDisplay from "./ErrorDisplay";
+import { PageLoader } from "./PageLoader";
 
 interface AuthenticationGuardProps {
   role: string;
@@ -30,7 +30,9 @@ export const AuthenticationGuard = ({ role, component: Component }: Authenticati
     // Async method to fetch the user info and verify the role.
     // This way of calling async inside useEffect comes from https://devtrium.com/posts/async-functions-useeffect.
     const fetchData = async () => {
-      const userInfo = await getUserInfo(await getAccessTokenSilently(), user?.sub);
+      const token = await getAccessTokenSilently();
+      console.log(token);
+      const userInfo = await getUserInfo(token, user?.sub);
 
       setUserInfo(userInfo);
 
