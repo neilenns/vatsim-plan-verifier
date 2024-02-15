@@ -15,6 +15,8 @@ export const AuthenticationGuard = ({ role, component: Component }: Authenticati
   const [isAuthorizing, setIsAuthorizing] = useState<boolean>(true);
   const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<IAuth0User | undefined>();
+  const [error, setError] = useState<Error | undefined>(undefined);
+
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
 
   const AuthenticatedComponent = withAuthenticationRequired(Component, {
@@ -42,14 +44,24 @@ export const AuthenticationGuard = ({ role, component: Component }: Authenticati
         setIsAuthorized(true);
       }
 
+      setError(undefined);
       setIsAuthorizing(false);
     };
 
     // Actually call the async method
-    fetchData().catch((err) => {
-      console.error(err);
+    fetchData().catch((err: Error) => {
+      setError(err);
     });
   }, [isAuthenticated, user, role, getAccessTokenSilently]);
+
+  // Show errors from the authorization and user access calls
+  if (error) {
+    return (
+      <ErrorDisplay>
+        <Typography align="center">Error accessing page data: {error?.message}</Typography>
+      </ErrorDisplay>
+    );
+  }
 
   // While authorizing is taking place return the page loader
   if (isAuthorizing) {
