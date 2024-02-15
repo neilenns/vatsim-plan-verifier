@@ -3,6 +3,7 @@ import { IVatsimData, IVatsimPilot } from "../interfaces/IVatsimData.mjs";
 import mainLogger from "../logger.mjs";
 import { VatsimFlightPlanDocument, VatsimFlightPlanModel } from "../models/VatsimFlightPlan.mjs";
 import { cleanRoute, depTimeToDateTime, getCommunicationMethod } from "../utils/vatsim.mjs";
+import { logMongoBulkErrors } from "../database.mjs";
 
 const logger = mainLogger.child({ service: "vatsimFlightPlans" });
 
@@ -199,7 +200,9 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
   profiler = logger.startTimer();
   try {
     await Promise.all([
-      VatsimFlightPlanModel.bulkSave([...plansToAdd, ...plansToUpdate, ...plansToCoast]),
+      VatsimFlightPlanModel.bulkSave([...plansToAdd, ...plansToUpdate, ...plansToCoast], {
+        ordered: false,
+      }),
       VatsimFlightPlanModel.deleteMany({
         callsign: {
           $in: plansToDelete,
@@ -207,8 +210,7 @@ export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
       }),
     ]);
   } catch (error) {
-    const err = error as Error;
-    logger.error(`Error updating flight plans: ${err.message}`);
+    logMongoBulkErrors(logger, error);
   }
   profiler.done({ level: "debug", message: `Done processing database updates` });
 

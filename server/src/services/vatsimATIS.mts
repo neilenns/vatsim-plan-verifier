@@ -2,6 +2,7 @@ import _ from "lodash";
 import { IVatsimATIS, IVatsimData } from "../interfaces/IVatsimData.mjs";
 import mainLogger from "../logger.mjs";
 import { VatsimATISDocument, VatsimATISModel } from "../models/VatsimATIS.mjs";
+import { logMongoBulkErrors } from "../database.mjs";
 
 const logger = mainLogger.child({ service: "vatsimATIS" });
 
@@ -75,7 +76,7 @@ export async function processVatsimATISData(vatsimData: IVatsimData) {
   // Apply all the changes to the database.
   try {
     await Promise.all([
-      VatsimATISModel.bulkSave([...dataToAdd, ...dataToUpdate]),
+      VatsimATISModel.bulkSave([...dataToAdd, ...dataToUpdate], { ordered: false }),
       VatsimATISModel.deleteMany({
         callsign: {
           $in: dataToDelete,
@@ -83,8 +84,7 @@ export async function processVatsimATISData(vatsimData: IVatsimData) {
       }),
     ]);
   } catch (error) {
-    const err = error as Error;
-    logger.error(`Error updating ATISes: ${err.message}`);
+    logMongoBulkErrors(logger, error);
   }
 
   profiler.done({
