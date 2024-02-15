@@ -1,15 +1,12 @@
 import { IAuth0User } from "../interfaces/IAuth0User.mts";
 import http from "../utils/http.mts";
 
-export async function getUserInfo(
-  authToken: string,
-  sub?: string
-): Promise<IAuth0User | undefined> {
+export async function getUserInfo(token: string, sub?: string): Promise<IAuth0User | undefined> {
   if (!sub) {
     return;
   }
 
-  const response = await http.authorized(authToken).get(`users/me`);
+  const response = await http.authorized(token).get(`users/me`);
 
   if (response.status === 200) {
     return response.data as IAuth0User;

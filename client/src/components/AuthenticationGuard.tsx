@@ -36,7 +36,7 @@ export const AuthenticationGuard = ({ role, component: Component }: Authenticati
 
       setUserInfo(userInfo);
 
-      if (!userInfo?.roles.includes(role)) {
+      if (role && !userInfo?.roles.includes(role)) {
         setIsAuthorized(false);
       } else {
         setIsAuthorized(true);

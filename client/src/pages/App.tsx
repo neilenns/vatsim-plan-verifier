@@ -16,8 +16,12 @@ import Logout from "./Logout";
 import QuickReference from "./QuickReference";
 import Verifier from "./Verifier";
 import WelcomePage from "./Welcome";
+import { useAuth0 } from "@auth0/auth0-react";
+import { activeFlightPlansLoader } from "../services/activeFlightPlansLoader.mts";
 
 const App = () => {
+  const { getAccessTokenSilently } = useAuth0();
+
   const router = useMemo(() => {
     return createBrowserRouter([
       {
@@ -52,33 +56,33 @@ const App = () => {
           {
             path: "/transceivers/:callsign",
             element: <ClientTransceivers />,
-            loader: clientTransceiversLoader,
+            loader: clientTransceiversLoader({ getAccessTokenSilently }),
             errorElement: <ErrorPage />,
           },
           {
             path: "/verifier",
-            element: <AuthenticationGuard role="user" component={Verifier} />,
-            // loader: activeFlightPlansLoader,
-            action: appActions,
+            element: <AuthenticationGuard role="S2" component={Verifier} />,
+            loader: activeFlightPlansLoader({ getAccessTokenSilently }),
+            action: appActions({ getAccessTokenSilently }),
             errorElement: <ErrorPage />,
             children: [
               {
                 path: "aircraft",
                 element: <AircraftDetails />,
-                loader: aircraftDetailsLoader,
+                loader: aircraftDetailsLoader({ getAccessTokenSilently }),
                 errorElement: <ErrorPage />,
               },
               {
                 path: "flightPlan/:id",
-                element: <AuthenticationGuard role="user" component={FlightPlanDetails} />,
-                loader: flightPlanDetailsLoader,
-                action: flightPlanVerifyAction,
+                element: <AuthenticationGuard role="S2" component={FlightPlanDetails} />,
+                loader: flightPlanDetailsLoader({ getAccessTokenSilently }),
+                action: flightPlanVerifyAction({ getAccessTokenSilently }),
               },
               {
                 path: "flightPlan/new",
-                element: <AuthenticationGuard role="user" component={FlightPlanDetails} />,
-                loader: flightPlanDetailsLoader,
-                action: flightPlanVerifyAction,
+                element: <AuthenticationGuard role="S2" component={FlightPlanDetails} />,
+                loader: flightPlanDetailsLoader({ getAccessTokenSilently }),
+                action: flightPlanVerifyAction({ getAccessTokenSilently }),
               },
             ],
           },

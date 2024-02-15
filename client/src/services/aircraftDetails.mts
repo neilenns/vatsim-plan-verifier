@@ -2,9 +2,12 @@ import { AxiosError } from "axios";
 import http from "../utils/http.mts";
 import IAircraft from "../interfaces/IAircraft.mts";
 
-export async function getAircraftByName(name: string): Promise<IAircraft[] | undefined> {
+export async function getAircraftByName(
+  token: string,
+  name: string
+): Promise<IAircraft[] | undefined> {
   try {
-    const response = await http.get(`aircraft/name/${name}`);
+    const response = await http.authorized(token).get(`aircraft/name/${name}`);
 
     if (response.status === 200) {
       return response.data as IAircraft[];
