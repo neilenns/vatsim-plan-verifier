@@ -1,27 +1,35 @@
 import { redirect, type ActionFunction } from "react-router-dom";
 import { removeActiveFlightPlan } from "./activeFlightPlans.mts";
 import { removeVerifyResults } from "./verifyResults.mts";
+import AuthorizedAppAction from "../interfaces/AuthorizedAppAction.mts";
 
-async function removeFlightPlan(flightPlanId: string) {
+async function removeFlightPlan(token: string, flightPlanId: string) {
   if (flightPlanId) {
-    await Promise.all([removeActiveFlightPlan(flightPlanId), removeVerifyResults(flightPlanId)]);
+    await Promise.all([
+      removeActiveFlightPlan(token, flightPlanId),
+      removeVerifyResults(token, flightPlanId),
+    ]);
   }
 }
 
-export const appActions: ActionFunction = async ({ request }) => {
-  const formData = await request.formData();
-  const intent = formData.get("intent");
+export const appActions =
+  ({ getAccessTokenSilently }: AuthorizedAppAction): ActionFunction =>
+  async ({ request }) => {
+    const formData = await request.formData();
+    const intent = formData.get("intent");
 
-  if (intent === "removeFlightPlan") {
-    const flightPlanId = formData.get("flightPlanId");
-    const selectedFlightPlanId = formData.get("selectedFlightPlanId");
-    await removeFlightPlan(flightPlanId as string);
+    if (intent === "removeFlightPlan") {
+      const flightPlanId = formData.get("flightPlanId");
+      const selectedFlightPlanId = formData.get("selectedFlightPlanId");
 
-    if (flightPlanId === selectedFlightPlanId) {
-      return redirect("/verifier");
+      const token = await getAccessTokenSilently();
+      await removeFlightPlan(token, flightPlanId as string);
+
+      if (flightPlanId === selectedFlightPlanId) {
+        return redirect("/verifier");
+      }
+      return null;
     }
-    return null;
-  }
 
-  return null;
-};
+    return null;
+  };

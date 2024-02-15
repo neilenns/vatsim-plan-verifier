@@ -5,7 +5,7 @@ import {
   removeActiveFlightPlan,
   removeActiveFlightPlanByIdentifiers,
 } from "../controllers/activeFlightPlan.mjs";
-import { verifyUser } from "../middleware/permissions.mjs";
+import { Auth0UserRequest, verifyAndAddUserInfo } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
 
 const router = express.Router();
@@ -13,10 +13,14 @@ const router = express.Router();
 // GET route for getting all the active flight plans for a controller
 router.get(
   "/activeFlightPlans",
-  verifyUser,
+  verifyAndAddUserInfo,
   secureQueryMiddleware,
-  async (req: Request, res: Response) => {
-    const { _id: controllerId } = req.user!;
+  async (req: Auth0UserRequest, res: Response) => {
+    const controllerId = req.auth?.payload.sub;
+
+    if (!controllerId) {
+      return res.status(401).json({ error: `Unauthorized` });
+    }
 
     const result = await getActiveFlightPlans(controllerId);
 
@@ -35,11 +39,15 @@ router.get(
 
 router.post(
   "/activeFlightPlans",
-  verifyUser,
+  verifyAndAddUserInfo,
   secureQueryMiddleware,
-  async (req: Request, res: Response) => {
+  async (req: Auth0UserRequest, res: Response) => {
     const { flightPlanId, callsign } = req.body;
-    const { _id: controllerId } = req.user!;
+    const controllerId = req.auth?.payload.sub;
+
+    if (!controllerId) {
+      return res.status(401).json({ error: `Unauthorized` });
+    }
 
     const result = await addActiveFlightPlan(controllerId, flightPlanId, callsign);
 
@@ -49,11 +57,9 @@ router.post(
     }
 
     if (result.errorType === "UnknownError") {
-      res
-        .status(404)
-        .json({
-          error: `Unable to add ${flightPlanId}/${callsign} for controller ${controllerId}.`,
-        });
+      res.status(404).json({
+        error: `Unable to add ${flightPlanId}/${callsign} for controller ${controllerId}.`,
+      });
     } else {
       res.status(500).json({ error: "Failed to add an active flight plan." });
     }
@@ -62,7 +68,7 @@ router.post(
 
 router.delete(
   "/activeFlightPlans/:id",
-  verifyUser,
+  verifyAndAddUserInfo,
   secureQueryMiddleware,
   async (req: Request, res: Response) => {
     const { id: flightPlanId } = req.params;
@@ -84,11 +90,15 @@ router.delete(
 
 router.delete(
   "/activeFlightPlans",
-  verifyUser,
+  verifyAndAddUserInfo,
   secureQueryMiddleware,
-  async (req: Request, res: Response) => {
+  async (req: Auth0UserRequest, res: Response) => {
     const { flightPlanId, callsign } = req.body;
-    const { _id: controllerId } = req.user!;
+    const controllerId = req.auth?.payload.sub;
+
+    if (!controllerId) {
+      return res.status(401).json({ error: `Unauthorized` });
+    }
 
     const result = await removeActiveFlightPlanByIdentifiers(controllerId, flightPlanId, callsign);
 

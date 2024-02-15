@@ -1,39 +1,70 @@
-import { Box, Typography, Button } from "@mui/material";
-import { Link, Navigate } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import { Box, Button, Typography } from "@mui/material";
+import { Navigate } from "react-router-dom";
+import { PageLoader } from "../components/PageLoader";
 
 const WelcomePage = () => {
-  const token = localStorage.getItem("token");
+  const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
 
-  if (token !== null && token !== "") {
-    return <Navigate to="/verifier" />;
+  const handleLogin = async () => {
+    await loginWithRedirect();
+  };
+
+  const handleSignup = async () => {
+    await loginWithRedirect({
+      authorizationParams: {
+        screen_hint: "signup",
+      },
+    });
+  };
+
+  if (isLoading) {
+    return <PageLoader />;
+  }
+
+  if (isAuthenticated) {
+    return <Navigate to="/verifier" replace={true} />;
   }
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      justifyContent="center"
-      alignItems="center"
-      height="100vh"
-    >
-      <img src="/appicon.svg" alt="Airplane taking off" width="128" height="128" />
-      <Typography variant="h3" gutterBottom>
-        Welcome
-      </Typography>
-      <Button
-        variant="contained"
-        color="primary"
-        size="large"
-        style={{ marginTop: "16px" }}
-        component={Link}
-        to="/login"
+    <div>
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        height="100vh"
       >
-        Login
-      </Button>
-      <Button size="large" style={{ marginTop: "8px" }} component={Link} to="/signup">
-        Sign up
-      </Button>
-    </Box>
+        <img src="/appicon.svg" alt="Airplane taking off" width="128" height="128" />
+        <Typography variant="h3" gutterBottom>
+          Welcome
+        </Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+          style={{ marginTop: "16px" }}
+          onClick={() => {
+            void (async () => {
+              await handleLogin();
+            })();
+          }}
+        >
+          Login
+        </Button>
+        <Button
+          size="large"
+          style={{ marginTop: "8px" }}
+          onClick={() => {
+            void (async () => {
+              await handleSignup();
+            })();
+          }}
+        >
+          Sign up
+        </Button>
+      </Box>
+    </div>
   );
 };
 

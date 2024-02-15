@@ -3,14 +3,13 @@ import * as chokidar from "chokidar";
 import compression from "compression";
 import cookieParser from "cookie-parser";
 import cors, { CorsOptions } from "cors";
-import express from "express";
+import express, { ErrorRequestHandler } from "express";
 import rateLimit from "express-rate-limit";
-import fs, { read } from "fs";
+import fs from "fs";
 import helmet from "helmet";
 import { Server } from "http";
-import { createHttpTerminator, HttpTerminator } from "http-terminator";
+import { HttpTerminator, createHttpTerminator } from "http-terminator";
 import https from "https";
-import passport from "passport";
 import * as bree from "./bree.mjs";
 import { ENV } from "./env.mjs";
 import mainLogger from "./logger.mjs";
@@ -24,9 +23,6 @@ import pkg from "lodash";
 const { debounce } = pkg;
 
 // Authentication
-import "./authenticate.mjs";
-import "./jwtStrategy.mjs";
-import "./LocalStrategy.mjs";
 import { verifyApiKey } from "./middleware/apikey.mjs";
 
 // Routes
@@ -34,7 +30,6 @@ import activeFlightPlansRouter from "./routes/activeFlightPlans.mjs";
 import aircraftRouter from "./routes/aircraft.mjs";
 import airlineRouter from "./routes/airline.mjs";
 import airportInfoRouter from "./routes/airportInfo.mjs";
-import authenticationRouter from "./routes/authentication.mjs";
 import defaultRouter from "./routes/default.mjs";
 import departureRouter from "./routes/departure.mjs";
 import extendedAirportInfoRouter from "./routes/extendedAirportInfo.mjs";
@@ -131,15 +126,11 @@ export async function startServer(port: number): Promise<void> {
   app.use(helmet());
   app.use(verifyApiKey);
 
-  // Configure authentication
-  app.use(passport.initialize());
-
   // Set up the routes
   app.use(activeFlightPlansRouter);
   app.use(aircraftRouter);
   app.use(airlineRouter);
   app.use(airportInfoRouter);
-  app.use(authenticationRouter);
   app.use(defaultRouter);
   app.use(extendedAirportInfoRouter);
   app.use(flightAwareRouter);
@@ -164,6 +155,13 @@ export async function startServer(port: number): Promise<void> {
 
   // Admin routes
   app.use(adminRouter);
+
+  const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+    logger.error(err);
+  };
+
+  // Default error handler. This must be the last app.use()
+  app.use(errorHandler);
 
   // Start up the server
   if (certFilesExist) {

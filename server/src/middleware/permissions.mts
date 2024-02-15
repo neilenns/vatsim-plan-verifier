@@ -1,12 +1,11 @@
 import { NextFunction, Request, Response } from "express";
-import { auth, AuthResult } from "express-oauth2-jwt-bearer";
-import passport from "passport";
+import { AuthResult, auth } from "express-oauth2-jwt-bearer";
 import { ENV } from "../env.mjs";
 import mainLogger from "../logger.mjs";
 import { Auth0UserModel } from "../models/Auth0User.mjs";
-import { ManagementClient } from "auth0";
+import { Types } from "mongoose";
 
-const logger = mainLogger.child({ service: "authentication" });
+const logger = mainLogger.child({ service: "permissions" });
 
 export interface Auth0UserRequest extends Request {
   auth?: AuthResult;
@@ -19,12 +18,49 @@ type VerifyErrorResponse = {
   };
 };
 
-export const verifyApiAccess = auth({
+export const verifyUser = auth({
   audience: ENV.AUTH0_AUDIENCE,
   issuerBaseURL: ENV.AUTH0_ISSUER_BASE_URL,
 });
 
-export const verifyApiRole =
+export const verifyAndAddUserInfo = (req: Auth0UserRequest, res: Response, next: NextFunction) => {
+  // Call your existing authentication middleware
+  auth({
+    audience: ENV.AUTH0_AUDIENCE,
+    issuerBaseURL: ENV.AUTH0_ISSUER_BASE_URL,
+  })(req, res, async (err: any) => {
+    if (err) {
+      return next(err);
+    }
+
+    try {
+      const sub = req.auth?.payload.sub;
+      const user = await Auth0UserModel.findOne({ sub });
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      if (req.auth) {
+        // Replace the sub with the value from the database. Will this work?
+        req.auth.payload.sub = user._id.toString();
+      }
+
+      next();
+    } catch (error) {
+      // Handle any errors that occur during user lookup
+      logger.error("Error retrieving user information:", error);
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
+  });
+};
+
+export const dumpJwt = (req: Request, res: Response, next: NextFunction) => {
+  logger.debug(req.headers.authorization);
+  return next();
+};
+
+export const verifyRole =
   (role: string) => async (req: Auth0UserRequest, res: Response, next: NextFunction) => {
     const sub = req.auth?.payload.sub;
 
@@ -48,5 +84,3 @@ export const verifyApiRole =
 
     return next();
   };
-
-export const verifyUser = passport.authenticate("jwt", { session: false });

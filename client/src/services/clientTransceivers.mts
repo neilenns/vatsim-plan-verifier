@@ -3,10 +3,11 @@ import { IVatsimClientTransceivers } from "../interfaces/IVatsimClientTransceive
 import http from "../utils/http.mts";
 
 export async function getVatsimClientTransceivers(
+  token: string,
   callsign: string
 ): Promise<IVatsimClientTransceivers | undefined> {
   try {
-    const response = await http.get(`vatsim/transceivers/${callsign}`);
+    const response = await http.authorized(token).get(`vatsim/transceivers/${callsign}`);
 
     if (response.status === 200) {
       return response.data as IVatsimClientTransceivers;

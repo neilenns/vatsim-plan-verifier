@@ -14,11 +14,24 @@ const cache = CacheManager.getInstance<AirportInfoDocument>(CacheName.AirportInf
 type AirportInfoResult = Result<AirportInfoDocument, "AirportNotFound" | "UnknownError">;
 type FetchAvioWikiAirportsResult = Result<number, "UnknownError">;
 
-export async function getAirportInfo(airportCode: string): Promise<AirportInfoResult> {
+/**
+ * Gets the airport info for the specified airport. If useCache is true
+ * then a lightweight cached object without any methods attached may be returned
+ * and only real properties can be accessed on the returned object.
+ * @param airportCode The airport code for the airport to look up
+ * @param useCache True to use cached airport values. Default false.
+ * @returns The airport info.
+ */
+export async function getAirportInfo(
+  airportCode: string,
+  useCache = false
+): Promise<AirportInfoResult> {
   try {
     let airport: AirportInfoDocument | null = null;
 
-    airport = cache.get(airportCode);
+    if (useCache) {
+      airport = cache.get(airportCode);
+    }
 
     if (!airport) {
       airport = await AirportInfoModel.findOne({ airportCode });

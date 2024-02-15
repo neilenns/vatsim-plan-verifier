@@ -11,3 +11,5 @@
 .markdownBlockquote p {
   margin: 0; /* Reset the margin for paragraphs inside the blockquote */
 }
+
+html, body, #root { height: 100%; }

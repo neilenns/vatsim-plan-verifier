@@ -1,6 +1,6 @@
-import express from "express";
+import express, { Response } from "express";
 import { getFlightAwareRoutes } from "../controllers/flightAwareRoutes.mjs";
-import { verifyUser } from "../middleware/permissions.mjs";
+import { Auth0UserRequest, verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
 import { FlightPlanDocument } from "../models/FlightPlan.mjs";
 
@@ -10,7 +10,7 @@ router.get(
   "/flightAwareRoutes/:departure/:arrival",
   verifyUser,
   secureQueryMiddleware,
-  async (req, res) => {
+  async (req: Auth0UserRequest, res: Response) => {
     const { departure, arrival } = req.params;
 
     try {

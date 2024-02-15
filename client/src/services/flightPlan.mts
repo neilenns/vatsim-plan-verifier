@@ -1,9 +1,12 @@
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 import http from "../utils/http.mts";
 
-export async function storeFlightPlan(flightPlan: IFlightPlan): Promise<IFlightPlan> {
+export async function storeFlightPlan(
+  token: string,
+  flightPlan: IFlightPlan
+): Promise<IFlightPlan> {
   try {
-    const response = await http.post("flightPlan", flightPlan);
+    const response = await http.authorized(token).post("flightPlan", flightPlan);
 
     if (response.status === 201) {
       return response.data as IFlightPlan;
@@ -15,9 +18,9 @@ export async function storeFlightPlan(flightPlan: IFlightPlan): Promise<IFlightP
   }
 }
 
-export async function getFlightPlan(id: string): Promise<IFlightPlan | undefined> {
+export async function getFlightPlan(token: string, id: string): Promise<IFlightPlan | undefined> {
   try {
-    const response = await http.get(`flightPlan/${id}`);
+    const response = await http.authorized(token).get(`flightPlan/${id}`);
 
     if (response.status === 200) {
       return response.data as IFlightPlan;
@@ -29,9 +32,12 @@ export async function getFlightPlan(id: string): Promise<IFlightPlan | undefined
   }
 }
 
-export async function importFlightPlan(callsign: string): Promise<IFlightPlan | undefined> {
+export async function importFlightPlan(
+  token: string,
+  callsign: string
+): Promise<IFlightPlan | undefined> {
   try {
-    const response = await http.post(`flightPlan/import`, { callsign });
+    const response = await http.authorized(token).post(`flightPlan/import`, { callsign });
 
     if (response.status === 200) {
       return response.data as IFlightPlan;

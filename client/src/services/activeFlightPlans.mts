@@ -1,9 +1,11 @@
 import IActiveFlightPlan from "../interfaces/IActiveFlightPlan.mts";
 import http from "../utils/http.mts";
 
-export async function getActiveFlightPlans(): Promise<IActiveFlightPlan[] | undefined> {
+export async function getActiveFlightPlans(
+  token: string
+): Promise<IActiveFlightPlan[] | undefined> {
   try {
-    const response = await http.get(`activeFlightPlans`);
+    const response = await http.authorized(token).get(`activeFlightPlans`);
 
     if (response.status === 200) {
       return response.data as IActiveFlightPlan[];
@@ -16,11 +18,12 @@ export async function getActiveFlightPlans(): Promise<IActiveFlightPlan[] | unde
 }
 
 export async function addActiveFlightPlan(
+  token: string,
   flightPlanId: string,
   callsign?: string
 ): Promise<IActiveFlightPlan[] | undefined> {
   try {
-    const response = await http.post(`activeFlightPlans`, {
+    const response = await http.authorized(token).post(`activeFlightPlans`, {
       flightPlanId,
       callsign,
     });
@@ -36,11 +39,12 @@ export async function addActiveFlightPlan(
 }
 
 export async function removeActiveFlightPlan(
+  token: string,
   flightPlanId: string,
   callsign?: string
 ): Promise<IActiveFlightPlan[] | undefined> {
   try {
-    const response = await http.delete(`activeFlightPlans`, {
+    const response = await http.authorized(token).delete(`activeFlightPlans`, {
       data: {
         flightPlanId,
         callsign,

@@ -16,6 +16,7 @@ import { importFlightPlan } from "../services/flightPlan.mts";
 import { getColorByStatus, processFlightPlans } from "../utils/vatsim.mts";
 import AlertSnackbar, { AlertSnackBarOnClose, AlertSnackbarProps } from "./AlertSnackbar";
 import { useAudio } from "./AudioHook";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const logger = debug("plan-verifier:vatsimFlightPlans");
 
@@ -40,6 +41,7 @@ const VatsimFlightPlans = () => {
   const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
   const { autoHideImported } = useAppContext();
   const socketRef = useRef<Socket | null>(null);
+  const { getAccessTokenSilently } = useAuth0();
 
   const handleSnackbarClose: AlertSnackBarOnClose = () => setSnackbar(null);
 
@@ -161,12 +163,13 @@ const VatsimFlightPlans = () => {
     }
   };
 
-  const handleFlightPlanImport = (callsign: string | undefined) => {
+  const handleFlightPlanImport = async (callsign: string | undefined) => {
     if (!callsign) return;
 
     logger(`Importing flight plan ${callsign}`);
     setIsImporting(true);
-    importFlightPlan(callsign)
+    const token = await getAccessTokenSilently();
+    importFlightPlan(token, callsign)
       .then((result) => {
         if (!result) return;
 
@@ -294,7 +297,9 @@ const VatsimFlightPlans = () => {
                         value="importFlightPlan"
                         disabled={isImporting}
                         onClick={() => {
-                          handleFlightPlanImport(flightPlan.callsign);
+                          handleFlightPlanImport(flightPlan.callsign).catch((err) =>
+                            console.error(err)
+                          );
                         }}
                       >
                         <ArrowForwardOutlinedIcon />

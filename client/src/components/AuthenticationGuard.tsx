@@ -1,23 +1,97 @@
-import { Navigate } from "react-router-dom";
+import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
+import { Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { IAuth0User } from "../interfaces/IAuth0User.mts";
+import { getUserInfo } from "../services/user.mts";
+import ErrorDisplay from "./ErrorDisplay";
+import { PageLoader } from "./PageLoader";
 
 interface AuthenticationGuardProps {
-  role: "admin" | "user";
-  component: React.ReactNode;
+  role: string;
+  component: React.ComponentType<object>;
 }
 
-export const AuthenticationGuard = ({ role, component }: AuthenticationGuardProps) => {
-  if (!localStorage.getItem("token")) {
-    return <Navigate to="/login" />;
+export const AuthenticationGuard = ({ role, component: Component }: AuthenticationGuardProps) => {
+  const [isAuthorizing, setIsAuthorizing] = useState<boolean>(true);
+  const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
+  const [userInfo, setUserInfo] = useState<IAuth0User | undefined>();
+  const [error, setError] = useState<Error | undefined>(undefined);
+
+  const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
+
+  const AuthenticatedComponent = withAuthenticationRequired(Component, {
+    onRedirecting: () => <PageLoader />,
+  });
+
+  // Perform additional validation after withAuthenticationRequired completes
+  useEffect(() => {
+    if (!isAuthenticated) {
+      return;
+    }
+
+    // Async method to fetch the user info and verify the role.
+    // This way of calling async inside useEffect comes from https://devtrium.com/posts/async-functions-useeffect.
+    const fetchData = async () => {
+      const token = await getAccessTokenSilently();
+      const userInfo = await getUserInfo(token, user?.sub);
+
+      setUserInfo(userInfo);
+
+      if (role && !userInfo?.roles.includes(role)) {
+        setIsAuthorized(false);
+      } else {
+        setIsAuthorized(true);
+      }
+
+      setError(undefined);
+      setIsAuthorizing(false);
+    };
+
+    // Actually call the async method
+    fetchData().catch((err: Error) => {
+      setError(err);
+    });
+  }, [isAuthenticated, user, role, getAccessTokenSilently]);
+
+  // Show errors from the authorization and user access calls
+  if (error) {
+    return (
+      <ErrorDisplay>
+        <Typography align="center">Error accessing page data: {error?.message}</Typography>
+      </ErrorDisplay>
+    );
   }
 
-  if (!localStorage.getItem("role")) {
-    return <Navigate to="/login" />;
+  // While authorizing is taking place return the page loader
+  if (isAuthorizing) {
+    return <PageLoader />;
   }
 
-  if (role === "admin" && localStorage.getItem("role") !== "admin") {
-    return <Navigate to="/login" />;
+  // Pending users get told to hang tight.
+  if (userInfo?.isPending) {
+    return (
+      <ErrorDisplay>
+        <Typography align="center">
+          Your account is pending approval.
+          <br />
+          You&apos;ll receive an email once your account is activated.
+        </Typography>
+      </ErrorDisplay>
+    );
   }
 
-  // At this point the role must be user or they are an admin so it's fine to return the component
-  return <>{component}</>;
+  // Unauthorized users get denied.
+  if (!isAuthorized) {
+    return (
+      <ErrorDisplay>
+        <Typography align="center">
+          You do not have the required permissions to view this page.
+        </Typography>
+      </ErrorDisplay>
+    );
+  }
+  // Authenticated gets to see the component.
+  else {
+    return <AuthenticatedComponent />;
+  }
 };
