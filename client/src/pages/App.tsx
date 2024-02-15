@@ -1,13 +1,19 @@
 import { Help } from "@mui/icons-material";
 import { useMemo } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 import { AuthenticationGuard } from "../components/AuthenticationGuard";
+
+// Actions and loaders
+import { activeFlightPlansLoader } from "../services/activeFlightPlansLoader.mts";
 import { aircraftDetailsLoader } from "../services/aircraftDetailsLoader.mts";
 import { appActions } from "../services/appActions.mts";
 import { clientTransceiversLoader } from "../services/clientTransceiversLoader.mts";
 import { flightPlanDetailsLoader } from "../services/flightPlanDetailsLoader.mts";
 import { flightPlanVerifyAction } from "../services/flightPlanVerifyAction.mts";
 import { quickReferenceLoader } from "../services/quickReferenceLoader.mts";
+
+// Components
 import AircraftDetails from "./AircraftDetails";
 import ClientTransceivers from "./ClientTransceivers";
 import ErrorPage from "./ErrorPage";
@@ -16,8 +22,6 @@ import Logout from "./Logout";
 import QuickReference from "./QuickReference";
 import Verifier from "./Verifier";
 import WelcomePage from "./Welcome";
-import { useAuth0 } from "@auth0/auth0-react";
-import { activeFlightPlansLoader } from "../services/activeFlightPlansLoader.mts";
 
 const App = () => {
   const { getAccessTokenSilently } = useAuth0();
