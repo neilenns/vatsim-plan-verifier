@@ -1,49 +1,94 @@
-import { useCallback, useEffect } from "react";
-import { Outlet } from "react-router-dom";
-import ILoginResponse from "../interfaces/ILoginResponse.mts";
-import http from "../utils/http.mts";
-import { useNavigate } from "react-router-dom";
+import { Help } from "@mui/icons-material";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { AuthenticationGuard } from "../components/AuthenticationGuard";
+import { activeFlightPlansLoader } from "../services/activeFlightPlansLoader.mts";
+import { aircraftDetailsLoader } from "../services/aircraftDetailsLoader.mts";
+import { appActions } from "../services/appActions.mts";
+import { clientTransceiversLoader } from "../services/clientTransceiversLoader.mts";
+import { flightPlanDetailsLoader } from "../services/flightPlanDetailsLoader.mts";
+import { flightPlanVerifyAction } from "../services/flightPlanVerifyAction.mts";
+import { quickReferenceLoader } from "../services/quickReferenceLoader.mts";
+import AircraftDetails from "./AircraftDetails";
+import ClientTransceivers from "./ClientTransceivers";
+import ErrorPage from "./ErrorPage";
+import FlightPlanDetails from "./FlightPlanDetails";
+import QuickReference from "./QuickReference";
+import Verifier from "./Verifier";
+import WelcomePage from "./Welcome";
+import { useMemo } from "react";
+import Logout from "./Logout";
 
 const App = () => {
-  const navigate = useNavigate();
-
-  const verifyUser = useCallback(() => {
-    http
-      .post<ILoginResponse>("refreshToken", {})
-      .then((response) => {
-        setTimeout(verifyUser, 5 * 60 * 1000);
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("role", response.data.role);
-      })
-      .catch(() => {
-        localStorage.clear();
-      });
+  const router = useMemo(() => {
+    return createBrowserRouter([
+      {
+        path: "/",
+        element: <WelcomePage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/help",
+        element: <Help />,
+      },
+      {
+        id: "logout",
+        path: "/logout",
+        element: <Logout />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/quickreference/:key",
+        element: <QuickReference />,
+        errorElement: <ErrorPage />,
+        loader: quickReferenceLoader,
+      },
+      {
+        path: "/quickreference",
+        element: <QuickReference />,
+        errorElement: <ErrorPage />,
+        loader: quickReferenceLoader,
+      },
+      {
+        children: [
+          {
+            path: "/transceivers/:callsign",
+            element: <ClientTransceivers />,
+            loader: clientTransceiversLoader,
+            errorElement: <ErrorPage />,
+          },
+          {
+            path: "/verifier",
+            element: <AuthenticationGuard role="user" component={Verifier} />,
+            loader: activeFlightPlansLoader,
+            action: appActions,
+            errorElement: <ErrorPage />,
+            children: [
+              {
+                path: "aircraft",
+                element: <AircraftDetails />,
+                loader: aircraftDetailsLoader,
+                errorElement: <ErrorPage />,
+              },
+              {
+                path: "flightPlan/:id",
+                element: <AuthenticationGuard role="user" component={FlightPlanDetails} />,
+                loader: flightPlanDetailsLoader,
+                action: flightPlanVerifyAction,
+              },
+              {
+                path: "flightPlan/new",
+                element: <AuthenticationGuard role="user" component={FlightPlanDetails} />,
+                loader: flightPlanDetailsLoader,
+                action: flightPlanVerifyAction,
+              },
+            ],
+          },
+        ],
+      },
+    ]);
   }, []);
 
-  useEffect(() => {
-    verifyUser();
-  }, [verifyUser]);
-
-  // Watch for changes to local storage for a logout key and if it's there that
-  // means the site was logged out in a different tab. Refresh the page and log out!
-  const syncLogout = useCallback(
-    (event: StorageEvent) => {
-      if (event.key === "logout") {
-        navigate("/");
-      }
-    },
-    [navigate]
-  );
-
-  // Register for events on local storage to watch for cross-tab logout.
-  useEffect(() => {
-    window.addEventListener("storage", syncLogout);
-    return () => {
-      window.removeEventListener("storage", syncLogout);
-    };
-  }, [syncLogout]);
-
-  return <Outlet />;
+  return <RouterProvider router={router} />;
 };
 
 export default App;

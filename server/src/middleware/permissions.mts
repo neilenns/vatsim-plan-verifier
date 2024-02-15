@@ -1,12 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { auth, AuthResult } from "express-oauth2-jwt-bearer";
-import passport from "passport";
 import { ENV } from "../env.mjs";
-import mainLogger from "../logger.mjs";
 import { Auth0UserModel } from "../models/Auth0User.mjs";
-import { ManagementClient } from "auth0";
-
-const logger = mainLogger.child({ service: "authentication" });
 
 export interface Auth0UserRequest extends Request {
   auth?: AuthResult;
@@ -19,12 +14,12 @@ type VerifyErrorResponse = {
   };
 };
 
-export const verifyApiAccess = auth({
+export const verifyUser = auth({
   audience: ENV.AUTH0_AUDIENCE,
   issuerBaseURL: ENV.AUTH0_ISSUER_BASE_URL,
 });
 
-export const verifyApiRole =
+export const verifyRole =
   (role: string) => async (req: Auth0UserRequest, res: Response, next: NextFunction) => {
     const sub = req.auth?.payload.sub;
 
@@ -48,5 +43,3 @@ export const verifyApiRole =
 
     return next();
   };
-
-export const verifyUser = passport.authenticate("jwt", { session: false });

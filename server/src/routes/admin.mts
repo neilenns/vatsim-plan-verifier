@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import * as bree from "../bree.mjs";
 import { JobName } from "../bree.mjs";
-import { verifyUser } from "../middleware/permissions.mjs";
+import { Auth0UserRequest, verifyRole, verifyUser } from "../middleware/permissions.mjs";
 import { ParamsDictionary } from "express-serve-static-core";
 import mainLogger from "../logger.mjs";
 import { getIO } from "../sockets/index.mjs";
@@ -14,33 +14,29 @@ interface StartJobParams extends ParamsDictionary {
   jobName: JobName;
 }
 
-router.get("/admin/endConnections", verifyUser, async (req: Request, res: Response) => {
-  if (req.user?.role !== "admin") {
-    res.status(403).json({ error: "You are not authorized to access this resource." });
-    return;
+router.get(
+  "/admin/endConnections",
+  verifyUser,
+  verifyRole("admin"),
+  async (req: Auth0UserRequest, res: Response) => {
+    let count = 0;
+    getIO().sockets.sockets.forEach((socket) => {
+      // Call disconnect() on each socket
+      socket.disconnect(true); // true parameter means the disconnect is forced
+      count++;
+    });
+
+    logger.info(`Disconnected ${count} clients`);
+    res.send(`Disconnected ${count} clients`);
   }
-
-  let count = 0;
-  getIO().sockets.sockets.forEach((socket) => {
-    // Call disconnect() on each socket
-    socket.disconnect(true); // true parameter means the disconnect is forced
-    count++;
-  });
-
-  logger.info(`Disconnected ${count} clients`);
-  res.send(`Disconnected ${count} clients`);
-});
+);
 
 router.get(
   "/admin/startJob/:jobName",
   verifyUser,
-  async (req: Request<StartJobParams, {}, {}, {}>, res) => {
+  verifyRole("admin"),
+  async (req: Request<StartJobParams, {}, {}, {}>, res: Response) => {
     try {
-      if (req.user?.role !== "admin") {
-        res.status(403).json({ error: "You are not authorized to access this resource." });
-        return;
-      }
-
       const { jobName } = req.params;
 
       bree.runJob(jobName);
