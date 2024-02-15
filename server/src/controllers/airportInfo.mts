@@ -7,6 +7,7 @@ import { IAvioWikiAirport } from "../interfaces/IAvioWikiAirport.mjs";
 import mainLogger from "../logger.mjs";
 import { AirportInfoDocument, AirportInfoModel } from "../models/AirportInfo.mjs";
 import Result from "../types/result.mjs";
+import { logMongoBulkErrors } from "../utils.mjs";
 
 const logger = mainLogger.child({ service: "airportInfo" });
 const cache = CacheManager.getInstance<AirportInfoDocument>(CacheName.AirportInfo);
@@ -146,7 +147,6 @@ export async function fetchAirportsFromAvioWiki(): Promise<FetchAvioWikiAirports
       },
     });
 
-    logger.debug("Creating airport models");
     profiler = logger.startTimer();
 
     const models = jsonData
@@ -175,7 +175,6 @@ export async function fetchAirportsFromAvioWiki(): Promise<FetchAvioWikiAirports
       counts: { models: models.length },
     });
 
-    logger.debug(`Saving ${models.length} airports to database`);
     profiler = logger.startTimer();
 
     // Delete everything
@@ -183,10 +182,10 @@ export async function fetchAirportsFromAvioWiki(): Promise<FetchAvioWikiAirports
 
     // Add everything back
     try {
-      await AirportInfoModel.bulkSave(models);
+      // { ordered: false } ensures a single save failure doesn't abort the entire save
+      await AirportInfoModel.bulkSave(models, { ordered: false });
     } catch (err) {
-      const error = err as Error;
-      logger.error(`Unable to save updated airport info to database: ${error.message}. Skipping.`);
+      logMongoBulkErrors(logger, err);
     }
 
     profiler.done({
