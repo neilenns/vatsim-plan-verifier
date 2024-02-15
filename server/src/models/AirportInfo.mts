@@ -93,7 +93,7 @@ export class AirportInfo {
 
     // Look up the airport info, first in the database cache then via web service
     // if necessary.
-    const airportInfo = await getAirportInfo(airportCode);
+    const airportInfo = await getAirportInfo(airportCode, true);
 
     if (!airportInfo.success) {
       return undefined;

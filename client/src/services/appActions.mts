@@ -7,7 +7,7 @@ async function removeFlightPlan(token: string, flightPlanId: string) {
   if (flightPlanId) {
     await Promise.all([
       removeActiveFlightPlan(token, flightPlanId),
-      removeVerifyResults(flightPlanId),
+      removeVerifyResults(token, flightPlanId),
     ]);
   }
 }
