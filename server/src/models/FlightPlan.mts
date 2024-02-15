@@ -30,7 +30,7 @@ const RVSMEquipmentSuffixes = ["U", "W", "Z", "L"];
 const RNAVequipmentSuffixes = ["I", "Z", "G", "L"];
 const GNSSEquipmentSuffixes = ["G", "L"];
 
-const AirlineCodeRegexPattern = /\b([A-Za-z]{3})(\d+)\b/;
+const AirlineCodeRegexPattern = /\b([A-Za-z]{3})([A-Za-z\d]+)\b/;
 const SIDRegExPattern = /^([A-Za-z]{3,}\d)/;
 
 // Non-RNAV airways start with either V or J followed by digits
