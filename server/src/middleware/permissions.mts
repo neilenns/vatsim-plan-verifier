@@ -22,8 +22,9 @@ export const verifyUser = auth({
   issuerBaseURL: ENV.AUTH0_ISSUER_BASE_URL,
 });
 
-export const dumpJWT = (req: Request, res: Response, next: NextFunction) => {
+export const dumpJwt = (req: Request, res: Response, next: NextFunction) => {
   logger.debug(req.headers.authorization);
+  return next();
 };
 
 export const verifyRole =

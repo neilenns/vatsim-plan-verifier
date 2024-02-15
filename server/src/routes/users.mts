@@ -1,10 +1,10 @@
 import express, { Response } from "express";
 import { getAuth0User } from "../controllers/user.mjs";
-import { Auth0UserRequest, dumpJWT, verifyUser } from "../middleware/permissions.mjs";
+import { Auth0UserRequest, verifyUser } from "../middleware/permissions.mjs";
 
 const router = express.Router();
 
-router.get("/users/me", verifyUser, dumpJWT, async (req: Auth0UserRequest, res: Response) => {
+router.get("/users/me", verifyUser, async (req: Auth0UserRequest, res: Response) => {
   const sub = req.auth?.payload.sub;
 
   if (!sub) {
