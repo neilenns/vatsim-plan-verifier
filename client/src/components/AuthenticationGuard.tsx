@@ -33,7 +33,6 @@ export const AuthenticationGuard = ({ role, component: Component }: Authenticati
     // This way of calling async inside useEffect comes from https://devtrium.com/posts/async-functions-useeffect.
     const fetchData = async () => {
       const token = await getAccessTokenSilently();
-      console.log(token);
       const userInfo = await getUserInfo(token, user?.sub);
 
       setUserInfo(userInfo);
