@@ -3,7 +3,7 @@ import { IVatsimData, IVatsimPilot } from "../interfaces/IVatsimData.mjs";
 import mainLogger from "../logger.mjs";
 import { VatsimFlightPlanDocument, VatsimFlightPlanModel } from "../models/VatsimFlightPlan.mjs";
 import { cleanRoute, depTimeToDateTime, getCommunicationMethod } from "../utils/vatsim.mjs";
-import { logMongoBulkErrors } from "../database.mjs";
+import { logMongoBulkErrors } from "../utils.mjs";
 
 const logger = mainLogger.child({ service: "vatsimFlightPlans" });
 

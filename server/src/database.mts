@@ -1,38 +1,32 @@
 import mongoose from "mongoose";
 import { SharedCacheStrategies, applySpeedGooseCacheLayer } from "speedgoose";
 import { ENV } from "./env.mjs";
-import mainLogger, { CustomLevelsLogger } from "./logger.mjs";
+import mainLogger from "./logger.mjs";
+
 import "./models/Aircraft.mjs";
+import "./models/Airline.mjs";
 import "./models/AirportInfo.mjs";
+import "./models/ApiKey.mjs";
+import "./models/Auth0User.mjs";
+import "./models/CustomMessages.mjs";
 import "./models/Departure.mjs";
+import "./models/ExtendedAirportInfo.mjs";
 import "./models/FlightAwareRoute.mjs";
 import "./models/FlightPlan.mjs";
-import { MongoBulkWriteError } from "mongodb";
+import "./models/GroundRestrictions.mjs";
+import "./models/InitialAltitude.mjs";
+import "./models/MagneticDeclination.mjs";
+import "./models/Metar.mjs";
+import "./models/Navaid.mjs";
+import "./models/PilotStats.mjs";
+import "./models/PreferredRoute.mjs";
+import "./models/QuickReference.mjs";
+import "./models/VatsimATIS.mjs";
+import "./models/VatsimFlightPlan.mjs";
+import "./models/VatsimTunedTransceivers.mjs";
+import "./models/VerifierResult.mjs";
 
 const logger = mainLogger.child({ service: "database" });
-
-export function logMongoBulkErrors(logger: CustomLevelsLogger, err: unknown) {
-  const error = err as Error;
-
-  // Bulk write errors are super annoying. The actual write errors
-  // are a OneOrMore<T> which means you have to check and see if it's an
-  // array to know how to write out the error messages.
-  // instanceOf MongoBulkWriteError doesn't work either for some reason,
-  // you have to check by the error.name property intsead.
-  if (error.name === "MongoBulkWriteError") {
-    const writeErrors = (err as MongoBulkWriteError).writeErrors;
-
-    if (Array.isArray(writeErrors)) {
-      writeErrors.forEach((writeError) => {
-        logger.error(writeError.errmsg);
-      });
-    } else {
-      logger.error(writeErrors);
-    }
-  } else {
-    logger.error(`Unable to save to database: ${error.message}.`);
-  }
-}
 
 export async function connectToDatabase() {
   const url = ENV.MONGO_DB_CONNECTION_STRING;

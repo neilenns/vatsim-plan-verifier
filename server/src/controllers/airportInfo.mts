@@ -7,7 +7,7 @@ import { IAvioWikiAirport } from "../interfaces/IAvioWikiAirport.mjs";
 import mainLogger from "../logger.mjs";
 import { AirportInfoDocument, AirportInfoModel } from "../models/AirportInfo.mjs";
 import Result from "../types/result.mjs";
-import { logMongoBulkErrors } from "../database.mjs";
+import { logMongoBulkErrors } from "../utils.mjs";
 
 const logger = mainLogger.child({ service: "airportInfo" });
 const cache = CacheManager.getInstance<AirportInfoDocument>(CacheName.AirportInfo);

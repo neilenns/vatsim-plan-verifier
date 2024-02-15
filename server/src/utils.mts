@@ -1,3 +1,29 @@
+import { MongoBulkWriteError } from "mongodb";
+import { CustomLevelsLogger } from "./logger.mjs";
+
+export function logMongoBulkErrors(logger: CustomLevelsLogger, err: unknown) {
+  const error = err as Error;
+
+  // Bulk write errors are super annoying. The actual write errors
+  // are a OneOrMore<T> which means you have to check and see if it's an
+  // array to know how to write out the error messages.
+  // instanceOf MongoBulkWriteError doesn't work either for some reason,
+  // you have to check by the error.name property intsead.
+  if (error.name === "MongoBulkWriteError") {
+    const writeErrors = (err as MongoBulkWriteError).writeErrors;
+
+    if (Array.isArray(writeErrors)) {
+      writeErrors.forEach((writeError) => {
+        logger.error(writeError.errmsg);
+      });
+    } else {
+      logger.error(writeErrors);
+    }
+  } else {
+    logger.error(`Unable to save to database: ${error.message}.`);
+  }
+}
+
 export function formatAltitude(altitude: number, includeFeet: boolean = true): string {
   if (altitude >= 180) {
     return `FL${altitude}`;
