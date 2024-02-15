@@ -9,7 +9,7 @@ class Auth0User {
   @prop({ required: true, unique: true })
   sub!: string;
 
-  @prop({ required: true, unique: true })
+  @prop({ required: true })
   email!: string;
 
   @prop({ required: true, default: true })
