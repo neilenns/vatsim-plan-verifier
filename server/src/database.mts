@@ -54,7 +54,7 @@ export async function connectToDatabase() {
   });
 
   await connect
-    .then(async (db) => {
+    .then(async () => {
       logger.debug("Connected");
 
       ENV.REDIS_URI
@@ -67,9 +67,6 @@ export async function connectToDatabase() {
           ? SharedCacheStrategies.REDIS
           : SharedCacheStrategies.IN_MEMORY,
         defaultTtl: 60 * 10,
-        debugConfig: {
-          enabled: ENV.LOG_LEVEL === "debug",
-        },
       });
     })
     .catch((err) => {
