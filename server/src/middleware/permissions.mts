@@ -29,6 +29,9 @@ export const verifyAndAddUserInfo = (req: Auth0UserRequest, res: Response, next:
     issuerBaseURL: ENV.AUTH0_ISSUER_BASE_URL,
   })(req, res, async (err: any) => {
     if (err) {
+      const error = err as Error;
+
+      logger.error(`Unable to authenticate user: ${error.message}`, error);
       return next(err);
     }
 
@@ -63,6 +66,7 @@ export const verifyAndAddUserInfo = (req: Auth0UserRequest, res: Response, next:
       next();
     } catch (err) {
       const error = err as Error;
+
       logger.error(`Error retrieving user information: ${error.message}`, error);
       return res.status(500).json({ message: "Internal Server Error" });
     }
@@ -86,16 +90,27 @@ export const verifyRole =
     const userInfo = await Auth0UserModel.findOrCreate(sub);
 
     if (!userInfo) {
+      logger.error(`No user found for ${sub}`);
       return res.status(401).json({ error: { message: "Unauthorized" } } as VerifyErrorResponse);
     }
 
+    // Pending users get a special 403 message
     if (userInfo.isPending) {
+      logger.warn(`User ${sub} (${userInfo._id}) is pending approval`);
       return res.status(403).json({
         error: { isPending: true, message: "Account not verified" },
       } as VerifyErrorResponse);
-    } else if (!userInfo.roles.includes(role)) {
+    }
+    // If the role doesn't match they also get a 403 message
+    else if (!userInfo.roles.includes(role)) {
+      logger.error(
+        `User ${sub} (${userInfo._id}) has ${userInfo.roles.join(
+          ", "
+        )} roles but not the requested role ${role}`
+      );
       return res.status(403).json({ error: { message: "Unauthorized" } } as VerifyErrorResponse);
     }
 
+    // User and role is validated so allow the next middleware to execute
     return next();
   };
