@@ -1,5 +1,5 @@
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
-import { Typography } from "@mui/material";
+import { Typography, useColorScheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import { IAuth0User } from "../interfaces/IAuth0User.mts";
 import { getUserInfo } from "../services/user.mts";
@@ -16,6 +16,7 @@ export const AuthenticationGuard = ({ role, component: Component }: Authenticati
   const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<IAuth0User | undefined>();
   const [error, setError] = useState<Error | undefined>(undefined);
+  const { setMode } = useColorScheme();
 
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
 
@@ -35,12 +36,20 @@ export const AuthenticationGuard = ({ role, component: Component }: Authenticati
       const token = await getAccessTokenSilently();
       const userInfo = await getUserInfo(token, user?.sub);
 
+      if (!userInfo) {
+        setIsAuthorized(false);
+        setIsAuthorizing(false);
+        setError(new Error(`Unable to retrieve user information`));
+        return;
+      }
+
       setUserInfo(userInfo);
 
       if (role && !userInfo?.roles.includes(role)) {
         setIsAuthorized(false);
       } else {
         setIsAuthorized(true);
+        setMode(userInfo.colorMode);
       }
 
       setError(undefined);
@@ -51,7 +60,7 @@ export const AuthenticationGuard = ({ role, component: Component }: Authenticati
     fetchData().catch((err: Error) => {
       setError(err);
     });
-  }, [isAuthenticated, user, role, getAccessTokenSilently]);
+  }, [isAuthenticated, user, role, getAccessTokenSilently, setMode]);
 
   // Show errors from the authorization and user access calls
   if (error) {

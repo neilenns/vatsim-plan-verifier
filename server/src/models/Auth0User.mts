@@ -1,4 +1,4 @@
-import { prop, getModelForClass, DocumentType, ReturnModelType } from "@typegoose/typegoose";
+import { DocumentType, ReturnModelType, getModelForClass, prop } from "@typegoose/typegoose";
 import { ManagementClient } from "auth0";
 import { ENV } from "../env.mjs";
 import mainLogger from "../logger.mjs";
@@ -17,6 +17,9 @@ class Auth0User {
 
   @prop({ type: () => [String], required: true, default: [] })
   roles!: string[];
+
+  @prop({ required: false, default: "light" })
+  colorMode!: string;
 
   public static async findOrCreate(this: ReturnModelType<typeof Auth0User>, sub: string) {
     // Check for an existing user in the database first and return that if found.
