@@ -1,19 +1,18 @@
 import { isDocument } from "@typegoose/typegoose";
 import mainLogger from "../../logger.mjs";
-import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
+import { VerifierFunction } from "../../types/verifier.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 
 const verifierName = "hasEquipmentSuffix";
 const logger = mainLogger.child({ service: verifierName });
 
-export default async function hasEquipmentSuffix({
-  _id,
-  equipmentSuffix,
-  equipmentInfo,
-}: FlightPlan): Promise<VerifierControllerResult> {
+const hasEquipmentSuffix: VerifierFunction = async function (
+  { _id, equipmentSuffix, equipmentInfo },
+  saveResult = true
+): Promise<VerifierControllerResult> {
   // Set up the default result for a successful run of the verifier.
-  const result = new VerifierResultModel({
+  let result = new VerifierResultModel({
     flightPlanId: _id,
     verifier: verifierName,
     flightPlanPart: "rawAircraftType",
@@ -43,10 +42,12 @@ export default async function hasEquipmentSuffix({
       result.message = `Flight plan has an equipment suffix.`;
     }
 
-    const doc = await result.save();
+    if (saveResult) {
+      result = await result.save();
+    }
     return {
       success: true,
-      data: doc,
+      data: result,
     };
   } catch (err) {
     const error = err as Error;
@@ -59,4 +60,6 @@ export default async function hasEquipmentSuffix({
       error: `Error running hasEquipmentSuffix: ${error.message}`,
     };
   }
-}
+};
+
+export default hasEquipmentSuffix;

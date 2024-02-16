@@ -1,17 +1,17 @@
 import mainLogger from "../../logger.mjs";
-import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
+import { VerifierFunction } from "../../types/verifier.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 
 const verifierName = "checkForNonStandardEquipmentSuffix";
 const logger = mainLogger.child({ service: verifierName });
 
-export default async function checkForNonStandardEquipmentSuffix({
-  _id,
-  equipmentSuffix,
-}: FlightPlan): Promise<VerifierControllerResult> {
+const checkForNonStandardEquipmentSuffix: VerifierFunction = async function (
+  { _id, equipmentSuffix },
+  saveResult = true
+): Promise<VerifierControllerResult> {
   // Set up the default result for a successful run of the verifier.
-  const result = new VerifierResultModel({
+  let result = new VerifierResultModel({
     flightPlanId: _id,
     verifier: verifierName,
     flightPlanPart: "rawAircraftType",
@@ -44,10 +44,13 @@ export default async function checkForNonStandardEquipmentSuffix({
       result.priority = 5;
     }
 
-    const doc = await result.save();
+    if (saveResult) {
+      result = await result.save();
+    }
+
     return {
       success: true,
-      data: doc,
+      data: result,
     };
   } catch (err) {
     const error = err as Error;
@@ -60,4 +63,6 @@ export default async function checkForNonStandardEquipmentSuffix({
       error: `Error running checkForNonStandardEquipmentSuffix: ${error.message}`,
     };
   }
-}
+};
+
+export default checkForNonStandardEquipmentSuffix;

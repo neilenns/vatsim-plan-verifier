@@ -1,19 +1,21 @@
 import mainLogger from "../../logger.mjs";
 import { CustomMessageModel, MessageTarget } from "../../models/CustomMessages.mjs";
-import { FlightPlan } from "../../models/FlightPlan.mjs";
 import {
   VerifierResultDocument,
   VerifierResultModel,
   VerifierResultStatus,
 } from "../../models/VerifierResult.mjs";
+import { VerifierFunction } from "../../types/verifier.mjs";
 import { VerifierControllerMultiResult } from "../../types/verifierControllerResult.mjs";
+import { logMongoBulkErrors } from "../../utils.mjs";
 import applyMustacheValues from "../../utils/mustache.mjs";
 
 const verifierName = "checkForCustomDepartureMessages";
 const logger = mainLogger.child({ service: verifierName });
 
-export default async function checkForCustomDepartureMessages(
-  flightPlan: FlightPlan
+const checkForCustomDepartureMessages: VerifierFunction = async function (
+  flightPlan,
+  saveResult = true
 ): Promise<VerifierControllerMultiResult> {
   // Set up the default result for a successful run of the verifier.
   let results: VerifierResultDocument[] = [];
@@ -69,12 +71,13 @@ export default async function checkForCustomDepartureMessages(
       }
     }
 
-    // Save all the results
-    await Promise.all(
-      results.map(async (result) => {
-        await result.save();
-      })
-    );
+    if (saveResult) {
+      try {
+        await VerifierResultModel.bulkSave(results);
+      } catch (err) {
+        logMongoBulkErrors(logger, err);
+      }
+    }
 
     // Return all the results
     return {
@@ -92,4 +95,6 @@ export default async function checkForCustomDepartureMessages(
       error: `Error running checkForCustomDepartureMessages: ${error.message}`,
     };
   }
-}
+};
+
+export default checkForCustomDepartureMessages;
