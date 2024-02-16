@@ -62,6 +62,9 @@ export async function connectToDatabase() {
           ? SharedCacheStrategies.REDIS
           : SharedCacheStrategies.IN_MEMORY,
         defaultTtl: 60 * 10,
+        debugConfig: {
+          enabled: ENV.LOG_LEVEL === "debug",
+        },
       });
     })
     .catch((err) => {
