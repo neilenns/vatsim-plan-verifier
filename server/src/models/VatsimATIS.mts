@@ -1,7 +1,12 @@
-import { DocumentType, getModelForClass, modelOptions, pre, prop } from "@typegoose/typegoose";
-import mainLogger from "../logger.mjs";
-
-const logger = mainLogger.child({ service: "vatsimATISModel" });
+import {
+  DocumentType,
+  getModelForClass,
+  modelOptions,
+  plugin,
+  pre,
+  prop,
+} from "@typegoose/typegoose";
+import { SpeedGooseCacheAutoCleaner } from "speedgoose";
 
 @modelOptions({
   options: { customName: "vatsimatis" },
@@ -15,6 +20,7 @@ const logger = mainLogger.child({ service: "vatsimATISModel" });
     this.revision++;
   }
 })
+@plugin(SpeedGooseCacheAutoCleaner)
 class VatsimATIS {
   @prop({ required: false, default: 0 })
   revision!: number;

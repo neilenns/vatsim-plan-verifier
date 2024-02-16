@@ -1,5 +1,6 @@
-import { prop, getModelForClass, modelOptions, DocumentType, plugin } from "@typegoose/typegoose";
+import { DocumentType, getModelForClass, modelOptions, plugin, prop } from "@typegoose/typegoose";
 import autopopulate from "mongoose-autopopulate";
+import { SpeedGooseCacheAutoCleaner } from "speedgoose";
 import { InitialAltitude } from "./InitialAltitude.mjs";
 
 @modelOptions({
@@ -7,6 +8,7 @@ import { InitialAltitude } from "./InitialAltitude.mjs";
   schemaOptions: { collection: "extendedairportinfo" },
 })
 @plugin(autopopulate)
+@plugin(SpeedGooseCacheAutoCleaner)
 export class ExtendedAirportInfo {
   @prop({ required: true })
   airportCode!: string;

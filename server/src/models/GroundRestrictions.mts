@@ -1,12 +1,15 @@
 import {
-  prop,
+  DocumentType,
+  ReturnModelType,
   getModelForClass,
   modelOptions,
-  ReturnModelType,
-  DocumentType,
+  plugin,
+  prop,
 } from "@typegoose/typegoose";
+import { SpeedGooseCacheAutoCleaner } from "speedgoose";
 
 @modelOptions({ options: { customName: "groundRestriction" } })
+@plugin(SpeedGooseCacheAutoCleaner)
 class GroundRestriction {
   @prop({ required: true, index: true, unique: false })
   airportCode!: string;

@@ -1,5 +1,6 @@
-import { prop, getModelForClass, modelOptions, DocumentType } from "@typegoose/typegoose";
+import { DocumentType, getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
 import * as mongoose from "mongoose";
+import { SpeedGooseCacheAutoCleaner } from "speedgoose";
 
 export enum VerifierResultStatus {
   OK = "Ok",
@@ -27,6 +28,7 @@ export enum VerifierResultFlightPlanPart {
     toObject: { virtuals: true, aliases: false },
   },
 })
+@mongoose.plugin(SpeedGooseCacheAutoCleaner)
 export class VerifierResult {
   @prop({ required: true })
   flightPlanId!: mongoose.Types.ObjectId;

@@ -1,12 +1,15 @@
 import {
-  prop,
+  DocumentType,
+  ReturnModelType,
   getModelForClass,
   modelOptions,
-  ReturnModelType,
-  DocumentType,
+  plugin,
+  prop,
 } from "@typegoose/typegoose";
+import { SpeedGooseCacheAutoCleaner } from "speedgoose";
 
 @modelOptions({ options: { customName: "quickreference" } })
+@plugin(SpeedGooseCacheAutoCleaner)
 class QuickReference {
   @prop({ required: true, unique: true })
   key!: string;
