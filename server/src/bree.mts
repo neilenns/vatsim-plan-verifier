@@ -13,7 +13,7 @@ let bree = new Bree({
   doRootCheck: false,
   jobs: [],
   errorHandler: (error, workerMetadata) => {
-    logger.error(`Error running worker ${workerMetadata.name}: ${error}`);
+    logger.error(`Error running worker ${workerMetadata.name}: ${error}`, error);
   },
   workerMessageHandler: async ({ name, message }) => {
     if (message === "sendUpdates") {
@@ -110,7 +110,7 @@ async function deleteJob(jobName: JobName) {
     await bree.remove(jobName);
   } catch (error) {
     const err = error as Error;
-    logger.error(`Unable to remove job ${jobName}: ${err.message}`);
+    logger.error(`Unable to remove job ${jobName}: ${err.message}`, error);
     return;
   } finally {
     // Set the interval to blank so next time this is added it will always add, even if the old interval was the same

@@ -20,8 +20,10 @@ try {
   }
 
   await getVatsimTunedTransceivers(transceiverEndpoint.href);
-} catch (error) {
-  logger.error(`Unable to retrieve VATSIM transceivers: ${error}`);
+} catch (err) {
+  const error = err as Error;
+
+  logger.error(`Unable to retrieve VATSIM transceivers: ${error.message}`, error);
 } finally {
   await disconnectFromDatabase();
   await flush();

@@ -52,13 +52,15 @@ export default async function warnNewPilot({
       success: true,
       data: doc,
     };
-  } catch (error) {
-    logger.error(`Error running warnNewPilot: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error running warnNewPilot: ${error.message}`, error);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error running warnNewPilot: ${error}`,
+      error: `Error running warnNewPilot: ${error.message}`,
     };
   }
 }

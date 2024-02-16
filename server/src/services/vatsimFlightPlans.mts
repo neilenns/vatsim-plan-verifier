@@ -2,8 +2,8 @@ import _ from "lodash";
 import { IVatsimData, IVatsimPilot } from "../interfaces/IVatsimData.mjs";
 import mainLogger from "../logger.mjs";
 import { VatsimFlightPlanDocument, VatsimFlightPlanModel } from "../models/VatsimFlightPlan.mjs";
-import { cleanRoute, depTimeToDateTime, getCommunicationMethod } from "../utils/vatsim.mjs";
 import { logMongoBulkErrors } from "../utils.mjs";
+import { cleanRoute, depTimeToDateTime, getCommunicationMethod } from "../utils/vatsim.mjs";
 
 const logger = mainLogger.child({ service: "vatsimFlightPlans" });
 
@@ -89,8 +89,13 @@ async function calculateNewAndUpdated(
             unchangedCount++;
           }
         });
-      } catch (error) {
-        logger.error(error);
+      } catch (err) {
+        const error = err as Error;
+
+        logger.error(
+          `Unable to calculate new and updated for ${incomingPlan.callsign}: ${error.message}`,
+          error
+        );
       }
     })
   );

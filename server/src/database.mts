@@ -62,9 +62,13 @@ export async function connectToDatabase() {
       });
     })
     .catch((err) => {
+      const error = err as Error;
       // Auto-reconnect logic from:
       // https://team.goodeggs.com/reconnecting-to-mongodb-when-mongoose-connect-fails-at-startup-83ca8496ca02
-      logger.error(`Failed to connect to mongo on startup - retrying in 5 secconds:\n${err}`);
+      logger.error(
+        `Failed to connect to mongo on startup: ${err.message} - retrying in 5 secconds`,
+        error
+      );
       setTimeout(connectToDatabase, 5000);
     });
 }

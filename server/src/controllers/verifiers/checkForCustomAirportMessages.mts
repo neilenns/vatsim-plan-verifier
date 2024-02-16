@@ -66,13 +66,15 @@ export default async function checkForCustomAirportMessages(
       success: true,
       data: results,
     };
-  } catch (error) {
-    logger.error(`Error running checkForCustomAirportMessages: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error running checkForCustomAirportMessages: ${error.message}`, error);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error running checkForCustomAirportMessages: ${error}`,
+      error: `Error running checkForCustomAirportMessages: ${error.message}`,
     };
   }
 }

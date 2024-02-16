@@ -267,14 +267,15 @@ export default async function checkSEAInitialSID(
     }
 
     await result.data.save();
-  } catch (error) {
-    const err = error as Error;
-    logger.error(`Error running checkSEAInitialSID: ${err.message}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error running checkSEAInitialSID: ${error.message}`, error);
 
     result = {
       success: false,
       errorType: "UnknownError",
-      error: `Error running checkSEAInitialSID: ${err.message}`,
+      error: `Error running checkSEAInitialSID: ${error.message}`,
     };
   }
 

@@ -80,13 +80,15 @@ export default async function checkForGroundRestrictions(
       success: true,
       data: results,
     };
-  } catch (error) {
-    logger.error(`Error running checkForGroundRestrictions: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error running checkForGroundRestrictions: ${error.message}`, error);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error running checkForGroundRestrictions: ${error}`,
+      error: `Error running checkForGroundRestrictions: ${error.message}`,
     };
   }
 }

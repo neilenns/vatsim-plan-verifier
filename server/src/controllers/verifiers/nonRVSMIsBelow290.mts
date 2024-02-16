@@ -52,13 +52,15 @@ export default async function nonRVSMIsBelow290({
       success: true,
       data: doc,
     };
-  } catch (error) {
-    logger.error(`Error running verifyNonRVSMIsBelow290: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error running verifyNonRVSMIsBelow290: ${error.message}`, error);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error running verifyNonRVSMIsBelow290: ${error}`,
+      error: `Error running verifyNonRVSMIsBelow290: ${error.message}`,
     };
   }
 }

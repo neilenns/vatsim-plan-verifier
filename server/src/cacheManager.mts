@@ -62,9 +62,12 @@ export class CacheManager<T> {
     try {
       await fs.promises.writeFile(fileName, JSON.stringify(this.cache, null, 2));
       logger.debug(`Cache saved to ${fileName} successfully.`, { fileName });
-    } catch (error) {
-      const err = error as Error;
-      logger.error(`Error saving ${this.cacheName} cache to ${fileName}: ${error}`, { fileName });
+    } catch (err) {
+      const error = err as Error;
+      logger.error(`Error saving ${this.cacheName} cache to ${fileName}: ${error.message}`, {
+        fileName,
+        error,
+      });
     }
   }
 
@@ -75,9 +78,11 @@ export class CacheManager<T> {
       const data = await fs.promises.readFile(fileName, "utf-8");
       this.cache = JSON.parse(data);
       logger.debug(`Cache ${this.cacheName} loaded from ${fileName} successfully.`, { fileName });
-    } catch (error) {
-      logger.error(`Error loading ${this.cacheName} cache from ${fileName}: ${error}`, {
+    } catch (err) {
+      const error = err as Error;
+      logger.error(`Error loading ${this.cacheName} cache from ${fileName}: ${error.message}`, {
         fileName,
+        error,
       });
     }
   }

@@ -39,7 +39,8 @@ async function startup() {
     // restarts.
     restartAttemptCount = 0;
   } catch (err) {
-    logger.error(`Error starting server: ${err}`);
+    const error = err as Error;
+    logger.error(`Error starting server: ${error.message}`, error);
 
     // Shutdown things that may have spun up successfully.
     await shutdown();

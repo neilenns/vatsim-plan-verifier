@@ -81,13 +81,15 @@ export default async function checkForCustomDepartureMessages(
       success: true,
       data: results,
     };
-  } catch (error) {
-    logger.error(`Error running checkForCustomDepartureMessages: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error running checkForCustomDepartureMessages: ${error.message}`, error);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error running checkForCustomDepartureMessages: ${error}`,
+      error: `Error running checkForCustomDepartureMessages: ${error.message}`,
     };
   }
 }

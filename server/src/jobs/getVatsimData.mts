@@ -36,8 +36,10 @@ if (!dispose) {
     }
 
     await getVatsimData(dataEndpoint.href);
-  } catch (error) {
-    logger.error(`Unable to retrieve VATSIM data: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Unable to retrieve VATSIM data: ${error.message}`, error);
   } finally {
     await disconnectFromDatabase();
     await cache.saveToFile(ENV.CACHE_DIRECTORY);

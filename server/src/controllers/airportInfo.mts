@@ -106,20 +106,21 @@ async function fetchAirportFromFlightAware(
 
       throw new Error(`Error fetching airport information for ${airportCode}: ${response.status}`);
     }
-  } catch (error) {
+  } catch (err) {
     // 400 error is thrown if the airport wasn't found, so in that case specifically return undefined
     // instead of throwing another error.
-    if (error instanceof AxiosError) {
-      if (error.response?.status === 400) {
+    if (err instanceof AxiosError) {
+      if (err.response?.status === 400) {
         return undefined;
       }
     }
-    const err = error as Error;
-    logger.error(`Error fetching airport information for ${airportCode}: ${err.message}`, {
+    const error = err as Error;
+    logger.error(`Error fetching airport information for ${airportCode}: ${error.message}`, {
       url: endpointUrl,
+      error,
     });
 
-    throw new Error(`Error fetching airport information for ${airportCode}: ${err.message}`);
+    throw new Error(`Error fetching airport information for ${airportCode}: ${error.message}`);
   }
 }
 

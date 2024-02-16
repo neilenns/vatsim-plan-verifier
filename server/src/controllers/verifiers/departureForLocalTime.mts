@@ -56,13 +56,15 @@ export default async function departureForLocalTime({
     }
 
     await result.data.save();
-  } catch (error) {
-    logger.error(`Error running departureForLocalTime: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error running departureForLocalTime: ${error.message}`, error);
 
     result = {
       success: false,
       errorType: "UnknownError",
-      error: `Error running departureForLocalTime: ${error}`,
+      error: `Error running departureForLocalTime: ${error.message}`,
     };
   }
 

@@ -121,9 +121,10 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
         },
       }),
     ]);
-  } catch (error) {
-    const err = error as Error;
-    logger.error(`Error updating transceivers: ${err.message}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error updating transceivers: ${error.message}`, error);
   }
 
   profiler.done({

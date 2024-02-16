@@ -24,13 +24,14 @@ export async function putFlightPlan(flightPlanData: FlightPlan): Promise<FlightP
       success: true,
       data: savedFlightPlan,
     };
-  } catch (error) {
-    logger.error(`Unable to save flight plan: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+    logger.error(`Unable to save flight plan: ${error.message}`, error);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Failed to save the flight plan: ${error}.`,
+      error: `Failed to save the flight plan: ${error.message}.`,
     };
   }
 }

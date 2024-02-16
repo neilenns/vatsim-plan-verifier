@@ -73,13 +73,15 @@ export default async function airwaysForEquipmentSuffix({
       success: true,
       data: doc,
     };
-  } catch (error) {
-    logger.error(`Error running airwaysForEquipmentSuffix: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error running airwaysForEquipmentSuffix: ${error.message}`, error);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error running airwaysForEquipmentSuffix: ${error}`,
+      error: `Error running airwaysForEquipmentSuffix: ${error.message}`,
     };
   }
 }

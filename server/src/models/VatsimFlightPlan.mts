@@ -270,25 +270,6 @@ class VatsimFlightPlan {
     this.status = VatsimFlightStatus.UNKNOWN;
   }
 
-  /**
-   * Saves a document to the database but only if it was modified. Otherwise it does nothing.
-   * @param this The document to save
-   * @returns 1 if saved, 0 if not.
-   */
-  public async saveIfModified(this: DocumentType<VatsimFlightPlan>) {
-    if (this.isModified()) {
-      try {
-        await this.save();
-        return true;
-      } catch (error) {
-        const err = error as Error;
-        logger.error(`Unable to save flight plan for ${this.callsign}: ${err.message}`);
-      }
-    }
-
-    return false;
-  }
-
   // Sets the cruise altitude and flight rules, taking into account how vNAS flight plans
   // mark VFR flights with "VFR" in the cruise altitude field.
   public setCruiseAltitudeAndFlightRules(

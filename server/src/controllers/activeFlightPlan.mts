@@ -171,13 +171,17 @@ export async function getActiveFlightPlans(controllerId: string): Promise<Active
         error: `No flight plans found for controller ${controllerId}.`,
       };
     }
-  } catch (error) {
-    logger.error(`Error fetching flight plans for controller ${controllerId}: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+    logger.error(
+      `Error fetching flight plans for controller ${controllerId}: ${error.message}`,
+      error
+    );
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error fetching flight plans for controller ${controllerId}: ${error}`,
+      error: `Error fetching flight plans for controller ${controllerId}: ${error.message}`,
     };
   }
 }

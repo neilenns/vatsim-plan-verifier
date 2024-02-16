@@ -40,13 +40,15 @@ export default async function warnTextOnlyPilot({
     }
 
     await result.data.save();
-  } catch (error) {
-    logger.error(`Error running warnTextOnlyPilot: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error running warnTextOnlyPilot: ${error.message}`, error);
 
     result = {
       success: false,
       errorType: "UnknownError",
-      error: `Error running warnTextOnlyPilot: ${error}`,
+      error: `Error running warnTextOnlyPilot: ${error.message}`,
     };
   }
 

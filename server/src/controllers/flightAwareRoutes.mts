@@ -35,8 +35,12 @@ export async function getFlightAwareRoutes({
         data: routes,
       };
     }
-  } catch (error) {
-    logger.error(`Error fetching cached routes for ${departure}-${arrival}: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+    logger.error(
+      `Error fetching cached routes for ${departure}-${arrival}: ${error.message}`,
+      error
+    );
   }
 
   // create a new FlightAwareRoutesResponse object and initialize the routes to an empty array
@@ -63,7 +67,8 @@ export async function getFlightAwareRoutes({
     };
   } catch (err) {
     const error = err as Error;
-    logger.error(error.message);
+    logger.error(error);
+
     return {
       success: false,
       errorType: "UnknownError",
@@ -109,9 +114,12 @@ async function fetchFlightRoutes(
       });
       throw new Error(`Error fetching routes for ${departure}-${arrival}: ${response.status}`);
     }
-  } catch (error) {
-    logger.error(`Error fetching routes for ${departure}-${arrival}: ${error}`, {
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error fetching routes for ${departure}-${arrival}: ${error.message}`, {
       url: endpointUrl,
+      error,
     });
     throw new Error(`Error fetching routes for ${departure}-${arrival}: ${error}`);
   }

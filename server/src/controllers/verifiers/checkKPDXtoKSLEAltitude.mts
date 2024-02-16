@@ -58,13 +58,15 @@ export default async function checkKPDXtoKSLEAltitude({
       success: true,
       data: doc,
     };
-  } catch (error) {
-    logger.error(`Error running checkKPDXtoKSLEAltitude: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error running checkKPDXtoKSLEAltitude: ${error.message}`, error);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error running checkKPDXtoKSLEAltitude: ${error}`,
+      error: `Error running checkKPDXtoKSLEAltitude: ${error.message}`,
     };
   }
 }

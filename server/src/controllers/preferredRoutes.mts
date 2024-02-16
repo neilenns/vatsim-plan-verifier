@@ -29,12 +29,17 @@ export async function getPreferredRoutes(
       success: true,
       data: preferredRoutes,
     };
-  } catch (error) {
-    logger.error(`Unable to retrieve preferred routes for ${departure} to ${arrival}: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(
+      `Unable to retrieve preferred routes for ${departure} to ${arrival}: ${error.message}`,
+      error
+    );
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Failed to retrieve preferred routes for ${departure} to ${arrival}: ${error}.`,
+      error: `Failed to retrieve preferred routes for ${departure} to ${arrival}: ${error.message}.`,
     };
   }
 }

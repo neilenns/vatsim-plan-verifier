@@ -3,7 +3,6 @@ import { AuthResult, auth } from "express-oauth2-jwt-bearer";
 import { ENV } from "../env.mjs";
 import mainLogger from "../logger.mjs";
 import { Auth0UserModel } from "../models/Auth0User.mjs";
-import { Types } from "mongoose";
 
 const logger = mainLogger.child({ service: "permissions" });
 
@@ -30,28 +29,45 @@ export const verifyAndAddUserInfo = (req: Auth0UserRequest, res: Response, next:
     issuerBaseURL: ENV.AUTH0_ISSUER_BASE_URL,
   })(req, res, async (err: any) => {
     if (err) {
+      const error = err as Error;
+
+      logger.error(`Unable to authenticate user: ${error.message}`, error);
       return next(err);
     }
 
     try {
       const sub = req.auth?.payload.sub;
+
+      if (!req.auth) {
+        logger.error(`No authentication found. This should never happen.`);
+        return res
+          .status(404)
+          .json({ error: { message: "User not found" } } as VerifyErrorResponse);
+      }
+
+      if (!sub) {
+        logger.error(`No sub found for ${JSON.stringify(req.auth)}`);
+        return res.status(401).json({ error: { message: "Unauthorized" } } as VerifyErrorResponse);
+      }
+
+      // Look up the user in the database so the _id can be stored and
+      // used by all the rest of the service.
       const user = await Auth0UserModel.findOne({ sub });
 
-      logger.debug(`Auth: ${req.auth}`);
-
       if (!user) {
+        logger.error(`No user found for ${sub}`);
         return res.status(404).json({ message: "User not found" });
       }
 
-      if (req.auth) {
-        // Replace the sub with the value from the database. Will this work?
-        req.auth.payload.sub = user._id.toString();
-      }
+      // Kind of a hack, just blindly replace the Auth0 sub (which isn't useful elsewhere)
+      // with the _id of the user in the database (which is useful).
+      req.auth.payload.sub = user._id.toString();
 
       next();
-    } catch (error) {
-      // Handle any errors that occur during user lookup
-      logger.error("Error retrieving user information:", error);
+    } catch (err) {
+      const error = err as Error;
+
+      logger.error(`Error retrieving user information: ${error.message}`, error);
       return res.status(500).json({ message: "Internal Server Error" });
     }
   });
@@ -67,22 +83,34 @@ export const verifyRole =
     const sub = req.auth?.payload.sub;
 
     if (!sub) {
+      logger.error(`No sub found for ${JSON.stringify(req.auth)}`);
       return res.status(401).json({ error: { message: "Unauthorized" } } as VerifyErrorResponse);
     }
 
     const userInfo = await Auth0UserModel.findOrCreate(sub);
 
     if (!userInfo) {
+      logger.error(`No user found for ${sub}`);
       return res.status(401).json({ error: { message: "Unauthorized" } } as VerifyErrorResponse);
     }
 
+    // Pending users get a special 403 message
     if (userInfo.isPending) {
+      logger.warn(`User ${sub} (${userInfo._id}) is pending approval`);
       return res.status(403).json({
         error: { isPending: true, message: "Account not verified" },
       } as VerifyErrorResponse);
-    } else if (!userInfo.roles.includes(role)) {
+    }
+    // If the role doesn't match they also get a 403 message
+    else if (!userInfo.roles.includes(role)) {
+      logger.error(
+        `User ${sub} (${userInfo._id}) has ${userInfo.roles.join(
+          ", "
+        )} roles but not the requested role ${role}`
+      );
       return res.status(403).json({ error: { message: "Unauthorized" } } as VerifyErrorResponse);
     }
 
+    // User and role is validated so allow the next middleware to execute
     return next();
   };

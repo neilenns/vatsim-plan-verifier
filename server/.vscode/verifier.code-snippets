@@ -135,14 +135,14 @@
       "    }",
       "",
       "    await result.data.save();",
-      "  } catch (error) {",
-      "    const err = error as Error;"
-      "    logger.error(`Error running ${TM_FILENAME_BASE}: ${err.message}`);",
+      "  } catch (err) {",
+      "    const error = err as Error;"
+      "    logger.error(`Error running ${TM_FILENAME_BASE}: ${error.message}`, error);",
       "",
       "    result = {",
       "      success: false,",
       "      errorType: \"UnknownError\",",
-      "      error: `Error running ${TM_FILENAME_BASE}: ${err.message}`,",
+      "      error: `Error running ${TM_FILENAME_BASE}: ${error.message}`,",
       "    };",
       "  }",
       "",

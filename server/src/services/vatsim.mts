@@ -30,8 +30,10 @@ export async function getVatsimEndpoints() {
       );
       return null;
     }
-  } catch (error) {
-    logger.error(`Unable to retrieve VATSIM endpoints: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Unable to retrieve VATSIM endpoints: ${error.message}`, error);
     return null;
   }
 }

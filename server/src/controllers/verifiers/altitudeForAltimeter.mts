@@ -69,13 +69,15 @@ export default async function altitudeForAltimeter({
       result.data.messageId = "AltitudeOk";
     }
     await result.data.save();
-  } catch (error) {
-    logger.error(`Error running altitudeForAltiemter: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error running altitudeForAltiemter: ${error.message}`, error);
 
     result = {
       success: false,
       errorType: "UnknownError",
-      error: `Error running altitudeForAltiemter: ${error}`,
+      error: `Error running altitudeForAltiemter: ${error.message}`,
     };
   }
 

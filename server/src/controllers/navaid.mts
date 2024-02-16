@@ -19,13 +19,15 @@ export async function getNavaidById(id: string): Promise<NavaidResult> {
         error: `Navaid ${id} not found.`,
       };
     }
-  } catch (error) {
-    logger.error(`Error fetching navaid ${id}: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error fetching navaid ${id}: ${error.message}`, error);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error fetching navaid ${id}: ${error}`,
+      error: `Error fetching navaid ${id}: ${error.message}`,
     };
   }
 }
@@ -43,13 +45,15 @@ export async function getNavaidByIdent(ident: string): Promise<NavaidResult> {
         error: `Navaid ${ident} not found.`,
       };
     }
-  } catch (error) {
-    logger.error(`Error fetching navaid ${ident}: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error fetching navaid ${ident}: ${error.message}`, error);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error fetching navaid ${ident}: ${error}`,
+      error: `Error fetching navaid ${ident}: ${error.message}`,
     };
   }
 }

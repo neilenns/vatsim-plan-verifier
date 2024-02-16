@@ -30,12 +30,14 @@ export async function getTunedTransceiversForCallsign(
         error: `No transceivers found for ${callsign}`,
       };
     }
-  } catch (error) {
-    logger.error(`Error fetching transceivers for ${callsign}: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error fetching transceivers for ${callsign}: ${error.message}`, error);
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error fetching transceivers for ${callsign}`,
+      error: `Error fetching transceivers for ${callsign}: ${error.message}`,
     };
   }
 }

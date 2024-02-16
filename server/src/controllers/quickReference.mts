@@ -25,13 +25,15 @@ export async function getQuickReference(key: string): Promise<QuickReferenceResu
         error: `Quick reference ${key} not found.`,
       };
     }
-  } catch (error) {
-    logger.error(`Error fetching quick reference ${key}: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error fetching quick reference ${key}: ${error.message}`, error);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error fetching quick reference ${key}: ${error}`,
+      error: `Error fetching quick reference ${key}: ${error.message}`,
     };
   }
 }
@@ -51,13 +53,15 @@ export async function getQuickReferenceList(): Promise<QuickReferenceListResult>
         error: `No quick references found.`,
       };
     }
-  } catch (error) {
-    logger.error(`Error fetching quick references: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error fetching quick references: ${error.message}`, error);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error fetching quick references: ${error}`,
+      error: `Error fetching quick references: ${error.message}`,
     };
   }
 }

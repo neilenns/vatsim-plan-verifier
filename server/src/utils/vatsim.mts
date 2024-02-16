@@ -1,5 +1,5 @@
-import { VatsimCommunicationMethod } from "../models/VatsimFlightPlan.mjs";
 import mainLogger from "../logger.mjs";
+import { VatsimCommunicationMethod } from "../models/VatsimFlightPlan.mjs";
 
 const logger = mainLogger.child({ service: "utils" });
 
@@ -25,14 +25,17 @@ export function depTimeToDateTime(depTime: string | undefined): Date | undefined
 
     departureTime.setUTCHours(hour);
     departureTime.setUTCMinutes(minute);
-    // Otherwise every time this runs the time is different and it causes a database save
+
+    // Set seconds and millseconds to zero otherwise every time this
+    // runs the time is different and it causes a database save
     departureTime.setUTCSeconds(0);
     departureTime.setUTCMilliseconds(0);
 
     return departureTime;
-  } catch (error) {
-    const err = error as Error;
-    logger.error(`Unable to parse ${depTime} to a time: ${err.message}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Unable to parse ${depTime} to a time: ${error.message}`, error);
 
     return undefined;
   }

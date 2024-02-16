@@ -48,13 +48,15 @@ export default async function hasEquipmentSuffix({
       success: true,
       data: doc,
     };
-  } catch (error) {
-    logger.error(`Error running hasEquipmentSuffix: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error running hasEquipmentSuffix: ${error.message}`, error);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error running hasEquipmentSuffix: ${error}`,
+      error: `Error running hasEquipmentSuffix: ${error.message}`,
     };
   }
 }
