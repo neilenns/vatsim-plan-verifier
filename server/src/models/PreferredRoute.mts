@@ -1,13 +1,16 @@
 import {
-  prop,
-  getModelForClass,
-  ReturnModelType,
   DocumentType,
+  ReturnModelType,
+  getModelForClass,
   isDocument,
+  plugin,
+  prop,
 } from "@typegoose/typegoose";
+import { SpeedGooseCacheAutoCleaner } from "speedgoose";
 import { FlightPlan } from "./FlightPlan.mjs";
 import { AirportFlow } from "./InitialAltitude.mjs";
 
+@plugin(SpeedGooseCacheAutoCleaner)
 class PreferredRoute {
   @prop({ required: true })
   departure!: string;

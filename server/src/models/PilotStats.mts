@@ -1,7 +1,7 @@
-import { prop, getModelForClass, modelOptions, DocumentType, plugin } from "@typegoose/typegoose";
+import { DocumentType, getModelForClass, modelOptions, plugin, prop } from "@typegoose/typegoose";
 import autopopulate from "mongoose-autopopulate";
+import { SpeedGooseCacheAutoCleaner } from "speedgoose";
 
-@plugin(autopopulate)
 @modelOptions({
   options: { customName: "pilotstats" },
   schemaOptions: {
@@ -9,6 +9,8 @@ import autopopulate from "mongoose-autopopulate";
     toObject: { virtuals: true, aliases: false },
   },
 })
+@plugin(autopopulate)
+@plugin(SpeedGooseCacheAutoCleaner)
 export class PilotStats {
   @prop({ required: true, index: true, unique: true })
   cid!: number;

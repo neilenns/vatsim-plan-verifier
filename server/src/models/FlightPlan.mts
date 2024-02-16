@@ -11,6 +11,7 @@ import {
 import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
 import { Types } from "mongoose";
 import autopopulate from "mongoose-autopopulate";
+import { SpeedGooseCacheAutoCleaner } from "speedgoose";
 import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import { getVatsimPilotStats } from "../controllers/vatsim.mjs";
 import mainLogger from "../logger.mjs";
@@ -90,6 +91,7 @@ export enum VatsimCommsEnum {
   },
 })
 @plugin(autopopulate)
+@plugin(SpeedGooseCacheAutoCleaner)
 // Always strip the + off the route before saving
 @pre<FlightPlan>("save", function (next) {
   if (this.isModified("route")) {

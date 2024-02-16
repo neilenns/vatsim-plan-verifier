@@ -284,7 +284,7 @@ export async function getVatsimFlightPlan(callsign: string): Promise<VatsimFligh
 
 export async function getVatsimAtis(callsign: string): Promise<VatsimATISResult> {
   try {
-    const result = await VatsimATISModel.findOne({ callsign }).cacheQuery({ ttl: 60 });
+    const result = await VatsimATISModel.findOne({ callsign }).cacheQuery({ ttl: 60 * 60 }); // One hour
 
     if (result) {
       return { success: true, data: result };

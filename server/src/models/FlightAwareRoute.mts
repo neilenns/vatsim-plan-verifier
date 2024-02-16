@@ -1,4 +1,5 @@
-import { DocumentType, getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
+import { DocumentType, getModelForClass, modelOptions, plugin, prop } from "@typegoose/typegoose";
+import { SpeedGooseCacheAutoCleaner } from "speedgoose";
 import { formatAltitude } from "../utils.mjs";
 
 @modelOptions({
@@ -8,6 +9,7 @@ import { formatAltitude } from "../utils.mjs";
     toObject: { virtuals: true, aliases: false },
   },
 })
+@plugin(SpeedGooseCacheAutoCleaner)
 class FlightAwareRoute {
   @prop({ required: true })
   departure!: string;

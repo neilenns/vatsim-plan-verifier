@@ -1,4 +1,5 @@
-import { prop } from "@typegoose/typegoose";
+import { plugin, prop } from "@typegoose/typegoose";
+import { SpeedGooseCacheAutoCleaner } from "speedgoose";
 import { AircraftClass } from "./Aircraft.mjs";
 
 export enum InitialPhrasingOptions {
@@ -19,6 +20,7 @@ export enum AirportFlow {
   Unknown = "UNKNOWN",
 }
 
+@plugin(SpeedGooseCacheAutoCleaner)
 export class InitialAltitude {
   @prop({ enum: InitialPhrasingOptions, default: InitialPhrasingOptions.Unknown })
   InitialPhrasing?: InitialPhrasingOptions;
