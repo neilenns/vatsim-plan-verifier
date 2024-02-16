@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import { getVatsimAtis } from "../../controllers/vatsim.mjs";
 import { secureQueryMiddleware } from "../../middleware/secureQueryMiddleware.mjs";
 import { ParamsDictionary, Query } from "express-serve-static-core";
+import { verifyApiKey } from "../../middleware/apikey.mjs";
 
 interface ATISParams extends ParamsDictionary {
   callsign: string;
@@ -21,6 +22,7 @@ function appendPadding(text: string, padding: number) {
 
 router.get(
   "/vatsim/atis/:callsign",
+  verifyApiKey,
   secureQueryMiddleware,
   async (req: Request<ATISParams, {}, {}, ATISQueryParams>, res: Response) => {
     const codeOnly = JSON.parse(req.query.codeOnly?.toLowerCase() ?? "false");

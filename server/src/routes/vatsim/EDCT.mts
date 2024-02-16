@@ -7,6 +7,7 @@ import {
 } from "../../controllers/vatsim.mjs";
 import { verifyUser, verifyRole } from "../../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../../middleware/secureQueryMiddleware.mjs";
+import { verifyApiKey } from "../../middleware/apikey.mjs";
 
 interface EDCTQueryParams extends Query {
   d: string[];
@@ -61,6 +62,7 @@ router.put(
 
 router.get(
   "/vatsim/flightPlans/edct/viewonly",
+  verifyApiKey,
   secureQueryMiddleware,
   async (req: Request<{}, {}, {}, EDCTQueryParams>, res: Response) => {
     const result = await getVatsimEDCTViewOnly(req.query.d);
@@ -80,6 +82,7 @@ router.get(
 
 router.get(
   "/vatsim/flightPlans/edct",
+  verifyApiKey,
   secureQueryMiddleware,
   async (req: Request<{}, {}, {}, EDCTQueryParams>, res: Response) => {
     const result = await getVatsimEDCTFlightPlans(req.query.d, req.query.a);
