@@ -16,10 +16,10 @@ const logger = mainLogger.child({ service: "magneticDeclination" });
 @modelOptions({ options: { customName: "magneticdeclination" } })
 @plugin(SpeedGooseCacheAutoCleaner)
 class MagneticDeclination extends defaultClasses.TimeStamps {
-  @prop({ required: true })
+  @prop({ required: true, index: true, unique: true })
   icao!: string;
 
-  @prop({ required: true, index: true, unique: true })
+  @prop({ required: true })
   magneticDeclination!: number;
 
   public static async findByICAO(
