@@ -35,5 +35,6 @@ export async function verifyAll(flightPlan: FlightPlan): Promise<VerifyAllResult
   } catch (err) {
     logMongoBulkErrors(logger, err);
   }
+
   return verifyAllResult;
 }
