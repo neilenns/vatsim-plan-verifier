@@ -26,7 +26,7 @@ class MagneticDeclination extends defaultClasses.TimeStamps {
     this: ReturnModelType<typeof MagneticDeclination>,
     icao: string
   ): Promise<MagneticDeclinationDocument | null> {
-    return await this.findOne({ icao }).cacheQuery({ ttl: 60 * 60 }); // One hour
+    return await this.findOne({ icao }).cacheQuery({ ttl: 60 * 60 * 24 * 30 }); // 30 days
   }
 
   public async isExpired(this: DocumentType<MagneticDeclination>): Promise<boolean> {

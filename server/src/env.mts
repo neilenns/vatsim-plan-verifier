@@ -50,6 +50,7 @@ const envSchema = z.object({
   MONGOOSE_DEBUG: z.string().transform<boolean>(booleanTransformer).default("false"),
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   PORT: z.coerce.number().default(4001),
+  REDIS_URI: z.string().optional(),
   REFRESH_TOKEN_EXPIRY: z.string().default("60 * 60 * 24 * 30"),
   REFRESH_TOKEN_SECRET: z.string(),
   SESSION_EXPIRY: z.string().default("60 * 15"),

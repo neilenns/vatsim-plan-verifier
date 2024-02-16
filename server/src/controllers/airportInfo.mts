@@ -1,7 +1,6 @@
 import AdmZip from "adm-zip";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import winston from "winston";
-import { CacheManager, CacheName } from "../cacheManager.mjs";
 import { ENV } from "../env.mjs";
 import { IAvioWikiAirport } from "../interfaces/IAvioWikiAirport.mjs";
 import mainLogger from "../logger.mjs";
@@ -10,7 +9,6 @@ import Result from "../types/result.mjs";
 import { logMongoBulkErrors } from "../utils.mjs";
 
 const logger = mainLogger.child({ service: "airportInfo" });
-const cache = CacheManager.getInstance<AirportInfoDocument>(CacheName.AirportInfo);
 
 type AirportInfoResult = Result<AirportInfoDocument, "AirportNotFound" | "UnknownError">;
 type FetchAvioWikiAirportsResult = Result<number, "UnknownError">;
@@ -23,23 +21,11 @@ type FetchAvioWikiAirportsResult = Result<number, "UnknownError">;
  * @param useCache True to use cached airport values. Default false.
  * @returns The airport info.
  */
-export async function getAirportInfo(
-  airportCode: string,
-  useCache = false
-): Promise<AirportInfoResult> {
+export async function getAirportInfo(airportCode: string): Promise<AirportInfoResult> {
   try {
-    let airport: AirportInfoDocument | null = null;
-
-    if (useCache) {
-      airport = cache.get(airportCode);
-    }
-
-    if (!airport) {
-      airport = await AirportInfoModel.findOne({ airportCode });
-      if (airport) {
-        cache.set(airportCode, airport);
-      }
-    }
+    const airport = await AirportInfoModel.findOne({ airportCode }).cacheQuery({
+      ttl: 60 * 60 * 24 * 30,
+    }); // 30 days, this data never changes
 
     // Airports with blank names are placeholders indicating it doesn't exist to prevent repeated checks with
     // FlightAware
