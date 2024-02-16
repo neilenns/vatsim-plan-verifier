@@ -187,10 +187,7 @@ export function calculateInitialSIDForNotJets(flightPlan: FlightPlan): InitialSi
   return calculateInitialSidAllGroups(flightPlan);
 }
 
-const checkSEAInitialSID: VerifierFunction = async function (
-  flightPlan,
-  saveResult = true
-): Promise<VerifierControllerResult> {
+const checkSEAInitialSID: VerifierFunction = async function (flightPlan, saveResult = true) {
   // Set up the default result for a successful run of the verifier.
   let result: VerifierControllerResult = {
     success: true,

@@ -7,7 +7,6 @@ import {
   VerifierResultStatus,
 } from "../../models/VerifierResult.mjs";
 import { VerifierFunction } from "../../types/verifier.mjs";
-import { VerifierControllerMultiResult } from "../../types/verifierControllerResult.mjs";
 import { logMongoBulkErrors } from "../../utils.mjs";
 import applyMustacheValues from "../../utils/mustache.mjs";
 
@@ -17,7 +16,7 @@ const logger = mainLogger.child({ service: verifierName });
 const checkForGroundRestrictions: VerifierFunction = async function (
   flightPlan,
   saveResult = true
-): Promise<VerifierControllerMultiResult> {
+) {
   // Set up the default result for a successful run of the verifier.
   let results: VerifierResultDocument[] = [];
 

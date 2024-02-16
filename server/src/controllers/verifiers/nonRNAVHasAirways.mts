@@ -1,17 +1,16 @@
 import mainLogger from "../../logger.mjs";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
+import { VerifierFunction } from "../../types/verifier.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 
 const verifierName = "nonRNAVHasAirways";
 const logger = mainLogger.child({ service: verifierName });
 
-export default async function nonRNAVHasAirways({
-  _id,
-  isRNAVCapable,
-  routeHasNonRNAVAirways,
-  equipmentSuffix,
-}: FlightPlan): Promise<VerifierControllerResult> {
+const nonRNAVHasAirways: VerifierFunction = async function (
+  { _id, isRNAVCapable, routeHasNonRNAVAirways, equipmentSuffix },
+  saveResult = true
+) {
   // Set up the default result for a successful run of the verifier.
   const result = new VerifierResultModel({
     flightPlanId: _id,
@@ -46,10 +45,12 @@ export default async function nonRNAVHasAirways({
       result.priority = 1;
     }
 
-    const doc = await result.save();
+    if (saveResult) {
+      await result.save();
+    }
     return {
       success: true,
-      data: doc,
+      data: result,
     };
   } catch (err) {
     const error = err as Error;
@@ -62,4 +63,6 @@ export default async function nonRNAVHasAirways({
       error: `Error running verifyNonRNAVHasAirways: ${error.message}`,
     };
   }
-}
+};
+
+export default nonRNAVHasAirways;

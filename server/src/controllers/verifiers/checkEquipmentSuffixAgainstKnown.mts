@@ -2,7 +2,6 @@ import { isDocument } from "@typegoose/typegoose";
 import mainLogger from "../../logger.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import { VerifierFunction } from "../../types/verifier.mjs";
-import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 
 const verifierName = "checkEquipmentSuffixAgainstKnown";
 const logger = mainLogger.child({ service: verifierName });
@@ -10,9 +9,9 @@ const logger = mainLogger.child({ service: verifierName });
 const checkEquipmentSuffixAgainstKnown: VerifierFunction = async function (
   { _id, equipmentInfo, equipmentSuffix, equipmentCode },
   saveResult = true
-): Promise<VerifierControllerResult> {
+) {
   // Set up the default result for a successful run of the verifier.
-  let result = new VerifierResultModel({
+  const result = new VerifierResultModel({
     flightPlanId: _id,
     verifier: verifierName,
     flightPlanPart: "rawAircraftType",
@@ -59,7 +58,7 @@ const checkEquipmentSuffixAgainstKnown: VerifierFunction = async function (
     }
 
     if (saveResult) {
-      result = await result.save();
+      await result.save();
     }
 
     return {

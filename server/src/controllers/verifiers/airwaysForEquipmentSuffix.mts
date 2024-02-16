@@ -9,9 +9,9 @@ const logger = mainLogger.child({ service: verifierName });
 const airwaysForEquipmentSuffix: VerifierFunction = async function (
   { _id, equipmentSuffix, isGNSSCapable, isRNAVCapable, routeParts },
   saveResult = true
-): Promise<VerifierControllerResult> {
+) {
   // Set up the default result for a successful run of the verifier.
-  let result = new VerifierResultModel({
+  const result = new VerifierResultModel({
     flightPlanId: _id,
     verifier: verifierName,
     flightPlanPart: "route",
@@ -66,7 +66,7 @@ const airwaysForEquipmentSuffix: VerifierFunction = async function (
     }
 
     if (saveResult) {
-      result = await result.save();
+      await result.save();
     }
 
     return {

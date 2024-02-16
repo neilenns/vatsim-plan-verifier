@@ -1,16 +1,16 @@
 import mainLogger from "../../logger.mjs";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
+import { VerifierFunction } from "../../types/verifier.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 
 const verifierName = "validDepartureAirport";
 const logger = mainLogger.child({ service: verifierName });
 
-export default async function validDepartureAirport({
-  _id,
-  departure,
-  departureAirportInfo,
-}: FlightPlan): Promise<VerifierControllerResult> {
+const validDepartureAirport: VerifierFunction = async function (
+  { _id, departure, departureAirportInfo },
+  saveResult = true
+) {
   // Set up the default result for a successful run of the verifier.
   const result = new VerifierResultModel({
     flightPlanId: _id,
@@ -32,10 +32,12 @@ export default async function validDepartureAirport({
       result.messageId = "validDepartureAirport";
     }
 
-    const doc = await result.save();
+    if (saveResult) {
+      await result.save();
+    }
     return {
       success: true,
-      data: doc,
+      data: result,
     };
   } catch (err) {
     const error = err as Error;
@@ -48,4 +50,6 @@ export default async function validDepartureAirport({
       error: `Error running validDepartureAirport: ${error.message}`,
     };
   }
-}
+};
+
+export default validDepartureAirport;

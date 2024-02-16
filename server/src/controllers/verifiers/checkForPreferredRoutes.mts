@@ -10,12 +10,9 @@ import { formatAltitude } from "../../utils.mjs";
 const verifierName = "checkForPreferredRoutes";
 const logger = mainLogger.child({ service: verifierName });
 
-const checkForPreferredRoutes: VerifierFunction = async function (
-  flightPlan,
-  saveResult = true
-): Promise<VerifierControllerResult> {
+const checkForPreferredRoutes: VerifierFunction = async function (flightPlan, saveResult = true) {
   // Set up the default result for a successful run of the verifier.
-  let result = new VerifierResultModel({
+  const result = new VerifierResultModel({
     flightPlanId: flightPlan._id,
     verifier: verifierName,
     flightPlanPart: "route",
@@ -108,7 +105,7 @@ const checkForPreferredRoutes: VerifierFunction = async function (
     }
 
     if (saveResult) {
-      result = await result.save();
+      await result.save();
     }
     return {
       success: true,

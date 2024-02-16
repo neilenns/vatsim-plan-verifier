@@ -10,9 +10,9 @@ const logger = mainLogger.child({ service: verifierName });
 const checkKPDXtoKSLEAltitude: VerifierFunction = async function (
   { _id, departure, arrival, cruiseAltitude },
   saveResult = true
-): Promise<VerifierControllerResult> {
+) {
   // Set up the default result for a successful run of the verifier.
-  let result = new VerifierResultModel({
+  const result = new VerifierResultModel({
     flightPlanId: _id,
     verifier: verifierName,
     flightPlanPart: "cruiseAltitude",
@@ -52,7 +52,7 @@ const checkKPDXtoKSLEAltitude: VerifierFunction = async function (
     }
 
     if (saveResult) {
-      result = await result.save();
+      await result.save();
     }
     return {
       success: true,

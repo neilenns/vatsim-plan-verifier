@@ -10,7 +10,7 @@ const logger = mainLogger.child({ service: verifierName });
 const altitudeForAltimeter: VerifierFunction = async function (
   { _id, departure, cruiseAltitude, cruiseAltitudeFormatted },
   saveResult = true
-): Promise<VerifierControllerResult> {
+) {
   // Set up the default result for a successful run of the verifier.
   let result: VerifierControllerResult = {
     success: true,

@@ -9,9 +9,9 @@ const logger = mainLogger.child({ service: verifierName });
 const checkForNonStandardEquipmentSuffix: VerifierFunction = async function (
   { _id, equipmentSuffix },
   saveResult = true
-): Promise<VerifierControllerResult> {
+) {
   // Set up the default result for a successful run of the verifier.
-  let result = new VerifierResultModel({
+  const result = new VerifierResultModel({
     flightPlanId: _id,
     verifier: verifierName,
     flightPlanPart: "rawAircraftType",
@@ -45,7 +45,7 @@ const checkForNonStandardEquipmentSuffix: VerifierFunction = async function (
     }
 
     if (saveResult) {
-      result = await result.save();
+      await result.save();
     }
 
     return {
