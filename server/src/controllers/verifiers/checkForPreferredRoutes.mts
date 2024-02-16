@@ -1,11 +1,11 @@
 import { isDocument } from "@typegoose/typegoose";
 import mainLogger from "../../logger.mjs";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
+import { AirportFlow } from "../../models/InitialAltitude.mjs";
 import { PreferredRouteModel } from "../../models/PreferredRoute.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import { formatAltitude } from "../../utils.mjs";
-import { AirportFlow } from "../../models/InitialAltitude.mjs";
 
 const verifierName = "checkForPreferredRoutes";
 const logger = mainLogger.child({ service: verifierName });
@@ -111,13 +111,15 @@ export default async function checkForPreferredRoutes(
       success: true,
       data: doc,
     };
-  } catch (error) {
-    logger.error(`Error running checkForPreferredRoutes: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error running checkForPreferredRoutes: ${error.message}`, error);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error running checkForPreferredRoutes: ${error}`,
+      error: `Error running checkForPreferredRoutes: ${error.message}`,
     };
   }
 }

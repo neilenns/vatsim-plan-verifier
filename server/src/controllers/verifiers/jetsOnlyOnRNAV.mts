@@ -50,13 +50,15 @@ export default async function jetsOnlyOnRNAV({
       success: true,
       data: doc,
     };
-  } catch (error) {
-    logger.error(`Error running jetsOnlyOnRNAV: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error running jetsOnlyOnRNAV: ${error.message}`, error);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error running jetsOnlyOnRNAV: ${error}`,
+      error: `Error running jetsOnlyOnRNAV: ${error.message}`,
     };
   }
 }

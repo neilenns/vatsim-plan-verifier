@@ -18,8 +18,9 @@ export async function getAirline(airlineCode: string): Promise<AirlineResult> {
         error: `Airline ${airlineCode} not found.`,
       };
     }
-  } catch (error) {
-    logger.error(`Error fetching airlines ${airlineCode}: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+    logger.error(`Error fetching airlines ${airlineCode}: ${error.message}`, error);
 
     return {
       success: false,

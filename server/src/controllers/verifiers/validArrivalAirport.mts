@@ -39,7 +39,8 @@ export default async function validArrivalAirport({
     };
   } catch (err) {
     const error = err as Error;
-    logger.error(`Error running validArrivalAirport: ${error.message}`);
+
+    logger.error(`Error running validArrivalAirport: ${error.message}`, error);
 
     return {
       success: false,

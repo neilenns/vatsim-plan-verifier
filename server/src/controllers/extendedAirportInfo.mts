@@ -27,13 +27,17 @@ export async function getExtendedAirportInfo(
         error: `Extended airport info not found for ${airportCode}.`,
       };
     }
-  } catch (error) {
-    logger.error(`Error fetching extended airport info for ${airportCode}: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+    logger.error(
+      `Error fetching extended airport info for ${airportCode}: ${error.message}`,
+      error
+    );
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error fetching extended airport info for ${airportCode}: ${error}`,
+      error: `Error fetching extended airport info for ${airportCode}: ${error.message}`,
     };
   }
 }

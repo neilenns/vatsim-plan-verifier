@@ -100,7 +100,8 @@ export default async function routeWithFlightAware({
     };
   } catch (err) {
     const error = err as Error;
-    logger.error(`Error running verifyRouteWithFlightAware: ${error.message}}`);
+
+    logger.error(`Error running verifyRouteWithFlightAware: ${error.message}`, error);
 
     return {
       success: false,

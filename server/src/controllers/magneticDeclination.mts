@@ -1,8 +1,8 @@
 import axios, { AxiosResponse } from "axios";
-import MagneticVariationResponse from "../interfaces/IMagneticDeclinationResponse.mjs";
-import Result from "../types/result.mjs";
 import { ENV } from "../env.mjs";
+import MagneticVariationResponse from "../interfaces/IMagneticDeclinationResponse.mjs";
 import mainLogger from "../logger.mjs";
+import Result from "../types/result.mjs";
 
 const logger = mainLogger.child({ service: "magneticDeclination" });
 
@@ -40,10 +40,15 @@ export async function getMagneticDeclination(
         error: `Unknown error: ${response.status} ${response.statusText}`,
       };
     }
-  } catch (error) {
-    logger.error(`Error fetching magnetic declination for ${latitude} ${longitude}`, {
-      url: endpointUrl,
-    });
+  } catch (err) {
+    const error = err as Error;
+    logger.error(
+      `Error fetching magnetic declination for ${latitude} ${longitude}: ${error.message}`,
+      {
+        url: endpointUrl,
+        error,
+      }
+    );
 
     return {
       success: false,

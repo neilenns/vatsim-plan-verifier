@@ -48,13 +48,15 @@ export default async function hasSID({
       success: true,
       data: doc,
     };
-  } catch (error) {
-    logger.error(`Error running hasSID: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error running hasSID: ${error.message}`, error);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error running hasSID: ${error}`,
+      error: `Error running hasSID: ${error.message}`,
     };
   }
 }

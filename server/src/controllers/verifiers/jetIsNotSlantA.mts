@@ -50,13 +50,15 @@ export default async function jetIsNotSlantA({
       success: true,
       data: doc,
     };
-  } catch (error) {
-    logger.error(`Error running : ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error running : ${error.message}`, error);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error running : ${error}`,
+      error: `Error running : ${error.message}`,
     };
   }
 }

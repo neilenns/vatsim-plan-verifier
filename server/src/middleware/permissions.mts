@@ -3,7 +3,6 @@ import { AuthResult, auth } from "express-oauth2-jwt-bearer";
 import { ENV } from "../env.mjs";
 import mainLogger from "../logger.mjs";
 import { Auth0UserModel } from "../models/Auth0User.mjs";
-import { Types } from "mongoose";
 
 const logger = mainLogger.child({ service: "permissions" });
 
@@ -35,23 +34,36 @@ export const verifyAndAddUserInfo = (req: Auth0UserRequest, res: Response, next:
 
     try {
       const sub = req.auth?.payload.sub;
+
+      if (!req.auth) {
+        logger.error(`No authentication found. This should never happen.`);
+        return res
+          .status(404)
+          .json({ error: { message: "User not found" } } as VerifyErrorResponse);
+      }
+
+      if (!sub) {
+        logger.error(`No sub found for ${JSON.stringify(req.auth)}`);
+        return res.status(401).json({ error: { message: "Unauthorized" } } as VerifyErrorResponse);
+      }
+
+      // Look up the user in the database so the _id can be stored and
+      // used by all the rest of the service.
       const user = await Auth0UserModel.findOne({ sub });
 
-      logger.debug(`Auth: ${req.auth}`);
-
       if (!user) {
+        logger.error(`No user found for ${sub}`);
         return res.status(404).json({ message: "User not found" });
       }
 
-      if (req.auth) {
-        // Replace the sub with the value from the database. Will this work?
-        req.auth.payload.sub = user._id.toString();
-      }
+      // Kind of a hack, just blindly replace the Auth0 sub (which isn't useful elsewhere)
+      // with the _id of the user in the database (which is useful).
+      req.auth.payload.sub = user._id.toString();
 
       next();
-    } catch (error) {
-      // Handle any errors that occur during user lookup
-      logger.error("Error retrieving user information:", error);
+    } catch (err) {
+      const error = err as Error;
+      logger.error(`Error retrieving user information: ${error.message}`, error);
       return res.status(500).json({ message: "Internal Server Error" });
     }
   });
@@ -67,6 +79,7 @@ export const verifyRole =
     const sub = req.auth?.payload.sub;
 
     if (!sub) {
+      logger.error(`No sub found for ${JSON.stringify(req.auth)}`);
       return res.status(401).json({ error: { message: "Unauthorized" } } as VerifyErrorResponse);
     }
 

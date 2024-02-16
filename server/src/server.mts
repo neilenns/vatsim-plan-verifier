@@ -3,7 +3,7 @@ import * as chokidar from "chokidar";
 import compression from "compression";
 import cookieParser from "cookie-parser";
 import cors, { CorsOptions } from "cors";
-import express, { ErrorRequestHandler } from "express";
+import express from "express";
 import rateLimit from "express-rate-limit";
 import fs from "fs";
 import helmet from "helmet";
@@ -156,12 +156,9 @@ export async function startServer(port: number): Promise<void> {
   // Admin routes
   app.use(adminRouter);
 
-  const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+  app.use((err: any, req: any, res: any, next: any) => {
     logger.error(err);
-  };
-
-  // Default error handler. This must be the last app.use()
-  app.use(errorHandler);
+  });
 
   // Start up the server
   if (certFilesExist) {

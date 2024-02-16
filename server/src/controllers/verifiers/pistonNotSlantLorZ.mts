@@ -53,13 +53,15 @@ export default async function pistonNotSlantLorZ({
       success: true,
       data: doc,
     };
-  } catch (error) {
-    logger.error(`Error running pistonNotSlantLorZ: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error running pistonNotSlantLorZ: ${error.message}`, error);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error running pistonNotSlantLorZ: ${error}`,
+      error: `Error running pistonNotSlantLorZ: ${error.message}`,
     };
   }
 }

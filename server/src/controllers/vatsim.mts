@@ -66,9 +66,12 @@ export async function setVatsimFlightPlanEDCT(
       success: true,
       data: savedPlan,
     };
-  } catch (error) {
-    const message = `Error setting EDCT info for ${_id ? _id : callsign}: ${error}`;
-    logger.error(message);
+  } catch (err) {
+    const error = err as Error;
+
+    const message = `Error setting EDCT info for ${_id ? _id : callsign}: ${error.message}`;
+    logger.error(message, error);
+
     return {
       success: false,
       errorType: "UnknownError",
@@ -100,12 +103,14 @@ export async function getVatsimPilotStats(cid: number): Promise<VatsimPilotStats
       success: true,
       data: doc,
     };
-  } catch (error) {
-    logger.error(`Error fetching pilot stats for ${cid}: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error fetching pilot stats for ${cid}: ${error.message}`, error);
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error fetching pilot stats for ${cid}`,
+      error: `Error fetching pilot stats for ${cid}: ${error.message}`,
     };
   }
 }
@@ -128,18 +133,22 @@ async function fetchPilotStatsFromVatsim(cid: number): Promise<IVatsimPilotStats
       });
       throw new Error(`Error fetching pilot stats for ${cid}: ${response.status}`);
     }
-  } catch (error) {
-    const err = error as AxiosError;
+  } catch (err) {
+    const error = err as AxiosError;
+
     // A 404 indicates the pilot is so new there is no data for them yet
-    if (err.response?.status === 404) {
+    if (error.response?.status === 404) {
       logger.debug(`No pilot stats found for ${cid}. Returning 0s for all values.`);
       return {
         id: cid,
       } as IVatsimPilotStats;
     }
 
-    logger.error(`Error fetching VATSIM pilot stats for ${err.message}`, { url: endpointUrl });
-    throw new Error(`Error fetching pilot stats for ${cid}: ${err.message}`);
+    logger.error(`Error fetching VATSIM pilot stats for ${error.message}`, {
+      url: endpointUrl,
+      error,
+    });
+    throw new Error(`Error fetching pilot stats for ${cid}: ${error.message}`);
   }
 }
 
@@ -164,13 +173,15 @@ export async function getVatsimFlightPlans(
         error: `Flight plans for ${departure} matching ${flightRules} flight rules and status ${status} not found.`,
       };
     }
-  } catch (error) {
-    logger.error(`Error fetching flight plans for ${departure}: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error fetching flight plans for ${departure}: ${error.message}`, error);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error fetching flight plans for ${departure}: ${error}`,
+      error: `Error fetching flight plans for ${departure}: ${error.message}`,
     };
   }
 }
@@ -194,14 +205,15 @@ export async function getVatsimEDCTViewOnly(
         error: `Flight plans on the ground at ${departures} with an EDCT time not found.`,
       };
     }
-  } catch (error) {
-    const err = error as Error;
-    logger.error(`Error fetching flight plans for ${departures}: ${err.message}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error fetching flight plans for ${departures}: ${error.message}`, error);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error fetching flight plans for ${departures}: ${err.message}`,
+      error: `Error fetching flight plans for ${departures}: ${error.message}`,
     };
   }
 }
@@ -226,13 +238,18 @@ export async function getVatsimEDCTFlightPlans(
         error: `Flight plans on the ground at ${departures} and arriving ${arrivals} not found.`,
       };
     }
-  } catch (error) {
-    logger.error(`Error fetching flight plans for ${departures} ${arrivals}: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(
+      `Error fetching flight plans for ${departures} ${arrivals}: ${error.message}`,
+      error
+    );
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error fetching flight plans for ${departures} ${arrivals}: ${error}`,
+      error: `Error fetching flight plans for ${departures} ${arrivals}: ${error.message}`,
     };
   }
 }
@@ -252,13 +269,15 @@ export async function getVatsimFlightPlan(callsign: string): Promise<VatsimFligh
         error: `Flight plans for ${callsign} not found.`,
       };
     }
-  } catch (error) {
-    logger.error(`Error fetching flight plan for ${callsign}: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error fetching flight plan for ${callsign}: ${error.message}`, error);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error fetching flight plan for ${callsign}: ${error}`,
+      error: `Error fetching flight plan for ${callsign}: ${error.message}`,
     };
   }
 }
@@ -276,13 +295,15 @@ export async function getVatsimAtis(callsign: string): Promise<VatsimATISResult>
         error: `ATIS for ${callsign} not found.`,
       };
     }
-  } catch (error) {
-    logger.error(`Error fetching ATIS for ${callsign}: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error fetching ATIS for ${callsign}: ${error.message}`, error);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error fetching ATIS for ${callsign}: ${error}`,
+      error: `Error fetching ATIS for ${callsign}: ${error.message}`,
     };
   }
 }

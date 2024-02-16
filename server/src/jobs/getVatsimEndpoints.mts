@@ -38,8 +38,10 @@ try {
   } else {
     logger.error(`Unable to retrieve VATSIM endpoints: ${response.status} ${response.statusText}`);
   }
-} catch (error) {
-  logger.error(`Unable to retrieve VATSIM endpoints: ${error}`);
+} catch (err) {
+  const error = err as Error;
+
+  logger.error(`Unable to retrieve VATSIM endpoints: ${error.message}`, error);
 } finally {
   await disconnectFromDatabase();
   await flush();

@@ -50,9 +50,10 @@ class VatsimATIS {
       try {
         await this.save();
         return true;
-      } catch (error) {
-        const err = error as Error;
-        logger.error(`Unable to save ATIS ${this.callsign}: ${err.message}`);
+      } catch (err) {
+        const error = err as Error;
+
+        logger.error(`Unable to save ATIS ${this.callsign}: ${error.message}`, error);
       }
     }
 

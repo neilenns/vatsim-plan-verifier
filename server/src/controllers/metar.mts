@@ -97,9 +97,13 @@ async function fetchMetarFromAviationWeather(airportCode: string): Promise<Metar
         `Error fetching METAR for ${airportCode}: ${response.status} ${response.statusText}`
       );
     }
-  } catch (error) {
-    const err = error as Error;
-    logger.error(`Error fetching METAR for ${airportCode}: ${err.message}`, { url: endpointUrl });
-    throw new Error(`Error fetching METAR for ${airportCode}: ${err.message}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error fetching METAR for ${airportCode}: ${error.message}`, {
+      url: endpointUrl,
+      error,
+    });
+    throw new Error(`Error fetching METAR for ${airportCode}: ${error.message}`);
   }
 }

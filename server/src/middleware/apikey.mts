@@ -1,6 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { Socket } from "socket.io";
+import mainLogger from "../logger.mjs";
 import { ApiKeyModel } from "../models/ApiKey.mjs";
+
+const logger = mainLogger.child({ service: "apikey" });
 
 // Verifies that a valid api key was provided in the web request. This gets
 // used on all routes on the server.
@@ -13,15 +16,17 @@ export const verifyApiKey = async function (req: Request, res: Response, next: N
     const apiKeyDoc = await ApiKeyModel.findOne({ _id: apiKey, isActive: true }).cacheQuery();
 
     if (!apiKeyDoc) {
+      logger.error(`Invalid API key: ${apiKey}`);
       return res.status(401).json({ error: "Unauthorized - Invalid API key" });
     }
+  } catch (err) {
+    const error = err as Error;
 
-    // If the API key is valid, proceed to the next middleware
-    next();
-  } catch (error) {
-    // Handle any errors that occur during the verification process
+    logger.error(`Unable to verify API key: ${error.message}`, error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
+
+  next();
 };
 
 export const verifySocketApiKey = async function (socket: Socket, next: any) {
@@ -32,12 +37,15 @@ export const verifySocketApiKey = async function (socket: Socket, next: any) {
     // Check if the API key exists in the database and is active
     const apiKeyDoc = await ApiKeyModel.findOne({ _id: apiKey, isActive: true }).cacheQuery();
     if (!apiKeyDoc) {
+      logger.error(`Invalid API key: ${apiKey}`);
       const err = new Error("Unauthorized - Invalid API key");
       next(err);
     }
-  } catch (error) {
-    const err = new Error("Unauthroized - Unable to verify API key");
-    next(err);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Unable to verify API key: ${error.message}`, error);
+    next(new Error("Unauthroized - Unable to verify API key"));
   }
 
   next();

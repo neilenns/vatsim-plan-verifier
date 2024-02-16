@@ -157,8 +157,10 @@ export enum VatsimCommsEnum {
         }
       }
     }
-  } catch (error) {
-    logger.error(`Unable to parse rawAircraftType: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Unable to parse rawAircraftType: ${error.message}`, error);
   }
 
   next();
@@ -518,8 +520,10 @@ export class FlightPlan {
         equipmentInfo.aircraftClass,
         this.flow
       );
-    } catch (error) {
-      logger.error(`Unable to calculate initial altitude: ${error}`);
+    } catch (err) {
+      const error = err as Error;
+
+      logger.error(`Unable to calculate initial altitude: ${error.message}`, error);
     }
 
     return null;

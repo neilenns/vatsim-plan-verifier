@@ -65,13 +65,15 @@ export default async function checkEquipmentSuffixAgainstKnown({
       success: true,
       data: doc,
     };
-  } catch (error) {
-    logger.error(`Error running ${verifierName}: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error running ${verifierName}: ${error.message}`, error);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error running ${verifierName}: ${error}`,
+      error: `Error running ${verifierName}: ${error.message}`,
     };
   }
 }

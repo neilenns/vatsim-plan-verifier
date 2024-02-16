@@ -21,13 +21,14 @@ export async function getAircraftByName(name: string): Promise<AircraftsResult> 
         error: `No aircraft with ${name} found.`,
       };
     }
-  } catch (error) {
-    logger.error(`Error fetching aircraft ${name}: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+    logger.error(`Error fetching aircraft ${name}: ${error.message}`, error);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error fetching aircraft ${name}: ${error}`,
+      error: `Error fetching aircraft ${name}: ${error.message}`,
     };
   }
 }
@@ -45,13 +46,14 @@ export async function getAircraftById(id: string): Promise<AircraftResult> {
         error: `Aircraft ${id} not found.`,
       };
     }
-  } catch (error) {
-    logger.error(`Error fetching aircraft ${id}: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+    logger.error(`Error fetching aircraft ${id}: ${error.message}`, error);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error fetching aircraft ${id}: ${error}`,
+      error: `Error fetching aircraft ${id}: ${error.message}`,
     };
   }
 }

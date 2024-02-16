@@ -68,13 +68,15 @@ export default async function hasValidFirstFix({
       success: true,
       data: doc,
     };
-  } catch (error) {
-    logger.error(`Error running hasValidFirstFix: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error running hasValidFirstFix: ${error.message}`, error);
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error running hasValidFirstFix: ${error}`,
+      error: `Error running hasValidFirstFix: ${error.message}`,
     };
   }
 }
