@@ -5,7 +5,7 @@ import VerifierControllerResult, {
 
 export type VerifierFunction = (
   flightPlan: FlightPlan,
-  saveResult: boolean
+  saveResult?: boolean
 ) => Promise<VerifierControllerResult | VerifierControllerMultiResult>;
 
 export type Verifier = {
