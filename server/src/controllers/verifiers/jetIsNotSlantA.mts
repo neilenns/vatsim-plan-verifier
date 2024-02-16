@@ -3,16 +3,15 @@ import mainLogger from "../../logger.mjs";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
+import { VerifierFunction } from "../../types/verifier.mjs";
 
 const verifierName = "jetIsNotSlantA";
 const logger = mainLogger.child({ service: verifierName });
 
-export default async function jetIsNotSlantA({
-  _id,
-  equipmentCode,
-  equipmentSuffix,
-  equipmentInfo,
-}: FlightPlan): Promise<VerifierControllerResult> {
+const jetIsNotSlantA: VerifierFunction = async function (
+  { _id, equipmentCode, equipmentSuffix, equipmentInfo },
+  saveResult = true
+) {
   // Set up the default result for a successful run of the verifier.
   const result = new VerifierResultModel({
     flightPlanId: _id,
@@ -45,10 +44,12 @@ export default async function jetIsNotSlantA({
       result.message = `${equipmentCode} with /A is almost certainly not correct.`;
     }
 
-    const doc = await result.save();
+    if (saveResult) {
+      result.save();
+    }
     return {
       success: true,
-      data: doc,
+      data: result,
     };
   } catch (err) {
     const error = err as Error;
@@ -61,4 +62,6 @@ export default async function jetIsNotSlantA({
       error: `Error running : ${error.message}`,
     };
   }
-}
+};
+
+export default jetIsNotSlantA;

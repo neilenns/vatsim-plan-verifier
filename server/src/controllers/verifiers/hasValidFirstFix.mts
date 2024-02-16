@@ -3,16 +3,15 @@ import mainLogger from "../../logger.mjs";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
+import { VerifierFunction } from "../../types/verifier.mjs";
 
 const verifierName = "hasValidFirstFix";
 const logger = mainLogger.child({ service: verifierName });
 
-export default async function hasValidFirstFix({
-  _id,
-  routeParts,
-  SID,
-  SIDInformation,
-}: FlightPlan): Promise<VerifierControllerResult> {
+const hasValidFirstFix: VerifierFunction = async function (
+  { _id, routeParts, SID, SIDInformation },
+  saveResult = true
+) {
   // Set up the default result for a successful run of the verifier.
   const result = new VerifierResultModel({
     flightPlanId: _id,
@@ -63,10 +62,13 @@ export default async function hasValidFirstFix({
       result.messageId = "firstFixIsValid";
     }
 
-    const doc = await result.save();
+    if (saveResult) {
+      await result.save();
+    }
+
     return {
       success: true,
-      data: doc,
+      data: result,
     };
   } catch (err) {
     const error = err as Error;
@@ -79,4 +81,6 @@ export default async function hasValidFirstFix({
       error: `Error running hasValidFirstFix: ${error.message}`,
     };
   }
-}
+};
+
+export default hasValidFirstFix;
