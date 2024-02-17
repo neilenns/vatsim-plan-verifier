@@ -33,16 +33,12 @@ import { putUserInfo } from "../services/user.mts";
 
 const Verifier = () => {
   const { mode, setMode } = useColorScheme();
-  const { muted, setMuted, flow, setFlow, userInfo, setUserInfo } = useAppContext();
+  const { muted, setMuted, flow, setFlow, setUserInfo } = useAppContext();
   const [settingsOpen, setSettingsOpen] = useState(false);
   const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
 
   const toggleDarkMode = async () => {
-    if (!userInfo?.sub) {
-      return;
-    }
-
     // Set the color mode right away then worry about saving it back to the
     // database.
     const colorMode = mode === "light" ? "dark" : "light";
@@ -52,7 +48,6 @@ const Verifier = () => {
     // remembers the theme.
     const token = await getAccessTokenSilently();
     const result = await putUserInfo(token, {
-      sub: userInfo.sub,
       colorMode,
     });
 
