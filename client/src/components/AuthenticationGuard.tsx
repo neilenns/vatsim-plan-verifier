@@ -33,34 +33,48 @@ export const AuthenticationGuard = ({ role, component: Component }: Authenticati
     // Async method to fetch the user info and verify the role.
     // This way of calling async inside useEffect comes from https://devtrium.com/posts/async-functions-useeffect.
     const fetchData = async () => {
-      const token = await getAccessTokenSilently();
-      const userInfo = await getUserInfo(token, user?.sub);
+      if (userInfo) {
+        return;
+      }
 
-      if (!userInfo) {
-        setIsAuthorized(false);
-        setIsAuthorizing(false);
+      const token = await getAccessTokenSilently();
+      const incomingUserInfo = await getUserInfo(token, user?.sub);
+
+      if (!incomingUserInfo) {
         setError(new Error(`Unable to retrieve user information`));
         return;
       }
 
-      setUserInfo(userInfo);
-
-      if (role && !userInfo?.roles.includes(role)) {
-        setIsAuthorized(false);
-      } else {
-        setIsAuthorized(true);
-        setMode(userInfo.colorMode);
-      }
-
-      setError(undefined);
-      setIsAuthorizing(false);
+      setUserInfo(incomingUserInfo);
     };
 
     // Actually call the async method
-    fetchData().catch((err: Error) => {
-      setError(err);
-    });
-  }, [isAuthenticated, user, role, getAccessTokenSilently, setUserInfo]);
+    fetchData()
+      .then(() => {
+        setError(undefined);
+        setIsAuthorizing(false);
+
+        if (role && !userInfo?.roles.includes(role)) {
+          setIsAuthorized(false);
+        } else {
+          setIsAuthorized(true);
+        }
+      })
+      .catch((err: Error) => {
+        setError(err);
+        setIsAuthorized(false);
+        setIsAuthorizing(false);
+      });
+  }, [isAuthenticated, user, role, getAccessTokenSilently, setUserInfo, setMode, userInfo]);
+
+  // If the user info changes then set the color mode
+  useEffect(() => {
+    if (!userInfo) {
+      return;
+    }
+
+    setMode(userInfo.colorMode);
+  }, [setMode, userInfo]);
 
   // Show errors from the authorization and user access calls
   if (error) {
