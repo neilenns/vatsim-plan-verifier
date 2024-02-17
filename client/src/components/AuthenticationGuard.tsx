@@ -1,10 +1,10 @@
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { Typography, useColorScheme } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useAppContext } from "../hooks/useAppContext.mts";
 import { getUserInfo } from "../services/user.mts";
 import ErrorDisplay from "./ErrorDisplay";
 import { PageLoader } from "./PageLoader";
+import { IAuth0User } from "../interfaces/IAuth0User.mts";
 
 interface AuthenticationGuardProps {
   role: string;
@@ -14,7 +14,7 @@ interface AuthenticationGuardProps {
 export const AuthenticationGuard = ({ role, component: Component }: AuthenticationGuardProps) => {
   const [isAuthorizing, setIsAuthorizing] = useState<boolean>(true);
   const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
-  const { userInfo, setUserInfo } = useAppContext();
+  const [userInfo, setUserInfo] = useState<IAuth0User | undefined>(undefined);
   const [error, setError] = useState<Error | undefined>(undefined);
   const { setMode } = useColorScheme();
 

@@ -1,7 +1,4 @@
-import { useColorScheme } from "@mui/material";
 import { PropsWithChildren, createContext, useEffect, useMemo, useState } from "react";
-import { useImmer } from "use-immer";
-import { IAuth0User } from "../interfaces/IAuth0User.mts";
 import { AirportFlow } from "../interfaces/ISIDInformation.mts";
 
 // Loads the initial flow from local storage and converts it to an AirportFlow type
@@ -16,8 +13,6 @@ const getInitialFlow = (): AirportFlow => {
 };
 
 const useProviderValue = () => {
-  const { setMode } = useColorScheme();
-
   const [muted, setMuted] = useState(localStorage.getItem("muted") === "true"); // Results in a default vaue of false
   const [flow, setFlow] = useState<AirportFlow>(getInitialFlow); // Results in a default vaue of false
   const [autoHideImported, setAutoHideImported] = useState(
@@ -29,15 +24,6 @@ const useProviderValue = () => {
   const [streamingMode, setStreamingMode] = useState(
     localStorage.getItem("streamingMode") == "true" // Results in a default vaue of false
   );
-  const [userInfo, setUserInfo] = useImmer<IAuth0User | undefined>(undefined);
-
-  useEffect(() => {
-    if (!userInfo) {
-      return;
-    }
-
-    setMode(userInfo.colorMode);
-  }, [setMode, userInfo]);
 
   useEffect(() => {
     localStorage.setItem("muted", muted.toString());
@@ -71,10 +57,8 @@ const useProviderValue = () => {
       setStreamingMode,
       flow,
       setFlow,
-      userInfo,
-      setUserInfo,
     }),
-    [muted, autoHideImported, hideInformational, streamingMode, flow, userInfo, setUserInfo]
+    [muted, autoHideImported, hideInformational, streamingMode, flow]
   );
 };
 

@@ -33,7 +33,7 @@ import { putUserInfo } from "../services/user.mts";
 
 const Verifier = () => {
   const { mode, setMode } = useColorScheme();
-  const { muted, setMuted, flow, setFlow, setUserInfo } = useAppContext();
+  const { muted, setMuted, flow, setFlow } = useAppContext();
   const [settingsOpen, setSettingsOpen] = useState(false);
   const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
@@ -47,13 +47,9 @@ const Verifier = () => {
     // Save it back to the database so when users log in elsewhere it
     // remembers the theme.
     const token = await getAccessTokenSilently();
-    const result = await putUserInfo(token, {
+    await putUserInfo(token, {
       colorMode,
     });
-
-    if (result) {
-      setUserInfo(result);
-    }
   };
 
   const toggleMuted = () => {
