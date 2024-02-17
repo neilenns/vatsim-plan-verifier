@@ -19,7 +19,7 @@ export async function getUserInfo(token: string, sub?: string): Promise<IAuth0Us
 
 export async function putUserInfo(
   token: string,
-  userInfo: IAuth0User
+  userInfo: Partial<IAuth0User>
 ): Promise<IAuth0User | undefined> {
   if (!userInfo.sub) {
     return;
