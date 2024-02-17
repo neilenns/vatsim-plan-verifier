@@ -3,10 +3,8 @@ import {
   ReturnModelType,
   getModelForClass,
   modelOptions,
-  plugin,
   prop,
 } from "@typegoose/typegoose";
-import { SpeedGooseCacheAutoCleaner } from "speedgoose";
 
 export enum AircraftClass {
   S = "S",
@@ -21,7 +19,6 @@ export enum AircraftClass {
     collection: "aircraft",
   },
 })
-@plugin(SpeedGooseCacheAutoCleaner)
 export class Aircraft {
   @prop({ required: true, index: true })
   equipmentCode!: string;

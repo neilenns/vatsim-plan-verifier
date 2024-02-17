@@ -3,10 +3,8 @@ import {
   ReturnModelType,
   getModelForClass,
   modelOptions,
-  plugin,
   prop,
 } from "@typegoose/typegoose";
-import { SpeedGooseCacheAutoCleaner } from "speedgoose";
 
 @modelOptions({
   options: { customName: "airline" },
@@ -14,7 +12,6 @@ import { SpeedGooseCacheAutoCleaner } from "speedgoose";
     collection: "airlines",
   },
 })
-@plugin(SpeedGooseCacheAutoCleaner)
 export class Airline {
   @prop({ required: true, index: true })
   airlineCode!: string;

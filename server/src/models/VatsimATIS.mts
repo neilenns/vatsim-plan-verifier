@@ -1,12 +1,4 @@
-import {
-  DocumentType,
-  getModelForClass,
-  modelOptions,
-  plugin,
-  pre,
-  prop,
-} from "@typegoose/typegoose";
-import { SpeedGooseCacheAutoCleaner } from "speedgoose";
+import { DocumentType, getModelForClass, modelOptions, pre, prop } from "@typegoose/typegoose";
 
 @modelOptions({
   options: { customName: "vatsimatis" },
@@ -20,7 +12,6 @@ import { SpeedGooseCacheAutoCleaner } from "speedgoose";
     this.revision++;
   }
 })
-@plugin(SpeedGooseCacheAutoCleaner)
 class VatsimATIS {
   @prop({ required: false, default: 0 })
   revision!: number;

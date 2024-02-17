@@ -1,6 +1,5 @@
 import { DocumentType, getModelForClass, modelOptions, plugin, prop } from "@typegoose/typegoose";
 import { DateTime } from "luxon";
-import { SpeedGooseCacheAutoCleaner } from "speedgoose";
 import { ENV } from "../env.mjs";
 import { IVatsimPilot } from "../interfaces/IVatsimData.mjs";
 import mainLogger from "../logger.mjs";
@@ -38,7 +37,6 @@ const excludedPaths = ["latitude", "longitude", "groundspeed", "coastAt"];
     toObject: { virtuals: true },
   },
 })
-@plugin(SpeedGooseCacheAutoCleaner)
 class VatsimFlightPlan {
   @prop({ required: true })
   cid!: number;

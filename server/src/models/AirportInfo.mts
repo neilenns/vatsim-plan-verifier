@@ -9,7 +9,6 @@ import {
 } from "@typegoose/typegoose";
 import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
 import autopopulate from "mongoose-autopopulate";
-import { SpeedGooseCacheAutoCleaner } from "speedgoose";
 import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import { getMagneticDeclination } from "../controllers/magneticDeclination.mjs";
 import mainLogger from "../logger.mjs";
@@ -27,7 +26,6 @@ const logger = mainLogger.child({ service: "airportInfoModel" });
   },
 })
 @plugin(autopopulate)
-@plugin(SpeedGooseCacheAutoCleaner)
 export class AirportInfo {
   @prop({ required: true, index: true, unique: true, alias: "airport_code" })
   airportCode!: string;

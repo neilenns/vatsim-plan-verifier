@@ -3,10 +3,8 @@ import {
   ReturnModelType,
   getModelForClass,
   modelOptions,
-  plugin,
   prop,
 } from "@typegoose/typegoose";
-import { SpeedGooseCacheAutoCleaner } from "speedgoose";
 
 @modelOptions({
   options: { customName: "vatsimendpoint" },
@@ -15,7 +13,6 @@ import { SpeedGooseCacheAutoCleaner } from "speedgoose";
     toObject: { virtuals: true, aliases: false },
   },
 })
-@plugin(SpeedGooseCacheAutoCleaner)
 class VatsimEndpoint {
   @prop({ required: true })
   feed!: string;
