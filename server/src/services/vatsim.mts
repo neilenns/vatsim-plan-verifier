@@ -48,8 +48,8 @@ export async function getVatsimData(endpoint: string) {
 
     if (response.status === 200) {
       await Promise.all([
-        await processVatsimATISData(response.data as IVatsimData),
-        await processVatsimFlightPlanData(response.data as IVatsimData),
+        processVatsimATISData(response.data as IVatsimData),
+        processVatsimFlightPlanData(response.data as IVatsimData),
       ]);
     } else {
       return {

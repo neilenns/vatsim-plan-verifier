@@ -1,11 +1,6 @@
-import { DocumentType, getModelForClass, modelOptions, plugin, prop } from "@typegoose/typegoose";
-import { SpeedGooseCacheAutoCleaner } from "speedgoose";
-import mainLogger from "../logger.mjs";
-
-const logger = mainLogger.child({ service: "vatsimTunedTransceiversModel" });
+import { DocumentType, getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
 
 @modelOptions({ options: { customName: "tunedtransceivers" } })
-@plugin(SpeedGooseCacheAutoCleaner)
 export class TunedTransceivers {
   @prop({ required: true })
   callsign!: string;
