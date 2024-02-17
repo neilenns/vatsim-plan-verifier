@@ -21,10 +21,6 @@ export async function putUserInfo(
   token: string,
   userInfo: Partial<IAuth0User>
 ): Promise<IAuth0User | undefined> {
-  if (!userInfo.sub) {
-    return;
-  }
-
   const response = await http.authorized(token).put(`users/me`, userInfo);
 
   if (response.status === 200) {
