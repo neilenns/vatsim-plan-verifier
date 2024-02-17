@@ -1,6 +1,7 @@
 import mainLogger from "../logger.mjs";
 import { Auth0User, Auth0UserDocument, Auth0UserModel } from "../models/Auth0User.mjs";
 import Result from "../types/result.mjs";
+import { Types } from "mongoose";
 
 const logger = mainLogger.child({ service: "user" });
 
@@ -20,7 +21,10 @@ export async function getAuth0User(sub: string): Promise<Auth0UserResult> {
   }
 }
 
-export async function updateAuth0User({ sub, colorMode }: Auth0User): Promise<Auth0UserResult> {
+export async function updateAuth0User(
+  sub: string,
+  { colorMode }: Partial<Auth0User>
+): Promise<Auth0UserResult> {
   if (!sub) {
     return {
       success: false,
