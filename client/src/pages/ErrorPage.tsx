@@ -1,7 +1,9 @@
-import { isRouteErrorResponse, useRouteError } from "react-router-dom";
+import { Typography } from "@mui/material";
 import debug from "debug";
+import { isRouteErrorResponse, useRouteError } from "react-router-dom";
+import ErrorDisplay from "../components/ErrorDisplay";
 
-const logger = debug("plan-verifier:ErrorPage");
+const logger = debug("edct:ErrorPage");
 
 // From https://github.com/remix-run/react-router/discussions/9628#discussioncomment-5555901
 function errorMessage(error: unknown): string {
@@ -22,13 +24,13 @@ const ErrorPage = () => {
   logger(error);
 
   return (
-    <div id="error-page">
-      <h1>Oops!</h1>
-      <p>Sorry, an unexpected error has occurred.</p>
-      <p>
-        <i>{errorMessage(error)}</i>
-      </p>
-    </div>
+    <ErrorDisplay>
+      <Typography align="center">
+        Oops!
+        <br />
+        {errorMessage(error)}
+      </Typography>
+    </ErrorDisplay>
   );
 };
 
