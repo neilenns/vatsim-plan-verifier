@@ -1,10 +1,12 @@
 import {
-  prop,
+  DocumentType,
+  ReturnModelType,
   getModelForClass,
   modelOptions,
-  ReturnModelType,
-  DocumentType,
+  plugin,
+  prop,
 } from "@typegoose/typegoose";
+import { SpeedGooseCacheAutoCleaner } from "speedgoose";
 import { AirportFlow } from "./InitialAltitude.mjs";
 
 export enum MessageTarget {
@@ -14,6 +16,7 @@ export enum MessageTarget {
 }
 
 @modelOptions({ options: { customName: "custommessage" } })
+@plugin(SpeedGooseCacheAutoCleaner)
 class CustomMessage {
   @prop({ required: true })
   messageTarget!: MessageTarget;

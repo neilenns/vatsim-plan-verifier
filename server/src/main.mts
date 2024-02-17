@@ -1,15 +1,11 @@
 import fs from "fs";
 import path from "node:path";
-import { CacheManager, CacheName } from "./cacheManager.mjs";
 import * as db from "./database.mjs";
 import { ENV } from "./env.mjs";
 import mainLogger from "./logger.mjs";
-import { AirportInfoDocument } from "./models/AirportInfo.mjs";
 import * as WebServer from "./server.mjs";
 
 const logger = mainLogger.child({ service: "main" });
-
-const cache = CacheManager.getInstance<AirportInfoDocument>(CacheName.AirportInfo);
 
 // If startup fails restart is reattempted 5 times every 30 seconds.
 const restartAttemptWaitTime = 30 * 1000;
@@ -31,7 +27,6 @@ async function startup() {
       });
     }
     await db.connectToDatabase();
-    await cache.loadFromFile(ENV.CACHE_DIRECTORY);
     await WebServer.startServer(ENV.PORT);
 
     // At this point startup succeeded so reset the restart count. This is in case
@@ -67,14 +62,10 @@ async function shutdown() {
   clearTimeout(restartTimer);
   await WebServer.stopServer();
   await db.disconnectFromDatabase();
-  await cache.saveToFile(ENV.CACHE_DIRECTORY);
-  cache.printStatistics();
   logger.debug("Shutdown complete.");
 }
 
 async function handleDeath() {
-  await cache.saveToFile(ENV.CACHE_DIRECTORY);
-  cache.printStatistics();
   await shutdown();
   process.exit();
 }

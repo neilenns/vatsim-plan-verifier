@@ -1,3 +1,4 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import {
   ArrowForwardOutlined as ArrowForwardOutlinedIcon,
   Stream as StreamIcon,
@@ -9,14 +10,13 @@ import { useEffect, useRef, useState } from "react";
 import { useIdleTimer } from "react-idle-timer";
 import { useNavigate } from "react-router-dom";
 import socketIOClient, { Socket } from "socket.io-client";
-import useAppContext from "../context/AppContext";
 import { ENV } from "../env.mjs";
+import { useAppContext } from "../hooks/useAppContext.mjs";
 import { IVatsimFlightPlan, ImportState } from "../interfaces/IVatsimFlightPlan.mts";
 import { importFlightPlan } from "../services/flightPlan.mts";
 import { getColorByStatus, processFlightPlans } from "../utils/vatsim.mts";
 import AlertSnackbar, { AlertSnackBarOnClose, AlertSnackbarProps } from "./AlertSnackbar";
 import { useAudio } from "./AudioHook";
-import { useAuth0 } from "@auth0/auth0-react";
 
 const logger = debug("plan-verifier:vatsimFlightPlans");
 

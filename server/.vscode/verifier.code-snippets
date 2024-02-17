@@ -108,10 +108,10 @@
       "const verifierName = \"${TM_FILENAME_BASE}\""
       "const logger = mainLogger.child({ service: verifierName });",
       ""
-      "export default async function ${TM_FILENAME_BASE}({",
+      "const ${TM_FILENAME_BASE}: VerifierFunction = async function({",
       "  _id,",
       "  equipmentSuffix,",
-      "}: FlightPlan): Promise<VerifierControllerResult> {",
+      "}, saveResult = true) {",
       "  // Set up the default result for a successful run of the verifier.",
       "  let result: VerifierControllerResult = {",
       "    success: true,",
@@ -134,20 +134,23 @@
       "      result.data.message = ``;",
       "    }",
       "",
-      "    await result.data.save();",
+      "    if (saveResult) {",
+      "      await result.data.save();",
+      "    }"
+      "    return result;"
       "  } catch (err) {",
       "    const error = err as Error;"
       "    logger.error(`Error running ${TM_FILENAME_BASE}: ${error.message}`, error);",
       "",
-      "    result = {",
+      "    return {",
       "      success: false,",
       "      errorType: \"UnknownError\",",
       "      error: `Error running ${TM_FILENAME_BASE}: ${error.message}`,",
       "    };",
       "  }",
-      "",
-      "  return result;",
       "}",
+      ""
+      "export default  ${TM_FILENAME_BASE};"
       ""
     ],
     "description": "Create a verifier"

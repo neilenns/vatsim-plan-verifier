@@ -1,10 +1,18 @@
-import { DocumentType, ReturnModelType, getModelForClass, prop } from "@typegoose/typegoose";
+import {
+  DocumentType,
+  ReturnModelType,
+  getModelForClass,
+  plugin,
+  prop,
+} from "@typegoose/typegoose";
 import { ManagementClient } from "auth0";
+import { SpeedGooseCacheAutoCleaner } from "speedgoose";
 import { ENV } from "../env.mjs";
 import mainLogger from "../logger.mjs";
 
 const logger = mainLogger.child({ service: "auth0user" });
 
+@plugin(SpeedGooseCacheAutoCleaner)
 export class Auth0User {
   @prop({ required: true, unique: true })
   sub!: string;
@@ -23,7 +31,7 @@ export class Auth0User {
 
   public static async findOrCreate(this: ReturnModelType<typeof Auth0User>, sub: string) {
     // Check for an existing user in the database first and return that if found.
-    const existingUser = await this.findOne({ sub }).cacheQuery({ ttl: 30 });
+    const existingUser = await this.findOne({ sub }).cacheQuery({ ttl: 60 * 60 }); // One hour
 
     if (existingUser) {
       return existingUser;

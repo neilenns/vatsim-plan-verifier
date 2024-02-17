@@ -1,17 +1,16 @@
 import { isDocument } from "@typegoose/typegoose";
 import mainLogger from "../../logger.mjs";
-import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
+import { VerifierFunction } from "../../types/verifier.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 
 const verifierName = "departureForLocalTime";
 const logger = mainLogger.child({ service: verifierName });
 
-export default async function departureForLocalTime({
-  _id,
-  SIDInformation,
-  SID,
-}: FlightPlan): Promise<VerifierControllerResult> {
+const departureForLocalTime: VerifierFunction = async function (
+  { _id, SIDInformation, SID },
+  saveResult = true
+) {
   // Set up the default result for a successful run of the verifier.
   let result: VerifierControllerResult = {
     success: true,
@@ -55,7 +54,9 @@ export default async function departureForLocalTime({
       }
     }
 
-    await result.data.save();
+    if (saveResult) {
+      await result.data.save();
+    }
   } catch (err) {
     const error = err as Error;
 
@@ -69,4 +70,6 @@ export default async function departureForLocalTime({
   }
 
   return result;
-}
+};
+
+export default departureForLocalTime;

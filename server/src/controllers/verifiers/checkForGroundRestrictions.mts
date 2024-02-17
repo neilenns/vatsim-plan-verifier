@@ -1,21 +1,22 @@
 import { isDocument } from "@typegoose/typegoose";
 import mainLogger from "../../logger.mjs";
-import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { GroundRestrictionModel } from "../../models/GroundRestrictions.mjs";
 import {
   VerifierResultDocument,
   VerifierResultModel,
   VerifierResultStatus,
 } from "../../models/VerifierResult.mjs";
-import { VerifierControllerMultiResult } from "../../types/verifierControllerResult.mjs";
+import { VerifierFunction } from "../../types/verifier.mjs";
+import { logMongoBulkErrors } from "../../utils.mjs";
 import applyMustacheValues from "../../utils/mustache.mjs";
 
 const verifierName = "checkForGroundRestrictions";
 const logger = mainLogger.child({ service: verifierName });
 
-export default async function checkForGroundRestrictions(
-  flightPlan: FlightPlan
-): Promise<VerifierControllerMultiResult> {
+const checkForGroundRestrictions: VerifierFunction = async function (
+  flightPlan,
+  saveResult = true
+) {
   // Set up the default result for a successful run of the verifier.
   let results: VerifierResultDocument[] = [];
 
@@ -68,12 +69,13 @@ export default async function checkForGroundRestrictions(
       );
     }
 
-    // Save all the results
-    await Promise.all(
-      results.map(async (result) => {
-        await result.save();
-      })
-    );
+    if (saveResult) {
+      try {
+        await VerifierResultModel.bulkSave(results);
+      } catch (err) {
+        logMongoBulkErrors(logger, err);
+      }
+    }
 
     // Return all the results
     return {
@@ -91,4 +93,6 @@ export default async function checkForGroundRestrictions(
       error: `Error running checkForGroundRestrictions: ${error.message}`,
     };
   }
-}
+};
+
+export default checkForGroundRestrictions;

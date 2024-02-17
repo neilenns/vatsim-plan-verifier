@@ -124,7 +124,6 @@ export async function startServer(port: number): Promise<void> {
   app.use(cors(corsOptions));
   app.use(rateLimiter);
   app.use(helmet());
-  app.use(verifyApiKey);
 
   // Set up the routes
   app.use(activeFlightPlansRouter);

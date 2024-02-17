@@ -1,7 +1,7 @@
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { Typography, useColorScheme } from "@mui/material";
 import { useEffect, useState } from "react";
-import { IAuth0User } from "../interfaces/IAuth0User.mts";
+import { useAppContext } from "../hooks/useAppContext.mts";
 import { getUserInfo } from "../services/user.mts";
 import ErrorDisplay from "./ErrorDisplay";
 import { PageLoader } from "./PageLoader";
@@ -14,7 +14,7 @@ interface AuthenticationGuardProps {
 export const AuthenticationGuard = ({ role, component: Component }: AuthenticationGuardProps) => {
   const [isAuthorizing, setIsAuthorizing] = useState<boolean>(true);
   const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
-  const [userInfo, setUserInfo] = useState<IAuth0User | undefined>();
+  const { userInfo, setUserInfo } = useAppContext();
   const [error, setError] = useState<Error | undefined>(undefined);
   const { setMode } = useColorScheme();
 
@@ -60,7 +60,7 @@ export const AuthenticationGuard = ({ role, component: Component }: Authenticati
     fetchData().catch((err: Error) => {
       setError(err);
     });
-  }, [isAuthenticated, user, role, getAccessTokenSilently, setMode]);
+  }, [isAuthenticated, user, role, getAccessTokenSilently, setUserInfo]);
 
   // Show errors from the authorization and user access calls
   if (error) {

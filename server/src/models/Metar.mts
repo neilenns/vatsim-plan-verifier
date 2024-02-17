@@ -3,10 +3,12 @@ import {
   defaultClasses,
   getModelForClass,
   modelOptions,
+  plugin,
   pre,
   prop,
 } from "@typegoose/typegoose";
 import { AltimeterUnit, parseMetar } from "metar-taf-parser";
+import { SpeedGooseCacheAutoCleaner } from "speedgoose";
 import mainLogger from "../logger.mjs";
 
 const logger = mainLogger.child({ service: "metar" });
@@ -27,6 +29,7 @@ const logger = mainLogger.child({ service: "metar" });
   next();
 })
 @modelOptions({ options: { customName: "metar" } })
+@plugin(SpeedGooseCacheAutoCleaner)
 export class Metar extends defaultClasses.TimeStamps {
   @prop({ required: true })
   icao!: string;

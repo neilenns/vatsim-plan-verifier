@@ -3,15 +3,15 @@ import mainLogger from "../../logger.mjs";
 import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
+import { VerifierFunction } from "../../types/verifier.mjs";
 
 const verifierName = "jetsOnlyOnRNAV";
 const logger = mainLogger.child({ service: verifierName });
 
-export default async function jetsOnlyOnRNAV({
-  _id,
-  equipmentInfo,
-  SIDInformation,
-}: FlightPlan): Promise<VerifierControllerResult> {
+const jetsOnlyOnRNAV: VerifierFunction = async function (
+  { _id, equipmentInfo, SIDInformation },
+  saveResult = true
+) {
   // Set up the default result for a successful run of the verifier.
   const result = new VerifierResultModel({
     flightPlanId: _id,
@@ -45,10 +45,12 @@ export default async function jetsOnlyOnRNAV({
       result.messageId = "engineTypeMatchesSID";
     }
 
-    const doc = await result.save();
+    if (saveResult) {
+      await result.save();
+    }
     return {
       success: true,
-      data: doc,
+      data: result,
     };
   } catch (err) {
     const error = err as Error;
@@ -61,4 +63,6 @@ export default async function jetsOnlyOnRNAV({
       error: `Error running jetsOnlyOnRNAV: ${error.message}`,
     };
   }
-}
+};
+
+export default jetsOnlyOnRNAV;

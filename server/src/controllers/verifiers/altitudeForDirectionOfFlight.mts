@@ -1,6 +1,6 @@
 import mainLogger from "../../logger.mjs";
-import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
+import { VerifierFunction } from "../../types/verifier.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import { formatAltitude } from "../../utils.mjs";
 
@@ -10,14 +10,10 @@ const logger = mainLogger.child({ service: verifierName });
 const eastboundRVSMAltitudes: number[] = [450, 490, 530, 570];
 const westboundRVSMAltiudes: number[] = [430, 470, 510, 550, 590];
 
-export default async function altitudeForDirectionOfFlight({
-  _id,
-  directionOfFlight,
-  cruiseAltitude,
-  cruiseAltitudeFormatted,
-  departure,
-  arrival,
-}: FlightPlan): Promise<VerifierControllerResult> {
+const altitudeForDirectionOfFlight: VerifierFunction = async function (
+  { _id, directionOfFlight, cruiseAltitude, cruiseAltitudeFormatted, departure, arrival },
+  saveResult = true
+) {
   // Set up the default result for a successful run of the verifier.
   const result = new VerifierResultModel({
     flightPlanId: _id,
@@ -93,11 +89,13 @@ export default async function altitudeForDirectionOfFlight({
       }
     }
 
-    const doc = await result.save();
+    if (saveResult) {
+      await result.save();
+    }
 
     return {
       success: true,
-      data: doc,
+      data: result,
     };
   } catch (err) {
     const error = err as Error;
@@ -110,4 +108,6 @@ export default async function altitudeForDirectionOfFlight({
       error: `Error running ${verifierName}: ${error.message}`,
     };
   }
-}
+};
+
+export default altitudeForDirectionOfFlight;

@@ -1,87 +1,15 @@
 import express, { Request, Response } from "express";
 import { getFlightPlan } from "../controllers/flightPlans.mjs";
 import VerifyAllResult from "../controllers/verifyAllResult.mjs";
-import VerifierControllerResult, {
-  VerifierControllerMultiResult,
-} from "../types/verifierControllerResult.mjs";
-
-import airwaysForEquipmentSuffix from "../controllers/verifiers/airwaysForEquipmentSuffix.mjs";
-import altitudeForAltimeter from "../controllers/verifiers/altitudeForAltimeter.mjs";
-import altitudeForDirectionOfFlight from "../controllers/verifiers/altitudeForDirectionOfFlight.mjs";
-import checkEquipmentSuffixAgainstKnown from "../controllers/verifiers/checkEquipmentSuffixAgainstKnown.mjs";
-import checkForCustomAirportMessages from "../controllers/verifiers/checkForCustomAirportMessages.mjs";
-import checkForCustomDepartureMessages from "../controllers/verifiers/checkForCustomDepartureMessages.mjs";
-import checkForNonStandardEquipmentSuffix from "../controllers/verifiers/checkForNonStandardEquipmentSuffix.mjs";
-import checkForPreferredRoutes from "../controllers/verifiers/checkForPreferredRoutes.mjs";
-import checkKPDXtoKSLEAltitude from "../controllers/verifiers/checkKPDXtoKSLEAltitude.mjs";
-import checkSEAInitialSID from "../controllers/verifiers/checkSEAInitialSID.mjs";
-import departureForLocalTime from "../controllers/verifiers/departureForLocalTime.mjs";
-import hasEquipmentSuffix from "../controllers/verifiers/hasEquipmentSuffix.mjs";
-import hasSID from "../controllers/verifiers/hasSID.mjs";
-import hasValidFirstFix from "../controllers/verifiers/hasValidFirstFix.mjs";
-import jetIsNotSlantA from "../controllers/verifiers/jetIsNotSlantA.mjs";
-import nonRNAVHasAirways from "../controllers/verifiers/nonRNAVHasAirways.mjs";
-import nonRVSMIsBelow290 from "../controllers/verifiers/nonRVSMIsBelow290.mjs";
-import pistonNotSlantLorZ from "../controllers/verifiers/pistonNotSlantLorZ.mjs";
-import routeWithFlightAware from "../controllers/verifiers/routeWithFlightAware.mjs";
-import validArrivalAirport from "../controllers/verifiers/validArrivalAirport.mjs";
-import validDepartureAirport from "../controllers/verifiers/validDepartureAirport.mjs";
-import warnHeavyRunwayAssignment from "../controllers/verifiers/warnHeavyRunwayAssignment.mjs";
-import warnNewPilot from "../controllers/verifiers/warnNewPilot.mjs";
-import warnTextOnlyPilot from "../controllers/verifiers/warnTextOnlyPilot.mjs";
 import findExistingResultsMiddleware from "../middleware/findExistingResults.mjs";
 
-import checkForGroundRestrictions from "../controllers/verifiers/checkForGroundRestrictions.mjs";
+import { verifiers } from "../controllers/verifiers/allVerifiers.mjs";
+import { verifyAll } from "../controllers/verifyAll.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
-import { FlightPlan } from "../models/FlightPlan.mjs";
 import { VerifierResultModel } from "../models/VerifierResult.mjs";
 
 const router = express.Router();
-
-type HandlerFunction = (
-  flightPlan: FlightPlan
-) => Promise<VerifierControllerResult | VerifierControllerMultiResult>;
-
-type Verifier = {
-  name: string;
-  handler: HandlerFunction;
-};
-
-// List of verifiers to support
-const verifiers: Verifier[] = [
-  { name: "checkForCustomAirportMessages", handler: checkForCustomAirportMessages },
-  { name: "checkForCustomDepartureMessages", handler: checkForCustomDepartureMessages },
-  { name: "hasEquipmentSuffix", handler: hasEquipmentSuffix },
-  { name: "warnHeavyRunwayAssignment", handler: warnHeavyRunwayAssignment },
-  {
-    name: "altitudeForDirectionOfFlight",
-    handler: altitudeForDirectionOfFlight,
-  },
-  {
-    name: "checkEquipmentSuffixAgainstKnown",
-    handler: checkEquipmentSuffixAgainstKnown,
-  },
-  { name: "routeWithFlightAware", handler: routeWithFlightAware },
-  { name: "checkForPreferredRoutes", handler: checkForPreferredRoutes },
-  { name: "nonRVSMIsBelow290", handler: nonRVSMIsBelow290 },
-  { name: "jetIsNotSlantA", handler: jetIsNotSlantA },
-  { name: "nonRNAVHasAirways", handler: nonRNAVHasAirways },
-  { name: "validDepartureAirport", handler: validDepartureAirport },
-  { name: "validArrivalAirport", handler: validArrivalAirport },
-  { name: "checkForNonStandardEquipmentSuffix", handler: checkForNonStandardEquipmentSuffix },
-  { name: "airwaysForEquipmentSuffix", handler: airwaysForEquipmentSuffix },
-  { name: "hasSID", handler: hasSID },
-  { name: "hasValidFirstFix", handler: hasValidFirstFix },
-  { name: "pistonNotSlantLorZ", handler: pistonNotSlantLorZ },
-  { name: "checkKPDXtoKSLEAltitude", handler: checkKPDXtoKSLEAltitude },
-  { name: "warnNewPilot", handler: warnNewPilot },
-  { name: "altitudeForAltimeter", handler: altitudeForAltimeter },
-  { name: "warnTextOnlyPilot", handler: warnTextOnlyPilot },
-  { name: "departureForLocalTime", handler: departureForLocalTime },
-  { name: "checkForGroundRestrictions", handler: checkForGroundRestrictions },
-  { name: "checkSEAInitialSID", handler: checkSEAInitialSID },
-];
 
 // Generic handler for verifier routes
 const handleVerifierRoute = async (routeName: string, handler: Function) => {
@@ -192,22 +120,7 @@ router.get(
         }
       }
 
-      const verifyAllResult = new VerifyAllResult();
-
-      // Loop across all registered verifiers and save all successful verification runs
-      // to send back to the client.
-      for (const verifier of verifiers) {
-        const result = await verifier.handler(flightPlan.data);
-
-        if (result.success) {
-          // Handles the case of verifiers returning multiple results, e.g. the checkForCustom*Messages verifiers
-          if (result.data instanceof Array) {
-            verifyAllResult.addMany(result.data);
-          } else {
-            verifyAllResult.add(result.data);
-          }
-        }
-      }
+      const verifyAllResult = await verifyAll(flightPlan.data);
 
       return res.status(200).json(verifyAllResult);
     } catch (error) {

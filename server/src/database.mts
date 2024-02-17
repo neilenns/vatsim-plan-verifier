@@ -54,10 +54,18 @@ export async function connectToDatabase() {
   });
 
   await connect
-    .then(async (db) => {
+    .then(async () => {
       logger.debug("Connected");
-      applySpeedGooseCacheLayer(mongoose, {
-        sharedCacheStrategy: SharedCacheStrategies.IN_MEMORY,
+
+      ENV.REDIS_URI
+        ? logger.debug(`Using REDIS cache at ${ENV.REDIS_URI}`)
+        : logger.debug(`REDIS_URI not specified, using in-memory cache`);
+
+      await applySpeedGooseCacheLayer(mongoose, {
+        redisUri: ENV.REDIS_URI,
+        sharedCacheStrategy: ENV.REDIS_URI
+          ? SharedCacheStrategies.REDIS
+          : SharedCacheStrategies.IN_MEMORY,
         defaultTtl: 60 * 10,
       });
     })

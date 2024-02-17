@@ -1,7 +1,6 @@
-import { Help } from "@mui/icons-material";
+import { useAuth0 } from "@auth0/auth0-react";
 import { useMemo } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
 import { AuthenticationGuard } from "../components/AuthenticationGuard";
 
 // Actions and loaders
@@ -18,6 +17,7 @@ import AircraftDetails from "./AircraftDetails";
 import ClientTransceivers from "./ClientTransceivers";
 import ErrorPage from "./ErrorPage";
 import FlightPlanDetails from "./FlightPlanDetails";
+import Help from "./Help";
 import Logout from "./Logout";
 import QuickReference from "./QuickReference";
 import Verifier from "./Verifier";

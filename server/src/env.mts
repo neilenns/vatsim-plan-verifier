@@ -20,7 +20,6 @@ function booleanTransformer(v: string, ctx: z.RefinementCtx) {
 }
 
 const envSchema = z.object({
-  // from https://github.com/colinhacks/zod/issues/1630#issuecomment-1623726247
   AIRPORT_INFO_AUTO_UPDATE_INTERVAL: z.string().default("at 1:42 am"),
   AIRPORT_REFRESH_INTERVAL: z.string().default("every 24 hours"),
   API_RATE_LIMIT_MAX: z.coerce.number().default(100),
@@ -41,7 +40,6 @@ const envSchema = z.object({
     .string()
     .transform<boolean>(booleanTransformer)
     .default("false"),
-  JWT_SECRET: z.string(),
   LOG_LEVEL: z.enum(["error", "warn", "info", "http", "debug", "trace"]).optional(),
   LOGTAIL_TOKEN: z.string().optional(),
   MAGNETIC_DECLINATION_CACHE_EXPIRY: z.coerce.number().default(30 * 24 * 60 * 60 * 1000), // 30 days
@@ -50,9 +48,7 @@ const envSchema = z.object({
   MONGOOSE_DEBUG: z.string().transform<boolean>(booleanTransformer).default("false"),
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   PORT: z.coerce.number().default(4001),
-  REFRESH_TOKEN_EXPIRY: z.string().default("60 * 60 * 24 * 30"),
-  REFRESH_TOKEN_SECRET: z.string(),
-  SESSION_EXPIRY: z.string().default("60 * 15"),
+  REDIS_URI: z.string().optional(),
   TRUST_PROXY: z.coerce.number().default(0),
   VATSIM_DATA_AUTO_UPDATE_INTERVAL_CONNECTIONS: z.string().default("every 15 seconds"),
   VATSIM_DATA_AUTO_UPDATE_INTERVAL_NO_CONNECTIONS: z.string().default("every 60 seconds"),

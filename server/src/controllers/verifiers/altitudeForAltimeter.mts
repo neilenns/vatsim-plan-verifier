@@ -1,18 +1,16 @@
 import mainLogger from "../../logger.mjs";
-import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
+import { VerifierFunction } from "../../types/verifier.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import { getMetar } from "../metar.mjs";
 
 const verifierName = "altitudeForAltimeter";
 const logger = mainLogger.child({ service: verifierName });
 
-export default async function altitudeForAltimeter({
-  _id,
-  departure,
-  cruiseAltitude,
-  cruiseAltitudeFormatted,
-}: FlightPlan): Promise<VerifierControllerResult> {
+const altitudeForAltimeter: VerifierFunction = async function (
+  { _id, departure, cruiseAltitude, cruiseAltitudeFormatted },
+  saveResult = true
+) {
   // Set up the default result for a successful run of the verifier.
   let result: VerifierControllerResult = {
     success: true,
@@ -68,7 +66,10 @@ export default async function altitudeForAltimeter({
       result.data.priority = 5;
       result.data.messageId = "AltitudeOk";
     }
-    await result.data.save();
+
+    if (saveResult) {
+      await result.data.save();
+    }
   } catch (err) {
     const error = err as Error;
 
@@ -82,4 +83,6 @@ export default async function altitudeForAltimeter({
   }
 
   return result;
-}
+};
+
+export default altitudeForAltimeter;

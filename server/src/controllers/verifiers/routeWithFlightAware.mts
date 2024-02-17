@@ -4,18 +4,15 @@ import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import { getFlightAwareRoutes } from "../flightAwareRoutes.mjs";
+import { VerifierFunction } from "../../types/verifier.mjs";
 
 const verifierName = "routeWithFlightAware";
 const logger = mainLogger.child({ service: verifierName });
 
-export default async function routeWithFlightAware({
-  _id,
-  departure,
-  arrival,
-  cleanedRoute,
-  SID,
-  cruiseAltitude,
-}: FlightPlan): Promise<VerifierControllerResult> {
+const routeWithFlightAware: VerifierFunction = async function (
+  { _id, departure, arrival, cleanedRoute, SID, cruiseAltitude },
+  saveResult = true
+) {
   const result = new VerifierResultModel({
     flightPlanId: _id,
     verifier: verifierName,
@@ -93,10 +90,12 @@ export default async function routeWithFlightAware({
       result.priority = 4;
     }
 
-    const doc = await result.save();
+    if (saveResult) {
+      await result.save();
+    }
     return {
       success: true,
-      data: doc,
+      data: result,
     };
   } catch (err) {
     const error = err as Error;
@@ -109,4 +108,6 @@ export default async function routeWithFlightAware({
       error: `Error running verifyRouteWithFlightAware: ${error.message}`,
     };
   }
-}
+};
+
+export default routeWithFlightAware;

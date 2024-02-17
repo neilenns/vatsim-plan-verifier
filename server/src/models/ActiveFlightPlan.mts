@@ -1,5 +1,6 @@
-import { prop, getModelForClass, modelOptions, DocumentType } from "@typegoose/typegoose";
+import { DocumentType, getModelForClass, modelOptions, plugin, prop } from "@typegoose/typegoose";
 import * as mongoose from "mongoose";
+import { SpeedGooseCacheAutoCleaner } from "speedgoose";
 import { FlightPlan } from "./FlightPlan.mjs";
 
 @modelOptions({
@@ -8,6 +9,7 @@ import { FlightPlan } from "./FlightPlan.mjs";
     collection: "activeflightplans",
   },
 })
+@plugin(SpeedGooseCacheAutoCleaner)
 export class ActiveFlightPlan {
   @prop({ required: true })
   controllerId!: mongoose.Types.ObjectId;

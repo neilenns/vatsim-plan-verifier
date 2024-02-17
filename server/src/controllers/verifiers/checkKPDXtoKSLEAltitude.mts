@@ -1,18 +1,16 @@
 import mainLogger from "../../logger.mjs";
-import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
+import { VerifierFunction } from "../../types/verifier.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import { formatAltitude } from "../../utils.mjs";
 
 const verifierName = "checkKPDXtoKSLEAltitude";
 const logger = mainLogger.child({ service: verifierName });
 
-export default async function checkKPDXtoKSLEAltitude({
-  _id,
-  departure,
-  arrival,
-  cruiseAltitude,
-}: FlightPlan): Promise<VerifierControllerResult> {
+const checkKPDXtoKSLEAltitude: VerifierFunction = async function (
+  { _id, departure, arrival, cruiseAltitude },
+  saveResult = true
+) {
   // Set up the default result for a successful run of the verifier.
   const result = new VerifierResultModel({
     flightPlanId: _id,
@@ -53,10 +51,12 @@ export default async function checkKPDXtoKSLEAltitude({
       result.priority = 3;
     }
 
-    const doc = await result.save();
+    if (saveResult) {
+      await result.save();
+    }
     return {
       success: true,
-      data: doc,
+      data: result,
     };
   } catch (err) {
     const error = err as Error;
@@ -69,4 +69,6 @@ export default async function checkKPDXtoKSLEAltitude({
       error: `Error running checkKPDXtoKSLEAltitude: ${error.message}`,
     };
   }
-}
+};
+
+export default checkKPDXtoKSLEAltitude;
