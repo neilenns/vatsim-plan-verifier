@@ -5,7 +5,7 @@ import mainLogger from "../logger.mjs";
 
 const logger = mainLogger.child({ service: "auth0user" });
 
-class Auth0User {
+export class Auth0User {
   @prop({ required: true, unique: true })
   sub!: string;
 

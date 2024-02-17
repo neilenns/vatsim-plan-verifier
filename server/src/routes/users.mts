@@ -1,21 +1,47 @@
 import express, { Response } from "express";
-import { getAuth0User } from "../controllers/user.mjs";
+import { getAuth0User, updateAuth0User } from "../controllers/user.mjs";
+import mainLogger from "../logger.mjs";
 import { Auth0UserRequest, verifyUser } from "../middleware/permissions.mjs";
+import { Auth0User } from "../models/Auth0User.mjs";
+
+const logger = mainLogger.child({ service: "usersRoute" });
+
+interface TypedUserRequestBody<T> extends Express.Request {
+  body: T;
+}
 
 const router = express.Router();
+
+router.put("/users/me", verifyUser, async (req: TypedUserRequestBody<Auth0User>, res: Response) => {
+  if (!req.body.sub) {
+    logger.error(`Unable to update data for user, no sub provided`);
+    return res.status(404).send("User not found");
+  }
+
+  const result = await updateAuth0User(req.body);
+
+  if (result.success) {
+    return res.json(result.data);
+  } else {
+    logger.error(`Unable to update ${req.body.sub}: ${result.error}`);
+    return res.status(500).json({ error: result.error });
+  }
+});
 
 router.get("/users/me", verifyUser, async (req: Auth0UserRequest, res: Response) => {
   const sub = req.auth?.payload.sub;
 
   if (!sub) {
-    return res.status(401).send("Unauthorized");
+    logger.error(`Unable to fetch data for user, no sub provided`);
+    return res.status(404).send("User not found");
   }
 
   const result = await getAuth0User(sub);
   if (result.success) {
-    res.json(result.data);
+    return res.json(result.data);
   } else {
-    res.status(500).json({ error: "Failed to get the user." });
+    logger.error(`Unable to fetch data for ${sub}: user not found`);
+    return res.status(404).json({ error: "Failed to get the user." });
   }
 });
 
