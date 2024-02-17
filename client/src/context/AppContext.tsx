@@ -1,4 +1,5 @@
 import { PropsWithChildren, createContext, useEffect, useMemo, useState } from "react";
+import { IAuth0User } from "../interfaces/IAuth0User.mts";
 import { AirportFlow } from "../interfaces/ISIDInformation.mts";
 
 // Loads the initial flow from local storage and converts it to an AirportFlow type
@@ -24,6 +25,7 @@ const useProviderValue = () => {
   const [streamingMode, setStreamingMode] = useState(
     localStorage.getItem("streamingMode") == "true" // Results in a default vaue of false
   );
+  const [userInfo, setUserInfo] = useState<IAuth0User | undefined>();
 
   useEffect(() => {
     localStorage.setItem("muted", muted.toString());
@@ -57,8 +59,10 @@ const useProviderValue = () => {
       setStreamingMode,
       flow,
       setFlow,
+      userInfo,
+      setUserInfo,
     }),
-    [muted, autoHideImported, hideInformational, streamingMode, flow]
+    [muted, autoHideImported, hideInformational, streamingMode, flow, userInfo]
   );
 };
 
