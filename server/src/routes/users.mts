@@ -18,7 +18,7 @@ router.put("/users/me", verifyUser, async (req: TypedUserRequestBody<Auth0User>,
     return res.status(404).send("User not found");
   }
 
-  const result = await updateAuth0User(req.auth?.payload.sub, req.body);
+  const result = await updateAuth0User(req.auth.payload.sub, req.body);
 
   if (result.success) {
     return res.json(result.data);
