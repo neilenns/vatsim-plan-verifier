@@ -16,3 +16,22 @@ export async function getUserInfo(token: string, sub?: string): Promise<IAuth0Us
     throw new Error(response.statusText);
   }
 }
+
+export async function putUserInfo(
+  token: string,
+  userInfo: IAuth0User
+): Promise<IAuth0User | undefined> {
+  if (!userInfo.sub) {
+    return;
+  }
+
+  const response = await http.authorized(token).put(`users/me`, userInfo);
+
+  if (response.status === 200) {
+    return response.data as IAuth0User;
+  } else if (response.status === 401) {
+    throw new Error(`Unauthorized`);
+  } else {
+    throw new Error(response.statusText);
+  }
+}
