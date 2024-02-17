@@ -29,9 +29,11 @@ const App = () => {
   const router = useMemo(() => {
     return createBrowserRouter([
       {
+        errorElement: <ErrorPage />,
+      },
+      {
         path: "/",
         element: <WelcomePage />,
-        errorElement: <ErrorPage />,
       },
       {
         path: "/help",
@@ -41,18 +43,15 @@ const App = () => {
         id: "logout",
         path: "/logout",
         element: <Logout />,
-        errorElement: <ErrorPage />,
       },
       {
         path: "/quickreference/:key",
         element: <QuickReference />,
-        errorElement: <ErrorPage />,
         loader: quickReferenceLoader,
       },
       {
         path: "/quickreference",
         element: <QuickReference />,
-        errorElement: <ErrorPage />,
         loader: quickReferenceLoader,
       },
       {
@@ -61,20 +60,17 @@ const App = () => {
             path: "/transceivers/:callsign",
             element: <ClientTransceivers />,
             loader: clientTransceiversLoader({ getAccessTokenSilently }),
-            errorElement: <ErrorPage />,
           },
           {
             path: "/verifier",
             element: <AuthenticationGuard role="S2" component={Verifier} />,
             loader: activeFlightPlansLoader({ getAccessTokenSilently }),
             action: appActions({ getAccessTokenSilently }),
-            errorElement: <ErrorPage />,
             children: [
               {
                 path: "aircraft",
                 element: <AircraftDetails />,
                 loader: aircraftDetailsLoader({ getAccessTokenSilently }),
-                errorElement: <ErrorPage />,
               },
               {
                 path: "flightPlan/:id",
@@ -93,7 +89,7 @@ const App = () => {
         ],
       },
     ]);
-  }, []);
+  }, [getAccessTokenSilently]);
 
   return <RouterProvider router={router} />;
 };
