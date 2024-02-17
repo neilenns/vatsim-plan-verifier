@@ -1,5 +1,5 @@
 import { Dialog, DialogTitle, FormControlLabel, Stack, Switch } from "@mui/material";
-import useAppContext from "../context/AppContext";
+import { useAppContext } from "../hooks/useAppContext.mjs";
 
 type SettingsDialogProps = {
   open: boolean;
@@ -8,8 +8,14 @@ type SettingsDialogProps = {
 
 export const SettingsDialog = (props: SettingsDialogProps) => {
   const { onClose, open } = props;
-  const { autoHideImported, setAutoHideImported, hideInformational, setHideInformational, streamingMode, setStreamingMode } =
-    useAppContext();
+  const {
+    autoHideImported,
+    setAutoHideImported,
+    hideInformational,
+    setHideInformational,
+    streamingMode,
+    setStreamingMode,
+  } = useAppContext();
   const handleClose = () => {
     onClose();
   };
