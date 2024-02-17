@@ -1,3 +1,4 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import {
   DarkMode as DarkModeIcon,
   Help as HelpIcon,
@@ -28,15 +29,36 @@ import { SettingsDialog } from "../components/SettingsDialog";
 import VatsimFlightPlans from "../components/VatsimFlightPlans";
 import { useAppContext } from "../hooks/useAppContext.mjs";
 import { AirportFlow } from "../interfaces/ISIDInformation.mts";
+import { putUserInfo } from "../services/user.mts";
 
 const Verifier = () => {
   const { mode, setMode } = useColorScheme();
-  const { muted, setMuted, flow, setFlow } = useAppContext();
+  const { muted, setMuted, flow, setFlow, userInfo, setUserInfo } = useAppContext();
   const [settingsOpen, setSettingsOpen] = useState(false);
   const navigate = useNavigate();
+  const { getAccessTokenSilently } = useAuth0();
 
-  const toggleDarkMode = () => {
-    mode === "light" ? setMode("dark") : setMode("light");
+  const toggleDarkMode = async () => {
+    if (!userInfo?.sub) {
+      return;
+    }
+
+    // Set the color mode right away then worry about saving it back to the
+    // database.
+    const colorMode = mode === "light" ? "dark" : "light";
+    setMode(colorMode);
+
+    // Save it back to the database so when users log in elsewhere it
+    // remembers the theme.
+    const token = await getAccessTokenSilently();
+    const result = await putUserInfo(token, {
+      sub: userInfo.sub,
+      colorMode,
+    });
+
+    if (result) {
+      setUserInfo(result);
+    }
   };
 
   const toggleMuted = () => {
@@ -100,7 +122,11 @@ const Verifier = () => {
             {muted ? <MutedIcon /> : <UnmutedIcon />}
           </IconButton>
           <IconButton
-            onClick={toggleDarkMode}
+            onClick={() => {
+              void (async () => {
+                await toggleDarkMode();
+              })();
+            }}
             aria-label={mode === "dark" ? "Turndark mode off" : "Turn dark mode on"}
           >
             {mode === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
