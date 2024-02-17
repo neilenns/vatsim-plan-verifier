@@ -1,4 +1,12 @@
 import {
+  DarkMode as DarkModeIcon,
+  Help as HelpIcon,
+  LightMode as LightModeIcon,
+  VolumeOff as MutedIcon,
+  Settings as SettingsIcon,
+  VolumeMute as UnmutedIcon,
+} from "@mui/icons-material";
+import {
   AppBar,
   Box,
   Button,
@@ -12,21 +20,13 @@ import {
   Typography,
   useColorScheme,
 } from "@mui/material";
+import { useState } from "react";
 import { Form, Link, Outlet, useNavigate } from "react-router-dom";
 import ActiveFlightPlans from "../components/ActiveFlightPlans";
-import {
-  DarkMode as DarkModeIcon,
-  LightMode as LightModeIcon,
-  Help as HelpIcon,
-  VolumeMute as UnmutedIcon,
-  VolumeOff as MutedIcon,
-  Settings as SettingsIcon,
-} from "@mui/icons-material";
 import NavMenu from "../components/NavMenu";
-import VatsimFlightPlans from "../components/VatsimFlightPlans";
-import useAppContext from "../context/AppContext";
-import { useState } from "react";
 import { SettingsDialog } from "../components/SettingsDialog";
+import VatsimFlightPlans from "../components/VatsimFlightPlans";
+import { useAppContext } from "../hooks/useAppContext.mjs";
 import { AirportFlow } from "../interfaces/ISIDInformation.mts";
 
 const Verifier = () => {
@@ -45,7 +45,7 @@ const Verifier = () => {
 
   const onFlowChanged = (event: SelectChangeEvent) => {
     setFlow(event.target.value as AirportFlow);
-  }
+  };
 
   const onNewClick = () => {
     navigate("/verifier/flightPlan/new", { replace: true });

@@ -1,18 +1,18 @@
+import { Paper } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
-import FlightPlan from "../components/FlightPlan";
 import { useEffect, useState } from "react";
-import IFlightPlan from "../interfaces/IFlightPlan.mjs";
-import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
-import VerifierResults from "../components/VerifierResults";
 import { useActionData, useLoaderData, useNavigate } from "react-router-dom";
 import AlertSnackbar, {
   AlertSnackBarOnClose,
   AlertSnackbarProps,
 } from "../components/AlertSnackbar";
-import { Paper } from "@mui/material";
-import { PlanVerifyActionResult } from "../services/flightPlanVerifyAction.mts";
+import FlightPlan from "../components/FlightPlan";
+import VerifierResults from "../components/VerifierResults";
+import { useAppContext } from "../hooks/useAppContext.mjs";
+import IFlightPlan from "../interfaces/IFlightPlan.mjs";
+import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
 import { PlanDetailsLoaderResult } from "../services/flightPlanDetailsLoader.mts";
-import useAppContext from "../context/AppContext";
+import { PlanVerifyActionResult } from "../services/flightPlanVerifyAction.mts";
 
 const FlightPlanDetails = () => {
   const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
