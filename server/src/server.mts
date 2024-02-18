@@ -155,8 +155,14 @@ export async function startServer(port: number): Promise<void> {
   // Admin routes
   app.use(adminRouter);
 
+  // Overall error handler
   app.use((err: any, req: any, res: any, next: any) => {
     logger.error(err);
+    res.status(err.status || 500).send({
+      error: {
+        message: err.message,
+      },
+    });
   });
 
   // Start up the server
