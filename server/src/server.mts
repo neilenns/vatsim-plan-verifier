@@ -23,7 +23,6 @@ import pkg from "lodash";
 const { debounce } = pkg;
 
 // Authentication
-import { verifyApiKey } from "./middleware/apikey.mjs";
 
 // Routes
 import activeFlightPlansRouter from "./routes/activeFlightPlans.mjs";
@@ -53,7 +52,7 @@ import vatsimTransceiversRouter from "./routes/vatsim/transceivers.mjs";
 // Admin routes
 import adminRouter from "./routes/admin.mjs";
 
-import { isOriginAllowed } from "./utils/cors.mjs";
+import { isOriginAllowed, setWhitelist } from "./utils/cors.mjs";
 
 export const app = express();
 let server: https.Server | Server;
@@ -95,6 +94,8 @@ function readCertsSync() {
 }
 
 export async function startServer(port: number): Promise<void> {
+  setWhitelist(ENV.WHITELISTED_DOMAINS);
+
   app.set("trust proxy", ENV.TRUST_PROXY);
   app.use(compression());
   app.use(bodyParser.urlencoded({ extended: false }));
