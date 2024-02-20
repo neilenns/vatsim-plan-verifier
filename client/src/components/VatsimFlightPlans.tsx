@@ -6,11 +6,9 @@ import {
 import { Box, IconButton, List, ListItem, ListItemText, Stack, TextField } from "@mui/material";
 import debug from "debug";
 import pluralize from "pluralize";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useIdleTimer } from "react-idle-timer";
 import { useNavigate } from "react-router-dom";
-import socketIOClient, { Socket } from "socket.io-client";
-import { ENV } from "../env.mjs";
 import { useAppContext } from "../hooks/useAppContext.mjs";
 import { useVatsim } from "../hooks/useVatsim.mts";
 import { IVatsimFlightPlan, ImportState } from "../interfaces/IVatsimFlightPlan.mts";
@@ -41,17 +39,118 @@ const VatsimFlightPlans = () => {
   const [hasUpdates, setHasUpdates] = useState(false);
   const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
   const { autoHideImported } = useAppContext();
-  const socketRef = useRef<Socket>(
-    socketIOClient(ENV.VITE_SERVER_URL, {
-      autoConnect: false,
-      reconnection: true,
-      reconnectionAttempts: 5,
-      auth: { token: ENV.VITE_API_KEY },
-    })
-  );
+  const { socket } = useAppContext();
   const { getAccessTokenSilently } = useAuth0();
 
   const handleSnackbarClose: AlertSnackBarOnClose = () => setSnackbar(null);
+
+  const handleConnect = useCallback(() => {
+    logger("Connected for vatsim flight plan updates");
+
+    socket.emit("watchAirports", airportCodesRef.current?.split(","));
+
+    setIsConnected(true);
+  }, [socket]);
+
+  const handleDisconnect = useCallback(() => {
+    logger("Disconnected from vatsim flight plan updates");
+    setIsConnected(false);
+  }, []);
+
+  const handleAirportNotFound = useCallback(
+    (airportCodes: string[]) => {
+      const message = `${pluralize("Airport", airportCodes.length)} ${airportCodes.join(
+        ", "
+      )} not found`;
+      logger(message);
+      setSnackbar({
+        children: message,
+        severity: "warning",
+      });
+      socket.disconnect();
+      setIsConnected(false);
+    },
+    [socket]
+  );
+
+  const handleInsecureAirportCode = useCallback(
+    (airportCodes: string[]) => {
+      const message = `${pluralize("Airport", airportCodes.length)} ${airportCodes.join(
+        ", "
+      )} not valid`;
+      logger(message);
+      setSnackbar({
+        children: message,
+        severity: "error",
+      });
+      socket.disconnect();
+      setIsConnected(false);
+    },
+    [socket]
+  );
+
+  const handleConnectError = useCallback((error: Error) => {
+    logger(`Error connecting for vatsim flight plans: ${error.message}`);
+    setSnackbar({
+      children: `Unable to retrieve VATSIM flight plans.`,
+      severity: "error",
+    });
+    setIsConnected(null); // null to avoid playing the disconnect sound.
+  }, []);
+
+  const handleReconnectError = useCallback((error: Error) => {
+    logger(`Error reconnecting for vatsim flight plans: ${error.message}`);
+    setSnackbar({
+      children: `Unable to reconnect to server.`,
+      severity: "error",
+    });
+    setIsConnected(null); // null to avoid playing the disconnect sound.
+  }, []);
+
+  const handleVatsimFlightPlansUpdate = useCallback(
+    (incomingPlans: IVatsimFlightPlan[]) => {
+      logger("Received vatsim flight plan update");
+      const result = processFlightPlans(incomingPlans);
+      setHasNew(result.hasNew);
+      setHasUpdates(result.hasUpdates);
+    },
+    [processFlightPlans]
+  );
+
+  useEffect(() => {
+    socket.on("connect", handleConnect);
+    socket.on("disconnect", handleDisconnect);
+
+    return () => {
+      socket.off("connect", handleConnect);
+      socket.on("disconnect", handleDisconnect);
+    };
+  }, [handleConnect, handleDisconnect, socket]);
+
+  useEffect(() => {
+    socket.on("vatsimFlightPlansUpdate", handleVatsimFlightPlansUpdate);
+
+    return () => {
+      socket.off("vatsimFlightPlansUpdate", handleVatsimFlightPlansUpdate);
+    };
+  }, [handleVatsimFlightPlansUpdate, socket]);
+
+  useEffect(() => {
+    socket.on("airportNotFound", handleAirportNotFound);
+    socket.on("insecureAirportCode", handleInsecureAirportCode);
+    socket.on("connect_error", handleConnectError);
+    // Note the use of .io here, to get the manager. reconnect_error fires from
+    // the manager, not the socket. Super annoying.
+    socket.io.on("reconnect_error", handleReconnectError);
+  }, [
+    handleAirportNotFound,
+    handleConnect,
+    handleConnectError,
+    handleDisconnect,
+    handleInsecureAirportCode,
+    handleReconnectError,
+    socket,
+  ]);
 
   useEffect(() => {
     if (hasNew || hasUpdates) {
@@ -70,72 +169,6 @@ const VatsimFlightPlans = () => {
       setIsConnected(null);
     }
   }, [isConnected, disconnectedPlayer]);
-
-  socketRef.current.on("connect", () => {
-    logger("Connected for vatsim flight plan updates");
-
-    socketRef.current?.emit("watchAirports", airportCodesRef.current?.split(","));
-
-    setIsConnected(true);
-  });
-
-  socketRef.current.on("disconnect", () => {
-    logger("Disconnected from vatsim flight plan updates");
-    setIsConnected(false);
-  });
-
-  socketRef.current.on("airportNotFound", (airportCodes: string[]) => {
-    const message = `${pluralize("Airport", airportCodes.length)} ${airportCodes.join(
-      ", "
-    )} not found`;
-    logger(message);
-    setSnackbar({
-      children: message,
-      severity: "warning",
-    });
-    socketRef.current?.disconnect();
-    setIsConnected(false);
-  });
-
-  socketRef.current.on("insecureAirportCode", (airportCodes: string[]) => {
-    const message = `${pluralize("Airport", airportCodes.length)} ${airportCodes.join(
-      ", "
-    )} not valid`;
-    logger(message);
-    setSnackbar({
-      children: message,
-      severity: "error",
-    });
-    socketRef.current?.disconnect();
-    setIsConnected(false);
-  });
-
-  socketRef.current.on("connect_error", (error: Error) => {
-    logger(`Error connecting for vatsim flight plans: ${error.message}`);
-    setSnackbar({
-      children: `Unable to retrieve VATSIM flight plans.`,
-      severity: "error",
-    });
-    setIsConnected(null); // null to avoid playing the disconnect sound.
-  });
-
-  // Note the use of .io here, to get the manager. reconnect_error fires from
-  // the manager, not the socket. Super annoying.
-  socketRef.current.io.on("reconnect_error", (error: Error) => {
-    logger(`Error reconnecting for vatsim flight plans: ${error.message}`);
-    setSnackbar({
-      children: `Unable to reconnect to server.`,
-      severity: "error",
-    });
-    setIsConnected(null); // null to avoid playing the disconnect sound.
-  });
-
-  socketRef.current.on("vatsimFlightPlansUpdate", (incomingPlans: IVatsimFlightPlan[]) => {
-    logger("Received vatsim flight plan update");
-    const result = processFlightPlans(incomingPlans);
-    setHasNew(result.hasNew);
-    setHasUpdates(result.hasUpdates);
-  });
 
   const handleFlightPlanImport = async (callsign: string | undefined) => {
     if (!callsign) return;
@@ -166,7 +199,7 @@ const VatsimFlightPlans = () => {
 
   const disconnectFromVatsim = () => {
     if (isConnected) {
-      socketRef.current?.disconnect();
+      socket.disconnect();
       setIsConnected(false);
     }
   };
@@ -175,7 +208,7 @@ const VatsimFlightPlans = () => {
     if (airportCodes === "") return;
 
     // Not currently connected so connect
-    if (!isConnected && socketRef.current) {
+    if (!isConnected && socket) {
       // Clean up the airport codes
       const cleanCodes = airportCodes
         .split(",")
@@ -186,11 +219,11 @@ const VatsimFlightPlans = () => {
 
       // Issue 709: This is set as both a state and a ref to ensure the
       // airport codes are available in the socket connected event without
-      //having to add them as a useEffects() dependency.
+      //having to add them as a useCallback() dependency.
       setAirportCodes(cleanCodes);
       airportCodesRef.current = cleanCodes;
 
-      socketRef.current.connect();
+      socket.connect();
     }
     // Currently connected so disconnect
     else {
@@ -201,7 +234,7 @@ const VatsimFlightPlans = () => {
   const onIdle = () => {
     if (isConnected) {
       logger(`Inactivity detected, stopping auto-refresh.`);
-      socketRef.current?.disconnect();
+      socket.disconnect();
       setIsConnected(false);
     }
   };

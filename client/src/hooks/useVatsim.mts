@@ -28,16 +28,12 @@ export function useVatsim() {
         };
       }
 
-      // Find the deleted plans
-      flightPlans.forEach((current, index) => {
-        const found = incomingPlans.find((incoming) => incoming._id === current._id);
-
-        // This means the plan in the current list no longer exists so remove it by index
-        if (!found) {
-          setFlightPlans((draft) => {
-            draft.splice(index, 1);
-          });
-        }
+      // Filter out all the deleted flight plans. They'll be the ones
+      // that don't exist in the incoming list.
+      setFlightPlans((draft) => {
+        return draft.filter((existing) =>
+          incomingPlans.find((incoming) => incoming._id === existing._id)
+        );
       });
 
       // Loop through all the incoming plans and see if it needs to be added or an existing
@@ -76,7 +72,7 @@ export function useVatsim() {
 
       return { hasNew, hasUpdates };
     },
-    [flightPlans, setFlightPlans]
+    [setFlightPlans]
   );
 
   // Finds the callsign in the list of current plans, sets its
