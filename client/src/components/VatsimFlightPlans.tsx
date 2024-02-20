@@ -146,6 +146,13 @@ const VatsimFlightPlans = () => {
     // Note the use of .io here, to get the manager. reconnect_error fires from
     // the manager, not the socket. Super annoying.
     socket.io.on("reconnect_error", handleReconnectError);
+
+    return () => {
+      socket.off("airportNotFound", handleAirportNotFound);
+      socket.off("insecureAirportCode", handleInsecureAirportCode);
+      socket.off("connect_error", handleConnectError);
+      socket.io.off("reconnect_error", handleReconnectError);
+    };
   }, [
     handleAirportNotFound,
     handleConnect,
