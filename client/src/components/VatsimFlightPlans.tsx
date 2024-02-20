@@ -71,75 +71,71 @@ const VatsimFlightPlans = () => {
     }
   }, [isConnected, disconnectedPlayer]);
 
-  useEffect(() => {
-    socketRef.current.on("connect", () => {
-      logger("Connected for vatsim flight plan updates");
+  socketRef.current.on("connect", () => {
+    logger("Connected for vatsim flight plan updates");
 
-      socketRef.current?.emit("watchAirports", airportCodesRef.current?.split(","));
+    socketRef.current?.emit("watchAirports", airportCodesRef.current?.split(","));
 
-      setIsConnected(true);
+    setIsConnected(true);
+  });
+
+  socketRef.current.on("disconnect", () => {
+    logger("Disconnected from vatsim flight plan updates");
+    setIsConnected(false);
+  });
+
+  socketRef.current.on("airportNotFound", (airportCodes: string[]) => {
+    const message = `${pluralize("Airport", airportCodes.length)} ${airportCodes.join(
+      ", "
+    )} not found`;
+    logger(message);
+    setSnackbar({
+      children: message,
+      severity: "warning",
     });
+    socketRef.current?.disconnect();
+    setIsConnected(false);
+  });
 
-    socketRef.current.on("disconnect", () => {
-      logger("Disconnected from vatsim flight plan updates");
-      setIsConnected(false);
+  socketRef.current.on("insecureAirportCode", (airportCodes: string[]) => {
+    const message = `${pluralize("Airport", airportCodes.length)} ${airportCodes.join(
+      ", "
+    )} not valid`;
+    logger(message);
+    setSnackbar({
+      children: message,
+      severity: "error",
     });
+    socketRef.current?.disconnect();
+    setIsConnected(false);
+  });
 
-    socketRef.current.on("airportNotFound", (airportCodes: string[]) => {
-      const message = `${pluralize("Airport", airportCodes.length)} ${airportCodes.join(
-        ", "
-      )} not found`;
-      logger(message);
-      setSnackbar({
-        children: message,
-        severity: "warning",
-      });
-      socketRef.current?.disconnect();
-      setIsConnected(false);
+  socketRef.current.on("connect_error", (error: Error) => {
+    logger(`Error connecting for vatsim flight plans: ${error.message}`);
+    setSnackbar({
+      children: `Unable to retrieve VATSIM flight plans.`,
+      severity: "error",
     });
+    setIsConnected(null); // null to avoid playing the disconnect sound.
+  });
 
-    socketRef.current.on("insecureAirportCode", (airportCodes: string[]) => {
-      const message = `${pluralize("Airport", airportCodes.length)} ${airportCodes.join(
-        ", "
-      )} not valid`;
-      logger(message);
-      setSnackbar({
-        children: message,
-        severity: "error",
-      });
-      socketRef.current?.disconnect();
-      setIsConnected(false);
+  // Note the use of .io here, to get the manager. reconnect_error fires from
+  // the manager, not the socket. Super annoying.
+  socketRef.current.io.on("reconnect_error", (error: Error) => {
+    logger(`Error reconnecting for vatsim flight plans: ${error.message}`);
+    setSnackbar({
+      children: `Unable to reconnect to server.`,
+      severity: "error",
     });
+    setIsConnected(null); // null to avoid playing the disconnect sound.
+  });
 
-    socketRef.current.on("connect_error", (error: Error) => {
-      logger(`Error connecting for vatsim flight plans: ${error.message}`);
-      setSnackbar({
-        children: `Unable to retrieve VATSIM flight plans.`,
-        severity: "error",
-      });
-      setIsConnected(null); // null to avoid playing the disconnect sound.
-    });
-
-    // Note the use of .io here, to get the manager. reconnect_error fires from
-    // the manager, not the socket. Super annoying.
-    socketRef.current.io.on("reconnect_error", (error: Error) => {
-      logger(`Error reconnecting for vatsim flight plans: ${error.message}`);
-      setSnackbar({
-        children: `Unable to reconnect to server.`,
-        severity: "error",
-      });
-      setIsConnected(null); // null to avoid playing the disconnect sound.
-    });
-  }, []);
-
-  useEffect(() => {
-    socketRef.current.on("vatsimFlightPlansUpdate", (incomingPlans: IVatsimFlightPlan[]) => {
-      logger("Received vatsim flight plan update");
-      const result = processFlightPlans(incomingPlans);
-      setHasNew(result.hasNew);
-      setHasUpdates(result.hasUpdates);
-    });
-  }, [processFlightPlans]);
+  socketRef.current.on("vatsimFlightPlansUpdate", (incomingPlans: IVatsimFlightPlan[]) => {
+    logger("Received vatsim flight plan update");
+    const result = processFlightPlans(incomingPlans);
+    setHasNew(result.hasNew);
+    setHasUpdates(result.hasUpdates);
+  });
 
   const handleFlightPlanImport = async (callsign: string | undefined) => {
     if (!callsign) return;
