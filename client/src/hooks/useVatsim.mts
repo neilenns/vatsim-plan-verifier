@@ -15,6 +15,7 @@ export function useVatsim() {
       let hasNew = false;
       let hasUpdates = false;
 
+      console.log("Processing flight plans");
       // If there are no incoming plans then just set an empty array.
       if (incomingPlans.length === 0) {
         setFlightPlans(() => {
