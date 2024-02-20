@@ -15,7 +15,6 @@ export function useVatsim() {
       let hasNew = false;
       let hasUpdates = false;
 
-      console.log("Processing incoming flight plans");
       // If there are no incoming plans then just set an empty array.
       if (incomingPlans.length === 0) {
         setFlightPlans(() => {
@@ -28,7 +27,8 @@ export function useVatsim() {
         };
       }
 
-      // Filter out all flight plans that don't exist in the incoming plan list
+      // Filter out all the deleted flight plans. They'll be the ones
+      // that don't exist in the incoming list.
       setFlightPlans((draft) => {
         return draft.filter((existing) =>
           incomingPlans.find((incoming) => incoming._id === existing._id)

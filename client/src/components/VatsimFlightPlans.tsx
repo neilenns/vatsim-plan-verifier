@@ -126,6 +126,10 @@ const VatsimFlightPlans = () => {
   }, [handleConnect, socket]);
 
   useEffect(() => {
+    socket.on("vatsimFlightPlansUpdate", handleVatsimFlightPlansUpdate);
+  }, [handleVatsimFlightPlansUpdate, socket]);
+
+  useEffect(() => {
     socket.on("disconnect", handleDisconnect);
     socket.on("airportNotFound", handleAirportNotFound);
     socket.on("insecureAirportCode", handleInsecureAirportCode);
@@ -133,7 +137,6 @@ const VatsimFlightPlans = () => {
     // Note the use of .io here, to get the manager. reconnect_error fires from
     // the manager, not the socket. Super annoying.
     socket.io.on("reconnect_error", handleReconnectError);
-    socket.on("vatsimFlightPlansUpdate", handleVatsimFlightPlansUpdate);
   }, [
     handleAirportNotFound,
     handleConnect,
@@ -141,7 +144,6 @@ const VatsimFlightPlans = () => {
     handleDisconnect,
     handleInsecureAirportCode,
     handleReconnectError,
-    handleVatsimFlightPlansUpdate,
     socket,
   ]);
 
