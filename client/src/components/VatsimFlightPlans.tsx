@@ -41,7 +41,14 @@ const VatsimFlightPlans = () => {
   const [hasUpdates, setHasUpdates] = useState(false);
   const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
   const { autoHideImported } = useAppContext();
-  const socketRef = useRef<Socket | null>(null);
+  const socketRef = useRef<Socket>(
+    socketIOClient(ENV.VITE_SERVER_URL, {
+      autoConnect: false,
+      reconnection: true,
+      reconnectionAttempts: 5,
+      auth: { token: ENV.VITE_API_KEY },
+    })
+  );
   const { getAccessTokenSilently } = useAuth0();
 
   const handleSnackbarClose: AlertSnackBarOnClose = () => setSnackbar(null);
@@ -65,20 +72,6 @@ const VatsimFlightPlans = () => {
   }, [isConnected, disconnectedPlayer]);
 
   useEffect(() => {
-    socketRef.current = socketIOClient(ENV.VITE_SERVER_URL, {
-      autoConnect: false,
-      reconnection: true,
-      reconnectionAttempts: 5,
-      auth: { token: ENV.VITE_API_KEY },
-    });
-
-    socketRef.current.on("vatsimFlightPlansUpdate", (incomingPlans: IVatsimFlightPlan[]) => {
-      logger("Received vatsim flight plan update");
-      const result = processFlightPlans(incomingPlans);
-      setHasNew(result.hasNew);
-      setHasUpdates(result.hasUpdates);
-    });
-
     socketRef.current.on("connect", () => {
       logger("Connected for vatsim flight plan updates");
 
@@ -137,13 +130,15 @@ const VatsimFlightPlans = () => {
       });
       setIsConnected(null); // null to avoid playing the disconnect sound.
     });
+  }, []);
 
-    // Make sure to disconnect when we are cleaned up
-    return () => {
-      if (socketRef.current) {
-        socketRef.current.disconnect();
-      }
-    };
+  useEffect(() => {
+    socketRef.current.on("vatsimFlightPlansUpdate", (incomingPlans: IVatsimFlightPlan[]) => {
+      logger("Received vatsim flight plan update");
+      const result = processFlightPlans(incomingPlans);
+      setHasNew(result.hasNew);
+      setHasUpdates(result.hasUpdates);
+    });
   }, [processFlightPlans]);
 
   const handleFlightPlanImport = async (callsign: string | undefined) => {
