@@ -144,7 +144,7 @@ const VatsimFlightPlans = () => {
         socketRef.current.disconnect();
       }
     };
-  }, [flightPlans, processFlightPlans]);
+  }, [processFlightPlans]);
 
   const handleFlightPlanImport = async (callsign: string | undefined) => {
     if (!callsign) return;

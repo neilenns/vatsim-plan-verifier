@@ -43,7 +43,7 @@ export function useVatsim() {
       // entry updated.
       incomingPlans.forEach((incoming) => {
         setFlightPlans((draft) => {
-          const existing = flightPlans.find((plan) => plan._id === incoming._id);
+          const existing = draft.find((plan) => plan._id === incoming._id);
 
           // It's a new plan
           if (!existing) {
@@ -65,7 +65,7 @@ export function useVatsim() {
             existing.callsign = incoming.callsign;
             existing.departure = incoming.departure;
             existing.departureTime = incoming.departureTime;
-            existing.importState = ImportState.UPDATED;
+            existing.importState = updated ? ImportState.UPDATED : existing.importState;
             existing.isCoasting = incoming.isCoasting;
             existing.isPrefile = incoming.isPrefile;
             existing.revision = incoming.revision;
