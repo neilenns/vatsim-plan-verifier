@@ -2,20 +2,13 @@ import { useCallback, useMemo } from "react";
 import { useImmer } from "use-immer";
 import { IVatsimFlightPlan, ImportState } from "../interfaces/IVatsimFlightPlan.mts";
 
-type ProcessFlightPlansResult = {
-  hasNew: boolean;
-  hasUpdates: boolean;
-};
-
 export function useVatsim() {
   const [flightPlans, setFlightPlans] = useImmer<IVatsimFlightPlan[]>([]);
+  const [hasUpdates, setHasUpdates] = useImmer<boolean>(false);
+  const [hasNew, setHasNew] = useImmer<boolean>(false);
 
   const processFlightPlans = useCallback(
-    (incomingPlans: IVatsimFlightPlan[]): ProcessFlightPlansResult => {
-      let hasNew = false;
-      let hasUpdates = false;
-
-      console.log("Processing flight plans");
+    (incomingPlans: IVatsimFlightPlan[]) => {
       // If there are no incoming plans then just set an empty array.
       if (incomingPlans.length === 0) {
         setFlightPlans(() => {
@@ -48,13 +41,13 @@ export function useVatsim() {
               ...incoming,
               importState: ImportState.NEW,
             } as IVatsimFlightPlan);
-            hasNew = true;
+            setHasNew(true);
           }
           // It's an existing one so update it
           else {
             const updated = incoming.revision !== existing.revision;
 
-            hasUpdates ||= updated;
+            setHasUpdates(hasUpdates || updated);
 
             // Update the properties. departureTime is not included in this list since it doesn't
             // matter for plan verification.
@@ -69,10 +62,8 @@ export function useVatsim() {
           }
         });
       });
-
-      return { hasNew, hasUpdates };
     },
-    [setFlightPlans]
+    [hasUpdates, setFlightPlans, setHasNew, setHasUpdates]
   );
 
   // Finds the callsign in the list of current plans, sets its
@@ -97,7 +88,19 @@ export function useVatsim() {
       flightPlans,
       processFlightPlans,
       markPlanImported,
+      hasUpdates,
+      setHasUpdates,
+      hasNew,
+      setHasNew,
     }),
-    [flightPlans, processFlightPlans, markPlanImported]
+    [
+      flightPlans,
+      processFlightPlans,
+      markPlanImported,
+      hasUpdates,
+      setHasUpdates,
+      hasNew,
+      setHasNew,
+    ]
   );
 }

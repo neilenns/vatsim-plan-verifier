@@ -23,7 +23,15 @@ const VatsimFlightPlans = () => {
   const navigate = useNavigate();
   const bellPlayer = useAudio("/bell.mp3");
   const disconnectedPlayer = useAudio("/disconnected.mp3");
-  const { flightPlans, processFlightPlans, markPlanImported } = useVatsim();
+  const {
+    flightPlans,
+    processFlightPlans,
+    markPlanImported,
+    hasUpdates,
+    hasNew,
+    setHasNew,
+    setHasUpdates,
+  } = useVatsim();
   // isConnected is initialized to null so useEffect can tell the difference between first page load
   // and actually being disconnected. Otherwise what happens is on page load the disconnect
   // sound will attempt to play.
@@ -35,8 +43,6 @@ const VatsimFlightPlans = () => {
   // to send the airport codes to the connected socket.
   const airportCodesRef = useRef<string>(localStorage.getItem("vatsimAirportCodes") || "");
   const [isImporting, setIsImporting] = useState(false);
-  const [hasNew, setHasNew] = useState(false);
-  const [hasUpdates, setHasUpdates] = useState(false);
   const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
   const { autoHideImported } = useAppContext();
   const { socket } = useAppContext();
@@ -110,9 +116,7 @@ const VatsimFlightPlans = () => {
   const handleVatsimFlightPlansUpdate = useCallback(
     (incomingPlans: IVatsimFlightPlan[]) => {
       logger("Received vatsim flight plan update");
-      const result = processFlightPlans(incomingPlans);
-      setHasNew(result.hasNew);
-      setHasUpdates(result.hasUpdates);
+      processFlightPlans(incomingPlans);
     },
     [processFlightPlans]
   );
@@ -158,7 +162,7 @@ const VatsimFlightPlans = () => {
       setHasNew(false);
       setHasUpdates(false);
     }
-  }, [hasNew, hasUpdates, bellPlayer]);
+  }, [hasNew, hasUpdates, bellPlayer, setHasNew, setHasUpdates]);
 
   useEffect(() => {
     if (isConnected !== null && !isConnected) {
