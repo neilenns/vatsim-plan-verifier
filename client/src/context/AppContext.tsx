@@ -1,5 +1,7 @@
 import { PropsWithChildren, createContext, useEffect, useMemo, useState } from "react";
 import { AirportFlow } from "../interfaces/ISIDInformation.mts";
+import socketIOClient, { Socket } from "socket.io-client";
+import { ENV } from "../env.mts";
 
 // Loads the initial flow from local storage and converts it to an AirportFlow type
 const getInitialFlow = (): AirportFlow => {
@@ -23,6 +25,14 @@ const useProviderValue = () => {
   );
   const [streamingMode, setStreamingMode] = useState(
     localStorage.getItem("streamingMode") == "true" // Results in a default vaue of false
+  );
+  const [socket] = useState<Socket>(
+    socketIOClient(ENV.VITE_SERVER_URL, {
+      autoConnect: false,
+      reconnection: true,
+      reconnectionAttempts: 5,
+      auth: { token: ENV.VITE_API_KEY },
+    })
   );
 
   useEffect(() => {
@@ -57,8 +67,9 @@ const useProviderValue = () => {
       setStreamingMode,
       flow,
       setFlow,
+      socket,
     }),
-    [muted, autoHideImported, hideInformational, streamingMode, flow]
+    [muted, autoHideImported, hideInformational, streamingMode, flow, socket]
   );
 };
 
