@@ -119,18 +119,23 @@ const VatsimFlightPlans = () => {
 
   useEffect(() => {
     socket.on("connect", handleConnect);
+    socket.on("disconnect", handleDisconnect);
 
     return () => {
       socket.off("connect", handleConnect);
+      socket.on("disconnect", handleDisconnect);
     };
-  }, [handleConnect, socket]);
+  }, [handleConnect, handleDisconnect, socket]);
 
   useEffect(() => {
     socket.on("vatsimFlightPlansUpdate", handleVatsimFlightPlansUpdate);
+
+    return () => {
+      socket.off("vatsimFlightPlansUpdate", handleVatsimFlightPlansUpdate);
+    };
   }, [handleVatsimFlightPlansUpdate, socket]);
 
   useEffect(() => {
-    socket.on("disconnect", handleDisconnect);
     socket.on("airportNotFound", handleAirportNotFound);
     socket.on("insecureAirportCode", handleInsecureAirportCode);
     socket.on("connect_error", handleConnectError);
