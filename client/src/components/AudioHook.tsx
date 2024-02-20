@@ -1,20 +1,15 @@
-import { useEffect, useState } from "react";
+import { useRef } from "react";
 import { useAppContext } from "../hooks/useAppContext.mjs";
 
 export type useAudioType = { play: () => void };
 
 export function useAudio(url: string): useAudioType {
-  const [audio] = useState(new Audio(url));
-  const [isMuted, setIsMuted] = useState(false);
+  const audio = useRef(new Audio(url));
   const { muted } = useAppContext();
 
-  useEffect(() => {
-    setIsMuted(muted);
-  }, [muted]);
-
   const play = () => {
-    if (!isMuted) {
-      void audio.play();
+    if (!muted) {
+      void audio.current.play();
     }
   };
 
