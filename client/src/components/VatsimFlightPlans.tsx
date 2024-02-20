@@ -12,12 +12,12 @@ import { useNavigate } from "react-router-dom";
 import socketIOClient, { Socket } from "socket.io-client";
 import { ENV } from "../env.mjs";
 import { useAppContext } from "../hooks/useAppContext.mjs";
+import { useVatsim } from "../hooks/useVatsim.mts";
 import { IVatsimFlightPlan, ImportState } from "../interfaces/IVatsimFlightPlan.mts";
 import { importFlightPlan } from "../services/flightPlan.mts";
-import { getColorByStatus, processFlightPlans } from "../utils/vatsim.mts";
+import { getColorByStatus } from "../utils/vatsim.mts";
 import AlertSnackbar, { AlertSnackBarOnClose, AlertSnackbarProps } from "./AlertSnackbar";
 import { useAudio } from "./AudioHook";
-import { useImmer } from "use-immer";
 
 const logger = debug("plan-verifier:vatsimFlightPlans");
 
@@ -25,7 +25,7 @@ const VatsimFlightPlans = () => {
   const navigate = useNavigate();
   const bellPlayer = useAudio("/bell.mp3");
   const disconnectedPlayer = useAudio("/disconnected.mp3");
-  const [flightPlans, setFlightPlans] = useImmer<IVatsimFlightPlan[]>([]);
+  const { flightPlans, processFlightPlans, markPlanImported } = useVatsim();
   // isConnected is initialized to null so useEffect can tell the difference between first page load
   // and actually being disconnected. Otherwise what happens is on page load the disconnect
   // sound will attempt to play.
@@ -72,9 +72,9 @@ const VatsimFlightPlans = () => {
       auth: { token: ENV.VITE_API_KEY },
     });
 
-    socketRef.current.on("vatsimFlightPlansUpdate", (vatsimPlans: IVatsimFlightPlan[]) => {
+    socketRef.current.on("vatsimFlightPlansUpdate", (incomingPlans: IVatsimFlightPlan[]) => {
       logger("Received vatsim flight plan update");
-      const result = processFlightPlans(flightPlans, vatsimPlans, setFlightPlans);
+      const result = processFlightPlans(incomingPlans);
       setHasNew(result.hasNew);
       setHasUpdates(result.hasUpdates);
     });
@@ -144,21 +144,7 @@ const VatsimFlightPlans = () => {
         socketRef.current.disconnect();
       }
     };
-  }, [flightPlans, setFlightPlans]);
-
-  // Finds the callsign in the list of current plans, sets its
-  // state to imported, then updates the state variable so the
-  // page redraws.
-  const markPlanImported = (callsign: string) => {
-    setFlightPlans((draft) => {
-      const plan = draft.find((plan) => plan.callsign === callsign);
-      if (!plan) {
-        return;
-      }
-
-      plan.importState = ImportState.IMPORTED;
-    });
-  };
+  }, [flightPlans, processFlightPlans]);
 
   const handleFlightPlanImport = async (callsign: string | undefined) => {
     if (!callsign) return;
