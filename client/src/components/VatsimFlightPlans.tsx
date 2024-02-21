@@ -219,7 +219,7 @@ const VatsimFlightPlans = () => {
     if (airportCodes === "") return;
 
     // Not currently connected so connect
-    if (!isConnected && socket) {
+    if (!isConnected) {
       // Clean up the airport codes
       const cleanCodes = airportCodes
         .split(",")
