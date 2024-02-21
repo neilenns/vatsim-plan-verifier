@@ -52,6 +52,7 @@ const envSchema = z.object({
   TRUST_PROXY: z.coerce.number().default(0),
   VATSIM_DATA_AUTO_UPDATE_INTERVAL_CONNECTIONS: z.string().default("every 15 seconds"),
   VATSIM_DATA_AUTO_UPDATE_INTERVAL_NO_CONNECTIONS: z.string().default("every 60 seconds"),
+  VATSIM_DATA_FILE: z.string().optional(),
   VATSIM_DISTANCE_CUTOFF_IN_KM: z.coerce.number().default(5.5),
   VATSIM_GROUNDSPEED_CUTOFF: z.coerce.number().default(50),
   VATSIM_TRANSCEIVER_AUTO_UPDATE_INTERVAL_CONNECTIONS: z.string().default("every 30 seconds"),

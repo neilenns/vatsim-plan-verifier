@@ -1,7 +1,9 @@
 import axios, { AxiosResponse } from "axios";
+import fs from "fs";
 import pluralize from "pluralize";
 import { Server as SocketIOServer } from "socket.io";
 import { getVatsimEDCTFlightPlans, getVatsimEDCTViewOnly } from "../controllers/vatsim.mjs";
+import { ENV } from "../env.mjs";
 import { IVatsimData } from "../interfaces/IVatsimData.mjs";
 import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
 import mainLogger from "../logger.mjs";
@@ -43,6 +45,17 @@ export async function getVatsimEndpoints() {
 export async function getVatsimData(endpoint: string) {
   logger.info("Downloading latest VATSIM data");
 
+  // For debugging/testing purposes, if a vatsim data file was specified
+  // then load and use that instead of retrieving from the real server.
+  // This enables making specific changes to flights and testing the results.
+  if (ENV.VATSIM_DATA_FILE) {
+    const data = await fs.promises.readFile(ENV.VATSIM_DATA_FILE, "utf-8");
+    const vatsimData: IVatsimData = JSON.parse(data);
+
+    await Promise.all([processVatsimATISData(vatsimData), processVatsimFlightPlanData(vatsimData)]);
+
+    return;
+  }
   try {
     const response = await axios.get(endpoint);
 
