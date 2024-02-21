@@ -102,7 +102,7 @@ async function calculateNewAndUpdated(
 
   profiler.done({
     level: "debug",
-    message: `Done calculating new and updated plans: ${plansToAdd.length} new and ${plansToUpdate.length} to update`,
+    message: `Done calculating new and updated plans: ${plansToAdd.length} new, ${unchangedCount} unchanged and ${plansToUpdate.length} to update`,
   });
 
   return [plansToAdd, plansToUpdate];
