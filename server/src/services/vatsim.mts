@@ -49,6 +49,7 @@ export async function getVatsimData(endpoint: string) {
   // then load and use that instead of retrieving from the real server.
   // This enables making specific changes to flights and testing the results.
   if (ENV.VATSIM_DATA_FILE) {
+    logger.debug(`Using VATSIM data from ${ENV.VATSIM_DATA_FILE}`);
     const data = await fs.promises.readFile(ENV.VATSIM_DATA_FILE, "utf-8");
     const vatsimData: IVatsimData = JSON.parse(data);
 

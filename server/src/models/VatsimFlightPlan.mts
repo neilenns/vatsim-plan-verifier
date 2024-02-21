@@ -104,6 +104,10 @@ class VatsimFlightPlan {
   @prop({ required: false, default: false })
   sentEDCT: boolean = false;
 
+  // This is the revision for the flight plan data that VATSIM provides.
+  @prop({ required: false })
+  flightPlanRevision?: number;
+
   public setRevision(this: VatsimFlightPlanDocument) {
     // Find all the modified paths that trigger a revision bump.
     const modifiedPaths = this.modifiedPaths().filter((path) => !excludedPaths.includes(path));
@@ -118,18 +122,24 @@ class VatsimFlightPlan {
   }
 
   public async updateFlightPlan(this: VatsimFlightPlanDocument, incomingPlan: IVatsimPilot) {
-    this.name = incomingPlan.flight_plan?.name ?? "";
-    this.rawAircraftType = incomingPlan.flight_plan?.aircraft_faa ?? "";
-    this.departure = incomingPlan.flight_plan?.departure ?? "";
-    this.arrival = incomingPlan.flight_plan?.arrival ?? "";
-    this.squawk = incomingPlan.flight_plan?.assigned_transponder ?? "";
-    this.remarks = incomingPlan.flight_plan?.remarks ?? "";
+    // Only try updating the flight plan properties if the revision changed on the VATSIM side.
+    if (this.flightPlanRevision !== incomingPlan.flight_plan?.revision_id) {
+      this.arrival = incomingPlan.flight_plan?.arrival ?? "";
+      this.departure = incomingPlan.flight_plan?.departure ?? "";
+      this.departureTime = depTimeToDateTime(incomingPlan?.flight_plan?.deptime);
+      this.flightPlanRevision = incomingPlan.flight_plan?.revision_id;
+      this.name = incomingPlan.flight_plan?.name ?? "";
+      this.rawAircraftType = incomingPlan.flight_plan?.aircraft_faa ?? "";
+      this.remarks = incomingPlan.flight_plan?.remarks ?? "";
+      this.route = cleanRoute(incomingPlan.flight_plan?.route ?? "");
+      this.route = incomingPlan.flight_plan?.route;
+      this.squawk = incomingPlan.flight_plan?.assigned_transponder ?? "";
+    }
+
     this.isPrefile = incomingPlan.isPrefile;
     this.coastAt = undefined; // Handles planes that reconnect after briefly disconnecting
 
     // Set the special properties that need calculations
-    this.route = cleanRoute(incomingPlan.flight_plan?.route ?? "");
-    this.departureTime = depTimeToDateTime(incomingPlan?.flight_plan?.deptime);
     this.communicationMethod = getCommunicationMethod(this.remarks);
     this.setCruiseAltitudeAndFlightRules(
       incomingPlan.flight_plan?.altitude,

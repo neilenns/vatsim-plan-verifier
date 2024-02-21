@@ -27455,8 +27455,8 @@
         "enroute_time": "0029",
         "fuel_time": "0150",
         "remarks": "PBN/A1B2C2D2O2 DOF/240220 REG/N639FE EET/EDWW0004 LKAA0020 EDUU0031 LOVV0042 EDMM0044 OPR/FDX PER/C RMK/TCAS SIMBRIEF /V/",
-        "route": "SEA8 SEA BUWZO KRATR2",
-        "revision_id": 1,
+        "route": "MONTN2 SEA BUWZO KRATR2",
+        "revision_id": 2,
         "assigned_transponder": "5102"
       },
       "last_updated": "2024-02-20T21:51:57.031114Z"
