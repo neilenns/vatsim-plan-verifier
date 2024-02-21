@@ -118,7 +118,6 @@ class VatsimFlightPlan {
   }
 
   public async updateFlightPlan(this: VatsimFlightPlanDocument, incomingPlan: IVatsimPilot) {
-    this.flightRules = incomingPlan.flight_plan?.flight_rules ?? "";
     this.name = incomingPlan.flight_plan?.name ?? "";
     this.rawAircraftType = incomingPlan.flight_plan?.aircraft_faa ?? "";
     this.departure = incomingPlan.flight_plan?.departure ?? "";
@@ -126,7 +125,6 @@ class VatsimFlightPlan {
     this.squawk = incomingPlan.flight_plan?.assigned_transponder ?? "";
     this.remarks = incomingPlan.flight_plan?.remarks ?? "";
     this.isPrefile = incomingPlan.isPrefile;
-    this.route = incomingPlan.flight_plan?.route;
     this.coastAt = undefined; // Handles planes that reconnect after briefly disconnecting
 
     // Set the special properties that need calculations
@@ -294,7 +292,7 @@ class VatsimFlightPlan {
     }
     // Either it's a non-vNAS flight plan or the flight is IFR
     else {
-      this.flightRules = flightRules ?? "I";
+      this.flightRules = flightRules;
 
       // Check and see if it is an old-style altitude. If so, strip the FL and add two zeros.
       if (rawAltitude.startsWith("FL")) {
