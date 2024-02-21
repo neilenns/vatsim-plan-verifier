@@ -128,7 +128,6 @@ class VatsimFlightPlan {
       this.departure = incomingPlan.flight_plan?.departure ?? "";
       this.departureTime = depTimeToDateTime(incomingPlan?.flight_plan?.deptime);
       this.flightPlanRevision = incomingPlan.flight_plan?.revision_id;
-      this.flightRules = incomingPlan.flight_plan?.flight_rules ?? "";
       this.name = incomingPlan.flight_plan?.name ?? "";
       this.rawAircraftType = incomingPlan.flight_plan?.aircraft_faa ?? "";
       this.remarks = incomingPlan.flight_plan?.remarks ?? "";
@@ -303,7 +302,7 @@ class VatsimFlightPlan {
     }
     // Either it's a non-vNAS flight plan or the flight is IFR
     else {
-      this.flightRules = flightRules ?? "I";
+      this.flightRules = flightRules;
 
       // Check and see if it is an old-style altitude. If so, strip the FL and add two zeros.
       if (rawAltitude.startsWith("FL")) {
