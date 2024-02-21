@@ -230,7 +230,7 @@ const VatsimFlightPlans = () => {
 
       // Issue 709: This is set as both a state and a ref to ensure the
       // airport codes are available in the socket connected event without
-      //having to add them as a useCallback() dependency.
+      // having to add them as a useCallback() dependency.
       setAirportCodes(cleanCodes);
       airportCodesRef.current = cleanCodes;
 
