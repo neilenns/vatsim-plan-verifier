@@ -72,8 +72,7 @@ export function useVatsim() {
   );
 
   // Finds the callsign in the list of current plans, sets its
-  // state to imported, then updates the state variable so the
-  // page redraws.
+  // state to imported.
   const markPlanImported = useCallback(
     (callsign: string) => {
       setFlightPlans((draft) => {
