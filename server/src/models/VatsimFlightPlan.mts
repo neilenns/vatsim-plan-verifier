@@ -126,6 +126,7 @@ class VatsimFlightPlan {
     this.squawk = incomingPlan.flight_plan?.assigned_transponder ?? "";
     this.remarks = incomingPlan.flight_plan?.remarks ?? "";
     this.isPrefile = incomingPlan.isPrefile;
+    this.route = incomingPlan.flight_plan?.route;
     this.coastAt = undefined; // Handles planes that reconnect after briefly disconnecting
 
     // Set the special properties that need calculations
@@ -144,6 +145,10 @@ class VatsimFlightPlan {
         // Calculate the revision last
         this.setRevision();
       });
+    }
+    // Don't forget to set the revision on prefiles
+    else {
+      this.setRevision();
     }
   }
 
