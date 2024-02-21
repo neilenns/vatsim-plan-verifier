@@ -47,7 +47,12 @@ export function useVatsim() {
           else {
             const updated = incoming.revision !== existing.revision;
 
-            setHasUpdates(hasUpdates || updated);
+            // This uses an if statement instead of the previous shorthand hasUpdates || updates
+            // to avoid hasUpdates being a dependency of the callback, which was preventing
+            // udpates from causing a sound to play.
+            if (updated) {
+              setHasUpdates(true);
+            }
 
             // Update the properties. departureTime is not included in this list since it doesn't
             // matter for plan verification.
@@ -63,7 +68,7 @@ export function useVatsim() {
         });
       });
     },
-    [hasUpdates, setFlightPlans, setHasNew, setHasUpdates]
+    [setFlightPlans, setHasNew, setHasUpdates]
   );
 
   // Finds the callsign in the list of current plans, sets its
