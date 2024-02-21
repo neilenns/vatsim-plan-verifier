@@ -325,11 +325,11 @@ const VatsimFlightPlans = () => {
                     }
                   >
                     <ListItemText
-                      primary={`${flightPlan.callsign ?? ""}${flightPlan.isCoasting ? " CST" : ""}`}
+                      primary={flightPlan.callsign}
                       primaryTypographyProps={{
                         fontWeight: "bold",
                         fontStyle: flightPlan.isPrefile ? "italic" : "",
-                        color: getColorByStatus(flightPlan.importState),
+                        color: getColorByStatus(flightPlan.importState, flightPlan.isCoasting),
                       }}
                       secondary={`${flightPlan.departure ?? ""}-${flightPlan.arrival ?? ""}`}
                     />
