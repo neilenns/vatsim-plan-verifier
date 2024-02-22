@@ -1,5 +1,4 @@
-import { DocumentType, getModelForClass, modelOptions, plugin, prop } from "@typegoose/typegoose";
-import { SpeedGooseCacheAutoCleaner } from "speedgoose";
+import { DocumentType, getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
 import { formatAltitude } from "../utils.mjs";
 
 @modelOptions({
@@ -9,7 +8,6 @@ import { formatAltitude } from "../utils.mjs";
     toObject: { virtuals: true, aliases: false },
   },
 })
-@plugin(SpeedGooseCacheAutoCleaner)
 class FlightAwareRoute {
   @prop({ required: true })
   departure!: string;
@@ -17,28 +15,28 @@ class FlightAwareRoute {
   @prop({ required: true })
   arrival!: string;
 
-  @prop({ required: true, type: [String], alias: "aircraft_types" })
-  aircraftTypes!: string[];
+  @prop({ type: [String], alias: "aircraft_types" })
+  aircraftTypes?: string[];
 
   @prop({ required: true })
   count!: number;
 
-  @prop({ required: true, alias: "filed_altitude_max" })
+  @prop({ alias: "filed_altitude_max", required: true, default: 999 })
   filedAltitudeMax!: number;
 
-  @prop({ required: true, alias: "filed_altitude_min" })
+  @prop({ alias: "filed_altitude_min", required: true, default: 0 })
   filedAltitudeMin!: number;
 
-  @prop({ required: true, alias: "last_departure_time" })
-  lastDepartureTime!: Date;
+  @prop({ alias: "last_departure_time" })
+  lastDepartureTime?: Date;
 
-  @prop({ required: true })
-  route!: string;
+  @prop()
+  route?: string;
 
-  @prop({ required: true, alias: "route_distance" })
-  routeDistance!: string;
+  @prop({ alias: "route_distance" })
+  routeDistance?: string;
 
-  @prop({ required: true, expires: "60d", default: Date.now })
+  @prop({ expires: "60d", default: Date.now })
   createdAt!: Date;
 
   // Formats the min and max filed altitude for the route so it displays nicely.
@@ -48,8 +46,10 @@ class FlightAwareRoute {
   // e.g. "10,000".
   public get filedAltitudesFormatted() {
     return this.filedAltitudeMin === this.filedAltitudeMax
-      ? formatAltitude(this.filedAltitudeMin)
-      : `${formatAltitude(this.filedAltitudeMin)} to ${formatAltitude(this.filedAltitudeMax)}`;
+      ? formatAltitude(this.filedAltitudeMin ?? 0)
+      : `${formatAltitude(this.filedAltitudeMin ?? 0)} to ${formatAltitude(
+          this.filedAltitudeMax ?? 0
+        )}`;
   }
 }
 
