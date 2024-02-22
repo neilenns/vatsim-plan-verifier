@@ -1,10 +1,8 @@
 import pluralize from "pluralize";
 import mainLogger from "../../logger.mjs";
-import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
-import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
-import { getFlightAwareRoutes } from "../flightAwareRoutes.mjs";
 import { VerifierFunction } from "../../types/verifier.mjs";
+import { getFlightAwareRoutes } from "../flightAwareRoutes.mjs";
 
 const verifierName = "routeWithFlightAware";
 const logger = mainLogger.child({ service: verifierName });
@@ -23,7 +21,14 @@ const routeWithFlightAware: VerifierFunction = async function (
   const flightAwareRoutes = await getFlightAwareRoutes({ departure, arrival });
 
   // Bail early if no FlightAware routes found.
-  if (!flightAwareRoutes.success || flightAwareRoutes.data.length === 0) {
+  if (
+    !flightAwareRoutes.success ||
+    flightAwareRoutes.data.length === 0 ||
+    // This is the case where FlightAware returned no routes for the departure/arrival pair.
+    // There will be one result in the database with a count of 0, indicating no flights
+    // were ever recorded by FlightAware for that pair.
+    (flightAwareRoutes.data.length === 1 && flightAwareRoutes.data[0].count === 0)
+  ) {
     result.status = VerifierResultStatus.INFORMATION;
     result.message = `No FlightAware routes found for ${departure} to ${arrival}`;
     result.priority = 3;
