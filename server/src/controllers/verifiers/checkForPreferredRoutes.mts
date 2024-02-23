@@ -69,7 +69,7 @@ const checkForPreferredRoutes: VerifierFunction = async function (flightPlan, sa
       return (
         isDocument(flightPlan.equipmentInfo) &&
         route.route === flightPlan.route &&
-        (route.flow === AirportFlow.Any || route.flow === flightPlan.flow) &&
+        ((route.flow ?? AirportFlow.Any) === AirportFlow.Any || route.flow === flightPlan.flow) &&
         flightPlan.cruiseAltitude >= route.minimumRequiredAltitude &&
         (flightPlan.equipmentInfo?.maxCruiseSpeed ?? 999) >= route.minimumRequiredSpeed
       );
