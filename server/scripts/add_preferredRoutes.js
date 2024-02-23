@@ -675,7 +675,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KPDX",
     arrival: "KRNO",
-    route: "CASCD2 CHISM PUHTS PAWLI HARTT HARTT2",
+    route: "CASCD2 CHISM PUHTS PAWLI HARTT KLUBS1",
     minimumRequiredAltitude: 130,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[GL]",
