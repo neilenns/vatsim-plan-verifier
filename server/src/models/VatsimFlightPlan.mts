@@ -132,7 +132,6 @@ class VatsimFlightPlan {
       this.rawAircraftType = incomingPlan.flight_plan?.aircraft_faa ?? "";
       this.remarks = incomingPlan.flight_plan?.remarks ?? "";
       this.route = cleanRoute(incomingPlan.flight_plan?.route ?? "");
-      this.route = incomingPlan.flight_plan?.route;
       this.squawk = incomingPlan.flight_plan?.assigned_transponder ?? "";
     }
 
