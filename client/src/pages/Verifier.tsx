@@ -27,15 +27,14 @@ import ActiveFlightPlans from "../components/ActiveFlightPlans";
 import NavMenu from "../components/NavMenu";
 import { SettingsDialog } from "../components/SettingsDialog";
 import VatsimFlightPlans from "../components/VatsimFlightPlans";
-import { useAppContext } from "../hooks/useAppContext.mjs";
 import { AirportFlow } from "../interfaces/ISIDInformation.mts";
 import { putUserInfo } from "../services/user.mts";
 import { useRecoilState } from "recoil";
-import { mutedState } from "../context/atoms";
+import { flowState, mutedState } from "../context/atoms";
 
 const Verifier = () => {
   const { mode, setMode } = useColorScheme();
-  const { flow, setFlow } = useAppContext();
+  const [flow, setFlow] = useRecoilState(flowState);
   const [muted, setMuted] = useRecoilState(mutedState);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const navigate = useNavigate();
