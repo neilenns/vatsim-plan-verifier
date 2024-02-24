@@ -15,7 +15,6 @@ const getInitialFlow = (): AirportFlow => {
 };
 
 const useProviderValue = () => {
-  const [muted, setMuted] = useState(localStorage.getItem("muted") === "true"); // Results in a default vaue of false
   const [flow, setFlow] = useState<AirportFlow>(getInitialFlow); // Results in a default vaue of false
   const [autoHideImported, setAutoHideImported] = useState(
     localStorage.getItem("autoHideImported") === "true" // Results in a default vaue of false
@@ -36,10 +35,6 @@ const useProviderValue = () => {
   );
 
   useEffect(() => {
-    localStorage.setItem("muted", muted.toString());
-  }, [muted]);
-
-  useEffect(() => {
     localStorage.setItem("flow", flow);
   }, [flow]);
 
@@ -57,8 +52,6 @@ const useProviderValue = () => {
 
   return useMemo(
     () => ({
-      muted,
-      setMuted,
       autoHideImported,
       setAutoHideImported,
       hideInformational,
@@ -69,7 +62,7 @@ const useProviderValue = () => {
       setFlow,
       socket,
     }),
-    [muted, autoHideImported, hideInformational, streamingMode, flow, socket]
+    [autoHideImported, hideInformational, streamingMode, flow, socket]
   );
 };
 
