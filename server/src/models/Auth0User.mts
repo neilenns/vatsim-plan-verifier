@@ -29,6 +29,15 @@ export class Auth0User {
   @prop({ required: false, default: "light" })
   colorMode!: string;
 
+  @prop({ required: false, default: true })
+  hideInformational!: boolean;
+
+  @prop({ required: false, default: false })
+  streamingMode!: boolean;
+
+  @prop({ required: false, default: false })
+  autoHideImported!: boolean;
+
   public static async findOrCreate(this: ReturnModelType<typeof Auth0User>, sub: string) {
     // Check for an existing user in the database first and return that if found.
     const existingUser = await this.findOne({ sub }).cacheQuery({ ttl: 60 * 60 }); // One hour

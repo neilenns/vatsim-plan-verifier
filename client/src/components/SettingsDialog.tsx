@@ -6,6 +6,9 @@ import {
   streamingModeState,
   userInfoState,
 } from "../context/atoms";
+import { useAuth0 } from "@auth0/auth0-react";
+import { putUserInfo } from "../services/user.mts";
+import { useCallback } from "react";
 
 type SettingsDialogProps = {
   open: boolean;
@@ -17,40 +20,84 @@ export const SettingsDialog = (props: SettingsDialogProps) => {
   const [autoHideImported, setAutoHideImported] = useRecoilState(autoHideImportedState);
   const [hideInformational, setHideInformational] = useRecoilState(hideInformationalState);
   const [streamingMode, setStreamingMode] = useRecoilState(streamingModeState);
+  const { getAccessTokenSilently } = useAuth0();
 
   const handleClose = () => {
     onClose();
   };
   const userInfo = useRecoilValue(userInfoState);
 
-  const handleAutoHideChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAutoHideImported(event.target.checked);
-  };
+  const handleAutoHideChanged = useCallback(
+    async (event: React.ChangeEvent<HTMLInputElement>) => {
+      setAutoHideImported(event.target.checked);
 
-  const handleStreamingModeChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setStreamingMode(event.target.checked);
-  };
+      const token = await getAccessTokenSilently();
+      await putUserInfo(token, {
+        autoHideImported: event.target.checked,
+      });
+    },
+    [getAccessTokenSilently, setAutoHideImported]
+  );
 
-  const handleHideInformationalChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setHideInformational(event.target.checked);
-  };
+  const handleStreamingModeChanged = useCallback(
+    async (event: React.ChangeEvent<HTMLInputElement>) => {
+      setStreamingMode(event.target.checked);
+
+      const token = await getAccessTokenSilently();
+      await putUserInfo(token, {
+        streamingMode: event.target.checked,
+      });
+    },
+    [getAccessTokenSilently, setStreamingMode]
+  );
+
+  const handleHideInformationalChanged = useCallback(
+    async (event: React.ChangeEvent<HTMLInputElement>) => {
+      setHideInformational(event.target.checked);
+
+      const token = await getAccessTokenSilently();
+      await putUserInfo(token, {
+        hideInformational: event.target.checked,
+      });
+    },
+    [getAccessTokenSilently, setHideInformational]
+  );
 
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>Settings</DialogTitle>
       <Stack sx={{ ml: 2, mr: 2, mb: 2 }}>
         <FormControlLabel
-          control={<Switch checked={autoHideImported} onChange={handleAutoHideChanged} />}
+          control={
+            <Switch
+              checked={autoHideImported}
+              onChange={(event) => {
+                handleAutoHideChanged(event).catch((err) => console.error(err));
+              }}
+            />
+          }
           label="Hide imported flight plans"
         />
         <FormControlLabel
-          control={<Switch checked={streamingMode} onChange={handleStreamingModeChanged} />}
+          control={
+            <Switch
+              checked={streamingMode}
+              onChange={(event) => {
+                handleStreamingModeChanged(event).catch((err) => console.error(err));
+              }}
+            />
+          }
           label="Streaming mode"
         />
         {userInfo?.roles.includes("admin") && (
           <FormControlLabel
             control={
-              <Switch checked={hideInformational} onChange={handleHideInformationalChanged} />
+              <Switch
+                checked={hideInformational}
+                onChange={(event) => {
+                  handleHideInformationalChanged(event).catch((err) => console.error(err));
+                }}
+              />
             }
             label="Hide informational results"
           />

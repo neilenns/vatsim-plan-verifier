@@ -4,8 +4,13 @@ import { useEffect, useState } from "react";
 import { getUserInfo } from "../services/user.mts";
 import ErrorDisplay from "./ErrorDisplay";
 import { PageLoader } from "./PageLoader";
-import { useRecoilState } from "recoil";
-import { userInfoState } from "../context/atoms";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+  autoHideImportedState,
+  hideInformationalState,
+  streamingModeState,
+  userInfoState,
+} from "../context/atoms";
 
 interface AuthenticationGuardProps {
   role: string;
@@ -19,6 +24,9 @@ export const AuthenticationGuard = ({ role, component: Component }: Authenticati
   const { setMode } = useColorScheme();
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
+  const setHideInformationalState = useSetRecoilState(hideInformationalState);
+  const setAutoHideImportedState = useSetRecoilState(autoHideImportedState);
+  const setStreamingMode = useSetRecoilState(streamingModeState);
 
   const AuthenticatedComponent = withAuthenticationRequired(Component, {
     onRedirecting: () => <PageLoader />,
@@ -67,14 +75,18 @@ export const AuthenticationGuard = ({ role, component: Component }: Authenticati
       });
   }, [isAuthenticated, user, role, getAccessTokenSilently, setUserInfo, setMode, userInfo]);
 
-  // If the user info changes then set the color mode
+  // If the user info changes then set the color mode and other shared properties. This
+  // seems like it should be handled by selectors with Recoil but I couldn't get those to work.
   useEffect(() => {
     if (!userInfo) {
       return;
     }
 
     setMode(userInfo.colorMode);
-  }, [setMode, userInfo]);
+    setHideInformationalState(userInfo.hideInformational);
+    setAutoHideImportedState(userInfo.autoHideImported);
+    setStreamingMode(userInfo.streamingMode);
+  }, [setAutoHideImportedState, setHideInformationalState, setMode, setStreamingMode, userInfo]);
 
   // Show errors from the authorization and user access calls
   if (error) {

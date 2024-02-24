@@ -23,7 +23,7 @@ export async function getAuth0User(sub: string): Promise<Auth0UserResult> {
 
 export async function updateAuth0User(
   sub: string,
-  { colorMode }: Partial<Auth0User>
+  { colorMode, autoHideImported, hideInformational, streamingMode }: Partial<Auth0User>
 ): Promise<Auth0UserResult> {
   if (!sub) {
     return {
@@ -35,7 +35,7 @@ export async function updateAuth0User(
   try {
     const result = await Auth0UserModel.findOneAndUpdate(
       { sub },
-      { $set: { colorMode } },
+      { $set: { colorMode, autoHideImported, hideInformational, streamingMode } },
       { new: true }
     );
 
