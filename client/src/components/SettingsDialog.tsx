@@ -1,5 +1,7 @@
 import { Dialog, DialogTitle, FormControlLabel, Stack, Switch } from "@mui/material";
 import { useAppContext } from "../hooks/useAppContext.mjs";
+import { useRecoilValue } from "recoil";
+import { userInfoState } from "../context/atoms";
 
 type SettingsDialogProps = {
   open: boolean;
@@ -19,7 +21,7 @@ export const SettingsDialog = (props: SettingsDialogProps) => {
   const handleClose = () => {
     onClose();
   };
-  const role = localStorage.getItem("role");
+  const userInfo = useRecoilValue(userInfoState);
 
   const handleAutoHideChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAutoHideImported(event.target.checked);
@@ -45,7 +47,7 @@ export const SettingsDialog = (props: SettingsDialogProps) => {
           control={<Switch checked={streamingMode} onChange={handleStreamingModeChanged} />}
           label="Streaming mode"
         />
-        {role === "admin" && (
+        {userInfo?.roles.includes("admin") && (
           <FormControlLabel
             control={
               <Switch checked={hideInformational} onChange={handleHideInformationalChanged} />
