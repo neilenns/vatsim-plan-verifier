@@ -1137,9 +1137,9 @@ db.departures.insertMany([
         ExpectRequired: false,
         ExpectInMinutes: 5,
         InitialPhrasing: "ClimbViaSid",
-        Flow: "NORTH",
       },
     ],
+    Flow: "NORTH",
     IsRNAV: true,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582ISBRG.PDF",
@@ -1162,9 +1162,9 @@ db.departures.insertMany([
         ExpectRequired: false,
         ExpectInMinutes: 5,
         InitialPhrasing: "ClimbViaSid",
-        Flow: "NORTH",
       },
     ],
+    Flow: "NORTH",
     IsRNAV: true,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582OZWLD.PDF",
@@ -1187,9 +1187,9 @@ db.departures.insertMany([
         ExpectRequired: false,
         ExpectInMinutes: 5,
         InitialPhrasing: "ClimbViaSid",
-        Flow: "NORTH",
       },
     ],
+    Flow: "NORTH",
     IsRNAV: true,
     Charts: {
       skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582JEFPO.PDF",
