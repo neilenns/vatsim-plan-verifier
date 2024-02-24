@@ -10,7 +10,7 @@ import { find } from "geo-tz";
 import { DateTime } from "luxon";
 import { SpeedGooseCacheAutoCleaner } from "speedgoose";
 import { AirportInfoModel } from "./AirportInfo.mjs";
-import { InitialAltitude } from "./InitialAltitude.mjs";
+import { AirportFlow, InitialAltitude } from "./InitialAltitude.mjs";
 
 export class DepartureValidity {
   @prop({ required: true })
@@ -61,6 +61,9 @@ export class Departure {
 
   @prop({ type: String })
   Charts?: Map<string, string>;
+
+  @prop({ required: true, enum: AirportFlow, default: AirportFlow.Any })
+  Flow!: AirportFlow;
 
   // Returns true if the departure is valid given its start and end times and the current
   // local time at the departure's airport.
