@@ -9,14 +9,14 @@ import { RecoilRoot } from "recoil";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <AppTheme>
-      <AppContextProvider>
-        <RecoilRoot>
-          <Auth0ProviderWithNavigate>
+    <AppContextProvider>
+      <RecoilRoot>
+        <Auth0ProviderWithNavigate>
+          <AppTheme>
             <App />
-          </Auth0ProviderWithNavigate>
-        </RecoilRoot>
-      </AppContextProvider>
-    </AppTheme>
+          </AppTheme>
+        </Auth0ProviderWithNavigate>
+      </RecoilRoot>
+    </AppContextProvider>
   </React.StrictMode>
 );
