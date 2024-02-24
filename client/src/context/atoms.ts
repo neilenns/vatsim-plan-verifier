@@ -2,14 +2,29 @@ import { atom } from "recoil";
 import { IAuth0User } from "../interfaces/IAuth0User.mts";
 import { AirportFlow } from "../interfaces/ISIDInformation.mts";
 
+export const autoHideImportedState = atom({
+  key: "autoHideImportedState",
+  default: false,
+});
+
+export const hideInformationalState = atom({
+  key: "hideInformationalState",
+  default: true,
+});
+
+export const streamingModeState = atom({
+  key: "streamingModeState",
+  default: false,
+});
+
 export const flowState = atom({
   key: "flowState",
-  default: AirportFlow.Unknown as AirportFlow,
+  default: AirportFlow.Unknown,
 });
 
 export const mutedState = atom({
   key: "mutedState",
-  default: false as boolean,
+  default: false,
 });
 
 export const userInfoState = atom({

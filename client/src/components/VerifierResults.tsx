@@ -1,8 +1,9 @@
 import { Grid, Paper } from "@mui/material";
-import { useAppContext } from "../hooks/useAppContext.mjs";
 import IFlightPlan from "../interfaces/IFlightPlan.mts";
 import IVerifierResultDocument, { StatusValue } from "../interfaces/IVerifierResult.mts";
 import VerifierResultComponent from "./VerifierResult";
+import { hideInformationalState } from "../context/atoms";
+import { useRecoilValue } from "recoil";
 
 interface VerifierResultsProps {
   verifierResults: IVerifierResultDocument[] | undefined;
@@ -18,7 +19,7 @@ const statusOrder: Record<StatusValue, number> = {
 };
 
 const VerifierResults = ({ verifierResults, flightPlan }: VerifierResultsProps) => {
-  const { hideInformational } = useAppContext();
+  const hideInformational = useRecoilValue(hideInformationalState);
 
   // This method of sorting on multiple properties comes from
   // https://stackoverflow.com/questions/6913512/how-to-sort-an-array-of-objects-by-multiple-fields/46256174#46256174

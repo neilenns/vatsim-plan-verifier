@@ -1,7 +1,11 @@
 import { Dialog, DialogTitle, FormControlLabel, Stack, Switch } from "@mui/material";
-import { useAppContext } from "../hooks/useAppContext.mjs";
-import { useRecoilValue } from "recoil";
-import { userInfoState } from "../context/atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  autoHideImportedState,
+  hideInformationalState,
+  streamingModeState,
+  userInfoState,
+} from "../context/atoms";
 
 type SettingsDialogProps = {
   open: boolean;
@@ -10,14 +14,10 @@ type SettingsDialogProps = {
 
 export const SettingsDialog = (props: SettingsDialogProps) => {
   const { onClose, open } = props;
-  const {
-    autoHideImported,
-    setAutoHideImported,
-    hideInformational,
-    setHideInformational,
-    streamingMode,
-    setStreamingMode,
-  } = useAppContext();
+  const [autoHideImported, setAutoHideImported] = useRecoilState(autoHideImportedState);
+  const [hideInformational, setHideInformational] = useRecoilState(hideInformationalState);
+  const [streamingMode, setStreamingMode] = useRecoilState(streamingModeState);
+
   const handleClose = () => {
     onClose();
   };
