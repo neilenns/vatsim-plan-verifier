@@ -1,21 +1,8 @@
 import { PropsWithChildren, createContext, useEffect, useMemo, useState } from "react";
-import { AirportFlow } from "../interfaces/ISIDInformation.mts";
 import socketIOClient, { Socket } from "socket.io-client";
 import { ENV } from "../env.mts";
 
-// Loads the initial flow from local storage and converts it to an AirportFlow type
-const getInitialFlow = (): AirportFlow => {
-  const storedFlow = localStorage.getItem("flow");
-
-  if (storedFlow && Object.values(AirportFlow).includes(storedFlow as AirportFlow)) {
-    return storedFlow as AirportFlow;
-  }
-
-  return AirportFlow.Unknown;
-};
-
 const useProviderValue = () => {
-  const [flow, setFlow] = useState<AirportFlow>(getInitialFlow); // Results in a default vaue of false
   const [autoHideImported, setAutoHideImported] = useState(
     localStorage.getItem("autoHideImported") === "true" // Results in a default vaue of false
   );
@@ -33,10 +20,6 @@ const useProviderValue = () => {
       auth: { token: ENV.VITE_API_KEY },
     })
   );
-
-  useEffect(() => {
-    localStorage.setItem("flow", flow);
-  }, [flow]);
 
   useEffect(() => {
     localStorage.setItem("autoHideImported", autoHideImported.toString());
@@ -58,11 +41,9 @@ const useProviderValue = () => {
       setHideInformational,
       streamingMode,
       setStreamingMode,
-      flow,
-      setFlow,
       socket,
     }),
-    [autoHideImported, hideInformational, streamingMode, flow, socket]
+    [autoHideImported, hideInformational, streamingMode, socket]
   );
 };
 

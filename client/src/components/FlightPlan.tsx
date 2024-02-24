@@ -3,7 +3,6 @@ import { LoadingButton } from "@mui/lab";
 import { Box, Button, Grid, Link, Stack, Tooltip, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Form, useNavigation } from "react-router-dom";
-import { useAppContext } from "../hooks/useAppContext.mjs";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
 import {
@@ -17,6 +16,8 @@ import {
 import { CallsignTooltip } from "./CallsignTooltip";
 import { EquipmentInfoTooltip } from "./EquipmentInfoTooltip";
 import FlightPlanTextField from "./FlightPlanTextField";
+import { useRecoilValue } from "recoil";
+import { flowState } from "../context/atoms";
 
 interface FlightPlanProps {
   flightPlan: IFlightPlan;
@@ -30,7 +31,7 @@ const FlightPlan = (props: FlightPlanProps) => {
   const [flightAwareUrl, setFlightAwareUrl] = useState<string>("");
   const [viewAircraftUrl, setViewAircraftUrl] = useState<string>("");
   const navigation = useNavigation();
-  const { flow } = useAppContext();
+  const flow = useRecoilValue(flowState);
 
   useEffect(() => {
     setFlightPlan(props.flightPlan);
