@@ -4,9 +4,12 @@ type Mode = "light" | "dark" | "system";
 
 export interface IAuth0User {
   _id: string;
-  sub: string;
+  autoHideImported: boolean;
+  colorMode: Mode;
   email?: string;
+  hideInformational: boolean;
   isPending: boolean;
   roles: string[];
-  colorMode: Mode;
+  streamingMode: boolean;
+  sub: string;
 }
