@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import { getUserInfo } from "../services/user.mts";
 import ErrorDisplay from "./ErrorDisplay";
 import { PageLoader } from "./PageLoader";
-import { IAuth0User } from "../interfaces/IAuth0User.mts";
+import { useRecoilState } from "recoil";
+import { userInfoState } from "../context/atoms";
 
 interface AuthenticationGuardProps {
   role: string;
@@ -14,10 +15,9 @@ interface AuthenticationGuardProps {
 export const AuthenticationGuard = ({ role, component: Component }: AuthenticationGuardProps) => {
   const [isAuthorizing, setIsAuthorizing] = useState<boolean>(true);
   const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
-  const [userInfo, setUserInfo] = useState<IAuth0User | undefined>(undefined);
   const [error, setError] = useState<Error | undefined>(undefined);
   const { setMode } = useColorScheme();
-
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
 
   const AuthenticatedComponent = withAuthenticationRequired(Component, {
