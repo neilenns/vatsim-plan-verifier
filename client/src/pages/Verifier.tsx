@@ -30,10 +30,13 @@ import VatsimFlightPlans from "../components/VatsimFlightPlans";
 import { useAppContext } from "../hooks/useAppContext.mjs";
 import { AirportFlow } from "../interfaces/ISIDInformation.mts";
 import { putUserInfo } from "../services/user.mts";
+import { useRecoilState } from "recoil";
+import { mutedState } from "../context/atoms";
 
 const Verifier = () => {
   const { mode, setMode } = useColorScheme();
-  const { muted, setMuted, flow, setFlow } = useAppContext();
+  const { flow, setFlow } = useAppContext();
+  const [muted, setMuted] = useRecoilState(mutedState);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();

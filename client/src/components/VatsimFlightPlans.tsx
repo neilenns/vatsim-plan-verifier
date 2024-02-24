@@ -15,7 +15,7 @@ import { IVatsimFlightPlan, ImportState } from "../interfaces/IVatsimFlightPlan.
 import { importFlightPlan } from "../services/flightPlan.mts";
 import { getColorByStatus } from "../utils/vatsim.mts";
 import AlertSnackbar, { AlertSnackBarOnClose, AlertSnackbarProps } from "./AlertSnackbar";
-import { useAudio } from "./AudioHook";
+import { useAudio } from "../hooks/useAudio";
 
 const logger = debug("plan-verifier:vatsimFlightPlans");
 
