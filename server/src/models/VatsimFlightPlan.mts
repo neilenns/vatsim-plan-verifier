@@ -1,4 +1,4 @@
-import { DocumentType, getModelForClass, modelOptions, plugin, prop } from "@typegoose/typegoose";
+import { DocumentType, getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
 import { DateTime } from "luxon";
 import { ENV } from "../env.mjs";
 import { IVatsimPilot } from "../interfaces/IVatsimData.mjs";
@@ -28,7 +28,15 @@ export enum VatsimCommunicationMethod {
 // for the plane. This list covers the properties that will not cause a revision
 // bump if they are the only properties that got changed.
 // coastAt is included to ensure planes dropping off temporarily do so silently.
-const excludedPaths = ["latitude", "longitude", "groundspeed", "coastAt"];
+// isPrefile is included so switching from prefiled to real plane does so silently.
+const excludedPaths = [
+  "latitude",
+  "longitude",
+  "groundspeed",
+  "coastAt",
+  "flightPlanRevision",
+  "isPrefile",
+];
 
 @modelOptions({
   options: { customName: "vatsimflightplan" },
