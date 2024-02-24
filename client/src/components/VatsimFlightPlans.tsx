@@ -16,6 +16,8 @@ import { importFlightPlan } from "../services/flightPlan.mts";
 import { getColorByStatus } from "../utils/vatsim.mts";
 import AlertSnackbar, { AlertSnackBarOnClose, AlertSnackbarProps } from "./AlertSnackbar";
 import { useAudio } from "../hooks/useAudio";
+import { useRecoilValue } from "recoil";
+import { autoHideImportedState } from "../context/atoms";
 
 const logger = debug("plan-verifier:vatsimFlightPlans");
 
@@ -44,7 +46,7 @@ const VatsimFlightPlans = () => {
   const airportCodesRef = useRef<string>(localStorage.getItem("vatsimAirportCodes") || "");
   const [isImporting, setIsImporting] = useState(false);
   const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
-  const { autoHideImported } = useAppContext();
+  const autoHideImported = useRecoilValue(autoHideImportedState);
   const { socket } = useAppContext();
   const { getAccessTokenSilently } = useAuth0();
 

@@ -8,11 +8,12 @@ import AlertSnackbar, {
 } from "../components/AlertSnackbar";
 import FlightPlan from "../components/FlightPlan";
 import VerifierResults from "../components/VerifierResults";
-import { useAppContext } from "../hooks/useAppContext.mjs";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
 import { PlanDetailsLoaderResult } from "../services/flightPlanDetailsLoader.mts";
 import { PlanVerifyActionResult } from "../services/flightPlanVerifyAction.mts";
+import { useRecoilValue } from "recoil";
+import { streamingModeState } from "../context/atoms";
 
 const FlightPlanDetails = () => {
   const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
@@ -20,7 +21,7 @@ const FlightPlanDetails = () => {
   const [verifyResults, setVerifyResults] = useState<IVerifyAllResult>();
   const loaderData = useLoaderData() as PlanDetailsLoaderResult;
   const actionData = useActionData() as PlanVerifyActionResult;
-  const { streamingMode } = useAppContext();
+  const streamingMode = useRecoilValue(streamingModeState);
   const navigate = useNavigate();
 
   const handleSnackbarClose: AlertSnackBarOnClose = () => setSnackbar(null);
