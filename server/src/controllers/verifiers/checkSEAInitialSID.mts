@@ -121,8 +121,8 @@ function calculateInitialSidAllGroups(
     (flightPlan.routeParts.includes("V27") ||
       (flightPlan.routeParts.includes("ELMAA4") && flightPlan.routeParts.includes("CVO")) ||
       (directionOfFlight >= 179 && directionOfFlight <= 230)) &&
-    flightPlan.cruiseAltitude > 100 &&
-    flightPlan.cruiseAltitude < 230
+    flightPlan.cruiseAltitude >= 100 &&
+    flightPlan.cruiseAltitude <= 230
   ) {
     return { SID: "ELMAA4", extendedMessage: "All: (179-230) V27/J70/SEA 230R BTW 100-FL230" };
   }
@@ -130,8 +130,8 @@ function calculateInitialSidAllGroups(
   // Special case for flights on J70 since it heads both east and west from KSEA.
   // (179-230) V27/J70/SEA BTW 100-FL230
   if (
-    flightPlan.cruiseAltitude > 100 &&
-    flightPlan.cruiseAltitude < 230 &&
+    flightPlan.cruiseAltitude >= 100 &&
+    flightPlan.cruiseAltitude <= 230 &&
     // Only grab flights going west, or flights that filed ELMAA4 CVO which also heads west on J70
     (directionOfFlight > 180 ||
       (flightPlan.routeParts.includes("ELMAA4") && flightPlan.routeParts.includes("CVO")))
@@ -162,8 +162,8 @@ function calculateInitialSidAllGroups(
 
   // (179-230) V27/J70/SEA 230R BTW 100-FL230
   if (
-    flightPlan.cruiseAltitude > 100 &&
-    flightPlan.cruiseAltitude < 230 &&
+    flightPlan.cruiseAltitude >= 100 &&
+    flightPlan.cruiseAltitude <= 230 &&
     directionOfFlight >= 179 &&
     directionOfFlight <= 230
   ) {
@@ -233,7 +233,15 @@ export function calculateInitialSIDForJets(
   // (161-178) HELENS/SEA 161R. This is a hack, it should be Group A and B but is really only testing Group A.
   // The check for cruise altitude at or below FL240 is because there's another rule later on, for all aircraft,
   // that puts anything above FL240 between 161 and 130 radials on the HAROB6.
-  if (directionOfFlight >= 161 && directionOfFlight <= 178 && flightPlan.cruiseAltitude <= 240) {
+  if (
+    directionOfFlight >= 161 &&
+    directionOfFlight <= 178 &&
+    // HELENS or BUWZO on the route overrides the under FL240 requirement, to ensure flights to
+    // Portland get the SEA8.
+    (flightPlan.routeParts.includes("HELENS") ||
+      flightPlan.routeParts.includes("BUWZO") ||
+      flightPlan.cruiseAltitude <= 240)
+  ) {
     return { SID: "SEA8", extendedMessage: "Group A, B: (161-178) HELENS/BUWZO/SEA 161R" };
   }
 
@@ -277,8 +285,8 @@ export function calculateInitialSIDForNotJets(
 
   // (161-178) V495/J1/SEA 168R BTW 100-FL230
   if (
-    flightPlan.cruiseAltitude > 100 &&
-    flightPlan.cruiseAltitude < 230 &&
+    flightPlan.cruiseAltitude >= 100 &&
+    flightPlan.cruiseAltitude <= 230 &&
     directionOfFlight >= 161 &&
     directionOfFlight <= 178
   ) {

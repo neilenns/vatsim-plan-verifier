@@ -12235,4 +12235,28 @@ db.navaid.insertMany([
     latitude: 48.1667,
     longitude: -122.0833,
   },
+  {
+    ident: "BUWZO",
+    class: "REP-PT",
+    name: "BUWZO,WA,US",
+    type: 6,
+    latitude: 46.9523,
+    longitude: -122.3096,
+  },
+  {
+    ident: "ALDER",
+    class: "REP-PT",
+    name: "ALDER,WA,US",
+    type: 6,
+    latitude: 46.8216,
+    longitude: -122.4142,
+  },
+  {
+    ident: "NEZUG",
+    class: "REP-PT",
+    name: "NEZUG,WA,US",
+    type: 6,
+    latitude: 47.5687,
+    longitude: -122.3097,
+  },
 ]);
