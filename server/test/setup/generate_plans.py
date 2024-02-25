@@ -16,7 +16,8 @@ def csv_to_json(csv_file, output_file):
                 "rawFlightPlan": " ".join(route_parts),
                 "flow": row["flow"].upper(),
             }
-            json_object["expectedSID"] = row["expectedSIDJet"]
+            if row["expectedSIDJet"] != "undefined":
+                json_object["expectedSID"] = row["expectedSIDJet"]
             json_objects.append(json_object)
 
             # Do the non-jet plan
@@ -25,7 +26,8 @@ def csv_to_json(csv_file, output_file):
                 "rawFlightPlan": " ".join(route_parts),
                 "flow": row["flow"].upper(),
             }
-            json_object["expectedSID"] = row["expectedSIDNonJet"]
+            if row["expectedSIDNonJet"] != "undefined":
+                json_object["expectedSID"] = row["expectedSIDNonJet"]
             json_objects.append(json_object)
 
     with open(output_file, "w") as out_file:

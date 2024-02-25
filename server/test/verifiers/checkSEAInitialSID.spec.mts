@@ -5,7 +5,7 @@ import { calculateInitialSID } from "../../src/controllers/verifiers/checkSEAIni
 import { FlightPlanDocument } from "../../src/models/FlightPlan.mjs";
 import { AirportFlow } from "../../src/models/InitialAltitude.mjs";
 import { SuccessResult } from "../../src/types/result.mjs";
-import _testData from "../setup/kseaPlans.json" with { type: "json" };
+import _testData from "../setup/kseaPlans - South.json" with { type: "json" };
 import { ITestDataEntry, addTestData, removeFlightPlans } from "../setup/manageFlightPlans.mjs";
 
 class TestData implements ITestDataEntry {
@@ -31,7 +31,8 @@ describe("verifier: checkSEAInitialSID tests", () => {
         const flightPlan = await getFlightPlan(test._id ?? "");
         expect(flightPlan.success).to.equal(true);
 
-        const data = calculateInitialSID((flightPlan as SuccessResult<FlightPlanDocument>).data);
+        const plan = (flightPlan as SuccessResult<FlightPlanDocument>).data;
+        const data = calculateInitialSID(plan);
 
         expect(data?.SID).to.equal(
           test.expectedSID,
