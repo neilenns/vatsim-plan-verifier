@@ -248,8 +248,8 @@ const checkSEAInitialSID: VerifierFunction = async function (flightPlan, saveRes
 
     // This is the test the verifier is supposed to do.
     if (!requiredSID) {
-      result.data.status = VerifierResultStatus.INFORMATION;
-      result.data.message = `No explicit SID rules exist, assuming the filed one is correct.`;
+      result.data.status = VerifierResultStatus.ERROR;
+      result.data.message = `Unable to find an initial SID. This probably means the route is wrong, check the table in the LOA and reroute.`;
       result.data.priority = 3;
       result.data.messageId = "noSIDrule";
     } else if (requiredSID.SID !== flightPlan.SID) {
