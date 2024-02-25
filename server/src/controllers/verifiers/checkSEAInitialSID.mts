@@ -22,11 +22,13 @@ type InitialSid = {
 // the range that should get assigned an eastbound SID. For example, flights flying to Paris
 // will calculate a DOF of 15 but their first fix is NORMY or ZADON which should be treated
 // as a radial between 041 and 085.
-const eastboundFixes = ["NORMY", "ZADON"];
-const airwayRegex = /^([JQTD]\d+$)/;
+// const eastboundFixes = ["NORMY", "ZADON"];
+const airwayRegex = /^([JQTV]\d+$)/;
 
-async function calculateDirectionOfFlight(route: string[]): Promise<number | undefined> {
-  const firstFix = route.find((part) => part !== "SEA" && !airwayRegex.test(part));
+async function calculateDirectionOfFlight(flightPlan: FlightPlan): Promise<number | undefined> {
+  const firstFix = flightPlan.routeParts.find(
+    (part) => part !== "SEA" && part !== "DCT" && part !== flightPlan.SID && !airwayRegex.test(part)
+  );
 
   if (!firstFix) {
     return;
@@ -38,7 +40,7 @@ async function calculateDirectionOfFlight(route: string[]): Promise<number | und
     return;
   }
 
-  const seaVorLatLong = new LatLon(-122.309632349265, 47.4353789430252);
+  const seaVorLatLong = new LatLon(47.4353789430252, -122.309632349265);
   const firstFixLatLong = new LatLon(firstFixInfo.latitude, firstFixInfo.longitude);
 
   // -15.17729 is the magnetic declination at KSEA on 2024-02-25
@@ -56,7 +58,11 @@ async function calculateDirectionOfFlight(route: string[]): Promise<number | und
  * @returns The InitialSid or undefined if none apply
  */
 export async function calculateInitialSID(flightPlan: FlightPlan): Promise<InitialSid | undefined> {
-  const directionOfFlight = await calculateDirectionOfFlight(flightPlan.routeParts);
+  // Try and calculate the direction of flight between SEA VOR and the first fix in the route.
+  // If that can't be calculated for some reason fall back to the direction of flight
+  // between KSEA and the arrival airport.
+  const directionOfFlight =
+    (await calculateDirectionOfFlight(flightPlan)) ?? flightPlan.directionOfFlight;
 
   if (!directionOfFlight) {
     return undefined;
@@ -84,16 +90,7 @@ function calculateInitialSidAllGroups(
   flightPlan: FlightPlan,
   directionOfFlight: number
 ): InitialSid | undefined {
-  // 161-230 ABV FL240
-  if (flightPlan.cruiseAltitude > 240 && directionOfFlight >= 161 && directionOfFlight <= 230) {
-    return { SID: "HAROB6", extendedMessage: "All: (161-230) HAROB ABV FL240" };
-  }
-
-  // 231-326 ABV 100
-  if (flightPlan.cruiseAltitude > 100 && directionOfFlight >= 231 && directionOfFlight <= 326) {
-    return { SID: "BANGR9", extendedMessage: "All: (231-326) BANGR ABV 100" };
-  }
-
+  // This is checked before SUMMA2 in case a flight is on V2/V298.
   // V2/V298/SEA 088R BLO FL230
   if (
     flightPlan.cruiseAltitude < 230 &&
@@ -102,6 +99,8 @@ function calculateInitialSidAllGroups(
     return { SID: "MONTN2", extendedMessage: "All: Reroute on J20. V2/V298/SEA 088R BLO FL230." };
   }
 
+  // This is checked first so flights on the SUMMA2 that eventually join J70 don't wind up
+  // getting the ELMAA4 departure.
   // (104-160) J5/SEA 146R
   if (directionOfFlight >= 104 && directionOfFlight <= 160) {
     if (flightPlan.cruiseAltitude > 230 && flightPlan.routeParts.includes("J5")) {
@@ -112,6 +111,53 @@ function calculateInitialSidAllGroups(
     } else {
       return { SID: "SUMMA2", extendedMessage: "All: (104-160) J5/SEA 146R" };
     }
+  }
+
+  // Special case for flights on V27 since it originates at KSEA so the radial is irrelevant.
+  // Otherwise look at the radial.
+  // ELMAA4 CVO flight plans follow V27 so include them in this rule as well
+  // (179-230) V27/J70/SEA BTW 100-FL230
+  if (
+    (flightPlan.routeParts.includes("V27") ||
+      (flightPlan.routeParts.includes("ELMAA4") && flightPlan.routeParts.includes("CVO")) ||
+      (directionOfFlight >= 179 && directionOfFlight <= 230)) &&
+    flightPlan.cruiseAltitude > 100 &&
+    flightPlan.cruiseAltitude < 230
+  ) {
+    return { SID: "ELMAA4", extendedMessage: "All: (179-230) V27/J70/SEA 230R BTW 100-FL230" };
+  }
+
+  // Special case for flights on J70 since it heads both east and west from KSEA.
+  // (179-230) V27/J70/SEA BTW 100-FL230
+  if (
+    flightPlan.cruiseAltitude > 100 &&
+    flightPlan.cruiseAltitude < 230 &&
+    // Only grab flights going west, or flights that filed ELMAA4 CVO which also heads west on J70
+    (directionOfFlight > 180 ||
+      (flightPlan.routeParts.includes("ELMAA4") && flightPlan.routeParts.includes("CVO")))
+  ) {
+    return { SID: "ELMAA4", extendedMessage: "All: (179-230) V27/J70/SEA 230R BTW 100-FL230" };
+  }
+
+  // (161-230) J70/SEA 230R AoA FL230
+  if (
+    // Flights that filed ELMAA4 CVO are also on the J70. This only checks route parts instead of
+    // direction of flight to allow other flights between 161-230 ABV FL240 to get the HAROB6.
+    ((flightPlan.routeParts.includes("ELMAA4") && flightPlan.routeParts.includes("CVO")) ||
+      flightPlan.routeParts.includes("J70")) &&
+    flightPlan.cruiseAltitude >= 230
+  ) {
+    return { SID: "ELMAA4", extendedMessage: "All: (161-230) J70/SEA 230R AoA FL230" };
+  }
+
+  // (161-230) ABV FL240
+  if (flightPlan.cruiseAltitude > 240 && directionOfFlight >= 161 && directionOfFlight <= 230) {
+    return { SID: "HAROB6", extendedMessage: "All: (161-230) HAROB ABV FL240" };
+  }
+
+  // 231-326 ABV 100
+  if (flightPlan.cruiseAltitude > 100 && directionOfFlight >= 231 && directionOfFlight <= 326) {
+    return { SID: "BANGR9", extendedMessage: "All: (231-326) BANGR ABV 100" };
   }
 
   // (179-230) V27/J70/SEA 230R BTW 100-FL230
@@ -221,8 +267,10 @@ export function calculateInitialSIDForNotJets(
 
   // (041-085) V120/J12/J70/J90/SEA 072R
   if (
-    (directionOfFlight >= 41 && directionOfFlight <= 85) ||
-    _.intersection(flightPlan.routeParts, eastboundFixes).length > 0
+    directionOfFlight >= 41 &&
+    directionOfFlight <= 85
+    // ||
+    // _.intersection(flightPlan.routeParts, eastboundFixes).length > 0
   ) {
     return { SID: "SEA8", extendedMessage: "Group B, C, D: (041-085) V120/J12/J70/J90/SEA 072R" };
   }

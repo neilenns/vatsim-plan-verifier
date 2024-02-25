@@ -32,7 +32,7 @@ describe("verifier: checkSEAInitialSID tests", () => {
         expect(flightPlan.success).to.equal(true);
 
         const plan = (flightPlan as SuccessResult<FlightPlanDocument>).data;
-        const data = calculateInitialSID(plan);
+        const data = await calculateInitialSID(plan);
 
         expect(data?.SID).to.equal(
           test.expectedSID,
