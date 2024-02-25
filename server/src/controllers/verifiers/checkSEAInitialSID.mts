@@ -216,6 +216,7 @@ export function calculateInitialSIDForJets(
       return { SID: "SEA8", extendedMessage: "Group A: (009-042) J503/J505/RV to ALPSE (North)" };
     }
   }
+
   // ZADON
   if (flightPlan.routeParts.includes("ZADON")) {
     return { SID: "MONTN2", extendedMessage: "Group A: ZADON" };

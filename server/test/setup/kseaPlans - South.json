@@ -1536,5 +1536,15 @@
     "rawFlightPlan": "DAL348 C172/G 1552 2045 KSEA - KJFK 350 SEA8 SEA ZADON ZELAK ZIRAN MLP LWT KU09W KP03C DLL HASTE DAFLU J70 LVZ LENDY7",
     "flow": "SOUTH",
     "expectedSID": "SEA8"
+  },
+  {
+    "rawFlightPlan": "GTI77 B737/L 4735 1200 KSEA - KMWH 150 MONTN2 NORMY V120 EPH",
+    "flow": "SOUTH",
+    "expectedSID": "MONTN2"
+  },
+  {
+    "rawFlightPlan": "GTI77 C172/G 4735 1200 KSEA - KMWH 150 MONTN2 NORMY V120 EPH",
+    "flow": "SOUTH",
+    "expectedSID": "SEA8"
   }
 ]
