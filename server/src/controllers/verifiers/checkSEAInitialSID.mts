@@ -107,13 +107,20 @@ function calculateInitialSidAllGroups(flightPlan: FlightPlan): InitialSid | unde
  * @returns The initial SID given the route and reason why, or undefined if none could be deteremind
  */
 export function calculateInitialSIDForJets(flightPlan: FlightPlan): InitialSid | undefined {
-  // V23/RV to PAE
-  if (flightPlan.routeParts.includes("PAE")) {
+  if (flightPlan.directionOfFlight === undefined) {
+    return;
+  }
+
+  // (327-008) V23/RV to PAE
+  if (
+    flightPlan.routeParts.includes("PAE") &&
+    (flightPlan.directionOfFlight >= 327 || flightPlan.directionOfFlight <= 8)
+  ) {
     if (flightPlan.flow === AirportFlow.South) {
-      return { SID: "MONTN2", extendedMessage: "Group A: V23/RV to PAE (South)" };
+      return { SID: "MONTN2", extendedMessage: "Group A: (327-008) V23/RV to PAE (South)" };
     }
     if (flightPlan.flow === AirportFlow.North) {
-      return { SID: "SEA8", extendedMessage: "Group A: V23/RV to PAE (North)" };
+      return { SID: "SEA8", extendedMessage: "Group A: (327-008) V23/RV to PAE (North)" };
     }
   }
 
@@ -122,9 +129,13 @@ export function calculateInitialSIDForJets(flightPlan: FlightPlan): InitialSid |
     return { SID: "MONTN2", extendedMessage: "Group A: ZADON" };
   }
 
-  // J12/J70/J90/RV to NORMY
-  if (flightPlan.routeParts.includes("NORMY")) {
-    return { SID: "MONTN2", extendedMessage: "Group A: J12/J70/J90/RV to NORMY" };
+  // (043-103) J12/J70/J90/RV to NORMY
+  if (
+    flightPlan.routeParts.includes("NORMY") &&
+    flightPlan.directionOfFlight >= 43 &&
+    flightPlan.directionOfFlight <= 103
+  ) {
+    return { SID: "MONTN2", extendedMessage: "Group A: (043-103) J12/J70/J90/RV to NORMY" };
   }
 
   // HELENS/SEA 161R. This is a hack, it should be Group A and B but is really only testing Group A.
@@ -142,6 +153,10 @@ export function calculateInitialSIDForJets(flightPlan: FlightPlan): InitialSid |
  * @returns The initial SID given the route or undefined if none could be deteremind.
  */
 export function calculateInitialSIDForNotJets(flightPlan: FlightPlan): InitialSid | undefined {
+  if (flightPlan.directionOfFlight === undefined) {
+    return;
+  }
+
   // V23/RV to PAE 110 & BLO
   if (flightPlan.routeParts.includes("PAE") && flightPlan.cruiseAltitude <= 110) {
     return { SID: "MONTN2", extendedMessage: "Group B, C, D: V23/RV to PAE 110 & BLO" };
@@ -157,9 +172,12 @@ export function calculateInitialSIDForNotJets(flightPlan: FlightPlan): InitialSi
     return { SID: "SEA8", extendedMessage: "Group B, C, D: J503/RV" };
   }
 
-  // V120/J12/J70/J90/SEA 072R
-  if (_.intersection(flightPlan.routeParts, ["V120", "J12", "J70", "J90"]).length > 0) {
-    return { SID: "SEA8", extendedMessage: "Group B, C, D: V120/J12/J70/J90/SEA 072R" };
+  // (041-085) V120/J12/J70/J90/SEA 072R
+  if (
+    _.intersection(flightPlan.routeParts, ["V120", "J12", "J70", "J90"]).length > 0 ||
+    (flightPlan.directionOfFlight >= 41 && flightPlan.directionOfFlight <= 85)
+  ) {
+    return { SID: "SEA8", extendedMessage: "Group B, C, D: (041-085) V120/J12/J70/J90/SEA 072R" };
   }
 
   // V495/J1/SEA 168R BTW 100-FL230
