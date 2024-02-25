@@ -16,6 +16,12 @@ type InitialSid = {
   extendedMessage: string;
 };
 
+// Fixes used to check for eastbound flights that normally would have a DOF that puts them outside
+// the range that should get assigned an eastbound SID. For example, flights flying to Paris
+// will calculate a DOF of 15 but their first fix is NORMY or ZADON which should be treated
+// as a radial between 041 and 085.
+const eastboundFixes = ["NORMY", "ZADON"];
+
 /**
  * Calculates the initial KSEA SID for a flight plan. Broken out into its own
  * small function to enable unit testing.
@@ -42,20 +48,26 @@ export function calculateInitialSID(flightPlan: FlightPlan): InitialSid | undefi
  * @returns The initial SID given the route and reason why, or undefined if none could be deteremind
  */
 function calculateInitialSidAllGroups(flightPlan: FlightPlan): InitialSid | undefined {
-  // HAROB ABV FL240
-  if (
-    flightPlan.cruiseAltitude > 240 &&
-    (flightPlan.routeParts.includes("HAROB") || flightPlan.routeParts.includes("HAROB6"))
-  ) {
-    return { SID: "HAROB6", extendedMessage: "All: HAROB ABV FL240" };
+  if (!flightPlan.directionOfFlight) {
+    return;
   }
 
-  // BANGR ABV 100
+  // 161-230 ABV FL240
+  if (
+    flightPlan.cruiseAltitude > 240 &&
+    flightPlan.directionOfFlight >= 161 &&
+    flightPlan.directionOfFlight <= 230
+  ) {
+    return { SID: "HAROB6", extendedMessage: "All: (161-230) HAROB ABV FL240" };
+  }
+
+  // 231-326 ABV 100
   if (
     flightPlan.cruiseAltitude > 100 &&
-    (flightPlan.routeParts.includes("BANGR") || flightPlan.routeParts.includes("BANGR9"))
+    flightPlan.directionOfFlight >= 231 &&
+    flightPlan.directionOfFlight <= 326
   ) {
-    return { SID: "BANGR9", extendedMessage: "All: BANGR ABV 100" };
+    return { SID: "BANGR9", extendedMessage: "All: (231-326) BANGR ABV 100" };
   }
 
   // V2/V298/SEA 088R BLO FL230
@@ -66,36 +78,53 @@ function calculateInitialSidAllGroups(flightPlan: FlightPlan): InitialSid | unde
     return { SID: "MONTN2", extendedMessage: "All: Reroute on J20. V2/V298/SEA 088R BLO FL230." };
   }
 
-  // J5/SEA 146R ABV FL230
-  if (flightPlan.cruiseAltitude > 230 && flightPlan.routeParts.includes("J5")) {
-    return { SID: "SUMMA2", extendedMessage: "All: Reroute on J20. J5/SEA 146R ABV FL230." };
+  // (104-160) J5/SEA 146R
+  if (flightPlan.directionOfFlight >= 104 && flightPlan.directionOfFlight <= 160) {
+    if (flightPlan.cruiseAltitude > 230 && flightPlan.routeParts.includes("J5")) {
+      return {
+        SID: "SUMMA2",
+        extendedMessage: "All: (104-160) Reroute on J20. J5/SEA 146R ABV FL230.",
+      };
+    } else {
+      return { SID: "SUMMA2", extendedMessage: "All: (104-160) J5/SEA 146R" };
+    }
   }
 
-  // V27/J70/SEA 230R BTW 100-FL230
+  // (179-230) V27/J70/SEA 230R BTW 100-FL230
   if (
     flightPlan.cruiseAltitude > 100 &&
     flightPlan.cruiseAltitude < 230 &&
-    _.intersection(flightPlan.routeParts, ["V27", "J70"]).length > 0
+    flightPlan.directionOfFlight >= 179 &&
+    flightPlan.directionOfFlight <= 230
   ) {
-    return { SID: "ELMAA4", extendedMessage: "All: V27/J70/SEA 230R BTW 100-FL230" };
+    return { SID: "ELMAA4", extendedMessage: "All: (179-230) V27/J70/SEA 230R BTW 100-FL230" };
   }
 
-  // J70/SEA 230R ABV FL230
-  if (flightPlan.cruiseAltitude > 230 && flightPlan.routeParts.includes("J70")) {
-    return { SID: "ELMAA4", extendedMessage: "All: J70/SEA 230R ABV FL230" };
+  // (161-230) J70/SEA 230R ABV FL230
+  if (
+    flightPlan.cruiseAltitude > 230 &&
+    flightPlan.directionOfFlight >= 161 &&
+    flightPlan.directionOfFlight <= 230
+  ) {
+    return { SID: "ELMAA4", extendedMessage: "All: (161-230) J70/SEA 230R ABV FL230" };
   }
 
-  // J523/SEA 281R ABV 100
-  if (flightPlan.cruiseAltitude > 100 && flightPlan.routeParts.includes("J523")) {
-    return { SID: "SEA8", extendedMessage: "All: J523/SEA 281R" };
+  // (231-326) J523/SEA 281R ABV 100
+  if (
+    flightPlan.cruiseAltitude > 100 &&
+    flightPlan.directionOfFlight >= 231 &&
+    flightPlan.directionOfFlight <= 326
+  ) {
+    return { SID: "SEA8", extendedMessage: "All: (231-326) J523/SEA 281R ABV 100" };
   }
 
-  // J523/SEA 281R BLW 100
+  // (231-326) J523/SEA 281R BLW 100
   if (
     flightPlan.cruiseAltitude < 100 &&
-    _.intersection(flightPlan.routeParts, ["V4", "V495"]).length > 0
+    flightPlan.directionOfFlight >= 231 &&
+    flightPlan.directionOfFlight <= 326
   ) {
-    return { SID: "SEA8", extendedMessage: "All: V4/V495/SEA 310R BLW 100" };
+    return { SID: "SEA8", extendedMessage: "All: (231-326) V4/V495/SEA 310R BLW 100" };
   }
 
   return undefined;
@@ -112,10 +141,7 @@ export function calculateInitialSIDForJets(flightPlan: FlightPlan): InitialSid |
   }
 
   // (327-008) V23/RV to PAE
-  if (
-    flightPlan.routeParts.includes("PAE") &&
-    (flightPlan.directionOfFlight >= 327 || flightPlan.directionOfFlight <= 8)
-  ) {
+  if (flightPlan.directionOfFlight >= 327 || flightPlan.directionOfFlight <= 8) {
     if (flightPlan.flow === AirportFlow.South) {
       return { SID: "MONTN2", extendedMessage: "Group A: (327-008) V23/RV to PAE (South)" };
     }
@@ -124,6 +150,15 @@ export function calculateInitialSIDForJets(flightPlan: FlightPlan): InitialSid |
     }
   }
 
+  // (009-042) J503/J505/RV to ALPSE
+  if (flightPlan.directionOfFlight >= 9 && flightPlan.directionOfFlight <= 42) {
+    if (flightPlan.flow === AirportFlow.South) {
+      return { SID: "MONTN2", extendedMessage: "Group A: (009-042) J503/J505/RV to ALPSE (South)" };
+    }
+    if (flightPlan.flow === AirportFlow.North) {
+      return { SID: "SEA8", extendedMessage: "Group A: (009-042) J503/J505/RV to ALPSE (North)" };
+    }
+  }
   // ZADON
   if (flightPlan.routeParts.includes("ZADON")) {
     return { SID: "MONTN2", extendedMessage: "Group A: ZADON" };
@@ -138,9 +173,15 @@ export function calculateInitialSIDForJets(flightPlan: FlightPlan): InitialSid |
     return { SID: "MONTN2", extendedMessage: "Group A: (043-103) J12/J70/J90/RV to NORMY" };
   }
 
-  // HELENS/SEA 161R. This is a hack, it should be Group A and B but is really only testing Group A.
-  if (flightPlan.routeParts.includes("HELENS")) {
-    return { SID: "SEA8", extendedMessage: "Group A, B: HELENS/SEA 161R" };
+  // (161-178) HELENS/SEA 161R. This is a hack, it should be Group A and B but is really only testing Group A.
+  // The check for cruise altitude at or below FL240 is because there's another rule later on, for all aircraft,
+  // that puts anything above FL240 between 161 and 130 radials on the HAROB6.
+  if (
+    flightPlan.directionOfFlight >= 161 &&
+    flightPlan.directionOfFlight <= 178 &&
+    flightPlan.cruiseAltitude <= 240
+  ) {
+    return { SID: "SEA8", extendedMessage: "Group A, B: (161-178) HELENS/BUWZO/SEA 161R" };
   }
 
   // No jet-specific rules applied so try the common ones.
@@ -157,41 +198,55 @@ export function calculateInitialSIDForNotJets(flightPlan: FlightPlan): InitialSi
     return;
   }
 
-  // V23/RV to PAE 110 & BLO
-  if (flightPlan.routeParts.includes("PAE") && flightPlan.cruiseAltitude <= 110) {
-    return { SID: "MONTN2", extendedMessage: "Group B, C, D: V23/RV to PAE 110 & BLO" };
+  // (327-008) V23/RV to PAE 110 & BLO
+  if (
+    flightPlan.cruiseAltitude <= 110 &&
+    (flightPlan.directionOfFlight >= 327 || flightPlan.directionOfFlight <= 8)
+  ) {
+    return { SID: "MONTN2", extendedMessage: "Group B, C, D: (327-008) V23/RV to PAE 110 & BLO" };
   }
 
   // V23/RV to PAE 120 & ABV
-  if (flightPlan.routeParts.includes("PAE") && flightPlan.cruiseAltitude >= 120) {
-    return { SID: "SEA8", extendedMessage: "Group B, C, D: V23/RV to PAE 120 & ABV" };
+  if (
+    flightPlan.cruiseAltitude >= 120 &&
+    (flightPlan.directionOfFlight >= 327 || flightPlan.directionOfFlight <= 8)
+  ) {
+    return { SID: "SEA8", extendedMessage: "Group B, C, D: (327-008) V23/RV to PAE 120 & ABV" };
   }
 
-  // J503/RV
-  if (flightPlan.routeParts.includes("J503")) {
-    return { SID: "SEA8", extendedMessage: "Group B, C, D: J503/RV" };
+  // (009-040) J503/RV
+  if (flightPlan.directionOfFlight >= 9 && flightPlan.directionOfFlight <= 40) {
+    return { SID: "SEA8", extendedMessage: "Group B, C, D: (009-040) J503/RV" };
   }
 
   // (041-085) V120/J12/J70/J90/SEA 072R
   if (
-    _.intersection(flightPlan.routeParts, ["V120", "J12", "J70", "J90"]).length > 0 ||
-    (flightPlan.directionOfFlight >= 41 && flightPlan.directionOfFlight <= 85)
+    (flightPlan.directionOfFlight >= 41 && flightPlan.directionOfFlight <= 85) ||
+    _.intersection(flightPlan.routeParts, eastboundFixes).length > 0
   ) {
     return { SID: "SEA8", extendedMessage: "Group B, C, D: (041-085) V120/J12/J70/J90/SEA 072R" };
   }
 
-  // V495/J1/SEA 168R BTW 100-FL230
+  // (161-178) V495/J1/SEA 168R BTW 100-FL230
   if (
     flightPlan.cruiseAltitude > 100 &&
     flightPlan.cruiseAltitude < 230 &&
-    _.intersection(flightPlan.routeParts, ["V495", "J1"]).length > 0
+    flightPlan.directionOfFlight >= 161 &&
+    flightPlan.directionOfFlight <= 178
   ) {
-    return { SID: "SEA8", extendedMessage: "Group B, C, D: V495/J1/SEA 168R BTW 100-FL230" };
+    return {
+      SID: "SEA8",
+      extendedMessage: "Group B, C, D: (161-178) V495/J1/SEA 168R BTW 100-FL230",
+    };
   }
 
-  // V23/SEA 178R BLO 100
-  if (flightPlan.cruiseAltitude < 100 && flightPlan.routeParts.includes("V23")) {
-    return { SID: "SEA8", extendedMessage: "Group B, C, D: V23/SEA 178R BLO 100" };
+  // (161-178) V23/SEA 178R BLO 100
+  if (
+    flightPlan.cruiseAltitude < 100 &&
+    flightPlan.directionOfFlight >= 161 &&
+    flightPlan.directionOfFlight <= 178
+  ) {
+    return { SID: "SEA8", extendedMessage: "Group B, C, D: (161-178) V23/SEA 178R BLO 100" };
   }
 
   // OLM.V287, OLM.V165, OLM.V187
@@ -267,7 +322,7 @@ const checkSEAInitialSID: VerifierFunction = async function (flightPlan, saveRes
     // This is the test the verifier is supposed to do.
     if (!requiredSID) {
       result.data.status = VerifierResultStatus.ERROR;
-      result.data.message = `Unable to find an initial SID. This probably means the route is wrong, check the table in the LOA and reroute.`;
+      result.data.message = `Unable to find an initial SID. Either the destination airport isn't known or the route is completely wrong. Check the table in the LOA and reroute.`;
       result.data.priority = 3;
       result.data.messageId = "noSIDrule";
     } else if (requiredSID.SID !== flightPlan.SID) {
@@ -277,9 +332,10 @@ const checkSEAInitialSID: VerifierFunction = async function (flightPlan, saveRes
       result.data.extendedMessage = [requiredSID.extendedMessage];
       result.data.messageId = "incorrectKSEASID";
     } else {
-      result.data.status = VerifierResultStatus.INFORMATION;
+      result.data.status = VerifierResultStatus.OK;
       result.data.priority = 5;
       result.data.message = `Flight is on a SID that matches a rule for the filed route.`;
+      result.data.extendedMessage = [requiredSID.extendedMessage];
       result.data.messageId = "correctKSEASID";
     }
 
