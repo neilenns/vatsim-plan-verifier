@@ -16,8 +16,8 @@ const navaids = [
     class: "REP-PT",
     name: "NORMY,WA,US",
     type: 6,
-    latitude: 47.4296,
-    longitude: -121.7212,
+    latitude: 47.431167,
+    longitude: -121.721167,
   },
   {
     _id: "65dba55be54d20d41f89e66c",

@@ -12216,8 +12216,8 @@ db.navaid.insertMany([
     class: "REP-PT",
     name: "NORMY,WA,US",
     type: 6,
-    latitude: 47.4296,
-    longitude: -121.7212,
+    latitude: 47.431167,
+    longitude: -121.721167,
   },
   {
     ident: "ZADON",
