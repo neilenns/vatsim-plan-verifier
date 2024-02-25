@@ -67,6 +67,8 @@ export function useVatsim() {
           }
         });
       });
+
+      setFlightPlans((draft) => draft.sort((a, b) => a.callsign.localeCompare(b.callsign)));
     },
     [setFlightPlans, setHasNew, setHasUpdates]
   );
