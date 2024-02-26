@@ -5,7 +5,7 @@ import { calculateInitialSID } from "../../src/controllers/verifiers/checkSEAIni
 import { FlightPlanDocument } from "../../src/models/FlightPlan.mjs";
 import { AirportFlow } from "../../src/models/InitialAltitude.mjs";
 import { SuccessResult } from "../../src/types/result.mjs";
-import _testData from "../setup/kseaPlans - South.json" with { type: "json" };
+import _testData from "../setup/kseaPlans.json" with { type: "json" };
 import { ITestDataEntry, addTestData, removeFlightPlans } from "../setup/manageFlightPlans.mjs";
 
 class TestData implements ITestDataEntry {
