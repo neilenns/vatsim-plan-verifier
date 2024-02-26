@@ -10,7 +10,7 @@ import { InitialAltitude } from "./InitialAltitude.mjs";
 @plugin(autopopulate)
 @plugin(SpeedGooseCacheAutoCleaner)
 export class ExtendedAirportInfo {
-  @prop({ required: true })
+  @prop({ required: true, index: true })
   airportCode!: string;
 
   @prop()

@@ -2,7 +2,11 @@
 use("plan-verifier");
 
 db.preferredroutes.deleteMany({});
+db.preferredroutes.dropIndex("departure_1");
+db.preferredroutes.dropIndex("arrival_1");
 
+db.preferredroutes.createIndex({ departure: 1 });
+db.preferredroutes.createIndex({ arrival: 1 });
 db.preferredroutes.insertMany([
   {
     departure: "KSEA",

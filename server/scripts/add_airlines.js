@@ -2,7 +2,9 @@
 use("plan-verifier");
 
 db.airlines.deleteMany({});
+db.airlines.dropIndex("airlineCode_1");
 
+db.airlines.createIndex({ airlineCode: 1 });
 db.airlines.insertMany([
   {
     airlineCode: "BVX",
