@@ -41,7 +41,7 @@ export class Departure {
   @prop({ required: true })
   AirportCode!: string;
 
-  @prop({ required: true })
+  @prop({ required: true, index: true })
   SID!: string;
 
   @prop({ required: true })

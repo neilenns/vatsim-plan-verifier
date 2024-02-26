@@ -12,10 +12,10 @@ import { AirportFlow } from "./InitialAltitude.mjs";
 
 @plugin(SpeedGooseCacheAutoCleaner)
 class PreferredRoute {
-  @prop({ required: true })
+  @prop({ required: true, index: true })
   departure!: string;
 
-  @prop({ required: true })
+  @prop({ required: true, index: true })
   arrival!: string;
 
   @prop({ required: true })

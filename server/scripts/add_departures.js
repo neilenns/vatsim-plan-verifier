@@ -2,7 +2,9 @@
 use("plan-verifier");
 
 db.departures.deleteMany({});
+db.departures.dropIndex("SID_1");
 
+db.departures.createIndex({ SID: 1 });
 db.departures.insertMany([
   {
     AirportCode: "KAST",

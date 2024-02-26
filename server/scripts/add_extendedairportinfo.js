@@ -1,7 +1,9 @@
 use("plan-verifier");
 
 db.extendedairportinfo.deleteMany({});
+db.extendedairportinfo.dropIndex("airportCode_1");
 
+db.extendedairportinfo.createIndex({ airportCode: 1 });
 db.extendedairportinfo.insertMany([
   {
     airportCode: "KPDT",

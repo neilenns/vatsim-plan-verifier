@@ -1,7 +1,9 @@
 use("plan-verifier");
 
 db.aircraft.deleteMany({});
+db.aircraft.dropIndex("equipmentCode_1");
 
+db.aircraft.createIndex({ equipmentCode: 1 });
 db.aircraft.insertMany([
   {
     equipmentCode: "A500",
