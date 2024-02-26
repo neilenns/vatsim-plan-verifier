@@ -1,12 +1,10 @@
 import express, { Request, Response } from "express";
-import { getNavaidById, getNavaidByIdent } from "../controllers/navaid.mjs";
+import { getQuickReference, getQuickReferenceList } from "../controllers/quickReference.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
-import { getQuickReference, getQuickReferenceList } from "../controllers/quickReference.mjs";
 
 const router = express.Router();
 
-// GET route for reading a navaid by ID from the database
 router.get(
   "/quickreference/:key",
   verifyUser,
@@ -29,7 +27,6 @@ router.get(
   }
 );
 
-// GET route for reading a navaid by name from the database
 router.get(
   "/quickreferencelist",
   verifyUser,
