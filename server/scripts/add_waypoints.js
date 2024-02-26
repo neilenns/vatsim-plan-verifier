@@ -1,6 +1,6 @@
 use("plan-verifier");
 
-db.navaid.insertMany([
+db.navaids.insertMany([
   {
     "ident": "AABER",
     "class": "EA",

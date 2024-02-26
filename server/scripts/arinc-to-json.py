@@ -1,5 +1,6 @@
 import json
 
+
 def latitude_string_to_decimal(dms_str):
     # Extract components from the string
     direction = dms_str[0]  # Direction indicator, e.g., N or S
@@ -12,11 +13,12 @@ def latitude_string_to_decimal(dms_str):
     decimal_degrees = degrees + minutes / 60 + seconds / 3600 + fraction / 360000
 
     # Adjust the sign based on the direction
-    if direction == 'S':
+    if direction == "S":
         decimal_degrees = -decimal_degrees
 
     return round(decimal_degrees, 4)
-    
+
+
 def longitude_string_to_decimal(dms_str):
     # Extract components from the string
     direction = dms_str[0]  # Direction indicator, e.g., W or E
@@ -29,16 +31,17 @@ def longitude_string_to_decimal(dms_str):
     decimal_degrees = degrees + minutes / 60 + seconds / 3600 + fraction / 360000
 
     # Adjust the sign based on the direction
-    if direction == 'W':
+    if direction == "W":
         decimal_degrees = -decimal_degrees
 
     return round(decimal_degrees, 4)
+
 
 def read_ARINC424_file(file_path):
     results = []
     try:
         # Open the ARINC424-formatted file
-        with open(file_path, 'r') as file:
+        with open(file_path, "r") as file:
             # Read each line in the file
             for line in file:
                 if line[0:10] == "SUSAEAENRT":
@@ -55,15 +58,16 @@ def read_ARINC424_file(file_path):
         print(f"Error reading ARINC424 file: {e}")
     return results
 
+
 # Example usage
 if __name__ == "__main__":
-    file_path = '../data/FAACIFP18'
+    file_path = "../data/FAACIFP18"
     output_file = "add_waypoints.js"
     results = read_ARINC424_file(file_path)
 
     insert_statement = (
         'use("plan-verifier");\n\n'
-        f"db.navaid.insertMany({json.dumps(results, indent=2)})"
+        f"db.navaids.insertMany({json.dumps(results, indent=2)})"
     )
 
     with open(output_file, "w") as outfile:
