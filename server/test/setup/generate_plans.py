@@ -35,6 +35,6 @@ def csv_to_json(csv_file, output_file):
 
 
 if __name__ == "__main__":
-    csv_file = "kseaPlans.csv"
-    output_file = "kseaPlans.json"
+    csv_file = "kseaPlans - South.csv"
+    output_file = "kseaPlans - South.json"
     csv_to_json(csv_file, output_file)

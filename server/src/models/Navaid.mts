@@ -15,6 +15,12 @@ class Navaid {
 
   @prop({ required: true })
   type!: number;
+
+  @prop({ required: true })
+  latitude!: number;
+
+  @prop({ requried: true })
+  longitude!: number;
 }
 
 export const NavaidModel = getModelForClass(Navaid);

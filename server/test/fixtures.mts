@@ -16,6 +16,7 @@ import addMagneticDeclination from "./setup/addMagneticDeclination.mjs";
 import addMetar from "./setup/addMetar.mjs";
 import addPilotStats from "./setup/addPilotStats.mjs";
 import addPreferredRoutes from "./setup/addPreferredRoutes.mjs";
+import addNavaids from "./setup/addNavaids.mjs";
 
 let mongoServer: MongoMemoryServer;
 // This is to ensure any network calls made by the tests don't actually
@@ -40,6 +41,7 @@ export async function mochaGlobalSetup() {
 
   // Populate the database
   await Promise.all([
+    addNavaids(),
     addAirports(),
     addAircraft(),
     addAirlines(),
