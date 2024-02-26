@@ -1,8 +1,10 @@
 use("plan-verifier");
 
-db.navaid.deleteMany({});
+db.navaids.deleteMany({});
+db.navaids.dropIndex("ident_1");
 
-db.navaid.insertMany([
+db.navaids.createIndex({ ident: 1 });
+db.navaids.insertMany([
   {
     ident: "ADK",
     class: "HW/DME",

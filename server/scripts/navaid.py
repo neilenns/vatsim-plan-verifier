@@ -29,8 +29,10 @@ def main():
 
     insert_statement = (
         'use("plan-verifier");\n\n'
-        "db.navaid.deleteMany({});\n\n"
-        f"db.navaid.insertMany({json.dumps(json_data, indent=2)})"
+        "db.navaids.deleteMany({});\n"
+        'db.navaids.dropIndex("ident_1");\n\n'
+        "db.navaids.createIndex({ ident: 1 });\n"
+        f"db.navaids.insertMany({json.dumps(json_data, indent=2)})"
     )
 
     with open(output_file, "w") as outfile:
