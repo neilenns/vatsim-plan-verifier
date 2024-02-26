@@ -893,6 +893,20 @@ const airports = [
     countryCode: "RU",
     __v: 0,
   },
+  {
+    _id: "65db0b6e79e9b1ccbb20a057",
+    airportCode: "KMWH",
+    icaoCode: "KMWH",
+    iataCode: "MWH",
+    name: "Grant County International",
+    city: "Moses Lake",
+    state: "Washington",
+    longitude: -119.319139,
+    latitude: 47.208583,
+    timezone: "America/Los_Angeles",
+    countryCode: "US",
+    __v: 0,
+  },
 ];
 
 export default async function setup() {
