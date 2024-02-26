@@ -259,6 +259,23 @@ export function calculateInitialSIDForNotJets(
   flightPlan: FlightPlan,
   directionOfFlight: number
 ): InitialSid | undefined {
+  // (161-178) HELENS/SEA 161R. Group B aircraft (non-jet max speed above 200).
+  // The check for cruise altitude at or below FL240 is because there's another rule later on, for all aircraft,
+  // that puts anything above FL240 between 161 and 130 radials on the HAROB6.
+  if (
+    isDocument(flightPlan.equipmentInfo) &&
+    (flightPlan.equipmentInfo?.maxCruiseSpeed ?? 0) > 200 &&
+    directionOfFlight >= 161 &&
+    directionOfFlight <= 178 &&
+    // HELENS or BUWZO on the route overrides the under FL240 requirement, to ensure flights to
+    // Portland get the SEA8.
+    (flightPlan.routeParts.includes("HELENS") ||
+      flightPlan.routeParts.includes("BUWZO") ||
+      flightPlan.cruiseAltitude <= 240)
+  ) {
+    return { SID: "SEA8", extendedMessage: "Group A, B: (161-178) HELENS/BUWZO/SEA 161R" };
+  }
+
   // (327-008) V23/RV to PAE 110 & BLO
   if (flightPlan.cruiseAltitude <= 110 && (directionOfFlight >= 327 || directionOfFlight <= 8)) {
     return { SID: "MONTN2", extendedMessage: "Group B, C, D: (327-008) V23/RV to PAE 110 & BLO" };

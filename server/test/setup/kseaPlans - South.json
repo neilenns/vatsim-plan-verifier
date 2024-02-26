@@ -183,7 +183,7 @@
     "expectedSID": "SEA8"
   },
   {
-    "rawFlightPlan": "SWA832 C172/G 0 1510 KSEA - KPDX 190 SEA BUWZO KRATR2",
+    "rawFlightPlan": "SWA832 TBM9/G 0 1510 KSEA - KPDX 190 SEA BUWZO KRATR2",
     "flow": "SOUTH",
     "expectedSID": "SEA8"
   },
