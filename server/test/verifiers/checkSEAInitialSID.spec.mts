@@ -24,6 +24,7 @@ describe("verifier: checkSEAInitialSID tests", () => {
   after("Remove flight plans for tests", async () => await removeFlightPlans());
 
   it("check SEA initial SIDs", async () => {
+    let verifiedPlans = 0;
     // Loop through all the test data and check each one to see if
     // the correct initial SID is returned.
     await Promise.all(
@@ -32,13 +33,16 @@ describe("verifier: checkSEAInitialSID tests", () => {
         expect(flightPlan.success).to.equal(true);
 
         const plan = (flightPlan as SuccessResult<FlightPlanDocument>).data;
-        const data = await calculateInitialSID(plan);
-
-        expect(data?.SID).to.equal(
-          test.expectedSID,
-          `${test.rawFlightPlan} (${test.flow.toLowerCase()} flow)`
-        );
+        return calculateInitialSID(plan).then((data) => {
+          expect(data?.SID).to.equal(
+            test.expectedSID,
+            `${test.rawFlightPlan} (${test.flow.toLowerCase()} flow)`
+          );
+          verifiedPlans++;
+        });
       })
     );
+
+    console.log(`Verified ${verifiedPlans} flight plans for the KSEA initial SID.`);
   });
 });

@@ -13,16 +13,15 @@ import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 const verifierName = "checkSEAInitialSID";
 const logger = mainLogger.child({ service: verifierName });
 
-type InitialSid = {
-  SID: string;
-  extendedMessage: string;
-};
+type InitialSid =
+  | {
+      SID: string;
+      extendedMessage: string;
+    }
+  | undefined;
 
-// Fixes used to check for eastbound flights that normally would have a DOF that puts them outside
-// the range that should get assigned an eastbound SID. For example, flights flying to Paris
-// will calculate a DOF of 15 but their first fix is NORMY or ZADON which should be treated
-// as a radial between 041 and 085.
-// const eastboundFixes = ["NORMY", "ZADON"];
+// Used to find the first fix in a route that isn't an airway. Airways
+// start with J, Q, T, or V and are followed by digits.
 const airwayRegex = /^([JQTV]\d+$)/;
 
 async function calculateDirectionOfFlight(flightPlan: FlightPlan): Promise<number | undefined> {
@@ -34,12 +33,15 @@ async function calculateDirectionOfFlight(flightPlan: FlightPlan): Promise<numbe
     return;
   }
 
-  const firstFixInfo = await NavaidModel.findOne({ ident: firstFix });
+  const firstFixInfo = await NavaidModel.findOne({ ident: firstFix }).cacheQuery({
+    ttl: 60 * 10,
+  }); // 10 minutes
 
   if (!firstFixInfo) {
     return;
   }
 
+  // Lat and long of the SEA VORTAC
   const seaVorLatLong = new LatLon(47.4353789430252, -122.309632349265);
   const firstFixLatLong = new LatLon(firstFixInfo.latitude, firstFixInfo.longitude);
 
@@ -57,7 +59,7 @@ async function calculateDirectionOfFlight(flightPlan: FlightPlan): Promise<numbe
  * @param flightPlan
  * @returns The InitialSid or undefined if none apply
  */
-export async function calculateInitialSID(flightPlan: FlightPlan): Promise<InitialSid | undefined> {
+export async function calculateInitialSID(flightPlan: FlightPlan): Promise<InitialSid> {
   // Try and calculate the direction of flight between SEA VOR and the first fix in the route.
   // If that can't be calculated for some reason fall back to the direction of flight
   // between KSEA and the arrival airport.
@@ -68,17 +70,26 @@ export async function calculateInitialSID(flightPlan: FlightPlan): Promise<Initi
     return undefined;
   }
 
+  let initialSid: InitialSid;
   // Jets get one set of rules. The HondaJet (HDJT) is not a jet.
   if (
     (flightPlan.equipmentInfo! as AircraftDocument).engineType === "J" &&
     flightPlan.equipmentCode != "HDJT"
   ) {
-    return calculateInitialSIDForJets(flightPlan, directionOfFlight);
+    initialSid = calculateInitialSIDForJets(flightPlan, directionOfFlight);
   }
   // Everything else gets the other rules
   else {
-    return calculateInitialSIDForNotJets(flightPlan, directionOfFlight);
+    initialSid = calculateInitialSIDForNotJets(flightPlan, directionOfFlight);
   }
+
+  // If the jet or non-jet specific checks didn't find anything then check
+  // against the common rules.
+  if (!initialSid) {
+    initialSid = calculateInitialSidAllGroups(flightPlan, directionOfFlight);
+  }
+
+  return initialSid;
 }
 
 /**
@@ -196,7 +207,7 @@ function calculateInitialSidAllGroups(
 export function calculateInitialSIDForJets(
   flightPlan: FlightPlan,
   directionOfFlight: number
-): InitialSid | undefined {
+): InitialSid {
   // (327-008) V23/RV to PAE
   if (directionOfFlight >= 327 || directionOfFlight <= 8) {
     if (flightPlan.flow === AirportFlow.South) {
@@ -246,8 +257,8 @@ export function calculateInitialSIDForJets(
     return { SID: "SEA8", extendedMessage: "Group A, B: (161-178) HELENS/BUWZO/SEA 161R" };
   }
 
-  // No jet-specific rules applied so try the common ones.
-  return calculateInitialSidAllGroups(flightPlan, directionOfFlight);
+  // None of the jet-specific rules applied
+  return undefined;
 }
 
 /**
@@ -258,7 +269,7 @@ export function calculateInitialSIDForJets(
 export function calculateInitialSIDForNotJets(
   flightPlan: FlightPlan,
   directionOfFlight: number
-): InitialSid | undefined {
+): InitialSid {
   // (161-178) HELENS/SEA 161R. Group B aircraft (non-jet max speed above 200).
   // The check for cruise altitude at or below FL240 is because there's another rule later on, for all aircraft,
   // that puts anything above FL240 between 161 and 130 radials on the HAROB6.
@@ -327,7 +338,8 @@ export function calculateInitialSIDForNotJets(
     return { SID: "SEA8", extendedMessage: "Group B, C, D: OLM.V287, OLM.V165, OLM.V187" };
   }
 
-  return calculateInitialSidAllGroups(flightPlan, directionOfFlight);
+  // None of the non-jet specific rules applied
+  return undefined;
 }
 
 const checkSEAInitialSID: VerifierFunction = async function (flightPlan, saveResult = true) {
