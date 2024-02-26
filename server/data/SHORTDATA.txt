@@ -1,0 +1,17 @@
+SUSAEAENRT   NATAL K70    C     N35431243W089490693                       W0019     NAR           NATAL                    440652304
+SUSAEAENRT   NATCH K70    C   L N35013452W080062928                       W0084     NAR           NATCH                    440662304
+SUSAEAENRT   NATEE K20    W   H N35371400W115222600                       E0112     NAR           NATEE                    440672304
+SUSAEAENRT   NATHN K20    C     N33553495W118390369                       E0116     NAR           NATHN                    440682304
+SUSAEAENRT   NATHY K 0    W   B N26350400W076484300                       W0092     NAR           NATHY                    440692304
+SUSAEAENRT   NATIC K20    C   L N38521739W123142949                       E0135     NAR           NATIC                    440702304
+SUSAEAENRT   NATLE K 0    W   B N26011011W084520059                       W0043     NAR           NATLE                    440712304
+SUSAEAENRT   NATTI K10    R   L N41304832W106290116                       E0087     NAR           NATTI                    440722304
+SUSAEAENRT   NATTS K60    C   L N37564715W080045286                       W0088     NAR           NATTS                    440732201
+SUSAEAENRT   NATTY K50    W     N41023825W084561728                       W0060     NAR           NATTY                    440742304
+SUSAEAENRT   NAVAE K70    W     N34441537W076265686                       W0104     NAR           NAVAE(CNF)               440752012
+SUSAEAENRT   NAVHO K20    C   B N35242502W112262353                       E0103     NAR           NAVHO                    440762304
+SUSAEAENRT   NAVIE K70    W     N30350000W087184500                       W0032     NAR           NAVIE                    440772304
+SUSAEAENRT   NAVJO K20    W   H N36335338W110232905                       E0097     NAR           NAVJO                    440782304
+SUSAEAENRT   NAVOE K10    R     N48194525W122381908                       E0155     NAR           NAVOE-MIL                440792304
+SUSAEAENRT   NAVOJ K50    W     N40335141W086153477                       W0050     NAR           NAVOJ-MIL                440802304
+SUSAEAENRT   NAVRE K20    W     N36332255W120131479                       E0125     NAR           NAVRE-MIL                440812304
