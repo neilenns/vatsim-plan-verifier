@@ -12,6 +12,6 @@ export interface IVatsimFlightPlan {
   arrival?: string;
   departureTime?: string;
   importState?: ImportState;
-  revision: number;
+  flightPlanRevision: number;
   isCoasting: boolean;
 }
