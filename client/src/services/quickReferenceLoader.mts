@@ -1,12 +1,13 @@
-import { LoaderFunction } from "react-router-dom";
-import http from "../utils/http.mts";
+import debug from "debug";
+import { ActionFunction } from "react-router-dom";
+import AuthorizedAppAction from "../interfaces/AuthorizedAppAction.mts";
 import {
   IQuickReference,
   IQuickReferenceListItem,
   IQuickReferenceLoaderData,
 } from "../interfaces/IQuickReference.mts";
-import debug from "debug";
 import Result from "../types/result.mts";
+import http from "../utils/http.mts";
 
 const logger = debug("plan-verifier:quickReferenceLoader");
 
@@ -15,9 +16,9 @@ export type QuickReferenceLoaderResult = Result<
   "QuickReferenceLoaderError"
 >;
 
-async function getQuickReferenceList(): Promise<IQuickReferenceListItem[]> {
+async function getQuickReferenceList(token: string): Promise<IQuickReferenceListItem[]> {
   try {
-    const response = await http.get(`quickreferencelist`);
+    const response = await http.authorized(token).get(`quickreferencelist`);
 
     if (response.status === 200) {
       return response.data as IQuickReferenceListItem[];
@@ -29,9 +30,9 @@ async function getQuickReferenceList(): Promise<IQuickReferenceListItem[]> {
   }
 }
 
-async function getQuickReference(key: string): Promise<IQuickReference> {
+async function getQuickReference(token: string, key: string): Promise<IQuickReference> {
   try {
-    const response = await http.get(`quickreference/${key}`);
+    const response = await http.authorized(token).get(`quickreference/${key}`);
 
     if (response.status === 200) {
       return response.data as IQuickReference;
@@ -43,45 +44,48 @@ async function getQuickReference(key: string): Promise<IQuickReference> {
   }
 }
 
-export const quickReferenceLoader: LoaderFunction = async ({ params }) => {
-  const { key } = params;
+export const quickReferenceLoader =
+  ({ getAccessTokenSilently }: AuthorizedAppAction): ActionFunction =>
+  async ({ params }) => {
+    const { key } = params;
 
-  try {
-    const quickReferenceList = await getQuickReferenceList();
+    try {
+      const token = await getAccessTokenSilently();
+      const quickReferenceList = await getQuickReferenceList(token);
 
-    if (!quickReferenceList) {
-      throw new Error("Failed to get quick reference list");
-    }
-
-    if (key) {
-      const quickReference = await getQuickReference(key);
-
-      if (!quickReference) {
-        throw new Error(`Failed to get quick reference for ${key}`);
+      if (!quickReferenceList) {
+        throw new Error("Failed to get quick reference list");
       }
 
+      if (key) {
+        const quickReference = await getQuickReference(token, key);
+
+        if (!quickReference) {
+          throw new Error(`Failed to get quick reference for ${key}`);
+        }
+
+        return {
+          success: true,
+          data: {
+            entries: quickReferenceList,
+            markdown: quickReference.markdown,
+          },
+        } as QuickReferenceLoaderResult;
+      } else {
+        return {
+          success: true,
+          data: {
+            entries: quickReferenceList,
+          },
+        };
+      }
+    } catch (err) {
+      const error = err as Error;
+      logger(`Error fetching quick reference ${key ?? ""}: ${error.message}`);
       return {
-        success: true,
-        data: {
-          entries: quickReferenceList,
-          markdown: quickReference.markdown,
-        },
+        success: false,
+        errorType: "QuickReferenceLoaderError",
+        error: `Error fetching quick reference ${key ?? ""}`,
       } as QuickReferenceLoaderResult;
-    } else {
-      return {
-        success: true,
-        data: {
-          entries: quickReferenceList,
-        },
-      };
     }
-  } catch (err) {
-    const error = err as Error;
-    logger(`Error fetching quick reference ${key ?? ""}: ${error.message}`);
-    return {
-      success: false,
-      errorType: "QuickReferenceLoaderError",
-      error: `Error fetching quick reference ${key ?? ""}`,
-    } as QuickReferenceLoaderResult;
-  }
-};
+  };

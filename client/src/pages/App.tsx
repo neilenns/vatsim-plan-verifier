@@ -46,13 +46,13 @@ const App = () => {
       },
       {
         path: "/quickreference/:key",
-        element: <QuickReference />,
-        loader: quickReferenceLoader,
+        element: <AuthenticationGuard role="S2" component={QuickReference} />,
+        loader: quickReferenceLoader({ getAccessTokenSilently }),
       },
       {
         path: "/quickreference",
-        element: <QuickReference />,
-        loader: quickReferenceLoader,
+        element: <AuthenticationGuard role="S2" component={QuickReference} />,
+        loader: quickReferenceLoader({ getAccessTokenSilently }),
       },
       {
         children: [
