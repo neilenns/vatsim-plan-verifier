@@ -100,6 +100,15 @@ const navaids = [
     latitude: 47.5687,
     longitude: -122.3097,
   },
+  {
+    _id: "65dba55be54d20d41f89e675",
+    ident: "OLM",
+    class: "H-VORTACW",
+    name: "OLYMPIA",
+    type: 8,
+    latitude: 46.9716444102785,
+    longitude: -122.901848167657,
+  },
 ];
 
 export default async function setup() {

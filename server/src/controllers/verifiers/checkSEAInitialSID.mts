@@ -338,6 +338,16 @@ export function calculateInitialSIDForNotJets(
     return { SID: "SEA8", extendedMessage: "Group B, C, D: OLM.V287, OLM.V165, OLM.V187" };
   }
 
+  // Issue 1145: Special case for flights heading south with OLM but not one of the above airways.
+  // This happens when planes are flying KSEA KOLM and doesn't seem to really be covered in the
+  // table.
+  if (flightPlan.routeParts.includes("OLM")) {
+    return {
+      SID: "SEA8",
+      extendedMessage: "Group B, C, D: Unlisted special case, OLM with no other fixes or airways?",
+    };
+  }
+
   // None of the non-jet specific rules applied
   return undefined;
 }

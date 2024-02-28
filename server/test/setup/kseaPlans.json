@@ -1,5 +1,10 @@
 [
   {
+    "rawFlightPlan": "N1185X C172/G 2241 KSEA - KOLM 040 SEA8 SEA OLM",
+    "flow": "SOUTH",
+    "expectedSID": "SEA8"
+  },
+  {
     "rawFlightPlan": "SKW1366 B737/L 1570 2000 KSEA - KEUG 290 HAROB6 FEPOT CVO",
     "flow": "SOUTH",
     "expectedSID": "HAROB6"
