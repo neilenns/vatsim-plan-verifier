@@ -9,15 +9,15 @@ import pluralize from "pluralize";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useIdleTimer } from "react-idle-timer";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { autoHideImportedState } from "../context/atoms";
 import { useAppContext } from "../hooks/useAppContext.mjs";
+import { useAudio } from "../hooks/useAudio";
 import { useVatsim } from "../hooks/useVatsim.mts";
 import { IVatsimFlightPlan, ImportState } from "../interfaces/IVatsimFlightPlan.mts";
 import { importFlightPlan } from "../services/flightPlan.mts";
 import { getColorByStatus } from "../utils/vatsim.mts";
 import AlertSnackbar, { AlertSnackBarOnClose, AlertSnackbarProps } from "./AlertSnackbar";
-import { useAudio } from "../hooks/useAudio";
-import { useRecoilValue } from "recoil";
-import { autoHideImportedState } from "../context/atoms";
 
 const logger = debug("plan-verifier:vatsimFlightPlans");
 
@@ -273,26 +273,24 @@ const VatsimFlightPlans = () => {
   return (
     <>
       <Box sx={{ borderTop: "1px solid #ccc", mt: 2 }}>
-        <form>
-          <Stack direction="row" sx={{ mt: 2, ml: 1 }}>
-            <TextField
-              label="Airport code"
-              size="small"
-              value={airportCodes}
-              onChange={(e) => {
-                setAirportCodes(e.target.value);
-                disconnectFromVatsim();
-              }}
-            />
-            <IconButton
-              onClick={toggleVatsimConnection}
-              color={isConnected ? "primary" : "default"}
-              title={isConnected ? "Disconnect" : "Connect"}
-            >
-              <StreamIcon />
-            </IconButton>
-          </Stack>
-        </form>
+        <Stack direction="row" sx={{ mt: 2, ml: 1 }}>
+          <TextField
+            label="Airport code"
+            size="small"
+            value={airportCodes}
+            onChange={(e) => {
+              setAirportCodes(e.target.value);
+              disconnectFromVatsim();
+            }}
+          />
+          <IconButton
+            onClick={toggleVatsimConnection}
+            color={isConnected ? "primary" : "default"}
+            title={isConnected ? "Disconnect" : "Connect"}
+          >
+            <StreamIcon />
+          </IconButton>
+        </Stack>
         {flightPlans.length > 0 && (
           <List dense aria-label="Vatsim flight plans" sx={{ ml: 2 }}>
             {flightPlans
