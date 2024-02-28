@@ -10,6 +10,15 @@ db.preferredroutes.createIndex({ arrival: 1 });
 db.preferredroutes.insertMany([
   {
     departure: "KSEA",
+    arrival: "KPDX",
+    route: "SEA8 SEA V23 BTG",
+    minimumRequiredAltitude: 70,
+    minimumRequiredSpeed: 0,
+    equipmentSuffixes: "[AGP]",
+    engineTypes: "[PTJ]",
+  },
+  {
+    departure: "KSEA",
     arrival: "KBFI",
     route: "SEA8",
     minimumRequiredAltitude: 50,
