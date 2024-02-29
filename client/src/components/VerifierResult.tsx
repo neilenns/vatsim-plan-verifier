@@ -1,18 +1,18 @@
-import { useEffect } from "react";
 import {
-  Typography,
   Box,
   List,
   ListItem,
   ListItemText,
-  useTheme,
   Paper,
   Stack,
+  Typography,
+  useTheme,
 } from "@mui/material";
-import IVerifierResultDocument from "../interfaces/IVerifierResult.mts";
+import { useEffect } from "react";
 import IFlightPlan from "../interfaces/IFlightPlan.mts";
-import StatusIndicator from "./StatusIndicator";
+import IVerifierResultDocument from "../interfaces/IVerifierResult.mts";
 import Markdown from "./Markdown";
+import StatusIndicator from "./StatusIndicator";
 
 interface VerifierResultComponentProps {
   verifierResult: IVerifierResultDocument;
@@ -58,7 +58,7 @@ const VerifierResult = ({ verifierResult, flightPlan }: VerifierResultComponentP
         <StatusIndicator status={status} />
         <Box>
           {status === "CustomMessage" ? (
-            <Markdown children={message} />
+            <Markdown>{message}</Markdown>
           ) : (
             <Typography variant="body1">{message}</Typography>
           )}

@@ -39,23 +39,25 @@ const VatsimFlightPlans = () => {
   // sound will attempt to play.
   const [isConnected, setIsConnected] = useState<boolean | null>(null);
   const [airportCodes, setAirportCodes] = useState(
-    localStorage.getItem("vatsimAirportCodes") || ""
+    localStorage.getItem("vatsimAirportCodes") ?? ""
   );
   // Issue 709: This is a non-rendering version of airportCodesRef that can get safely used in useEffect()
   // to send the airport codes to the connected socket.
-  const airportCodesRef = useRef<string>(localStorage.getItem("vatsimAirportCodes") || "");
+  const airportCodesRef = useRef<string>(localStorage.getItem("vatsimAirportCodes") ?? "");
   const [isImporting, setIsImporting] = useState(false);
   const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
   const autoHideImported = useRecoilValue(autoHideImportedState);
   const { socket } = useAppContext();
   const { getAccessTokenSilently } = useAuth0();
 
-  const handleSnackbarClose: AlertSnackBarOnClose = () => setSnackbar(null);
+  const handleSnackbarClose: AlertSnackBarOnClose = () => {
+    setSnackbar(null);
+  };
 
   const handleConnect = useCallback(() => {
     logger("Connected for vatsim flight plan updates");
 
-    socket.emit("watchAirports", airportCodesRef.current?.split(","));
+    socket.emit("watchAirports", airportCodesRef.current.split(","));
 
     setIsConnected(true);
   }, [socket]);
@@ -167,7 +169,7 @@ const VatsimFlightPlans = () => {
 
   useEffect(() => {
     if (hasNew || hasUpdates) {
-      void bellPlayer.play();
+      bellPlayer.play();
       setHasNew(false);
       setHasUpdates(false);
     }
@@ -175,7 +177,7 @@ const VatsimFlightPlans = () => {
 
   useEffect(() => {
     if (isConnected !== null && !isConnected) {
-      void disconnectedPlayer.play();
+      disconnectedPlayer.play();
       // Issue 644: Once the sound's played once set isConnected to null
       // so any future calls to this method due to re-renders won't cause
       // the disconnected sound to play.
@@ -297,9 +299,7 @@ const VatsimFlightPlans = () => {
               // Issue 630: Filter out imported flight plans, but only if auto-hide imported
               // is enabled in settings.
               .filter(
-                (flightPlan) =>
-                  !autoHideImported ||
-                  (autoHideImported && flightPlan.importState !== ImportState.IMPORTED)
+                (flightPlan) => !autoHideImported || flightPlan.importState !== ImportState.IMPORTED
               )
               .map((flightPlan) => {
                 return (
@@ -315,9 +315,9 @@ const VatsimFlightPlans = () => {
                         value="importFlightPlan"
                         disabled={isImporting}
                         onClick={() => {
-                          handleFlightPlanImport(flightPlan.callsign).catch((err) =>
-                            console.error(err)
-                          );
+                          handleFlightPlanImport(flightPlan.callsign).catch((err) => {
+                            console.error(err);
+                          });
                         }}
                       >
                         <ArrowForwardOutlinedIcon />

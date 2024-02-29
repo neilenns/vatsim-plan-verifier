@@ -1,9 +1,9 @@
 import { Tooltip, Typography } from "@mui/material";
 import IAircraft from "../interfaces/IAircraft.mts";
 
-type EquipmentInfoTooltipProps = {
+interface EquipmentInfoTooltipProps {
   equipmentInfo: IAircraft | undefined;
-};
+}
 
 // Converts feet to meters with the specified number of fraction digits
 function feetToMeters(feet: number, fractionDigits: number): string {
@@ -11,7 +11,6 @@ function feetToMeters(feet: number, fractionDigits: number): string {
   const conversionFactor = 0.3048;
   return (feet * conversionFactor).toFixed(fractionDigits);
 }
-
 
 export const EquipmentInfoTooltip = ({ equipmentInfo }: EquipmentInfoTooltipProps) => {
   return equipmentInfo?.name ? (
@@ -40,13 +39,15 @@ export const EquipmentInfoTooltip = ({ equipmentInfo }: EquipmentInfoTooltipProp
           {equipmentInfo.wingspan && (
             <>
               <br />
-              Wingspan: {equipmentInfo.wingspan}' ({feetToMeters(equipmentInfo.wingspan, 1)}m)
+              Wingspan: {equipmentInfo.wingspan}&apos; ({feetToMeters(equipmentInfo.wingspan, 1)}m)
             </>
           )}
           {equipmentInfo.tailHeight && (
             <>
               <br />
-              Tail height: {equipmentInfo.tailHeight}' ({feetToMeters(equipmentInfo.tailHeight, 1)}m)
+              Tail height: {equipmentInfo.tailHeight}&apos; (
+              {feetToMeters(equipmentInfo.tailHeight, 1)}
+              m)
             </>
           )}
         </div>

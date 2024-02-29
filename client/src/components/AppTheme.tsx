@@ -5,9 +5,9 @@ import {
   experimental_extendTheme as extendTheme,
 } from "@mui/material/styles";
 
-type Props = {
+interface Props {
   children: React.ReactNode;
-};
+}
 
 declare module "@mui/material/styles" {
   interface PaletteOptions {

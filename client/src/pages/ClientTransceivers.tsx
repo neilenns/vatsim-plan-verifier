@@ -1,21 +1,23 @@
+import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
-import { IVatsimClientTransceivers } from "../interfaces/IVatsimClientTransceivers.mts";
 import AlertSnackbar, {
   AlertSnackBarOnClose,
   AlertSnackbarProps,
 } from "../components/AlertSnackbar";
-import { useEffect, useState } from "react";
-import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { IVatsimClientTransceivers } from "../interfaces/IVatsimClientTransceivers.mts";
 import { ClientTransceiversLoaderResult } from "../services/clientTransceiversLoader.mts";
 
 const ClientTransceivers = () => {
   const loaderData = useLoaderData() as ClientTransceiversLoaderResult;
   const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
   const [clientTransceivers, setClientTransceivers] = useState<IVatsimClientTransceivers>();
-  const handleSnackbarClose: AlertSnackBarOnClose = () => setSnackbar(null);
+  const handleSnackbarClose: AlertSnackBarOnClose = () => {
+    setSnackbar(null);
+  };
 
   useEffect(() => {
-    if (loaderData === undefined) {
+    if (!loaderData) {
       return;
     }
 

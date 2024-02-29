@@ -1,4 +1,6 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import { Dialog, DialogTitle, FormControlLabel, Stack, Switch } from "@mui/material";
+import { useCallback } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   autoHideImportedState,
@@ -6,14 +8,12 @@ import {
   streamingModeState,
   userInfoState,
 } from "../context/atoms";
-import { useAuth0 } from "@auth0/auth0-react";
 import { putUserInfo } from "../services/user.mts";
-import { useCallback } from "react";
 
-type SettingsDialogProps = {
+interface SettingsDialogProps {
   open: boolean;
   onClose: () => void;
-};
+}
 
 export const SettingsDialog = (props: SettingsDialogProps) => {
   const { onClose, open } = props;
@@ -72,7 +72,9 @@ export const SettingsDialog = (props: SettingsDialogProps) => {
             <Switch
               checked={autoHideImported}
               onChange={(event) => {
-                handleAutoHideChanged(event).catch((err) => console.error(err));
+                handleAutoHideChanged(event).catch((err) => {
+                  console.error(err);
+                });
               }}
             />
           }
@@ -83,7 +85,9 @@ export const SettingsDialog = (props: SettingsDialogProps) => {
             <Switch
               checked={streamingMode}
               onChange={(event) => {
-                handleStreamingModeChanged(event).catch((err) => console.error(err));
+                handleStreamingModeChanged(event).catch((err) => {
+                  console.error(err);
+                });
               }}
             />
           }

@@ -1,9 +1,9 @@
 import { Link, Typography } from "@mui/material";
 
-type HyperlinkedCallsignProps = {
+interface HyperlinkedCallsignProps {
   cid: number | undefined;
   callsignTelephony: string | undefined;
-};
+}
 
 export const HyperlinkedCallsign = ({ cid, callsignTelephony }: HyperlinkedCallsignProps) => {
   if (!cid) {

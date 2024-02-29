@@ -3,6 +3,8 @@ import { LoadingButton } from "@mui/lab";
 import { Box, Button, Grid, Link, Stack, Tooltip, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Form, useNavigation } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { flowState } from "../context/atoms";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
 import {
@@ -16,8 +18,6 @@ import {
 import { CallsignTooltip } from "./CallsignTooltip";
 import { EquipmentInfoTooltip } from "./EquipmentInfoTooltip";
 import FlightPlanTextField from "./FlightPlanTextField";
-import { useRecoilValue } from "recoil";
-import { flowState } from "../context/atoms";
 
 interface FlightPlanProps {
   flightPlan: IFlightPlan;
@@ -96,7 +96,9 @@ const FlightPlan = (props: FlightPlanProps) => {
               id="callsign"
               label="Callsign"
               name="callsign"
-              inputRef={(input: HTMLInputElement) => input && input.focus()}
+              inputRef={(input: HTMLInputElement) => {
+                input && input.focus();
+              }}
               value={flightPlan.callsign ?? ""}
               helperText={
                 <CallsignTooltip

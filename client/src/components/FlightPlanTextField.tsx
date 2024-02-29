@@ -1,7 +1,7 @@
+import { ContentCopy as ContentCopyIcon } from "@mui/icons-material";
 import { FormGroup, IconButton, StandardTextFieldProps, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import StatusIndicator from "./StatusIndicator";
-import { ContentCopy as ContentCopyIcon } from "@mui/icons-material";
 
 const getBorderColorByStatus = (hasErrors?: boolean, hasWarnings?: boolean) => {
   if (hasErrors) {
@@ -43,7 +43,7 @@ const FlightPlanTextField = ({
     setHasWarnings(propHasWarnings);
   }, [propHasErrors, propHasWarnings, propValue]);
 
-  const handlePaste = (event: React.ClipboardEvent<Element>) => {
+  const handlePaste = (event: React.ClipboardEvent) => {
     const isValidFlightPlan = onPaste(event.clipboardData.getData("Text"));
     if (isValidFlightPlan) {
       event.preventDefault();

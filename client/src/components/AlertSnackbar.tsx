@@ -2,7 +2,7 @@ import { Alert, AlertProps, Snackbar, SnackbarCloseReason } from "@mui/material"
 import { SyntheticEvent, useEffect, useState } from "react";
 import { ENV } from "../env.mjs";
 
-export type AlertSnackBarOnClose = (reason: SnackbarCloseReason) => void | undefined;
+export type AlertSnackBarOnClose = (reason: SnackbarCloseReason) => undefined;
 
 export type AlertSnackbarProps = {
   children?: AlertProps["children"] | null;
@@ -23,7 +23,7 @@ const AlertSnackbar = (props: AlertSnackbarProps) => {
     }
   }, [props]);
 
-  const handleClose = (_: Event | SyntheticEvent<unknown, Event>, reason: SnackbarCloseReason) => {
+  const handleClose = (_: Event | SyntheticEvent, reason: SnackbarCloseReason) => {
     props?.onClose?.(reason);
   };
 
@@ -35,7 +35,7 @@ const AlertSnackbar = (props: AlertSnackbarProps) => {
         onClose={handleClose}
         autoHideDuration={ENV.VITE_SNACKBAR_AUTOHIDE_DURATION}
       >
-        <Alert children={snackbar.children} severity={snackbar.severity} />
+        <Alert severity={snackbar.severity}>{snackbar.children}</Alert>
       </Snackbar>
     )
   );

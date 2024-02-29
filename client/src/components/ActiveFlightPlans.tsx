@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import IActiveFlightPlan from "../interfaces/IActiveFlightPlan.mts";
-import { useFetcher, useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { Delete } from "@mui/icons-material";
-import { List, ListItem, IconButton, ListItemButton, ListItemText, Box } from "@mui/material";
+import { Box, IconButton, List, ListItem, ListItemButton, ListItemText } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useFetcher, useLoaderData, useNavigate, useParams } from "react-router-dom";
+import IActiveFlightPlan from "../interfaces/IActiveFlightPlan.mts";
 
 const ActiveFlightPlans = () => {
   const [selectedFlightPlanId, setSelectedFlightPlanId] = useState("");
@@ -63,7 +63,9 @@ const ActiveFlightPlans = () => {
                   }
                 >
                   <ListItemButton
-                    onClick={() => handleClick(activePlan.flightPlanId)}
+                    onClick={() => {
+                      handleClick(activePlan.flightPlanId);
+                    }}
                     selected={selectedFlightPlanId === activePlan.flightPlanId}
                   >
                     <ListItemText
