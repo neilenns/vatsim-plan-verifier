@@ -1,4 +1,5 @@
 import { DocumentType, getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
+import _ from "lodash";
 import { DateTime } from "luxon";
 import { ENV } from "../env.mjs";
 import { IVatsimPilot } from "../interfaces/IVatsimData.mjs";
@@ -22,20 +23,16 @@ export enum VatsimCommunicationMethod {
   RECEIVE = "RECEIVE",
 }
 
-// Issue 980:
-// There are some properties that are super noisy and if they wind up triggering
-// an update to the revision the various websites just wind up dinging every 15 seconds
-// for the plane. This list covers the properties that will not cause a revision
-// bump if they are the only properties that got changed.
-// coastAt is included to ensure planes dropping off temporarily do so silently.
-// isPrefile is included so switching from prefiled to real plane does so silently.
-const excludedPaths = [
-  "latitude",
-  "longitude",
-  "groundspeed",
-  "coastAt",
-  "flightPlanRevision",
-  "isPrefile",
+// Issue 1132:
+// This is the explicit list of properties that cause a bump in flightPlanRevision,
+// which in turns causes an updated plan sound to play in the client.
+const flightPlanRevisionPaths = [
+  "departure",
+  "arrival",
+  "route",
+  "cruiseAltitude",
+  "rawAircraftType",
+  "EDCT",
 ];
 
 @modelOptions({
@@ -94,9 +91,6 @@ class VatsimFlightPlan {
   @prop({ required: true, type: String, default: VatsimFlightStatus.UNKNOWN })
   status!: VatsimFlightStatus;
 
-  @prop({ required: true, default: 0 })
-  revision!: number;
-
   @prop({ required: false })
   latitude?: number;
 
@@ -112,16 +106,33 @@ class VatsimFlightPlan {
   @prop({ required: false, default: false })
   sentEDCT: boolean = false;
 
+  // This is updated any time something changes
+  @prop({ required: true, default: 0 })
+  revision!: number;
+
   // This is the revision for the flight plan data that VATSIM provides.
   @prop({ required: false })
-  flightPlanRevision?: number;
+  vnasPlanRevision?: number;
+
+  // This is the caluclated revision that indicates whether flight plan changes
+  // happened that should be announced to the user.
+  @prop({ required: true, default: 0 })
+  flightPlanRevision!: number;
 
   public setRevision(this: VatsimFlightPlanDocument) {
-    // Find all the modified paths that trigger a revision bump.
-    const modifiedPaths = this.modifiedPaths().filter((path) => !excludedPaths.includes(path));
+    if (!this.isModified()) {
+      return;
+    }
 
+    // Something changed so bump the overall revision
+    this.revision++;
+
+    // Find all the modified paths that trigger a flightPlanRevision bump.
+    const modifiedPaths = _.intersection(this.modifiedPaths(), flightPlanRevisionPaths);
+
+    // If something changed in the properties that matter bump the flightPlanRevision.
     if (modifiedPaths.length > 0) {
-      this.revision++;
+      this.flightPlanRevision++;
     }
   }
 
@@ -131,11 +142,11 @@ class VatsimFlightPlan {
 
   public async updateFlightPlan(this: VatsimFlightPlanDocument, incomingPlan: IVatsimPilot) {
     // Only try updating the flight plan properties if the revision changed on the VATSIM side.
-    if (this.flightPlanRevision !== incomingPlan.flight_plan?.revision_id) {
+    if (this.vnasPlanRevision !== incomingPlan.flight_plan?.revision_id) {
       this.arrival = incomingPlan.flight_plan?.arrival ?? "";
       this.departure = incomingPlan.flight_plan?.departure ?? "";
       this.departureTime = depTimeToDateTime(incomingPlan?.flight_plan?.deptime);
-      this.flightPlanRevision = incomingPlan.flight_plan?.revision_id;
+      this.vnasPlanRevision = incomingPlan.flight_plan?.revision_id;
       this.name = incomingPlan.flight_plan?.name ?? "";
       this.rawAircraftType = incomingPlan.flight_plan?.aircraft_faa ?? "";
       this.remarks = incomingPlan.flight_plan?.remarks ?? "";

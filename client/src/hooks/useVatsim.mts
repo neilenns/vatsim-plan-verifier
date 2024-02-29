@@ -45,7 +45,7 @@ export function useVatsim() {
           }
           // It's an existing one so update it
           else {
-            const updated = incoming.revision !== existing.revision;
+            const updated = incoming.flightPlanRevision !== existing.flightPlanRevision;
 
             // This uses an if statement instead of the previous shorthand hasUpdates || updates
             // to avoid hasUpdates being a dependency of the callback, which was preventing
@@ -63,7 +63,7 @@ export function useVatsim() {
             existing.importState = updated ? ImportState.UPDATED : existing.importState;
             existing.isCoasting = incoming.isCoasting;
             existing.isPrefile = incoming.isPrefile;
-            existing.revision = incoming.revision;
+            existing.flightPlanRevision = incoming.flightPlanRevision;
           }
         });
       });
