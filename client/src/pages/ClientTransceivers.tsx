@@ -17,10 +17,6 @@ const ClientTransceivers = () => {
   };
 
   useEffect(() => {
-    if (!loaderData) {
-      return;
-    }
-
     if (!loaderData.success) {
       setSnackbar({
         children: loaderData.error,
@@ -29,7 +25,7 @@ const ClientTransceivers = () => {
       return;
     }
 
-    setClientTransceivers(loaderData.data ?? {});
+    setClientTransceivers(loaderData.data);
     document.title = `${loaderData.data.callsign} transceivers`;
   }, [loaderData]);
 

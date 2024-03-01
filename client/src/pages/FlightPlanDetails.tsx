@@ -20,7 +20,7 @@ const FlightPlanDetails = () => {
   const [flightPlan, setFlightPlan] = useState<IFlightPlan>({});
   const [verifyResults, setVerifyResults] = useState<IVerifyAllResult>();
   const loaderData = useLoaderData() as PlanDetailsLoaderResult;
-  const actionData = useActionData() as PlanVerifyActionResult;
+  const actionData = useActionData() as PlanVerifyActionResult | undefined;
   const streamingMode = useRecoilValue(streamingModeState);
   const navigate = useNavigate();
 
@@ -50,11 +50,6 @@ const FlightPlanDetails = () => {
   // Handles loading the page with data returned from the loader, and displaying
   // any errors that may have occurred during the loading process.
   useEffect(() => {
-    if (loaderData === undefined) {
-      document.title = "Vatsim plan verifier";
-      return;
-    }
-
     // Check for errors and show it in a snackbar.
     if (!loaderData.success) {
       document.title = "Vatsim plan verifier";
@@ -67,7 +62,7 @@ const FlightPlanDetails = () => {
 
     // No errors so load the data and show it.
     const flightPlan = loaderData.data.flightPlan;
-    setFlightPlan(loaderData.data.flightPlan ?? {});
+    setFlightPlan(loaderData.data.flightPlan);
     setVerifyResults(loaderData.data.verifyResults);
 
     // Set the window title to something nice if the necessary info is available,
