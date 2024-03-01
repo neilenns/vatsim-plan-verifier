@@ -56,7 +56,7 @@ export async function addFlightPlan(data: Partial<FlightPlan>) {
 
 export async function addFlightPlans(testData: Partial<FlightPlan>[]) {
   await PromisePool.for(testData).process(async (data) => {
-    addFlightPlan(data);
+    await addFlightPlan(data);
   });
 }
 
