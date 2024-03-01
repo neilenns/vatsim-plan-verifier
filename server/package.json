@@ -15,6 +15,7 @@
   "dependencies": {
     "@logtail/node": "^0.4.19",
     "@logtail/winston": "^0.4.19",
+    "@supercharge/promise-pool": "^3.1.1",
     "@typegoose/typegoose": "^11.4.1",
     "adm-zip": "^0.5.10",
     "auth0": "^4.3.1",
