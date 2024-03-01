@@ -29,15 +29,16 @@ const AircraftDetails = () => {
   };
 
   useEffect(() => {
-    // Handles the case where the page is reloaded/navigated to without any aircraft
-    // name specified in the URL.
-    if (!loaderData) {
+    if (!loaderData.success) {
       setAircraftDetails([]);
       setAircraftName("");
-      return;
-    }
+      // Handles the case where the page is reloaded/navigated to without any aircraft
+      // name specified in the URL.
+      if (loaderData.error === "NoNameSpecified") {
+        return;
+      }
 
-    if (!loaderData.success) {
+      // Otherwise show the error
       setSnackbar({
         children: loaderData.error,
         severity: "error",
@@ -45,7 +46,7 @@ const AircraftDetails = () => {
       return;
     }
 
-    setAircraftDetails(loaderData.data ?? {});
+    setAircraftDetails(loaderData.data);
     setAircraftName(searchParams.get("name") ?? "");
 
     if (loaderData.data.length === 0) {

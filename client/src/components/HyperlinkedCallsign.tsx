@@ -12,7 +12,7 @@ export const HyperlinkedCallsign = ({ cid, callsignTelephony }: HyperlinkedCalls
   return (
     <Typography variant="caption" sx={{ cursor: "pointer" }}>
       <Link
-        href={`http://stats.vatsim.net/stats/${cid ?? ""}`}
+        href={`http://stats.vatsim.net/stats/${cid}`}
         target="_blank"
         rel="noreferrer"
         underline="hover"
