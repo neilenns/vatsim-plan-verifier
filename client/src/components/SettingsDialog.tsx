@@ -99,7 +99,9 @@ export const SettingsDialog = (props: SettingsDialogProps) => {
               <Switch
                 checked={hideInformational}
                 onChange={(event) => {
-                  handleHideInformationalChanged(event).catch((err) => console.error(err));
+                  handleHideInformationalChanged(event).catch((err) => {
+                    console.error(err);
+                  });
                 }}
               />
             }
