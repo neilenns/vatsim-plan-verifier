@@ -1,3 +1,4 @@
+import { PromisePool } from "@supercharge/promise-pool";
 import { expect } from "chai";
 import { describe, it } from "mocha";
 import { getFlightPlan } from "../../src/controllers/flightPlans.mjs";
@@ -27,21 +28,17 @@ describe("verifier: checkSEAInitialSID tests", () => {
     let verifiedPlans = 0;
     // Loop through all the test data and check each one to see if
     // the correct initial SID is returned.
-    await Promise.all(
-      testData.map(async (test) => {
+    await PromisePool.for(testData).onTaskFinished(() => { verifiedPlans++}).process(async (test) => {
         const flightPlan = await getFlightPlan(test._id ?? "");
         expect(flightPlan.success).to.equal(true);
 
         const plan = (flightPlan as SuccessResult<FlightPlanDocument>).data;
-        return calculateInitialSID(plan).then((data) => {
-          expect(data?.SID).to.equal(
-            test.expectedSID,
-            `${test.rawFlightPlan} (${test.flow.toLowerCase()} flow)`
-          );
-          verifiedPlans++;
-        });
-      })
-    );
+        const data = await calculateInitialSID(plan)
+        expect(data?.SID).to.equal(
+          test.expectedSID,
+          `${test.rawFlightPlan} (${test.flow.toLowerCase()} flow)`
+        );
+      });
 
     console.log(`Verified ${verifiedPlans} flight plans for the KSEA initial SID.`);
   });
