@@ -1,3 +1,4 @@
+import { PromisePool } from "@supercharge/promise-pool";
 import _ from "lodash";
 import { IVatsimData, IVatsimPilot } from "../interfaces/IVatsimData.mjs";
 import mainLogger from "../logger.mjs";
@@ -57,48 +58,42 @@ async function calculateNewAndUpdated(
 
   profiler = logger.startTimer();
 
-  // Doing awaits inside a loop is a recipe for extremely slow performance. Instead return promises
-  // and await them all at once. This method comes from https://dev.to/imichaelowolabi/this-is-why-your-nodejs-application-is-slow-206j.
-  await Promise.all(
-    _.map(incomingPlans, async (incomingPlan, key) => {
-      try {
-        const currentPlan = currentPlans[incomingPlan.callsign];
+  await PromisePool.withConcurrency(10)
+    .for(Object.values(incomingPlans))
+    .handleError(async (err, incomingPlan) => {
+      const error = err as Error;
 
-        // If it's not found then it's a new plan so just make the model object and add it to
-        // the new plan array.
-        if (!currentPlan) {
-          const newPlan = pilotToVatsimModel(incomingPlan);
-          // Important to set the initial flight status for the new plan. It could be in the air
-          // or already arrived when it first appears in the list from VATSIM.
-          return newPlan.updateFlightStatus().then(() => {
-            plansToAdd.push(newPlan);
-            return;
-          });
-        }
-
-        // This means it's an existing plan so we need to update properties. This return
-        // and .then() is the magic that lets all of the promises run in parallel instead of
-        // blocking the for loop awaiting every single updated flight plan, of which there
-        // are typically 1000+.
-        return currentPlan.updateFlightPlan(incomingPlan).then(() => {
-          // Only add to update list if something changed. This saves a huge amount of
-          // execution time by avoiding unnecessary saves back to the database.
-          if (currentPlan.isModified()) {
-            plansToUpdate.push(currentPlan);
-          } else {
-            unchangedCount++;
-          }
-        });
-      } catch (err) {
-        const error = err as Error;
-
-        logger.error(
-          `Unable to calculate new and updated for ${incomingPlan.callsign}: ${error.message}`,
-          error
-        );
-      }
+      logger.error(
+        `Unable to calculate new and updated for ${incomingPlan.callsign}: ${error.message}`,
+        error
+      );
     })
-  );
+    .process(async (incomingPlan) => {
+      const currentPlan = currentPlans[incomingPlan.callsign];
+
+      // If it's not found then it's a new plan so just make the model object and add it to
+      // the new plan array.
+      if (!currentPlan) {
+        const newPlan = pilotToVatsimModel(incomingPlan);
+        // Important to set the initial flight status for the new plan. It could be in the air
+        // or already arrived when it first appears in the list from VATSIM.
+        return newPlan.updateFlightStatus().then(() => {
+          plansToAdd.push(newPlan);
+          return;
+        });
+      }
+
+      // This means it's an existing plan so we need to update properties.
+      await currentPlan.updateFlightPlan(incomingPlan);
+
+      // Only add to update list if something changed. This saves a huge amount of
+      // execution time by avoiding unnecessary saves back to the database.
+      if (currentPlan.isModified()) {
+        plansToUpdate.push(currentPlan);
+      } else {
+        unchangedCount++;
+      }
+    });
 
   profiler.done({
     level: "debug",
