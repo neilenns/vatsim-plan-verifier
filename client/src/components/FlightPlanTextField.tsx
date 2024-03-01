@@ -68,7 +68,7 @@ const FlightPlanTextField = ({
       <TextField
         {...textFieldProps}
         fullWidth
-        value={value ?? ""}
+        value={value}
         InputLabelProps={{ shrink: value ? true : false }}
         InputProps={{
           endAdornment: (
