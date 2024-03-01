@@ -64,16 +64,8 @@ export function formattedInitialAltitude(flightPlan: IFlightPlan): string {
   const initialPhrasing = flightPlan.initialAltitudeInfo.InitialPhrasing;
   const initialAltitude = flightPlan.initialAltitudeInfo.Altitude;
 
-  if (!initialPhrasing) {
-    return "Unknown";
-  }
-
   if (initialPhrasing === InitialPhrasingOptions.SeeNote) {
     return `See note`;
-  }
-
-  if (!flightPlan.initialAltitudeInfo) {
-    return "See chart/SOP";
   }
 
   if (initialPhrasing === InitialPhrasingOptions.Maintain) {
@@ -107,7 +99,7 @@ export function formattedExpectIn(flightPlan: IFlightPlan): string {
   const expectInMinutes = flightPlan.initialAltitudeInfo.ExpectInMinutes;
   const expectInMiles = flightPlan.initialAltitudeInfo.ExpectInMiles;
 
-  if (!initialPhrasing || expectRequired === undefined) {
+  if (expectRequired === undefined) {
     return "";
   }
 
