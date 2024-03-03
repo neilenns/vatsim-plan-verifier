@@ -17,8 +17,10 @@ interface StartJobParams extends ParamsDictionary {
 router.get(
   "/admin/endConnections",
   verifyUser,
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   verifyRole("admin"),
-  async (req: Auth0UserRequest, res: Response) => {
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  async (_req: Auth0UserRequest, res: Response) => {
     let count = 0;
     getIO().sockets.sockets.forEach((socket) => {
       // Call disconnect() on each socket
