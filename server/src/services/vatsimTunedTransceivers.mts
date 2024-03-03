@@ -6,6 +6,7 @@ import {
   type TunedTransceiversDocument,
   TunedTransceiversModel,
 } from "../models/VatsimTunedTransceivers.mjs";
+import type Result from "../types/result.mjs";
 
 const logger = mainLogger.child({ service: "vatsimTunedTransceivers" });
 
@@ -13,7 +14,9 @@ const logger = mainLogger.child({ service: "vatsimTunedTransceivers" });
 // data didn't change from what was already in the database.
 let unchangedCount = 0;
 
-export async function getVatsimTunedTransceivers(endpoint: string) {
+export async function getVatsimTunedTransceivers(
+  endpoint: string
+): Promise<Result<undefined, "UnknownError"> | undefined> {
   logger.info("Downloading latest VATSIM transceivers");
 
   try {
@@ -23,6 +26,7 @@ export async function getVatsimTunedTransceivers(endpoint: string) {
       await processVatsimTransceivers(response.data as ITunedTransceivers[]);
       return {
         success: true,
+        data: undefined,
       };
     } else {
       return {
@@ -41,7 +45,7 @@ export async function getVatsimTunedTransceivers(endpoint: string) {
   }
 }
 
-function transceiverToVatsimModel(transceiver: ITunedTransceivers) {
+function transceiverToVatsimModel(transceiver: ITunedTransceivers): TunedTransceiversDocument {
   const result = new TunedTransceiversModel({
     callsign: transceiver.callsign,
     com1: transceiver.transceivers[0]?.frequency ?? undefined,
@@ -54,7 +58,7 @@ function transceiverToVatsimModel(transceiver: ITunedTransceivers) {
 function calculateNewAndUpdated(
   currentTransceivers: _.Dictionary<TunedTransceiversDocument>,
   incomingTransceivers: _.Dictionary<ITunedTransceivers>
-) {
+): [dataToAdd: TunedTransceiversDocument[], dataToUpdate: TunedTransceiversDocument[]] {
   let profiler = logger.startTimer();
 
   const dataToAdd: TunedTransceiversDocument[] = [];

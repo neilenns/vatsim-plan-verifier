@@ -14,13 +14,14 @@ function hasInjectionRisk(key: string, value: unknown): boolean {
 }
 
 // Middleware function to check for potential NoSQL injection
-export function secureQueryMiddleware(req: Request, res: Response, next: NextFunction) {
+export function secureQueryMiddleware(req: Request, res: Response, next: NextFunction): void {
   // Iterate through all query parameters
   for (const key in req.params) {
     const value = req.params[key];
 
     if (hasInjectionRisk(key, value)) {
-      return res.status(400).json({ error: "Invalid parameter value: '$' is not allowed." });
+      res.status(400).json({ error: "Invalid parameter value: '$' is not allowed." });
+      return;
     }
   }
 
@@ -29,7 +30,8 @@ export function secureQueryMiddleware(req: Request, res: Response, next: NextFun
     const value = req.body[key];
 
     if (hasInjectionRisk(key, value)) {
-      return res.status(400).json({ error: "Invalid parameter value: '$' is not allowed." });
+      res.status(400).json({ error: "Invalid parameter value: '$' is not allowed." });
+      return;
     }
   }
 

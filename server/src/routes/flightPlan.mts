@@ -6,6 +6,10 @@ import { type FlightPlan } from "../models/FlightPlan.mjs";
 
 const router = express.Router();
 
+interface TypedFlightPlanRequestBody<T> extends Express.Request {
+  body: T;
+}
+
 // POST route for storing a flight plan
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 router.post("/flightPlan", verifyUser, async (req: Request, res: Response) => {
@@ -49,7 +53,7 @@ router.post(
   verifyUser,
   secureQueryMiddleware,
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
-  async (req: Request, res: Response) => {
+  async (req: TypedFlightPlanRequestBody<{ callsign: string }>, res: Response) => {
     const { callsign } = req.body;
 
     if (callsign == null || callsign === "") {

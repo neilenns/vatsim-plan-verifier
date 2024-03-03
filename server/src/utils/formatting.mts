@@ -1,10 +1,12 @@
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface Array<T> {
-    joinWithWord(word: string): string;
+    joinWithWord: (word: string) => string;
   }
 }
 
-Array.prototype.joinWithWord = function (word: string): string {
+// eslint-disable-next-line no-extend-native
+Array.prototype.joinWithWord = function (this: string[], word: string): string {
   return joinWithWord(this, word);
 };
 

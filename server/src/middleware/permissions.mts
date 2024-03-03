@@ -22,7 +22,11 @@ export const verifyUser = auth({
   issuerBaseURL: ENV.AUTH0_ISSUER_BASE_URL,
 });
 
-export const verifyAndAddUserInfo = (req: Auth0UserRequest, res: Response, next: NextFunction) => {
+export const verifyAndAddUserInfo = (
+  req: Auth0UserRequest,
+  res: Response,
+  next: NextFunction
+): void => {
   // Call your existing authentication middleware
   auth({
     audience: ENV.AUTH0_AUDIENCE,
@@ -76,7 +80,7 @@ export const verifyAndAddUserInfo = (req: Auth0UserRequest, res: Response, next:
   });
 };
 
-export const dumpJwt = (req: Request, res: Response, next: NextFunction) => {
+export const dumpJwt = (req: Request, res: Response, next: NextFunction): void => {
   logger.debug(req.headers.authorization);
   next();
 };

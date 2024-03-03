@@ -11,6 +11,7 @@ import { VatsimFlightPlanModel, VatsimFlightStatus } from "../models/VatsimFligh
 import { getIO } from "../sockets/index.mjs";
 import { processVatsimATISData } from "./vatsimATIS.mjs";
 import { processVatsimFlightPlanData } from "./vatsimFlightPlans.mjs";
+import { FailureResult } from "../types/result.mjs";
 
 const logger = mainLogger.child({ service: "vatsim" });
 
@@ -42,7 +43,9 @@ export async function getVatsimEndpoints(): Promise<IVatsimEndpoints | null> {
 
 // Loads data from vatsim then processes the relevant parts: filed and prefiled flight plans, and
 // ATIS messages.
-export async function getVatsimData(endpoint: string) {
+export async function getVatsimData(
+  endpoint: string
+): Promise<FailureResult<"UnknownError"> | undefined> {
   logger.info("Downloading latest VATSIM data");
 
   // For debugging/testing purposes, if a vatsim data file was specified

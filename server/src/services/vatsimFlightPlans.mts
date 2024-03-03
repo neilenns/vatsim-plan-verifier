@@ -63,9 +63,7 @@ async function calculateNewAndUpdated(
 
   await PromisePool.withConcurrency(10)
     .for(Object.values(incomingPlans))
-    .handleError(async (err, incomingPlan) => {
-      const error = err as Error;
-
+    .handleError(async (error, incomingPlan) => {
       logger.error(
         `Unable to calculate new and updated for ${incomingPlan.callsign}: ${error.message}`,
         error

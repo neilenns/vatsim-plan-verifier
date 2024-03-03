@@ -137,7 +137,7 @@ export default class VerifyAllResult implements IVerifyAllResult {
     }
   }
 
-  public toJSON() {
+  public toJSON(): VerifyAllResult {
     return {
       ...this,
       hasRawAircraftTypeWarnings: this.hasRawAircraftTypeWarnings,

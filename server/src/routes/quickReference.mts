@@ -32,7 +32,8 @@ router.get(
   "/quickreferencelist",
   verifyUser,
   secureQueryMiddleware,
-  asyncHandler(async (_: Request, res: Response) => {
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  async (_req: Request, res: Response) => {
     const result = await getQuickReferenceList();
 
     if (result.success) {
@@ -41,7 +42,7 @@ router.get(
     }
 
     res.status(500).json({ error: "Failed to get quick reference list." });
-  })
+  }
 );
 
 export default router;
