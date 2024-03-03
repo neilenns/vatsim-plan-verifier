@@ -25,6 +25,8 @@ export function isOriginAllowed(origin: string): boolean {
     let result: boolean;
 
     if (domain.includes("*")) {
+      // This is fine, comes from environment variables.
+      // eslint-disable-next-line security/detect-non-literal-regexp
       const regex = new RegExp("^" + domain.replace(/\*/g, "[^.]+") + "$");
       result = regex.test(origin);
     } else {

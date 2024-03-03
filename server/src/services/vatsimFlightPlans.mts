@@ -120,6 +120,8 @@ function calculateDeletedAndCoasting(
   const plansToCoast: VatsimFlightPlanDocument[] = [];
 
   for (const key in currentPlans) {
+    // This is fine, it's a Dictionary.
+    // eslint-disable-next-line security/detect-object-injection
     const deletedOnServer = incomingPlans[key] === undefined;
 
     // If the plan wasn't deleted then just return, it was either new or updated.
@@ -130,6 +132,8 @@ function calculateDeletedAndCoasting(
     // Since the plan was deleted it needs its coast value calculated. If it
     // is coasting add it to the updated plans list. If it wasn't then it's really gone
     // and add it to the deleted plans list.
+    // This is fine, it's a Dictionary.
+    // eslint-disable-next-line security/detect-object-injection
     const currentPlan = currentPlans[key];
 
     currentPlan.setCoast();

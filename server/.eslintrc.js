@@ -6,6 +6,7 @@ module.exports = {
   extends: [
     "standard-with-typescript",
     "prettier",
+    "plugin:security/recommended-legacy",
     //    "plugin:you-dont-need-lodash-underscore/compatible",
   ],
   overrides: [

@@ -57,6 +57,8 @@ let httpTerminator: HttpTerminator;
 let watcher: chokidar.FSWatcher;
 
 const certFilesExist =
+  // This is fine, they come from environment variables not user-provided strings
+  // eslint-disable-next-line security/detect-non-literal-fs-filename
   fs.existsSync(ENV.SSL_PRIVATE_KEY_PATH) && fs.existsSync(ENV.SSL_FULL_CHAIN_PATH);
 
 function reloadCertificates(): void {
@@ -85,7 +87,10 @@ const debouncedReloadSSL = _.debounce(reloadCertificates, 1000);
 
 function readCertsSync(): { key: Buffer; cert: Buffer } {
   return {
+    // Both these paths come from environment variables, not user supplied data. Should be fine.
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
     key: fs.readFileSync(ENV.SSL_PRIVATE_KEY_PATH),
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
     cert: fs.readFileSync(ENV.SSL_FULL_CHAIN_PATH),
   };
 }

@@ -17,6 +17,7 @@ function hasInjectionRisk(key: string, value: unknown): boolean {
 export function secureQueryMiddleware(req: Request, res: Response, next: NextFunction): void {
   // Iterate through all query parameters
   for (const key in req.params) {
+    // eslint-disable-next-line security/detect-object-injection
     const value = req.params[key];
 
     if (hasInjectionRisk(key, value)) {
@@ -27,6 +28,7 @@ export function secureQueryMiddleware(req: Request, res: Response, next: NextFun
 
   // Check the body
   for (const key in req.body) {
+    // eslint-disable-next-line security/detect-object-injection
     const value = req.body[key];
 
     if (hasInjectionRisk(key, value)) {
