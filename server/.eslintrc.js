@@ -3,7 +3,11 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: ["standard-with-typescript", "prettier"],
+  extends: [
+    "standard-with-typescript",
+    "prettier",
+    "plugin:you-dont-need-lodash-underscore/compatible",
+  ],
   overrides: [
     {
       env: {

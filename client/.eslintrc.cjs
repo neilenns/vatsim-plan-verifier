@@ -11,6 +11,7 @@ module.exports = {
     "plugin:react-hooks/recommended",
     "plugin:react/recommended",
     "plugin:react/jsx-runtime",
+    "plugin:you-dont-need-lodash-underscore/compatible",
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
