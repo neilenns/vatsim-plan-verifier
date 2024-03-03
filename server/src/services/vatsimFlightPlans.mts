@@ -71,7 +71,7 @@ async function calculateNewAndUpdated(
         error
       );
     })
-    .process(async (incomingPlan) => {
+    .process(async (incomingPlan: IVatsimPilot) => {
       const currentPlan = currentPlans[incomingPlan.callsign];
 
       // If it's not found then it's a new plan so just make the model object and add it to
@@ -80,10 +80,10 @@ async function calculateNewAndUpdated(
         const newPlan = pilotToVatsimModel(incomingPlan);
         // Important to set the initial flight status for the new plan. It could be in the air
         // or already arrived when it first appears in the list from VATSIM.
-        return newPlan.updateFlightStatus().then(() => {
-          plansToAdd.push(newPlan);
-          return;
-        });
+        await newPlan.updateFlightStatus();
+
+        plansToAdd.push(newPlan);
+        return;
       }
 
       // This means it's an existing plan so we need to update properties.

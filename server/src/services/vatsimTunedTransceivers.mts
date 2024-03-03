@@ -110,7 +110,7 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
 
   // Build the lists of data to add, update, and delete.
   const [dataToAdd, dataToUpdate] = calculateNewAndUpdated(currentData, incomingData);
-  const dataToDelete = _.differenceBy(_.keys(currentData), _.keys(incomingData));
+  const dataToDelete = _.differenceBy(Object.keys(currentData), Object.keys(incomingData));
 
   // Apply all the changes to the database.
   try {
