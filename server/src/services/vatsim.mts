@@ -11,7 +11,7 @@ import { VatsimFlightPlanModel, VatsimFlightStatus } from "../models/VatsimFligh
 import { getIO } from "../sockets/index.mjs";
 import { processVatsimATISData } from "./vatsimATIS.mjs";
 import { processVatsimFlightPlanData } from "./vatsimFlightPlans.mjs";
-import { FailureResult } from "../types/result.mjs";
+import { type FailureResult } from "../types/result.mjs";
 
 const logger = mainLogger.child({ service: "vatsim" });
 

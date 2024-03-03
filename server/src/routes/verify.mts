@@ -8,16 +8,19 @@ import { verifyAll } from "../controllers/verifyAll.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
 import { VerifierResultModel } from "../models/VerifierResult.mjs";
+import { type VerifierFunction } from "../types/verifier.mjs";
 
 const router = express.Router();
 
 // Generic handler for verifier routes
-const handleVerifierRoute = async (routeName: string, handler: Function) => {
+const handleVerifierRoute = async (routeName: string, handler: VerifierFunction): Promise<void> => {
   router.get(
     `/verify/${routeName}/:id`,
     verifyUser,
     secureQueryMiddleware,
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     findExistingResultsMiddleware(routeName),
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     async (req: Request, res: Response) => {
       const { id } = req.params;
 
@@ -58,6 +61,7 @@ router.get(
   "/verify/results/:id",
   verifyUser,
   secureQueryMiddleware,
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async (req: Request, res: Response) => {
     try {
       const rawResults = await VerifierResultModel.find({
@@ -84,6 +88,7 @@ router.get(
 );
 
 // Register the route to delete all the results for a past run
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
 router.delete("/verify/results/:id", async (req: Request, res: Response) => {
   try {
     await VerifierResultModel.deleteMany({ flightPlanId: req.params.id });
@@ -101,7 +106,9 @@ router.get(
   "/verify/all/:id",
   verifyUser,
   secureQueryMiddleware,
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   findExistingResultsMiddleware(),
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async (req: Request, res: Response) => {
     const { id } = req.params;
 
@@ -133,7 +140,7 @@ router.get(
 
 // Register all the individual verifier routes
 for (const verifier of verifiers) {
-  handleVerifierRoute(verifier.name, verifier.handler);
+  void handleVerifierRoute(verifier.name, verifier.handler);
 }
 
 export default router;

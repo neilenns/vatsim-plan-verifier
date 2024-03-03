@@ -9,6 +9,7 @@ router.get(
   "/airportInfo/:airportCode",
   verifyUser,
   secureQueryMiddleware,
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async (req: Auth0UserRequest, res: Response) => {
     const { airportCode } = req.params;
 

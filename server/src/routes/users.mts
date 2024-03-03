@@ -12,6 +12,7 @@ interface TypedUserRequestBody<T> extends Express.Request {
 
 const router = express.Router();
 
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
 router.put("/users/me", verifyUser, async (req: TypedUserRequestBody<Auth0User>, res: Response) => {
   if (req.auth?.payload.sub == null) {
     logger.error(`Unable to update data for user, no id provided`);
@@ -28,6 +29,7 @@ router.put("/users/me", verifyUser, async (req: TypedUserRequestBody<Auth0User>,
   }
 });
 
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
 router.get("/users/me", verifyUser, async (req: Auth0UserRequest, res: Response) => {
   const sub = req.auth?.payload.sub;
 

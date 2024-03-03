@@ -10,6 +10,7 @@ router.get(
   "/flightAwareRoutes/:departure/:arrival",
   verifyUser,
   secureQueryMiddleware,
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async (req: Auth0UserRequest, res: Response) => {
     const { departure, arrival } = req.params;
 
