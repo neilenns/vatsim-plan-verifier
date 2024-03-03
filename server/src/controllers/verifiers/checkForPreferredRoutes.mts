@@ -74,7 +74,7 @@ const checkForPreferredRoutes: VerifierFunction = async function (flightPlan, sa
       );
     });
 
-    if (matchingRoutes && matchingRoutes.length > 0) {
+    if (matchingRoutes.length > 0) {
       result.status = VerifierResultStatus.OK;
       result.message = `Filed route is a preferred route and meets the minimum required altitude and speed.`;
       result.messageId = "preferredRoute";
@@ -95,8 +95,8 @@ const checkForPreferredRoutes: VerifierFunction = async function (flightPlan, sa
       result.message = `Filed route does not match a preferred route at the minimum required altitude and speed. Should be one of:`;
       result.extendedMessage = validPreferredRoutes.map((route) => {
         return `${route.route} at ${formatAltitude(route.minimumRequiredAltitude)}${
-          route.minimumRequiredSpeed ? ` and ${route.minimumRequiredSpeed} kts` : ""
-        }${route.remarks ? ` (${route.remarks})` : ""}`;
+          route.minimumRequiredSpeed !== 0 ? ` and ${route.minimumRequiredSpeed} kts` : ""
+        }${route.remarks != null ? ` (${route.remarks})` : ""}`;
       });
 
       result.messageId = "notPreferredRoute";

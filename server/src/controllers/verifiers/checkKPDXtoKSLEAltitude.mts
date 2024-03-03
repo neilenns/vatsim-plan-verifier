@@ -1,7 +1,6 @@
 import mainLogger from "../../logger.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import { type VerifierFunction } from "../../types/verifier.mjs";
-import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import { formatAltitude } from "../../utils.mjs";
 
 const verifierName = "checkKPDXtoKSLEAltitude";
@@ -29,24 +28,24 @@ const checkKPDXtoKSLEAltitude: VerifierFunction = async function (
     // Provide phrasing for flights below 5000 feet
     else if (cruiseAltitude < 50) {
       result.status = VerifierResultStatus.WARNING;
-      result.message = `Flight is to KSLE. Amend cruise altitude to 5000 feet and issue \"Maintain ${formatAltitude(
+      result.message = `Flight is to KSLE. Amend cruise altitude to 5000 feet and issue "Maintain ${formatAltitude(
         cruiseAltitude,
         false
-      )} expect 5,000 five minutes after departure. That will be your final.\"`;
+      )} expect 5,000 five minutes after departure. That will be your final."`;
       result.messageId = "below5000";
       result.priority = 3;
     }
     // Provide phrasing for flights at 5000 feet
     else if (cruiseAltitude === 50) {
       result.status = VerifierResultStatus.WARNING;
-      result.message = `Flight is to KSLE. Issue \"Maintain 5,000.\"`;
+      result.message = `Flight is to KSLE. Issue "Maintain 5,000."`;
       result.messageId = "at5000";
       result.priority = 3;
     }
     // Provide phrasing for flights above 5000 feet
     else {
       result.status = VerifierResultStatus.WARNING;
-      result.message = `Flight is to KSLE. Amend cruise altitude to 5000 feet and issue \"Maintain 5,000. That will be your final.\"`;
+      result.message = `Flight is to KSLE. Amend cruise altitude to 5000 feet and issue "Maintain 5,000. That will be your final."`;
       result.messageId = "above5000";
       result.priority = 3;
     }

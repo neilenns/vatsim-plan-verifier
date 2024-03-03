@@ -40,7 +40,7 @@ const colors = {
 
 winston.addColors(colors);
 
-function sanitizeMongoDBConnectionString(info: any) {
+function sanitizeMongoDBConnectionString(info: any): any {
   if (info.mongodb !== undefined && info.mongodb.connectionString !== "") {
     // Replace only the username/password part in the MongoDB connection string
     info.mongodb.connectionString = info.mongodb.connectionString.replace(

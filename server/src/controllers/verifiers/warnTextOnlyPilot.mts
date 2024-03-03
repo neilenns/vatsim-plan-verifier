@@ -36,7 +36,7 @@ const warnTextOnlyPilot: VerifierFunction = async function warnTextOnlyPilot(
     }
 
     if (saveResult) {
-      result.save();
+      await result.save();
     }
     return {
       success: true,

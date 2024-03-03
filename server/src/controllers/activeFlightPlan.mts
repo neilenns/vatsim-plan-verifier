@@ -217,15 +217,7 @@ export async function addActiveFlightPlan(
     const newPlan = new ActiveFlightPlanModel({ controllerId, flightPlan: flightPlanId, callsign });
     const savedPlan = await newPlan.save();
 
-    if (savedPlan) {
-      return { success: true, data: [savedPlan] };
-    } else {
-      return {
-        success: false,
-        errorType: "UnknownError",
-        error: `Unable to save active flight plan ${flightPlanId}/${callsign} for controller ${controllerId}.`,
-      };
-    }
+    return { success: true, data: [savedPlan] };
   } catch (err) {
     const error = err as Error;
     logger.error(

@@ -139,7 +139,7 @@ export class AirportInfo {
     }
 
     // If no data was returned fall back to the cached data if it is available.
-    if (!result.data) {
+    if (result.data === 0) {
       logger.info(`No magnetic declination data returned for ${this.airportCode}`);
       return cachedMagneticDeclination?.magneticDeclination ?? null;
     }
@@ -152,7 +152,7 @@ export class AirportInfo {
     // number for west and a negative number for east. So we need to negate
     // the result to get the correct value for math later on.
     let savedDeclination: MagneticDeclinationDocument;
-    if (cachedMagneticDeclination) {
+    if (cachedMagneticDeclination != null) {
       cachedMagneticDeclination.magneticDeclination = -result.data;
       cachedMagneticDeclination.updatedAt = new Date(); // Force the updatedAt date to update even if the declination didn't change
       savedDeclination = await cachedMagneticDeclination.save();
