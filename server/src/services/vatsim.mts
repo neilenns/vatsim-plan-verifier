@@ -53,6 +53,8 @@ export async function getVatsimData(
   // This enables making specific changes to flights and testing the results.
   if (ENV.VATSIM_DATA_FILE != null) {
     logger.debug(`Using VATSIM data from ${ENV.VATSIM_DATA_FILE}`);
+    // Totally fine, this is just test path from an environment variable.
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
     const data = await fs.promises.readFile(ENV.VATSIM_DATA_FILE, "utf-8");
     const vatsimData: IVatsimData = JSON.parse(data);
 
