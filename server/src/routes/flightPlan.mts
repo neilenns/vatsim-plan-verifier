@@ -7,6 +7,7 @@ import { type FlightPlan } from "../models/FlightPlan.mjs";
 const router = express.Router();
 
 // POST route for storing a flight plan
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
 router.post("/flightPlan", verifyUser, async (req: Request, res: Response) => {
   const flightPlanData: FlightPlan = req.body;
 
@@ -24,7 +25,8 @@ router.get(
   "/flightPlan/:id",
   verifyUser,
   secureQueryMiddleware,
-  asyncHandler(async (req: Request, res: Response) => {
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  async (req: Request, res: Response) => {
     const { id } = req.params;
 
     const result = await getFlightPlan(id);
@@ -39,14 +41,15 @@ router.get(
     } else {
       res.status(500).json({ error: "Failed to get the flight plan." });
     }
-  })
+  }
 );
 
 router.post(
   "/flightPlan/import",
   verifyUser,
   secureQueryMiddleware,
-  asyncHandler(async (req: Request, res: Response) => {
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  async (req: Request, res: Response) => {
     const { callsign } = req.body;
 
     if (callsign == null || callsign === "") {
@@ -66,7 +69,7 @@ router.post(
     } else {
       res.status(500).json({ error: "Failed to import the flight plan." });
     }
-  })
+  }
 );
 
 export default router;

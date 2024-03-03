@@ -10,6 +10,7 @@ router.get(
   "/departure/:id",
   verifyUser,
   secureQueryMiddleware,
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async (req: Request, res: Response) => {
     const { id } = req.params;
 

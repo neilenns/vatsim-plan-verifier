@@ -10,6 +10,7 @@ router.get(
   "/airline/:airlineCode",
   verifyUser,
   secureQueryMiddleware,
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async (req: Request, res: Response) => {
     const { airlineCode } = req.params;
 

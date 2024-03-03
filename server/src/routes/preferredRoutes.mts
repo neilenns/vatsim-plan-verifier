@@ -10,6 +10,7 @@ router.get(
   "/preferredRoutes/:departure/:arrival",
   verifyUser,
   secureQueryMiddleware,
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async (req: Request, res: Response) => {
     const { departure, arrival } = req.params;
 

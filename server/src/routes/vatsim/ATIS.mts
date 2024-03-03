@@ -22,8 +22,10 @@ function appendPadding(text: string, padding: number): string {
 
 router.get(
   "/vatsim/atis/:callsign",
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   verifyApiKey,
   secureQueryMiddleware,
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async (req: Request<ATISParams, unknown, unknown, ATISQueryParams>, res: Response) => {
     const codeOnly = JSON.parse(req.query.codeOnly?.toLowerCase() ?? "false") as string;
     const jsonResponseRequested = req.query.format?.toUpperCase() === "JSON";

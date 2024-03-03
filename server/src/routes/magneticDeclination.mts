@@ -10,6 +10,7 @@ router.get(
   "/magneticDeclination/:latitude/:longitude",
   verifyUser,
   secureQueryMiddleware,
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async (req: Request, res: Response) => {
     const { latitude, longitude } = req.params;
 

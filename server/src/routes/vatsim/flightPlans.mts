@@ -10,6 +10,7 @@ router.get(
   "/vatsim/flightPlans/:airport/:flightRules/:status",
   verifyUser,
   secureQueryMiddleware,
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async (req: Request, res: Response) => {
     const result = await getVatsimFlightPlans(
       req.params.airport,
@@ -33,6 +34,7 @@ router.get(
 router.get(
   "/vatsim/flightPlan/:callsign/:format",
   secureQueryMiddleware,
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async (req: Request, res: Response) => {
     const result = await getVatsimFlightPlan(req.params.callsign);
 

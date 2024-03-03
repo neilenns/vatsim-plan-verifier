@@ -10,6 +10,7 @@ router.get(
   "/aircraft/:id",
   verifyUser,
   secureQueryMiddleware,
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async (req: Request, res: Response) => {
     const { id } = req.params;
 
@@ -33,6 +34,7 @@ router.get(
   "/aircraft/name/:name",
   verifyUser,
   secureQueryMiddleware,
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async (req: Request, res: Response) => {
     const { name } = req.params;
 
