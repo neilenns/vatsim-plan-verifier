@@ -43,7 +43,7 @@ const jetIsNotSlantA: VerifierFunction = async function (
     }
 
     if (saveResult) {
-      result.save();
+      await result.save();
     }
     return {
       success: true,

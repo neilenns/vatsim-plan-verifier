@@ -70,10 +70,26 @@ async function handleDeath(): Promise<void> {
 }
 
 function registerForDeath(): void {
-  process.on("SIGINT", handleDeath);
-  process.on("SIGTERM", handleDeath);
-  process.on("SIGQUIT", handleDeath);
-  process.on("SIGBREAK", handleDeath);
+  process.on("SIGINT", () => {
+    void (async () => {
+      await handleDeath();
+    })();
+  });
+  process.on("SIGTERM", () => {
+    void (async () => {
+      await handleDeath();
+    })();
+  });
+  process.on("SIGQUIT", () => {
+    void (async () => {
+      await handleDeath();
+    })();
+  });
+  process.on("SIGBREAK", () => {
+    void (async () => {
+      await handleDeath();
+    })();
+  });
 }
 
 registerForDeath();

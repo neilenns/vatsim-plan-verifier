@@ -76,7 +76,11 @@ export async function connectToDatabase(): Promise<void> {
         `Failed to connect to mongo on startup: ${err.message} - retrying in 5 secconds`,
         error
       );
-      setTimeout(connectToDatabase, 5000);
+      setTimeout(() => {
+        void (async () => {
+          await connectToDatabase();
+        })();
+      }, 5000);
     });
 }
 

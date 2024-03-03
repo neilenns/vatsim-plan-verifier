@@ -15,7 +15,7 @@ const bree = new Bree({
   errorHandler: (error, workerMetadata) => {
     logger.error(`Error running worker ${workerMetadata.name}: ${error}`, error);
   },
-  workerMessageHandler: async ({ name, message }) => {
+  workerMessageHandler: async ({ message }) => {
     if (message === "sendUpdates") {
       await publishUpdates();
     }
