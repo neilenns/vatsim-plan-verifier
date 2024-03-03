@@ -151,7 +151,7 @@ export async function getActiveFlightPlans(controllerId: string): Promise<Active
       },
     ]);
 
-    if (fetchedPlans.count > 0) {
+    if (fetchedPlans.length > 0) {
       return { success: true, data: fetchedPlans };
     } else {
       return {
