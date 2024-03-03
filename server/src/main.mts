@@ -49,7 +49,11 @@ async function startup(): Promise<void> {
           restartAttemptWaitTime / 1000
         } seconds.`
       );
-      restartTimer = setTimeout(startup, restartAttemptWaitTime);
+      restartTimer = setTimeout(() => {
+        void (async () => {
+          await startup();
+        })();
+      }, restartAttemptWaitTime);
     } else {
       logger.error(`Startup failed ${maxRestartAttempts} times. Giving up.`);
     }

@@ -217,7 +217,7 @@ export enum VatsimCommsEnum {
   const { results } = await PromisePool.for(routeParts).process(async (part) => {
     if (part.length === 3) {
       const navaid = await NavaidModel.findOne({ ident: part }).cacheQuery({ ttl: 60 * 60 }); // One hour
-      return navaid ? navaid.name : part;
+      return navaid != null ? navaid.name : part;
     } else {
       return part;
     }
