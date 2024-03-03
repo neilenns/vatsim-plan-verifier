@@ -1,3 +1,4 @@
+import { PromisePool } from "@supercharge/promise-pool";
 import { type Server } from "http";
 import { type Socket, Server as SocketIOServer } from "socket.io";
 import { JobName, setJobUpdateInterval } from "../bree.mjs";
@@ -30,14 +31,12 @@ function sortTrimAndJoin(codes: string[]): string {
 
 async function checkForInvalidAirports(codes: string[]): Promise<string[]> {
   const invalidAirportCodes: string[] = [];
-  await Promise.all(
-    codes.map(async (code) => {
-      const result = await getAirportInfo(code);
-      if (!result.success) {
-        invalidAirportCodes.push(code);
-      }
-    })
-  );
+  await PromisePool.for(codes).process(async (code) => {
+    const result = await getAirportInfo(code);
+    if (!result.success) {
+      invalidAirportCodes.push(code);
+    }
+  });
 
   return invalidAirportCodes;
 }

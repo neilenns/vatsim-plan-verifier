@@ -1,3 +1,4 @@
+import { PromisePool } from "@supercharge/promise-pool";
 import mainLogger from "../../logger.mjs";
 import { CustomMessageModel, MessageTarget } from "../../models/CustomMessages.mjs";
 import {
@@ -54,8 +55,8 @@ const checkForCustomDepartureMessages: VerifierFunction = async function (
       }
       // Convert the custom messages to results
       else {
-        results = await Promise.all(
-          customMessages.map(async (customMessage) => {
+        const { results: poolResults } = await PromisePool.for(customMessages).process(
+          async (customMessage) => {
             return new VerifierResultModel({
               flightPlanId: flightPlan._id,
               verifier: verifierName,
@@ -65,8 +66,10 @@ const checkForCustomDepartureMessages: VerifierFunction = async function (
               message: await applyMustacheValues(customMessage.message, flightPlan),
               messageId: customMessage.messageId,
             });
-          })
+          }
         );
+
+        results = poolResults;
       }
     }
 

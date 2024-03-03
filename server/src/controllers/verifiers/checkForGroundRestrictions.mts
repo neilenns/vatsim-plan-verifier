@@ -9,6 +9,7 @@ import {
 import { type VerifierFunction } from "../../types/verifier.mjs";
 import { logMongoBulkErrors } from "../../utils.mjs";
 import applyMustacheValues from "../../utils/mustache.mjs";
+import { PromisePool } from "@supercharge/promise-pool";
 
 const verifierName = "checkForGroundRestrictions";
 const logger = mainLogger.child({ service: verifierName });
@@ -54,8 +55,8 @@ const checkForGroundRestrictions: VerifierFunction = async function (
     }
     // Convert the custom messages to results
     else {
-      results = await Promise.all(
-        groundRestrictions.map(async (customMessage) => {
+      const { results: poolResults } = await PromisePool.for(groundRestrictions).process(
+        async (customMessage) => {
           return new VerifierResultModel({
             flightPlanId: flightPlan._id,
             verifier: verifierName,
@@ -65,8 +66,10 @@ const checkForGroundRestrictions: VerifierFunction = async function (
             message: await applyMustacheValues(customMessage.message, flightPlan),
             messageId: "groundRestriction",
           });
-        })
+        }
       );
+
+      results = poolResults;
     }
 
     if (saveResult) {
