@@ -2,7 +2,6 @@ import express, { type Request, type Response } from "express";
 import { getAirline } from "../controllers/airline.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
-import asyncHandler from "express-async-handler";
 
 const router = express.Router();
 
@@ -11,7 +10,7 @@ router.get(
   "/airline/:airlineCode",
   verifyUser,
   secureQueryMiddleware,
-  asyncHandler(async (req: Request, res: Response) => {
+  async (req: Request, res: Response) => {
     const { airlineCode } = req.params;
 
     const result = await getAirline(airlineCode);
@@ -26,7 +25,7 @@ router.get(
     } else {
       res.status(500).json({ error: "Failed to get the airline." });
     }
-  })
+  }
 );
 
 export default router;

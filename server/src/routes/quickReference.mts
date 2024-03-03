@@ -2,7 +2,6 @@ import express, { type Request, type Response } from "express";
 import { getQuickReference, getQuickReferenceList } from "../controllers/quickReference.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
-import asyncHandler from "express-async-handler";
 
 const router = express.Router();
 
@@ -10,7 +9,7 @@ router.get(
   "/quickreference/:key",
   verifyUser,
   secureQueryMiddleware,
-  asyncHandler(async (req: Request, res: Response) => {
+  async (req: Request, res: Response) => {
     const { key } = req.params;
 
     const result = await getQuickReference(key);
@@ -25,7 +24,7 @@ router.get(
     } else {
       res.status(500).json({ error: "Failed to get quick reference." });
     }
-  })
+  }
 );
 
 router.get(

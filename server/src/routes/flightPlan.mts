@@ -3,26 +3,21 @@ import { getFlightPlan, importFlightPlan, putFlightPlan } from "../controllers/f
 import { verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
 import { type FlightPlan } from "../models/FlightPlan.mjs";
-import asyncHandler from "express-async-handler";
 
 const router = express.Router();
 
 // POST route for storing a flight plan
-router.post(
-  "/flightPlan",
-  verifyUser,
-  asyncHandler(async (req: Request, res: Response) => {
-    const flightPlanData: FlightPlan = req.body;
+router.post("/flightPlan", verifyUser, async (req: Request, res: Response) => {
+  const flightPlanData: FlightPlan = req.body;
 
-    const result = await putFlightPlan(flightPlanData);
+  const result = await putFlightPlan(flightPlanData);
 
-    if (result.success) {
-      res.status(201).json(result.data);
-    } else {
-      res.status(500).json({ error: "Failed to store the flight plan." });
-    }
-  })
-);
+  if (result.success) {
+    res.status(201).json(result.data);
+  } else {
+    res.status(500).json({ error: "Failed to store the flight plan." });
+  }
+});
 
 // GET route for reading a flight plan from the database
 router.get(

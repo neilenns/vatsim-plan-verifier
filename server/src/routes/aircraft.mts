@@ -2,7 +2,6 @@ import express, { type Request, type Response } from "express";
 import { getAircraftById, getAircraftByName } from "../controllers/aircraft.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
-import asyncHandler from "express-async-handler";
 
 const router = express.Router();
 
@@ -11,7 +10,7 @@ router.get(
   "/aircraft/:id",
   verifyUser,
   secureQueryMiddleware,
-  asyncHandler(async (req: Request, res: Response) => {
+  async (req: Request, res: Response) => {
     const { id } = req.params;
 
     const result = await getAircraftById(id);
@@ -26,7 +25,7 @@ router.get(
     } else {
       res.status(500).json({ error: "Failed to get the aircraft." });
     }
-  })
+  }
 );
 
 // GET route for reading a flight plan from the database
@@ -34,7 +33,7 @@ router.get(
   "/aircraft/name/:name",
   verifyUser,
   secureQueryMiddleware,
-  asyncHandler(async (req: Request, res: Response) => {
+  async (req: Request, res: Response) => {
     const { name } = req.params;
 
     const result = await getAircraftByName(name);
@@ -49,7 +48,7 @@ router.get(
     } else {
       res.status(500).json({ error: "Failed to get the aircraft." });
     }
-  })
+  }
 );
 
 export default router;
