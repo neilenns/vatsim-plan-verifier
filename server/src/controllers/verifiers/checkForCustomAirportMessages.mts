@@ -25,7 +25,7 @@ const checkForCustomAirportMessages: VerifierFunction = async function (
       flightPlan.departure
     );
 
-    if (!customMessages || customMessages.length === 0) {
+    if (customMessages == null || customMessages.length === 0) {
       results.push(
         new VerifierResultModel({
           flightPlanId: flightPlan._id,

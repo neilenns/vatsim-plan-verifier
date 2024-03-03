@@ -12,7 +12,7 @@ export async function getAircraftByName(name: string): Promise<AircraftsResult> 
   try {
     const fetchedAircraft = await AircraftModel.findByName(name);
 
-    if (fetchedAircraft && fetchedAircraft.length > 0) {
+    if (fetchedAircraft.length > 0) {
       return { success: true, data: fetchedAircraft };
     } else {
       return {
@@ -37,7 +37,7 @@ export async function getAircraftById(id: string): Promise<AircraftResult> {
   try {
     const fetchedAircraft = await AircraftModel.findById(id);
 
-    if (fetchedAircraft) {
+    if (fetchedAircraft != null) {
       return { success: true, data: fetchedAircraft };
     } else {
       return {

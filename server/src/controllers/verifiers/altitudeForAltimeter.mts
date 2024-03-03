@@ -26,7 +26,7 @@ const altitudeForAltimeter: VerifierFunction = async function (
     // get the altimeter for the airport
     const metar = await getMetar(departure);
 
-    if (!metar.success || !metar.data || !metar.data.altimeter) {
+    if (!metar.success || metar.data.altimeter == null) {
       result.data.status = VerifierResultStatus.INFORMATION;
       result.data.message = `Unable to retrieve metar for ${departure}, skipping altitude check.`;
       result.data.priority = 5;

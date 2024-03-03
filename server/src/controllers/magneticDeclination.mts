@@ -53,7 +53,7 @@ export async function getMagneticDeclination(
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error fetching magnetic declination: ${error}`,
+      error: `Error fetching magnetic declination: ${error.message}`,
     };
   }
 }

@@ -29,7 +29,7 @@ async function calculateDirectionOfFlight(flightPlan: FlightPlan): Promise<numbe
     (part) => part !== "SEA" && part !== "DCT" && part !== flightPlan.SID && !airwayRegex.test(part)
   );
 
-  if (!firstFix) {
+  if (firstFix == null) {
     return;
   }
 
@@ -37,7 +37,7 @@ async function calculateDirectionOfFlight(flightPlan: FlightPlan): Promise<numbe
     ttl: 60 * 10,
   }); // 10 minutes
 
-  if (!firstFixInfo) {
+  if (firstFixInfo == null) {
     return;
   }
 
@@ -66,15 +66,15 @@ export async function calculateInitialSID(flightPlan: FlightPlan): Promise<Initi
   const directionOfFlight =
     (await calculateDirectionOfFlight(flightPlan)) ?? flightPlan.directionOfFlight;
 
-  if (!directionOfFlight) {
+  if (directionOfFlight == null) {
     return undefined;
   }
 
   let initialSid: InitialSid;
   // Jets get one set of rules. The HondaJet (HDJT) is not a jet.
   if (
-    (flightPlan.equipmentInfo! as AircraftDocument).engineType === "J" &&
-    flightPlan.equipmentCode != "HDJT"
+    (flightPlan.equipmentInfo as AircraftDocument).engineType === "J" &&
+    flightPlan.equipmentCode !== "HDJT"
   ) {
     initialSid = calculateInitialSIDForJets(flightPlan, directionOfFlight);
   }
@@ -85,7 +85,7 @@ export async function calculateInitialSID(flightPlan: FlightPlan): Promise<Initi
 
   // If the jet or non-jet specific checks didn't find anything then check
   // against the common rules.
-  if (!initialSid) {
+  if (initialSid == null) {
     initialSid = calculateInitialSidAllGroups(flightPlan, directionOfFlight);
   }
 
@@ -373,7 +373,7 @@ const checkSEAInitialSID: VerifierFunction = async function (flightPlan, saveRes
   }
 
   // Can't be calculated without a route
-  if (!flightPlan.routeParts || flightPlan.routeParts.length === 0) {
+  if (flightPlan.routeParts.length === 0) {
     result.data.status = VerifierResultStatus.INFORMATION;
     result.data.message = `No route provided.`;
     result.data.messageId = "noRoute";
@@ -400,7 +400,7 @@ const checkSEAInitialSID: VerifierFunction = async function (flightPlan, saveRes
   }
 
   // Need to know the equipment code too
-  if (!flightPlan.equipmentCode || flightPlan.equipmentCode === "") {
+  if (flightPlan.equipmentCode == null || flightPlan.equipmentCode === "") {
     result.data.status = VerifierResultStatus.WARNING;
     result.data.message = `Unable to calcluate initial SID since the equipment code isn't known.`;
     result.data.messageId = "unknownEquipmentCode";
@@ -412,7 +412,7 @@ const checkSEAInitialSID: VerifierFunction = async function (flightPlan, saveRes
     const requiredSID = await calculateInitialSID(flightPlan);
 
     // This is the test the verifier is supposed to do.
-    if (!requiredSID) {
+    if (requiredSID == null) {
       result.data.status = VerifierResultStatus.ERROR;
       result.data.message = `Unable to find an initial SID. Either the destination airport isn't known or the route is completely wrong. Check the table in the LOA and reroute.`;
       result.data.priority = 3;

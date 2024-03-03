@@ -29,7 +29,7 @@ export async function getAirportInfo(airportCode: string): Promise<AirportInfoRe
 
     // Airports with blank names are placeholders indicating it doesn't exist to prevent repeated checks with
     // FlightAware
-    if (airport?.name) {
+    if (airport?.name != null) {
       return {
         success: true,
         data: airport,
@@ -41,11 +41,12 @@ export async function getAirportInfo(airportCode: string): Promise<AirportInfoRe
         error: `No airport found for ${airportCode}`,
       };
     }
-  } catch (error) {
+  } catch (err) {
+    const error = err as Error;
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error fetching cached airport for ${airportCode}: ${error}`,
+      error: `Error fetching cached airport for ${airportCode}: ${error.message}`,
     };
   }
 }
@@ -55,6 +56,7 @@ export async function getAirportInfo(airportCode: string): Promise<AirportInfoRe
  * @param airportCode The airport code for the airport to look up
  * @returns The airport information, or undefined if the airport wasn't found
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function fetchAirportFromFlightAware(
   airportCode: string
 ): Promise<AirportInfoDocument | undefined> {
@@ -122,7 +124,7 @@ export async function fetchAirportsFromAvioWiki(): Promise<FetchAvioWikiAirports
     const zippedResponse = await axios.get("https://exports.aviowiki.com/free_airports.json.zip", {
       responseType: "arraybuffer",
     });
-    const zipBuffer = Buffer.from(zippedResponse.data);
+    const zipBuffer = Buffer.from(zippedResponse.data as ArrayBuffer);
     const zip = new AdmZip(zipBuffer);
     const jsonData = JSON.parse(zip.readAsText(zip.getEntries()[0])) as IAvioWikiAirport[];
 
@@ -140,7 +142,9 @@ export async function fetchAirportsFromAvioWiki(): Promise<FetchAvioWikiAirports
       // There's lots of entries that don't have any airport code, which is the index used in the local
       // database. Skip importing those airports. This is done as a filter so the
       // returned value from the map is always just a list of AirportInfoModel objects.
-      .filter((airport) => airport.icao || airport.iata || airport.localIdentifier)
+      .filter((airport) => {
+        return airport.icao.length > 0 || airport.iata.length > 0 || airport.localIdentifier;
+      })
       // Convert all the incoming data to AirportInfoModels
       .map((airport) => {
         return new AirportInfoModel({
@@ -184,7 +188,10 @@ export async function fetchAirportsFromAvioWiki(): Promise<FetchAvioWikiAirports
       success: true,
       data: models.length,
     };
-  } catch (error) {
-    throw new Error(`Error downloading and extracting airport information from AvioWiki: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+    throw new Error(
+      `Error downloading and extracting airport information from AvioWiki: ${error.message}`
+    );
   }
 }

@@ -17,7 +17,7 @@ export async function getPreferredRoutes(
       arrival,
     });
 
-    if (!preferredRoutes || preferredRoutes.length === 0) {
+    if (preferredRoutes.length === 0) {
       return {
         success: false,
         errorType: "NoPreferredRoutesFound",

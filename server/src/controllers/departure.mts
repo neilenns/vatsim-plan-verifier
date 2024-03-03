@@ -10,7 +10,7 @@ export async function getDeparture(id: string): Promise<DepartureResult> {
   try {
     const fetchedDeparture = await DepartureModel.findById(id);
 
-    if (fetchedDeparture) {
+    if (fetchedDeparture != null) {
       return { success: true, data: fetchedDeparture };
     } else {
       return {

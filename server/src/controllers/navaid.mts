@@ -10,7 +10,7 @@ export async function getNavaidById(id: string): Promise<NavaidResult> {
   try {
     const fetchedNavaid = await NavaidModel.findById(id);
 
-    if (fetchedNavaid) {
+    if (fetchedNavaid != null) {
       return { success: true, data: fetchedNavaid };
     } else {
       return {
@@ -36,7 +36,7 @@ export async function getNavaidByIdent(ident: string): Promise<NavaidResult> {
   try {
     const fetchedNavaid = await NavaidModel.findOne({ ident });
 
-    if (fetchedNavaid) {
+    if (fetchedNavaid != null) {
       return { success: true, data: fetchedNavaid };
     } else {
       return {

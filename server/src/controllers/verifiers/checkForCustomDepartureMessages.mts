@@ -20,7 +20,7 @@ const checkForCustomDepartureMessages: VerifierFunction = async function (
   let results: VerifierResultDocument[] = [];
 
   try {
-    if (!flightPlan.SID) {
+    if (flightPlan.SID == null) {
       results.push(
         new VerifierResultModel({
           flightPlanId: flightPlan._id,
@@ -39,7 +39,7 @@ const checkForCustomDepartureMessages: VerifierFunction = async function (
         flightPlan.flow
       );
 
-      if (!customMessages || customMessages.length === 0) {
+      if (customMessages == null || customMessages.length === 0) {
         results.push(
           new VerifierResultModel({
             flightPlanId: flightPlan._id,

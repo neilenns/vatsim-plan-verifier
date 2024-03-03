@@ -8,7 +8,7 @@ import { publishUpdates } from "./services/vatsim.mjs";
 const logger = mainLogger.child({ service: "jobs" });
 const bree = new Bree({
   root: path.join(path.dirname(fileURLToPath(import.meta.url)), "jobs"),
-  defaultExtension: process.env.TS_NODE ? "mts" : "mjs",
+  defaultExtension: process.env.TS_NODE != null ? "mts" : "mjs",
   logger,
   doRootCheck: false,
   jobs: [],
@@ -73,13 +73,12 @@ jobs.set(JobName.GetVatsimTransceivers, {
   },
 });
 
-export async function runJob(jobName: JobName) {
+export async function runJob(jobName: JobName): Promise<void> {
   const definition = jobs.get(jobName);
 
   // This should never happen
-  if (!definition) {
+  if (definition == null) {
     logger.debug(`Unable to start job ${jobName}: no definition found.`);
-    return null;
   }
 
   // If the job doesn't exist (because it's in the never state) add it first.
@@ -88,16 +87,16 @@ export async function runJob(jobName: JobName) {
   }
 
   // Force the job to run
-  bree.run(jobName);
+  await bree.run(jobName);
 }
 
-async function deleteJob(jobName: JobName) {
+async function deleteJob(jobName: JobName): Promise<void> {
   const definition = jobs.get(jobName);
 
   // This should never happen
-  if (!definition) {
+  if (definition == null) {
     logger.debug(`Unable to remove job ${jobName}: no definition found.`);
-    return null;
+    return;
   }
 
   if (definition.interval === "never") {
@@ -118,12 +117,12 @@ async function deleteJob(jobName: JobName) {
   }
 }
 
-async function addJob(name: JobName, interval: string, start = true) {
+async function addJob(name: JobName, interval: string, start = true): Promise<void> {
   const definition = jobs.get(name);
 
-  if (!definition) {
+  if (definition == null) {
     logger.debug(`Unable to create job ${name}: no definition found.`);
-    return null;
+    return;
   }
 
   if (interval === "never") {
@@ -150,7 +149,7 @@ async function addJob(name: JobName, interval: string, start = true) {
   }
 }
 
-export async function setJobUpdateInterval(name: JobName, interval: string) {
+export async function setJobUpdateInterval(name: JobName, interval: string): Promise<void> {
   if (ENV.NODE_ENV === "test") {
     return;
   }
@@ -166,7 +165,7 @@ export async function setJobUpdateInterval(name: JobName, interval: string) {
   logger.debug(`${name} updated to ${interval}`);
 }
 
-export async function initialize() {
+export async function initialize(): Promise<void> {
   if (ENV.NODE_ENV === "test") {
     return;
   }
@@ -183,7 +182,7 @@ export async function initialize() {
   logger.debug(`Jobs initialized`);
 }
 
-export async function start() {
+export async function start(): Promise<void> {
   if (ENV.NODE_ENV === "test") {
     return;
   }
@@ -193,7 +192,7 @@ export async function start() {
   logger.debug(`Jobs started`);
 }
 
-export async function stop() {
+export async function stop(): Promise<void> {
   if (ENV.NODE_ENV === "test") {
     return;
   }

@@ -176,7 +176,7 @@ const VatsimFlightPlans = () => {
   }, [hasNew, hasUpdates, bellPlayer, setHasNew, setHasUpdates]);
 
   useEffect(() => {
-    if (isConnected !== null && !isConnected) {
+    if (isConnected != null && !isConnected) {
       disconnectedPlayer.play();
       // Issue 644: Once the sound's played once set isConnected to null
       // so any future calls to this method due to re-renders won't cause

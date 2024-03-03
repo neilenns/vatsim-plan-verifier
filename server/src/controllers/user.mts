@@ -1,7 +1,6 @@
 import mainLogger from "../logger.mjs";
 import { type Auth0User, type Auth0UserDocument, Auth0UserModel } from "../models/Auth0User.mjs";
 import type Result from "../types/result.mjs";
-import { Types } from "mongoose";
 
 const logger = mainLogger.child({ service: "user" });
 
@@ -10,7 +9,7 @@ type Auth0UserResult = Result<Auth0UserDocument, "UserNotFound" | "UnknownError"
 export async function getAuth0User(sub: string): Promise<Auth0UserResult> {
   const fetchedUser = await Auth0UserModel.findOrCreate(sub);
 
-  if (fetchedUser) {
+  if (fetchedUser != null) {
     return { success: true, data: fetchedUser };
   } else {
     return {
@@ -25,7 +24,7 @@ export async function updateAuth0User(
   sub: string,
   { colorMode, autoHideImported, hideInformational, streamingMode }: Partial<Auth0User>
 ): Promise<Auth0UserResult> {
-  if (!sub) {
+  if (sub.length === 0) {
     return {
       success: false,
       error: "No user sub provided",
@@ -39,7 +38,7 @@ export async function updateAuth0User(
       { new: true }
     );
 
-    if (result) {
+    if (result != null) {
       return {
         success: true,
         data: result,

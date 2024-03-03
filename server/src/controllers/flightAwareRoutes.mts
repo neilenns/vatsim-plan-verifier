@@ -2,7 +2,10 @@ import axios, { type AxiosResponse } from "axios";
 import pluralize from "pluralize";
 import { ENV } from "../env.mjs";
 import mainLogger from "../logger.mjs";
-import { type FlightAwareRouteDocument, FlightAwareRouteModel } from "../models/FlightAwareRoute.mjs";
+import {
+  type FlightAwareRouteDocument,
+  FlightAwareRouteModel,
+} from "../models/FlightAwareRoute.mjs";
 import { type FlightPlan } from "../models/FlightPlan.mjs";
 import type Result from "../types/result.mjs";
 
@@ -18,14 +21,14 @@ export async function getFlightAwareRoutes({
   departure,
   arrival,
 }: Partial<FlightPlan>): Promise<FlightAwareRoutesResult> {
-  if (!departure || !arrival) {
+  if (departure == null || arrival == null) {
     throw new Error("Missing departure or arrival");
   }
 
   try {
     const routes = await FlightAwareRouteModel.find({ departure, arrival });
 
-    if (routes && routes.length > 0) {
+    if (routes.length > 0) {
       logger.debug(`Found cached routes for ${departure}-${arrival}`);
 
       return {
@@ -84,7 +87,7 @@ export async function getFlightAwareRoutes({
     return {
       success: false,
       errorType: "UnknownError",
-      error: `${error}`,
+      error: `${error.message}`,
     };
   }
 }
@@ -133,6 +136,6 @@ async function fetchFlightRoutes(
       url: endpointUrl,
       error,
     });
-    throw new Error(`Error fetching routes for ${departure}-${arrival}: ${error}`);
+    throw new Error(`Error fetching routes for ${departure}-${arrival}: ${error.message}`);
   }
 }

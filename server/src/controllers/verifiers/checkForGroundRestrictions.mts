@@ -39,7 +39,7 @@ const checkForGroundRestrictions: VerifierFunction = async function (
       tailHeight
     );
 
-    if (!groundRestrictions || groundRestrictions.length === 0) {
+    if (groundRestrictions == null || groundRestrictions.length === 0) {
       results.push(
         new VerifierResultModel({
           flightPlanId: flightPlan._id,

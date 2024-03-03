@@ -4,7 +4,6 @@ import { AirportFlow } from "../../models/InitialAltitude.mjs";
 import { PreferredRouteModel } from "../../models/PreferredRoute.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import { type VerifierFunction } from "../../types/verifier.mjs";
-import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import { formatAltitude } from "../../utils.mjs";
 
 const verifierName = "checkForPreferredRoutes";
@@ -35,7 +34,7 @@ const checkForPreferredRoutes: VerifierFunction = async function (flightPlan, sa
     }
 
     // Bail early if there's no equipment suffix
-    if (!flightPlan.equipmentSuffix) {
+    if (flightPlan.equipmentSuffix == null) {
       result.status = VerifierResultStatus.WARNING;
       result.messageId = "noEquipmentSuffixForPreferredRoute";
       result.message = `No equipment suffix available for ${flightPlan.equipmentCode}, unable to check for preferred routes.`;

@@ -9,7 +9,7 @@ export async function getAirline(airlineCode: string): Promise<AirlineResult> {
   try {
     const fetchedAirlines = await AirlineModel.findByAirlineCode(airlineCode);
 
-    if (fetchedAirlines) {
+    if (fetchedAirlines.length > 0) {
       return { success: true, data: fetchedAirlines };
     } else {
       return {
@@ -25,7 +25,7 @@ export async function getAirline(airlineCode: string): Promise<AirlineResult> {
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error fetching airlines ${airlineCode}: ${error}`,
+      error: `Error fetching airlines ${airlineCode}: ${error.message}`,
     };
   }
 }

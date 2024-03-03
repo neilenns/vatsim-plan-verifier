@@ -18,7 +18,7 @@ export async function getTunedTransceiversForCallsign(
   try {
     const transceivers = await TunedTransceiversModel.findOne({ callsign }).cacheQuery({ ttl: 30 });
 
-    if (transceivers) {
+    if (transceivers != null) {
       return {
         success: true,
         data: transceivers,

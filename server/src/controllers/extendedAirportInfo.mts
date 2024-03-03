@@ -18,7 +18,7 @@ export async function getExtendedAirportInfo(
   try {
     const fetchedInfo = await ExtendedAirportInfoModel.findOne({ airportCode });
 
-    if (fetchedInfo) {
+    if (fetchedInfo != null) {
       return { success: true, data: fetchedInfo };
     } else {
       return {

@@ -1,5 +1,9 @@
 import mainLogger from "../logger.mjs";
-import { type FlightPlan, type FlightPlanDocument, FlightPlanModel } from "../models/FlightPlan.mjs";
+import {
+  type FlightPlan,
+  type FlightPlanDocument,
+  FlightPlanModel,
+} from "../models/FlightPlan.mjs";
 import { VatsimFlightPlanModel } from "../models/VatsimFlightPlan.mjs";
 import type Result from "../types/result.mjs";
 import { uppercaseStringProperties } from "../utils/formatting.mjs";
@@ -12,7 +16,9 @@ export type FlightPlanFailureErrorTypes =
   | "UnknownError";
 export type FlightPlanResult = Result<FlightPlanDocument, FlightPlanFailureErrorTypes>;
 
-export async function putFlightPlan(flightPlanData: FlightPlan): Promise<FlightPlanResult> {
+export async function putFlightPlan(
+  flightPlanData: Partial<FlightPlan>
+): Promise<FlightPlanResult> {
   try {
     // Create a new instance of the FlightPlan model
     const newFlightPlan = new FlightPlanModel(uppercaseStringProperties(flightPlanData));
@@ -40,7 +46,7 @@ export async function getFlightPlan(id: string): Promise<FlightPlanResult> {
   try {
     const flightPlan = await FlightPlanModel.findById(id);
 
-    if (!flightPlan) {
+    if (flightPlan === null) {
       return {
         success: false,
         errorType: "FlightPlanNotFound",
@@ -52,12 +58,13 @@ export async function getFlightPlan(id: string): Promise<FlightPlanResult> {
       success: true,
       data: flightPlan,
     };
-  } catch (error) {
-    logger.error(`Unable to retrieve flight plan ${id}: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+    logger.error(`Unable to retrieve flight plan ${id}: ${error.message}`, error);
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Failed to get the flight plan: ${error}.`,
+      error: `Failed to get the flight plan: ${error.message}.`,
     };
   }
 }
@@ -66,7 +73,7 @@ export async function importFlightPlan(callsign: string): Promise<FlightPlanResu
   try {
     const vatsimPlan = await VatsimFlightPlanModel.findOne({ callsign });
 
-    if (!vatsimPlan) {
+    if (vatsimPlan === null) {
       return {
         success: false,
         errorType: "VatsimFlightPlanNotFound",
@@ -74,27 +81,28 @@ export async function importFlightPlan(callsign: string): Promise<FlightPlanResu
       };
     }
 
-    const flightPlan = {
+    const flightPlan: Partial<FlightPlan> = {
       cid: vatsimPlan.cid,
       pilotName: vatsimPlan.name,
       callsign: vatsimPlan.callsign,
-      departure: vatsimPlan.departure!,
-      arrival: vatsimPlan.arrival!,
-      route: vatsimPlan.route!,
+      departure: vatsimPlan.departure,
+      arrival: vatsimPlan.arrival,
+      route: vatsimPlan.route,
       rawAircraftType: vatsimPlan.rawAircraftType ?? "", // Issue #369, sometimes plans from vatsim don't have the aircraft type specified.
-      cruiseAltitude: vatsimPlan.cruiseAltitude!,
-      squawk: vatsimPlan.squawk!,
-      remarks: vatsimPlan.remarks!,
+      cruiseAltitude: vatsimPlan.cruiseAltitude,
+      squawk: vatsimPlan.squawk,
+      remarks: vatsimPlan.remarks,
       communicationMethod: vatsimPlan.communicationMethod,
-    } as FlightPlan;
+    };
 
     return await putFlightPlan(flightPlan);
-  } catch (error) {
-    logger.error(`Unable to retrieve flight plan for ${callsign}: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+    logger.error(`Unable to retrieve flight plan for ${callsign}: ${error.message}`, error);
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Failed to get the flight plan: ${error}.`,
+      error: `Failed to get the flight plan: ${error.message}.`,
     };
   }
 }

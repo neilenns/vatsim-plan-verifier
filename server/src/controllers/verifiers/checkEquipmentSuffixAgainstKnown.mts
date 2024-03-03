@@ -20,13 +20,13 @@ const checkEquipmentSuffixAgainstKnown: VerifierFunction = async function (
 
   try {
     // If there's no equipement info for the aircraft then don't bother running this verifier.
-    if (!equipmentInfo) {
+    if (equipmentInfo == null) {
       result.status = VerifierResultStatus.INFORMATION;
       result.messageId = "noAircraftInfoAvailable";
       result.message = `Unable to verify equipment suffix as no aircraft equipment info was available.`;
     }
     // If there's no equipment suffix on the flight plan then don't bother running this verifier. A different verifier checks for the presence of a suffix.
-    else if (!equipmentSuffix) {
+    else if (equipmentSuffix == null) {
       result.status = VerifierResultStatus.INFORMATION;
       result.messageId = "noEquipmentSuffixProvided";
       result.message = `Unable to verify equipment suffix as the flight plan didn't provide an equipment suffix.`;
@@ -34,7 +34,7 @@ const checkEquipmentSuffixAgainstKnown: VerifierFunction = async function (
     // Not all aircraft have common equipment suffixes. If that's the case for this aircraf then skip running the verifier.
     else if (
       !isDocument(equipmentInfo) ||
-      !equipmentInfo.commonEquipmentSuffixes ||
+      equipmentInfo.commonEquipmentSuffixes == null ||
       equipmentInfo.commonEquipmentSuffixes.length === 0
     ) {
       result.status = VerifierResultStatus.INFORMATION;
