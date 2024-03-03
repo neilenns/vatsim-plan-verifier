@@ -16,7 +16,7 @@ const logger = mainLogger.child({ service: "vatsim" });
 
 // Retrieves the published vatsim endpoints for the services. This is used to get
 // the endpoint to retrieve all the current flight plans.
-export async function getVatsimEndpoints() {
+export async function getVatsimEndpoints(): Promise<IVatsimEndpoints | null> {
   try {
     const endpointUrl = "https://status.vatsim.net/status.json";
 

@@ -11,7 +11,7 @@ const logger = mainLogger.child({ service: "vatsimATIS" });
 let unchangedCount = 0;
 
 // Takes an ATIS object from vatsim and converts it to a vatsim model
-function atisToVatsimModel(atis: IVatsimATIS) {
+function atisToVatsimModel(atis: IVatsimATIS): VatsimATISDocument {
   const result = new VatsimATISModel({
     callsign: atis.callsign,
     frequency: atis.frequency,
@@ -25,7 +25,7 @@ function atisToVatsimModel(atis: IVatsimATIS) {
 function calculateNewAndChanged(
   currentATISes: _.Dictionary<VatsimATISDocument>,
   incomingATISes: _.Dictionary<IVatsimATIS>
-) {
+): [dataToAdd: VatsimATISDocument[], dataToUpdate: VatsimATISDocument[]] {
   const dataToAdd: VatsimATISDocument[] = [];
   const dataToUpdate: VatsimATISDocument[] = [];
 

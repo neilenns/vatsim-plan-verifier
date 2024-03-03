@@ -16,7 +16,7 @@ const logger = mainLogger.child({ service: "vatsimFlightPlans" });
 let unchangedCount = 0;
 
 // Takes a pilot object from vatsim and converts it to a vatsim model
-export function pilotToVatsimModel(pilot: IVatsimPilot) {
+export function pilotToVatsimModel(pilot: IVatsimPilot): VatsimFlightPlanDocument {
   const result = new VatsimFlightPlanModel({
     cid: pilot.cid,
     name: pilot?.name,
@@ -53,7 +53,7 @@ export function pilotToVatsimModel(pilot: IVatsimPilot) {
 async function calculateNewAndUpdated(
   currentPlans: _.Dictionary<VatsimFlightPlanDocument>,
   incomingPlans: _.Dictionary<IVatsimPilot>
-) {
+): Promise<[VatsimFlightPlanDocument[], VatsimFlightPlanDocument[]]> {
   let profiler = logger.startTimer();
 
   const plansToAdd: VatsimFlightPlanDocument[] = [];
@@ -159,7 +159,7 @@ function calculateDeletedAndCoasting(
 
 // Takes the massive list of data from vatsim and processes it into the database.
 // Both pilots (a.k.a flight plans) and prefiles are processed.
-export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
+export async function processVatsimFlightPlanData(vatsimData: IVatsimData): Promise<void> {
   const overallProfiler = logger.startTimer();
   let profiler = logger.startTimer();
 

@@ -22,7 +22,7 @@ export class Airline {
   public static async findByAirlineCode(
     this: ReturnModelType<typeof Airline>,
     airlineCode: string
-  ) {
+  ): Promise<AirlineDocument[]> {
     return await this.find({ airlineCode });
   }
 }
