@@ -2,6 +2,7 @@ import express, { type Request, type Response } from "express";
 import { getPreferredRoutes } from "../controllers/preferredRoutes.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
+import asyncHandler from "express-async-handler";
 
 const router = express.Router();
 
@@ -10,7 +11,7 @@ router.get(
   "/preferredRoutes/:departure/:arrival",
   verifyUser,
   secureQueryMiddleware,
-  async (req: Request, res: Response) => {
+  asyncHandler(async (req: Request, res: Response) => {
     const { departure, arrival } = req.params;
 
     const result = await getPreferredRoutes(departure, arrival);
@@ -29,7 +30,7 @@ router.get(
         error: `Failed to get preferred routes between ${departure} and ${arrival}`,
       });
     }
-  }
+  })
 );
 
 export default router;

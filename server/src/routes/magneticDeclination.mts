@@ -2,6 +2,7 @@ import express, { type Request, type Response } from "express";
 import { getMagneticDeclination } from "../controllers/magneticDeclination.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
+import asyncHandler from "express-async-handler";
 
 const router = express.Router();
 
@@ -10,7 +11,7 @@ router.get(
   "/magneticDeclination/:latitude/:longitude",
   verifyUser,
   secureQueryMiddleware,
-  async (req: Request, res: Response) => {
+  asyncHandler(async (req: Request, res: Response) => {
     const { latitude, longitude } = req.params;
 
     const lat: number = parseFloat(latitude);
@@ -33,7 +34,7 @@ router.get(
     res.status(500).json({
       error: `Failed to get the magnetic declination for ${latitude} ${longitude}.`,
     });
-  }
+  })
 );
 
 export default router;

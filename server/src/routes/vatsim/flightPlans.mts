@@ -3,6 +3,7 @@ import { getVatsimFlightPlan, getVatsimFlightPlans } from "../../controllers/vat
 import { verifyUser } from "../../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../../middleware/secureQueryMiddleware.mjs";
 import { type VatsimFlightStatus } from "../../models/VatsimFlightPlan.mjs";
+import asyncHandler from "express-async-handler";
 
 const router = express.Router();
 
@@ -10,7 +11,7 @@ router.get(
   "/vatsim/flightPlans/:airport/:flightRules/:status",
   verifyUser,
   secureQueryMiddleware,
-  async (req: Request, res: Response) => {
+  asyncHandler(async (req: Request, res: Response) => {
     const result = await getVatsimFlightPlans(
       req.params.airport,
       req.params.flightRules,
@@ -27,13 +28,13 @@ router.get(
     } else {
       res.status(500).json({ error: "Failed to get the flight plans." });
     }
-  }
+  })
 );
 
 router.get(
   "/vatsim/flightPlan/:callsign/:format",
   secureQueryMiddleware,
-  async (req: Request, res: Response) => {
+  asyncHandler(async (req: Request, res: Response) => {
     const result = await getVatsimFlightPlan(req.params.callsign);
 
     const jsonResponseRequested = req.params.format.toUpperCase() === "JSON";
@@ -63,6 +64,6 @@ router.get(
         res.status(500).send(`Failed to get a flight plan for ${req.params.callsign}.`);
       }
     }
-  }
+  })
 );
 export default router;

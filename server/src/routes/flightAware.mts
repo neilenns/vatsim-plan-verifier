@@ -3,6 +3,7 @@ import { getFlightAwareRoutes } from "../controllers/flightAwareRoutes.mjs";
 import { type Auth0UserRequest, verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
 import { type FlightPlanDocument } from "../models/FlightPlan.mjs";
+import asyncHandler from "express-async-handler";
 
 const router = express.Router();
 
@@ -10,7 +11,7 @@ router.get(
   "/flightAwareRoutes/:departure/:arrival",
   verifyUser,
   secureQueryMiddleware,
-  async (req: Auth0UserRequest, res: Response) => {
+  asyncHandler(async (req: Auth0UserRequest, res: Response) => {
     const { departure, arrival } = req.params;
 
     try {
@@ -27,7 +28,7 @@ router.get(
     } catch (error) {
       res.status(500).json({ error: (error as Error).message });
     }
-  }
+  })
 );
 
 export default router;

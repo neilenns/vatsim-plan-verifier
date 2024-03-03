@@ -3,6 +3,7 @@ import { getVatsimAtis } from "../../controllers/vatsim.mjs";
 import { secureQueryMiddleware } from "../../middleware/secureQueryMiddleware.mjs";
 import { type ParamsDictionary, type Query } from "express-serve-static-core";
 import { verifyApiKey } from "../../middleware/apikey.mjs";
+import asyncHandler from "express-async-handler";
 
 interface ATISParams extends ParamsDictionary {
   callsign: string;
@@ -24,30 +25,32 @@ router.get(
   "/vatsim/atis/:callsign",
   verifyApiKey,
   secureQueryMiddleware,
-  async (req: Request<ATISParams, unknown, unknown, ATISQueryParams>, res: Response) => {
-    const codeOnly = JSON.parse(req.query.codeOnly?.toLowerCase() ?? "false") as string;
-    const jsonResponseRequested = req.query.format?.toUpperCase() === "JSON";
-    const padding = parseInt(req.query.padding ?? "0");
-    const result = await getVatsimAtis(req.params.callsign);
+  asyncHandler(
+    async (req: Request<ATISParams, unknown, unknown, ATISQueryParams>, res: Response) => {
+      const codeOnly = JSON.parse(req.query.codeOnly?.toLowerCase() ?? "false") as string;
+      const jsonResponseRequested = req.query.format?.toUpperCase() === "JSON";
+      const padding = parseInt(req.query.padding ?? "0");
+      const result = await getVatsimAtis(req.params.callsign);
 
-    if (result.success) {
-      if (codeOnly !== "") {
-        res.send(`${result.data.code}`);
-      } else if (jsonResponseRequested) {
-        res.json(result.data);
+      if (result.success) {
+        if (codeOnly !== "") {
+          res.send(`${result.data.code}`);
+        } else if (jsonResponseRequested) {
+          res.json(result.data);
+        } else {
+          res.send(appendPadding(result.data.text, padding));
+        }
       } else {
-        res.send(appendPadding(result.data.text, padding));
-      }
-    } else {
-      const errorMessage = `No ATIS available for ${req.params.callsign}`;
+        const errorMessage = `No ATIS available for ${req.params.callsign}`;
 
-      if (!jsonResponseRequested || codeOnly !== "") {
-        res.status(500).send(appendPadding(errorMessage, padding));
-      } else {
-        res.status(500).json({ error: errorMessage });
+        if (!jsonResponseRequested || codeOnly !== "") {
+          res.status(500).send(appendPadding(errorMessage, padding));
+        } else {
+          res.status(500).json({ error: errorMessage });
+        }
       }
     }
-  }
+  )
 );
 
 export default router;
