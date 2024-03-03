@@ -62,11 +62,11 @@ function calculateNewAndUpdated(
 
   profiler = logger.startTimer();
 
-  _.map(incomingTransceivers, (incomingTransceiver, key) => {
+  Object.values(incomingTransceivers).forEach((incomingTransceiver) => {
     const currentTransceiver = currentTransceivers[incomingTransceiver.callsign];
 
     // If it's not found it's new
-    if (!currentTransceiver) {
+    if (currentTransceiver === undefined) {
       dataToAdd.push(transceiverToVatsimModel(incomingTransceiver));
       return;
     }
@@ -92,10 +92,10 @@ function calculateNewAndUpdated(
   return [dataToAdd, dataToUpdate];
 }
 
-async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
+async function processVatsimTransceivers(clients: ITunedTransceivers[]): Promise<void> {
   const profiler = logger.startTimer();
 
-  if (!clients || clients.length === 0) {
+  if (clients.length === 0) {
     logger.info(`No clients received from VATSIM.`);
     return;
   }

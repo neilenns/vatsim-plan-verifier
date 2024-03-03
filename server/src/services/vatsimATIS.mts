@@ -29,11 +29,11 @@ function calculateNewAndChanged(
   const dataToAdd: VatsimATISDocument[] = [];
   const dataToUpdate: VatsimATISDocument[] = [];
 
-  _.map(incomingATISes, (incomingATIS, key) => {
+  Object.values(incomingATISes).forEach((incomingATIS) => {
     const currentATIS = currentATISes[incomingATIS.callsign];
 
     // If it's not found it's new
-    if (!currentATIS) {
+    if (currentATIS === undefined) {
       dataToAdd.push(atisToVatsimModel(incomingATIS));
       return;
     }
