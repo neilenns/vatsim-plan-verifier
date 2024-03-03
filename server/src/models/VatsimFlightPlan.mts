@@ -119,7 +119,7 @@ class VatsimFlightPlan {
   @prop({ required: true, default: 0 })
   flightPlanRevision!: number;
 
-  public setRevision(this: VatsimFlightPlanDocument) {
+  public setRevision(this: VatsimFlightPlanDocument): void {
     if (!this.isModified()) {
       return;
     }
@@ -170,7 +170,7 @@ class VatsimFlightPlan {
       await this.updateFlightStatus().then(() => {
         // Calculate the revision last
         this.setRevision();
-      }); 
+      });
     }
     // Don't forget to set the revision on prefiles
     else {

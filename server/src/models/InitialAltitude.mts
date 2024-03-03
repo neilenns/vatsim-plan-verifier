@@ -47,14 +47,14 @@ export class InitialAltitude {
     initialAltitudes: InitialAltitude[],
     aircraftClass: AircraftClass,
     flow: AirportFlow
-  ) {
+  ): InitialAltitude | null {
     for (const initialAltitude of initialAltitudes) {
       const regex = new RegExp(initialAltitude.AircraftClass);
 
       // Find the first initial altitude that matches both the aircraft class and airport flow.
       if (
         regex.test(aircraftClass) &&
-        (initialAltitude.Flow == AirportFlow.Any || initialAltitude.Flow === flow)
+        (initialAltitude.Flow === AirportFlow.Any || initialAltitude.Flow === flow)
       ) {
         return initialAltitude;
       }

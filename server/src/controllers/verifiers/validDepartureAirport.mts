@@ -1,8 +1,6 @@
 import mainLogger from "../../logger.mjs";
-import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import { type VerifierFunction } from "../../types/verifier.mjs";
-import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 
 const verifierName = "validDepartureAirport";
 const logger = mainLogger.child({ service: verifierName });
@@ -21,7 +19,7 @@ const validDepartureAirport: VerifierFunction = async function (
 
   try {
     // This is the test the verifier is supposed to do.
-    if (!departureAirportInfo) {
+    if (departureAirportInfo == null) {
       result.status = VerifierResultStatus.WARNING;
       result.message = `Unable to get departure airport information for ${departure}. Verify it is a real airport.`;
       result.messageId = "noDepartureAirportInfo";

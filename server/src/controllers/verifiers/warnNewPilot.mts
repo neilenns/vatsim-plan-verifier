@@ -1,9 +1,7 @@
 import { isDocument } from "@typegoose/typegoose";
 import pluralize from "pluralize";
 import mainLogger from "../../logger.mjs";
-import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
-import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import { type VerifierFunction } from "../../types/verifier.mjs";
 
 const verifierName = "warnNewPilot";

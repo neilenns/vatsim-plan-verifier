@@ -1,7 +1,7 @@
 import "dotenv/config";
 import z from "zod";
 
-function booleanTransformer(v: string, ctx: z.RefinementCtx) {
+function booleanTransformer(v: string, ctx: z.RefinementCtx): boolean {
   v = v.toLowerCase();
   switch (v) {
     case "true":
@@ -66,7 +66,9 @@ const envSchema = z.object({
 
 export const ENV = envSchema.parse(process.env);
 
-export const getEnvIssues = (): z.ZodIssue[] | void => {
+export const getEnvIssues = (): z.ZodIssue[] | undefined => {
   const result = envSchema.safeParse(process.env);
   if (!result.success) return result.error.issues;
+
+  return undefined;
 };

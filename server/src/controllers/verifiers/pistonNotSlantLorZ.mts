@@ -1,8 +1,6 @@
 import { isDocument } from "@typegoose/typegoose";
 import mainLogger from "../../logger.mjs";
-import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
-import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import { type VerifierFunction } from "../../types/verifier.mjs";
 
 const verifierName = "pistonNotSlantLorZ";
@@ -21,13 +19,13 @@ const pistonNotSlantLorZ: VerifierFunction = async function (
   });
 
   try {
-    if (!equipmentSuffix) {
+    if (equipmentSuffix == null) {
       result.status = VerifierResultStatus.INFORMATION;
       result.message =
         "Unable to verify equipment suffix against aircraft engine type, no equipment suffix provided.";
       result.messageId = "noEquipmentSuffix";
       result.priority = 5;
-    } else if (!isDocument(equipmentInfo) || !equipmentInfo.engineType) {
+    } else if (!isDocument(equipmentInfo) || equipmentInfo.engineType === "") {
       result.status = VerifierResultStatus.INFORMATION;
       result.message =
         "Unable to verify equipment suffix against aircraft engine type, no aircraft engine type provided.";

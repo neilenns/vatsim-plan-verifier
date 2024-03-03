@@ -10,13 +10,13 @@ const logger = mainLogger.child({ service: "apikey" });
 export const verifyApiKey = async function (req: Request, res: Response, next: NextFunction) {
   try {
     // Get the API key from the request headers
-    const apiKey = req.headers["x-api-key"] || req.query["x-api-key"];
+    const apiKey = req.headers["x-api-key"] != null || req.query["x-api-key"];
 
     // Check if the API key exists in the database and is active
     const apiKeyDoc = await ApiKeyModel.findOne({ _id: apiKey, isActive: true }).cacheQuery();
 
-    if (!apiKeyDoc) {
-      logger.error(`Invalid API key: ${apiKey}`);
+    if (apiKeyDoc == null) {
+      logger.error(`Invalid API key: ${apiKey as string}`);
       return res.status(401).json({ error: "Unauthorized - Invalid API key" });
     }
   } catch (err) {
@@ -36,7 +36,7 @@ export const verifySocketApiKey = async function (socket: Socket, next: any) {
 
     // Check if the API key exists in the database and is active
     const apiKeyDoc = await ApiKeyModel.findOne({ _id: apiKey, isActive: true }).cacheQuery();
-    if (!apiKeyDoc) {
+    if (apiKeyDoc == null) {
       logger.error(`Invalid API key: ${apiKey}`);
       const err = new Error("Unauthorized - Invalid API key");
       next(err);

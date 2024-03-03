@@ -1,9 +1,7 @@
 import DotLocker from "dotlocker";
 import process from "node:process";
 import { connectToDatabase, disconnectFromDatabase } from "../database.mjs";
-import { ENV } from "../env.mjs";
 import mainLogger, { flush } from "../logger.mjs";
-import { AirportInfoDocument } from "../models/AirportInfo.mjs";
 import { VatsimEndpointModel } from "../models/VatsimEndpoint.mjs";
 import { getVatsimData } from "../services/vatsim.mjs";
 import postMessage from "../utils/postMessage.mjs";
@@ -18,7 +16,7 @@ const dispose = DotLocker.lockSync("airports", {
   staleInterval: 1000 * 60 * 10, // 10 minutes, to cover how long it takes for airports to update (~6 minutes)
 });
 
-if (!dispose) {
+if (dispose == null) {
   logger.warn(`Airport updates in progress, skipping VATSIM data update`);
 } else {
   await connectToDatabase();
@@ -26,7 +24,7 @@ if (!dispose) {
   try {
     const dataEndpoint = await VatsimEndpointModel.findEndpoint("v3");
 
-    if (!dataEndpoint) {
+    if (dataEndpoint == null) {
       logger.warn(`No VATSIM data endpoint available`);
       process.exit(0);
     }

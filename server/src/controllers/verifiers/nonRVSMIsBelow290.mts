@@ -1,8 +1,6 @@
 import mainLogger from "../../logger.mjs";
-import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import { type VerifierFunction } from "../../types/verifier.mjs";
-import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 
 const verifierName = "nonRVSMIsBelow290";
 const logger = mainLogger.child({ service: verifierName });
@@ -27,7 +25,7 @@ const nonRVSMIsBelow290: VerifierFunction = async function (
       result.messageId = "RVSMCapable";
     }
     // Can't run check if there's no equipment suffix
-    else if (!equipmentSuffix) {
+    else if (equipmentSuffix == null) {
       result.status = VerifierResultStatus.INFORMATION;
       result.message = `No equipment suffix available so unable to verify altitude for RVSM compatibility.`;
       result.messageId = "noEquipmentSuffix";

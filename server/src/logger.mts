@@ -21,8 +21,8 @@ const levels = {
   trace: 5,
 };
 
-const level = () => {
-  if (ENV.LOG_LEVEL) {
+const level = (): string => {
+  if (ENV.LOG_LEVEL !== undefined) {
     return ENV.LOG_LEVEL;
   }
 
@@ -41,7 +41,7 @@ const colors = {
 winston.addColors(colors);
 
 function sanitizeMongoDBConnectionString(info: any) {
-  if (info.mongodb?.connectionString) {
+  if (info.mongodb !== undefined && info.mongodb.connectionString !== "") {
     // Replace only the username/password part in the MongoDB connection string
     info.mongodb.connectionString = info.mongodb.connectionString.replace(
       /\/\/[^:]+:([^@]+)@/,
@@ -57,7 +57,7 @@ const consoleFormat = winston.format.combine(
   winston.format.printf((info) => {
     let message: string;
 
-    if (info.durationMs) {
+    if (info.durationMs != null) {
       message = `[${info.service}] ${info.message} (${info.durationMs / 1000})`;
     } else {
       message = `[${info.service}] ${info.message}`;
@@ -77,7 +77,7 @@ const Logger = winston.createLogger({
 }) as CustomLevelsLogger;
 
 // If logtail was configured add it as a transport
-if (ENV.LOGTAIL_TOKEN) {
+if (ENV.LOGTAIL_TOKEN != null) {
   Logger.debug(`Enabling logging to Logtail`, { service: "logging" });
   logtail = new Logtail(ENV.LOGTAIL_TOKEN);
   Logger.add(new LogtailTransport(logtail, { format: winston.format.json() }));
@@ -85,8 +85,8 @@ if (ENV.LOGTAIL_TOKEN) {
   Logger.warn(`Logtail logging not configured`, { service: "logging" });
 }
 
-export async function flush() {
-  if (logtail) {
+export async function flush(): Promise<void> {
+  if (logtail != null) {
     await logtail.flush();
   }
 }

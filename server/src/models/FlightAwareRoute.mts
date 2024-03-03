@@ -44,7 +44,7 @@ class FlightAwareRoute {
   // If min and max are different the result is something like "FL320-FL340".
   // If the altitudes are below FL180 then they are shown in full thousands,
   // e.g. "10,000".
-  public get filedAltitudesFormatted() {
+  public get filedAltitudesFormatted(): string {
     return this.filedAltitudeMin === this.filedAltitudeMax
       ? formatAltitude(this.filedAltitudeMin ?? 0)
       : `${formatAltitude(this.filedAltitudeMin ?? 0)} to ${formatAltitude(

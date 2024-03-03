@@ -13,7 +13,7 @@ const maxRestartAttempts = 5;
 let restartAttemptCount = 0;
 let restartTimer: NodeJS.Timeout;
 
-async function startup() {
+async function startup(): Promise<void> {
   try {
     logger.info(`Plan verifier ${ENV.VERSION} starting`);
     // Clean up any stray lock file that may have been left behind by a prior
@@ -21,7 +21,7 @@ async function startup() {
     const lockfilePath = path.resolve("airports.lock");
     if (fs.existsSync(lockfilePath)) {
       fs.rmdir(lockfilePath, (err) => {
-        if (!err) {
+        if (err == null) {
           logger.warn(`Removed left behind ${lockfilePath} lockfile`);
         }
       });
@@ -52,12 +52,11 @@ async function startup() {
       restartTimer = setTimeout(startup, restartAttemptWaitTime);
     } else {
       logger.error(`Startup failed ${maxRestartAttempts} times. Giving up.`);
-      
     }
   }
 }
 
-async function shutdown() {
+async function shutdown(): Promise<void> {
   logger.debug("Shutting down...");
   clearTimeout(restartTimer);
   await WebServer.stopServer();
@@ -65,7 +64,7 @@ async function shutdown() {
   logger.debug("Shutdown complete.");
 }
 
-async function handleDeath() {
+async function handleDeath(): Promise<void> {
   await shutdown();
   process.exit();
 }
@@ -79,4 +78,4 @@ function registerForDeath(): void {
 
 registerForDeath();
 
-startup();
+await startup();

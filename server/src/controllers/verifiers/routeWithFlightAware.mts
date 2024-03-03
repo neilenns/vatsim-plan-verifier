@@ -55,7 +55,7 @@ const routeWithFlightAware: VerifierFunction = async function (
     });
 
     // No matching routes found so send along the recommended routes from FlightAware.
-    if (!matchingRoute) {
+    if (matchingRoute == null) {
       result.status = VerifierResultStatus.WARNING;
       result.messageId = "doesNotMatchFlightAwareRoutes";
       result.message = `Route doesn't match any FlightAware routes. Common routes include:`;

@@ -14,13 +14,13 @@ const findExistingResultsMiddleware =
       // was requested or all verifiers were requested.
 
       // Single verifier case
-      if (verifier) {
+      if (verifier != null) {
         const existingResults = await VerifierResultModel.find({
           flightPlanId: id,
           verifier,
         });
 
-        if (existingResults && existingResults.length > 0) {
+        if (existingResults.length > 0) {
           res.setHeader("X-Existing-Results", "true");
           return res.json(existingResults);
         }
@@ -30,7 +30,7 @@ const findExistingResultsMiddleware =
       else {
         const existingResults = await VerifierResultModel.find({ flightPlanId: id });
 
-        if (existingResults && existingResults.length > 0) {
+        if (existingResults.length > 0) {
           const verifyAllResult = new VerifyAllResult();
 
           verifyAllResult.addMany(existingResults);
@@ -40,7 +40,7 @@ const findExistingResultsMiddleware =
       }
 
       // If no existing results are found, continue to the actual controller
-      next(); 
+      next();
     } catch (error) {
       // Handle any errors that occur during the verification process
       return res.status(500).json({ error: "Internal Server Error" });

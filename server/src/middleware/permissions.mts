@@ -28,33 +28,36 @@ export const verifyAndAddUserInfo = (req: Auth0UserRequest, res: Response, next:
     audience: ENV.AUTH0_AUDIENCE,
     issuerBaseURL: ENV.AUTH0_ISSUER_BASE_URL,
   })(req, res, async (err: any) => {
-    if (err) {
+    if (err != null) {
       const error = err as Error;
 
       logger.error(`Unable to authenticate user: ${error.message}`, error);
-      next(err); return;
+      next(err);
+      return;
     }
 
     try {
       const sub = req.auth?.payload.sub;
 
-      if (!req.auth) {
+      if (req.auth == null) {
         logger.error(`No authentication found. This should never happen.`);
-        return res
-          .status(404)
-          .json({ error: { message: "User not found" } } as VerifyErrorResponse);
+        return res.status(404).json({
+          error: { isPending: false, message: "User not found" },
+        } satisfies VerifyErrorResponse);
       }
 
-      if (!sub) {
+      if (sub == null) {
         logger.error(`No sub found for ${JSON.stringify(req.auth)}`);
-        return res.status(401).json({ error: { message: "Unauthorized" } } as VerifyErrorResponse);
+        return res.status(401).json({
+          error: { isPending: false, message: "Unauthorized" },
+        } satisfies VerifyErrorResponse);
       }
 
       // Look up the user in the database so the _id can be stored and
       // used by all the rest of the service.
       const user = await Auth0UserModel.findOne({ sub });
 
-      if (!user) {
+      if (user == null) {
         logger.error(`No user found for ${sub}`);
         return res.status(404).json({ message: "User not found" });
       }
@@ -82,33 +85,39 @@ export const verifyRole =
   (role: string) => async (req: Auth0UserRequest, res: Response, next: NextFunction) => {
     const sub = req.auth?.payload.sub;
 
-    if (!sub) {
+    if (sub == null) {
       logger.error(`No sub found for ${JSON.stringify(req.auth)}`);
-      return res.status(401).json({ error: { message: "Unauthorized" } } as VerifyErrorResponse);
+      return res.status(401).json({
+        error: { isPending: false, message: "Unauthorized" },
+      } satisfies VerifyErrorResponse);
     }
 
     const userInfo = await Auth0UserModel.findOrCreate(sub);
 
-    if (!userInfo) {
+    if (userInfo == null) {
       logger.error(`No user found for ${sub}`);
-      return res.status(401).json({ error: { message: "Unauthorized" } } as VerifyErrorResponse);
+      return res.status(401).json({
+        error: { isPending: false, message: "Unauthorized" },
+      } satisfies VerifyErrorResponse);
     }
 
     // Pending users get a special 403 message
     if (userInfo.isPending) {
-      logger.warn(`User ${sub} (${userInfo._id}) is pending approval`);
+      logger.warn(`User ${sub} (${userInfo._id.toString()}) is pending approval`);
       return res.status(403).json({
         error: { isPending: true, message: "Account not verified" },
-      } as VerifyErrorResponse);
+      } satisfies VerifyErrorResponse);
     }
     // If the role doesn't match they also get a 403 message
     else if (!userInfo.roles.includes(role)) {
       logger.error(
-        `User ${sub} (${userInfo._id}) has ${userInfo.roles.join(
+        `User ${sub} (${userInfo._id.toString()}) has ${userInfo.roles.join(
           ", "
         )} roles but not the requested role ${role}`
       );
-      return res.status(403).json({ error: { message: "Unauthorized" } } as VerifyErrorResponse);
+      return res.status(403).json({
+        error: { isPending: false, message: "Unauthorized" },
+      } satisfies VerifyErrorResponse);
     }
 
     // User and role is validated so allow the next middleware to execute

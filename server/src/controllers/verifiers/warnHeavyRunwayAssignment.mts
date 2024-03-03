@@ -1,8 +1,6 @@
 import { isDocument } from "@typegoose/typegoose";
 import mainLogger from "../../logger.mjs";
-import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
-import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import { joinWithWord } from "../../utils/formatting.mjs";
 import { type VerifierFunction } from "../../types/verifier.mjs";
 
@@ -40,7 +38,7 @@ const warnHeavyRunwayAssignment: VerifierFunction = async function (
         "Aircraft is not a heavy or a super. No need to verify it is assigned to a runway that can accommodate iut.";
     }
     // Don't warn if there's no specific heavy runway assignment for the airport
-    else if (!heavyRunways) {
+    else if (heavyRunways == null) {
       result.status = VerifierResultStatus.INFORMATION;
       result.messageId = "noHeavyRunways";
       result.message =

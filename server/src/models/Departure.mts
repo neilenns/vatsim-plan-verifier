@@ -69,7 +69,7 @@ export class Departure {
   // local time at the departure's airport.
   public async isValid(): Promise<IsValidResult> {
     // If there's no specific departure validity for the SID then assume it is always valid.
-    if (!this.DepartureValidity) {
+    if (this.DepartureValidity == null) {
       return {
         isValid: true,
       };
@@ -83,7 +83,7 @@ export class Departure {
 
     // If for some reason airport info can't be found or there's no lat/long info things are really whack
     //  and just say the SID is valid anyway.
-    if (!isDocument(airportInfo) || !airportInfo.latitude || !airportInfo.longitude) {
+    if (!isDocument(airportInfo) || airportInfo.latitude == null || airportInfo.longitude == null) {
       return {
         isValid: true,
       };
@@ -92,7 +92,7 @@ export class Departure {
     const timezoneName = find(airportInfo.latitude, airportInfo.longitude)?.[0];
 
     // If no timezone could be found then assume the SID is valid anyway.
-    if (!timezoneName) {
+    if (timezoneName === "") {
       return {
         isValid: true,
       };

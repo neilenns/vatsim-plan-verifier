@@ -16,7 +16,7 @@ const dispose = DotLocker.lockSync("airports", {
   staleInterval: 1000 * 60, // 10 minutes, to cover how long it takes to update vatsim data
 });
 
-if (!dispose) {
+if (dispose == null) {
   logger.error(`Unable to retrieve lock for airport update.`);
 } else {
   try {
