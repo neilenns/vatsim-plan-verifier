@@ -1,4 +1,4 @@
-import { DocumentType, getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
+import { type DocumentType, getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
 
 @modelOptions({ options: { customName: "tunedtransceivers" } })
 export class TunedTransceivers {

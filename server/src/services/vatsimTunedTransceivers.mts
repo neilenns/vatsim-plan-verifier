@@ -1,9 +1,9 @@
 import axios from "axios";
 import _ from "lodash";
-import { ITunedTransceivers } from "../interfaces/IVatsimTransceiver.mjs";
+import { type ITunedTransceivers } from "../interfaces/IVatsimTransceiver.mjs";
 import mainLogger from "../logger.mjs";
 import {
-  TunedTransceiversDocument,
+  type TunedTransceiversDocument,
   TunedTransceiversModel,
 } from "../models/VatsimTunedTransceivers.mjs";
 

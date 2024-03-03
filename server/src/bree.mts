@@ -6,7 +6,7 @@ import mainLogger from "./logger.mjs";
 import { publishUpdates } from "./services/vatsim.mjs";
 
 const logger = mainLogger.child({ service: "jobs" });
-let bree = new Bree({
+const bree = new Bree({
   root: path.join(path.dirname(fileURLToPath(import.meta.url)), "jobs"),
   defaultExtension: process.env.TS_NODE ? "mts" : "mjs",
   logger,

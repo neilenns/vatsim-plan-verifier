@@ -1,8 +1,8 @@
-import { DocumentType, getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
+import { type DocumentType, getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
 import _ from "lodash";
 import { DateTime } from "luxon";
 import { ENV } from "../env.mjs";
-import { IVatsimPilot } from "../interfaces/IVatsimData.mjs";
+import { type IVatsimPilot } from "../interfaces/IVatsimData.mjs";
 import mainLogger from "../logger.mjs";
 import { parseStringToNumber } from "../utils.mjs";
 import { cleanRoute, depTimeToDateTime, getCommunicationMethod } from "../utils/vatsim.mjs";
@@ -167,10 +167,10 @@ class VatsimFlightPlan {
     // Set the special properties that only apply to real plans (not prefiles)
     if (!this.isPrefile) {
       this.updateNoisyProperties(incomingPlan);
-      return this.updateFlightStatus().then(() => {
+      await this.updateFlightStatus().then(() => {
         // Calculate the revision last
         this.setRevision();
-      });
+      }); 
     }
     // Don't forget to set the revision on prefiles
     else {
@@ -309,7 +309,7 @@ class VatsimFlightPlan {
     // Handle the case of the incoming cruise altitude being undefined or empty from
     // an incoming vatsim flight plan.
     const rawAltitude = cruiseAltitude ?? "0";
-    var altitude;
+    let altitude;
 
     // vNAS flight plans mark VFR fligths with VFR in the cruise altitude instead of a flightRules
     // field. It is either "VFR040" or just "VFR". If it is a VFR flight, mark the flight rule

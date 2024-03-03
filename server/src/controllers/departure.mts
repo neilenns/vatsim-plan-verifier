@@ -1,6 +1,6 @@
 import mainLogger from "../logger.mjs";
-import { DepartureDocument, DepartureModel } from "../models/Departure.mjs";
-import Result from "../types/result.mjs";
+import { type DepartureDocument, DepartureModel } from "../models/Departure.mjs";
+import type Result from "../types/result.mjs";
 
 const logger = mainLogger.child({ service: "departure" });
 

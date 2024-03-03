@@ -1,4 +1,4 @@
-import { DocumentType, getModelForClass, modelOptions, pre, prop } from "@typegoose/typegoose";
+import { type DocumentType, getModelForClass, modelOptions, pre, prop } from "@typegoose/typegoose";
 
 @modelOptions({
   options: { customName: "vatsimatis" },

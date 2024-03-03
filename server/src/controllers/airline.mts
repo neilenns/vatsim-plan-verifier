@@ -1,6 +1,6 @@
 import mainLogger from "../logger.mjs";
-import { AirlineDocument, AirlineModel } from "../models/Airline.mjs";
-import Result from "../types/result.mjs";
+import { type AirlineDocument, AirlineModel } from "../models/Airline.mjs";
+import type Result from "../types/result.mjs";
 
 const logger = mainLogger.child({ service: "airline" });
 type AirlineResult = Result<AirlineDocument[], "AirlineNotFound" | "UnknownError">;

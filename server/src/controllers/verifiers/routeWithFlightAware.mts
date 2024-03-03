@@ -1,7 +1,7 @@
 import pluralize from "pluralize";
 import mainLogger from "../../logger.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
-import { VerifierFunction } from "../../types/verifier.mjs";
+import { type VerifierFunction } from "../../types/verifier.mjs";
 import { getFlightAwareRoutes } from "../flightAwareRoutes.mjs";
 
 const verifierName = "routeWithFlightAware";
@@ -49,7 +49,7 @@ const routeWithFlightAware: VerifierFunction = async function (
 
     // Find the first matching route. The assumption is FlightAware won't return multiple
     // entries for the same route.
-    let matchingRoute = flightAwareRoutes.data.find((route) => {
+    const matchingRoute = flightAwareRoutes.data.find((route) => {
       // This tests both with and without the SID
       return route.route === cleanedRoute || route.route === cleanedRouteNoSid;
     });

@@ -1,5 +1,5 @@
 import {
-  DocumentType,
+  type DocumentType,
   getModelForClass,
   isDocument,
   modelOptions,
@@ -117,7 +117,7 @@ export class Departure {
     }
 
     return {
-      isValid: isValid,
+      isValid,
       localTime: currentTime,
       localTimeZone: timezoneName,
     };

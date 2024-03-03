@@ -2,11 +2,11 @@ import { isDocument } from "@typegoose/typegoose";
 import mainLogger from "../../logger.mjs";
 import { GroundRestrictionModel } from "../../models/GroundRestrictions.mjs";
 import {
-  VerifierResultDocument,
+  type VerifierResultDocument,
   VerifierResultModel,
   VerifierResultStatus,
 } from "../../models/VerifierResult.mjs";
-import { VerifierFunction } from "../../types/verifier.mjs";
+import { type VerifierFunction } from "../../types/verifier.mjs";
 import { logMongoBulkErrors } from "../../utils.mjs";
 import applyMustacheValues from "../../utils/mustache.mjs";
 

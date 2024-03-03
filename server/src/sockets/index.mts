@@ -1,5 +1,5 @@
-import { Server } from "http";
-import { Socket, Server as SocketIOServer } from "socket.io";
+import { type Server } from "http";
+import { type Socket, Server as SocketIOServer } from "socket.io";
 import { JobName, setJobUpdateInterval } from "../bree.mjs";
 import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import { ENV } from "../env.mjs";
@@ -9,7 +9,7 @@ import {
   publishEDCTupdate,
   publishFlightPlanUpdate,
 } from "../services/vatsim.mjs";
-import { ClientToServerEvents, ServerToClientEvents } from "../types/socketEvents.mjs";
+import { type ClientToServerEvents, type ServerToClientEvents } from "../types/socketEvents.mjs";
 import { isOriginAllowed } from "../utils/cors.mjs";
 
 const logger = mainLogger.child({ service: "sockets" });

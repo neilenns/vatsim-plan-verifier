@@ -1,7 +1,7 @@
-import express, { Request, Response } from "express";
+import express, { type Request, type Response } from "express";
 import { getVatsimAtis } from "../../controllers/vatsim.mjs";
 import { secureQueryMiddleware } from "../../middleware/secureQueryMiddleware.mjs";
-import { ParamsDictionary, Query } from "express-serve-static-core";
+import { type ParamsDictionary, type Query } from "express-serve-static-core";
 import { verifyApiKey } from "../../middleware/apikey.mjs";
 
 interface ATISParams extends ParamsDictionary {
@@ -38,7 +38,7 @@ router.get(
       } else {
         res.send(appendPadding(result.data.text, padding));
       }
-      return;
+      
     } else {
       const errorMessage = `No ATIS available for ${req.params.callsign}`;
 

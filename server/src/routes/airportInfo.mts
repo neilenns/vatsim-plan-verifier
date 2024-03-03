@@ -1,6 +1,6 @@
-import express, { Response } from "express";
+import express, { type Response } from "express";
 import { getAirportInfo } from "../controllers/airportInfo.mjs";
-import { Auth0UserRequest, verifyUser } from "../middleware/permissions.mjs";
+import { type Auth0UserRequest, verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
 
 const router = express.Router();

@@ -1,8 +1,8 @@
-import express, { Response } from "express";
+import express, { type Response } from "express";
 import { getAuth0User, updateAuth0User } from "../controllers/user.mjs";
 import mainLogger from "../logger.mjs";
-import { Auth0UserRequest, verifyUser } from "../middleware/permissions.mjs";
-import { Auth0User } from "../models/Auth0User.mjs";
+import { type Auth0UserRequest, verifyUser } from "../middleware/permissions.mjs";
+import { type Auth0User } from "../models/Auth0User.mjs";
 
 const logger = mainLogger.child({ service: "usersRoute" });
 

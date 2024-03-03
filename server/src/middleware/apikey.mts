@@ -1,5 +1,5 @@
-import { NextFunction, Request, Response } from "express";
-import { Socket } from "socket.io";
+import { type NextFunction, type Request, type Response } from "express";
+import { type Socket } from "socket.io";
 import mainLogger from "../logger.mjs";
 import { ApiKeyModel } from "../models/ApiKey.mjs";
 

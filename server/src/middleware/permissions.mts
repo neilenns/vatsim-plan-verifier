@@ -1,5 +1,5 @@
-import { NextFunction, Request, Response } from "express";
-import { AuthResult, auth } from "express-oauth2-jwt-bearer";
+import { type NextFunction, type Request, type Response } from "express";
+import { type AuthResult, auth } from "express-oauth2-jwt-bearer";
 import { ENV } from "../env.mjs";
 import mainLogger from "../logger.mjs";
 import { Auth0UserModel } from "../models/Auth0User.mjs";
@@ -10,12 +10,12 @@ export interface Auth0UserRequest extends Request {
   auth?: AuthResult;
 }
 
-type VerifyErrorResponse = {
+interface VerifyErrorResponse {
   error: {
     isPending: boolean;
     message: string;
   };
-};
+}
 
 export const verifyUser = auth({
   audience: ENV.AUTH0_AUDIENCE,
@@ -32,7 +32,7 @@ export const verifyAndAddUserInfo = (req: Auth0UserRequest, res: Response, next:
       const error = err as Error;
 
       logger.error(`Unable to authenticate user: ${error.message}`, error);
-      return next(err);
+      next(err); return;
     }
 
     try {
@@ -75,7 +75,7 @@ export const verifyAndAddUserInfo = (req: Auth0UserRequest, res: Response, next:
 
 export const dumpJwt = (req: Request, res: Response, next: NextFunction) => {
   logger.debug(req.headers.authorization);
-  return next();
+  next();
 };
 
 export const verifyRole =
@@ -112,5 +112,5 @@ export const verifyRole =
     }
 
     // User and role is validated so allow the next middleware to execute
-    return next();
+    next();
   };

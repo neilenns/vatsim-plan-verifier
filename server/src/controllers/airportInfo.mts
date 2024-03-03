@@ -1,11 +1,11 @@
 import AdmZip from "adm-zip";
-import axios, { AxiosError, AxiosResponse } from "axios";
-import winston from "winston";
+import axios, { AxiosError, type AxiosResponse } from "axios";
+import type winston from "winston";
 import { ENV } from "../env.mjs";
-import { IAvioWikiAirport } from "../interfaces/IAvioWikiAirport.mjs";
+import { type IAvioWikiAirport } from "../interfaces/IAvioWikiAirport.mjs";
 import mainLogger from "../logger.mjs";
-import { AirportInfoDocument, AirportInfoModel } from "../models/AirportInfo.mjs";
-import Result from "../types/result.mjs";
+import { type AirportInfoDocument, AirportInfoModel } from "../models/AirportInfo.mjs";
+import type Result from "../types/result.mjs";
 import { logMongoBulkErrors } from "../utils.mjs";
 
 const logger = mainLogger.child({ service: "airportInfo" });

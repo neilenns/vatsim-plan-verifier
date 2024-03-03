@@ -1,6 +1,6 @@
 import {
-  DocumentType,
-  ReturnModelType,
+  type DocumentType,
+  type ReturnModelType,
   getModelForClass,
   modelOptions,
   prop,
@@ -27,7 +27,7 @@ class VatsimEndpoint {
    * @returns The VatsimEndpoint for the feed
    */
   public static async findEndpoint(this: ReturnModelType<typeof VatsimEndpoint>, feed: string) {
-    return VatsimEndpointModel.findOne({ feed }).cacheQuery({ ttl: 60 * 60 });
+    return await VatsimEndpointModel.findOne({ feed }).cacheQuery({ ttl: 60 * 60 });
   }
 }
 

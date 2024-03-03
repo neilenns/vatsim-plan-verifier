@@ -1,5 +1,5 @@
-import { AircraftDocument, AircraftModel } from "../models/Aircraft.mjs";
-import Result from "../types/result.mjs";
+import { type AircraftDocument, AircraftModel } from "../models/Aircraft.mjs";
+import type Result from "../types/result.mjs";
 
 import mainLogger from "../logger.mjs";
 

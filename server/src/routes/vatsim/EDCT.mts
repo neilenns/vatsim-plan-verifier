@@ -1,5 +1,5 @@
-import express, { Request, Response } from "express";
-import { Query } from "express-serve-static-core";
+import express, { type Request, type Response } from "express";
+import { type Query } from "express-serve-static-core";
 import {
   getVatsimEDCTFlightPlans,
   getVatsimEDCTViewOnly,

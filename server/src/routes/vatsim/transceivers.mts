@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { type Request, type Response } from "express";
 import { getTunedTransceiversForCallsign } from "../../controllers/vatsimTransceivers.mjs";
 import { secureQueryMiddleware } from "../../middleware/secureQueryMiddleware.mjs";
 

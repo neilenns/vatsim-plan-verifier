@@ -1,6 +1,6 @@
 import { plugin, prop } from "@typegoose/typegoose";
 import { SpeedGooseCacheAutoCleaner } from "speedgoose";
-import { AircraftClass } from "./Aircraft.mjs";
+import { type AircraftClass } from "./Aircraft.mjs";
 
 export enum InitialPhrasingOptions {
   Unknown = "Unknown",

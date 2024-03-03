@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { CustomLevelsLogger } from "../logger.mjs";
+import { type CustomLevelsLogger } from "../logger.mjs";
 
 export function copyPropertyValue<T>(
   source: T,

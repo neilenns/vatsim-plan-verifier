@@ -2,13 +2,13 @@ import bodyParser from "body-parser";
 import * as chokidar from "chokidar";
 import compression from "compression";
 import cookieParser from "cookie-parser";
-import cors, { CorsOptions } from "cors";
+import cors, { type CorsOptions } from "cors";
 import express from "express";
 import rateLimit from "express-rate-limit";
 import fs from "fs";
 import helmet from "helmet";
-import { Server } from "http";
-import { HttpTerminator, createHttpTerminator } from "http-terminator";
+import { type Server } from "http";
+import { type HttpTerminator, createHttpTerminator } from "http-terminator";
 import https from "https";
 import * as bree from "./bree.mjs";
 import { ENV } from "./env.mjs";
@@ -16,11 +16,8 @@ import mainLogger from "./logger.mjs";
 import morgan from "./middleware/morgan.mjs";
 import { setupSockets } from "./sockets/index.mjs";
 
-const logger = mainLogger.child({ service: "server" });
-
 // Workaround for lodash being a CommonJS module
 import pkg from "lodash";
-const { debounce } = pkg;
 
 // Authentication
 
@@ -54,10 +51,13 @@ import adminRouter from "./routes/admin.mjs";
 
 import { isOriginAllowed, setWhitelist } from "./utils/cors.mjs";
 
+const logger = mainLogger.child({ service: "server" });
+const { debounce } = pkg;
+
 export const app = express();
 let server: https.Server | Server;
 let httpTerminator: HttpTerminator;
-var watcher: chokidar.FSWatcher;
+let watcher: chokidar.FSWatcher;
 
 const certFilesExist =
   fs.existsSync(ENV.SSL_PRIVATE_KEY_PATH) && fs.existsSync(ENV.SSL_FULL_CHAIN_PATH);

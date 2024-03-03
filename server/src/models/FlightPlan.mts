@@ -1,5 +1,5 @@
 import {
-  DocumentType,
+  type DocumentType,
   Ref,
   getModelForClass,
   isDocument,
@@ -9,16 +9,16 @@ import {
   prop,
 } from "@typegoose/typegoose";
 import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
-import { Types } from "mongoose";
+import { type Types } from "mongoose";
 import autopopulate from "mongoose-autopopulate";
 import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import { getVatsimPilotStats } from "../controllers/vatsim.mjs";
 import mainLogger from "../logger.mjs";
 import { formatAltitude } from "../utils.mjs";
-import { Aircraft, AircraftDocument } from "./Aircraft.mjs";
+import { Aircraft, type AircraftDocument } from "./Aircraft.mjs";
 import { Airline } from "./Airline.mjs";
-import { AirportInfo, AirportInfoDocument } from "./AirportInfo.mjs";
-import { Departure, DepartureDocument, DepartureModel } from "./Departure.mjs";
+import { AirportInfo, type AirportInfoDocument } from "./AirportInfo.mjs";
+import { Departure, type DepartureDocument, DepartureModel } from "./Departure.mjs";
 import { AirportFlow, InitialAltitude } from "./InitialAltitude.mjs";
 import { NavaidModel } from "./Navaid.mjs";
 import { PilotStats } from "./PilotStats.mjs";
@@ -141,7 +141,7 @@ export enum VatsimCommsEnum {
       let rawAircraftType = this.rawAircraftType;
 
       if (!rawAircraftType) {
-        return next();
+        next(); return;
       }
 
       if (rawAircraftType.startsWith("H/")) {
@@ -181,7 +181,7 @@ export enum VatsimCommsEnum {
 @pre<FlightPlan>("save", function (next) {
   if (this.isModified("route")) {
     if (!this.route) {
-      return next();
+      next(); return;
     }
     // Strip off any + that may have been put at the front by VRC.
     const sid = extractSID(this.route?.replace(/^\+/, ""));
@@ -338,7 +338,7 @@ export class FlightPlan {
     foreignField: "airlineCode",
     autopopulate: true,
   })
-  telephony?: Ref<Airline>[];
+  telephony?: Array<Ref<Airline>>;
 
   @prop({
     ref: () => Departure,

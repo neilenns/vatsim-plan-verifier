@@ -1,7 +1,7 @@
 import {
-  DocumentType,
+  type DocumentType,
   Ref,
-  ReturnModelType,
+  type ReturnModelType,
   getModelForClass,
   modelOptions,
   plugin,
@@ -13,7 +13,7 @@ import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import { getMagneticDeclination } from "../controllers/magneticDeclination.mjs";
 import mainLogger from "../logger.mjs";
 import { ExtendedAirportInfo } from "./ExtendedAirportInfo.mjs";
-import { MagneticDeclinationDocument, MagneticDeclinationModel } from "./MagneticDeclination.mjs";
+import { type MagneticDeclinationDocument, MagneticDeclinationModel } from "./MagneticDeclination.mjs";
 
 const logger = mainLogger.child({ service: "airportInfoModel" });
 

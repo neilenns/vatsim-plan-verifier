@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { type NextFunction, type Request, type Response } from "express";
 import mainLogger from "../logger.mjs";
 
 const logger = mainLogger.child({ service: "secureQueryMiddleware" });

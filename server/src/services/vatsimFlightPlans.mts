@@ -1,7 +1,7 @@
 import _ from "lodash";
-import { IVatsimData, IVatsimPilot } from "../interfaces/IVatsimData.mjs";
+import { type IVatsimData, type IVatsimPilot } from "../interfaces/IVatsimData.mjs";
 import mainLogger from "../logger.mjs";
-import { VatsimFlightPlanDocument, VatsimFlightPlanModel } from "../models/VatsimFlightPlan.mjs";
+import { type VatsimFlightPlanDocument, VatsimFlightPlanModel } from "../models/VatsimFlightPlan.mjs";
 import { logMongoBulkErrors } from "../utils.mjs";
 import { cleanRoute, depTimeToDateTime, getCommunicationMethod } from "../utils/vatsim.mjs";
 
@@ -70,17 +70,17 @@ async function calculateNewAndUpdated(
           const newPlan = pilotToVatsimModel(incomingPlan);
           // Important to set the initial flight status for the new plan. It could be in the air
           // or already arrived when it first appears in the list from VATSIM.
-          return newPlan.updateFlightStatus().then(() => {
+          await newPlan.updateFlightStatus().then(() => {
             plansToAdd.push(newPlan);
-            return;
-          });
+            
+          }); return;
         }
 
         // This means it's an existing plan so we need to update properties. This return
         // and .then() is the magic that lets all of the promises run in parallel instead of
         // blocking the for loop awaiting every single updated flight plan, of which there
         // are typically 1000+.
-        return currentPlan.updateFlightPlan(incomingPlan).then(() => {
+        await currentPlan.updateFlightPlan(incomingPlan).then(() => {
           // Only add to update list if something changed. This saves a huge amount of
           // execution time by avoiding unnecessary saves back to the database.
           if (currentPlan.isModified()) {
@@ -88,7 +88,7 @@ async function calculateNewAndUpdated(
           } else {
             unchangedCount++;
           }
-        });
+        }); 
       } catch (err) {
         const error = err as Error;
 
@@ -112,7 +112,7 @@ function calculateDeletedAndCoasting(
   currentPlans: _.Dictionary<VatsimFlightPlanDocument>,
   incomingPlans: _.Dictionary<IVatsimPilot>
 ): [string[], VatsimFlightPlanDocument[]] {
-  let profiler = logger.startTimer();
+  const profiler = logger.startTimer();
 
   let totalDeleted = 0;
   let alreadyCoasting = 0;

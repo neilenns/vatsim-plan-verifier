@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { type Request, type Response } from "express";
 import { verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
 import { getMetar } from "../controllers/metar.mjs";
@@ -14,7 +14,7 @@ router.get(
 
     if (result.success) {
       res.json(result.data);
-      return;
+      
     } else {
       res.status(500).json({ error: `Failed to get the metar for ${req.params.airportCode}.` });
     }

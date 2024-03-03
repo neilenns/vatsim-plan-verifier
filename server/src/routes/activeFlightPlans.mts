@@ -1,11 +1,11 @@
-import express, { Request, Response } from "express";
+import express, { type Request, type Response } from "express";
 import {
   addActiveFlightPlan,
   getActiveFlightPlans,
   removeActiveFlightPlan,
   removeActiveFlightPlanByIdentifiers,
 } from "../controllers/activeFlightPlan.mjs";
-import { Auth0UserRequest, verifyAndAddUserInfo } from "../middleware/permissions.mjs";
+import { type Auth0UserRequest, verifyAndAddUserInfo } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
 import mainLogger from "../logger.mjs";
 

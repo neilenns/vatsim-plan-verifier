@@ -1,7 +1,7 @@
 import mainLogger from "../logger.mjs";
-import { FlightPlan, FlightPlanDocument, FlightPlanModel } from "../models/FlightPlan.mjs";
+import { type FlightPlan, type FlightPlanDocument, FlightPlanModel } from "../models/FlightPlan.mjs";
 import { VatsimFlightPlanModel } from "../models/VatsimFlightPlan.mjs";
-import Result from "../types/result.mjs";
+import type Result from "../types/result.mjs";
 import { uppercaseStringProperties } from "../utils/formatting.mjs";
 
 const logger = mainLogger.child({ service: "flightPlans" });
@@ -77,7 +77,7 @@ export async function importFlightPlan(callsign: string): Promise<FlightPlanResu
     const flightPlan = {
       cid: vatsimPlan.cid,
       pilotName: vatsimPlan.name,
-      callsign: vatsimPlan.callsign!,
+      callsign: vatsimPlan.callsign,
       departure: vatsimPlan.departure!,
       arrival: vatsimPlan.arrival!,
       route: vatsimPlan.route!,
@@ -85,10 +85,10 @@ export async function importFlightPlan(callsign: string): Promise<FlightPlanResu
       cruiseAltitude: vatsimPlan.cruiseAltitude!,
       squawk: vatsimPlan.squawk!,
       remarks: vatsimPlan.remarks!,
-      communicationMethod: vatsimPlan.communicationMethod!,
+      communicationMethod: vatsimPlan.communicationMethod,
     } as FlightPlan;
 
-    return putFlightPlan(flightPlan);
+    return await putFlightPlan(flightPlan);
   } catch (error) {
     logger.error(`Unable to retrieve flight plan for ${callsign}: ${error}`);
     return {

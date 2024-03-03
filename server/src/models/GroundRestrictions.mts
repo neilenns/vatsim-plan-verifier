@@ -1,6 +1,6 @@
 import {
-  DocumentType,
-  ReturnModelType,
+  type DocumentType,
+  type ReturnModelType,
   getModelForClass,
   modelOptions,
   plugin,
@@ -18,7 +18,7 @@ class GroundRestriction {
   equipmentCodes!: string[];
 
   @prop({ type: () => [Number], required: true, default: [] })
-  groups!: Number[];
+  groups!: number[];
 
   // Default is a really big number so no wingspan will ever match when this isn't specified
   @prop({ required: false, default: 2000 })
@@ -41,9 +41,9 @@ class GroundRestriction {
     group: number,
     wingspan: number,
     tailHeight: number
-  ): Promise<DocumentType<GroundRestriction>[] | null> {
+  ): Promise<Array<DocumentType<GroundRestriction>> | null> {
     return await this.find({
-      airportCode: airportCode,
+      airportCode,
       $or: [
         { equipmentCodes: equipmentCode },
         { groups: group },

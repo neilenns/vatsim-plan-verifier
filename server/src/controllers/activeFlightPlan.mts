@@ -1,8 +1,8 @@
 import { Types } from "mongoose";
 import mainLogger from "../logger.mjs";
-import { ActiveFlightPlanDocument, ActiveFlightPlanModel } from "../models/ActiveFlightPlan.mjs";
+import { type ActiveFlightPlanDocument, ActiveFlightPlanModel } from "../models/ActiveFlightPlan.mjs";
 import { VerifierResultStatus } from "../models/VerifierResult.mjs";
-import Result from "../types/result.mjs";
+import type Result from "../types/result.mjs";
 
 const logger = mainLogger.child({ service: "activeFlightPlanController" });
 

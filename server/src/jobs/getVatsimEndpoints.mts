@@ -1,7 +1,7 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { type AxiosResponse } from "axios";
 import process from "node:process";
 import { connectToDatabase, disconnectFromDatabase } from "../database.mjs";
-import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
+import type IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
 import mainLogger, { flush } from "../logger.mjs";
 import { VatsimEndpointModel } from "../models/VatsimEndpoint.mjs";
 import postMessage from "../utils/postMessage.mjs";

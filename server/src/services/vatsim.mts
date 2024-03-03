@@ -1,11 +1,11 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { type AxiosResponse } from "axios";
 import fs from "fs";
 import pluralize from "pluralize";
-import { Server as SocketIOServer } from "socket.io";
+import { type Server as SocketIOServer } from "socket.io";
 import { getVatsimEDCTFlightPlans, getVatsimEDCTViewOnly } from "../controllers/vatsim.mjs";
 import { ENV } from "../env.mjs";
-import { IVatsimData } from "../interfaces/IVatsimData.mjs";
-import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
+import { type IVatsimData } from "../interfaces/IVatsimData.mjs";
+import type IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
 import mainLogger from "../logger.mjs";
 import { VatsimFlightPlanModel, VatsimFlightStatus } from "../models/VatsimFlightPlan.mjs";
 import { getIO } from "../sockets/index.mjs";

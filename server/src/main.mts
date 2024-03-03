@@ -52,7 +52,7 @@ async function startup() {
       restartTimer = setTimeout(startup, restartAttemptWaitTime);
     } else {
       logger.error(`Startup failed ${maxRestartAttempts} times. Giving up.`);
-      return;
+      
     }
   }
 }

@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { type NextFunction, type Request, type Response } from "express";
 import { VerifierResultModel } from "../models/VerifierResult.mjs";
 import VerifyAllResult from "../controllers/verifyAllResult.mjs";
 
@@ -40,7 +40,7 @@ const findExistingResultsMiddleware =
       }
 
       // If no existing results are found, continue to the actual controller
-      return next();
+      next(); 
     } catch (error) {
       // Handle any errors that occur during the verification process
       return res.status(500).json({ error: "Internal Server Error" });

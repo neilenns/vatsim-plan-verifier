@@ -1,5 +1,5 @@
-import { MongoBulkWriteError } from "mongodb";
-import { CustomLevelsLogger } from "./logger.mjs";
+import { type MongoBulkWriteError } from "mongodb";
+import { type CustomLevelsLogger } from "./logger.mjs";
 
 export function logMongoBulkErrors(logger: CustomLevelsLogger, err: unknown) {
   const error = err as Error;

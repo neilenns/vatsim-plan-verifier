@@ -1,6 +1,6 @@
 import mainLogger from "../logger.mjs";
-import { NavaidDocument, NavaidModel } from "../models/Navaid.mjs";
-import Result from "../types/result.mjs";
+import { type NavaidDocument, NavaidModel } from "../models/Navaid.mjs";
+import type Result from "../types/result.mjs";
 
 const logger = mainLogger.child({ service: "navaid" });
 

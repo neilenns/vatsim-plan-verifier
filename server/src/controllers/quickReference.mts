@@ -1,10 +1,10 @@
 import mainLogger from "../logger.mjs";
-import { QuickReferenceDocument, QuickReferenceModel } from "../models/QuickReference.mjs";
-import Result from "../types/result.mjs";
+import { type QuickReferenceDocument, QuickReferenceModel } from "../models/QuickReference.mjs";
+import type Result from "../types/result.mjs";
 
 const logger = mainLogger.child({ service: "quickReference" });
 
-type QuickReferenceList = { key: string; label: string }[];
+type QuickReferenceList = Array<{ key: string; label: string }>;
 
 type QuickReferenceResult = Result<
   QuickReferenceDocument,

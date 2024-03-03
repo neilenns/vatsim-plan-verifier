@@ -4,7 +4,7 @@ import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
 import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import { joinWithWord } from "../../utils/formatting.mjs";
-import { VerifierFunction } from "../../types/verifier.mjs";
+import { type VerifierFunction } from "../../types/verifier.mjs";
 
 const verifierName = "warnHeavyRunwayAssignment";
 const logger = mainLogger.child({ service: verifierName });

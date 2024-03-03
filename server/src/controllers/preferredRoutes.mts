@@ -1,6 +1,6 @@
 import mainLogger from "../logger.mjs";
-import { PreferredRouteDocument, PreferredRouteModel } from "../models/PreferredRoute.mjs";
-import Result from "../types/result.mjs";
+import { type PreferredRouteDocument, PreferredRouteModel } from "../models/PreferredRoute.mjs";
+import type Result from "../types/result.mjs";
 
 const logger = mainLogger.child({ service: "preferredRoutes" });
 

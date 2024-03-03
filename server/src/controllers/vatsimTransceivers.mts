@@ -1,9 +1,9 @@
 import mainLogger from "../logger.mjs";
 import {
-  TunedTransceiversDocument,
+  type TunedTransceiversDocument,
   TunedTransceiversModel,
 } from "../models/VatsimTunedTransceivers.mjs";
-import Result from "../types/result.mjs";
+import type Result from "../types/result.mjs";
 
 const logger = mainLogger.child({ service: "vatsimTransceivers" });
 

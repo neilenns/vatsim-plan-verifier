@@ -1,8 +1,8 @@
-import axios, { AxiosResponse } from "axios";
-import IAviationWeatherMetar from "../interfaces/IAviationWeather.mjs";
+import axios, { type AxiosResponse } from "axios";
+import type IAviationWeatherMetar from "../interfaces/IAviationWeather.mjs";
 import mainLogger from "../logger.mjs";
-import { MetarDocument, MetarModel } from "../models/Metar.mjs";
-import Result from "../types/result.mjs";
+import { type MetarDocument, MetarModel } from "../models/Metar.mjs";
+import type Result from "../types/result.mjs";
 
 const logger = mainLogger.child({ service: "metar" });
 

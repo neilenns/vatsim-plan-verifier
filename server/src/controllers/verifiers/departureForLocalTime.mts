@@ -1,8 +1,8 @@
 import { isDocument } from "@typegoose/typegoose";
 import mainLogger from "../../logger.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
-import { VerifierFunction } from "../../types/verifier.mjs";
-import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
+import { type VerifierFunction } from "../../types/verifier.mjs";
+import type VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import { AirportFlow } from "../../models/InitialAltitude.mjs";
 
 const verifierName = "departureForLocalTime";

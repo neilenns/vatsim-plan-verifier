@@ -1,10 +1,10 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { type AxiosResponse } from "axios";
 import pluralize from "pluralize";
 import { ENV } from "../env.mjs";
 import mainLogger from "../logger.mjs";
-import { FlightAwareRouteDocument, FlightAwareRouteModel } from "../models/FlightAwareRoute.mjs";
-import { FlightPlan } from "../models/FlightPlan.mjs";
-import Result from "../types/result.mjs";
+import { type FlightAwareRouteDocument, FlightAwareRouteModel } from "../models/FlightAwareRoute.mjs";
+import { type FlightPlan } from "../models/FlightPlan.mjs";
+import type Result from "../types/result.mjs";
 
 const logger = mainLogger.child({ service: "flightAwareRoutes" });
 

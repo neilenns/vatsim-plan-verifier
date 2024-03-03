@@ -1,7 +1,7 @@
 import _ from "lodash";
-import { IVatsimATIS, IVatsimData } from "../interfaces/IVatsimData.mjs";
+import { type IVatsimATIS, type IVatsimData } from "../interfaces/IVatsimData.mjs";
 import mainLogger from "../logger.mjs";
-import { VatsimATISDocument, VatsimATISModel } from "../models/VatsimATIS.mjs";
+import { type VatsimATISDocument, VatsimATISModel } from "../models/VatsimATIS.mjs";
 import { logMongoBulkErrors } from "../utils.mjs";
 
 const logger = mainLogger.child({ service: "vatsimATIS" });

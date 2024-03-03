@@ -2,13 +2,13 @@ import { isDocument } from "@typegoose/typegoose";
 import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
 import _ from "lodash";
 import mainLogger from "../../logger.mjs";
-import { AircraftDocument } from "../../models/Aircraft.mjs";
-import { FlightPlan } from "../../models/FlightPlan.mjs";
+import { type AircraftDocument } from "../../models/Aircraft.mjs";
+import { type FlightPlan } from "../../models/FlightPlan.mjs";
 import { AirportFlow } from "../../models/InitialAltitude.mjs";
 import { NavaidModel } from "../../models/Navaid.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
-import { VerifierFunction } from "../../types/verifier.mjs";
-import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
+import { type VerifierFunction } from "../../types/verifier.mjs";
+import type VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 
 const verifierName = "checkSEAInitialSID";
 const logger = mainLogger.child({ service: verifierName });

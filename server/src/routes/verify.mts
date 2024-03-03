@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { type Request, type Response } from "express";
 import { getFlightPlan } from "../controllers/flightPlans.mjs";
 import VerifyAllResult from "../controllers/verifyAllResult.mjs";
 import findExistingResultsMiddleware from "../middleware/findExistingResults.mjs";

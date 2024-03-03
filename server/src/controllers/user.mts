@@ -1,6 +1,6 @@
 import mainLogger from "../logger.mjs";
-import { Auth0User, Auth0UserDocument, Auth0UserModel } from "../models/Auth0User.mjs";
-import Result from "../types/result.mjs";
+import { type Auth0User, type Auth0UserDocument, Auth0UserModel } from "../models/Auth0User.mjs";
+import type Result from "../types/result.mjs";
 import { Types } from "mongoose";
 
 const logger = mainLogger.child({ service: "user" });

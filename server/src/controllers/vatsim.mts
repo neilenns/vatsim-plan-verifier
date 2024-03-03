@@ -1,15 +1,15 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { type AxiosError, type AxiosResponse } from "axios";
 import { Types } from "mongoose";
-import { IVatsimPilotStats } from "../interfaces/IVatsimPilotStats.mjs";
+import { type IVatsimPilotStats } from "../interfaces/IVatsimPilotStats.mjs";
 import mainLogger from "../logger.mjs";
-import { PilotStatsDocument, PilotStatsModel } from "../models/PilotStats.mjs";
-import { VatsimATISDocument, VatsimATISModel } from "../models/VatsimATIS.mjs";
+import { type PilotStatsDocument, PilotStatsModel } from "../models/PilotStats.mjs";
+import { type VatsimATISDocument, VatsimATISModel } from "../models/VatsimATIS.mjs";
 import {
-  VatsimFlightPlanDocument,
+  type VatsimFlightPlanDocument,
   VatsimFlightPlanModel,
   VatsimFlightStatus,
 } from "../models/VatsimFlightPlan.mjs";
-import Result from "../types/result.mjs";
+import type Result from "../types/result.mjs";
 
 const logger = mainLogger.child({ service: "vatsim" });
 
@@ -48,14 +48,14 @@ export async function setVatsimFlightPlanEDCT(
       return {
         success: false,
         errorType: "FlightPlanNotFound",
-        error: `Unable to find flight plan for ${_id ? _id : callsign}`,
+        error: `Unable to find flight plan for ${_id || callsign}`,
       };
     }
 
     // Ok, we have a flight plan so update it. If EDCT was null
     // that means it should be removed entirely so the plan has no
     // EDCT anymore.
-    flightPlan.EDCT = edct ? edct : undefined;
+    flightPlan.EDCT = edct || undefined;
 
     // sentEDCT property only gets updated if it was provided
     flightPlan.sentEDCT = sentEDCT !== undefined ? sentEDCT : flightPlan.sentEDCT;
@@ -69,7 +69,7 @@ export async function setVatsimFlightPlanEDCT(
   } catch (err) {
     const error = err as Error;
 
-    const message = `Error setting EDCT info for ${_id ? _id : callsign}: ${error.message}`;
+    const message = `Error setting EDCT info for ${_id || callsign}: ${error.message}`;
     logger.error(message, error);
 
     return {

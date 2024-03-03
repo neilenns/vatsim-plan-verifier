@@ -1,5 +1,5 @@
 import {
-  DocumentType,
+  type DocumentType,
   defaultClasses,
   getModelForClass,
   modelOptions,

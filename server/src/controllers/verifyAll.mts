@@ -1,6 +1,6 @@
 import mainLogger from "../logger.mjs";
-import { FlightPlan } from "../models/FlightPlan.mjs";
-import { VerifierResultDocument, VerifierResultModel } from "../models/VerifierResult.mjs";
+import { type FlightPlan } from "../models/FlightPlan.mjs";
+import { type VerifierResultDocument, VerifierResultModel } from "../models/VerifierResult.mjs";
 import { logMongoBulkErrors } from "../utils.mjs";
 import { verifiers } from "./verifiers/allVerifiers.mjs";
 import VerifyAllResult from "./verifyAllResult.mjs";
@@ -15,7 +15,7 @@ export async function verifyAll(flightPlan: FlightPlan): Promise<VerifyAllResult
   // to send back to the client.
   await Promise.all(
     verifiers.map(async (verifier) => {
-      return verifier.handler(flightPlan, false).then((result) => {
+      await verifier.handler(flightPlan, false).then((result) => {
         if (result.success) {
           // Handles the case of verifiers returning multiple results, e.g. the checkForCustom*Messages verifiers
           if (result.data instanceof Array) {
