@@ -36,12 +36,14 @@ router.get(
 router.get(
   "/admin/startJob/:jobName",
   verifyUser,
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   verifyRole("admin"),
-  async (req: Request<StartJobParams, {}, {}, {}>, res: Response) => {
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  async (req: Request<StartJobParams, unknown, unknown, unknown>, res: Response) => {
     try {
       const { jobName } = req.params;
 
-      bree.runJob(jobName);
+      await bree.runJob(jobName);
 
       res.send(`${jobName} started`);
     } catch (error) {

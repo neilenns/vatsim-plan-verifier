@@ -6,7 +6,7 @@ module.exports = {
   extends: [
     "standard-with-typescript",
     "prettier",
-    "plugin:you-dont-need-lodash-underscore/compatible",
+    //    "plugin:you-dont-need-lodash-underscore/compatible",
   ],
   overrides: [
     {

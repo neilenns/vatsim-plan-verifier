@@ -31,6 +31,7 @@ export const verifyAndAddUserInfo = (
   auth({
     audience: ENV.AUTH0_AUDIENCE,
     issuerBaseURL: ENV.AUTH0_ISSUER_BASE_URL,
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
   })(req, res, async (err: any) => {
     if (err != null) {
       const error = err as Error;
