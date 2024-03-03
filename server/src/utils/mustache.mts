@@ -3,7 +3,7 @@ import Mustache from "mustache";
 import { type FlightPlan } from "../models/FlightPlan.mjs";
 import { NavaidModel } from "../models/Navaid.mjs";
 
-function normalizeAirportName(airportName: string) {
+function normalizeAirportName(airportName: string): string {
   if (airportName.endsWith("Airport")) {
     return airportName;
   } else {
@@ -24,7 +24,7 @@ export default async function applyMustacheValues(
   const view = {
     formattedCruiseAltitude: flightPlan.cruiseAltitudeFormatted.replace(" feet", ""),
     arrival: isDocument(flightPlan.arrivalAirportInfo)
-      ? flightPlan.arrivalAirportInfo?.name
+      ? flightPlan.arrivalAirportInfo?.name != null
         ? normalizeAirportName(flightPlan.arrivalAirportInfo.name)
         : flightPlan.arrival
       : flightPlan.arrival,

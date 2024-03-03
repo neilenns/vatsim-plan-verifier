@@ -21,7 +21,7 @@ router.get(
   async (req: Auth0UserRequest, res: Response) => {
     const controllerId = req.auth?.payload.sub;
 
-    if (!controllerId) {
+    if (controllerId == null) {
       logger.error(`No sub specified for controllerId. This should never happen. ${req.auth}`);
       return res.status(401).json({ error: `Unauthorized` });
     }

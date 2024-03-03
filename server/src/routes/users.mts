@@ -13,7 +13,7 @@ interface TypedUserRequestBody<T> extends Express.Request {
 const router = express.Router();
 
 router.put("/users/me", verifyUser, async (req: TypedUserRequestBody<Auth0User>, res: Response) => {
-  if (!req.auth?.payload.sub) {
+  if (req.auth?.payload.sub == null) {
     logger.error(`Unable to update data for user, no id provided`);
     return res.status(404).send("User not found");
   }
@@ -31,7 +31,7 @@ router.put("/users/me", verifyUser, async (req: TypedUserRequestBody<Auth0User>,
 router.get("/users/me", verifyUser, async (req: Auth0UserRequest, res: Response) => {
   const sub = req.auth?.payload.sub;
 
-  if (!sub) {
+  if (sub == null) {
     logger.error(`Unable to fetch data for user, no sub provided`);
     return res.status(404).send("User not found");
   }

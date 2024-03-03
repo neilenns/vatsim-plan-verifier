@@ -46,7 +46,7 @@ async function registerForEDCTViewOnly(
   io: SocketIOServer,
   socket: Socket,
   departureCodes: string[]
-) {
+): Promise<void> {
   const insecureCodes = departureCodes.filter((code) => code.startsWith("$"));
 
   if (insecureCodes.length > 0) {
@@ -70,8 +70,8 @@ async function registerForEDCTViewOnly(
   // room that every client gets put in to.
   const roomName = `EDCTViewOnly:${sortTrimAndJoin(departureCodes)}`;
 
-  socket.join(roomName);
-  publishEDCTViewOnlyupdate(io, roomName);
+  await socket.join(roomName);
+  await publishEDCTViewOnlyupdate(io, roomName);
 }
 
 async function registerForEDCT(
@@ -79,7 +79,7 @@ async function registerForEDCT(
   socket: Socket,
   departureCodes: string[],
   arrivalCodes: string[]
-) {
+): Promise<void> {
   const insecureCodes = [
     ...departureCodes.filter((code) => code.startsWith("$")),
     ...arrivalCodes.filter((code) => code.startsWith("$")),
@@ -109,11 +109,15 @@ async function registerForEDCT(
   // room that every client gets put in to.
   const roomName = `EDCT:${sortTrimAndJoin(departureCodes)}|${sortTrimAndJoin(arrivalCodes)}`;
 
-  socket.join(roomName);
-  publishEDCTupdate(io, roomName);
+  await socket.join(roomName);
+  await publishEDCTupdate(io, roomName);
 }
 
-async function registerForAirports(io: SocketIOServer, socket: Socket, airportCodes: string[]) {
+async function registerForAirports(
+  io: SocketIOServer,
+  socket: Socket,
+  airportCodes: string[]
+): Promise<void> {
   // Check for insecure airport codes first
   const insecureAirportCodes = airportCodes.filter((airportCode) => airportCode.startsWith("$"));
   if (insecureAirportCodes.length > 0) {
@@ -136,21 +140,19 @@ async function registerForAirports(io: SocketIOServer, socket: Socket, airportCo
   // room that every client gets put in to.
   const roomName = `APT:${sortTrimAndJoin(airportCodes)}`;
 
-  socket.join(roomName);
-
-  // Send the initial data to the client
-  publishFlightPlanUpdate(io, roomName);
+  await socket.join(roomName);
+  await publishFlightPlanUpdate(io, roomName);
 }
 
-export function getIO() {
+export function getIO(): SocketIOServer {
   return io;
 }
 
-export function setupSockets(server: Server) {
+export async function setupSockets(server: Server): Promise<void> {
   io = new SocketIOServer<ClientToServerEvents, ServerToClientEvents>(server, {
     cors: {
       origin: function (origin, callback) {
-        if (!origin || isOriginAllowed(origin)) {
+        if (origin == null || isOriginAllowed(origin)) {
           callback(null, true);
         } else {
           callback(new Error("Not allowed by CORS"));
@@ -167,8 +169,11 @@ export function setupSockets(server: Server) {
       `Client connected: ${socket.id}. Total connected clients: ${io.sockets.sockets.size}`
     );
 
-    setJobUpdateInterval(JobName.GetVatsimData, ENV.VATSIM_DATA_AUTO_UPDATE_INTERVAL_CONNECTIONS);
-    setJobUpdateInterval(
+    await setJobUpdateInterval(
+      JobName.GetVatsimData,
+      ENV.VATSIM_DATA_AUTO_UPDATE_INTERVAL_CONNECTIONS
+    );
+    await setJobUpdateInterval(
       JobName.GetVatsimTransceivers,
       ENV.VATSIM_TRANSCEIVER_AUTO_UPDATE_INTERVAL_CONNECTIONS
     );
@@ -209,14 +214,16 @@ export function setupSockets(server: Server) {
       );
 
       if (io.sockets.sockets.size === 0) {
-        setJobUpdateInterval(
-          JobName.GetVatsimData,
-          ENV.VATSIM_DATA_AUTO_UPDATE_INTERVAL_NO_CONNECTIONS
-        );
-        setJobUpdateInterval(
-          JobName.GetVatsimTransceivers,
-          ENV.VATSIM_TRANSCEIVER_AUTO_UPDATE_INTERVAL_NO_CONNECTIONS
-        );
+        await Promise.all([
+          setJobUpdateInterval(
+            JobName.GetVatsimData,
+            ENV.VATSIM_DATA_AUTO_UPDATE_INTERVAL_NO_CONNECTIONS
+          ),
+          setJobUpdateInterval(
+            JobName.GetVatsimTransceivers,
+            ENV.VATSIM_TRANSCEIVER_AUTO_UPDATE_INTERVAL_NO_CONNECTIONS
+          ),
+        ]);
       }
     });
   });

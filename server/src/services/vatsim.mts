@@ -48,7 +48,7 @@ export async function getVatsimData(endpoint: string) {
   // For debugging/testing purposes, if a vatsim data file was specified
   // then load and use that instead of retrieving from the real server.
   // This enables making specific changes to flights and testing the results.
-  if (ENV.VATSIM_DATA_FILE) {
+  if (ENV.VATSIM_DATA_FILE != null) {
     logger.debug(`Using VATSIM data from ${ENV.VATSIM_DATA_FILE}`);
     const data = await fs.promises.readFile(ENV.VATSIM_DATA_FILE, "utf-8");
     const vatsimData: IVatsimData = JSON.parse(data);
@@ -72,23 +72,19 @@ export async function getVatsimData(endpoint: string) {
         error: `Unknown error: ${response.status} ${response.statusText}`,
       };
     }
-  } catch (error) {
+  } catch (err) {
+    const error = err as Error;
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error fetching VATSIM flight plans: ${error}`,
+      error: `Error fetching VATSIM flight plans: ${error.message}`,
     };
   }
 }
 
 // Handles publishing updated data to all connected clients.
-export async function publishUpdates() {
+export async function publishUpdates(): Promise<void> {
   const io = getIO();
-
-  if (!io) {
-    logger.warn(`Unable to publish updates, no sockets defined`);
-    return;
-  }
 
   // Loop through the rooms and send filtered data to clients in each room
   io.sockets.adapter.rooms.forEach(async (_, roomName) => {
@@ -99,12 +95,7 @@ export async function publishUpdates() {
 }
 
 // Publishes flight plan updates to a specific room.
-export async function publishFlightPlanUpdate(io: SocketIOServer, roomName: string) {
-  if (!io) {
-    logger.warn(`Unable to publish updates, no sockets defined`);
-    return;
-  }
-
+export async function publishFlightPlanUpdate(io: SocketIOServer, roomName: string): Promise<void> {
   // Every client gets put in their own auto-generated room. Skip those since there won't be any matching
   // database values. The assumption is all airport codes will be 3 or 4 characters long.
   if (!roomName.startsWith("APT:")) return;
@@ -124,12 +115,10 @@ export async function publishFlightPlanUpdate(io: SocketIOServer, roomName: stri
 }
 
 // Publishes EDCT updates to a specific room.
-export async function publishEDCTViewOnlyupdate(io: SocketIOServer, roomName: string) {
-  if (!io) {
-    logger.warn(`Unable to publish updates, no sockets defined`);
-    return;
-  }
-
+export async function publishEDCTViewOnlyupdate(
+  io: SocketIOServer,
+  roomName: string
+): Promise<void> {
   // Every client gets put in their own auto-generated room. Skip those since there won't be any matching
   // database values.
   if (!roomName.startsWith("EDCTViewOnly:")) return;
@@ -148,12 +137,7 @@ export async function publishEDCTViewOnlyupdate(io: SocketIOServer, roomName: st
 }
 
 // Publishes EDCT updates to a specific room.
-export async function publishEDCTupdate(io: SocketIOServer, roomName: string) {
-  if (!io) {
-    logger.warn(`Unable to publish updates, no sockets defined`);
-    return;
-  }
-
+export async function publishEDCTupdate(io: SocketIOServer, roomName: string): Promise<void> {
   // Every client gets put in their own auto-generated room. Skip those since there won't be any matching
   // database values. The assumption is all airport codes will be 3 or 4 characters long.
   if (!roomName.startsWith("EDCT:")) return;

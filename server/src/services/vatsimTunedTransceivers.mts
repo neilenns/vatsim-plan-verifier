@@ -31,11 +31,12 @@ export async function getVatsimTunedTransceivers(endpoint: string) {
         error: `Unknown error: ${response.status} ${response.statusText}`,
       };
     }
-  } catch (error) {
+  } catch (err) {
+    const error = err as Error;
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error fetching VATSIM transceivers: ${error}`,
+      error: `Error fetching VATSIM transceivers: ${error.message}`,
     };
   }
 }

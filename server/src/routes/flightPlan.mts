@@ -49,7 +49,7 @@ router.post(
   async (req: Request, res: Response) => {
     const { callsign } = req.body;
 
-    if (!callsign) {
+    if (callsign == null || callsign === "") {
       res.status(400).json({ error: "Missing required parameter: callsign" });
       return;
     }

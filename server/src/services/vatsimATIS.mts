@@ -26,12 +26,9 @@ function calculateNewAndChanged(
   currentATISes: _.Dictionary<VatsimATISDocument>,
   incomingATISes: _.Dictionary<IVatsimATIS>
 ) {
-  let profiler = logger.startTimer();
-
   const dataToAdd: VatsimATISDocument[] = [];
   const dataToUpdate: VatsimATISDocument[] = [];
 
-  profiler = logger.startTimer();
   _.map(incomingATISes, (incomingATIS, key) => {
     const currentATIS = currentATISes[incomingATIS.callsign];
 
@@ -57,7 +54,7 @@ function calculateNewAndChanged(
   return [dataToAdd, dataToUpdate];
 }
 
-export async function processVatsimATISData(vatsimData: IVatsimData) {
+export async function processVatsimATISData(vatsimData: IVatsimData): Promise<void> {
   const profiler = logger.startTimer();
 
   logger.info(`Processing ${vatsimData.atis.length} incoming VATSIM ATISes`, {
@@ -71,7 +68,7 @@ export async function processVatsimATISData(vatsimData: IVatsimData) {
 
   // Build the lists of data to add, update, and delete.
   const [dataToAdd, dataToUpdate] = calculateNewAndChanged(currentData, incomingData);
-  const dataToDelete = _.differenceBy(_.keys(currentData), _.keys(incomingData));
+  const dataToDelete = _.differenceBy(Object.keys(currentData), Object.keys(incomingData));
 
   // Apply all the changes to the database.
   try {

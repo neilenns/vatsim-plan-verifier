@@ -62,7 +62,7 @@ let watcher: chokidar.FSWatcher;
 const certFilesExist =
   fs.existsSync(ENV.SSL_PRIVATE_KEY_PATH) && fs.existsSync(ENV.SSL_FULL_CHAIN_PATH);
 
-function reloadCertificates() {
+function reloadCertificates(): void {
   if (!certFilesExist) {
     return;
   }
@@ -86,7 +86,7 @@ function reloadCertificates() {
 // From https://stackoverflow.com/a/42455876/9206264
 const debouncedReloadSSL = debounce(reloadCertificates, 1000);
 
-function readCertsSync() {
+function readCertsSync(): { key: Buffer; cert: Buffer } {
   return {
     key: fs.readFileSync(ENV.SSL_PRIVATE_KEY_PATH),
     cert: fs.readFileSync(ENV.SSL_FULL_CHAIN_PATH),

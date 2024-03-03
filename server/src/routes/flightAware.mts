@@ -17,7 +17,7 @@ router.get(
       const routes = await getFlightAwareRoutes({
         departure,
         arrival,
-      } as FlightPlanDocument);
+      } satisfies Partial<FlightPlanDocument>);
 
       if (!routes.success) {
         return res.status(404).json({ error: routes.error });
