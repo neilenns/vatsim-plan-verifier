@@ -74,7 +74,7 @@ async function calculateNewAndUpdated(
 
       // If it's not found then it's a new plan so just make the model object and add it to
       // the new plan array.
-      if (currentPlan === null) {
+      if (currentPlan === undefined) {
         const newPlan = pilotToVatsimModel(incomingPlan);
         // Important to set the initial flight status for the new plan. It could be in the air
         // or already arrived when it first appears in the list from VATSIM.

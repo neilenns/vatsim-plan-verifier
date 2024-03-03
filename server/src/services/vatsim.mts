@@ -90,10 +90,14 @@ export async function publishUpdates(): Promise<void> {
   const io = getIO();
 
   // Loop through the rooms and send filtered data to clients in each room
-  io.sockets.adapter.rooms.forEach(async (_, roomName) => {
-    await publishFlightPlanUpdate(io, roomName);
-    await publishEDCTupdate(io, roomName);
-    await publishEDCTViewOnlyupdate(io, roomName);
+  io.sockets.adapter.rooms.forEach((_, roomName) => {
+    void (async () => {
+      await Promise.all([
+        publishFlightPlanUpdate(io, roomName),
+        publishEDCTupdate(io, roomName),
+        publishEDCTViewOnlyupdate(io, roomName),
+      ]);
+    })();
   });
 }
 
