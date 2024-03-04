@@ -42,7 +42,6 @@ router.get("/users/me", verifyUser, async (req: Auth0UserRequest, res: Response)
   }
 
   const result = await getAuth0User(sub);
-
   if (result.success) {
     return res.json(result.data);
   } else {
