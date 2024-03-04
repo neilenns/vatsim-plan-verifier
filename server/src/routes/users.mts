@@ -31,12 +31,16 @@ router.put("/users/me", verifyUser, async (req: TypedUserRequestBody<Auth0User>,
 router.get("/users/me", verifyUser, async (req: Auth0UserRequest, res: Response) => {
   const sub = req.auth?.payload.sub;
 
+  // Ensure the user data can't get cached somewhere
+  res.set("Cache-Control", "no-store");
+
   if (!sub) {
     logger.error(`Unable to fetch data for user, no sub provided`);
     return res.status(404).send("User not found");
   }
 
   const result = await getAuth0User(sub);
+
   if (result.success) {
     return res.json(result.data);
   } else {
