@@ -10,7 +10,7 @@ const logger = mainLogger.child({ service: "verifyAll" });
 
 export async function verifyAll(flightPlan: FlightPlan): Promise<VerifyAllResult> {
   const verifyAllResult = new VerifyAllResult();
-  const verifierResultDocuments: VerifierResultDocument[] = [];
+  let verifierResultDocuments: VerifierResultDocument[] = [];
 
   // Loop across all registered verifiers and save all successful verification runs
   // to send back to the client.
@@ -23,7 +23,7 @@ export async function verifyAll(flightPlan: FlightPlan): Promise<VerifyAllResult
         // Handles the case of verifiers returning multiple results, e.g. the checkForCustom*Messages verifiers
         if (result.data instanceof Array) {
           verifyAllResult.addMany(result.data);
-          verifierResultDocuments.concat(result.data);
+          verifierResultDocuments = verifierResultDocuments.concat(result.data);
         } else {
           verifyAllResult.add(result.data);
           verifierResultDocuments.push(result.data);
