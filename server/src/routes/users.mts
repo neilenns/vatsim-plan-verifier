@@ -1,7 +1,7 @@
 import express, { type Response } from "express";
 import { getAuth0User, updateAuth0User } from "../controllers/user.mjs";
 import mainLogger from "../logger.mjs";
-import { type Auth0UserRequest, verifyUser } from "../middleware/permissions.mjs";
+import { verifyUser, type Auth0UserRequest } from "../middleware/permissions.mjs";
 import { type Auth0User } from "../models/Auth0User.mjs";
 
 const logger = mainLogger.child({ service: "usersRoute" });
@@ -33,12 +33,16 @@ router.put("/users/me", verifyUser, async (req: TypedUserRequestBody<Auth0User>,
 router.get("/users/me", verifyUser, async (req: Auth0UserRequest, res: Response) => {
   const sub = req.auth?.payload.sub;
 
+  // Ensure the user data can't get cached somewhere
+  res.set("Cache-Control", "no-store");
+
   if (sub == null) {
     logger.error(`Unable to fetch data for user, no sub provided`);
     return res.status(404).send("User not found");
   }
 
   const result = await getAuth0User(sub);
+
   if (result.success) {
     return res.json(result.data);
   } else {
