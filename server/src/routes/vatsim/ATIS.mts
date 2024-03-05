@@ -27,13 +27,13 @@ router.get(
   secureQueryMiddleware,
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async (req: Request<ATISParams, unknown, unknown, ATISQueryParams>, res: Response) => {
-    const codeOnly = JSON.parse(req.query.codeOnly?.toLowerCase() ?? "false") as string;
+    const codeOnly = JSON.parse(req.query.codeOnly?.toLowerCase() ?? "false") as boolean;
     const jsonResponseRequested = req.query.format?.toUpperCase() === "JSON";
     const padding = parseInt(req.query.padding ?? "0");
     const result = await getVatsimAtis(req.params.callsign);
 
     if (result.success) {
-      if (codeOnly !== "") {
+      if (codeOnly) {
         res.send(`${result.data.code}`);
       } else if (jsonResponseRequested) {
         res.json(result.data);
@@ -43,7 +43,7 @@ router.get(
     } else {
       const errorMessage = `No ATIS available for ${req.params.callsign}`;
 
-      if (!jsonResponseRequested || codeOnly !== "") {
+      if (!jsonResponseRequested) {
         res.status(500).send(appendPadding(errorMessage, padding));
       } else {
         res.status(500).json({ error: errorMessage });

@@ -14,7 +14,7 @@ export const verifyApiKey = async function (
 ): Promise<void> {
   try {
     // Get the API key from the request headers
-    const apiKey = req.headers["x-api-key"] != null || req.query["x-api-key"];
+    const apiKey = req.headers["x-api-key"] ?? req.query["x-api-key"];
 
     // Check if the API key exists in the database and is active
     const apiKeyDoc = await ApiKeyModel.findOne({ _id: apiKey, isActive: true }).cacheQuery();
