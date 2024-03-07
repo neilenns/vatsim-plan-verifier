@@ -150,7 +150,7 @@ class VatsimFlightPlan {
       this.departure = incomingPlan.flight_plan?.departure ?? "";
       this.departureTime = depTimeToDateTime(incomingPlan?.flight_plan?.deptime);
       this.vnasPlanRevision = incomingPlan.flight_plan?.revision_id;
-      this.name = incomingPlan.flight_plan?.name ?? "";
+      this.name = incomingPlan.name ?? "";
       this.rawAircraftType = incomingPlan.flight_plan?.aircraft_faa ?? "";
       this.remarks = incomingPlan.flight_plan?.remarks ?? "";
       this.route = cleanRoute(incomingPlan.flight_plan?.route ?? "");
