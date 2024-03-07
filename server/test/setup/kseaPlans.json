@@ -1,5 +1,15 @@
 [
   {
+    "rawFlightPlan": "HAL21 B737/L 3554 KSEA - PHNL 380 HAROB6 HQM SEDAR A331 ZEMOM AUNTI R463 APACK INOYI1",
+    "flow": "SOUTH",
+    "expectedSID": "HAROB6"
+  },
+  {
+    "rawFlightPlan": "HAL21 C172/G 3554 KSEA - PHNL 380 HAROB6 HQM SEDAR A331 ZEMOM AUNTI R463 APACK INOYI1",
+    "flow": "SOUTH",
+    "expectedSID": "HAROB6"
+  },
+  {
     "rawFlightPlan": "N1185X C172/G 2241 KSEA - KOLM 040 SEA8 SEA OLM",
     "flow": "SOUTH",
     "expectedSID": "SEA8"

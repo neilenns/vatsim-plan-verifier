@@ -109,6 +109,22 @@ const navaids = [
     latitude: 46.9716444102785,
     longitude: -122.901848167657,
   },
+  {
+    ident: "HQM",
+    class: "H-VORTACW",
+    name: "HOQUIAM",
+    type: 8,
+    latitude: 46.9470459409602,
+    longitude: -124.149283908578,
+  },
+  {
+    ident: "FEPOT",
+    class: "EA",
+    name: "FEPOT",
+    type: 6,
+    latitude: 47.0808,
+    longitude: -123.2189,
+  },
 ];
 
 export default async function setup() {

@@ -161,6 +161,20 @@ function calculateInitialSidAllGroups(
     return { SID: "ELMAA4", extendedMessage: "All: (161-230) J70/SEA 230R AoA FL230" };
   }
 
+  // Special case for flight plans that filed "HAROB6 HQM". The DOF between SEA and HQM
+  // calculates to 234 which would put it on the BANGR9 per the rules, but that's
+  // obviously wrong since it is really flying HAROB6 HAROB HQM.
+  if (
+    flightPlan.cruiseAltitude > 240 &&
+    flightPlan.SID === "HAROB6" &&
+    flightPlan.routeParts[1] === "HQM"
+  ) {
+    return {
+      SID: "HAROB6",
+      extendedMessage: "All: (161-230) HAROB ABV FL240 (HAROB special case)",
+    };
+  }
+
   // (161-230) ABV FL240
   if (flightPlan.cruiseAltitude > 240 && directionOfFlight >= 161 && directionOfFlight <= 230) {
     return { SID: "HAROB6", extendedMessage: "All: (161-230) HAROB ABV FL240" };
