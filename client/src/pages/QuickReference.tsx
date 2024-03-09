@@ -1,7 +1,7 @@
 import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
-import Markdown from "../components/Markdown";
 import { useEffect, useState } from "react";
 import { useLoaderData, useNavigate, useParams } from "react-router-dom";
+import Markdown from "../components/Markdown";
 import { QuickReferenceLoaderResult } from "../services/quickReferenceLoader.mts";
 
 const QuickReference = () => {
@@ -34,7 +34,7 @@ const QuickReference = () => {
               label="Quick reference"
               onChange={handleChange}
             >
-              {result.data.entries?.map((entry) => {
+              {result.data.entries.map((entry) => {
                 return (
                   <MenuItem key={entry.key} value={entry.key}>
                     {entry.label}
@@ -44,7 +44,7 @@ const QuickReference = () => {
             </Select>
           </FormControl>
         </Box>
-        <Markdown children={result.data.markdown} />
+        <Markdown>{result.data.markdown}</Markdown>
       </Box>
     )
   );

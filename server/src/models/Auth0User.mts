@@ -1,6 +1,6 @@
 import {
-  DocumentType,
-  ReturnModelType,
+  type DocumentType,
+  type ReturnModelType,
   getModelForClass,
   plugin,
   prop,
@@ -38,11 +38,14 @@ export class Auth0User {
   @prop({ required: false, default: false })
   autoHideImported!: boolean;
 
-  public static async findOrCreate(this: ReturnModelType<typeof Auth0User>, sub: string) {
+  public static async findOrCreate(
+    this: ReturnModelType<typeof Auth0User>,
+    sub: string
+  ): Promise<Auth0UserDocument | undefined> {
     // Check for an existing user in the database first and return that if found.
     const existingUser = await this.findOne({ sub }).cacheQuery({ ttl: 60 * 60 }); // One hour
 
-    if (existingUser) {
+    if (existingUser != null) {
       return existingUser;
     }
 
@@ -57,7 +60,7 @@ export class Auth0User {
 
     const result = await management.users.get({ id: sub });
 
-    if (!result) {
+    if (result === undefined) {
       return undefined;
     }
 

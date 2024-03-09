@@ -33,8 +33,8 @@ export default interface IAviationWeatherMetar {
   elev: number;
   prior: number;
   name: string;
-  clouds: {
+  clouds: Array<{
     cover: string;
     base: number;
-  }[];
+  }>;
 }

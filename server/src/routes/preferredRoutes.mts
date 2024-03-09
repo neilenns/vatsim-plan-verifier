@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { type Request, type Response } from "express";
 import { getPreferredRoutes } from "../controllers/preferredRoutes.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
@@ -10,6 +10,7 @@ router.get(
   "/preferredRoutes/:departure/:arrival",
   verifyUser,
   secureQueryMiddleware,
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async (req: Request, res: Response) => {
     const { departure, arrival } = req.params;
 

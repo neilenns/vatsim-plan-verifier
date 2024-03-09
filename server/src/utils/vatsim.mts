@@ -3,7 +3,7 @@ import { VatsimCommunicationMethod } from "../models/VatsimFlightPlan.mjs";
 
 const logger = mainLogger.child({ service: "utils" });
 
-export function cleanRoute(route: string) {
+export function cleanRoute(route: string): string {
   return route
     .replace(/DCT /g, "") // Get rid of all the DCTs
     .replace(/^\w{3,4}\/\w{2,3}\s*/, "") // Get rid of departure airport/runway making sure to catch the space after it as well
@@ -14,7 +14,7 @@ export function cleanRoute(route: string) {
 }
 
 export function depTimeToDateTime(depTime: string | undefined): Date | undefined {
-  if (!depTime) {
+  if (depTime == null) {
     return undefined;
   }
 
@@ -42,11 +42,11 @@ export function depTimeToDateTime(depTime: string | undefined): Date | undefined
 }
 
 export function getCommunicationMethod(inputString: string | undefined): VatsimCommunicationMethod {
-  if (inputString?.includes("/T/")) {
+  if (inputString?.includes("/T/") ?? false) {
     return VatsimCommunicationMethod.TEXTONLY;
-  } else if (inputString?.includes("/R/")) {
+  } else if (inputString?.includes("/R/") ?? false) {
     return VatsimCommunicationMethod.RECEIVE;
-  } else if (inputString?.includes("/V/")) {
+  } else if (inputString?.includes("/V/") ?? false) {
     return VatsimCommunicationMethod.VOICE;
   } else {
     return VatsimCommunicationMethod.VOICE;

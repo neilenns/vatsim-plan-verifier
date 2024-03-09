@@ -1,9 +1,6 @@
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { Typography, useColorScheme } from "@mui/material";
 import { useEffect, useState } from "react";
-import { getUserInfo } from "../services/user.mts";
-import ErrorDisplay from "./ErrorDisplay";
-import { PageLoader } from "./PageLoader";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   autoHideImportedState,
@@ -11,6 +8,9 @@ import {
   streamingModeState,
   userInfoState,
 } from "../context/atoms";
+import { getUserInfo } from "../services/user.mts";
+import ErrorDisplay from "./ErrorDisplay";
+import { PageLoader } from "./PageLoader";
 
 interface AuthenticationGuardProps {
   role: string;
@@ -92,7 +92,7 @@ export const AuthenticationGuard = ({ role, component: Component }: Authenticati
   if (error) {
     return (
       <ErrorDisplay>
-        <Typography align="center">Error accessing page data: {error?.message}</Typography>
+        <Typography align="center">Error accessing page data: {error.message}</Typography>
       </ErrorDisplay>
     );
   }

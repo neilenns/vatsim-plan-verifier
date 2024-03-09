@@ -1,7 +1,6 @@
 import mainLogger from "../../logger.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
-import { VerifierFunction } from "../../types/verifier.mjs";
-import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
+import { type VerifierFunction } from "../../types/verifier.mjs";
 import { formatAltitude } from "../../utils.mjs";
 
 const verifierName = "altitudeForDirectionOfFlight";
@@ -24,7 +23,7 @@ const altitudeForDirectionOfFlight: VerifierFunction = async function (
 
   try {
     // If the direction of flight wasn't calculated then bail early.
-    if (!directionOfFlight) {
+    if (directionOfFlight == null) {
       result.status = VerifierResultStatus.WARNING;
       result.messageId = "directionOfFlightNotCalculated";
       result.message = `Direction of flight wasn't calculated between ${departure} and ${arrival}.`;

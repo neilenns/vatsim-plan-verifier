@@ -1,9 +1,7 @@
 import mainLogger from "../../logger.mjs";
-import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VatsimCommunicationMethod } from "../../models/VatsimFlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
-import { VerifierFunction } from "../../types/verifier.mjs";
-import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
+import { type VerifierFunction } from "../../types/verifier.mjs";
 
 const verifierName = "warnTextOnlyPilot";
 const logger = mainLogger.child({ service: verifierName });
@@ -38,7 +36,7 @@ const warnTextOnlyPilot: VerifierFunction = async function warnTextOnlyPilot(
     }
 
     if (saveResult) {
-      result.save();
+      await result.save();
     }
     return {
       success: true,

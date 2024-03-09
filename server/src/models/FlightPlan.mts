@@ -1,5 +1,5 @@
 import {
-  DocumentType,
+  type DocumentType,
   Ref,
   getModelForClass,
   isDocument,
@@ -9,16 +9,16 @@ import {
   prop,
 } from "@typegoose/typegoose";
 import LatLon from "geodesy/latlon-ellipsoidal-vincenty.js";
-import { Types } from "mongoose";
+import { type Types } from "mongoose";
 import autopopulate from "mongoose-autopopulate";
 import { getAirportInfo } from "../controllers/airportInfo.mjs";
 import { getVatsimPilotStats } from "../controllers/vatsim.mjs";
 import mainLogger from "../logger.mjs";
 import { formatAltitude } from "../utils.mjs";
-import { Aircraft, AircraftDocument } from "./Aircraft.mjs";
+import { Aircraft, type AircraftDocument } from "./Aircraft.mjs";
 import { Airline } from "./Airline.mjs";
-import { AirportInfo, AirportInfoDocument } from "./AirportInfo.mjs";
-import { Departure, DepartureDocument, DepartureModel } from "./Departure.mjs";
+import { AirportInfo, type AirportInfoDocument } from "./AirportInfo.mjs";
+import { Departure, type DepartureDocument, DepartureModel } from "./Departure.mjs";
 import { AirportFlow, InitialAltitude } from "./InitialAltitude.mjs";
 import { NavaidModel } from "./Navaid.mjs";
 import { PilotStats } from "./PilotStats.mjs";
@@ -56,7 +56,7 @@ const SimbriefStepClimbRegExPattern = /[0-9]+[NS][0-9]+[EW][0-9]+/;
 const SimbriefRegionRegExPattern = /[A-Z]{3,4}[0-9]{3,4}/;
 const SimbriefRemoveWords = ["SIMBRIEF", "/V/", "/T/", "/R/", "RMK/TCAS", "RMK/SIMBRIEF", "RMK///"];
 
-function cleanRoute(route: string) {
+function cleanRoute(route: string): string {
   return route
     .replace(/^\+/, "") // Strip off any + that may have been put at the front by VRC
     .replace(" DCT", "") // DCTs are never in the FlightAware returned routes
@@ -67,7 +67,7 @@ function cleanRoute(route: string) {
 function extractSID(route: string): string | undefined {
   const regexMatch = route.match(SIDRegExPattern);
 
-  if (regexMatch && regexMatch.length > 0) {
+  if (regexMatch != null && regexMatch.length > 0) {
     return regexMatch[1];
   }
 
@@ -111,10 +111,10 @@ export enum VatsimCommsEnum {
   if (
     !departureAirport.success ||
     !arrivalAirport.success ||
-    !departureAirport?.data?.latitude ||
-    !departureAirport?.data?.longitude ||
-    !arrivalAirport?.data?.latitude ||
-    !arrivalAirport?.data?.longitude
+    departureAirport?.data?.latitude == null ||
+    departureAirport?.data?.longitude == null ||
+    arrivalAirport?.data?.latitude == null ||
+    arrivalAirport?.data?.longitude == null
   ) {
     return;
   }
@@ -126,7 +126,7 @@ export enum VatsimCommsEnum {
   // to retrieve it if it's not already cached in the database.
   const magneticDeclination = await departureAirport.data.getMagneticDeclination();
 
-  if (!magneticDeclination) {
+  if (magneticDeclination == null) {
     return;
   }
 
@@ -141,8 +141,9 @@ export enum VatsimCommsEnum {
     if (this.isModified("rawAircraftType")) {
       let rawAircraftType = this.rawAircraftType;
 
-      if (!rawAircraftType) {
-        return next();
+      if (rawAircraftType == null) {
+        next();
+        return;
       }
 
       if (rawAircraftType.startsWith("H/")) {
@@ -151,9 +152,9 @@ export enum VatsimCommsEnum {
       }
 
       const codeMatch = rawAircraftType.match(/^([A-Z0-9]+)(\/([A-Z]))?$/);
-      if (codeMatch && codeMatch.length > 0) {
+      if (codeMatch != null && codeMatch.length > 0) {
         this.equipmentCode = codeMatch[1];
-        if (codeMatch.length > 2 && codeMatch[3]) {
+        if (codeMatch.length > 2 && codeMatch[3].length > 0) {
           this.equipmentSuffix = codeMatch[3];
         }
       }
@@ -171,7 +172,7 @@ export enum VatsimCommsEnum {
   if (this.isModified("callsign")) {
     const regexMatch = this.callsign.match(AirlineCodeRegexPattern);
 
-    if (regexMatch && regexMatch.length > 0) {
+    if (regexMatch != null && regexMatch.length > 0) {
       this.airlineCode = regexMatch[1];
       this.flightNumber = regexMatch[2];
     }
@@ -181,13 +182,14 @@ export enum VatsimCommsEnum {
 // Extract the SID from the route.
 @pre<FlightPlan>("save", function (next) {
   if (this.isModified("route")) {
-    if (!this.route) {
-      return next();
+    if (this.route == null) {
+      next();
+      return;
     }
     // Strip off any + that may have been put at the front by VRC.
     const sid = extractSID(this.route?.replace(/^\+/, ""));
 
-    if (sid) {
+    if (sid != null) {
       this.SID = sid;
     }
   }
@@ -196,7 +198,7 @@ export enum VatsimCommsEnum {
 })
 // Calculate expandedRoute
 @pre<FlightPlan>("save", async function () {
-  if (!this.isModified("route") || !this.route) {
+  if (!this.isModified("route") || this.route == null) {
     return;
   }
 
@@ -206,7 +208,7 @@ export enum VatsimCommsEnum {
   // the telephony for the SID.
   if (routeParts.length > 0) {
     const sid = await DepartureModel.findOne({ SID: routeParts[0] }).cacheQuery({ ttl: 60 * 60 }); // One hour
-    if (sid) {
+    if (sid != null) {
       routeParts[0] = sid.Telephony ?? routeParts[0];
     }
   }
@@ -215,7 +217,7 @@ export enum VatsimCommsEnum {
   const { results } = await PromisePool.for(routeParts).process(async (part) => {
     if (part.length === 3) {
       const navaid = await NavaidModel.findOne({ ident: part }).cacheQuery({ ttl: 60 * 60 }); // One hour
-      return navaid ? navaid.name : part;
+      return navaid != null ? navaid.name : part;
     } else {
       return part;
     }
@@ -225,7 +227,7 @@ export enum VatsimCommsEnum {
 })
 // Cache pilot stats for later
 @pre<FlightPlan>("save", async function () {
-  if (!this.isModified("cid") || !this.cid) {
+  if (!this.isModified("cid") || this.cid == null) {
     return;
   }
 
@@ -337,7 +339,7 @@ export class FlightPlan {
     foreignField: "airlineCode",
     autopopulate: true,
   })
-  telephony?: Ref<Airline>[];
+  telephony?: Array<Ref<Airline>>;
 
   @prop({
     ref: () => Departure,
@@ -378,11 +380,11 @@ export class FlightPlan {
   // For example a heavy aircraft with callsign AAL212 would return
   // "AMERICAN 212 HEAVY".
   public get callsignTelephony(): string {
-    if (!this.callsign) {
+    if (this.callsign === "") {
       return "";
     }
 
-    if (this.telephony?.[0]) {
+    if (this.telephony?.[0] != null) {
       return `${(this.telephony[0] as Airline).telephony} ${this.flightNumber}${
         this.heavyTelephony
       }`;
@@ -424,7 +426,7 @@ export class FlightPlan {
   }
 
   public get vatsimComs(): VatsimCommsEnum {
-    if (!this.remarks) {
+    if (this.remarks == null) {
       return VatsimCommsEnum.UNKNOWN;
     }
 
@@ -441,7 +443,7 @@ export class FlightPlan {
   }
 
   public get cleanedRemarks(): string | undefined {
-    if (!this.remarks) {
+    if (this.remarks == null) {
       return "";
     }
     const parts = this.remarks.toUpperCase().split(" ");
@@ -468,7 +470,7 @@ export class FlightPlan {
   }
 
   public get cleanedRoute(): string {
-    if (!this.route) {
+    if (this.route == null) {
       return "";
     }
 
@@ -481,7 +483,7 @@ export class FlightPlan {
     const equipmentInfo = this.equipmentInfo as AircraftDocument | undefined;
 
     // Can't do departure initial altitude matching without equipment info and aircraft class
-    if (!equipmentInfo || !equipmentInfo.aircraftClass) {
+    if (equipmentInfo?.aircraftClass == null) {
       return null;
     }
 
@@ -503,7 +505,7 @@ export class FlightPlan {
         this.flow
       );
 
-      if (fromDeparture) {
+      if (fromDeparture != null) {
         return fromDeparture;
       }
 

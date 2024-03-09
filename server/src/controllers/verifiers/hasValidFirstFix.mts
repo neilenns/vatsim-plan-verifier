@@ -1,9 +1,7 @@
 import { isDocument } from "@typegoose/typegoose";
 import mainLogger from "../../logger.mjs";
-import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
-import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
-import { VerifierFunction } from "../../types/verifier.mjs";
+import { type VerifierFunction } from "../../types/verifier.mjs";
 
 const verifierName = "hasValidFirstFix";
 const logger = mainLogger.child({ service: verifierName });
@@ -23,11 +21,11 @@ const hasValidFirstFix: VerifierFunction = async function (
   try {
     const firstFix = routeParts?.[1];
 
-    if (!SID) {
+    if (SID == null) {
       result.status = VerifierResultStatus.INFORMATION;
       result.message = `Route likely doesn't have a SID so can't verify first fix.`;
       result.messageId = "noSID";
-    } else if (!firstFix) {
+    } else if (firstFix === undefined) {
       result.status = VerifierResultStatus.INFORMATION;
       result.message = `Route doesn't have at least two parts so can't verify first fix.`;
       result.messageId = "noFirstFix";

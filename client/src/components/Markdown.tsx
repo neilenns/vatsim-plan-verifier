@@ -1,12 +1,12 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-import { ReactNode } from "react";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { ReactNode } from "react";
 
-type MarkdownProps = {
+interface MarkdownProps {
   children: string;
-};
+}
 
 const Markdown = ({ children }: MarkdownProps) => {
   function CustomBlockquote({ children }: { children: ReactNode }) {
@@ -15,7 +15,6 @@ const Markdown = ({ children }: MarkdownProps) => {
 
   return (
     <ReactMarkdown
-      children={children}
       remarkPlugins={[remarkGfm]}
       components={{
         table: ({ children, style }) => <Table sx={{ ...style }}>{children}</Table>,
@@ -25,7 +24,9 @@ const Markdown = ({ children }: MarkdownProps) => {
         tbody: ({ children, style }) => <TableBody sx={{ ...style }}>{children}</TableBody>,
         blockquote: CustomBlockquote,
       }}
-    />
+    >
+      {children}
+    </ReactMarkdown>
   );
 };
 

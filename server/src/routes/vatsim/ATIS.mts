@@ -1,7 +1,7 @@
-import express, { Request, Response } from "express";
+import express, { type Request, type Response } from "express";
 import { getVatsimAtis } from "../../controllers/vatsim.mjs";
 import { secureQueryMiddleware } from "../../middleware/secureQueryMiddleware.mjs";
-import { ParamsDictionary, Query } from "express-serve-static-core";
+import { type ParamsDictionary, type Query } from "express-serve-static-core";
 import { verifyApiKey } from "../../middleware/apikey.mjs";
 
 interface ATISParams extends ParamsDictionary {
@@ -16,16 +16,18 @@ interface ATISQueryParams extends Query {
 
 const router = express.Router();
 
-function appendPadding(text: string, padding: number) {
+function appendPadding(text: string, padding: number): string {
   return `${text}${" ".repeat(padding)}`;
 }
 
 router.get(
   "/vatsim/atis/:callsign",
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   verifyApiKey,
   secureQueryMiddleware,
-  async (req: Request<ATISParams, {}, {}, ATISQueryParams>, res: Response) => {
-    const codeOnly = JSON.parse(req.query.codeOnly?.toLowerCase() ?? "false");
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  async (req: Request<ATISParams, unknown, unknown, ATISQueryParams>, res: Response) => {
+    const codeOnly = JSON.parse(req.query.codeOnly?.toLowerCase() ?? "false") as boolean;
     const jsonResponseRequested = req.query.format?.toUpperCase() === "JSON";
     const padding = parseInt(req.query.padding ?? "0");
     const result = await getVatsimAtis(req.params.callsign);
@@ -38,11 +40,10 @@ router.get(
       } else {
         res.send(appendPadding(result.data.text, padding));
       }
-      return;
     } else {
       const errorMessage = `No ATIS available for ${req.params.callsign}`;
 
-      if (!jsonResponseRequested || codeOnly) {
+      if (!jsonResponseRequested) {
         res.status(500).send(appendPadding(errorMessage, padding));
       } else {
         res.status(500).json({ error: errorMessage });

@@ -1,0 +1,37 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "npm",
+      "script": "lint",
+      "label": "Lint (client)",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": ["$vite-eslint-visualstudio", "$vite-esbuild", "$eslint-stylish"]
+    },
+    {
+      "type": "npm",
+      "script": "build",
+      "label": "Run production build (client)",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$vite-esbuild", "$vite-eslint-visualstudio"]
+    },
+    {
+      "label": "docker-build: client",
+      "type": "docker-build",
+      "platform": "node",
+      "dockerBuild": {
+        "context": ".",
+        "dockerfile": "Docker/Dockerfile",
+        "tag": "plan-verifier-client:localdev"
+      }
+    }
+  ]
+}

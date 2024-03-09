@@ -1,4 +1,4 @@
-import { DocumentType, getModelForClass, modelOptions, plugin, prop } from "@typegoose/typegoose";
+import { type DocumentType, getModelForClass, modelOptions, plugin, prop } from "@typegoose/typegoose";
 import autopopulate from "mongoose-autopopulate";
 import { SpeedGooseCacheAutoCleaner } from "speedgoose";
 

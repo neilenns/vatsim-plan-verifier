@@ -1,8 +1,8 @@
-import { DocumentType, getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
+import { type DocumentType, getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
 import _ from "lodash";
 import { DateTime } from "luxon";
 import { ENV } from "../env.mjs";
-import { IVatsimPilot } from "../interfaces/IVatsimData.mjs";
+import { type IVatsimPilot } from "../interfaces/IVatsimData.mjs";
 import mainLogger from "../logger.mjs";
 import { parseStringToNumber } from "../utils.mjs";
 import { cleanRoute, depTimeToDateTime, getCommunicationMethod } from "../utils/vatsim.mjs";
@@ -119,7 +119,7 @@ class VatsimFlightPlan {
   @prop({ required: true, default: 0 })
   flightPlanRevision!: number;
 
-  public setRevision(this: VatsimFlightPlanDocument) {
+  public setRevision(this: VatsimFlightPlanDocument): void {
     if (!this.isModified()) {
       return;
     }
@@ -136,18 +136,21 @@ class VatsimFlightPlan {
     }
   }
 
-  public get isCoasting() {
+  public get isCoasting(): boolean {
     return this.coastAt !== undefined;
   }
 
-  public async updateFlightPlan(this: VatsimFlightPlanDocument, incomingPlan: IVatsimPilot) {
+  public async updateFlightPlan(
+    this: VatsimFlightPlanDocument,
+    incomingPlan: IVatsimPilot
+  ): Promise<void> {
     // Only try updating the flight plan properties if the revision changed on the VATSIM side.
     if (this.vnasPlanRevision !== incomingPlan.flight_plan?.revision_id) {
       this.arrival = incomingPlan.flight_plan?.arrival ?? "";
       this.departure = incomingPlan.flight_plan?.departure ?? "";
       this.departureTime = depTimeToDateTime(incomingPlan?.flight_plan?.deptime);
       this.vnasPlanRevision = incomingPlan.flight_plan?.revision_id;
-      this.name = incomingPlan.flight_plan?.name ?? "";
+      this.name = incomingPlan.name ?? "";
       this.rawAircraftType = incomingPlan.flight_plan?.aircraft_faa ?? "";
       this.remarks = incomingPlan.flight_plan?.remarks ?? "";
       this.route = cleanRoute(incomingPlan.flight_plan?.route ?? "");
@@ -167,7 +170,7 @@ class VatsimFlightPlan {
     // Set the special properties that only apply to real plans (not prefiles)
     if (!this.isPrefile) {
       this.updateNoisyProperties(incomingPlan);
-      return this.updateFlightStatus().then(() => {
+      await this.updateFlightStatus().then(() => {
         // Calculate the revision last
         this.setRevision();
       });
@@ -178,11 +181,11 @@ class VatsimFlightPlan {
     }
   }
 
-  public setCoast(this: VatsimFlightPlanDocument) {
+  public setCoast(this: VatsimFlightPlanDocument): void {
     const now = DateTime.utc();
 
     // If it's not coasting yet give it a coasting time.
-    if (!this.coastAt) {
+    if (this.coastAt == null) {
       this.coastAt = now.toJSDate();
       return;
     }
@@ -198,7 +201,7 @@ class VatsimFlightPlan {
 
   // Some properties change a *lot* and cause a ton of database updates. Instead of updating them
   // every time only update them if the value changed a bit.
-  public updateNoisyProperties(this: VatsimFlightPlanDocument, incomingPlan: IVatsimPilot) {
+  public updateNoisyProperties(this: VatsimFlightPlanDocument, incomingPlan: IVatsimPilot): void {
     let delta: number;
 
     // Groundspeed
@@ -227,13 +230,13 @@ class VatsimFlightPlan {
    * @param flightPlan The flight plan.
    * @returns The plane's flight state.
    */
-  public async updateFlightStatus() {
+  public async updateFlightStatus(): Promise<void> {
     // All prefiles, planes without a departure airport, planes without a lat/long, and planes with no ground speed are assumed to be departing.
     if (
       this.isPrefile ||
-      !this.departure ||
-      !this.latitude ||
-      !this.longitude ||
+      this.departure == null ||
+      this.latitude == null ||
+      this.longitude == null ||
       this.groundspeed === undefined
     ) {
       this.status = VatsimFlightStatus.DEPARTING;
@@ -259,7 +262,7 @@ class VatsimFlightPlan {
     );
 
     if (
-      distanceFromDepartureAirport &&
+      distanceFromDepartureAirport != null &&
       distanceFromDepartureAirport < ENV.VATSIM_DISTANCE_CUTOFF_IN_KM
     ) {
       this.status = VatsimFlightStatus.DEPARTING;
@@ -274,7 +277,7 @@ class VatsimFlightPlan {
     );
 
     if (
-      distanceFromArrivalAirport &&
+      distanceFromArrivalAirport != null &&
       distanceFromArrivalAirport < ENV.VATSIM_DISTANCE_CUTOFF_IN_KM
     ) {
       this.status = VatsimFlightStatus.ARRIVED;
@@ -285,7 +288,7 @@ class VatsimFlightPlan {
     // their distance from either departure or arrival airport is above the cutoff distance.
     // in that case check the distances and set the DEPARTING or ARRIVING state based on
     // which airport is closer.
-    if (distanceFromArrivalAirport && distanceFromDepartureAirport) {
+    if (distanceFromArrivalAirport != null && distanceFromDepartureAirport != null) {
       distanceFromArrivalAirport < distanceFromDepartureAirport
         ? (this.status = VatsimFlightStatus.ARRIVED)
         : (this.status = VatsimFlightStatus.DEPARTING);
@@ -305,11 +308,11 @@ class VatsimFlightPlan {
     this: DocumentType<VatsimFlightPlan>,
     cruiseAltitude: string,
     flightRules: string
-  ) {
+  ): void {
     // Handle the case of the incoming cruise altitude being undefined or empty from
     // an incoming vatsim flight plan.
     const rawAltitude = cruiseAltitude ?? "0";
-    var altitude;
+    let altitude;
 
     // vNAS flight plans mark VFR fligths with VFR in the cruise altitude instead of a flightRules
     // field. It is either "VFR040" or just "VFR". If it is a VFR flight, mark the flight rule

@@ -1,5 +1,5 @@
 import {
-  DocumentType,
+  type DocumentType,
   defaultClasses,
   getModelForClass,
   modelOptions,
@@ -18,7 +18,7 @@ const logger = mainLogger.child({ service: "metar" });
   if (this.isModified("metar")) {
     const metar = parseMetar(this.metar);
 
-    if (!metar.altimeter) {
+    if (metar.altimeter == null) {
       return;
     }
 

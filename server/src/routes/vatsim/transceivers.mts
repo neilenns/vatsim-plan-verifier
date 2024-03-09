@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { type Request, type Response } from "express";
 import { getTunedTransceiversForCallsign } from "../../controllers/vatsimTransceivers.mjs";
 import { secureQueryMiddleware } from "../../middleware/secureQueryMiddleware.mjs";
 
@@ -7,6 +7,7 @@ const router = express.Router();
 router.get(
   "/vatsim/transceivers/:callsign",
   secureQueryMiddleware,
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async (req: Request, res: Response) => {
     const result = await getTunedTransceiversForCallsign(req.params.callsign);
 

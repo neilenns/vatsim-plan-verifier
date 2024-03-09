@@ -1,7 +1,7 @@
-import { MongoBulkWriteError } from "mongodb";
-import { CustomLevelsLogger } from "./logger.mjs";
+import { type MongoBulkWriteError } from "mongodb";
+import { type CustomLevelsLogger } from "./logger.mjs";
 
-export function logMongoBulkErrors(logger: CustomLevelsLogger, err: unknown) {
+export function logMongoBulkErrors(logger: CustomLevelsLogger, err: unknown): void {
   const error = err as Error;
 
   // Bulk write errors are super annoying. The actual write errors
@@ -34,8 +34,8 @@ export function formatAltitude(altitude: number, includeFeet: boolean = true): s
 
 // Takes a string and converts it to a number. If the conversion
 // fails it returns 0.
-export function parseStringToNumber(value: string) {
-  if (!value || value.length === 0) {
+export function parseStringToNumber(value: string): number {
+  if (value.length === 0 || value.length === 0) {
     return 0;
   }
 
@@ -50,7 +50,7 @@ export function parseStringToNumber(value: string) {
 // a string in thousands (e.g. "34000").
 // Note that this just does string manipulation. It does not
 // convert the string to a number.
-export function convertFLtoThousands(value: string) {
+export function convertFLtoThousands(value: string): string {
   if (value.startsWith("FL")) {
     return `${value.replace("FL", "")}00`;
   } else {

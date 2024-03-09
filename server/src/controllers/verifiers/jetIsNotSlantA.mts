@@ -1,9 +1,7 @@
 import { isDocument } from "@typegoose/typegoose";
 import mainLogger from "../../logger.mjs";
-import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
-import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
-import { VerifierFunction } from "../../types/verifier.mjs";
+import { type VerifierFunction } from "../../types/verifier.mjs";
 
 const verifierName = "jetIsNotSlantA";
 const logger = mainLogger.child({ service: verifierName });
@@ -45,7 +43,7 @@ const jetIsNotSlantA: VerifierFunction = async function (
     }
 
     if (saveResult) {
-      result.save();
+      await result.save();
     }
     return {
       success: true,

@@ -1,8 +1,11 @@
 import { Types } from "mongoose";
 import mainLogger from "../logger.mjs";
-import { ActiveFlightPlanDocument, ActiveFlightPlanModel } from "../models/ActiveFlightPlan.mjs";
+import {
+  type ActiveFlightPlanDocument,
+  ActiveFlightPlanModel,
+} from "../models/ActiveFlightPlan.mjs";
 import { VerifierResultStatus } from "../models/VerifierResult.mjs";
-import Result from "../types/result.mjs";
+import type Result from "../types/result.mjs";
 
 const logger = mainLogger.child({ service: "activeFlightPlanController" });
 
@@ -43,20 +46,6 @@ export async function getActiveFlightPlans(controllerId: string): Promise<Active
         localField: "flightPlanId", // The field from the ActiveFlightPlan collection
         foreignField: "flightPlanId", // The field from the VerifierResults collection
         as: "verifierResults",
-      },
-    };
-
-    // This can be added to the pipeline to filter out information results before sending to the client.
-    // Right now the client is filtering these out so it's not needed.
-    const filterOutInformationResults = {
-      $set: {
-        verifierResults: {
-          $filter: {
-            input: "$verifierResults",
-            as: "verifierResult",
-            cond: { $ne: ["$$verifierResult.status", VerifierResultStatus.INFORMATION] },
-          },
-        },
       },
     };
 
@@ -162,7 +151,7 @@ export async function getActiveFlightPlans(controllerId: string): Promise<Active
       },
     ]);
 
-    if (fetchedPlans) {
+    if (fetchedPlans.length > 0) {
       return { success: true, data: fetchedPlans };
     } else {
       return {
@@ -228,24 +217,17 @@ export async function addActiveFlightPlan(
     const newPlan = new ActiveFlightPlanModel({ controllerId, flightPlan: flightPlanId, callsign });
     const savedPlan = await newPlan.save();
 
-    if (savedPlan) {
-      return { success: true, data: [savedPlan] };
-    } else {
-      return {
-        success: false,
-        errorType: "UnknownError",
-        error: `Unable to save active flight plan ${flightPlanId}/${callsign} for controller ${controllerId}.`,
-      };
-    }
-  } catch (error) {
+    return { success: true, data: [savedPlan] };
+  } catch (err) {
+    const error = err as Error;
     logger.error(
-      `Unable to save active flight plan ${flightPlanId}/${callsign} for controller ${controllerId}: ${error}`
+      `Unable to save active flight plan ${flightPlanId}/${callsign} for controller ${controllerId}: ${error.message}`
     );
 
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Unable to save active flight plan ${flightPlanId}/${callsign} for controller ${controllerId}: ${error}`,
+      error: `Unable to save active flight plan ${flightPlanId}/${callsign} for controller ${controllerId}: ${error.message}`,
     };
   }
 }

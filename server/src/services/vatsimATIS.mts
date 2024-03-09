@@ -1,7 +1,7 @@
 import _ from "lodash";
-import { IVatsimATIS, IVatsimData } from "../interfaces/IVatsimData.mjs";
+import { type IVatsimATIS, type IVatsimData } from "../interfaces/IVatsimData.mjs";
 import mainLogger from "../logger.mjs";
-import { VatsimATISDocument, VatsimATISModel } from "../models/VatsimATIS.mjs";
+import { type VatsimATISDocument, VatsimATISModel } from "../models/VatsimATIS.mjs";
 import { logMongoBulkErrors } from "../utils.mjs";
 
 const logger = mainLogger.child({ service: "vatsimATIS" });
@@ -11,7 +11,7 @@ const logger = mainLogger.child({ service: "vatsimATIS" });
 let unchangedCount = 0;
 
 // Takes an ATIS object from vatsim and converts it to a vatsim model
-function atisToVatsimModel(atis: IVatsimATIS) {
+function atisToVatsimModel(atis: IVatsimATIS): VatsimATISDocument {
   const result = new VatsimATISModel({
     callsign: atis.callsign,
     frequency: atis.frequency,
@@ -25,18 +25,15 @@ function atisToVatsimModel(atis: IVatsimATIS) {
 function calculateNewAndChanged(
   currentATISes: _.Dictionary<VatsimATISDocument>,
   incomingATISes: _.Dictionary<IVatsimATIS>
-) {
-  let profiler = logger.startTimer();
-
+): [dataToAdd: VatsimATISDocument[], dataToUpdate: VatsimATISDocument[]] {
   const dataToAdd: VatsimATISDocument[] = [];
   const dataToUpdate: VatsimATISDocument[] = [];
 
-  profiler = logger.startTimer();
-  _.map(incomingATISes, (incomingATIS, key) => {
+  Object.values(incomingATISes).forEach((incomingATIS) => {
     const currentATIS = currentATISes[incomingATIS.callsign];
 
     // If it's not found it's new
-    if (!currentATIS) {
+    if (currentATIS === undefined) {
       dataToAdd.push(atisToVatsimModel(incomingATIS));
       return;
     }
@@ -57,7 +54,7 @@ function calculateNewAndChanged(
   return [dataToAdd, dataToUpdate];
 }
 
-export async function processVatsimATISData(vatsimData: IVatsimData) {
+export async function processVatsimATISData(vatsimData: IVatsimData): Promise<void> {
   const profiler = logger.startTimer();
 
   logger.info(`Processing ${vatsimData.atis.length} incoming VATSIM ATISes`, {
@@ -71,7 +68,7 @@ export async function processVatsimATISData(vatsimData: IVatsimData) {
 
   // Build the lists of data to add, update, and delete.
   const [dataToAdd, dataToUpdate] = calculateNewAndChanged(currentData, incomingData);
-  const dataToDelete = _.differenceBy(_.keys(currentData), _.keys(incomingData));
+  const dataToDelete = _.differenceBy(Object.keys(currentData), Object.keys(incomingData));
 
   // Apply all the changes to the database.
   try {

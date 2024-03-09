@@ -1,9 +1,9 @@
 import mainLogger from "../logger.mjs";
 import {
-  ExtendedAirportInfoDocument,
+  type ExtendedAirportInfoDocument,
   ExtendedAirportInfoModel,
 } from "../models/ExtendedAirportInfo.mjs";
-import Result from "../types/result.mjs";
+import type Result from "../types/result.mjs";
 
 const logger = mainLogger.child({ service: "extendedAirportInfo" });
 
@@ -18,7 +18,7 @@ export async function getExtendedAirportInfo(
   try {
     const fetchedInfo = await ExtendedAirportInfoModel.findOne({ airportCode });
 
-    if (fetchedInfo) {
+    if (fetchedInfo != null) {
       return { success: true, data: fetchedInfo };
     } else {
       return {

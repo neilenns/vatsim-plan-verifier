@@ -1,9 +1,3 @@
-import { useLoaderData, useSearchParams } from "react-router-dom";
-import AlertSnackbar, {
-  AlertSnackBarOnClose,
-  AlertSnackbarProps,
-} from "../components/AlertSnackbar";
-import { useEffect, useState } from "react";
 import { Search as SearchIcon } from "@mui/icons-material";
 import {
   IconButton,
@@ -14,8 +8,14 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
-import { AircraftDetailsLoaderResult } from "../services/aircraftDetailsLoader.mts";
+import { useEffect, useState } from "react";
+import { useLoaderData, useSearchParams } from "react-router-dom";
+import AlertSnackbar, {
+  AlertSnackBarOnClose,
+  AlertSnackbarProps,
+} from "../components/AlertSnackbar";
 import IAircraft from "../interfaces/IAircraft.mts";
+import { AircraftDetailsLoaderResult } from "../services/aircraftDetailsLoader.mts";
 
 const AircraftDetails = () => {
   const loaderData = useLoaderData() as AircraftDetailsLoaderResult;
@@ -24,18 +24,21 @@ const AircraftDetails = () => {
   const [aircraftName, setAircraftName] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const handleSnackbarClose: AlertSnackBarOnClose = () => setSnackbar(null);
+  const handleSnackbarClose: AlertSnackBarOnClose = () => {
+    setSnackbar(null);
+  };
 
   useEffect(() => {
-    // Handles the case where the page is reloaded/navigated to without any aircraft
-    // name specified in the URL.
-    if (loaderData === undefined) {
+    if (!loaderData.success) {
       setAircraftDetails([]);
       setAircraftName("");
-      return;
-    }
+      // Handles the case where the page is reloaded/navigated to without any aircraft
+      // name specified in the URL.
+      if (loaderData.error === "NoNameSpecified") {
+        return;
+      }
 
-    if (!loaderData.success) {
+      // Otherwise show the error
       setSnackbar({
         children: loaderData.error,
         severity: "error",
@@ -43,7 +46,7 @@ const AircraftDetails = () => {
       return;
     }
 
-    setAircraftDetails(loaderData.data ?? {});
+    setAircraftDetails(loaderData.data);
     setAircraftName(searchParams.get("name") ?? "");
 
     if (loaderData.data.length === 0) {
@@ -65,7 +68,9 @@ const AircraftDetails = () => {
         <TextField
           type="text"
           value={aircraftName}
-          onChange={(e) => setAircraftName(e.target.value)}
+          onChange={(e) => {
+            setAircraftName(e.target.value);
+          }}
           helperText="Aircraft name"
           size="small"
         />

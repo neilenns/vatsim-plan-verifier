@@ -1,8 +1,7 @@
 import { isDocument } from "@typegoose/typegoose";
 import mainLogger from "../../logger.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
-import { VerifierFunction } from "../../types/verifier.mjs";
-import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
+import { type VerifierFunction } from "../../types/verifier.mjs";
 
 const verifierName = "hasSID";
 const logger = mainLogger.child({ service: verifierName });
@@ -31,7 +30,7 @@ const hasSID: VerifierFunction = async function (
       result.message = `Departure airport has no SIDs.`;
       result.messageId = "airportHasNoSIDs";
       result.priority = 3;
-    } else if (!SID) {
+    } else if (SID == null) {
       result.status = VerifierResultStatus.WARNING;
       result.message = `Flight plan may not have a SID.`;
       result.messageId = "noSID";

@@ -1,6 +1,6 @@
-import IVerifyAllResult from "../interfaces/IVerifyAllResult.mjs";
-import { VerifierResultDocument, VerifierResultStatus } from "../models/VerifierResult.mjs";
-import { WritableKeys } from "ts-essentials";
+import type IVerifyAllResult from "../interfaces/IVerifyAllResult.mjs";
+import { type VerifierResultDocument, VerifierResultStatus } from "../models/VerifierResult.mjs";
+import { type WritableKeys } from "ts-essentials";
 
 // This magic ensures type safety when adding a result to the class,
 // when incrementing the appropriate error/warning count.
@@ -125,6 +125,9 @@ export default class VerifyAllResult implements IVerifyAllResult {
     if (result.status === VerifierResultStatus.ERROR) {
       if (errorProp in this) {
         this.errorCount++;
+        // The value of errorProp is generated entirely from written code, without any external source
+        // strings. Should be safe.
+        // eslint-disable-next-line security/detect-object-injection
         this[errorProp]++;
       }
     }
@@ -132,12 +135,15 @@ export default class VerifyAllResult implements IVerifyAllResult {
     if (result.status === "Warning") {
       if (warningProp in this) {
         this.warningCount++;
+        // The value of errorProp is generated entirely from written code, without any external source
+        // strings. Should be safe.
+        // eslint-disable-next-line security/detect-object-injection
         this[warningProp]++;
       }
     }
   }
 
-  public toJSON() {
+  public toJSON(): VerifyAllResult {
     return {
       ...this,
       hasRawAircraftTypeWarnings: this.hasRawAircraftTypeWarnings,

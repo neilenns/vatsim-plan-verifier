@@ -1,6 +1,6 @@
+import { CheckCircle, Error, Info, Warning } from "@mui/icons-material";
 import { InputAdornment, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Warning, Error, CheckCircle, Info } from "@mui/icons-material";
 
 // This component can take either hasErrors and hasWarnings from VerifyAllResults
 // or a status from a VerifyResult. If it has a status, it will override the other two
@@ -16,7 +16,7 @@ const StatusIndicator = (props: StatusIndicatorProps) => {
   const [hasErrors, setHasErrors] = useState<boolean | undefined>(props.hasErrors);
   const [hasWarnings, setHasWarnings] = useState<boolean | undefined>(props.hasWarnings);
   const [hasCustomMessage, setHasCustomMessage] = useState<boolean | undefined>(
-    props?.status === "custommessage"
+    props.status === "custommessage"
   );
   const theme = useTheme();
 

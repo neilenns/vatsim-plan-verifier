@@ -1,6 +1,6 @@
 import {
-  DocumentType,
-  ReturnModelType,
+  type DocumentType,
+  type ReturnModelType,
   getModelForClass,
   modelOptions,
   prop,
@@ -22,8 +22,8 @@ export class Airline {
   public static async findByAirlineCode(
     this: ReturnModelType<typeof Airline>,
     airlineCode: string
-  ) {
-    return this.find({ airlineCode: airlineCode });
+  ): Promise<AirlineDocument[]> {
+    return await this.find({ airlineCode });
   }
 }
 

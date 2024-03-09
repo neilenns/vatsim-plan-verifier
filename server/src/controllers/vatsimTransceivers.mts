@@ -1,9 +1,9 @@
 import mainLogger from "../logger.mjs";
 import {
-  TunedTransceiversDocument,
+  type TunedTransceiversDocument,
   TunedTransceiversModel,
 } from "../models/VatsimTunedTransceivers.mjs";
-import Result from "../types/result.mjs";
+import type Result from "../types/result.mjs";
 
 const logger = mainLogger.child({ service: "vatsimTransceivers" });
 
@@ -18,7 +18,7 @@ export async function getTunedTransceiversForCallsign(
   try {
     const transceivers = await TunedTransceiversModel.findOne({ callsign }).cacheQuery({ ttl: 30 });
 
-    if (transceivers) {
+    if (transceivers != null) {
       return {
         success: true,
         data: transceivers,

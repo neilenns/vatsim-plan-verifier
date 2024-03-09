@@ -1,4 +1,4 @@
-import { VatsimFlightPlanDocument } from "../models/VatsimFlightPlan.mjs";
+import { type VatsimFlightPlanDocument } from "../models/VatsimFlightPlan.mjs";
 
 export interface ServerToClientEvents {
   vatsimFlightPlansUpdate: (flightPlans: VatsimFlightPlanDocument[]) => void;

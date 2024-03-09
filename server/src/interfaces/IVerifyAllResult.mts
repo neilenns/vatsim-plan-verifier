@@ -1,4 +1,4 @@
-import { VerifierResultDocument } from "../models/VerifierResult.mjs";
+import { type VerifierResultDocument } from "../models/VerifierResult.mjs";
 
 export default interface IVerifyAllResult {
   results: VerifierResultDocument[];

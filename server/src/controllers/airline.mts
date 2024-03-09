@@ -1,6 +1,6 @@
 import mainLogger from "../logger.mjs";
-import { AirlineDocument, AirlineModel } from "../models/Airline.mjs";
-import Result from "../types/result.mjs";
+import { type AirlineDocument, AirlineModel } from "../models/Airline.mjs";
+import type Result from "../types/result.mjs";
 
 const logger = mainLogger.child({ service: "airline" });
 type AirlineResult = Result<AirlineDocument[], "AirlineNotFound" | "UnknownError">;
@@ -9,7 +9,7 @@ export async function getAirline(airlineCode: string): Promise<AirlineResult> {
   try {
     const fetchedAirlines = await AirlineModel.findByAirlineCode(airlineCode);
 
-    if (fetchedAirlines) {
+    if (fetchedAirlines.length > 0) {
       return { success: true, data: fetchedAirlines };
     } else {
       return {
@@ -25,7 +25,7 @@ export async function getAirline(airlineCode: string): Promise<AirlineResult> {
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error fetching airlines ${airlineCode}: ${error}`,
+      error: `Error fetching airlines ${airlineCode}: ${error.message}`,
     };
   }
 }

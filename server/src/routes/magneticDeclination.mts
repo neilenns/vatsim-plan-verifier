@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { type Request, type Response } from "express";
 import { getMagneticDeclination } from "../controllers/magneticDeclination.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
@@ -10,6 +10,7 @@ router.get(
   "/magneticDeclination/:latitude/:longitude",
   verifyUser,
   secureQueryMiddleware,
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async (req: Request, res: Response) => {
     const { latitude, longitude } = req.params;
 

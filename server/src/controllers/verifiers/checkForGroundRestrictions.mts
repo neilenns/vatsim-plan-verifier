@@ -2,11 +2,11 @@ import { isDocument } from "@typegoose/typegoose";
 import mainLogger from "../../logger.mjs";
 import { GroundRestrictionModel } from "../../models/GroundRestrictions.mjs";
 import {
-  VerifierResultDocument,
+  type VerifierResultDocument,
   VerifierResultModel,
   VerifierResultStatus,
 } from "../../models/VerifierResult.mjs";
-import { VerifierFunction } from "../../types/verifier.mjs";
+import { type VerifierFunction } from "../../types/verifier.mjs";
 import { logMongoBulkErrors } from "../../utils.mjs";
 import applyMustacheValues from "../../utils/mustache.mjs";
 import { PromisePool } from "@supercharge/promise-pool";
@@ -40,7 +40,7 @@ const checkForGroundRestrictions: VerifierFunction = async function (
       tailHeight
     );
 
-    if (!groundRestrictions || groundRestrictions.length === 0) {
+    if (groundRestrictions == null || groundRestrictions.length === 0) {
       results.push(
         new VerifierResultModel({
           flightPlanId: flightPlan._id,

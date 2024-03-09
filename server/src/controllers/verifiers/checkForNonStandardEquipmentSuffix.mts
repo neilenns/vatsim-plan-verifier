@@ -1,7 +1,6 @@
 import mainLogger from "../../logger.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
-import { VerifierFunction } from "../../types/verifier.mjs";
-import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
+import { type VerifierFunction } from "../../types/verifier.mjs";
 
 const verifierName = "checkForNonStandardEquipmentSuffix";
 const logger = mainLogger.child({ service: verifierName });

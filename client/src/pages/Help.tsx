@@ -5,7 +5,7 @@ import helpText from "../content/README.md?raw";
 const Help = () => {
   return (
     <Box margin={2}>
-      <Markdown children={helpText} />
+      <Markdown>{helpText}</Markdown>
     </Box>
   );
 };

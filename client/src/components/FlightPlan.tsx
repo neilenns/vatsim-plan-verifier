@@ -3,6 +3,8 @@ import { LoadingButton } from "@mui/lab";
 import { Box, Button, Grid, Link, Stack, Tooltip, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Form, useNavigation } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { flowState } from "../context/atoms";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
 import {
@@ -16,8 +18,6 @@ import {
 import { CallsignTooltip } from "./CallsignTooltip";
 import { EquipmentInfoTooltip } from "./EquipmentInfoTooltip";
 import FlightPlanTextField from "./FlightPlanTextField";
-import { useRecoilValue } from "recoil";
-import { flowState } from "../context/atoms";
 
 interface FlightPlanProps {
   flightPlan: IFlightPlan;
@@ -56,10 +56,6 @@ const FlightPlan = (props: FlightPlanProps) => {
   }, [flightPlan]);
 
   const copyPlan = async () => {
-    if (!flightPlan) {
-      return;
-    }
-
     // Convert cruiseAltitude to a string so padStart() can be called on it
     const cruiseAltitude = flightPlan.cruiseAltitude?.toString() ?? "";
 
@@ -96,7 +92,9 @@ const FlightPlan = (props: FlightPlanProps) => {
               id="callsign"
               label="Callsign"
               name="callsign"
-              inputRef={(input: HTMLInputElement) => input && input.focus()}
+              inputRef={(input: HTMLInputElement | undefined) => {
+                input?.focus();
+              }}
               value={flightPlan.callsign ?? ""}
               helperText={
                 <CallsignTooltip
@@ -153,7 +151,7 @@ const FlightPlan = (props: FlightPlanProps) => {
               name="departure"
               value={flightPlan.departure ?? ""}
               helperText={
-                flightPlan?.departureAirportInfo?.name ? (
+                flightPlan.departureAirportInfo?.name ? (
                   <Link
                     href={`https://chartfox.org/${flightPlan.departure ?? ""}`}
                     target="_blank"
@@ -182,7 +180,7 @@ const FlightPlan = (props: FlightPlanProps) => {
               name="arrival"
               value={flightPlan.arrival ?? ""}
               helperText={
-                flightPlan?.arrivalAirportInfo?.name ? (
+                flightPlan.arrivalAirportInfo?.name ? (
                   <Link
                     href={`https://chartfox.org/${flightPlan.arrival ?? ""}`}
                     target="_blank"
@@ -319,7 +317,6 @@ const FlightPlan = (props: FlightPlanProps) => {
             <Button
               fullWidth
               disabled={
-                !flightPlan ||
                 !flightPlan.callsign ||
                 !flightPlan.rawAircraftType ||
                 !flightPlan.squawk ||

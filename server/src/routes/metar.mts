@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { type Request, type Response } from "express";
 import { verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
 import { getMetar } from "../controllers/metar.mjs";
@@ -9,12 +9,12 @@ router.get(
   "/metar/:airportCode",
   verifyUser,
   secureQueryMiddleware,
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async (req: Request, res: Response) => {
     const result = await getMetar(req.params.airportCode);
 
     if (result.success) {
       res.json(result.data);
-      return;
     } else {
       res.status(500).json({ error: `Failed to get the metar for ${req.params.airportCode}.` });
     }

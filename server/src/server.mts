@@ -2,25 +2,20 @@ import bodyParser from "body-parser";
 import * as chokidar from "chokidar";
 import compression from "compression";
 import cookieParser from "cookie-parser";
-import cors, { CorsOptions } from "cors";
+import cors, { type CorsOptions } from "cors";
 import express from "express";
 import rateLimit from "express-rate-limit";
 import fs from "fs";
 import helmet from "helmet";
-import { Server } from "http";
-import { HttpTerminator, createHttpTerminator } from "http-terminator";
+import { type Server } from "http";
+import { type HttpTerminator, createHttpTerminator } from "http-terminator";
 import https from "https";
 import * as bree from "./bree.mjs";
 import { ENV } from "./env.mjs";
 import mainLogger from "./logger.mjs";
 import morgan from "./middleware/morgan.mjs";
 import { setupSockets } from "./sockets/index.mjs";
-
-const logger = mainLogger.child({ service: "server" });
-
-// Workaround for lodash being a CommonJS module
-import pkg from "lodash";
-const { debounce } = pkg;
+import _ from "lodash";
 
 // Authentication
 
@@ -54,15 +49,19 @@ import adminRouter from "./routes/admin.mjs";
 
 import { isOriginAllowed, setWhitelist } from "./utils/cors.mjs";
 
+const logger = mainLogger.child({ service: "server" });
+
 export const app = express();
 let server: https.Server | Server;
 let httpTerminator: HttpTerminator;
-var watcher: chokidar.FSWatcher;
+let watcher: chokidar.FSWatcher;
 
 const certFilesExist =
+  // This is fine, they come from environment variables not user-provided strings
+  // eslint-disable-next-line security/detect-non-literal-fs-filename
   fs.existsSync(ENV.SSL_PRIVATE_KEY_PATH) && fs.existsSync(ENV.SSL_FULL_CHAIN_PATH);
 
-function reloadCertificates() {
+function reloadCertificates(): void {
   if (!certFilesExist) {
     return;
   }
@@ -73,7 +72,7 @@ function reloadCertificates() {
 
     const certs = readCertsSync();
 
-    if (!certs) {
+    if (certs.key == null || certs.cert == null) {
       logger.error("Unable to load SSL certs.");
       return;
     }
@@ -84,11 +83,14 @@ function reloadCertificates() {
 }
 
 // From https://stackoverflow.com/a/42455876/9206264
-const debouncedReloadSSL = debounce(reloadCertificates, 1000);
+const debouncedReloadSSL = _.debounce(reloadCertificates, 1000);
 
-function readCertsSync() {
+function readCertsSync(): { key: Buffer; cert: Buffer } {
   return {
+    // Both these paths come from environment variables, not user supplied data. Should be fine.
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
     key: fs.readFileSync(ENV.SSL_PRIVATE_KEY_PATH),
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
     cert: fs.readFileSync(ENV.SSL_FULL_CHAIN_PATH),
   };
 }
@@ -103,16 +105,16 @@ export async function startServer(port: number): Promise<void> {
   app.use(cookieParser(ENV.COOKIE_SECRET));
   app.use(morgan);
 
-  const corsOptions = {
+  const corsOptions: CorsOptions = {
     origin: function (origin, callback) {
-      if (!origin || isOriginAllowed(origin)) {
+      if (origin == null || isOriginAllowed(origin)) {
         callback(null, true);
       } else {
         callback(new Error("Not allowed by CORS"));
       }
     },
     credentials: true,
-  } as CorsOptions;
+  };
 
   const rateLimiter = rateLimit({
     windowMs: ENV.API_RATE_LIMIT_MINUTE_WINDOW * 60 * 1000, // 5 minute default
@@ -159,7 +161,7 @@ export async function startServer(port: number): Promise<void> {
   // Overall error handler
   app.use((err: any, req: any, res: any, next: any) => {
     logger.error(err);
-    res.status(err.status || 500).send({
+    res.status(err.status ?? 500).send({
       error: {
         message: err.message,
       },
@@ -184,7 +186,7 @@ export async function startServer(port: number): Promise<void> {
   });
 
   // Start the sockets
-  setupSockets(server);
+  await setupSockets(server);
 
   // Start the jobs
   await bree.initialize();
@@ -194,17 +196,15 @@ export async function startServer(port: number): Promise<void> {
   startWatching();
 }
 
-export async function stopServer() {
-  stopWatching();
+export async function stopServer(): Promise<void> {
+  await stopWatching();
   await bree.stop();
 
-  if (server) {
-    logger.info("Stopping web server...");
-    await httpTerminator.terminate();
-  }
+  logger.info("Stopping web server...");
+  await httpTerminator.terminate();
 }
 
-function startWatching() {
+function startWatching(): void {
   if (!certFilesExist) {
     return;
   }
@@ -222,6 +222,6 @@ function startWatching() {
   );
 }
 
-async function stopWatching() {
+async function stopWatching(): Promise<void> {
   await watcher?.close();
 }

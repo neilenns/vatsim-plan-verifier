@@ -1,7 +1,6 @@
-import { FlightPlan } from "../models/FlightPlan.mjs";
-import VerifierControllerResult, {
-  VerifierControllerMultiResult,
-} from "./verifierControllerResult.mjs";
+import { type FlightPlan } from "../models/FlightPlan.mjs";
+import {type VerifierControllerMultiResult} from "./verifierControllerResult.mjs";
+import type VerifierControllerResult from "./verifierControllerResult.mjs";
 
 export type VerifierFunction = (
   flightPlan: FlightPlan,
@@ -11,7 +10,7 @@ export type VerifierFunction = (
   saveResult?: boolean
 ) => Promise<VerifierControllerResult | VerifierControllerMultiResult>;
 
-export type Verifier = {
+export interface Verifier {
   name: string;
   handler: VerifierFunction;
-};
+}

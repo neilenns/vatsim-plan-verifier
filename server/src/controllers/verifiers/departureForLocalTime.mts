@@ -1,8 +1,8 @@
 import { isDocument } from "@typegoose/typegoose";
 import mainLogger from "../../logger.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
-import { VerifierFunction } from "../../types/verifier.mjs";
-import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
+import { type VerifierFunction } from "../../types/verifier.mjs";
+import type VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import { AirportFlow } from "../../models/InitialAltitude.mjs";
 
 const verifierName = "departureForLocalTime";
@@ -32,10 +32,10 @@ const departureForLocalTime: VerifierFunction = async function (
       const isValidResult = await SIDInformation.isValid();
 
       if ((SIDInformation.Flow ?? AirportFlow.Any) !== flow) {
-        (result.data.status = VerifierResultStatus.INFORMATION),
-          (result.data.message = `SID isn't applicable for the current flow.`);
+        result.data.status = VerifierResultStatus.INFORMATION;
+        result.data.message = `SID isn't applicable for the current flow.`;
         result.data.messageId = "SIDNotApplicableForFlow";
-      } else if (isValidResult.isValid) {
+      } else if (isValidResult.isValid === true) {
         result.data.status = VerifierResultStatus.INFORMATION;
         result.data.message = `SID is valid for the current time of day at the departure airport.`;
         result.data.messageId = "DepartureTimeIsValid";

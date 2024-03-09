@@ -1,8 +1,8 @@
-import express, { Request, Response } from "express";
+import express, { type Request, type Response } from "express";
 import * as bree from "../bree.mjs";
-import { JobName } from "../bree.mjs";
-import { Auth0UserRequest, verifyRole, verifyUser } from "../middleware/permissions.mjs";
-import { ParamsDictionary } from "express-serve-static-core";
+import { type JobName } from "../bree.mjs";
+import { type Auth0UserRequest, verifyRole, verifyUser } from "../middleware/permissions.mjs";
+import { type ParamsDictionary } from "express-serve-static-core";
 import mainLogger from "../logger.mjs";
 import { getIO } from "../sockets/index.mjs";
 
@@ -17,8 +17,10 @@ interface StartJobParams extends ParamsDictionary {
 router.get(
   "/admin/endConnections",
   verifyUser,
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   verifyRole("admin"),
-  async (req: Auth0UserRequest, res: Response) => {
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  async (_req: Auth0UserRequest, res: Response) => {
     let count = 0;
     getIO().sockets.sockets.forEach((socket) => {
       // Call disconnect() on each socket
@@ -34,12 +36,14 @@ router.get(
 router.get(
   "/admin/startJob/:jobName",
   verifyUser,
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   verifyRole("admin"),
-  async (req: Request<StartJobParams, {}, {}, {}>, res: Response) => {
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  async (req: Request<StartJobParams, unknown, unknown, unknown>, res: Response) => {
     try {
       const { jobName } = req.params;
 
-      bree.runJob(jobName);
+      await bree.runJob(jobName);
 
       res.send(`${jobName} started`);
     } catch (error) {

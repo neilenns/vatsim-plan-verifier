@@ -1,9 +1,9 @@
 import { Grid, Paper } from "@mui/material";
+import { useRecoilValue } from "recoil";
+import { hideInformationalState } from "../context/atoms";
 import IFlightPlan from "../interfaces/IFlightPlan.mts";
 import IVerifierResultDocument, { StatusValue } from "../interfaces/IVerifierResult.mts";
 import VerifierResultComponent from "./VerifierResult";
-import { hideInformationalState } from "../context/atoms";
-import { useRecoilValue } from "recoil";
 
 interface VerifierResultsProps {
   verifierResults: IVerifierResultDocument[] | undefined;
@@ -26,7 +26,7 @@ const VerifierResults = ({ verifierResults, flightPlan }: VerifierResultsProps) 
   const filteredResults = verifierResults
     // Filter informational results unless hideInformational is true.
     ?.filter((result) => !hideInformational || result.status !== "Information")
-    ?.sort((a, b) => statusOrder[a.status] - statusOrder[b.status] || a.priority - b.priority);
+    .sort((a, b) => statusOrder[a.status] - statusOrder[b.status] || a.priority - b.priority);
 
   return (
     filteredResults &&

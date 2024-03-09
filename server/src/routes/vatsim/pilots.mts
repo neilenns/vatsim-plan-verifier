@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { type Request, type Response } from "express";
 import { getVatsimPilotStats } from "../../controllers/vatsim.mjs";
 import { verifyUser } from "../../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../../middleware/secureQueryMiddleware.mjs";
@@ -9,6 +9,7 @@ router.get(
   "/vatsim/pilots/:cid",
   verifyUser,
   secureQueryMiddleware,
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async (req: Request, res: Response) => {
     const result = await getVatsimPilotStats(Number(req.params.cid));
 

@@ -1,11 +1,12 @@
 import axios from "axios";
 import _ from "lodash";
-import { ITunedTransceivers } from "../interfaces/IVatsimTransceiver.mjs";
+import { type ITunedTransceivers } from "../interfaces/IVatsimTransceiver.mjs";
 import mainLogger from "../logger.mjs";
 import {
-  TunedTransceiversDocument,
+  type TunedTransceiversDocument,
   TunedTransceiversModel,
 } from "../models/VatsimTunedTransceivers.mjs";
+import type Result from "../types/result.mjs";
 
 const logger = mainLogger.child({ service: "vatsimTunedTransceivers" });
 
@@ -13,7 +14,9 @@ const logger = mainLogger.child({ service: "vatsimTunedTransceivers" });
 // data didn't change from what was already in the database.
 let unchangedCount = 0;
 
-export async function getVatsimTunedTransceivers(endpoint: string) {
+export async function getVatsimTunedTransceivers(
+  endpoint: string
+): Promise<Result<undefined, "UnknownError"> | undefined> {
   logger.info("Downloading latest VATSIM transceivers");
 
   try {
@@ -23,6 +26,7 @@ export async function getVatsimTunedTransceivers(endpoint: string) {
       await processVatsimTransceivers(response.data as ITunedTransceivers[]);
       return {
         success: true,
+        data: undefined,
       };
     } else {
       return {
@@ -31,16 +35,17 @@ export async function getVatsimTunedTransceivers(endpoint: string) {
         error: `Unknown error: ${response.status} ${response.statusText}`,
       };
     }
-  } catch (error) {
+  } catch (err) {
+    const error = err as Error;
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error fetching VATSIM transceivers: ${error}`,
+      error: `Error fetching VATSIM transceivers: ${error.message}`,
     };
   }
 }
 
-function transceiverToVatsimModel(transceiver: ITunedTransceivers) {
+function transceiverToVatsimModel(transceiver: ITunedTransceivers): TunedTransceiversDocument {
   const result = new TunedTransceiversModel({
     callsign: transceiver.callsign,
     com1: transceiver.transceivers[0]?.frequency ?? undefined,
@@ -53,7 +58,7 @@ function transceiverToVatsimModel(transceiver: ITunedTransceivers) {
 function calculateNewAndUpdated(
   currentTransceivers: _.Dictionary<TunedTransceiversDocument>,
   incomingTransceivers: _.Dictionary<ITunedTransceivers>
-) {
+): [dataToAdd: TunedTransceiversDocument[], dataToUpdate: TunedTransceiversDocument[]] {
   let profiler = logger.startTimer();
 
   const dataToAdd: TunedTransceiversDocument[] = [];
@@ -61,11 +66,11 @@ function calculateNewAndUpdated(
 
   profiler = logger.startTimer();
 
-  _.map(incomingTransceivers, (incomingTransceiver, key) => {
+  Object.values(incomingTransceivers).forEach((incomingTransceiver) => {
     const currentTransceiver = currentTransceivers[incomingTransceiver.callsign];
 
     // If it's not found it's new
-    if (!currentTransceiver) {
+    if (currentTransceiver === undefined) {
       dataToAdd.push(transceiverToVatsimModel(incomingTransceiver));
       return;
     }
@@ -91,10 +96,10 @@ function calculateNewAndUpdated(
   return [dataToAdd, dataToUpdate];
 }
 
-async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
+async function processVatsimTransceivers(clients: ITunedTransceivers[]): Promise<void> {
   const profiler = logger.startTimer();
 
-  if (!clients || clients.length === 0) {
+  if (clients.length === 0) {
     logger.info(`No clients received from VATSIM.`);
     return;
   }
@@ -109,7 +114,7 @@ async function processVatsimTransceivers(clients: ITunedTransceivers[]) {
 
   // Build the lists of data to add, update, and delete.
   const [dataToAdd, dataToUpdate] = calculateNewAndUpdated(currentData, incomingData);
-  const dataToDelete = _.differenceBy(_.keys(currentData), _.keys(incomingData));
+  const dataToDelete = _.differenceBy(Object.keys(currentData), Object.keys(incomingData));
 
   // Apply all the changes to the database.
   try {

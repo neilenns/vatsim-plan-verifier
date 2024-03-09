@@ -1,8 +1,8 @@
-import express, { Response } from "express";
+import express, { type Response } from "express";
 import { getFlightAwareRoutes } from "../controllers/flightAwareRoutes.mjs";
-import { Auth0UserRequest, verifyUser } from "../middleware/permissions.mjs";
+import { type Auth0UserRequest, verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
-import { FlightPlanDocument } from "../models/FlightPlan.mjs";
+import { type FlightPlanDocument } from "../models/FlightPlan.mjs";
 
 const router = express.Router();
 
@@ -10,6 +10,7 @@ router.get(
   "/flightAwareRoutes/:departure/:arrival",
   verifyUser,
   secureQueryMiddleware,
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async (req: Auth0UserRequest, res: Response) => {
     const { departure, arrival } = req.params;
 
@@ -17,9 +18,9 @@ router.get(
       const routes = await getFlightAwareRoutes({
         departure,
         arrival,
-      } as FlightPlanDocument);
+      } satisfies Partial<FlightPlanDocument>);
 
-      if (routes.success === false) {
+      if (!routes.success) {
         return res.status(404).json({ error: routes.error });
       }
 

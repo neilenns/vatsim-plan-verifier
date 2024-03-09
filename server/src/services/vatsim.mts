@@ -1,22 +1,23 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { type AxiosResponse } from "axios";
 import fs from "fs";
 import pluralize from "pluralize";
-import { Server as SocketIOServer } from "socket.io";
+import { type Server as SocketIOServer } from "socket.io";
 import { getVatsimEDCTFlightPlans, getVatsimEDCTViewOnly } from "../controllers/vatsim.mjs";
 import { ENV } from "../env.mjs";
-import { IVatsimData } from "../interfaces/IVatsimData.mjs";
-import IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
+import { type IVatsimData } from "../interfaces/IVatsimData.mjs";
+import type IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
 import mainLogger from "../logger.mjs";
 import { VatsimFlightPlanModel, VatsimFlightStatus } from "../models/VatsimFlightPlan.mjs";
 import { getIO } from "../sockets/index.mjs";
 import { processVatsimATISData } from "./vatsimATIS.mjs";
 import { processVatsimFlightPlanData } from "./vatsimFlightPlans.mjs";
+import { type FailureResult } from "../types/result.mjs";
 
 const logger = mainLogger.child({ service: "vatsim" });
 
 // Retrieves the published vatsim endpoints for the services. This is used to get
 // the endpoint to retrieve all the current flight plans.
-export async function getVatsimEndpoints() {
+export async function getVatsimEndpoints(): Promise<IVatsimEndpoints | null> {
   try {
     const endpointUrl = "https://status.vatsim.net/status.json";
 
@@ -42,14 +43,18 @@ export async function getVatsimEndpoints() {
 
 // Loads data from vatsim then processes the relevant parts: filed and prefiled flight plans, and
 // ATIS messages.
-export async function getVatsimData(endpoint: string) {
+export async function getVatsimData(
+  endpoint: string
+): Promise<FailureResult<"UnknownError"> | undefined> {
   logger.info("Downloading latest VATSIM data");
 
   // For debugging/testing purposes, if a vatsim data file was specified
   // then load and use that instead of retrieving from the real server.
   // This enables making specific changes to flights and testing the results.
-  if (ENV.VATSIM_DATA_FILE) {
+  if (ENV.VATSIM_DATA_FILE != null) {
     logger.debug(`Using VATSIM data from ${ENV.VATSIM_DATA_FILE}`);
+    // Totally fine, this is just test path from an environment variable.
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
     const data = await fs.promises.readFile(ENV.VATSIM_DATA_FILE, "utf-8");
     const vatsimData: IVatsimData = JSON.parse(data);
 
@@ -72,39 +77,34 @@ export async function getVatsimData(endpoint: string) {
         error: `Unknown error: ${response.status} ${response.statusText}`,
       };
     }
-  } catch (error) {
+  } catch (err) {
+    const error = err as Error;
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error fetching VATSIM flight plans: ${error}`,
+      error: `Error fetching VATSIM flight plans: ${error.message}`,
     };
   }
 }
 
 // Handles publishing updated data to all connected clients.
-export async function publishUpdates() {
+export async function publishUpdates(): Promise<void> {
   const io = getIO();
 
-  if (!io) {
-    logger.warn(`Unable to publish updates, no sockets defined`);
-    return;
-  }
-
   // Loop through the rooms and send filtered data to clients in each room
-  io.sockets.adapter.rooms.forEach(async (_, roomName) => {
-    await publishFlightPlanUpdate(io, roomName);
-    await publishEDCTupdate(io, roomName);
-    await publishEDCTViewOnlyupdate(io, roomName);
+  io.sockets.adapter.rooms.forEach((_, roomName) => {
+    void (async () => {
+      await Promise.all([
+        publishFlightPlanUpdate(io, roomName),
+        publishEDCTupdate(io, roomName),
+        publishEDCTViewOnlyupdate(io, roomName),
+      ]);
+    })();
   });
 }
 
 // Publishes flight plan updates to a specific room.
-export async function publishFlightPlanUpdate(io: SocketIOServer, roomName: string) {
-  if (!io) {
-    logger.warn(`Unable to publish updates, no sockets defined`);
-    return;
-  }
-
+export async function publishFlightPlanUpdate(io: SocketIOServer, roomName: string): Promise<void> {
   // Every client gets put in their own auto-generated room. Skip those since there won't be any matching
   // database values. The assumption is all airport codes will be 3 or 4 characters long.
   if (!roomName.startsWith("APT:")) return;
@@ -124,12 +124,10 @@ export async function publishFlightPlanUpdate(io: SocketIOServer, roomName: stri
 }
 
 // Publishes EDCT updates to a specific room.
-export async function publishEDCTViewOnlyupdate(io: SocketIOServer, roomName: string) {
-  if (!io) {
-    logger.warn(`Unable to publish updates, no sockets defined`);
-    return;
-  }
-
+export async function publishEDCTViewOnlyupdate(
+  io: SocketIOServer,
+  roomName: string
+): Promise<void> {
   // Every client gets put in their own auto-generated room. Skip those since there won't be any matching
   // database values.
   if (!roomName.startsWith("EDCTViewOnly:")) return;
@@ -148,12 +146,7 @@ export async function publishEDCTViewOnlyupdate(io: SocketIOServer, roomName: st
 }
 
 // Publishes EDCT updates to a specific room.
-export async function publishEDCTupdate(io: SocketIOServer, roomName: string) {
-  if (!io) {
-    logger.warn(`Unable to publish updates, no sockets defined`);
-    return;
-  }
-
+export async function publishEDCTupdate(io: SocketIOServer, roomName: string): Promise<void> {
   // Every client gets put in their own auto-generated room. Skip those since there won't be any matching
   // database values. The assumption is all airport codes will be 3 or 4 characters long.
   if (!roomName.startsWith("EDCT:")) return;

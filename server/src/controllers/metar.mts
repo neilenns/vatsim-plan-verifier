@@ -1,8 +1,8 @@
-import axios, { AxiosResponse } from "axios";
-import IAviationWeatherMetar from "../interfaces/IAviationWeather.mjs";
+import axios, { type AxiosResponse } from "axios";
+import type IAviationWeatherMetar from "../interfaces/IAviationWeather.mjs";
 import mainLogger from "../logger.mjs";
-import { MetarDocument, MetarModel } from "../models/Metar.mjs";
-import Result from "../types/result.mjs";
+import { type MetarDocument, MetarModel } from "../models/Metar.mjs";
+import type Result from "../types/result.mjs";
 
 const logger = mainLogger.child({ service: "metar" });
 
@@ -13,7 +13,7 @@ export async function getMetar(airportCode: string): Promise<MetarResult> {
     // Look for unexpired cached data first
     const cachedMetar = await MetarModel.findOne({ icao: airportCode });
 
-    if (cachedMetar && !(await cachedMetar?.isExpired())) {
+    if (cachedMetar != null && !(await cachedMetar?.isExpired())) {
       return {
         success: true,
         data: cachedMetar,
@@ -24,7 +24,7 @@ export async function getMetar(airportCode: string): Promise<MetarResult> {
     // from aviationweather.gov.
     const fetchedMetar = await fetchMetarFromAviationWeather(airportCode);
 
-    if (!fetchedMetar) {
+    if (fetchedMetar === null) {
       logger.debug(`No metar found for ${airportCode}`);
       return {
         success: false,
@@ -37,8 +37,8 @@ export async function getMetar(airportCode: string): Promise<MetarResult> {
     // why is it so hard to either update or create a new document with mongoose
     // and have it run pre-save middleware? (No, you can't use findOneOrUpdate for this)
     let savedMetar: MetarDocument;
-    if (cachedMetar) {
-      cachedMetar.metar = fetchedMetar.metar;
+    if (cachedMetar != null) {
+      cachedMetar.metar = fetchedMetar.metar ?? "";
       cachedMetar.updatedAt = new Date(); // Force the updatedAt date to update even if the metar didn't change
       savedMetar = await cachedMetar.save();
     } else {
@@ -48,11 +48,12 @@ export async function getMetar(airportCode: string): Promise<MetarResult> {
       success: true,
       data: savedMetar,
     };
-  } catch (error) {
+  } catch (err) {
+    const error = err as Error;
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error fetching METAR for ${airportCode}: ${error}`,
+      error: `Error fetching METAR for ${airportCode}: ${error.message}`,
     };
   }
 }
@@ -60,6 +61,7 @@ export async function getMetar(airportCode: string): Promise<MetarResult> {
 // Looks up METAR from the flybywireapi. This used to be used to get metar but their
 // API went down for a full day. Now aviationweather.gov is used, but this code is
 // still here for future use if necessary.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function fetchMetarFromFlyByWire(airportCode: string): Promise<MetarDocument> {
   const endpointUrl = `https://api.flybywiresim.com/metar/${airportCode}?source=vatsim`;
   const response: AxiosResponse<MetarDocument> = await axios.get(endpointUrl);
@@ -72,13 +74,14 @@ async function fetchMetarFromFlyByWire(airportCode: string): Promise<MetarDocume
         `Error fetching METAR for ${airportCode}: ${response.status} ${response.statusText}`
       );
     }
-  } catch (error) {
-    throw new Error(`Error fetching METAR for ${airportCode}: ${error}`);
+  } catch (err) {
+    const error = err as Error;
+    throw new Error(`Error fetching METAR for ${airportCode}: ${error.message}`);
   }
 }
 
 // Looks up metar from aviationweather.gov.
-async function fetchMetarFromAviationWeather(airportCode: string): Promise<MetarDocument> {
+async function fetchMetarFromAviationWeather(airportCode: string): Promise<Partial<MetarDocument>> {
   const endpointUrl = `https://aviationweather.gov/cgi-bin/data/metar.php?ids=${airportCode}&hours=0&order=id%2C-obs&sep=true&format=json`;
 
   try {
@@ -90,7 +93,7 @@ async function fetchMetarFromAviationWeather(airportCode: string): Promise<Metar
         icao: response.data[0].icaoId,
         metar: response.data[0].rawOb,
         source: "AviationWeather",
-      } as MetarDocument;
+      } satisfies Partial<MetarDocument>;
     } else {
       logger.error(`Error fetching METAR for ${airportCode}`, { url: endpointUrl });
       throw new Error(

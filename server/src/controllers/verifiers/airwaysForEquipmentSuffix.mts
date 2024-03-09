@@ -1,7 +1,6 @@
 import mainLogger from "../../logger.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
-import { VerifierFunction } from "../../types/verifier.mjs";
-import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
+import { type VerifierFunction } from "../../types/verifier.mjs";
 
 const verifierName = "airwaysForEquipmentSuffix";
 const logger = mainLogger.child({ service: verifierName });
@@ -23,14 +22,14 @@ const airwaysForEquipmentSuffix: VerifierFunction = async function (
 
   try {
     // If there's no equiment suffix then there's nothing to check
-    if (!equipmentSuffix) {
+    if (equipmentSuffix == null) {
       result.status = VerifierResultStatus.INFORMATION;
       result.messageId = "noEquipmentSuffix";
       result.message = "No equipment suffix, unable to validate airways.";
       result.priority = 5;
     }
     // Can't do anything if there's no route
-    else if (!routeParts || routeParts.length === 0) {
+    else if (routeParts.length === 0) {
       result.status = VerifierResultStatus.INFORMATION;
       result.messageId = "noRouteParts";
       result.message = "No route specified, unable to validate airways.";

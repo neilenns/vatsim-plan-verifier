@@ -1,8 +1,6 @@
 import mainLogger from "../../logger.mjs";
-import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
-import { VerifierFunction } from "../../types/verifier.mjs";
-import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
+import { type VerifierFunction } from "../../types/verifier.mjs";
 
 const verifierName = "nonRNAVHasAirways";
 const logger = mainLogger.child({ service: verifierName });
@@ -20,7 +18,7 @@ const nonRNAVHasAirways: VerifierFunction = async function (
   });
 
   try {
-    if (!equipmentSuffix) {
+    if (equipmentSuffix == null) {
       result.status = VerifierResultStatus.INFORMATION;
       result.message = "No equipment suffix so no need to verify the route has airways.";
       result.messageId = "noEquipmentSuffix";

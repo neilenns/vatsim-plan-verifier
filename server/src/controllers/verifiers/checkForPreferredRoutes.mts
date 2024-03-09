@@ -3,8 +3,7 @@ import mainLogger from "../../logger.mjs";
 import { AirportFlow } from "../../models/InitialAltitude.mjs";
 import { PreferredRouteModel } from "../../models/PreferredRoute.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
-import { VerifierFunction } from "../../types/verifier.mjs";
-import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
+import { type VerifierFunction } from "../../types/verifier.mjs";
 import { formatAltitude } from "../../utils.mjs";
 
 const verifierName = "checkForPreferredRoutes";
@@ -35,7 +34,7 @@ const checkForPreferredRoutes: VerifierFunction = async function (flightPlan, sa
     }
 
     // Bail early if there's no equipment suffix
-    if (!flightPlan.equipmentSuffix) {
+    if (flightPlan.equipmentSuffix == null) {
       result.status = VerifierResultStatus.WARNING;
       result.messageId = "noEquipmentSuffixForPreferredRoute";
       result.message = `No equipment suffix available for ${flightPlan.equipmentCode}, unable to check for preferred routes.`;
@@ -75,7 +74,7 @@ const checkForPreferredRoutes: VerifierFunction = async function (flightPlan, sa
       );
     });
 
-    if (matchingRoutes && matchingRoutes.length > 0) {
+    if (matchingRoutes.length > 0) {
       result.status = VerifierResultStatus.OK;
       result.message = `Filed route is a preferred route and meets the minimum required altitude and speed.`;
       result.messageId = "preferredRoute";
@@ -96,8 +95,8 @@ const checkForPreferredRoutes: VerifierFunction = async function (flightPlan, sa
       result.message = `Filed route does not match a preferred route at the minimum required altitude and speed. Should be one of:`;
       result.extendedMessage = validPreferredRoutes.map((route) => {
         return `${route.route} at ${formatAltitude(route.minimumRequiredAltitude)}${
-          route.minimumRequiredSpeed ? ` and ${route.minimumRequiredSpeed} kts` : ""
-        }${route.remarks ? ` (${route.remarks})` : ""}`;
+          route.minimumRequiredSpeed !== 0 ? ` and ${route.minimumRequiredSpeed} kts` : ""
+        }${route.remarks != null ? ` (${route.remarks})` : ""}`;
       });
 
       result.messageId = "notPreferredRoute";

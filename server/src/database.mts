@@ -28,7 +28,7 @@ import "./models/VerifierResult.mjs";
 
 const logger = mainLogger.child({ service: "database" });
 
-export async function connectToDatabase() {
+export async function connectToDatabase(): Promise<void> {
   const url = ENV.MONGO_DB_CONNECTION_STRING;
 
   if (ENV.MONGOOSE_DEBUG) {
@@ -43,7 +43,7 @@ export async function connectToDatabase() {
     mongoose.set("autoIndex", false);
   }
 
-  if (!url) {
+  if (url === "") {
     logger.error(`No database connection string provided for MONGO_DB_CONNECTION_STRING`);
     return;
   }
@@ -57,15 +57,14 @@ export async function connectToDatabase() {
     .then(async () => {
       logger.debug("Connected");
 
-      ENV.REDIS_URI
+      ENV.REDIS_URI != null
         ? logger.debug(`Using REDIS cache at ${ENV.REDIS_URI}`)
         : logger.debug(`REDIS_URI not specified, using in-memory cache`);
 
       await applySpeedGooseCacheLayer(mongoose, {
         redisUri: ENV.REDIS_URI,
-        sharedCacheStrategy: ENV.REDIS_URI
-          ? SharedCacheStrategies.REDIS
-          : SharedCacheStrategies.IN_MEMORY,
+        sharedCacheStrategy:
+          ENV.REDIS_URI != null ? SharedCacheStrategies.REDIS : SharedCacheStrategies.IN_MEMORY,
         defaultTtl: 60 * 10,
       });
     })
@@ -77,11 +76,15 @@ export async function connectToDatabase() {
         `Failed to connect to mongo on startup: ${err.message} - retrying in 5 secconds`,
         error
       );
-      setTimeout(connectToDatabase, 5000);
+      setTimeout(() => {
+        void (async () => {
+          await connectToDatabase();
+        })();
+      }, 5000);
     });
 }
 
-export async function disconnectFromDatabase() {
+export async function disconnectFromDatabase(): Promise<void> {
   logger.debug("Disconnecting...");
   await mongoose.disconnect();
   logger.debug("Disconnected");

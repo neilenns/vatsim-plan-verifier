@@ -1,6 +1,6 @@
 import {
-  DocumentType,
-  ReturnModelType,
+  type DocumentType,
+  type ReturnModelType,
   getModelForClass,
   modelOptions,
   plugin,
@@ -41,7 +41,7 @@ class CustomMessage {
     messageTarget: MessageTarget,
     targetName: string,
     flow: AirportFlow = AirportFlow.Any
-  ): Promise<DocumentType<CustomMessage>[] | null> {
+  ): Promise<Array<DocumentType<CustomMessage>> | null> {
     return await this.find({ messageTarget, targetName, flow: { $in: ["ANY", flow, undefined] } });
   }
 }

@@ -7,7 +7,8 @@
     "start:dev": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node ./dist/main.mjs\"",
     "start": "node ./dist/main.mjs",
     "build": "tsc",
-    "test": "cross-env DOTENV_CONFIG_PATH=./test/test.env mocha -r dotenv/config"
+    "test": "cross-env DOTENV_CONFIG_PATH=./test/test.env mocha -r dotenv/config",
+    "lint": "eslint src --ext mts --report-unused-disable-directives --max-warnings 0"
   },
   "keywords": [],
   "author": "",
@@ -66,15 +67,24 @@
     "@types/mustache": "^4.2.2",
     "@types/node": "^20.11.6",
     "@types/pluralize": "^0.0.30",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
     "axios-mock-adapter": "^1.21.5",
     "chai": "^4.3.7",
     "cross-env": "^7.0.3",
     "env-test": "^1.0.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-standard-with-typescript": "^43.0.1",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-security": "^2.1.1",
+    "eslint-plugin-you-dont-need-lodash-underscore": "^6.13.0",
     "mocha": "^10.2.0",
     "mongodb-memory-server": "^8.13.0",
     "source-map-support": "^0.5.21",
     "ts-node": "^10.9.1",
     "tsc-watch": "^6.0.4",
-    "typescript": "^5.1.6"
+    "typescript": "^5.3.3"
   }
 }

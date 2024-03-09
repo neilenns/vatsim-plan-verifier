@@ -1,8 +1,8 @@
-import express, { Request, Response } from "express";
+import express, { type Request, type Response } from "express";
 import { getVatsimFlightPlan, getVatsimFlightPlans } from "../../controllers/vatsim.mjs";
 import { verifyUser } from "../../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../../middleware/secureQueryMiddleware.mjs";
-import { VatsimFlightStatus } from "../../models/VatsimFlightPlan.mjs";
+import { type VatsimFlightStatus } from "../../models/VatsimFlightPlan.mjs";
 
 const router = express.Router();
 
@@ -10,6 +10,7 @@ router.get(
   "/vatsim/flightPlans/:airport/:flightRules/:status",
   verifyUser,
   secureQueryMiddleware,
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async (req: Request, res: Response) => {
     const result = await getVatsimFlightPlans(
       req.params.airport,
@@ -33,6 +34,7 @@ router.get(
 router.get(
   "/vatsim/flightPlan/:callsign/:format",
   secureQueryMiddleware,
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async (req: Request, res: Response) => {
     const result = await getVatsimFlightPlan(req.params.callsign);
 

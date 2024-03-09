@@ -1,6 +1,6 @@
 import { plugin, prop } from "@typegoose/typegoose";
 import { SpeedGooseCacheAutoCleaner } from "speedgoose";
-import { AircraftClass } from "./Aircraft.mjs";
+import { type AircraftClass } from "./Aircraft.mjs";
 
 export enum InitialPhrasingOptions {
   Unknown = "Unknown",
@@ -47,14 +47,16 @@ export class InitialAltitude {
     initialAltitudes: InitialAltitude[],
     aircraftClass: AircraftClass,
     flow: AirportFlow
-  ) {
+  ): InitialAltitude | null {
     for (const initialAltitude of initialAltitudes) {
+      // This is fine, the regex comes from the database not end-user supplied text.
+      // eslint-disable-next-line security/detect-non-literal-regexp
       const regex = new RegExp(initialAltitude.AircraftClass);
 
       // Find the first initial altitude that matches both the aircraft class and airport flow.
       if (
         regex.test(aircraftClass) &&
-        (initialAltitude.Flow == AirportFlow.Any || initialAltitude.Flow === flow)
+        (initialAltitude.Flow === AirportFlow.Any || initialAltitude.Flow === flow)
       ) {
         return initialAltitude;
       }

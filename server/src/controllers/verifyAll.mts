@@ -1,7 +1,7 @@
 import { PromisePool } from "@supercharge/promise-pool";
 import mainLogger from "../logger.mjs";
-import { FlightPlan } from "../models/FlightPlan.mjs";
-import { VerifierResultDocument, VerifierResultModel } from "../models/VerifierResult.mjs";
+import { type FlightPlan } from "../models/FlightPlan.mjs";
+import { type VerifierResultDocument, VerifierResultModel } from "../models/VerifierResult.mjs";
 import { logMongoBulkErrors } from "../utils.mjs";
 import { verifiers } from "./verifiers/allVerifiers.mjs";
 import VerifyAllResult from "./verifyAllResult.mjs";

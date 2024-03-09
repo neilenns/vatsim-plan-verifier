@@ -1,8 +1,7 @@
 import { isDocument } from "@typegoose/typegoose";
 import mainLogger from "../../logger.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
-import { VerifierFunction } from "../../types/verifier.mjs";
-import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
+import { type VerifierFunction } from "../../types/verifier.mjs";
 
 const verifierName = "hasEquipmentSuffix";
 const logger = mainLogger.child({ service: verifierName });
@@ -21,12 +20,12 @@ const hasEquipmentSuffix: VerifierFunction = async function (
 
   try {
     // This is the test the verifier is supposed to do.
-    if (!equipmentSuffix || equipmentSuffix === "") {
+    if (equipmentSuffix == null || equipmentSuffix === "") {
       result.status = VerifierResultStatus.ERROR;
       result.messageId = "missingEquipmentSuffix";
       if (
         isDocument(equipmentInfo) &&
-        equipmentInfo.commonEquipmentSuffixes &&
+        equipmentInfo.commonEquipmentSuffixes != null &&
         equipmentInfo.commonEquipmentSuffixes.length > 0
       ) {
         result.message = `Flight plan is missing an equipment suffix. It should probably be one of these: ${equipmentInfo.commonEquipmentSuffixes

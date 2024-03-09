@@ -29,7 +29,5 @@ export interface IInitialAltitude {
 export interface ISIDInformation {
   Telephony?: string;
   InitialAltitudes?: IInitialAltitude[];
-  Charts?: {
-    [key: string]: string;
-  };
+  Charts?: Record<string, string>;
 }

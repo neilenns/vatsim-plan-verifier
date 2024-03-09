@@ -54,6 +54,15 @@
       "label": "npm: start:dev",
       "detail": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node ./dist/main.mjs\"",
       "isBackground": true
-    }
+    },
+    {
+      "type": "npm",
+      "script": "lint",
+      "label": "Lint (server)",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": ["$eslint-stylish"]
+    },
   ]
 }

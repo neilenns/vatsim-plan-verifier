@@ -1,8 +1,11 @@
 import { PromisePool } from "@supercharge/promise-pool";
 import _ from "lodash";
-import { IVatsimData, IVatsimPilot } from "../interfaces/IVatsimData.mjs";
+import { type IVatsimData, type IVatsimPilot } from "../interfaces/IVatsimData.mjs";
 import mainLogger from "../logger.mjs";
-import { VatsimFlightPlanDocument, VatsimFlightPlanModel } from "../models/VatsimFlightPlan.mjs";
+import {
+  type VatsimFlightPlanDocument,
+  VatsimFlightPlanModel,
+} from "../models/VatsimFlightPlan.mjs";
 import { logMongoBulkErrors } from "../utils.mjs";
 import { cleanRoute, depTimeToDateTime, getCommunicationMethod } from "../utils/vatsim.mjs";
 
@@ -13,7 +16,7 @@ const logger = mainLogger.child({ service: "vatsimFlightPlans" });
 let unchangedCount = 0;
 
 // Takes a pilot object from vatsim and converts it to a vatsim model
-export function pilotToVatsimModel(pilot: IVatsimPilot) {
+export function pilotToVatsimModel(pilot: IVatsimPilot): VatsimFlightPlanDocument {
   const result = new VatsimFlightPlanModel({
     cid: pilot.cid,
     name: pilot?.name,
@@ -50,7 +53,7 @@ export function pilotToVatsimModel(pilot: IVatsimPilot) {
 async function calculateNewAndUpdated(
   currentPlans: _.Dictionary<VatsimFlightPlanDocument>,
   incomingPlans: _.Dictionary<IVatsimPilot>
-) {
+): Promise<[VatsimFlightPlanDocument[], VatsimFlightPlanDocument[]]> {
   let profiler = logger.startTimer();
 
   const plansToAdd: VatsimFlightPlanDocument[] = [];
@@ -60,27 +63,25 @@ async function calculateNewAndUpdated(
 
   await PromisePool.withConcurrency(10)
     .for(Object.values(incomingPlans))
-    .handleError(async (err, incomingPlan) => {
-      const error = err as Error;
-
+    .handleError(async (error, incomingPlan) => {
       logger.error(
         `Unable to calculate new and updated for ${incomingPlan.callsign}: ${error.message}`,
         error
       );
     })
-    .process(async (incomingPlan) => {
+    .process(async (incomingPlan: IVatsimPilot) => {
       const currentPlan = currentPlans[incomingPlan.callsign];
 
       // If it's not found then it's a new plan so just make the model object and add it to
       // the new plan array.
-      if (!currentPlan) {
+      if (currentPlan === undefined) {
         const newPlan = pilotToVatsimModel(incomingPlan);
         // Important to set the initial flight status for the new plan. It could be in the air
         // or already arrived when it first appears in the list from VATSIM.
-        return newPlan.updateFlightStatus().then(() => {
-          plansToAdd.push(newPlan);
-          return;
-        });
+        await newPlan.updateFlightStatus();
+
+        plansToAdd.push(newPlan);
+        return;
       }
 
       // This means it's an existing plan so we need to update properties.
@@ -107,7 +108,7 @@ function calculateDeletedAndCoasting(
   currentPlans: _.Dictionary<VatsimFlightPlanDocument>,
   incomingPlans: _.Dictionary<IVatsimPilot>
 ): [string[], VatsimFlightPlanDocument[]] {
-  let profiler = logger.startTimer();
+  const profiler = logger.startTimer();
 
   let totalDeleted = 0;
   let alreadyCoasting = 0;
@@ -119,6 +120,8 @@ function calculateDeletedAndCoasting(
   const plansToCoast: VatsimFlightPlanDocument[] = [];
 
   for (const key in currentPlans) {
+    // This is fine, it's a Dictionary.
+    // eslint-disable-next-line security/detect-object-injection
     const deletedOnServer = incomingPlans[key] === undefined;
 
     // If the plan wasn't deleted then just return, it was either new or updated.
@@ -129,6 +132,8 @@ function calculateDeletedAndCoasting(
     // Since the plan was deleted it needs its coast value calculated. If it
     // is coasting add it to the updated plans list. If it wasn't then it's really gone
     // and add it to the deleted plans list.
+    // This is fine, it's a Dictionary.
+    // eslint-disable-next-line security/detect-object-injection
     const currentPlan = currentPlans[key];
 
     currentPlan.setCoast();
@@ -156,7 +161,7 @@ function calculateDeletedAndCoasting(
 
 // Takes the massive list of data from vatsim and processes it into the database.
 // Both pilots (a.k.a flight plans) and prefiles are processed.
-export async function processVatsimFlightPlanData(vatsimData: IVatsimData) {
+export async function processVatsimFlightPlanData(vatsimData: IVatsimData): Promise<void> {
   const overallProfiler = logger.startTimer();
   let profiler = logger.startTimer();
 

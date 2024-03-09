@@ -1,12 +1,17 @@
-import express, { Request, Response } from "express";
+import express, { type Request, type Response } from "express";
 import { getFlightPlan, importFlightPlan, putFlightPlan } from "../controllers/flightPlans.mjs";
 import { verifyUser } from "../middleware/permissions.mjs";
 import { secureQueryMiddleware } from "../middleware/secureQueryMiddleware.mjs";
-import { FlightPlan } from "../models/FlightPlan.mjs";
+import { type FlightPlan } from "../models/FlightPlan.mjs";
 
 const router = express.Router();
 
+interface TypedFlightPlanRequestBody<T> extends Express.Request {
+  body: T;
+}
+
 // POST route for storing a flight plan
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
 router.post("/flightPlan", verifyUser, async (req: Request, res: Response) => {
   const flightPlanData: FlightPlan = req.body;
 
@@ -24,6 +29,7 @@ router.get(
   "/flightPlan/:id",
   verifyUser,
   secureQueryMiddleware,
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async (req: Request, res: Response) => {
     const { id } = req.params;
 
@@ -46,10 +52,11 @@ router.post(
   "/flightPlan/import",
   verifyUser,
   secureQueryMiddleware,
-  async (req: Request, res: Response) => {
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  async (req: TypedFlightPlanRequestBody<{ callsign: string }>, res: Response) => {
     const { callsign } = req.body;
 
-    if (!callsign) {
+    if (callsign == null || callsign === "") {
       res.status(400).json({ error: "Missing required parameter: callsign" });
       return;
     }

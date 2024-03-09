@@ -2,11 +2,11 @@ import { PromisePool } from "@supercharge/promise-pool";
 import mainLogger from "../../logger.mjs";
 import { CustomMessageModel, MessageTarget } from "../../models/CustomMessages.mjs";
 import {
-  VerifierResultDocument,
+  type VerifierResultDocument,
   VerifierResultModel,
   VerifierResultStatus,
 } from "../../models/VerifierResult.mjs";
-import { VerifierFunction } from "../../types/verifier.mjs";
+import { type VerifierFunction } from "../../types/verifier.mjs";
 import { logMongoBulkErrors } from "../../utils.mjs";
 import applyMustacheValues from "../../utils/mustache.mjs";
 
@@ -21,7 +21,7 @@ const checkForCustomDepartureMessages: VerifierFunction = async function (
   let results: VerifierResultDocument[] = [];
 
   try {
-    if (!flightPlan.SID) {
+    if (flightPlan.SID == null) {
       results.push(
         new VerifierResultModel({
           flightPlanId: flightPlan._id,
@@ -40,7 +40,7 @@ const checkForCustomDepartureMessages: VerifierFunction = async function (
         flightPlan.flow
       );
 
-      if (!customMessages || customMessages.length === 0) {
+      if (customMessages == null || customMessages.length === 0) {
         results.push(
           new VerifierResultModel({
             flightPlanId: flightPlan._id,

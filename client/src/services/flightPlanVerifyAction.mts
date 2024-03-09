@@ -27,7 +27,7 @@ export const flightPlanVerifyAction =
       departure: formData.get("departure"),
       arrival: formData.get("arrival"),
       squawk: formData.get("squawk"),
-      route: cleanRoute((formData.get("route") as string) ?? ""),
+      route: cleanRoute(formData.get("route") as string),
       cruiseAltitude: formData.get("cruiseAltitude")?.toString().replace(/^FL/, ""), // In case someone enters the cruise altitude as "FL360"
       remarks: formData.get("remarks"),
       cid: Number(formData.get("cid")),

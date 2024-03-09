@@ -1,13 +1,13 @@
 import {
-  DocumentType,
-  ReturnModelType,
+  type DocumentType,
+  type ReturnModelType,
   getModelForClass,
   isDocument,
   plugin,
   prop,
 } from "@typegoose/typegoose";
 import { SpeedGooseCacheAutoCleaner } from "speedgoose";
-import { FlightPlan } from "./FlightPlan.mjs";
+import { type FlightPlan } from "./FlightPlan.mjs";
 import { AirportFlow } from "./InitialAltitude.mjs";
 
 @plugin(SpeedGooseCacheAutoCleaner)
@@ -42,7 +42,7 @@ class PreferredRoute {
   public static async findByFlightPlan(
     this: ReturnModelType<typeof PreferredRoute>,
     flightPlan: FlightPlan
-  ): Promise<DocumentType<PreferredRoute>[]> {
+  ): Promise<Array<DocumentType<PreferredRoute>>> {
     if (!isDocument(flightPlan.equipmentInfo)) {
       return [];
     }

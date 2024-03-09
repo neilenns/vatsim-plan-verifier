@@ -13,7 +13,7 @@ const maxRestartAttempts = 5;
 let restartAttemptCount = 0;
 let restartTimer: NodeJS.Timeout;
 
-async function startup() {
+async function startup(): Promise<void> {
   try {
     logger.info(`Plan verifier ${ENV.VERSION} starting`);
     // Clean up any stray lock file that may have been left behind by a prior
@@ -21,7 +21,7 @@ async function startup() {
     const lockfilePath = path.resolve("airports.lock");
     if (fs.existsSync(lockfilePath)) {
       fs.rmdir(lockfilePath, (err) => {
-        if (!err) {
+        if (err == null) {
           logger.warn(`Removed left behind ${lockfilePath} lockfile`);
         }
       });
@@ -49,15 +49,18 @@ async function startup() {
           restartAttemptWaitTime / 1000
         } seconds.`
       );
-      restartTimer = setTimeout(startup, restartAttemptWaitTime);
+      restartTimer = setTimeout(() => {
+        void (async () => {
+          await startup();
+        })();
+      }, restartAttemptWaitTime);
     } else {
       logger.error(`Startup failed ${maxRestartAttempts} times. Giving up.`);
-      return;
     }
   }
 }
 
-async function shutdown() {
+async function shutdown(): Promise<void> {
   logger.debug("Shutting down...");
   clearTimeout(restartTimer);
   await WebServer.stopServer();
@@ -65,18 +68,34 @@ async function shutdown() {
   logger.debug("Shutdown complete.");
 }
 
-async function handleDeath() {
+async function handleDeath(): Promise<void> {
   await shutdown();
   process.exit();
 }
 
 function registerForDeath(): void {
-  process.on("SIGINT", handleDeath);
-  process.on("SIGTERM", handleDeath);
-  process.on("SIGQUIT", handleDeath);
-  process.on("SIGBREAK", handleDeath);
+  process.on("SIGINT", () => {
+    void (async () => {
+      await handleDeath();
+    })();
+  });
+  process.on("SIGTERM", () => {
+    void (async () => {
+      await handleDeath();
+    })();
+  });
+  process.on("SIGQUIT", () => {
+    void (async () => {
+      await handleDeath();
+    })();
+  });
+  process.on("SIGBREAK", () => {
+    void (async () => {
+      await handleDeath();
+    })();
+  });
 }
 
 registerForDeath();
 
-startup();
+await startup();

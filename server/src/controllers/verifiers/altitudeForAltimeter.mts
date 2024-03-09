@@ -1,7 +1,7 @@
 import mainLogger from "../../logger.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
-import { VerifierFunction } from "../../types/verifier.mjs";
-import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
+import { type VerifierFunction } from "../../types/verifier.mjs";
+import type VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 import { getMetar } from "../metar.mjs";
 
 const verifierName = "altitudeForAltimeter";
@@ -26,7 +26,7 @@ const altitudeForAltimeter: VerifierFunction = async function (
     // get the altimeter for the airport
     const metar = await getMetar(departure);
 
-    if (!metar.success || !metar.data || !metar.data.altimeter) {
+    if (!metar.success || metar.data.altimeter == null) {
       result.data.status = VerifierResultStatus.INFORMATION;
       result.data.message = `Unable to retrieve metar for ${departure}, skipping altitude check.`;
       result.data.priority = 5;

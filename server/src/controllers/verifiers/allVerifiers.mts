@@ -1,4 +1,4 @@
-import { Verifier } from "../../types/verifier.mjs";
+import { type Verifier } from "../../types/verifier.mjs";
 
 import airwaysForEquipmentSuffix from "./airwaysForEquipmentSuffix.mjs";
 import altitudeForAltimeter from "./altitudeForAltimeter.mjs";

@@ -1,9 +1,7 @@
 import { isDocument } from "@typegoose/typegoose";
 import mainLogger from "../../logger.mjs";
-import { FlightPlan } from "../../models/FlightPlan.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
-import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
-import { VerifierFunction } from "../../types/verifier.mjs";
+import { type VerifierFunction } from "../../types/verifier.mjs";
 
 const verifierName = "jetsOnlyOnRNAV";
 const logger = mainLogger.child({ service: verifierName });
@@ -21,7 +19,7 @@ const jetsOnlyOnRNAV: VerifierFunction = async function (
   });
 
   try {
-    if (!isDocument(equipmentInfo) || !equipmentInfo.engineType) {
+    if (!isDocument(equipmentInfo) || equipmentInfo.engineType === "") {
       result.status = VerifierResultStatus.INFORMATION;
       result.message = "No engine type information found. Unable to verify jetsOnlyOnRNAV.";
       result.messageId = "noEngineTypeInformation";

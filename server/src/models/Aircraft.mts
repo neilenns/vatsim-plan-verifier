@@ -1,6 +1,6 @@
 import {
-  DocumentType,
-  ReturnModelType,
+  type DocumentType,
+  type ReturnModelType,
   getModelForClass,
   modelOptions,
   prop,
@@ -68,8 +68,11 @@ export class Aircraft {
   }
 
   // Finds all aircraft whose name contains the specified name
-  public static async findByName(this: ReturnModelType<typeof Aircraft>, name: string) {
-    return this.find({ name: { $regex: name, $options: "i" } }).exec();
+  public static async findByName(
+    this: ReturnModelType<typeof Aircraft>,
+    name: string
+  ): Promise<AircraftDocument[]> {
+    return await this.find({ name: { $regex: name, $options: "i" } }).exec();
   }
 }
 

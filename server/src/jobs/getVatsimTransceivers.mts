@@ -14,7 +14,7 @@ await connectToDatabase();
 try {
   const transceiverEndpoint = await VatsimEndpointModel.findEndpoint("transceivers");
 
-  if (!transceiverEndpoint) {
+  if (transceiverEndpoint == null) {
     logger.warn(`No VATSIM transceiver endpoint available`);
     process.exit(0);
   }
