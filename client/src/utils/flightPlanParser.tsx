@@ -4,12 +4,24 @@ import { ReactNode } from "react";
 import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 import { AirportFlow, InitialPhrasingOptions } from "../interfaces/ISIDInformation.mts";
 
-export function formatAltitude(altitude: number, includeFeet = true): string {
-  if (altitude >= 180) {
-    return `FL${altitude}`;
+export function formatAltitude(altitude: number | string | undefined, includeFeet = true): string {
+  let altitudeValue: number;
+
+  // Check if the altitude is a string, attempt to parse it to a number
+  if (typeof altitude === "string") {
+    altitudeValue = parseFloat(altitude);
+    if (isNaN(altitudeValue)) {
+      throw new Error("Invalid altitude value");
+    }
+  } else {
+    altitudeValue = altitude ?? 0;
   }
 
-  return `${(altitude * 100).toLocaleString()}${includeFeet ? " feet" : ""}`;
+  if (altitudeValue >= 180) {
+    return `FL${altitudeValue}`;
+  }
+
+  return `${(altitudeValue * 100).toLocaleString()}${includeFeet ? " feet" : ""}`;
 }
 
 // Checks to see if the airport name ends in "Airport". If so, return
@@ -98,6 +110,7 @@ export function formattedExpectIn(flightPlan: IFlightPlan): string {
   const expectRequired = flightPlan.initialAltitudeInfo.ExpectRequired;
   const expectInMinutes = flightPlan.initialAltitudeInfo.ExpectInMinutes;
   const expectInMiles = flightPlan.initialAltitudeInfo.ExpectInMiles;
+  const formattedCruiseAltitude = formatAltitude(flightPlan.cruiseAltitude);
 
   if (expectRequired === undefined) {
     return "";
@@ -114,7 +127,9 @@ export function formattedExpectIn(flightPlan: IFlightPlan): string {
   // expectInMiles takes priority if both are specified, although that should
   // never happen
   if (expectInMiles) {
-    return expectRequired ? expectInMiles : `(${expectInMiles})`;
+    return expectRequired
+      ? `${formattedCruiseAltitude} ${expectInMiles}`
+      : `(${formattedCruiseAltitude} ${expectInMiles})`;
   }
 
   // If the expect in minutes is required because it isn't printed on the chart
@@ -124,7 +139,7 @@ export function formattedExpectIn(flightPlan: IFlightPlan): string {
     ? pluralize("minute", expectInMinutes, true)
     : `(${pluralize("minute", expectInMinutes, true)})`;
 
-  return formattedString;
+  return `${formattedCruiseAltitude} ${formattedString}`;
 }
 
 // Cleans up flight plans that have two squawk codes in them by removing
