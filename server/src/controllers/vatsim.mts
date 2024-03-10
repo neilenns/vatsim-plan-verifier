@@ -2,12 +2,12 @@ import axios, { type AxiosError, type AxiosResponse } from "axios";
 import { Types } from "mongoose";
 import { type IVatsimPilotStats } from "../interfaces/IVatsimPilotStats.mjs";
 import mainLogger from "../logger.mjs";
-import { type PilotStatsDocument, PilotStatsModel } from "../models/PilotStats.mjs";
-import { type VatsimATISDocument, VatsimATISModel } from "../models/VatsimATIS.mjs";
+import { PilotStatsModel, type PilotStatsDocument } from "../models/PilotStats.mjs";
+import { VatsimATISModel, type VatsimATISDocument } from "../models/VatsimATIS.mjs";
 import {
-  type VatsimFlightPlanDocument,
   VatsimFlightPlanModel,
   VatsimFlightStatus,
+  type VatsimFlightPlanDocument,
 } from "../models/VatsimFlightPlan.mjs";
 import type Result from "../types/result.mjs";
 
@@ -52,10 +52,13 @@ export async function setVatsimFlightPlanEDCT(
       };
     }
 
-    // Ok, we have a flight plan so update it. If EDCT was null
-    // that means it should be removed entirely so the plan has no
-    // EDCT anymore.
-    flightPlan.EDCT = edct ?? undefined;
+    // The incoming value for EDCT can either be the date, undefined (indicating don't change),
+    // or null (indicating remove any EDCT that might be set).
+    // Test for the do nothing case (undefined). If that's not true then either set the value
+    // or clear it.
+    if (edct !== undefined) {
+      flightPlan.EDCT = edct ?? undefined;
+    }
 
     // sentEDCT property only gets updated if it was provided
     flightPlan.sentEDCT = sentEDCT ?? flightPlan.sentEDCT;
