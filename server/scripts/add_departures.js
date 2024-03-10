@@ -7,6 +7,24 @@ db.departures.dropIndex("SID_1");
 db.departures.createIndex({ SID: 1 });
 db.departures.insertMany([
   {
+    AirportCode: "KPAE",
+    SID: "PAE6",
+    Telephony: "PAINE THREE",
+    Fixes: ["PAE", "NUW", "SEA", "OLM", "HQM", "ELN", "EAT", "YKM"],
+    InitialAltitudes: [
+      {
+        Altitude: 20,
+        AircraftClass: ".*",
+        ExpectRequired: false,
+        ExpectInMinutes: 5,
+        InitialPhrasing: "Maintain",
+      },
+    ],
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2402/pdf/00142PAINE.PDF",
+    },
+  },
+  {
     AirportCode: "KAST",
     SID: "AST3",
     Telephony: "ASTORIA THREE",

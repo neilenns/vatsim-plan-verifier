@@ -132,14 +132,16 @@ export function formattedExpectIn(flightPlan: IFlightPlan): string {
       : `(${formattedCruiseAltitude} ${expectInMiles})`;
   }
 
+  const formattedString = `${formattedCruiseAltitude} ${pluralize(
+    "minute",
+    expectInMinutes,
+    true
+  )}`;
+
   // If the expect in minutes is required because it isn't printed on the chart
   // then show it directly. If it is only required when modifying the cruise altitude
   // show it inside ().
-  const formattedString = expectRequired
-    ? pluralize("minute", expectInMinutes, true)
-    : `(${pluralize("minute", expectInMinutes, true)})`;
-
-  return `${formattedCruiseAltitude} ${formattedString}`;
+  return expectRequired ? formattedString : `(${formattedString})`;
 }
 
 // Cleans up flight plans that have two squawk codes in them by removing
