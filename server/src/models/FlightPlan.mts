@@ -23,7 +23,6 @@ import { AirportFlow, InitialAltitude } from "./InitialAltitude.mjs";
 import { NavaidModel } from "./Navaid.mjs";
 import { PilotStats } from "./PilotStats.mjs";
 import { VatsimCommunicationMethod } from "./VatsimFlightPlan.mjs";
-import { PromisePool } from "@supercharge/promise-pool";
 
 const logger = mainLogger.child({ service: "flightPlan" });
 
@@ -214,14 +213,19 @@ export enum VatsimCommsEnum {
   }
 
   // Look for all of the navaids and replace them with the name of the navaid
-  const { results } = await PromisePool.for(routeParts).process(async (part) => {
+  const results = [];
+  for (const part of routeParts) {
+    let result;
+
     if (part.length === 3) {
       const navaid = await NavaidModel.findOne({ ident: part }).cacheQuery({ ttl: 60 * 60 }); // One hour
-      return navaid != null ? navaid.name : part;
+      result = navaid != null ? navaid.name : part;
     } else {
-      return part;
+      result = part;
     }
-  });
+
+    results.push(result);
+  }
 
   this.expandedRoute = results.join(" ");
 })
