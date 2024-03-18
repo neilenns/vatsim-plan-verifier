@@ -7,6 +7,82 @@ db.departures.dropIndex("SID_1");
 db.departures.createIndex({ SID: 1 });
 db.departures.insertMany([
   {
+    AirportCode: "KMFR",
+    SID: "EAGLE6",
+    Telephony: "EAGLE SIX",
+    Fixes: ["OED"],
+    InitialAltitudes: [
+      {
+        Altitude: 110,
+        AircraftClass: ".*",
+        ExpectRequired: false,
+        ExpectInMinutes: 5,
+        InitialPhrasing: "ClimbViaSid",
+        Flow: "NORTH",
+      },
+    ],
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2402/pdf/00251EAGLE.PDF",
+    },
+  },
+  {
+    AirportCode: "KMFR",
+    SID: "JKSN1",
+    Telephony: "JACKSON ONE",
+    Fixes: ["OED"],
+    InitialAltitudes: [
+      {
+        Altitude: 110,
+        AircraftClass: ".*",
+        ExpectRequired: true,
+        ExpectInMinutes: 5,
+        InitialPhrasing: "Maintain",
+        Flow: "ANY",
+      },
+    ],
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2402/pdf/00251JACKSON.PDF",
+    },
+  },
+  {
+    AirportCode: "KMFR",
+    SID: "MFR1",
+    Telephony: "KLAMATH FALLS ONE",
+    Fixes: ["LMT"],
+    InitialAltitudes: [
+      {
+        Altitude: 110,
+        AircraftClass: ".*",
+        ExpectRequired: false,
+        ExpectInMinutes: 5,
+        InitialPhrasing: "Maintain",
+        Flow: "SOUTH",
+      },
+    ],
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2402/pdf/00251KLAMATHFALLS.PDF",
+    },
+  },
+  {
+    AirportCode: "KMFR",
+    SID: "SMKKY1",
+    Telephony: "SMOKEY ONE",
+    Fixes: ["SMKKY"],
+    InitialAltitudes: [
+      {
+        Altitude: 110,
+        AircraftClass: ".*",
+        ExpectRequired: true,
+        ExpectInMinutes: 5,
+        InitialPhrasing: "Maintain",
+        Flow: "SOUTH",
+      },
+    ],
+    Charts: {
+      skyvector: "https://skyvector.com/files/tpp/2402/pdf/00251KLAMATHFALLS.PDF",
+    },
+  },
+  {
     AirportCode: "KPAE",
     SID: "PAE6",
     Telephony: "PAINE THREE",
