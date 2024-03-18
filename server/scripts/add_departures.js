@@ -37,15 +37,15 @@ db.departures.insertMany([
         ExpectRequired: true,
         ExpectInMinutes: 5,
         InitialPhrasing: "Maintain",
-        Flow: "North",
+        Flow: "NORTH",
       },
       {
         Altitude: 110,
-        AircraftClass: "[PTU]",
+        AircraftClass: "[^J]",
         ExpectRequired: true,
         ExpectInMinutes: 5,
         InitialPhrasing: "Maintain",
-        Flow: "South",
+        Flow: "SOUTH",
       },
     ],
     Charts: {
