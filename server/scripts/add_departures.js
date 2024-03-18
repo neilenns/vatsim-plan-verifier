@@ -17,7 +17,7 @@ db.departures.insertMany([
         AircraftClass: ".*",
         ExpectRequired: false,
         ExpectInMinutes: 5,
-        InitialPhrasing: "ClimbViaSid",
+        InitialPhrasing: "Maintain",
         Flow: "NORTH",
       },
     ],
@@ -37,7 +37,15 @@ db.departures.insertMany([
         ExpectRequired: true,
         ExpectInMinutes: 5,
         InitialPhrasing: "Maintain",
-        Flow: "ANY",
+        Flow: "NORTH",
+      },
+      {
+        Altitude: 110,
+        AircraftClass: "[^J]",
+        ExpectRequired: true,
+        ExpectInMinutes: 5,
+        InitialPhrasing: "Maintain",
+        Flow: "SOUTH",
       },
     ],
     Charts: {
@@ -52,7 +60,7 @@ db.departures.insertMany([
     InitialAltitudes: [
       {
         Altitude: 110,
-        AircraftClass: ".*",
+        AircraftClass: "J",
         ExpectRequired: false,
         ExpectInMinutes: 5,
         InitialPhrasing: "Maintain",
@@ -71,10 +79,10 @@ db.departures.insertMany([
     InitialAltitudes: [
       {
         Altitude: 110,
-        AircraftClass: ".*",
+        AircraftClass: "J",
         ExpectRequired: true,
         ExpectInMinutes: 5,
-        InitialPhrasing: "Maintain",
+        InitialPhrasing: "ClimbViaSid",
         Flow: "SOUTH",
       },
     ],
