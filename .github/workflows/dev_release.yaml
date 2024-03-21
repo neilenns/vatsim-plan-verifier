@@ -81,11 +81,11 @@ jobs:
             -w "%{http_code}" \
             -s \
             -o /dev/null \
-            -H "CF-Access-Client-Id: ${{ secrets.CF_ACCESS_CLIENT_ID }}" \
-            -H "CF-Access-Client-Secret: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}" \
-            "${{ secrets.PORTAINER_WEBHOOK_URL }}")
+            -H "CF-Access-Client-Id: ${{ vars.CF_ACCESS_CLIENT_ID }}" \
+            -H "CF-Access-Client-Secret: ${{ vars.CF_ACCESS_CLIENT_SECRET }}" \
+            "${{ vars.PORTAINER_WEBHOOK_URL }}")
           echo "Status code received: $status_code"
-          if [ $status_code -eq 200 ]; then
+          if [ $status_code -eq 204 ]; then
             echo "Deployment succeeded"
           else
             echo "Deployment failed"
