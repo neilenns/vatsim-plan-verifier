@@ -76,16 +76,16 @@ jobs:
       # -H adds the two Cloudflare headers to allow webhook access
       - name: Deploy to Portainer
         run: |
-          status_code=$(curl -X POST \
+          status_code=$(curl -v -X POST \
             -L \
             -w "%{http_code}" \
             -s \
             -o /dev/null \
             -H "CF-Access-Client-Id: ${{ secrets.CF_ACCESS_CLIENT_ID }}" \
             -H "CF-Access-Client-Secret: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}" \
-            "${{ secrets.PORTAINER_WEBHOOK_URL }}")
+            "${{ vars.PORTAINER_WEBHOOK_URL }}")
           echo "Status code received: $status_code"
-          if [ $status_code -eq 200 ]; then
+          if [ $status_code -eq 204 ]; then
             echo "Deployment succeeded"
           else
             echo "Deployment failed"
