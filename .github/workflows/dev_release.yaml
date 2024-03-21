@@ -76,7 +76,7 @@ jobs:
       # -H adds the two Cloudflare headers to allow webhook access
       - name: Deploy to Portainer
         run: |
-          status_code=$(curl -X POST \
+          status_code=$(curl -v -X POST \
             -L \
             -w "%{http_code}" \
             -s \
