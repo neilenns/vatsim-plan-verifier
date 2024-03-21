@@ -10,23 +10,15 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useLoaderData, useSearchParams } from "react-router-dom";
-import AlertSnackbar, {
-  AlertSnackBarOnClose,
-  AlertSnackbarProps,
-} from "../components/AlertSnackbar";
 import IAircraft from "../interfaces/IAircraft.mts";
 import { AircraftDetailsLoaderResult } from "../services/aircraftDetailsLoader.mts";
+import { enqueueSnackbar } from "notistack";
 
 const AircraftDetails = () => {
   const loaderData = useLoaderData() as AircraftDetailsLoaderResult;
-  const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
   const [aircraftDetails, setAircraftDetails] = useState<IAircraft[]>();
   const [aircraftName, setAircraftName] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const handleSnackbarClose: AlertSnackBarOnClose = () => {
-    setSnackbar(null);
-  };
 
   useEffect(() => {
     if (!loaderData.success) {
@@ -38,11 +30,10 @@ const AircraftDetails = () => {
         return;
       }
 
-      // Otherwise show the error
-      setSnackbar({
-        children: loaderData.error,
-        severity: "error",
+      enqueueSnackbar(loaderData.error, {
+        variant: "error",
       });
+
       return;
     }
 
@@ -50,9 +41,8 @@ const AircraftDetails = () => {
     setAircraftName(searchParams.get("name") ?? "");
 
     if (loaderData.data.length === 0) {
-      setSnackbar({
-        children: "No matching aircraft found.",
-        severity: "warning",
+      enqueueSnackbar("No matching aircraft found", {
+        variant: "warning",
       });
     }
   }, [loaderData, searchParams]);
@@ -99,7 +89,6 @@ const AircraftDetails = () => {
           </TableBody>
         </Table>
       )}
-      <AlertSnackbar {...snackbar} onClose={handleSnackbarClose} />
     </>
   );
 };

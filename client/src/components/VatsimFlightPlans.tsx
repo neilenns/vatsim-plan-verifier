@@ -17,7 +17,7 @@ import { useVatsim } from "../hooks/useVatsim.mts";
 import { IVatsimFlightPlan, ImportState } from "../interfaces/IVatsimFlightPlan.mts";
 import { importFlightPlan } from "../services/flightPlan.mts";
 import { getColorByStatus } from "../utils/vatsim.mts";
-import AlertSnackbar, { AlertSnackBarOnClose, AlertSnackbarProps } from "./AlertSnackbar";
+import { enqueueSnackbar } from "notistack";
 
 const logger = debug("plan-verifier:vatsimFlightPlans");
 
@@ -45,14 +45,9 @@ const VatsimFlightPlans = () => {
   // to send the airport codes to the connected socket.
   const airportCodesRef = useRef<string>(localStorage.getItem("vatsimAirportCodes") ?? "");
   const [isImporting, setIsImporting] = useState(false);
-  const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
   const autoHideImported = useRecoilValue(autoHideImportedState);
   const { socket } = useAppContext();
   const { getAccessTokenSilently } = useAuth0();
-
-  const handleSnackbarClose: AlertSnackBarOnClose = () => {
-    setSnackbar(null);
-  };
 
   const handleConnect = useCallback(() => {
     logger("Connected for vatsim flight plan updates");
@@ -73,9 +68,8 @@ const VatsimFlightPlans = () => {
         ", "
       )} not found`;
       logger(message);
-      setSnackbar({
-        children: message,
-        severity: "warning",
+      enqueueSnackbar(message, {
+        variant: "warning",
       });
       socket.disconnect();
       setIsConnected(false);
@@ -89,9 +83,8 @@ const VatsimFlightPlans = () => {
         ", "
       )} not valid`;
       logger(message);
-      setSnackbar({
-        children: message,
-        severity: "error",
+      enqueueSnackbar(message, {
+        variant: "error",
       });
       socket.disconnect();
       setIsConnected(false);
@@ -100,19 +93,19 @@ const VatsimFlightPlans = () => {
   );
 
   const handleConnectError = useCallback((error: Error) => {
-    logger(`Error connecting for vatsim flight plans: ${error.message}`);
-    setSnackbar({
-      children: `Unable to retrieve VATSIM flight plans.`,
-      severity: "error",
+    const message = `Error connecting for vatsim flight plans: ${error.message}`;
+    logger(message);
+    enqueueSnackbar(message, {
+      variant: "error",
     });
     setIsConnected(null); // null to avoid playing the disconnect sound.
   }, []);
 
   const handleReconnectError = useCallback((error: Error) => {
-    logger(`Error reconnecting for vatsim flight plans: ${error.message}`);
-    setSnackbar({
-      children: `Unable to reconnect to server.`,
-      severity: "error",
+    const message = `Error connecting for vatsim flight plans: ${error.message}`;
+    logger(message);
+    enqueueSnackbar(message, {
+      variant: "error",
     });
     setIsConnected(null); // null to avoid playing the disconnect sound.
   }, []);
@@ -202,9 +195,8 @@ const VatsimFlightPlans = () => {
       .catch(() => {
         const message = `Error importing flight plan ${callsign}`;
         logger(message);
-        setSnackbar({
-          children: message,
-          severity: "error",
+        enqueueSnackbar(message, {
+          variant: "error",
         });
       })
       .finally(() => {
@@ -258,9 +250,8 @@ const VatsimFlightPlans = () => {
     if (isConnected) {
       const message = `Inactivity detected, auto-refresh will stop in five minutes.`;
       logger(message);
-      setSnackbar({
-        children: message,
-        severity: "warning",
+      enqueueSnackbar(message, {
+        variant: "warning",
       });
     }
   };
@@ -340,7 +331,6 @@ const VatsimFlightPlans = () => {
           </List>
         )}
       </Box>
-      <AlertSnackbar {...snackbar} onClose={handleSnackbarClose} />
     </>
   );
 };

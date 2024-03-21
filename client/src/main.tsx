@@ -6,6 +6,8 @@ import { Auth0ProviderWithNavigate } from "./context/Auth0ProviderWithNavigate.t
 import "./index.css";
 import App from "./pages/App.tsx";
 import { RecoilRoot } from "recoil";
+import { SnackbarProvider } from "notistack";
+import { ENV } from "./env.mts";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -13,7 +15,13 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <RecoilRoot>
         <Auth0ProviderWithNavigate>
           <AppTheme>
-            <App />
+            <SnackbarProvider
+              autoHideDuration={ENV.VITE_SNACKBAR_AUTOHIDE_DURATION}
+              preventDuplicate={true}
+              anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
+            >
+              <App />
+            </SnackbarProvider>
           </AppTheme>
         </Auth0ProviderWithNavigate>
       </RecoilRoot>

@@ -1,26 +1,18 @@
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
-import AlertSnackbar, {
-  AlertSnackBarOnClose,
-  AlertSnackbarProps,
-} from "../components/AlertSnackbar";
 import { IVatsimClientTransceivers } from "../interfaces/IVatsimClientTransceivers.mts";
 import { ClientTransceiversLoaderResult } from "../services/clientTransceiversLoader.mts";
+import { enqueueSnackbar } from "notistack";
 
 const ClientTransceivers = () => {
   const loaderData = useLoaderData() as ClientTransceiversLoaderResult;
-  const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
   const [clientTransceivers, setClientTransceivers] = useState<IVatsimClientTransceivers>();
-  const handleSnackbarClose: AlertSnackBarOnClose = () => {
-    setSnackbar(null);
-  };
 
   useEffect(() => {
     if (!loaderData.success) {
-      setSnackbar({
-        children: loaderData.error,
-        severity: "error",
+      enqueueSnackbar(loaderData.error, {
+        variant: "error",
       });
       return;
     }
@@ -55,7 +47,6 @@ const ClientTransceivers = () => {
           </TableBody>
         </Table>
       )}
-      <AlertSnackbar {...snackbar} onClose={handleSnackbarClose} />
     </>
   );
 };

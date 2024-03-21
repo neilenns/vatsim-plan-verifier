@@ -3,10 +3,6 @@ import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import { useEffect, useState } from "react";
 import { useActionData, useLoaderData, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import AlertSnackbar, {
-  AlertSnackBarOnClose,
-  AlertSnackbarProps,
-} from "../components/AlertSnackbar";
 import FlightPlan from "../components/FlightPlan";
 import VerifierResults from "../components/VerifierResults";
 import { streamingModeState } from "../context/atoms";
@@ -14,19 +10,15 @@ import IFlightPlan from "../interfaces/IFlightPlan.mjs";
 import IVerifyAllResult from "../interfaces/IVerifyAllResult.mts";
 import { PlanDetailsLoaderResult } from "../services/flightPlanDetailsLoader.mts";
 import { PlanVerifyActionResult } from "../services/flightPlanVerifyAction.mts";
+import { enqueueSnackbar } from "notistack";
 
 const FlightPlanDetails = () => {
-  const [snackbar, setSnackbar] = useState<AlertSnackbarProps>(null);
   const [flightPlan, setFlightPlan] = useState<IFlightPlan>({});
   const [verifyResults, setVerifyResults] = useState<IVerifyAllResult>();
   const loaderData = useLoaderData() as PlanDetailsLoaderResult;
   const actionData = useActionData() as PlanVerifyActionResult | undefined;
   const streamingMode = useRecoilValue(streamingModeState);
   const navigate = useNavigate();
-
-  const handleSnackbarClose: AlertSnackBarOnClose = () => {
-    setSnackbar(null);
-  };
 
   // Handles the submission response of the flight plan verification, and any
   // errors that may have occurred.
@@ -40,9 +32,8 @@ const FlightPlanDetails = () => {
       // option can be set to stop polluting the brrwser history.
       navigate(`../${actionData.data}`, { replace: true, relative: "path" });
     } else {
-      setSnackbar({
-        children: actionData.error,
-        severity: "error",
+      enqueueSnackbar(actionData.error, {
+        variant: "error",
       });
     }
   }, [actionData, navigate]);
@@ -53,9 +44,8 @@ const FlightPlanDetails = () => {
     // Check for errors and show it in a snackbar.
     if (!loaderData.success) {
       document.title = "Vatsim plan verifier";
-      setSnackbar({
-        children: loaderData.error,
-        severity: "error",
+      enqueueSnackbar(loaderData.error, {
+        variant: "error",
       });
       return;
     }
@@ -86,7 +76,6 @@ const FlightPlanDetails = () => {
           <VerifierResults verifierResults={verifyResults?.results} flightPlan={flightPlan} />
         </Grid>
       </Grid>
-      <AlertSnackbar {...snackbar} onClose={handleSnackbarClose} />
     </>
   );
 };
