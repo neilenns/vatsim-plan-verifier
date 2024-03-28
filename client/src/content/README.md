@@ -14,23 +14,6 @@ list of airports to watch in the text box then click the connect icon:
 As flight plans are filed they will appear in the list. To import a flight plan for verification
 click the import icon to the right of the entry.
 
-## Using with VRC
-
-Flight plan details can also be copied directly from VRC's Aircraft window:
-
-![VRC arrivals & departures window](client/public/help_vrcArrivalsDepartures.png?raw=true)
-
-Then paste it in to any of the fields of a new flight plan. The plan parts will automatically
-get split apart and will populate the appropriate fields:
-
-![VRC flight plan after being pasted into a new verifier form](client/public/help_planAfterPaste.png?raw=true)
-
-After populating the flight plan details hit the *Verify* button to see the results.
-
-## Using with other software
-
-For other software you'll need to manually input each part of the flight plan.
-
 ## Flight plan information after verifying
 
 After a flight plan is verified the plan will update to show helpful information underneath each of the flight plan parts.
@@ -85,6 +68,8 @@ from the list two hours after they are verified.
 * **Is the arrival airport valid?** This check throws a warning if the arrival airport isn't known by FlightAware.
 
 * **Is the flight on the correct SID out of KSEA?** This check is specific to KSEA and either throws an error or a warning if the flight plan was filed with the wrong SID per the SEA/S46 LOA.
+
+* **Does the route require a mandatory event reroute?** This check looks for short-term re-routes defined for specific events and warns when the filed route must be re-routed.
 
 ### Altitude verifications
 
