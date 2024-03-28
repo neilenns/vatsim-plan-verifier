@@ -5,6 +5,7 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   autoHideImportedState,
   hideInformationalState,
+  sortByCreatedAtState,
   streamingModeState,
   userInfoState,
 } from "../context/atoms";
@@ -27,6 +28,7 @@ export const AuthenticationGuard = ({ role, component: Component }: Authenticati
   const setHideInformationalState = useSetRecoilState(hideInformationalState);
   const setAutoHideImportedState = useSetRecoilState(autoHideImportedState);
   const setStreamingMode = useSetRecoilState(streamingModeState);
+  const setSortByCreatedAt = useSetRecoilState(sortByCreatedAtState);
 
   const AuthenticatedComponent = withAuthenticationRequired(Component, {
     onRedirecting: () => <PageLoader />,
@@ -86,7 +88,15 @@ export const AuthenticationGuard = ({ role, component: Component }: Authenticati
     setHideInformationalState(userInfo.hideInformational);
     setAutoHideImportedState(userInfo.autoHideImported);
     setStreamingMode(userInfo.streamingMode);
-  }, [setAutoHideImportedState, setHideInformationalState, setMode, setStreamingMode, userInfo]);
+    setSortByCreatedAt(userInfo.sortByCreatedAt);
+  }, [
+    setAutoHideImportedState,
+    setHideInformationalState,
+    setMode,
+    setSortByCreatedAt,
+    setStreamingMode,
+    userInfo,
+  ]);
 
   // Show errors from the authorization and user access calls
   if (error) {
