@@ -1,4 +1,10 @@
-import { type DocumentType, getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
+import {
+  defaultClasses,
+  getModelForClass,
+  modelOptions,
+  prop,
+  type DocumentType,
+} from "@typegoose/typegoose";
 import _ from "lodash";
 import { DateTime } from "luxon";
 import { ENV } from "../env.mjs";
@@ -38,11 +44,12 @@ const flightPlanRevisionPaths = [
 @modelOptions({
   options: { customName: "vatsimflightplan" },
   schemaOptions: {
+    timestamps: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
   },
 })
-class VatsimFlightPlan {
+class VatsimFlightPlan extends defaultClasses.TimeStamps {
   @prop({ required: true })
   cid!: number;
 

@@ -39,6 +39,8 @@ export function useVatsim() {
           if (!existing) {
             draft.push({
               ...incoming,
+              createdAt: new Date(incoming.createdAt),
+              updatedAt: new Date(incoming.updatedAt),
               importState: ImportState.NEW,
             } as IVatsimFlightPlan);
             setHasNew(true);
@@ -64,11 +66,16 @@ export function useVatsim() {
             existing.isCoasting = incoming.isCoasting;
             existing.isPrefile = incoming.isPrefile;
             existing.flightPlanRevision = incoming.flightPlanRevision;
+            existing.createdAt = new Date(incoming.createdAt);
+            existing.updatedAt = new Date(incoming.updatedAt);
           }
         });
       });
 
-      setFlightPlans((draft) => draft.sort((a, b) => a.callsign.localeCompare(b.callsign)));
+      setFlightPlans((draft) =>
+        draft.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
+      );
+      //      setFlightPlans((draft) => draft.sort((a, b) => a.callsign.localeCompare(b.callsign)));
     },
     [setFlightPlans, setHasNew, setHasUpdates]
   );
