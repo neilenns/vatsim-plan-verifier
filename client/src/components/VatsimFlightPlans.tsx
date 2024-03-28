@@ -5,19 +5,19 @@ import {
 } from "@mui/icons-material";
 import { Box, IconButton, List, ListItem, ListItemText, Stack, TextField } from "@mui/material";
 import debug from "debug";
+import { enqueueSnackbar } from "notistack";
 import pluralize from "pluralize";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useIdleTimer } from "react-idle-timer";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { autoHideImportedState } from "../context/atoms";
+import { autoHideImportedState, sortByCreatedAtState } from "../context/atoms";
 import { useAppContext } from "../hooks/useAppContext.mjs";
 import { useAudio } from "../hooks/useAudio";
 import { useVatsim } from "../hooks/useVatsim.mts";
 import { IVatsimFlightPlan, ImportState } from "../interfaces/IVatsimFlightPlan.mts";
 import { importFlightPlan } from "../services/flightPlan.mts";
 import { getColorByStatus } from "../utils/vatsim.mts";
-import { enqueueSnackbar } from "notistack";
 
 const logger = debug("plan-verifier:vatsimFlightPlans");
 
@@ -46,6 +46,7 @@ const VatsimFlightPlans = () => {
   const airportCodesRef = useRef<string>(localStorage.getItem("vatsimAirportCodes") ?? "");
   const [isImporting, setIsImporting] = useState(false);
   const autoHideImported = useRecoilValue(autoHideImportedState);
+  const sortByCreatedAt = useRecoilValue(sortByCreatedAtState);
   const { socket } = useAppContext();
   const { getAccessTokenSilently } = useAuth0();
 
@@ -113,9 +114,9 @@ const VatsimFlightPlans = () => {
   const handleVatsimFlightPlansUpdate = useCallback(
     (incomingPlans: IVatsimFlightPlan[]) => {
       logger("Received vatsim flight plan update");
-      processFlightPlans(incomingPlans);
+      processFlightPlans(incomingPlans, sortByCreatedAt);
     },
-    [processFlightPlans]
+    [processFlightPlans, sortByCreatedAt]
   );
 
   useEffect(() => {

@@ -5,6 +5,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import {
   autoHideImportedState,
   hideInformationalState,
+  sortByCreatedAtState,
   streamingModeState,
   userInfoState,
 } from "../context/atoms";
@@ -17,6 +18,7 @@ interface SettingsDialogProps {
 
 export const SettingsDialog = (props: SettingsDialogProps) => {
   const { onClose, open } = props;
+  const [sortByCreatedAt, setSortByCreatedAt] = useRecoilState(sortByCreatedAtState);
   const [autoHideImported, setAutoHideImported] = useRecoilState(autoHideImportedState);
   const [hideInformational, setHideInformational] = useRecoilState(hideInformationalState);
   const [streamingMode, setStreamingMode] = useRecoilState(streamingModeState);
@@ -26,6 +28,18 @@ export const SettingsDialog = (props: SettingsDialogProps) => {
     onClose();
   };
   const userInfo = useRecoilValue(userInfoState);
+
+  const handleSortByCreatedAtChanged = useCallback(
+    async (event: React.ChangeEvent<HTMLInputElement>) => {
+      setSortByCreatedAt(event.target.checked);
+
+      const token = await getAccessTokenSilently();
+      await putUserInfo(token, {
+        sortByCreatedAt: event.target.checked,
+      });
+    },
+    [getAccessTokenSilently, setSortByCreatedAt]
+  );
 
   const handleAutoHideChanged = useCallback(
     async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,6 +81,19 @@ export const SettingsDialog = (props: SettingsDialogProps) => {
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>Settings</DialogTitle>
       <Stack sx={{ ml: 2, mr: 2, mb: 2 }}>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={sortByCreatedAt}
+              onChange={(event) => {
+                handleSortByCreatedAtChanged(event).catch((err) => {
+                  console.error(err);
+                });
+              }}
+            />
+          }
+          label="Sort VATSIM plans by created time"
+        />
         <FormControlLabel
           control={
             <Switch

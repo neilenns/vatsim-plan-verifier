@@ -1,9 +1,9 @@
 import {
-  type DocumentType,
-  type ReturnModelType,
   getModelForClass,
   plugin,
   prop,
+  type DocumentType,
+  type ReturnModelType,
 } from "@typegoose/typegoose";
 import { ManagementClient } from "auth0";
 import { SpeedGooseCacheAutoCleaner } from "speedgoose";
@@ -28,6 +28,9 @@ export class Auth0User {
 
   @prop({ required: false, default: "light" })
   colorMode!: string;
+
+  @prop({ required: false, default: false })
+  sortByCreatedAt!: boolean;
 
   @prop({ required: false, default: true })
   hideInformational!: boolean;

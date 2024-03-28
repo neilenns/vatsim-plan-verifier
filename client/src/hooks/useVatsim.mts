@@ -8,7 +8,7 @@ export function useVatsim() {
   const [hasNew, setHasNew] = useImmer<boolean>(false);
 
   const processFlightPlans = useCallback(
-    (incomingPlans: IVatsimFlightPlan[]) => {
+    (incomingPlans: IVatsimFlightPlan[], sortByCreatedAt: boolean) => {
       // If there are no incoming plans then just set an empty array.
       if (incomingPlans.length === 0) {
         setFlightPlans(() => {
@@ -72,10 +72,13 @@ export function useVatsim() {
         });
       });
 
-      setFlightPlans((draft) =>
-        draft.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
-      );
-      //      setFlightPlans((draft) => draft.sort((a, b) => a.callsign.localeCompare(b.callsign)));
+      if (sortByCreatedAt) {
+        setFlightPlans((draft) =>
+          draft.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
+        );
+      } else {
+        setFlightPlans((draft) => draft.sort((a, b) => a.callsign.localeCompare(b.callsign)));
+      }
     },
     [setFlightPlans, setHasNew, setHasUpdates]
   );
