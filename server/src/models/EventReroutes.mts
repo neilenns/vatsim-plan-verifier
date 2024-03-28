@@ -22,12 +22,19 @@ class EventReroute {
   @prop({ required: true })
   replacement!: string;
 
+  @prop({ required: false, default: true })
+  isActive!: boolean;
+
   public static async findEventReroutes(
     this: ReturnModelType<typeof EventReroute>,
     departure: string,
     flow: AirportFlow = AirportFlow.Any
   ): Promise<Array<DocumentType<EventReroute>> | null> {
-    return await this.find({ departure, flow: { $in: ["ANY", flow, undefined] } }).cacheQuery({
+    return await this.find({
+      departure,
+      flow: { $in: ["ANY", flow, undefined] },
+      isActive: true,
+    }).cacheQuery({
       ttl: 60 * 10,
     }); // 10 minutes
   }

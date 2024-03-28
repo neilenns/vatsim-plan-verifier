@@ -11,5 +11,6 @@ db.eventreroutes.insertMany([
     fix: "JINMO",
     route: "JINMO -> ... POWEL JUNEJ JINMO ...",
     replacement: "POWEL JUNEJ JINMO +",
+    isActive: true,
   },
 ]);
