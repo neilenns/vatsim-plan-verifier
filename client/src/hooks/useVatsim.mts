@@ -102,6 +102,7 @@ export function useVatsim() {
   return useMemo(
     () => ({
       flightPlans,
+      setFlightPlans,
       processFlightPlans,
       markPlanImported,
       hasUpdates,
@@ -111,6 +112,7 @@ export function useVatsim() {
     }),
     [
       flightPlans,
+      setFlightPlans,
       processFlightPlans,
       markPlanImported,
       hasUpdates,

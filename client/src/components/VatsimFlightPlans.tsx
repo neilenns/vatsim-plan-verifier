@@ -27,6 +27,7 @@ const VatsimFlightPlans = () => {
   const disconnectedPlayer = useAudio("/disconnected.mp3");
   const {
     flightPlans,
+    setFlightPlans,
     processFlightPlans,
     markPlanImported,
     hasUpdates,
@@ -118,6 +119,19 @@ const VatsimFlightPlans = () => {
     },
     [processFlightPlans, sortByCreatedAt]
   );
+
+  // Handles when the user toggles the sort method in the settings dialog.
+  // Without this the VATSIM list wouldn't re-sort until the next time the
+  // data gets received from the server.
+  useEffect(() => {
+    if (sortByCreatedAt) {
+      setFlightPlans((draft) =>
+        draft.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
+      );
+    } else {
+      setFlightPlans((draft) => draft.sort((a, b) => a.callsign.localeCompare(b.callsign)));
+    }
+  }, [setFlightPlans, sortByCreatedAt]);
 
   useEffect(() => {
     socket.on("connect", handleConnect);
