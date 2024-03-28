@@ -5,7 +5,7 @@ const logger = mainLogger.child({ service: "utils" });
 
 export function cleanRoute(route: string): string {
   return route
-    .replace(/\s\+/g, " ") // Get rid of " +", the indicator of the end of a reroute
+    .replace(/\s\+/g, "") // Get rid of " +", the indicator of the end of a reroute
     .replace(/DCT /g, "") // Get rid of all the DCTs
     .replace(/^\w{3,4}\/\w{2,3}\s*/, "") // Get rid of departure airport/runway making sure to catch the space after it as well
     .replace(/\s*\w{3,4}\/\w{2,3}$/, "") // Get rid of arrival airport/runway making sure to catch the space before it as well
