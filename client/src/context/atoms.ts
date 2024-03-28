@@ -2,6 +2,11 @@ import { atom } from "recoil";
 import { IAuth0User } from "../interfaces/IAuth0User.mts";
 import { AirportFlow } from "../interfaces/ISIDInformation.mts";
 
+export const sortByCreatedAtState = atom({
+  key: "sortByCreatedAtState",
+  default: false,
+});
+
 export const autoHideImportedState = atom({
   key: "autoHideImportedState",
   default: false,

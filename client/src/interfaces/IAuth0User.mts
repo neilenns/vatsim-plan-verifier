@@ -4,6 +4,7 @@ type Mode = "light" | "dark" | "system";
 
 export interface IAuth0User {
   _id: string;
+  sortByCreatedAt: boolean;
   autoHideImported: boolean;
   colorMode: Mode;
   email?: string;

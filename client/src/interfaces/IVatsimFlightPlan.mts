@@ -14,4 +14,6 @@ export interface IVatsimFlightPlan {
   importState?: ImportState;
   flightPlanRevision: number;
   isCoasting: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
