@@ -9,14 +9,15 @@ import addAirlines from "./setup/addAirlines.mjs";
 import addAirports from "./setup/addAirports.mjs";
 import addCustomMessages from "./setup/addCustomMessages.mjs";
 import addDepartures from "./setup/addDepartures.mjs";
+import addEventReroutes from "./setup/addEventReroutes.mjs";
 import addExtendedAirportInfo from "./setup/addExtendedAirportInfo.mjs";
 import addFlightAwareRoutes from "./setup/addFlightAwareRoutes.mjs";
 import addGroundRestrictions from "./setup/addGroundRestrictions.mjs";
 import addMagneticDeclination from "./setup/addMagneticDeclination.mjs";
 import addMetar from "./setup/addMetar.mjs";
+import addNavaids from "./setup/addNavaids.mjs";
 import addPilotStats from "./setup/addPilotStats.mjs";
 import addPreferredRoutes from "./setup/addPreferredRoutes.mjs";
-import addNavaids from "./setup/addNavaids.mjs";
 
 let mongoServer: MongoMemoryServer;
 // This is to ensure any network calls made by the tests don't actually
@@ -41,19 +42,20 @@ export async function mochaGlobalSetup() {
 
   // Populate the database
   await Promise.all([
-    addNavaids(),
-    addAirports(),
     addAircraft(),
     addAirlines(),
-    addFlightAwareRoutes(),
-    addPreferredRoutes(),
-    addDepartures(),
+    addAirports(),
     addCustomMessages(),
+    addDepartures(),
+    addEventReroutes(),
     addExtendedAirportInfo(),
-    addMagneticDeclination(),
-    addPilotStats(),
-    addMetar(),
+    addFlightAwareRoutes(),
     addGroundRestrictions(),
+    addMagneticDeclination(),
+    addMetar(),
+    addNavaids(),
+    addPilotStats(),
+    addPreferredRoutes(),
   ]);
 
   // Caching isn't really needed but without it the tests won't run

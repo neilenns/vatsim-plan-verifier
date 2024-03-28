@@ -6,6 +6,7 @@ import altitudeForDirectionOfFlight from "./altitudeForDirectionOfFlight.mjs";
 import checkEquipmentSuffixAgainstKnown from "./checkEquipmentSuffixAgainstKnown.mjs";
 import checkForCustomAirportMessages from "./checkForCustomAirportMessages.mjs";
 import checkForCustomDepartureMessages from "./checkForCustomDepartureMessages.mjs";
+import checkForEventReroutes from "./checkForEventReroutes.mjs";
 import checkForGroundRestrictions from "./checkForGroundRestrictions.mjs";
 import checkForNonStandardEquipmentSuffix from "./checkForNonStandardEquipmentSuffix.mjs";
 import checkForPreferredRoutes from "./checkForPreferredRoutes.mjs";
@@ -59,4 +60,5 @@ export const verifiers: Verifier[] = [
   { name: "departureForLocalTime", handler: departureForLocalTime },
   { name: "checkForGroundRestrictions", handler: checkForGroundRestrictions },
   { name: "checkSEAInitialSID", handler: checkSEAInitialSID },
+  { name: "checkForEventReroutes", handler: checkForEventReroutes },
 ];
