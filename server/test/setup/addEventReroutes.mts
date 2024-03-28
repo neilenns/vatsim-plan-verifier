@@ -7,6 +7,7 @@ const reroutes = [
     fix: "JINMO",
     route: "JINMO -> ... POWEL JUNEJ JINMO ...",
     replacement: "POWEL JUNEJ JINMO +",
+    isActive: true,
   },
   {
     departure: "KSEA",
@@ -14,6 +15,7 @@ const reroutes = [
     fix: "SUMMA",
     route: "JINMO -> ... POWEL JUNEJ JINMO ...",
     replacement: "POWEL JUNEJ JINMO +",
+    isActive: true,
   },
   {
     departure: "KPDX",
@@ -21,6 +23,7 @@ const reroutes = [
     fix: "SUMMA",
     route: "JINMO -> ... POWEL JUNEJ JINMO ...",
     replacement: "POWEL JUNEJ JINMO +",
+    isActive: true,
   },
 ];
 
