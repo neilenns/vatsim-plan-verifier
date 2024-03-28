@@ -2,8 +2,8 @@ import mainLogger from "../../logger.mjs";
 import { EventRerouteModel } from "../../models/EventReroutes.mjs";
 import { AirportFlow } from "../../models/InitialAltitude.mjs";
 import { VerifierResultModel, VerifierResultStatus } from "../../models/VerifierResult.mjs";
-import { VerifierFunction } from "../../types/verifier.mjs";
-import VerifierControllerResult from "../../types/verifierControllerResult.mjs";
+import { type VerifierFunction } from "../../types/verifier.mjs";
+import type VerifierControllerResult from "../../types/verifierControllerResult.mjs";
 
 const verifierName = "checkForEventReroutes";
 const logger = mainLogger.child({ service: verifierName });
@@ -13,7 +13,7 @@ const checkForEventReroutes: VerifierFunction = async function (
   saveResult = true
 ) {
   // Set up the default result for a successful run of the verifier.
-  let result: VerifierControllerResult = {
+  const result: VerifierControllerResult = {
     success: true,
     data: new VerifierResultModel({
       flightPlanId: _id,
