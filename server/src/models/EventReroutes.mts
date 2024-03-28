@@ -27,7 +27,9 @@ class EventReroute {
     departure: string,
     flow: AirportFlow = AirportFlow.Any
   ): Promise<Array<DocumentType<EventReroute>> | null> {
-    return await this.find({ departure, flow: { $in: ["ANY", flow, undefined] } });
+    return await this.find({ departure, flow: { $in: ["ANY", flow, undefined] } }).cacheQuery({
+      ttl: 60 * 10,
+    }); // 10 minutes
   }
 }
 
