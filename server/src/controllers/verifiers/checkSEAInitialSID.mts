@@ -101,26 +101,36 @@ function calculateInitialSidAllGroups(
   flightPlan: FlightPlan,
   directionOfFlight: number
 ): InitialSid | undefined {
-  // This is checked before SUMMA2 in case a flight is on V2/V298.
-  // V2/V298/SEA 088R BLO FL230
-  if (
-    flightPlan.cruiseAltitude < 230 &&
-    _.intersection(flightPlan.routeParts, ["V2", "V298"]).length > 0
-  ) {
-    return { SID: "MONTN2", extendedMessage: "All: Reroute on J20. V2/V298/SEA 088R BLO FL230." };
+  // This is checked before SUMMA2 in case a flight is on J20.
+  // (086-123) V2/V298/SEA 088R BLO FL230
+  if (directionOfFlight >= 86 && directionOfFlight <= 123 && flightPlan.cruiseAltitude < 230) {
+    if (flightPlan.routeParts.includes("J20")) {
+      return {
+        SID: "MONTN2",
+        extendedMessage: "All: (086-123) ***Mandatory reroute off J20***, V2/V298/SEA 088R.",
+      };
+    } else {
+      return {
+        SID: "MONTN2",
+        extendedMessage: "All: (086-123) V2/V298/SEA 088R.",
+      };
+    }
   }
 
   // This is checked first so flights on the SUMMA2 that eventually join J70 don't wind up
   // getting the ELMAA4 departure.
   // (104-160) J5/SEA 146R
-  if (directionOfFlight >= 104 && directionOfFlight <= 160) {
-    if (flightPlan.cruiseAltitude > 230 && flightPlan.routeParts.includes("J5")) {
+  if (directionOfFlight >= 104 && directionOfFlight <= 160 && flightPlan.cruiseAltitude >= 230) {
+    if (flightPlan.routeParts.includes("J20")) {
       return {
         SID: "SUMMA2",
-        extendedMessage: "All: (104-160) Reroute on J20. J5/SEA 146R ABV FL230.",
+        extendedMessage: "All: (104-160) ***Mandatory reroute off J20***, J5/SEA 146R.",
       };
     } else {
-      return { SID: "SUMMA2", extendedMessage: "All: (104-160) J5/SEA 146R" };
+      return {
+        SID: "SUMMA2",
+        extendedMessage: "All: (104-160) J5/SEA 146R.",
+      };
     }
   }
 
