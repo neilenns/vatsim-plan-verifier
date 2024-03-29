@@ -297,8 +297,8 @@ export class FlightPlan {
   @prop({ required: false, trim: true })
   remarks?: string;
 
-  @prop({ required: true, type: String, default: VatsimCommunicationMethod.VOICE })
-  communicationMethod!: VatsimCommunicationMethod;
+  @prop({ required: false, type: String, default: VatsimCommunicationMethod.VOICE })
+  communicationMethod?: VatsimCommunicationMethod;
 
   // Reference properties
   @prop({
