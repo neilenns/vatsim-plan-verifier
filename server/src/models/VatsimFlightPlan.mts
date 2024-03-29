@@ -39,6 +39,7 @@ const flightPlanRevisionPaths = [
   "cruiseAltitude",
   "rawAircraftType",
   "EDCT",
+  "communicationMethod",
 ];
 
 @modelOptions({

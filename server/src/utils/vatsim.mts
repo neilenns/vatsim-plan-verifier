@@ -43,11 +43,16 @@ export function depTimeToDateTime(depTime: string | undefined): Date | undefined
 }
 
 export function getCommunicationMethod(inputString: string | undefined): VatsimCommunicationMethod {
-  if (inputString?.includes("/T/") ?? false) {
+  if (inputString === undefined) {
+    return VatsimCommunicationMethod.VOICE;
+  }
+
+  const remarks = inputString.toUpperCase();
+  if (remarks.includes("/T/")) {
     return VatsimCommunicationMethod.TEXTONLY;
-  } else if (inputString?.includes("/R/") ?? false) {
+  } else if (remarks.includes("/R/")) {
     return VatsimCommunicationMethod.RECEIVE;
-  } else if (inputString?.includes("/V/") ?? false) {
+  } else if (remarks.includes("/V/")) {
     return VatsimCommunicationMethod.VOICE;
   } else {
     return VatsimCommunicationMethod.VOICE;
