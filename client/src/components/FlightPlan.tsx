@@ -339,6 +339,13 @@ const FlightPlan = (props: FlightPlanProps) => {
             </Button>
           </Grid>
         </Grid>
+        <input
+          aria-label="hidden communication method"
+          hidden
+          name="communicationMethod"
+          value={flightPlan.communicationMethod}
+          readOnly
+        />
         <input aria-label="hidden flow" hidden name="flow" value={flow} readOnly />
         <input
           aria-label="hidden flight plan remarks"
