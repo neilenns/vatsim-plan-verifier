@@ -32,6 +32,7 @@ export const flightPlanVerifyAction =
       remarks: formData.get("remarks"),
       cid: Number(formData.get("cid")),
       flow: formData.get("flow"),
+      communicationMethod: formData.get("communicationMethod"),
     } as IFlightPlan;
 
     let storedFlightPlan: IFlightPlan;
@@ -39,7 +40,7 @@ export const flightPlanVerifyAction =
       const token = await getAccessTokenSilently();
       storedFlightPlan = await storeFlightPlan(token, planToSubmit);
 
-      if (!storedFlightPlan || !storedFlightPlan._id) {
+      if (!storedFlightPlan._id) {
         throw new Error("Failed to save flight plan.");
       }
 
@@ -55,10 +56,6 @@ export const flightPlanVerifyAction =
       await addActiveFlightPlan(token, storedFlightPlan._id, storedFlightPlan.callsign);
 
       const verifierResults = await runAllVerifiers(token, storedFlightPlan);
-
-      if (!verifierResults) {
-        throw new Error("Failed to run verifiers.");
-      }
 
       logger(verifierResults);
 

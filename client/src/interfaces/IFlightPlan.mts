@@ -33,6 +33,7 @@ interface IFlightPlan {
   remarks?: string;
   cleanedRemarks?: string;
   pilotStats?: IPilotStats;
+  communicationMethod?: string;
 }
 
 export default IFlightPlan;
