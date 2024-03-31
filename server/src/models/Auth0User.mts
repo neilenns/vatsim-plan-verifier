@@ -46,7 +46,7 @@ export class Auth0User {
     sub: string
   ): Promise<Auth0UserDocument | undefined> {
     // Check for an existing user in the database first and return that if found.
-    const existingUser = await this.findOne({ sub }).cacheQuery({ ttl: 60 * 60 }); // One hour
+    const existingUser = await this.findOne({ sub });
 
     if (existingUser != null) {
       return existingUser;
