@@ -59,7 +59,7 @@ db.preferredroutes.insertMany([
     engineTypes: "[J]",
     equipmentSuffixes: "[A-Z]",
     remarks: "Mandatory LOA route, altitude 5,000'",
-    flow: "ANY",
+    flow: "SOUTH",
   },
   {
     departure: "KSEA",
@@ -71,6 +71,17 @@ db.preferredroutes.insertMany([
     equipmentSuffixes: "[A-Z]",
     remarks: "Mandatory LOA route, altitude 3,000' expect 4,000' 15nm from SEA VORTAC.",
     flow: "SOUTH",
+  },
+  {
+    departure: "KSEA",
+    arrival: "KPAE",
+    route: "SEA8",
+    minimumRequiredAltitude: 50,
+    minimumRequiredSpeed: 0,
+    engineTypes: "[J]",
+    equipmentSuffixes: "[A-Z]",
+    remarks: "Mandatory LOA route, altitude 5,000'",
+    flow: "NORTH",
   },
   {
     departure: "KSEA",

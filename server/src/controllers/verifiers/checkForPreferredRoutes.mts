@@ -80,7 +80,7 @@ const checkForPreferredRoutes: VerifierFunction = async function (flightPlan, sa
       result.messageId = "preferredRoute";
       result.priority = 3;
     }
-    // This means there is a route for the aircraft but either their speed or altitue is wrong.
+    // This means there is a route for the aircraft but either their speed, altitude, route, or flow is wrong.
     else {
       // Find routes that will work for the speed the aircraft can fly
       const validPreferredRoutes = preferredRoutes.filter((route) => {
@@ -88,7 +88,10 @@ const checkForPreferredRoutes: VerifierFunction = async function (flightPlan, sa
           return false;
         }
 
-        return (flightPlan.equipmentInfo?.maxCruiseSpeed ?? 999) >= route.minimumRequiredSpeed;
+        return (
+          (flightPlan.equipmentInfo?.maxCruiseSpeed ?? 999) >= route.minimumRequiredSpeed &&
+          ((route.flow ?? AirportFlow.Any) === AirportFlow.Any || route.flow === flightPlan.flow)
+        );
       });
 
       result.status = VerifierResultStatus.ERROR;
