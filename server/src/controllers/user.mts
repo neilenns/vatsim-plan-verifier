@@ -1,5 +1,5 @@
 import mainLogger from "../logger.mjs";
-import { type Auth0User, type Auth0UserDocument, Auth0UserModel } from "../models/Auth0User.mjs";
+import { Auth0UserModel, type Auth0User, type Auth0UserDocument } from "../models/Auth0User.mjs";
 import type Result from "../types/result.mjs";
 
 const logger = mainLogger.child({ service: "user" });
@@ -22,7 +22,13 @@ export async function getAuth0User(sub: string): Promise<Auth0UserResult> {
 
 export async function updateAuth0User(
   sub: string,
-  { colorMode, autoHideImported, hideInformational, streamingMode }: Partial<Auth0User>
+  {
+    colorMode,
+    autoHideImported,
+    hideInformational,
+    streamingMode,
+    sortByCreatedAt,
+  }: Partial<Auth0User>
 ): Promise<Auth0UserResult> {
   if (sub.length === 0) {
     return {
@@ -34,7 +40,7 @@ export async function updateAuth0User(
   try {
     const result = await Auth0UserModel.findOneAndUpdate(
       { sub },
-      { $set: { colorMode, autoHideImported, hideInformational, streamingMode } },
+      { $set: { colorMode, autoHideImported, hideInformational, streamingMode, sortByCreatedAt } },
       { new: true }
     );
 
