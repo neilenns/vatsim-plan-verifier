@@ -215,19 +215,13 @@ export enum VatsimCommsEnum {
   // Look for all of the navaids and replace them with the name of the navaid
   const results = [];
   for (const part of routeParts) {
-    let result;
-
-    if (part.length === 3) {
-      const navaid = await NavaidModel.findOne({ ident: part }).cacheQuery({ ttl: 60 * 60 }); // One hour
-      result = navaid != null ? navaid.name : part;
-    } else {
-      result = part;
-    }
+    const navaid = await NavaidModel.findOne({ ident: part }).cacheQuery({ ttl: 60 * 60 }); // One hour
+    const result = navaid != null ? navaid.name : part;
 
     results.push(result);
   }
 
-  this.expandedRoute = results.join(" ");
+  this.expandedRoute = results.join(" - ");
 })
 // Cache pilot stats for later
 @pre<FlightPlan>("save", async function () {
