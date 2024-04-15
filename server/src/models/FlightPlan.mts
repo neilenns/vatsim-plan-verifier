@@ -150,6 +150,10 @@ export enum VatsimCommsEnum {
         rawAircraftType = rawAircraftType.substring(2); // Strip off the leading "H/"
       }
 
+      if (rawAircraftType.startsWith("J/")) {
+        rawAircraftType = rawAircraftType.substring(2); // Strip off the leading "J/"
+      }
+
       const codeMatch = rawAircraftType.match(/^([A-Z0-9]+)(\/([A-Z]))?$/);
       if (codeMatch != null && codeMatch.length > 0) {
         this.equipmentCode = codeMatch[1];
