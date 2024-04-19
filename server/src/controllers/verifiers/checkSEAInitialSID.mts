@@ -120,8 +120,10 @@ function calculateInitialSidAllGroups(
   // This is checked first so flights on the SUMMA2 that eventually join J70 don't wind up
   // getting the ELMAA4 departure.
   // (104-160) J5/SEA 146R
-  if (directionOfFlight >= 104 && directionOfFlight <= 160 && flightPlan.cruiseAltitude >= 230) {
-    if (flightPlan.routeParts.includes("J20")) {
+  if (directionOfFlight >= 104 && directionOfFlight <= 160) {
+    // Issue #1222: This only applies to flights on J20 AoA 230
+    // A (Reroute J20 AoA FL230)
+    if (flightPlan.routeParts.includes("J20") && flightPlan.cruiseAltitude >= 230) {
       return {
         SID: "SUMMA2",
         extendedMessage: "All: (104-160) ***Mandatory reroute off J20***, J5/SEA 146R.",
