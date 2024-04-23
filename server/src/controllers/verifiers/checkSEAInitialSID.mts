@@ -71,10 +71,10 @@ export async function calculateInitialSID(flightPlan: FlightPlan): Promise<Initi
   }
 
   let initialSid: InitialSid;
-  // Jets get one set of rules. The HondaJet (HDJT) is not a jet.
+  // Jets get one set of rules. The Cirrus Vision Jet (SF50) is not a jet.
   if (
     (flightPlan.equipmentInfo as AircraftDocument).engineType === "J" &&
-    flightPlan.equipmentCode !== "HDJT"
+    flightPlan.equipmentCode !== "SF50"
   ) {
     initialSid = calculateInitialSIDForJets(flightPlan, directionOfFlight);
   }
@@ -222,7 +222,7 @@ function calculateInitialSidAllGroups(
 }
 
 /**
- * Figures out the initial SID for a KSEA departing jet (non HDJT) aircraft.
+ * Figures out the initial SID for a KSEA departing jet (non SF50) aircraft.
  * @param flightPlan The flight plan
  * @returns The initial SID given the route and reason why, or undefined if none could be deteremind
  */
@@ -284,7 +284,7 @@ export function calculateInitialSIDForJets(
 }
 
 /**
- * Figures out the initial SID for a KSEA departing non-jet (including HDJT) aircraft.
+ * Figures out the initial SID for a KSEA departing non-jet (including SF50) aircraft.
  * @param flightPlan The flight plan
  * @returns The initial SID given the route or undefined if none could be deteremind.
  */
