@@ -3,6 +3,7 @@ import { Types } from "mongoose";
 import { type IVatsimPilotStats } from "../interfaces/IVatsimPilotStats.mjs";
 import mainLogger from "../logger.mjs";
 import { PilotStatsModel, type PilotStatsDocument } from "../models/PilotStats.mjs";
+import { VatsimARTCCPositionModel } from "../models/VatsimARTCCPosition.mjs";
 import { VatsimATISModel, type VatsimATISDocument } from "../models/VatsimATIS.mjs";
 import {
   VatsimControllerModel,
@@ -122,7 +123,11 @@ export async function getVatsimControllers(): Promise<VatsimControllersResult> {
 
 export async function getVatsimControllersByARTCC(artcc: string): Promise<VatsimControllersResult> {
   try {
-    const result = await VatsimControllerModel.find({});
+    // This is gross, there has to be a better way to do this.
+    const positionCodes = await VatsimARTCCPositionModel.find({ artcc });
+    const positionCodesArray = positionCodes.map((artccInfo) => artccInfo.positionCode);
+
+    const result = await VatsimControllerModel.find({ positionCode: { $in: positionCodesArray } });
 
     if (result == null) {
       return {
