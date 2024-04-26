@@ -5,6 +5,10 @@ import mainLogger from "../logger.mjs";
 import { PilotStatsModel, type PilotStatsDocument } from "../models/PilotStats.mjs";
 import { VatsimATISModel, type VatsimATISDocument } from "../models/VatsimATIS.mjs";
 import {
+  VatsimControllerModel,
+  type VatsimControllerDocument,
+} from "../models/VatsimController.mjs";
+import {
   VatsimFlightPlanModel,
   VatsimFlightStatus,
   type VatsimFlightPlanDocument,
@@ -21,6 +25,11 @@ type VatsimFlightPlanResult = Result<
 type VatsimFlightPlansResult = Result<
   VatsimFlightPlanDocument[],
   "FlightPlansNotFound" | "UnknownError"
+>;
+
+export type VatsimControllersResult = Result<
+  VatsimControllerDocument[],
+  "ControllerNotFound" | "ControllersNotFound" | "UnknownError"
 >;
 
 type VatsimPilotStatsResult = Result<PilotStatsDocument, "PilotNotFound" | "UnknownError">;
@@ -79,6 +88,93 @@ export async function setVatsimFlightPlanEDCT(
       success: false,
       errorType: "UnknownError",
       error: message,
+    };
+  }
+}
+
+export async function getVatsimControllers(): Promise<VatsimControllersResult> {
+  try {
+    const result = await VatsimControllerModel.find({});
+
+    if (result == null) {
+      return {
+        success: false,
+        errorType: "UnknownError",
+        error: "No controllers found",
+      };
+    } else {
+      return {
+        success: true,
+        data: result,
+      };
+    }
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error fetching controllers: ${error.message}`, error);
+    return {
+      success: false,
+      errorType: "UnknownError",
+      error: `Error fetching controllers: ${error.message}`,
+    };
+  }
+}
+
+export async function getVatsimControllersByARTCC(artcc: string): Promise<VatsimControllersResult> {
+  try {
+    const result = await VatsimControllerModel.find({});
+
+    if (result == null) {
+      return {
+        success: false,
+        errorType: "ControllersNotFound",
+        error: `No online controllers from ${artcc} found`,
+      };
+    } else {
+      return {
+        success: true,
+        data: result,
+      };
+    }
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error fetching online controllers for ${artcc}: ${error.message}`, error);
+    return {
+      success: false,
+      errorType: "UnknownError",
+      error: `Error fetching online controllers for ${artcc}: ${error.message}`,
+    };
+  }
+}
+
+export async function getVatsimControllerByCallsign(
+  callsign: string
+): Promise<VatsimControllersResult> {
+  try {
+    const controller = await VatsimControllerModel.findOne({ callsign });
+
+    if (controller == null) {
+      return {
+        success: false,
+        errorType: "ControllerNotFound",
+        error: `Unable to find controller info for ${callsign}`,
+      };
+    }
+
+    return {
+      success: true,
+      // Returned as an array to make it play better with the other controller queries
+      data: [controller],
+    };
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error fetching controller info for ${callsign}: ${error.message}`, error);
+    return {
+      success: false,
+      errorType: "UnknownError",
+      error: `Error fetching controller info for ${callsign}: ${error.message}`,
     };
   }
 }

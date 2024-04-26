@@ -1,5 +1,26 @@
-import { getModelForClass, prop, type DocumentType } from "@typegoose/typegoose";
+import {
+  Ref,
+  getModelForClass,
+  modelOptions,
+  plugin,
+  pre,
+  prop,
+  type DocumentType,
+} from "@typegoose/typegoose";
+import autopopulate from "mongoose-autopopulate";
+import { VatsimARTCCPosition } from "./VatsimARTCCPosition.mjs";
 
+@modelOptions({
+  schemaOptions: {
+    toJSON: { virtuals: true, aliases: false },
+    toObject: { virtuals: true, aliases: false },
+  },
+})
+@plugin(autopopulate)
+@pre<VatsimController>("save", function (next) {
+  this.positionCode = this.callsign.split("_")[0];
+  next();
+})
 export class VatsimController {
   @prop({ required: true, index: true })
   cid!: number;
@@ -24,6 +45,19 @@ export class VatsimController {
 
   @prop({ required: true })
   logonTime!: Date;
+
+  @prop({ required: false, default: "" })
+  positionCode?: string;
+
+  // Reference properties
+  @prop({
+    ref: () => VatsimARTCCPosition,
+    localField: "positionCode",
+    foreignField: "positionCode",
+    justOne: true,
+    autopopulate: true,
+  })
+  artcc?: Ref<VatsimARTCCPosition>;
 }
 
 export const VatsimControllerModel = getModelForClass(VatsimController);
