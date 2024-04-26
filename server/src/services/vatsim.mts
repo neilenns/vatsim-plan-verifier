@@ -9,9 +9,10 @@ import type IVatsimEndpoints from "../interfaces/IVatsimEndpoints.mjs";
 import mainLogger from "../logger.mjs";
 import { VatsimFlightPlanModel, VatsimFlightStatus } from "../models/VatsimFlightPlan.mjs";
 import { getIO } from "../sockets/index.mjs";
-import { processVatsimATISData } from "./vatsimATIS.mjs";
-import { processVatsimFlightPlanData } from "./vatsimFlightPlans.mjs";
 import { type FailureResult } from "../types/result.mjs";
+import { processVatsimATISData } from "./vatsimATIS.mjs";
+import { processVatsimControllersData } from "./vatsimControllers.mjs";
+import { processVatsimFlightPlanData } from "./vatsimFlightPlans.mjs";
 
 const logger = mainLogger.child({ service: "vatsim" });
 
@@ -58,7 +59,11 @@ export async function getVatsimData(
     const data = await fs.promises.readFile(ENV.VATSIM_DATA_FILE, "utf-8");
     const vatsimData: IVatsimData = JSON.parse(data);
 
-    await Promise.all([processVatsimATISData(vatsimData), processVatsimFlightPlanData(vatsimData)]);
+    await Promise.all([
+      processVatsimATISData(vatsimData),
+      processVatsimFlightPlanData(vatsimData),
+      processVatsimControllersData(vatsimData),
+    ]);
 
     return;
   }
