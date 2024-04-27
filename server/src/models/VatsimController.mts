@@ -62,7 +62,7 @@ export class VatsimController {
   artccName?: string;
 
   public async setArtcc(this: VatsimControllerDocument): Promise<void> {
-    const artcc = await VatsimARTCCPositionModel.findOne({ positionCode: this.positionCode });
+    const artcc = await VatsimARTCCPositionModel.findByPositionCode(this.positionCode);
 
     if (artcc !== null && artcc !== undefined) {
       this.artccName = artcc.name;

@@ -9,10 +9,6 @@ db.artccpositions.createIndex({ callsign: 1 });
 db.artccpositions.insertMany([
   {
     name: "ZSE",
-    positionCode: "SEA",
-  },
-  {
-    name: "ZSE",
-    positionCode: "EDDC",
+    positionCodes: ["SEA", "EDDC"],
   },
 ]);
