@@ -1,3 +1,4 @@
+import { PromisePool } from "@supercharge/promise-pool";
 import _ from "lodash";
 import { type IVatsimController, type IVatsimData } from "../interfaces/IVatsimData.mjs";
 import mainLogger from "../logger.mjs";
@@ -10,7 +11,9 @@ import { logMongoBulkErrors } from "../utils.mjs";
 const logger = mainLogger.child({ service: "vatsimControllers" });
 
 // Takes a controller object from vatsim and converts it to a model
-export function controllerToVatsimModel(controller: IVatsimController): VatsimControllerDocument {
+export async function controllerToVatsimModel(
+  controller: IVatsimController
+): Promise<VatsimControllerDocument> {
   const result = new VatsimControllerModel({
     cid: controller.cid,
     name: controller?.name,
@@ -21,6 +24,9 @@ export function controllerToVatsimModel(controller: IVatsimController): VatsimCo
     logonTime: controller.logon_time,
     rawText: controller.text_atis,
   });
+
+  // Set properties that need to be calculated
+  await result.setArtcc();
 
   return result;
 }
@@ -41,14 +47,22 @@ async function calculateNew(
 
   profiler = logger.startTimer();
 
-  Object.values(incomingControllers).forEach((incomingController) => {
-    const currentController = currentControllers[incomingController.callsign];
-    if (currentController === undefined) {
-      const newController = controllerToVatsimModel(incomingController);
+  await PromisePool.withConcurrency(10)
+    .for(Object.values(incomingControllers))
+    .handleError(async (error, incomingController) => {
+      logger.error(
+        `Unable to calculate new and updated for ${incomingController.callsign}: ${error.message}`,
+        error
+      );
+    })
+    .process(async (incomingController: IVatsimController) => {
+      const currentController = currentControllers[incomingController.callsign];
+      if (currentController === undefined) {
+        const newController = await controllerToVatsimModel(incomingController);
 
-      controllersToAdd.push(newController);
-    }
-  });
+        controllersToAdd.push(newController);
+      }
+    });
 
   profiler.done({
     level: "debug",

@@ -7,7 +7,7 @@ import { getModelForClass, modelOptions, prop, type DocumentType } from "@typego
 })
 export class VatsimARTCCPosition {
   @prop({ required: true, index: true, unique: false })
-  artcc!: string;
+  name!: string;
 
   @prop({ required: true, index: true, unique: true })
   positionCode!: string;

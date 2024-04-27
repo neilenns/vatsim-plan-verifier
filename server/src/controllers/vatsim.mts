@@ -3,7 +3,6 @@ import { Types } from "mongoose";
 import { type IVatsimPilotStats } from "../interfaces/IVatsimPilotStats.mjs";
 import mainLogger from "../logger.mjs";
 import { PilotStatsModel, type PilotStatsDocument } from "../models/PilotStats.mjs";
-import { VatsimARTCCPositionModel } from "../models/VatsimARTCCPosition.mjs";
 import { VatsimATISModel, type VatsimATISDocument } from "../models/VatsimATIS.mjs";
 import {
   VatsimControllerModel,
@@ -121,19 +120,17 @@ export async function getVatsimControllers(): Promise<VatsimControllersResult> {
   }
 }
 
-export async function getVatsimControllersByARTCC(artcc: string): Promise<VatsimControllersResult> {
+export async function getVatsimControllersByARTCC(
+  artccName: string
+): Promise<VatsimControllersResult> {
   try {
-    // This is gross, there has to be a better way to do this.
-    const positionCodes = await VatsimARTCCPositionModel.find({ artcc });
-    const positionCodesArray = positionCodes.map((artccInfo) => artccInfo.positionCode);
-
-    const result = await VatsimControllerModel.find({ positionCode: { $in: positionCodesArray } });
+    const result = await VatsimControllerModel.find({ artccName });
 
     if (result == null) {
       return {
         success: false,
         errorType: "ControllersNotFound",
-        error: `No online controllers from ${artcc} found`,
+        error: `No online controllers from ${artccName} found`,
       };
     } else {
       return {
@@ -144,11 +141,11 @@ export async function getVatsimControllersByARTCC(artcc: string): Promise<Vatsim
   } catch (err) {
     const error = err as Error;
 
-    logger.error(`Error fetching online controllers for ${artcc}: ${error.message}`, error);
+    logger.error(`Error fetching online controllers for ${artccName}: ${error.message}`, error);
     return {
       success: false,
       errorType: "UnknownError",
-      error: `Error fetching online controllers for ${artcc}: ${error.message}`,
+      error: `Error fetching online controllers for ${artccName}: ${error.message}`,
     };
   }
 }
