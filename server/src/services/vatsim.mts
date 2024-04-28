@@ -74,6 +74,7 @@ export async function getVatsimData(
       await Promise.all([
         processVatsimATISData(response.data as IVatsimData),
         processVatsimFlightPlanData(response.data as IVatsimData),
+        processVatsimControllersData(response.data as IVatsimData),
       ]);
     } else {
       return {

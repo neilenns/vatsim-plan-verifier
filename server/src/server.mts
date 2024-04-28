@@ -8,14 +8,14 @@ import rateLimit from "express-rate-limit";
 import fs from "fs";
 import helmet from "helmet";
 import { type Server } from "http";
-import { type HttpTerminator, createHttpTerminator } from "http-terminator";
+import { createHttpTerminator, type HttpTerminator } from "http-terminator";
 import https from "https";
+import _ from "lodash";
 import * as bree from "./bree.mjs";
 import { ENV } from "./env.mjs";
 import mainLogger from "./logger.mjs";
 import morgan from "./middleware/morgan.mjs";
 import { setupSockets } from "./sockets/index.mjs";
-import _ from "lodash";
 
 // Authentication
 
@@ -40,6 +40,7 @@ import verifyRouter from "./routes/verify.mjs";
 // Vatsim routes
 import vatsimATISRouter from "./routes/vatsim/ATIS.mjs";
 import vatsimEDCTRouter from "./routes/vatsim/EDCT.mjs";
+import vatsimControllersRouter from "./routes/vatsim/controllers.mjs";
 import vatsimFlightPlansRouter from "./routes/vatsim/flightPlans.mjs";
 import vatsimPilotsRouter from "./routes/vatsim/pilots.mjs";
 import vatsimTransceiversRouter from "./routes/vatsim/transceivers.mjs";
@@ -151,6 +152,7 @@ export async function startServer(port: number): Promise<void> {
   app.use(vatsimPilotsRouter);
   app.use(vatsimTransceiversRouter);
   app.use(vatsimEDCTRouter);
+  app.use(vatsimControllersRouter);
 
   // Verifier routes
   app.use(verifyRouter);
