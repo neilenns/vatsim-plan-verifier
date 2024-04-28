@@ -39,7 +39,7 @@ db.custommessages.insertMany([
     flow: "NORTH",
     messageId: "SUMMA2TextNorth",
     priority: 3,
-    message: `> Cleared to {{arrival}} via the SUMMA2 departure, radar vectors SUMMA, then as filed.  
+    message: `> Cleared to {{arrival}} then as filed.  
 > Climb via SID except maintain 9,000. Expect {{formattedCruiseAltitude}} 15 nautical miles from the SEATTLE VORTAC.
 `,
   },
@@ -49,7 +49,7 @@ db.custommessages.insertMany([
     flow: "SOUTH",
     messageId: "SUMMA2TextSouth",
     priority: 3,
-    message: `> Cleared to {{arrival}} via the SUMMA2 departure then as filed.  
+    message: `> Cleared to {{arrival}} then as filed.  
 > Maintain 7,000. Expect {{formattedCruiseAltitude}} 15 nautical miles from the SEATTLE VORTAC.  
 `,
   },
@@ -59,7 +59,7 @@ db.custommessages.insertMany([
     messageId: "SEA8TextNorth",
     flow: "NORTH",
     priority: 3,
-    message: `> Cleared to {{arrival}} via the SEA8 departure, radar vectors {{initialFix}}, then as filed.  
+    message: `> Cleared to {{arrival}} then as filed.  
 > Maintain 9,000 expect {{formattedCruiseAltitude}} 15 nautical miles from the SEATTLE VORTAC.`,
   },
   {
@@ -68,7 +68,7 @@ db.custommessages.insertMany([
     messageId: "SEA8TextSouth",
     flow: "SOUTH",
     priority: 3,
-    message: `> Cleared to {{arrival}} via the SEA8 departure, radar vectors {{initialFix}}, then as filed.  
+    message: `> Cleared to {{arrival}} then as filed.  
 > Maintain 7,000 expect {{formattedCruiseAltitude}} 15 nautical miles from the SEATTLE VORTAC.`,
   },
 ]);
