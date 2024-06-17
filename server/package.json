@@ -45,7 +45,7 @@
     "pluralize": "^8.0.0",
     "socket.io": "^4.7.1",
     "speedgoose": "^2.0.8",
-    "ts-essentials": "^9.3.2",
+    "ts-essentials": "^10.0.0",
     "use-immer": "^0.10.0",
     "zod": "^3.22.3"
   },
