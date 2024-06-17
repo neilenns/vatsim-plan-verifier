@@ -30,7 +30,7 @@
     "dotlocker": "^1.0.0",
     "express": "^4.19.2",
     "express-oauth2-jwt-bearer": "^1.6.0",
-    "express-rate-limit": "^6.7.1",
+    "express-rate-limit": "^7.0.0",
     "geo-tz": "^7.0.7",
     "geodesy": "^2.4.0",
     "helmet": "^7.0.0",
