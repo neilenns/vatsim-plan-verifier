@@ -4,23 +4,24 @@
   "packageRules": [
     {
       "groupName": "definitelyTyped",
-      "matchPackagePrefixes": ["@types/"]
+      "matchDepTypes": ["devDependencies"],
+      "matchPackagePrefixes": ["@types/"],
+      "automerge": true
     },
     {
       "groupName": "linting",
       "groupSlug": "eslint-plugin",
+      "matchDepTypes": ["devDependencies"],
       "matchPackagePrefixes": ["eslint-plugin"],
-      "matchUpdateTypes": ["minor", "patch"]
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
     },
     {
-      "automerge": true,
-      "extends": ["packages:linters"]
-    },
-    {
-      "groupName": "all patch dependencies",
-      "groupSlug": "all-patch",
-      "matchPackagePatterns": ["*"],
-      "matchUpdateTypes": ["patch"]
+      "groupName": "all minor and patch dependencies",
+      "groupSlug": "all-minor-patch",
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchCurrentVersion": "!/^0/",
+      "automerge": true
     },
     {
       "extends": "monorepo:eslint",
