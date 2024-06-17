@@ -80,7 +80,7 @@
     "eslint-plugin-security": "^3.0.0",
     "eslint-plugin-you-dont-need-lodash-underscore": "^6.13.0",
     "mocha": "^10.2.0",
-    "mongodb-memory-server": "^8.13.0",
+    "mongodb-memory-server": "^9.0.0",
     "source-map-support": "^0.5.21",
     "ts-node": "^10.9.1",
     "tsc-watch": "^6.0.4",
