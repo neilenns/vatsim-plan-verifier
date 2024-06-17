@@ -62,7 +62,6 @@
     "@types/lodash": "^4.14.196",
     "@types/luxon": "^3.4.2",
     "@types/mocha": "^10.0.1",
-    "@types/mongodb": "^4.0.7",
     "@types/morgan": "^1.9.9",
     "@types/mustache": "^4.2.2",
     "@types/node": "^20.11.6",
