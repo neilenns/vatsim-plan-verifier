@@ -24,6 +24,12 @@
       "automerge": true
     },
     {
+      "groupName": "chai",
+      "groupSlug": "all-chai",
+      "matchPackagePrefixes": ["chai"],
+      "matchDepTypes": ["devDependencies"]
+    },
+    {
       "extends": "monorepo:eslint",
       "groupName": "eslint monorepo",
       "matchUpdateTypes": ["digest", "patch", "minor", "major"]
