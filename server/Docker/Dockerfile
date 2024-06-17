@@ -19,7 +19,7 @@ COPY ./src ./src
 RUN npm run build
 
 # Use a lightweight base image
-FROM node:18-alpine
+FROM node:20-alpine
 
 # Install curl for the healthcheck
 RUN apk --no-cache add curl
