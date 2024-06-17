@@ -5,6 +5,16 @@
     {
       "groupName": "definitelyTyped",
       "matchPackagePrefixes": ["@types/"]
+    },
+    {
+      "automerge": true,
+      "extends": ["packages:linters"]
+    },
+    {
+      "groupName": "all patch dependencies",
+      "groupSlug": "all-patch",
+      "matchPackagePatterns": ["*"],
+      "matchUpdateTypes": ["patch"]
     }
   ]
 }
