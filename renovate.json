@@ -5,6 +5,21 @@
     {
       "groupName": "definitelyTyped",
       "matchPackagePrefixes": ["@types/"]
+    },
+    {
+      "automerge": true,
+      "extends": ["packages:linters"]
+    },
+    {
+      "groupName": "all patch dependencies",
+      "groupSlug": "all-patch",
+      "matchPackagePatterns": ["*"],
+      "matchUpdateTypes": ["patch"]
+    },
+    {
+      "extends": "monorepo:eslint",
+      "groupName": "eslint monorepo",
+      "matchUpdateTypes": ["digest", "patch", "minor", "major"]
     }
   ]
 }
