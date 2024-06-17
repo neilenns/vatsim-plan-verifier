@@ -18,7 +18,7 @@ const LogoutPage = () => {
       });
     };
 
-    handleSignout().catch((err) => {
+    handleSignout().catch((err: unknown) => {
       console.error(err);
     });
   }, [logout, setMode]);
