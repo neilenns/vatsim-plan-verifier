@@ -7,6 +7,12 @@
       "matchPackagePrefixes": ["@types/"]
     },
     {
+      "groupName": "linting",
+      "groupSlug": "eslint-plugin",
+      "matchPackagePrefixes": ["eslint-plugin"],
+      "matchUpdateTypes": ["minor", "patch"]
+    },
+    {
       "automerge": true,
       "extends": ["packages:linters"]
     },
