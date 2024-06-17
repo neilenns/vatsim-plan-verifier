@@ -86,7 +86,7 @@ export const SettingsDialog = (props: SettingsDialogProps) => {
             <Switch
               checked={sortByCreatedAt}
               onChange={(event) => {
-                handleSortByCreatedAtChanged(event).catch((err) => {
+                handleSortByCreatedAtChanged(event).catch((err: unknown) => {
                   console.error(err);
                 });
               }}
@@ -99,7 +99,7 @@ export const SettingsDialog = (props: SettingsDialogProps) => {
             <Switch
               checked={autoHideImported}
               onChange={(event) => {
-                handleAutoHideChanged(event).catch((err) => {
+                handleAutoHideChanged(event).catch((err: unknown) => {
                   console.error(err);
                 });
               }}
@@ -112,7 +112,7 @@ export const SettingsDialog = (props: SettingsDialogProps) => {
             <Switch
               checked={streamingMode}
               onChange={(event) => {
-                handleStreamingModeChanged(event).catch((err) => {
+                handleStreamingModeChanged(event).catch((err: unknown) => {
                   console.error(err);
                 });
               }}
@@ -126,7 +126,7 @@ export const SettingsDialog = (props: SettingsDialogProps) => {
               <Switch
                 checked={hideInformational}
                 onChange={(event) => {
-                  handleHideInformationalChanged(event).catch((err) => {
+                  handleHideInformationalChanged(event).catch((err: unknown) => {
                     console.error(err);
                   });
                 }}

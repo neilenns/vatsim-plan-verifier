@@ -70,8 +70,8 @@ export const AuthenticationGuard = ({ role, component: Component }: Authenticati
           setIsAuthorized(true);
         }
       })
-      .catch((err: Error) => {
-        setError(err);
+      .catch((err: unknown) => {
+        setError(err as Error);
         setIsAuthorized(false);
         setIsAuthorizing(false);
       });

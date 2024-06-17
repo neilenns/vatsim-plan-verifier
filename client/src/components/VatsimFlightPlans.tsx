@@ -321,7 +321,7 @@ const VatsimFlightPlans = () => {
                         value="importFlightPlan"
                         disabled={isImporting}
                         onClick={() => {
-                          handleFlightPlanImport(flightPlan.callsign).catch((err) => {
+                          handleFlightPlanImport(flightPlan.callsign).catch((err: unknown) => {
                             console.error(err);
                           });
                         }}
