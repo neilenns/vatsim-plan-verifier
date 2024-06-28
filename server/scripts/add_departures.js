@@ -1456,8 +1456,15 @@ db.departures.insertMany([
     Fixes: ["PAE", "SEA", "EAT", "ELN", "OLM", "HQM", "NUW"],
     InitialAltitudes: [
       {
+        Altitude: 30,
+        AircraftClass: "J",
+        ExpectRequired: false,
+        ExpectInMinutes: 5,
+        InitialPhrasing: "Maintain",
+      },
+      {
         Altitude: 20,
-        AircraftClass: ".*",
+        AircraftClass: "[^PT]",
         ExpectRequired: false,
         ExpectInMinutes: 5,
         InitialPhrasing: "Maintain",
