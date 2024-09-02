@@ -137,7 +137,7 @@ const Verifier = () => {
           </Box>
           <Form>
             <Box textAlign="center" sx={{ mt: 2, borderTop: "1px solid #ccc" }}>
-              <Button variant="contained" onClick={onNewClick}>
+              <Button variant="contained" onClick={onNewClick} sx={{ mt: 2 }}>
                 New
               </Button>
             </Box>
