@@ -32,7 +32,7 @@ const ActiveFlightPlans = () => {
 
   return (
     activeFlightPlans.length > 0 && (
-      <Box sx={{ borderTop: "1px solid #ccc", mt: 2 }}>
+      <Box sx={{ mt: 2 }}>
         <fetcher.Form method="post">
           <List dense aria-label="Active flight plans">
             {activeFlightPlans.map((activePlan) => {

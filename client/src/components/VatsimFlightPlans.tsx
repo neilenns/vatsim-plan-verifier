@@ -280,7 +280,7 @@ const VatsimFlightPlans = () => {
 
   return (
     <>
-      <Box sx={{ borderTop: "1px solid #ccc", mt: 2 }}>
+      <Box sx={{ mt: 2 }}>
         <Stack direction="row" sx={{ mt: 2, ml: 1 }}>
           <TextField
             label="Airport code"
