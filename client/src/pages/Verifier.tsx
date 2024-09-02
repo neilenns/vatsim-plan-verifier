@@ -140,10 +140,10 @@ const Verifier = () => {
             </Box>
           </Form>
           <Box sx={{ overflow: "auto", height: "40%" }}>
-            <ActiveFlightPlans />
+            <VatsimFlightPlans />
           </Box>
           <Box sx={{ overflow: "auto", height: "40%" }}>
-            <VatsimFlightPlans />
+            <ActiveFlightPlans />
           </Box>
         </Box>
         {/* Main Content */}
