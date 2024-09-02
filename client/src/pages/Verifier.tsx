@@ -132,6 +132,9 @@ const Verifier = () => {
       <Box sx={{ display: "flex", flex: 1 }}>
         {/* Sidebar */}
         <Box sx={{ width: 200, height: "100vh", display: "flex", flexDirection: "column" }}>
+          <Box sx={{ overflow: "auto", height: "40%" }}>
+            <VatsimFlightPlans />
+          </Box>
           <Form>
             <Box textAlign="center" sx={{ mt: 2 }}>
               <Button variant="contained" onClick={onNewClick}>
@@ -139,10 +142,7 @@ const Verifier = () => {
               </Button>
             </Box>
           </Form>
-          <Box sx={{ overflow: "auto", height: "40%" }}>
-            <VatsimFlightPlans />
-          </Box>
-          <Box sx={{ overflow: "auto", height: "40%" }}>
+          <Box sx={{ overflow: "auto", height: "40%", borderTop: "1px solid #ccc" }}>
             <ActiveFlightPlans />
           </Box>
         </Box>
