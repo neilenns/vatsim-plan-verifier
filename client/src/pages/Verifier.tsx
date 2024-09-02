@@ -136,13 +136,13 @@ const Verifier = () => {
             <VatsimFlightPlans />
           </Box>
           <Form>
-            <Box textAlign="center" sx={{ mt: 2 }}>
+            <Box textAlign="center" sx={{ mt: 2, borderTop: "1px solid #ccc" }}>
               <Button variant="contained" onClick={onNewClick}>
                 New
               </Button>
             </Box>
           </Form>
-          <Box sx={{ overflow: "auto", height: "40%", borderTop: "1px solid #ccc" }}>
+          <Box sx={{ overflow: "auto", height: "40%" }}>
             <ActiveFlightPlans />
           </Box>
         </Box>
