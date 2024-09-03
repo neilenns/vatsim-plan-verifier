@@ -38,6 +38,11 @@ export async function mochaGlobalSetup() {
   console.log(`Mongoose in-memory server created: ${mongoUri}`);
 
   await mongoose.connect(mongoUri);
+  if (!mongoose.connection.db) {
+    console.error(`Unable to connect to in-memory database`);
+    return;
+  }
+
   await mongoose.connection.db.dropDatabase();
 
   // Populate the database
