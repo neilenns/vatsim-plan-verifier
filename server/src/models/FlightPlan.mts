@@ -157,7 +157,7 @@ export enum VatsimCommsEnum {
       const codeMatch = rawAircraftType.match(/^([A-Z0-9]+)(\/([A-Z]))?$/);
       if (codeMatch != null && codeMatch.length > 0) {
         this.equipmentCode = codeMatch[1];
-        if (codeMatch.length > 2 && codeMatch[3].length > 0) {
+        if (codeMatch.length > 2 && codeMatch[3]?.length > 0) {
           this.equipmentSuffix = codeMatch[3];
         }
       }
