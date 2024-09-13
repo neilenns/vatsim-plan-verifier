@@ -19,10 +19,6 @@ db.extendedairportinfo.insertMany([
     hasSIDs: false,
   },
   {
-    airportCode: "KPDX",
-    heavyRunways: ["10R", "28L"],
-  },
-  {
     airportCode: "KMWH",
     InitialAltitudes: [
       {
