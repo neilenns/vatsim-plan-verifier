@@ -887,7 +887,7 @@ db.aircraft.insertMany([
     engineType: "P",
     weightClass: "S",
     srsClass: "I",
-    aircraftClass: "U",
+    aircraftClass: "S",
     airplaneDesignGroup: 1,
     wingspan: 33.5,
     tailHeight: 8.6,
