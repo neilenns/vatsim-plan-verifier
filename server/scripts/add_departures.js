@@ -93,7 +93,7 @@ db.departures.insertMany([
   {
     AirportCode: "KPAE",
     SID: "PAE6",
-    Telephony: "PAINE THREE",
+    Telephony: "PAINE SIX",
     Fixes: ["PAE", "NUW", "SEA", "OLM", "HQM", "ELN", "EAT", "YKM"],
     InitialAltitudes: [
       {
