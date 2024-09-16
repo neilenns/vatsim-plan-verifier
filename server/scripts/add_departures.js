@@ -1409,6 +1409,7 @@ db.departures.insertMany([
     Telephony: "SEATTLE EIGHT",
     IsRNAV: false,
     Fixes: [
+      "BUWZO",
       "SEA",
       "TOU",
       "YYJ",
