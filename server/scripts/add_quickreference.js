@@ -4,6 +4,58 @@ db.quickreferences.deleteMany({});
 
 db.quickreferences.insertMany([
   {
+    key: "pearson",
+    label: "Pearson advisory",
+    markdown: `# Pearson Advisory
+
+## VFR departures
+
+> Portland landing runways {10/28}.
+
+> Cleared {to enter/out of} the Echo surface area north of Pearson Field Airport.
+
+> Maintain Special VFR conditions and remain outside the Charlie airspace.
+
+> Report {landing complete/exiting Echo airspace} on this frequency.
+
+## IFR departures
+
+### With ODP
+
+> Cleared to {AIRPORT} {as filed/depart via the Pearson obstacle departure procedure}.
+
+> After departure turn {left/right} heading 360, expect vectors on course leaving 2000'.
+
+> Maintain 4,000. Expect (FILED ALTITUDE) 5 minutes after departure.
+
+> Departure frequency {FREQUENCY}.
+
+> Squawk {CODE}
+
+### Without ODP
+
+> Cleared to {AIRPORT} as filed, fly runway heading, leaving 600' turn {left/right heading 360}.
+
+> Expect vectors on course leaving 2000'.
+
+> Maintain 4,000. Expect {FILED ALTITUDE} 5 minutes after departure.
+
+> Departure frequency {FREQUENCY}.
+
+> Squawk {CODE}
+
+**Readback must include everything except "Cleared to {AIRPORT}"**
+
+## After readback (VFR or IFR)
+
+> {CALLSIGN} readback correct. Hold for release, advise ready departure on this frequency.
+
+## When ready for departure
+
+> {CALLSIGN} released for departure, clearance void if not off in two minutes. Contact {app/ctr/unicom} when airborne.
+`,
+  },
+  {
     key: "helicopters",
     label: "Helicopters",
     markdown: `# Helicopters
