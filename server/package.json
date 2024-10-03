@@ -51,11 +51,11 @@
   },
   "devDependencies": {
     "@types/adm-zip": "^0.5.0",
-    "@types/chai": "^4.3.5",
+    "@types/chai": "^5.0.0",
     "@types/compression": "^1.7.2",
     "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.13",
-    "@types/express": "^4.17.17",
+    "@types/express": "^5.0.0",
     "@types/geodesy": "^2.2.3",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/lodash": "^4.14.196",
