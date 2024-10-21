@@ -4,6 +4,20 @@ db.quickreferences.deleteMany({});
 
 db.quickreferences.insertMany([
   {
+    key: "vfrontop",
+    label: "VFR to IFR on top",
+    markdown: `# VFR to IFR on top
+  
+> N1234, Portland Tower. Cleared to BTG VOR via the PTLD2 departure.
+
+> Climb to and report reaching VFR on top.
+
+> If not on top at {altitude} maintain {altitude} and advise.
+
+> Departure frequency 124.350, squawk 5542.
+`,
+  },
+  {
     key: "pearson",
     label: "Pearson advisory",
     markdown: `# Pearson Advisory
