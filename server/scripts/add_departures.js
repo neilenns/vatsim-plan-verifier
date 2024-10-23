@@ -1029,7 +1029,7 @@ db.departures.insertMany([
     AirportCode: "KPDX",
     SID: "WHAMY5",
     Telephony: "WHAMY FIVE",
-    Fixes: ["WHAMY", "IMB", "RIELY", "KOATA"],
+    Fixes: ["WHAMY", "IMB", "KOATA"],
     InitialAltitudes: [
       {
         Altitude: 70,
