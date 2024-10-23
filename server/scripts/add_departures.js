@@ -1095,7 +1095,7 @@ db.departures.insertMany([
     AirportCode: "KPDX",
     SID: "LAVAA7",
     Telephony: "LAVA SEVEN",
-    Fixes: ["LAVAA", "YKM", "PDT"],
+    Fixes: ["LAVAA", "SUNED", "PDT"],
     InitialAltitudes: [
       {
         Altitude: 70,
