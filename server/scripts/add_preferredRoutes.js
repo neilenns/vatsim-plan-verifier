@@ -313,7 +313,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KPDX",
     arrival: "KGEG",
-    route: "LAVAA6 LAVAA PAPPS ZOOMR ZOOMR2",
+    route: "LAVAA7 LAVAA PAPPS ZOOMR ZOOMR2",
     minimumRequiredAltitude: 50,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[GI]",
@@ -331,7 +331,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KPDX",
     arrival: "KGEG",
-    route: "LAVAA6 LAVAA PAPPS ZOOMR ZOOMR2",
+    route: "LAVAA7 LAVAA PAPPS ZOOMR ZOOMR2",
     minimumRequiredAltitude: 50,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[LZ]",
@@ -681,7 +681,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KPDX",
     arrival: "KSLC",
-    route: "WHAMY4 IMB J15 BOI BYI SKEES5",
+    route: "WHAMY5 IMB J15 BOI BYI SKEES5",
     minimumRequiredAltitude: 240,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[LZGIW]",
@@ -690,7 +690,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KPDX",
     arrival: "KLAS",
-    route: "CASCD2 CHISM PUHTS PAWLI Q13 LOMIA TQILA COKTL3",
+    route: "CASCD3 CHISM PUHTS PAWLI Q13 LOMIA TQILA COKTL3",
     minimumRequiredAltitude: 240,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[LZGIW]",
@@ -699,7 +699,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KPDX",
     arrival: "KRNO",
-    route: "CASCD2 CHISM PUHTS PAWLI HARTT KLUBS1",
+    route: "CASCD3 CHISM PUHTS PAWLI HARTT KLUBS1",
     minimumRequiredAltitude: 130,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[GL]",
@@ -708,7 +708,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KPDX",
     arrival: "KDEN",
-    route: "WHAMY4 IMB J15 BOI OCS MJANE FLATI3",
+    route: "WHAMY5 IMB J15 BOI OCS MJANE FLATI3",
     minimumRequiredAltitude: 270,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[LZGIW]",
@@ -717,7 +717,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KPDX",
     arrival: "KLAX",
-    route: "CASCD2 CHISM JUDAH JUNEJ Q7 JAGWA BURGL IRNMN2",
+    route: "CASCD3 CHISM JUDAH JUNEJ Q7 JAGWA BURGL IRNMN2",
     minimumRequiredAltitude: 260,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[LZGIW]",
