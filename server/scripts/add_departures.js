@@ -1027,14 +1027,14 @@ db.departures.insertMany([
   },
   {
     AirportCode: "KPDX",
-    SID: "WHAMY4",
-    Telephony: "WHAMY FOUR",
-    Fixes: ["WHAMY", "IMB", "RIELY", "KOATA"],
+    SID: "WHAMY5",
+    Telephony: "WHAMY FIVE",
+    Fixes: ["WHAMY", "IMB", "KOATA"],
     InitialAltitudes: [
       {
         Altitude: 70,
         AircraftClass: ".*",
-        InitialPhrasing: "Maintain",
+        InitialPhrasing: "ClimbViaSidExceptMaintain",
         ExpectInMinutes: 10,
         ExpectRequired: false,
       },
@@ -1046,14 +1046,14 @@ db.departures.insertMany([
   },
   {
     AirportCode: "KPDX",
-    SID: "CASCD2",
-    Telephony: "CASCADE TWO",
-    Fixes: ["CHISM", "DSD", "JOGEN", "SMIGE", "PAWLI"],
+    SID: "CASCD3",
+    Telephony: "CASCADE THREE",
+    Fixes: ["CHISM", "DSD", "JUDAH", "SYNKR", "PUHTS"],
     InitialAltitudes: [
       {
         Altitude: 70,
         AircraftClass: ".*",
-        InitialPhrasing: "Maintain",
+        InitialPhrasing: "ClimbViaSidExceptMaintain",
         ExpectInMinutes: 10,
         ExpectRequired: false,
       },
@@ -1065,9 +1065,9 @@ db.departures.insertMany([
   },
   {
     AirportCode: "KPDX",
-    SID: "HRMNS5",
-    Telephony: "HERMANS FIVE",
-    Fixes: ["HRMNS"],
+    SID: "HRMNS6",
+    Telephony: "HERMANS SIX",
+    Fixes: ["HRMNS", "HYJOE"],
     InitialAltitudes: [
       {
         Altitude: 70,
@@ -1075,6 +1075,15 @@ db.departures.insertMany([
         InitialPhrasing: "Maintain",
         ExpectInMinutes: 10,
         ExpectRequired: false,
+        Flow: "EAST",
+      },
+      {
+        Altitude: 70,
+        AircraftClass: ".*",
+        InitialPhrasing: "ClimbViaSidExceptMaintain",
+        ExpectInMinutes: 10,
+        ExpectRequired: false,
+        Flow: "WEST",
       },
     ],
     IsRNAV: true,
@@ -1084,9 +1093,9 @@ db.departures.insertMany([
   },
   {
     AirportCode: "KPDX",
-    SID: "LAVAA6",
-    Telephony: "LAVA SIX",
-    Fixes: ["LAVAA", "YKM", "PDT"],
+    SID: "LAVAA7",
+    Telephony: "LAVA SEVEN",
+    Fixes: ["LAVAA", "SUNED", "PDT"],
     InitialAltitudes: [
       {
         Altitude: 70,
@@ -1094,6 +1103,15 @@ db.departures.insertMany([
         InitialPhrasing: "Maintain",
         ExpectInMinutes: 10,
         ExpectRequired: false,
+        Flow: "EAST",
+      },
+      {
+        Altitude: 70,
+        AircraftClass: ".*",
+        InitialPhrasing: "ClimbViaSidExceptMaintain",
+        ExpectInMinutes: 10,
+        ExpectRequired: false,
+        Flow: "WEST",
       },
     ],
     IsRNAV: true,
