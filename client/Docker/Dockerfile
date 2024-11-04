@@ -1,5 +1,5 @@
 # General flow from https://www.howtogeek.com/devops/how-to-dockerise-a-react-app/.
-FROM node:20.13.1-alpine3.18 AS build
+FROM node:22.2.0-alpine3.18 AS build
 
 WORKDIR /app
 
