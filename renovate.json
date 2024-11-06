@@ -1,21 +1,25 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended", "schedule:weekly", "schedule:automergeWeekly"],
+  "extends": [
+    "config:recommended",
+    "schedule:weekly",
+    "schedule:automergeWeekly"
+  ],
   "labels": ["dependencies"],
   "packageRules": [
     {
       "groupName": "definitelyTyped",
       "matchDepTypes": ["devDependencies"],
-      "matchPackagePrefixes": ["@types/"],
-      "automerge": true
+      "automerge": true,
+      "matchPackageNames": ["@types/{/,}**"]
     },
     {
       "groupName": "linting",
       "groupSlug": "eslint-plugin",
       "matchDepTypes": ["devDependencies"],
-      "matchPackagePrefixes": ["eslint-plugin"],
       "matchUpdateTypes": ["minor", "patch"],
-      "automerge": true
+      "automerge": true,
+      "matchPackageNames": ["eslint-plugin{/,}**"]
     },
     {
       "groupName": "all minor and patch dependencies",
@@ -27,10 +31,10 @@
     {
       "groupName": "chai",
       "groupSlug": "all-chai",
-      "matchPackagePrefixes": ["chai"]
+      "matchPackageNames": ["chai{/,}**"]
     },
     {
-      "extends": "monorepo:eslint",
+      "extends": ["monorepo:eslint"],
       "groupName": "eslint monorepo",
       "matchUpdateTypes": ["digest", "patch", "minor", "major"]
     }
