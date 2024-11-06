@@ -24,7 +24,6 @@
     "immer": "^10.0.3",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
-    "match-sorter": "^7.0.0",
     "mongoose": "^8.0.0",
     "notistack": "^3.0.1",
     "pluralize": "^8.0.0",
