@@ -15,7 +15,6 @@ import checkSEAInitialSID from "./checkSEAInitialSID.mjs";
 import departureForLocalTime from "./departureForLocalTime.mjs";
 import hasEquipmentSuffix from "./hasEquipmentSuffix.mjs";
 import hasSID from "./hasSID.mjs";
-import hasValidFirstFix from "./hasValidFirstFix.mjs";
 import jetIsNotSlantA from "./jetIsNotSlantA.mjs";
 import nonRNAVHasAirways from "./nonRNAVHasAirways.mjs";
 import nonRVSMIsBelow290 from "./nonRVSMIsBelow290.mjs";
@@ -51,7 +50,6 @@ export const verifiers: Verifier[] = [
   { name: "checkForNonStandardEquipmentSuffix", handler: checkForNonStandardEquipmentSuffix },
   { name: "airwaysForEquipmentSuffix", handler: airwaysForEquipmentSuffix },
   { name: "hasSID", handler: hasSID },
-  { name: "hasValidFirstFix", handler: hasValidFirstFix },
   { name: "pistonNotSlantLorZ", handler: pistonNotSlantLorZ },
   { name: "checkKPDXtoKSLEAltitude", handler: checkKPDXtoKSLEAltitude },
   { name: "warnNewPilot", handler: warnNewPilot },
