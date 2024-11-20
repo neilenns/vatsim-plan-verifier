@@ -8475,4 +8475,16 @@ db.aircraft.insertMany([
     commonEquipmentSuffixes: ["G"],
     aircraftClass: "U",
   },
+  {
+    equipmentCode: "EVOT",
+    manufacturer: "LANCAIR",
+    name: "EVOLUTION",
+    engineCount: "1",
+    engineType: "T",
+    weightClass: "S",
+    srsClass: "I",
+    maxCruiseSpeed: 256,
+    commonEquipmentSuffixes: ["G"],
+    aircraftClass: "S",
+  },
 ]);
