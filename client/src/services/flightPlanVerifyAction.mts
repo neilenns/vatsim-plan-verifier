@@ -1,13 +1,13 @@
-import { type ActionFunction, json } from "react-router-dom";
+import debug from "debug";
+import { type ActionFunction } from "react-router-dom";
+import AuthorizedAppAction from "../interfaces/AuthorizedAppAction.mts";
 import IFlightPlan from "../interfaces/IFlightPlan.mts";
+import { addActiveFlightPlan, removeActiveFlightPlan } from "../services/activeFlightPlans.mts";
 import { storeFlightPlan } from "../services/flightPlan.mts";
 import { runAllVerifiers } from "../services/runAllVerifiers.mts";
-import { addActiveFlightPlan, removeActiveFlightPlan } from "../services/activeFlightPlans.mts";
 import { removeVerifyResults } from "../services/verifyResults.mts";
-import debug from "debug";
 import Result from "../types/result.mts";
 import { cleanRoute } from "../utils/flightPlanParser";
-import AuthorizedAppAction from "../interfaces/AuthorizedAppAction.mts";
 
 const logger = debug("plan-verifier:flightPlanVerifyAction");
 
@@ -59,13 +59,13 @@ export const flightPlanVerifyAction =
 
       logger(verifierResults);
 
-      return json(
+      return Response.json(
         { success: true, data: storedFlightPlan._id.toString() } as PlanVerifyActionResult,
         { status: 200 }
       );
     } catch (err) {
       const error = err as Error;
-      return json(
+      return Response.json(
         {
           success: false,
           errorType: "UnknownError",
