@@ -8,11 +8,11 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
+import { enqueueSnackbar } from "notistack";
 import { useEffect, useState } from "react";
-import { useLoaderData, useSearchParams } from "react-router-dom";
+import { useLoaderData, useSearchParams } from "react-router";
 import IAircraft from "../interfaces/IAircraft.mts";
 import { AircraftDetailsLoaderResult } from "../services/aircraftDetailsLoader.mts";
-import { enqueueSnackbar } from "notistack";
 
 const AircraftDetails = () => {
   const loaderData = useLoaderData() as AircraftDetailsLoaderResult;

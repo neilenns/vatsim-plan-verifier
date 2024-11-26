@@ -9,7 +9,7 @@ import { enqueueSnackbar } from "notistack";
 import pluralize from "pluralize";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useIdleTimer } from "react-idle-timer";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useRecoilValue } from "recoil";
 import { autoHideImportedState, sortByCreatedAtState } from "../context/atoms";
 import { useAppContext } from "../hooks/useAppContext.mjs";

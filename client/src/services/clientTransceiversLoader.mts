@@ -1,8 +1,8 @@
-import { ActionFunctionArgs, LoaderFunction, ParamParseKey, Params } from "react-router-dom";
-import { getVatsimClientTransceivers } from "./clientTransceivers.mts";
-import Result from "../types/result.mts";
-import { IVatsimClientTransceivers } from "../interfaces/IVatsimClientTransceivers.mts";
+import { ActionFunctionArgs, LoaderFunction, ParamParseKey, Params } from "react-router";
 import AuthorizedAppAction from "../interfaces/AuthorizedAppAction.mts";
+import { IVatsimClientTransceivers } from "../interfaces/IVatsimClientTransceivers.mts";
+import Result from "../types/result.mts";
+import { getVatsimClientTransceivers } from "./clientTransceivers.mts";
 
 const PathNames = {
   callsign: "/transceivers/:callsign",

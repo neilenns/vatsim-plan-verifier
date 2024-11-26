@@ -1,6 +1,6 @@
 import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useLoaderData, useNavigate, useParams } from "react-router-dom";
+import { useLoaderData, useNavigate, useParams } from "react-router";
 import Markdown from "../components/Markdown";
 import { QuickReferenceLoaderResult } from "../services/quickReferenceLoader.mts";
 

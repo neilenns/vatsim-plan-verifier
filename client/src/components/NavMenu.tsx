@@ -1,7 +1,7 @@
-import { Divider, IconButton, Menu, MenuItem } from "@mui/material";
-import { Link } from "react-router-dom";
 import { Menu as MenuIcon } from "@mui/icons-material";
+import { Divider, IconButton, Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
+import { Link } from "react-router";
 
 const NavMenu = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

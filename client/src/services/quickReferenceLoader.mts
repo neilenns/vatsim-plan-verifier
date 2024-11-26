@@ -1,5 +1,5 @@
 import debug from "debug";
-import { ActionFunction } from "react-router-dom";
+import { ActionFunction } from "react-router";
 import AuthorizedAppAction from "../interfaces/AuthorizedAppAction.mts";
 import {
   IQuickReference,

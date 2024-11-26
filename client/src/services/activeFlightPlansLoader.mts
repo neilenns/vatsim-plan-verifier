@@ -1,4 +1,4 @@
-import { ActionFunction } from "react-router-dom";
+import { ActionFunction } from "react-router";
 import AuthorizedAppAction from "../interfaces/AuthorizedAppAction.mts";
 import { getActiveFlightPlans } from "./activeFlightPlans.mjs";
 

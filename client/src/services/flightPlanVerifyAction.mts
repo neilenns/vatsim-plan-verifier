@@ -1,5 +1,5 @@
 import debug from "debug";
-import { type ActionFunction } from "react-router-dom";
+import { type ActionFunction } from "react-router";
 import AuthorizedAppAction from "../interfaces/AuthorizedAppAction.mts";
 import IFlightPlan from "../interfaces/IFlightPlan.mts";
 import { addActiveFlightPlan, removeActiveFlightPlan } from "../services/activeFlightPlans.mts";

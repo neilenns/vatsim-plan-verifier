@@ -1,9 +1,9 @@
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { enqueueSnackbar } from "notistack";
 import { useEffect, useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData } from "react-router";
 import { IVatsimClientTransceivers } from "../interfaces/IVatsimClientTransceivers.mts";
 import { ClientTransceiversLoaderResult } from "../services/clientTransceiversLoader.mts";
-import { enqueueSnackbar } from "notistack";
 
 const ClientTransceivers = () => {
   const loaderData = useLoaderData() as ClientTransceiversLoaderResult;

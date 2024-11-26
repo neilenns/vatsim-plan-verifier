@@ -1,8 +1,8 @@
-import { LoaderFunction, LoaderFunctionArgs, ParamParseKey, Params } from "react-router-dom";
-import { getAircraftByName } from "./aircraftDetails.mts";
-import Result from "../types/result.mts";
-import IAircraft from "../interfaces/IAircraft.mts";
+import { LoaderFunction, LoaderFunctionArgs, ParamParseKey, Params } from "react-router";
 import AuthorizedAppAction from "../interfaces/AuthorizedAppAction.mts";
+import IAircraft from "../interfaces/IAircraft.mts";
+import Result from "../types/result.mts";
+import { getAircraftByName } from "./aircraftDetails.mts";
 
 const PathNames = {
   name: "/aircraft/name/:name",

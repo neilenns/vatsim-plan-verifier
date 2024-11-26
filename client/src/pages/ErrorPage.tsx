@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import debug from "debug";
-import { isRouteErrorResponse, useRouteError } from "react-router-dom";
+import { isRouteErrorResponse, useRouteError } from "react-router";
 import ErrorDisplay from "../components/ErrorDisplay";
 
 const logger = debug("edct:ErrorPage");
