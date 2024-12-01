@@ -85,11 +85,17 @@ const checkForEventReroutes: VerifierFunction = async function (
       return result;
     }
 
-    // At this point the route has mandatory reroutes.
+    // At this point the route has either mandatory reroutes or departure frequencies.
     result.data.status = VerifierResultStatus.WARNING;
-    result.data.message = `Filed route has a required event reroute:`;
+    result.data.message = `Filed route has a required event reroute and/or departure frequency:`;
     result.data.extendedMessage = applicableReroutes.map((reroute) => {
-      return `${route.replace(reroute.fix, reroute.replacement)}`;
+      if (reroute.replacement != null) {
+        return `${route.replace(reroute.fix, reroute.replacement)}`;
+      } else if (reroute.departureFrequency != null) {
+        return `Departure frequency: ${reroute.departureFrequency}`;
+      } else {
+        return `No reroute or departure frequency specified, this should never happen.`;
+      }
     });
     result.data.messageId = "notRequiredEventRoute";
     result.data.priority = 1;

@@ -16,11 +16,11 @@ class EventReroute {
   @prop({ required: true })
   fix!: string;
 
-  @prop({ required: true })
-  route!: string;
+  @prop({ required: false })
+  departureFrequency?: string;
 
-  @prop({ required: true })
-  replacement!: string;
+  @prop({ required: false })
+  replacement?: string;
 
   @prop({ required: false, default: true })
   isActive!: boolean;
