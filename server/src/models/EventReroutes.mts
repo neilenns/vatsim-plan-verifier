@@ -35,8 +35,8 @@ class EventReroute {
       flow: { $in: ["ANY", flow, undefined] },
       isActive: true,
     }).cacheQuery({
-      ttl: 60 * 10,
-    }); // 10 minutes
+      ttl: 30,
+    }); // 30 seconds
   }
 }
 
