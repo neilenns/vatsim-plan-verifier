@@ -46,7 +46,7 @@
     "socket.io": "^4.7.1",
     "speedgoose": "^2.0.8",
     "ts-essentials": "^10.0.0",
-    "use-immer": "^0.10.0",
+    "use-immer": "^0.11.0",
     "zod": "^3.22.3"
   },
   "devDependencies": {
