@@ -69,7 +69,7 @@ const departures = [
   {
     _id: "5f9f7b9b9b3b3c1b3c1b3c13",
     AirportCode: "KSEA",
-    SID: "SEA8",
+    SID: "SEA9",
     Telephony: "SEATTLE EIGHT",
     IsRNAV: false,
     Fixes: [

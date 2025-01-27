@@ -1197,7 +1197,7 @@ db.departures.insertMany([
   },
   {
     AirportCode: "KSEA",
-    SID: "ELMAA4",
+    SID: "ELMAA5",
     Telephony: "ELMA FOUR",
     Fixes: ["ELMAA", "HQM", "CVO"],
     InitialAltitudes: [
@@ -1423,7 +1423,7 @@ db.departures.insertMany([
   },
   {
     AirportCode: "KSEA",
-    SID: "SEA8",
+    SID: "SEA9",
     Telephony: "SEATTLE EIGHT",
     IsRNAV: false,
     Fixes: [

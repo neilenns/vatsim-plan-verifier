@@ -55,8 +55,8 @@ db.custommessages.insertMany([
   },
   {
     messageTarget: "Departure",
-    targetName: "SEA8",
-    messageId: "SEA8TextNorth",
+    targetName: "SEA9",
+    messageId: "SEA9TextNorth",
     flow: "NORTH",
     priority: 3,
     message: `> Cleared to {{arrival}} then as filed.  
@@ -64,8 +64,8 @@ db.custommessages.insertMany([
   },
   {
     messageTarget: "Departure",
-    targetName: "SEA8",
-    messageId: "SEA8TextSouth",
+    targetName: "SEA9",
+    messageId: "SEA9TextSouth",
     flow: "SOUTH",
     priority: 3,
     message: `> Cleared to {{arrival}} then as filed.  

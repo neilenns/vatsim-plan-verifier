@@ -118,7 +118,7 @@ function calculateInitialSidAllGroups(
   }
 
   // This is checked first so flights on the SUMMA2 that eventually join J70 don't wind up
-  // getting the ELMAA4 departure.
+  // getting the ELMAA5 departure.
   // (104-160) J5/SEA 146R
   if (directionOfFlight >= 104 && directionOfFlight <= 160) {
     // Issue #1222: This only applies to flights on J20 AoA 230
@@ -138,16 +138,16 @@ function calculateInitialSidAllGroups(
 
   // Special case for flights on V27 since it originates at KSEA so the radial is irrelevant.
   // Otherwise look at the radial.
-  // ELMAA4 CVO flight plans follow V27 so include them in this rule as well
+  // ELMAA5 CVO flight plans follow V27 so include them in this rule as well
   // (179-230) V27/J70/SEA BTW 100-FL230
   if (
     (flightPlan.routeParts.includes("V27") ||
-      (flightPlan.routeParts.includes("ELMAA4") && flightPlan.routeParts.includes("CVO")) ||
+      (flightPlan.routeParts.includes("ELMAA5") && flightPlan.routeParts.includes("CVO")) ||
       (directionOfFlight >= 179 && directionOfFlight <= 230)) &&
     flightPlan.cruiseAltitude >= 100 &&
     flightPlan.cruiseAltitude <= 230
   ) {
-    return { SID: "ELMAA4", extendedMessage: "All: (179-230) V27/J70/SEA 230R BTW 100-FL230" };
+    return { SID: "ELMAA5", extendedMessage: "All: (179-230) V27/J70/SEA 230R BTW 100-FL230" };
   }
 
   // Special case for flights on J70 since it heads both east and west from KSEA.
@@ -155,22 +155,22 @@ function calculateInitialSidAllGroups(
   if (
     flightPlan.cruiseAltitude >= 100 &&
     flightPlan.cruiseAltitude <= 230 &&
-    // Only grab flights going west, or flights that filed ELMAA4 CVO which also heads west on J70
+    // Only grab flights going west, or flights that filed ELMAA5 CVO which also heads west on J70
     (directionOfFlight > 180 ||
-      (flightPlan.routeParts.includes("ELMAA4") && flightPlan.routeParts.includes("CVO")))
+      (flightPlan.routeParts.includes("ELMAA5") && flightPlan.routeParts.includes("CVO")))
   ) {
-    return { SID: "ELMAA4", extendedMessage: "All: (179-230) V27/J70/SEA 230R BTW 100-FL230" };
+    return { SID: "ELMAA5", extendedMessage: "All: (179-230) V27/J70/SEA 230R BTW 100-FL230" };
   }
 
   // (161-230) J70/SEA 230R AoA FL230
   if (
-    // Flights that filed ELMAA4 CVO are also on the J70. This only checks route parts instead of
+    // Flights that filed ELMAA5 CVO are also on the J70. This only checks route parts instead of
     // direction of flight to allow other flights between 161-230 ABV FL240 to get the HAROB6.
-    ((flightPlan.routeParts.includes("ELMAA4") && flightPlan.routeParts.includes("CVO")) ||
+    ((flightPlan.routeParts.includes("ELMAA5") && flightPlan.routeParts.includes("CVO")) ||
       flightPlan.routeParts.includes("J70")) &&
     flightPlan.cruiseAltitude >= 230
   ) {
-    return { SID: "ELMAA4", extendedMessage: "All: (161-230) J70/SEA 230R AoA FL230" };
+    return { SID: "ELMAA5", extendedMessage: "All: (161-230) J70/SEA 230R AoA FL230" };
   }
 
   // Special case for flight plans that filed "HQM". The DOF between SEA and HQM
@@ -200,22 +200,22 @@ function calculateInitialSidAllGroups(
     directionOfFlight >= 179 &&
     directionOfFlight <= 230
   ) {
-    return { SID: "ELMAA4", extendedMessage: "All: (179-230) V27/J70/SEA 230R BTW 100-FL230" };
+    return { SID: "ELMAA5", extendedMessage: "All: (179-230) V27/J70/SEA 230R BTW 100-FL230" };
   }
 
   // (161-230) J70/SEA 230R ABV FL230
   if (flightPlan.cruiseAltitude > 230 && directionOfFlight >= 161 && directionOfFlight <= 230) {
-    return { SID: "ELMAA4", extendedMessage: "All: (161-230) J70/SEA 230R ABV FL230" };
+    return { SID: "ELMAA5", extendedMessage: "All: (161-230) J70/SEA 230R ABV FL230" };
   }
 
   // (231-326) J523/SEA 281R ABV 100
   if (flightPlan.cruiseAltitude > 100 && directionOfFlight >= 231 && directionOfFlight <= 326) {
-    return { SID: "SEA8", extendedMessage: "All: (231-326) J523/SEA 281R ABV 100" };
+    return { SID: "SEA9", extendedMessage: "All: (231-326) J523/SEA 281R ABV 100" };
   }
 
   // (231-326) J523/SEA 281R BLW 100
   if (flightPlan.cruiseAltitude < 100 && directionOfFlight >= 231 && directionOfFlight <= 326) {
-    return { SID: "SEA8", extendedMessage: "All: (231-326) V4/V495/SEA 310R BLW 100" };
+    return { SID: "SEA9", extendedMessage: "All: (231-326) V4/V495/SEA 310R BLW 100" };
   }
 
   return undefined;
@@ -236,7 +236,7 @@ export function calculateInitialSIDForJets(
       return { SID: "MONTN2", extendedMessage: "Group A: (327-008) V23/RV to PAE (South)" };
     }
     if (flightPlan.flow === AirportFlow.North) {
-      return { SID: "SEA8", extendedMessage: "Group A: (327-008) V23/RV to PAE (North)" };
+      return { SID: "SEA9", extendedMessage: "Group A: (327-008) V23/RV to PAE (North)" };
     }
   }
 
@@ -246,7 +246,7 @@ export function calculateInitialSIDForJets(
       return { SID: "MONTN2", extendedMessage: "Group A: (009-042) J503/J505/RV to ALPSE (South)" };
     }
     if (flightPlan.flow === AirportFlow.North) {
-      return { SID: "SEA8", extendedMessage: "Group A: (009-042) J503/J505/RV to ALPSE (North)" };
+      return { SID: "SEA9", extendedMessage: "Group A: (009-042) J503/J505/RV to ALPSE (North)" };
     }
   }
 
@@ -271,12 +271,12 @@ export function calculateInitialSIDForJets(
     directionOfFlight >= 161 &&
     directionOfFlight <= 178 &&
     // HELENS or BUWZO on the route overrides the under FL240 requirement, to ensure flights to
-    // Portland get the SEA8.
+    // Portland get the SEA9.
     (flightPlan.routeParts.includes("HELENS") ||
       flightPlan.routeParts.includes("BUWZO") ||
       flightPlan.cruiseAltitude <= 240)
   ) {
-    return { SID: "SEA8", extendedMessage: "Group A, B: (161-178) HELENS/BUWZO/SEA 161R" };
+    return { SID: "SEA9", extendedMessage: "Group A, B: (161-178) HELENS/BUWZO/SEA 161R" };
   }
 
   // None of the jet-specific rules applied
@@ -301,12 +301,12 @@ export function calculateInitialSIDForNotJets(
     directionOfFlight >= 161 &&
     directionOfFlight <= 178 &&
     // HELENS or BUWZO on the route overrides the under FL240 requirement, to ensure flights to
-    // Portland get the SEA8.
+    // Portland get the SEA9.
     (flightPlan.routeParts.includes("HELENS") ||
       flightPlan.routeParts.includes("BUWZO") ||
       flightPlan.cruiseAltitude <= 240)
   ) {
-    return { SID: "SEA8", extendedMessage: "Group A, B: (161-178) HELENS/BUWZO/SEA 161R" };
+    return { SID: "SEA9", extendedMessage: "Group A, B: (161-178) HELENS/BUWZO/SEA 161R" };
   }
 
   // (327-008) V23/RV to PAE 110 & BLO
@@ -316,12 +316,12 @@ export function calculateInitialSIDForNotJets(
 
   // V23/RV to PAE 120 & ABV
   if (flightPlan.cruiseAltitude >= 120 && (directionOfFlight >= 327 || directionOfFlight <= 8)) {
-    return { SID: "SEA8", extendedMessage: "Group B, C, D: (327-008) V23/RV to PAE 120 & ABV" };
+    return { SID: "SEA9", extendedMessage: "Group B, C, D: (327-008) V23/RV to PAE 120 & ABV" };
   }
 
   // (009-040) J503/RV
   if (directionOfFlight >= 9 && directionOfFlight <= 40) {
-    return { SID: "SEA8", extendedMessage: "Group B, C, D: (009-040) J503/RV" };
+    return { SID: "SEA9", extendedMessage: "Group B, C, D: (009-040) J503/RV" };
   }
 
   // (041-085) V120/J12/J70/J90/SEA 072R
@@ -331,7 +331,7 @@ export function calculateInitialSIDForNotJets(
     // ||
     // _.intersection(flightPlan.routeParts, eastboundFixes).length > 0
   ) {
-    return { SID: "SEA8", extendedMessage: "Group B, C, D: (041-085) V120/J12/J70/J90/SEA 072R" };
+    return { SID: "SEA9", extendedMessage: "Group B, C, D: (041-085) V120/J12/J70/J90/SEA 072R" };
   }
 
   // (161-178) V495/J1/SEA 168R BTW 100-FL230
@@ -342,14 +342,14 @@ export function calculateInitialSIDForNotJets(
     directionOfFlight <= 178
   ) {
     return {
-      SID: "SEA8",
+      SID: "SEA9",
       extendedMessage: "Group B, C, D: (161-178) V495/J1/SEA 168R BTW 100-FL230",
     };
   }
 
   // (161-178) V23/SEA 178R BLO 100
   if (flightPlan.cruiseAltitude < 100 && directionOfFlight >= 161 && directionOfFlight <= 178) {
-    return { SID: "SEA8", extendedMessage: "Group B, C, D: (161-178) V23/SEA 178R BLO 100" };
+    return { SID: "SEA9", extendedMessage: "Group B, C, D: (161-178) V23/SEA 178R BLO 100" };
   }
 
   // OLM.V287, OLM.V165, OLM.V187
@@ -357,7 +357,7 @@ export function calculateInitialSIDForNotJets(
     flightPlan.routeParts.includes("OLM") &&
     _.intersection(flightPlan.routeParts, ["V287", "V165", "V187"]).length > 0
   ) {
-    return { SID: "SEA8", extendedMessage: "Group B, C, D: OLM.V287, OLM.V165, OLM.V187" };
+    return { SID: "SEA9", extendedMessage: "Group B, C, D: OLM.V287, OLM.V165, OLM.V187" };
   }
 
   // Issue 1145: Special case for flights heading south with OLM but not one of the above airways.
@@ -365,7 +365,7 @@ export function calculateInitialSIDForNotJets(
   // table.
   if (flightPlan.routeParts.includes("OLM")) {
     return {
-      SID: "SEA8",
+      SID: "SEA9",
       extendedMessage: "Group B, C, D: Unlisted special case, OLM with no other fixes or airways?",
     };
   }

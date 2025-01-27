@@ -22,7 +22,7 @@ const testData = [
     arrival: "KPDX",
     cruiseAltitude: 210,
     rawAircraftType: "H/A388/L",
-    route: "SEA8 SEA BUWZO KRATR2",
+    route: "SEA9 SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // No SID
@@ -46,7 +46,7 @@ const testData = [
     arrival: "KPDX",
     cruiseAltitude: 210,
     rawAircraftType: "B738/L",
-    route: "SEA8 SEA BTG T23 OLM Q42 SEA KRATR2",
+    route: "SEA9 SEA BTG T23 OLM Q42 SEA KRATR2",
     squawk: "1234",
   },
   // Has a SID that is not a known departure
@@ -121,8 +121,8 @@ describe("Flight plan tests", function () {
       expect(flightPlan.success).to.equal(true);
 
       const data = (flightPlan as SuccessResult<FlightPlanDocument>).data;
-      expect(data.SID).to.equal("SEA8");
-      expect(isDocument(data.SIDInformation) ? data.SIDInformation.SID : "").to.equal("SEA8");
+      expect(data.SID).to.equal("SEA9");
+      expect(isDocument(data.SIDInformation) ? data.SIDInformation.SID : "").to.equal("SEA9");
     });
 
     it("should have a SID but no SID information", async function () {

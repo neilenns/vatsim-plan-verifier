@@ -17,7 +17,7 @@ const testData = [
     arrival: "KPDX",
     cruiseAltitude: 210,
     rawAircraftType: "H/A388/L",
-    route: "SEA8 SEA BUWZO KRATR2",
+    route: "SEA9 SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // No equipment suffix in flight plan
@@ -28,7 +28,7 @@ const testData = [
     arrival: "KPDX",
     cruiseAltitude: 210,
     rawAircraftType: "C172",
-    route: "SEA8 SEA BUWZO KRATR2",
+    route: "SEA9 SEA BUWZO KRATR2",
     squawk: "1234",
   },
 ];

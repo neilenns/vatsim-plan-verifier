@@ -1,17 +1,17 @@
 # Automated testing
 
 - [Automated testing](#automated-testing)
-	- [Test data](#test-data)
-	- [Aircraft](#aircraft)
-	- [Airports](#airports)
-	- [Extended airport information](#extended-airport-information)
-	- [Magnetic declination](#magnetic-declination)
-	- [METAR](#metar)
-	- [Airlines](#airlines)
-	- [Departures](#departures)
-	- [FlightAware routes](#flightaware-routes)
-	- [Pilot stats](#pilot-stats)
-	- [Preferred routes](#preferred-routes)
+  - [Test data](#test-data)
+  - [Aircraft](#aircraft)
+  - [Airports](#airports)
+  - [Extended airport information](#extended-airport-information)
+  - [Magnetic declination](#magnetic-declination)
+  - [METAR](#metar)
+  - [Airlines](#airlines)
+  - [Departures](#departures)
+  - [FlightAware routes](#flightaware-routes)
+  - [Pilot stats](#pilot-stats)
+  - [Preferred routes](#preferred-routes)
 
 The automated tests rely on existing data that gets pre-loaded into an in-memory MongoDB instance. To add additional data,
 such as flight plans, airports, etc., modify the scripts in the `setup` folder.
@@ -79,7 +79,7 @@ Flight plans should be added as part of the set up for each specific test. This 
 | :----------------------: | :-------: |
 | 5f9f7b9b9b3b3c1b3c1b3c11 |   PTLD2   |
 | 5f9f7b9b9b3b3c1b3c1b3c12 |  HAROB6   |
-| 5f9f7b9b9b3b3c1b3c1b3c13 |   SEA8    |
+| 5f9f7b9b9b3b3c1b3c1b3c13 |   SEA9    |
 | 5f9f7b9b9b3b3c1b3c1b3c14 |  EAGLE6   |
 
 ## FlightAware routes
