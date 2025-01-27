@@ -18,7 +18,7 @@ const testData = [
     arrival: "KPDX",
     cruiseAltitude: 210,
     rawAircraftType: "H/A388/L",
-    route: "SEA8 SEA BUWZO KRATR2",
+    route: "SEA9 SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // Inexperienced pilot, 10ish hours
@@ -30,7 +30,7 @@ const testData = [
     arrival: "KPDX",
     cruiseAltitude: 210,
     rawAircraftType: "H/A388/L",
-    route: "SEA8 SEA BUWZO KRATR2",
+    route: "SEA9 SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // Inexperienced pilot, 1 hour
@@ -42,7 +42,7 @@ const testData = [
     arrival: "KPDX",
     cruiseAltitude: 210,
     rawAircraftType: "H/A388/L",
-    route: "SEA8 SEA BUWZO KRATR2",
+    route: "SEA9 SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // Inexperienced pilot, first flight
@@ -54,7 +54,7 @@ const testData = [
     arrival: "KPDX",
     cruiseAltitude: 210,
     rawAircraftType: "H/A388/L",
-    route: "SEA8 SEA BUWZO KRATR2",
+    route: "SEA9 SEA BUWZO KRATR2",
     squawk: "1234",
   },
 ];

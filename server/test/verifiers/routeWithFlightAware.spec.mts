@@ -39,7 +39,7 @@ const testData = [
     arrival: "KEAT",
     cruiseAltitude: 210,
     rawAircraftType: "B738/L",
-    route: "SEA8 SEA BUWZO KRATR2",
+    route: "SEA9 SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // Departure/arrival available from Flight Aware, matches a route, wrong altitude
@@ -61,7 +61,7 @@ const testData = [
     arrival: "KPDX",
     cruiseAltitude: 210,
     rawAircraftType: "B738/L",
-    route: "SEA8 SEA BUWZO KRATR2",
+    route: "SEA9 SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // Departure/arrival available from Flight Aware, matches a route with SID, has step climb
@@ -72,7 +72,7 @@ const testData = [
     arrival: "KPDX",
     cruiseAltitude: 210,
     rawAircraftType: "B738/L",
-    route: "SEA8 SEA BUWZO/N0450F390 KRATR2",
+    route: "SEA9 SEA BUWZO/N0450F390 KRATR2",
     squawk: "1234",
   },
 ];
