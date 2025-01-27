@@ -956,8 +956,8 @@ db.departures.insertMany([
   },
   {
     AirportCode: "KBFI",
-    SID: "KENT8",
-    Telephony: "KENT EIGHT",
+    SID: "KENT9",
+    Telephony: "KENT NINE",
     Fixes: ["YVR", "HUH", "YYJ", "PAE", "SEA", "OLM", "HQM", "BTG", "ELN", "YKM", "MWH", "EAT"],
     IsRNAV: false,
     InitialAltitudes: [
@@ -975,8 +975,8 @@ db.departures.insertMany([
   },
   {
     AirportCode: "KBFI",
-    SID: "NEEDL1",
-    Telephony: "NEEDLE ONE",
+    SID: "NEEDL2",
+    Telephony: "NEEDLE TWO",
     Fixes: ["YVR", "HUH", "YYJ", "PAE", "SEA", "OLM", "HQM", "BTG", "ELN", "YKM", "MWH", "EAT"],
     IsRNAV: false,
     InitialAltitudes: [
@@ -1198,8 +1198,8 @@ db.departures.insertMany([
   {
     AirportCode: "KSEA",
     SID: "ELMAA5",
-    Telephony: "ELMA FOUR",
-    Fixes: ["ELMAA", "HQM", "CVO"],
+    Telephony: "ELMA FIVE",
+    Fixes: ["ELMAA", "HQM"],
     InitialAltitudes: [
       {
         Altitude: 70,
@@ -1424,13 +1424,12 @@ db.departures.insertMany([
   {
     AirportCode: "KSEA",
     SID: "SEA9",
-    Telephony: "SEATTLE EIGHT",
+    Telephony: "SEATTLE NINE",
     IsRNAV: false,
     Fixes: [
       "BUWZO",
       "SEA",
       "TOU",
-      "YYJ",
       "YVR",
       "HUH",
       "YDC",
