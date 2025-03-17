@@ -1,5 +1,5 @@
 # Use a Node.js base image with a specific version
-FROM node:20.13.1-alpine3.18 AS build
+FROM node:22.2.0-alpine3.18 AS build
 
 # Set the working directory in the container
 WORKDIR /app
@@ -19,7 +19,7 @@ COPY ./src ./src
 RUN npm run build
 
 # Use a lightweight base image
-FROM node:20-alpine
+FROM node:22-alpine
 
 # Install curl for the healthcheck
 RUN apk --no-cache add curl
