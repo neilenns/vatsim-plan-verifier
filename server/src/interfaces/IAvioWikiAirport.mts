@@ -24,8 +24,8 @@ export interface IAvioWikiAirport {
   timeZone: string;
   coordinates: Coordinates;
   aid: string;
-  icao: string;
-  iata: string;
+  icao?: string;
+  iata?: string;
   localIdentifier: string;
   servedCityGoverningDistrict: ServedCityGoverningDistrict;
   servedCity: string;
