@@ -143,7 +143,11 @@ export async function fetchAirportsFromAvioWiki(): Promise<FetchAvioWikiAirports
       // database. Skip importing those airports. This is done as a filter so the
       // returned value from the map is always just a list of AirportInfoModel objects.
       .filter((airport) => {
-        return airport.icao.length > 0 || airport.iata.length > 0 || airport.localIdentifier;
+        return (
+          (airport.icao?.length ?? 0) > 0 ||
+          (airport.iata?.length ?? 0) > 0 ||
+          airport.localIdentifier
+        );
       })
       // Convert all the incoming data to AirportInfoModels
       .map((airport) => {
