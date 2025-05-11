@@ -19,6 +19,16 @@
       "webRoot": "${workspaceFolder}/client/src",
       "skipFiles": ["${workspaceFolder}/src/node_modules/**/*.js"],
       "preLaunchTask": "run client"
+    },
+    {
+      "name": "Run server",
+      "cwd": "${workspaceFolder}/server",
+      "skipFiles": ["<node_internals>/**"],
+      "localRoot": "${workspaceFolder}/server/src",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run start:dev",
+      "sourceMaps": true
     }
   ]
 }

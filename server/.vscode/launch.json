@@ -1,23 +1,13 @@
 {
   "configurations": [
     {
-      "name": "Attach to server",
-      "request": "attach",
+      "name": "Run server",
       "skipFiles": ["<node_internals>/**"],
       "localRoot": "${workspaceFolder}/src",
-      "type": "node",
-      "preLaunchTask": "npm: start:dev",
-      "sourceMaps": true
-    },
-    {
-      "type": "docker",
+      "type": "node-terminal",
       "request": "launch",
-      "platform": "node",
-      "name": "Docker: Launch server",
-      "preLaunchTask": "docker-run: server",
-      // Important to prevent the container from sticking around and causing failed builds later.
-      // https://github.com/microsoft/vscode-docker/issues/3200#issuecomment-916911201
-      "removeContainerAfterDebug": true
+      "command": "npm run start:dev",
+      "sourceMaps": true
     }
   ]
 }

@@ -166,7 +166,7 @@ class VatsimFlightPlan extends defaultClasses.TimeStamps {
       this.remarks = incomingPlan.flight_plan?.remarks ?? "";
       this.route = cleanRoute(incomingPlan.flight_plan?.route ?? "");
       this.squawk = incomingPlan.flight_plan?.assigned_transponder ?? "";
-      this.cruiseTas = parseStringToNumber(incomingPlan.flight_plan?.cruise_tas);
+      this.cruiseTas = parseStringToNumber(incomingPlan.flight_plan?.cruise_tas ?? "0");
     }
 
     this.isPrefile = incomingPlan.isPrefile;
@@ -175,8 +175,8 @@ class VatsimFlightPlan extends defaultClasses.TimeStamps {
     // Set the special properties that need calculations
     this.communicationMethod = getCommunicationMethod(this.remarks);
     this.setCruiseAltitudeAndFlightRules(
-      incomingPlan.flight_plan?.altitude,
-      incomingPlan.flight_plan?.flight_rules
+      incomingPlan.flight_plan?.altitude ?? "0",
+      incomingPlan.flight_plan?.flight_rules ?? ""
     );
 
     // Set the special properties that only apply to real plans (not prefiles)
