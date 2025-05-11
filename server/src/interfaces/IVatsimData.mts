@@ -16,7 +16,7 @@ export interface IVatsimFlightPlan {
   departure: string;
   arrival: string;
   alternate: string;
-  cruise_tas: string;
+  cruise_tas: string; // Comes in as a string, but is a number
   altitude: string;
   deptime: string;
   enroute_time: string;

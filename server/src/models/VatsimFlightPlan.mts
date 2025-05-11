@@ -88,6 +88,9 @@ class VatsimFlightPlan extends defaultClasses.TimeStamps {
   cruiseAltitude?: number;
 
   @prop({ required: false })
+  cruiseTas?: number;
+
+  @prop({ required: false })
   route?: string;
 
   @prop({ required: false })
@@ -163,6 +166,7 @@ class VatsimFlightPlan extends defaultClasses.TimeStamps {
       this.remarks = incomingPlan.flight_plan?.remarks ?? "";
       this.route = cleanRoute(incomingPlan.flight_plan?.route ?? "");
       this.squawk = incomingPlan.flight_plan?.assigned_transponder ?? "";
+      this.cruiseTas = parseStringToNumber(incomingPlan.flight_plan?.cruise_tas);
     }
 
     this.isPrefile = incomingPlan.isPrefile;

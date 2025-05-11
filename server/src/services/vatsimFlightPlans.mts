@@ -6,7 +6,7 @@ import {
   type VatsimFlightPlanDocument,
   VatsimFlightPlanModel,
 } from "../models/VatsimFlightPlan.mjs";
-import { logMongoBulkErrors } from "../utils.mjs";
+import { logMongoBulkErrors, parseStringToNumber } from "../utils.mjs";
 import { cleanRoute, depTimeToDateTime, getCommunicationMethod } from "../utils/vatsim.mjs";
 
 const logger = mainLogger.child({ service: "vatsimFlightPlans" });
@@ -32,6 +32,7 @@ export function pilotToVatsimModel(pilot: IVatsimPilot): VatsimFlightPlanDocumen
     route: cleanRoute(pilot?.flight_plan?.route ?? ""),
     squawk: pilot?.flight_plan?.assigned_transponder ?? "",
     remarks: pilot?.flight_plan?.remarks ?? "",
+    cruise_tas: parseStringToNumber(pilot?.flight_plan?.cruise_tas),
   });
 
   result.communicationMethod = getCommunicationMethod(result?.remarks);
