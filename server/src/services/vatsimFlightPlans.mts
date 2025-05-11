@@ -6,7 +6,7 @@ import {
   type VatsimFlightPlanDocument,
   VatsimFlightPlanModel,
 } from "../models/VatsimFlightPlan.mjs";
-import { logMongoBulkErrors } from "../utils.mjs";
+import { logMongoBulkErrors, parseStringToNumber } from "../utils.mjs";
 import { cleanRoute, depTimeToDateTime, getCommunicationMethod } from "../utils/vatsim.mjs";
 
 const logger = mainLogger.child({ service: "vatsimFlightPlans" });
@@ -32,13 +32,14 @@ export function pilotToVatsimModel(pilot: IVatsimPilot): VatsimFlightPlanDocumen
     route: cleanRoute(pilot?.flight_plan?.route ?? ""),
     squawk: pilot?.flight_plan?.assigned_transponder ?? "",
     remarks: pilot?.flight_plan?.remarks ?? "",
+    cruiseTas: parseStringToNumber(pilot?.flight_plan?.cruise_tas ?? "0"),
   });
 
   result.communicationMethod = getCommunicationMethod(result?.remarks);
 
   result.setCruiseAltitudeAndFlightRules(
-    pilot?.flight_plan?.altitude,
-    pilot?.flight_plan?.flight_rules
+    pilot?.flight_plan?.altitude ?? "0",
+    pilot?.flight_plan?.flight_rules ?? ""
   );
 
   return result;
@@ -70,6 +71,14 @@ async function calculateNewAndUpdated(
       );
     })
     .process(async (incomingPlan: IVatsimPilot) => {
+      if (incomingPlan.flight_plan == null) {
+        logger.warn(
+          `Incoming plan ${incomingPlan.callsign} has no flight plan data, skipping`,
+          incomingPlan
+        );
+        return;
+      }
+
       const currentPlan = currentPlans[incomingPlan.callsign];
 
       // If it's not found then it's a new plan so just make the model object and add it to
