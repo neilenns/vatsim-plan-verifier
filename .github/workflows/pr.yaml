@@ -24,7 +24,7 @@ jobs:
       - name: Use Node.js 20.x
         uses: actions/setup-node@v4
         with:
-          node-version: "20.19.2"
+          node-version: "20.19.3"
           cache: "npm"
           cache-dependency-path: "${{ matrix.builds }}/package-lock.json"
 
@@ -50,7 +50,7 @@ jobs:
       - name: Use Node.js 20
         uses: actions/setup-node@v4
         with:
-          node-version: "20.19.2"
+          node-version: "20.19.3"
           cache: "npm"
           cache-dependency-path: "server/package-lock.json"
 
