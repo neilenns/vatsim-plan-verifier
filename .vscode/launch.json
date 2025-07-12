@@ -4,7 +4,7 @@
       "name": "Launch client and server",
       "request": "launch",
       "type": "msedge",
-      "runtimeExecutable": "stable",
+      "runtimeExecutable": "dev",
       "url": "http://localhost:4000",
       "webRoot": "${workspaceFolder}/client/src",
       "skipFiles": ["${workspaceFolder}/src/node_modules/**/*.js"],
