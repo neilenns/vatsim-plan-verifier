@@ -23,7 +23,10 @@ for record in json_data:
 
     result = collection.update_many(
         { "equipmentCode": equipmentCode },
-        { "$set": { "CWT": cwt_value } }
+        {
+            "$unset": { "CWT": "" },
+            "$set": { "cwt": cwt_value }
+        }
     )
 
     if result.matched_count == 0:
