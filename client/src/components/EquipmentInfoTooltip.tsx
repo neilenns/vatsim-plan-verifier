@@ -21,6 +21,12 @@ export const EquipmentInfoTooltip = ({ equipmentInfo }: EquipmentInfoTooltipProp
           <br />
           Wake turb. class: {equipmentInfo.weightClass}
           <br />
+          {equipmentInfo.cwt && (
+            <>
+              <br />
+              CWT class: {equipmentInfo.cwt}
+            </>
+          )}
           SRS class: {equipmentInfo.srsClass}
           {equipmentInfo.maxCruiseSpeed ? (
             <>

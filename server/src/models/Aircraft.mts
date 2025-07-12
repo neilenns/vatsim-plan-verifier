@@ -38,6 +38,9 @@ export class Aircraft {
   @prop({ required: true, enum: ["S", "L", "H", "SUPER"] })
   weightClass!: string;
 
+  @prop({ required: false })
+  cwt?: string;
+
   @prop({ required: true })
   srsClass!: string;
 
