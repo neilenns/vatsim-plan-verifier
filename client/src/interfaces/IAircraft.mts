@@ -8,6 +8,7 @@ export default interface IAircraft {
   engineCount: number;
   engineType: "P" | "T" | "J";
   weightClass: "S" | "L" | "H" | "SUPER";
+  cwt?: string;
   srsClass: string;
   maxCruiseSpeed?: number;
   commonEquipmentSuffix?: string;
