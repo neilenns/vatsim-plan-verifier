@@ -3,6 +3,7 @@ import { Logtail } from "@logtail/node";
 import { LogtailTransport } from "@logtail/winston";
 import winston from "winston";
 import { ENV } from "./env.mjs";
+import { type CustomLogInfo } from "./types/customLogInfo.mjs";
 
 let logtail: Logtail;
 
@@ -54,7 +55,7 @@ function sanitizeMongoDBConnectionString(info: any): any {
 
 const consoleFormat = winston.format.combine(
   winston.format.timestamp(),
-  winston.format.printf((info) => {
+  winston.format.printf((info: CustomLogInfo) => {
     let message: string;
 
     if (info.durationMs != null) {
@@ -62,7 +63,7 @@ const consoleFormat = winston.format.combine(
     } else {
       message = `[${info.service}] ${info.message}`;
     }
-    // This method of applying colour comes from https://stackoverflow.com/a/63104828
+    // This method of applying color comes from https://stackoverflow.com/a/63104828
     return `${info.timestamp} ${winston.format.colorize().colorize(info.level, message)}`;
   }),
   // Note the extra () on the end, see https://github.com/winstonjs/winston/issues/1392#issuecomment-402545349
