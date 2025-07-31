@@ -59,12 +59,14 @@ const consoleFormat = winston.format.combine(
     let message: string;
 
     if (info.durationMs != null) {
-      message = `[${info.service}] ${info.message} (${info.durationMs / 1000})`;
+      message = `[${String(info.service)}] ${String(info.message)} (${info.durationMs / 1000})`;
     } else {
-      message = `[${info.service}] ${info.message}`;
+      message = `[${String(info.service)}] ${String(info.message)}`;
     }
     // This method of applying color comes from https://stackoverflow.com/a/63104828
-    return `${info.timestamp} ${winston.format.colorize().colorize(info.level, message)}`;
+    return `${String(info.timestamp)} ${winston.format
+      .colorize()
+      .colorize(String(info.level), message)}`;
   }),
   // Note the extra () on the end, see https://github.com/winstonjs/winston/issues/1392#issuecomment-402545349
   // for why.
