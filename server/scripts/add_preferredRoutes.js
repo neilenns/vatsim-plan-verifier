@@ -690,7 +690,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KPDX",
     arrival: "KLAS",
-    route: "CASCD3 CHISM PUHTS PAWLI Q13 LOMIA TQILA COKTL4",
+    route: "CASCD4 CHISM PUHTS RUFUS Q13 LOMIA TQILA COKTL4",
     minimumRequiredAltitude: 240,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[LZGIW]",
@@ -699,7 +699,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KPDX",
     arrival: "KRNO",
-    route: "CASCD3 CHISM PUHTS PAWLI HARTT KLUBS1",
+    route: "CASCD4 CHISM PUHTS PAWLI BAARB J5 HARTT KLUBS1",
     minimumRequiredAltitude: 130,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[GL]",
@@ -717,7 +717,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KPDX",
     arrival: "KLAX",
-    route: "CASCD3 CHISM JUDAH JUNEJ Q7 JAGWA BURGL IRNMN2",
+    route: "CASCD4 CHISM JUDAH JUNEJ Q7 JAGWA BURGL IRNMN2",
     minimumRequiredAltitude: 260,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[LZGIW]",
