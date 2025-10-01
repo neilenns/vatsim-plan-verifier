@@ -313,13 +313,13 @@ db.departures.insertMany([
   },
   {
     AirportCode: "KPSC",
-    SID: "PSC7",
-    Telephony: "TRI-CITIES SEVEN",
+    SID: "PSC8",
+    Telephony: "TRI-CITIES EIGHT",
     Fixes: ["PSC", "GEG", "PUW", "MQG", "ALW", "PDT", "LTJ", "YKM", "ELN", "EAT", "EPH", "MWH"],
     isRNAV: false,
     InitialAltitudes: [
       {
-        Altitude: 100,
+        Altitude: 70,
         AircraftClass: ".*",
         InitialPhrasing: "ClimbViaSid",
         ExpectRequired: false,
