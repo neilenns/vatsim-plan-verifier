@@ -708,7 +708,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KPDX",
     arrival: "KDEN",
-    route: "WHAMY5 IMB J15 BOI OCS MJANE FLATI3",
+    route: "WHAMY5 IMB J15 BOI OCS MJANE FLATI5",
     minimumRequiredAltitude: 270,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[LZGIW]",
