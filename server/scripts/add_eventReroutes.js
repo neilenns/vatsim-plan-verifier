@@ -127,7 +127,7 @@ db.eventreroutes.insertMany([
   {
     departure: "KPDX",
     flow: "EAST",
-    fix: "CASCD3",
+    fix: "CASCD4",
     departureFrequency: "118.100 (HOOD)",
     isActive: true,
   },
@@ -267,7 +267,7 @@ db.eventreroutes.insertMany([
   {
     departure: "KPDX",
     flow: "WEST",
-    fix: "CASCD3",
+    fix: "CASCD4",
     departureFrequency: "118.100 (HOOD)",
     isActive: true,
   },

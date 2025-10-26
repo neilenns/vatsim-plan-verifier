@@ -1046,7 +1046,7 @@ db.departures.insertMany([
   },
   {
     AirportCode: "KPDX",
-    SID: "CASCD3",
+    SID: "CASCD4",
     Telephony: "CASCADE THREE",
     Fixes: ["CHISM", "DSD", "JUDAH", "SYNKR", "PUHTS"],
     InitialAltitudes: [
