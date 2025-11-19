@@ -349,7 +349,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KPDX",
     arrival: "KHIO",
-    route: "{RADAR VECTORS} DAFFI",
+    route: "PTLD2 DAFFI",
     minimumRequiredAltitude: 40,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[AGLPZ]",
@@ -359,7 +359,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KPDX",
     arrival: "KHIO",
-    route: "{RADAR VECTORS} MULES",
+    route: "PTLD2 MULES",
     minimumRequiredAltitude: 40,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[GL]",
@@ -369,7 +369,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KPDX",
     arrival: "KHIO",
-    route: "{RADAR VECTORS} DIRECT",
+    route: "PTLD2 DIRECT",
     minimumRequiredAltitude: 40,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[AP]",
@@ -507,7 +507,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KPDX",
     arrival: "KUAO",
-    route: "PTLD2 {RADAR VECTORS} DIRECT",
+    route: "PTLD2 DIRECT",
     minimumRequiredAltitude: 40,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[A-Z]",
@@ -526,7 +526,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KPDX",
     arrival: "KMMV",
-    route: "PTLD2 {RADAR VECTORS} DIRECT",
+    route: "PTLD2 DIRECT",
     minimumRequiredAltitude: 40,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[A-Z]",
@@ -536,7 +536,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KPDX",
     arrival: "KTTD",
-    route: "{RADAR VECTORS} SSHAM",
+    route: "PTLD2 SSHAM",
     minimumRequiredAltitude: 29,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[GL]",
