@@ -389,8 +389,8 @@ db.departures.insertMany([
   },
   {
     AirportCode: "KSFF",
-    SID: "FELTS4",
-    Telephony: "FELTS FOUR",
+    SID: "FELTS5",
+    Telephony: "FELTS FIVE",
     Fixes: ["GEG", "COE", "MLP", "PUW", "MQG", "ALW", "PDT", "PSC", "YKM", "MWH", "EPH", "HUH"],
     isRNAV: false,
     InitialAltitudes: [
@@ -809,8 +809,8 @@ db.departures.insertMany([
   },
   {
     AirportCode: "KGEG",
-    SID: "GEG7",
-    Telephony: "SPOKANE 7",
+    SID: "GEG8",
+    Telephony: "SPOKANE EIGHT",
     Fixes: ["GEG", "MLP", "PUW", "MQG", "ALW", "PDT", "PSC", "YKM", "MWH", "EPH", "HUH", "COE"],
     InitialAltitudes: [
       {
