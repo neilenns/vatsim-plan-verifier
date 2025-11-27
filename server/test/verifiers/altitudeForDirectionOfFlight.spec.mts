@@ -17,7 +17,7 @@ const testData = [
     arrival: "KPDX",
     cruiseAltitude: 200,
     rawAircraftType: "B738/L",
-    route: "SEA9 SEA BUWZO KRATR2",
+    route: " SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // Wrong altitude for direction of flight (westbound)
@@ -28,7 +28,7 @@ const testData = [
     arrival: "KSEA",
     cruiseAltitude: 210,
     rawAircraftType: "B738/L",
-    route: "SEA9 SEA BUWZO KRATR2",
+    route: " SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // Wrong altitude for direction of flight (eastbound above RVSM)
@@ -39,7 +39,7 @@ const testData = [
     arrival: "KPDX",
     cruiseAltitude: 440,
     rawAircraftType: "B738/L",
-    route: "SEA9 SEA BUWZO KRATR2",
+    route: "SEA1 SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // Wrong altitude for direction of flight (westbound above RVSM)
@@ -50,7 +50,7 @@ const testData = [
     arrival: "KSEA",
     cruiseAltitude: 450,
     rawAircraftType: "B738/L",
-    route: "SEA9 SEA BUWZO KRATR2",
+    route: "SEA1 SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // Correct altitude for direction of flight (eastbound)
@@ -61,7 +61,7 @@ const testData = [
     arrival: "KPDX",
     cruiseAltitude: 210,
     rawAircraftType: "B738/L",
-    route: "SEA9 SEA BUWZO KRATR2",
+    route: "SEA1 SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // Correct altitude for direction of flight (westbound)
@@ -72,7 +72,7 @@ const testData = [
     arrival: "KSEA",
     cruiseAltitude: 200,
     rawAircraftType: "B738/L",
-    route: "SEA9 SEA BUWZO KRATR2",
+    route: "SEA1 SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // KPDX to KSLE
@@ -83,7 +83,7 @@ const testData = [
     arrival: "KSLE",
     cruiseAltitude: 200,
     rawAircraftType: "B738/L",
-    route: "SEA9 SEA BUWZO KRATR2",
+    route: "SEA1 SEA BUWZO KRATR2",
     squawk: "1234",
   },
 ];

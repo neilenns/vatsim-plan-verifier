@@ -53,22 +53,4 @@ db.custommessages.insertMany([
 > Maintain 7,000. Expect {{formattedCruiseAltitude}} 15 nautical miles from the SEATTLE VORTAC.  
 `,
   },
-  {
-    messageTarget: "Departure",
-    targetName: "SEA9",
-    messageId: "SEA9TextNorth",
-    flow: "NORTH",
-    priority: 3,
-    message: `> Cleared to {{arrival}} then as filed.  
-> Maintain 9,000 expect {{formattedCruiseAltitude}} 15 nautical miles from the SEATTLE VORTAC.`,
-  },
-  {
-    messageTarget: "Departure",
-    targetName: "SEA9",
-    messageId: "SEA9TextSouth",
-    flow: "SOUTH",
-    priority: 3,
-    message: `> Cleared to {{arrival}} then as filed.  
-> Maintain 7,000 expect {{formattedCruiseAltitude}} 15 nautical miles from the SEATTLE VORTAC.`,
-  },
 ]);

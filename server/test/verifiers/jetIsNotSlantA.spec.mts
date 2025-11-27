@@ -17,7 +17,7 @@ const testData = [
     arrival: "KSEA",
     cruiseAltitude: 210,
     rawAircraftType: "B737/A",
-    route: "SEA9 SEA BUWZO KRATR2",
+    route: "SEA1 SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // Jet with /L
@@ -28,7 +28,7 @@ const testData = [
     arrival: "KSEA",
     cruiseAltitude: 210,
     rawAircraftType: "B737/L",
-    route: "SEA9 SEA BUWZO KRATR2",
+    route: "SEA1 SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // Piston with /A
@@ -39,7 +39,7 @@ const testData = [
     arrival: "KSEA",
     cruiseAltitude: 210,
     rawAircraftType: "C172/A",
-    route: "SEA9 SEA BUWZO KRATR2",
+    route: "SEA1 SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // Turboprop with /A
@@ -50,7 +50,7 @@ const testData = [
     arrival: "KSEA",
     cruiseAltitude: 210,
     rawAircraftType: "TBM9/A",
-    route: "SEA9 SEA BUWZO KRATR2",
+    route: "SEA1 SEA BUWZO KRATR2",
     squawk: "1234",
   },
 ];

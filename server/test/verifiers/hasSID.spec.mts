@@ -28,7 +28,7 @@ const testData = [
     arrival: "KPDX",
     cruiseAltitude: 210,
     rawAircraftType: "B738/A",
-    route: "SEA9 SEA BTG V23 OLM J42 SEA KRATR2",
+    route: "SEA1 SEA BTG V23 OLM J42 SEA KRATR2",
     squawk: "1234",
   },
   // Has a SID with VRC's + in front
@@ -39,7 +39,7 @@ const testData = [
     arrival: "KPDX",
     cruiseAltitude: 210,
     rawAircraftType: "B738/A",
-    route: "+SEA9 SEA BTG V23 OLM J42 SEA KRATR2",
+    route: "+SEA1 SEA BTG V23 OLM J42 SEA KRATR2",
     squawk: "1234",
   },
   // Departure airport is tagged as having no SIDs
@@ -50,7 +50,7 @@ const testData = [
     arrival: "KPDX",
     cruiseAltitude: 210,
     rawAircraftType: "B738/A",
-    route: "+SEA9 SEA BTG V23 OLM J42 SEA KRATR2",
+    route: "+SEA1 SEA BTG V23 OLM J42 SEA KRATR2",
     squawk: "1234",
   },
 ];

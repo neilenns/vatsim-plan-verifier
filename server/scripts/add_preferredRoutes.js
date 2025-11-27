@@ -11,7 +11,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KSEA",
     arrival: "KPDX",
-    route: "SEA9 SEA V23 BTG",
+    route: "SEA1 SEA V23 BTG",
     minimumRequiredAltitude: 70,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[AGP]",
@@ -20,7 +20,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KSEA",
     arrival: "KBFI",
-    route: "SEA9",
+    route: "SEA1",
     minimumRequiredAltitude: 50,
     minimumRequiredSpeed: 0,
     engineTypes: "[J]",
@@ -31,7 +31,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KSEA",
     arrival: "KBFI",
-    route: "SEA9 heading 230",
+    route: "SEA1 heading 230",
     minimumRequiredAltitude: 30,
     minimumRequiredSpeed: 0,
     engineTypes: "[PT]",
@@ -42,7 +42,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KSEA",
     arrival: "KBFI",
-    route: "SEA9 heading 020",
+    route: "SEA1 heading 020",
     minimumRequiredAltitude: 30,
     minimumRequiredSpeed: 0,
     engineTypes: "[PT]",
@@ -75,7 +75,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KSEA",
     arrival: "KPAE",
-    route: "SEA9",
+    route: "SEA1",
     minimumRequiredAltitude: 50,
     minimumRequiredSpeed: 0,
     engineTypes: "[J]",
@@ -86,7 +86,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KSEA",
     arrival: "KPAE",
-    route: "SEA9 heading 020",
+    route: "SEA1 heading 020",
     minimumRequiredAltitude: 30,
     minimumRequiredSpeed: 0,
     engineTypes: "[PT]",
