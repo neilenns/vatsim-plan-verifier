@@ -79,7 +79,7 @@ Flight plans should be added as part of the set up for each specific test. This 
 | :----------------------: | :-------: |
 | 5f9f7b9b9b3b3c1b3c1b3c11 |   PTLD2   |
 | 5f9f7b9b9b3b3c1b3c1b3c12 |  HAROB6   |
-| 5f9f7b9b9b3b3c1b3c1b3c13 |   SEA9    |
+| 5f9f7b9b9b3b3c1b3c1b3c13 |   SEA1    |
 | 5f9f7b9b9b3b3c1b3c1b3c14 |  EAGLE6   |
 
 ## FlightAware routes

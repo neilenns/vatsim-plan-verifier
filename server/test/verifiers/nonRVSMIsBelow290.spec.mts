@@ -17,7 +17,7 @@ const testData = [
     arrival: "KSEA",
     cruiseAltitude: 290,
     rawAircraftType: "B737/L",
-    route: "SEA9 SEA BUWZO KRATR2",
+    route: "SEA1 SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // /L above 290
@@ -28,7 +28,7 @@ const testData = [
     arrival: "KSEA",
     cruiseAltitude: 310,
     rawAircraftType: "B737/L",
-    route: "SEA9 SEA BUWZO KRATR2",
+    route: "SEA1 SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // /L below 290
@@ -39,7 +39,7 @@ const testData = [
     arrival: "KSEA",
     cruiseAltitude: 210,
     rawAircraftType: "B737/L",
-    route: "SEA9 SEA BUWZO KRATR2",
+    route: "SEA1 SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // /A at 290
@@ -50,7 +50,7 @@ const testData = [
     arrival: "KSEA",
     cruiseAltitude: 290,
     rawAircraftType: "B737/A",
-    route: "SEA9 SEA BUWZO KRATR2",
+    route: "SEA1 SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // /A above 290
@@ -61,7 +61,7 @@ const testData = [
     arrival: "KSEA",
     cruiseAltitude: 310,
     rawAircraftType: "B737/A",
-    route: "SEA9 SEA BUWZO KRATR2",
+    route: "SEA1 SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // /A below 290
@@ -72,7 +72,7 @@ const testData = [
     arrival: "KSEA",
     cruiseAltitude: 270,
     rawAircraftType: "B737/A",
-    route: "SEA9 SEA BUWZO KRATR2",
+    route: "SEA1 SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // No equipment suffix
@@ -83,7 +83,7 @@ const testData = [
     arrival: "KSEA",
     cruiseAltitude: 290,
     rawAircraftType: "B737",
-    route: "SEA9 SEA BUWZO KRATR2",
+    route: "SEA1 SEA BUWZO KRATR2",
     squawk: "1234",
   },
 ];

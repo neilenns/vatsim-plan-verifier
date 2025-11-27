@@ -18,7 +18,7 @@ const testData = [
     arrival: "KPDX",
     cruiseAltitude: 210,
     rawAircraftType: "H/A388/L",
-    route: "SEA9 SEA BUWZO KRATR2",
+    route: "SEA1 SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // B738, an aircraft not in the aircraft collection.
@@ -29,7 +29,7 @@ const testData = [
     arrival: "KPDX",
     cruiseAltitude: 210,
     rawAircraftType: "B738/L",
-    route: "SEA9 SEA BUWZO KRATR2",
+    route: "SEA1 SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // B737, no common equipment suffix in the database.
@@ -40,7 +40,7 @@ const testData = [
     arrival: "KPDX",
     cruiseAltitude: 210,
     rawAircraftType: "B737/L",
-    route: "SEA9 SEA BUWZO KRATR2",
+    route: "SEA1 SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // No equipment suffix in flight plan
@@ -51,7 +51,7 @@ const testData = [
     arrival: "KPDX",
     cruiseAltitude: 210,
     rawAircraftType: "C172",
-    route: "SEA9 SEA BUWZO KRATR2",
+    route: "SEA1 SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // Equipment suffix doesn't match common suffix
@@ -62,7 +62,7 @@ const testData = [
     arrival: "KPDX",
     cruiseAltitude: 210,
     rawAircraftType: "C172/L",
-    route: "SEA9 SEA BUWZO KRATR2",
+    route: "SEA1 SEA BUWZO KRATR2",
     squawk: "1234",
   },
 ];

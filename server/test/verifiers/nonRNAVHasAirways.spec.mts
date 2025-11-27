@@ -17,7 +17,7 @@ const testData = [
     arrival: "KPDX",
     cruiseAltitude: 290,
     rawAircraftType: "B737/L",
-    route: "SEA9 SEA BUWZO KRATR2",
+    route: "SEA1 SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // Non-RNAV with airways

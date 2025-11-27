@@ -17,7 +17,7 @@ const testData = [
     arrival: "KPDX",
     cruiseAltitude: 210,
     rawAircraftType: "H/A388/L",
-    route: "SEA9 SEA BUWZO KRATR2",
+    route: "SEA1 SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // Is not heavy
@@ -28,7 +28,7 @@ const testData = [
     arrival: "KPDX",
     cruiseAltitude: 210,
     rawAircraftType: "C172",
-    route: "SEA9 SEA BUWZO KRATR2",
+    route: "SEA1 SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // Is heavy, specific runways
@@ -39,7 +39,7 @@ const testData = [
     arrival: "KPDX",
     cruiseAltitude: 210,
     rawAircraftType: "H/B748/L",
-    route: "SEA9 SEA BUWZO KRATR2",
+    route: "SEA1 SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // Is super, specific runways
@@ -50,7 +50,7 @@ const testData = [
     arrival: "KPDX",
     cruiseAltitude: 210,
     rawAircraftType: "A388/L",
-    route: "SEA9 SEA BUWZO KRATR2",
+    route: "SEA1 SEA BUWZO KRATR2",
     squawk: "1234",
   },
   // Is heavy via DB aircract type, not H/ designator, specific runways
@@ -61,7 +61,7 @@ const testData = [
     arrival: "KPDX",
     cruiseAltitude: 210,
     rawAircraftType: "B748/L",
-    route: "SEA9 SEA BUWZO KRATR2",
+    route: "SEA1 SEA BUWZO KRATR2",
     squawk: "1234",
   },
 ];
