@@ -681,7 +681,7 @@ db.preferredroutes.insertMany([
   {
     departure: "KPDX",
     arrival: "KSLC",
-    route: "WHAMY5 IMB J15 BOI BYI SKEES5",
+    route: "WHAMY5 IMB J15 BOI BYI SKEES6",
     minimumRequiredAltitude: 240,
     minimumRequiredSpeed: 0,
     equipmentSuffixes: "[LZGIW]",
