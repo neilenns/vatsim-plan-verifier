@@ -41,12 +41,12 @@ class PreferredRoute {
 
   public static async findByFlightPlan(
     this: ReturnModelType<typeof PreferredRoute>,
-    flightPlan: FlightPlan
+    flightPlan: FlightPlan,
   ): Promise<Array<DocumentType<PreferredRoute>>> {
     if (!isDocument(flightPlan.equipmentInfo)) {
       return [];
     }
-    return this.aggregate([
+    return await this.aggregate([
       {
         $match: {
           departure: flightPlan.departure,
