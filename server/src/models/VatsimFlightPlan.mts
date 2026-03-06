@@ -182,10 +182,9 @@ class VatsimFlightPlan extends defaultClasses.TimeStamps {
     // Set the special properties that only apply to real plans (not prefiles)
     if (!this.isPrefile) {
       this.updateNoisyProperties(incomingPlan);
-      await this.updateFlightStatus().then(() => {
-        // Calculate the revision last
-        this.setRevision();
-      });
+      await this.updateFlightStatus();
+      // Calculate the revision last
+      this.setRevision();
     }
     // Don't forget to set the revision on prefiles
     else {
@@ -301,9 +300,10 @@ class VatsimFlightPlan extends defaultClasses.TimeStamps {
     // in that case check the distances and set the DEPARTING or ARRIVING state based on
     // which airport is closer.
     if (distanceFromArrivalAirport != null && distanceFromDepartureAirport != null) {
-      distanceFromArrivalAirport < distanceFromDepartureAirport
-        ? (this.status = VatsimFlightStatus.ARRIVED)
-        : (this.status = VatsimFlightStatus.DEPARTING);
+      this.status =
+        distanceFromArrivalAirport < distanceFromDepartureAirport
+          ? VatsimFlightStatus.ARRIVED
+          : VatsimFlightStatus.DEPARTING;
       return;
     }
 

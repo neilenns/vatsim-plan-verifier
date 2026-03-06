@@ -57,11 +57,13 @@ export async function connectToDatabase(): Promise<void> {
     .then(async () => {
       logger.debug("Connected");
 
-      ENV.REDIS_URI != null
-        ? logger.debug(`Using REDIS cache at ${ENV.REDIS_URI}`)
-        : logger.debug(`REDIS_URI not specified, using in-memory cache`);
+      if (ENV.REDIS_URI != null) {
+        logger.debug(`Using REDIS cache at ${ENV.REDIS_URI}`);
+      } else {
+        logger.debug(`REDIS_URI not specified, using in-memory cache`);
+      }
 
-      await applySpeedGooseCacheLayer(mongoose, {
+      return applySpeedGooseCacheLayer(mongoose, {
         redisUri: ENV.REDIS_URI,
         sharedCacheStrategy:
           ENV.REDIS_URI != null ? SharedCacheStrategies.REDIS : SharedCacheStrategies.IN_MEMORY,

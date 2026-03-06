@@ -18,10 +18,10 @@ const router = express.Router();
 
 router.get(
   "/vatsim/controllers",
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+   
   verifyApiKey,
   secureQueryMiddleware,
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+   
   async (req: Request<unknown, unknown, unknown, ControllerQueryParams>, res: Response) => {
     let result: VatsimControllersResult;
 

@@ -180,7 +180,7 @@ export async function removeActiveFlightPlan(id: string): Promise<ActiveFlightPl
     await ActiveFlightPlanModel.findByIdAndDelete(id);
 
     return { success: true, data: [] };
-  } catch (error) {
+  } catch {
     return {
       success: false,
       errorType: "UnknownError",
@@ -199,7 +199,7 @@ export async function removeActiveFlightPlanByIdentifiers(
     await ActiveFlightPlanModel.findOneAndDelete({ controllerId, callsign });
 
     return { success: true, data: [] };
-  } catch (error) {
+  } catch {
     return {
       success: false,
       errorType: "UnknownError",

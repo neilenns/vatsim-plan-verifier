@@ -35,7 +35,7 @@ export const verifyApiKey = async function (
   next();
 };
 
-export const verifySocketApiKey = async function (socket: Socket, next: any): Promise<void> {
+export const verifySocketApiKey = async function (socket: Socket, next: (err?: Error) => void): Promise<void> {
   try {
     // Get the API key from the request headers
     const apiKey = socket.handshake.auth.token;

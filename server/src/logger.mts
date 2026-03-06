@@ -41,7 +41,9 @@ const colors = {
 
 winston.addColors(colors);
 
-function sanitizeMongoDBConnectionString(info: any): any {
+function sanitizeMongoDBConnectionString(
+  info: winston.Logform.TransformableInfo,
+): winston.Logform.TransformableInfo {
   if (info.mongodb !== undefined && info.mongodb.connectionString !== "") {
     // Replace only the username/password part in the MongoDB connection string
     info.mongodb.connectionString = info.mongodb.connectionString.replace(

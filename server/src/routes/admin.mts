@@ -17,9 +17,9 @@ interface StartJobParams extends ParamsDictionary {
 router.get(
   "/admin/endConnections",
   verifyUser,
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+   
   verifyRole("admin"),
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+   
   async (_req: Auth0UserRequest, res: Response) => {
     let count = 0;
     getIO().sockets.sockets.forEach((socket) => {
@@ -36,9 +36,9 @@ router.get(
 router.get(
   "/admin/startJob/:jobName",
   verifyUser,
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+   
   verifyRole("admin"),
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+   
   async (req: Request<StartJobParams, unknown, unknown, unknown>, res: Response) => {
     try {
       const { jobName } = req.params;

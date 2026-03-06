@@ -18,9 +18,9 @@ const handleVerifierRoute = async (routeName: string, handler: VerifierFunction)
     `/verify/${routeName}/:id`,
     verifyUser,
     secureQueryMiddleware,
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+     
     findExistingResultsMiddleware(routeName),
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+     
     async (req: Request, res: Response) => {
       const { id } = req.params;
 
@@ -47,7 +47,7 @@ const handleVerifierRoute = async (routeName: string, handler: VerifierFunction)
             error: `Failed to run ${routeName} for flight plan ${id}.`,
           });
         }
-      } catch (error) {
+      } catch {
         return res.status(500).json({
           error: `Failed to run ${routeName} for flight plan ${id}.`,
         });
@@ -61,7 +61,7 @@ router.get(
   "/verify/results/:id",
   verifyUser,
   secureQueryMiddleware,
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+   
   async (req: Request, res: Response) => {
     try {
       const rawResults = await VerifierResultModel.find({
@@ -79,7 +79,7 @@ router.get(
       result.addMany(rawResults);
 
       return res.status(201).json(result);
-    } catch (error) {
+    } catch {
       return res.status(500).json({
         error: `Failed to get results for flight plan ${req.params.id}.`,
       });
@@ -88,13 +88,13 @@ router.get(
 );
 
 // Register the route to delete all the results for a past run
-// eslint-disable-next-line @typescript-eslint/no-misused-promises
+ 
 router.delete("/verify/results/:id", async (req: Request, res: Response) => {
   try {
     await VerifierResultModel.deleteMany({ flightPlanId: req.params.id });
 
     return res.status(200).json();
-  } catch (error) {
+  } catch {
     return res.status(500).json({
       error: `Failed to delete results for flight plan ${req.params.id}.`,
     });
@@ -106,9 +106,9 @@ router.get(
   "/verify/all/:id",
   verifyUser,
   secureQueryMiddleware,
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+   
   findExistingResultsMiddleware(),
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+   
   async (req: Request, res: Response) => {
     const { id } = req.params;
 
@@ -130,7 +130,7 @@ router.get(
       const verifyAllResult = await verifyAll(flightPlan.data);
 
       return res.status(200).json(verifyAllResult);
-    } catch (error) {
+    } catch {
       return res.status(500).json({
         error: `Failed to run verifiers for flight plan ${id}.`,
       });

@@ -23,9 +23,9 @@ const router = express.Router();
 router.put(
   "/vatsim/flightPlans/edct",
   verifyUser,
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+   
   verifyRole("TMU"),
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+   
   async (
     req: TypedEDCTRequestBody<{ _id: string; callsign: string; sentEDCT?: boolean; EDCT?: Date }>,
     res: Response
@@ -66,10 +66,10 @@ router.put(
 
 router.get(
   "/vatsim/flightPlans/edct/viewonly",
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+   
   verifyApiKey,
   secureQueryMiddleware,
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+   
   async (req: Request<unknown, unknown, unknown, EDCTQueryParams>, res: Response) => {
     const result = await getVatsimEDCTViewOnly(req.query.d);
 
@@ -88,10 +88,10 @@ router.get(
 
 router.get(
   "/vatsim/flightPlans/edct",
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+   
   verifyApiKey,
   secureQueryMiddleware,
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+   
   async (req: Request<unknown, unknown, unknown, EDCTQueryParams>, res: Response) => {
     const result = await getVatsimEDCTFlightPlans(req.query.d, req.query.a);
 

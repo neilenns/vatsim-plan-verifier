@@ -41,8 +41,7 @@ const findExistingResultsMiddleware =
 
       // If no existing results are found, continue to the actual controller
       next();
-    } catch (error) {
-      // Handle any errors that occur during the verification process
+    } catch {
       return res.status(500).json({ error: "Internal Server Error" });
     }
   };

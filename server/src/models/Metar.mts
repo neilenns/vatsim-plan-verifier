@@ -22,9 +22,10 @@ const logger = mainLogger.child({ service: "metar" });
       return;
     }
 
-    metar.altimeter.unit === AltimeterUnit.HPa
-      ? (this.altimeter = metar.altimeter.value * 0.029529983071445)
-      : (this.altimeter = metar.altimeter.value);
+    this.altimeter =
+      metar.altimeter.unit === AltimeterUnit.HPa
+        ? metar.altimeter.value * 0.029529983071445
+        : metar.altimeter.value;
   }
   next();
 })
