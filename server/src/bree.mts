@@ -13,7 +13,8 @@ const bree = new Bree({
   doRootCheck: false,
   jobs: [],
   errorHandler: (error, workerMetadata) => {
-    logger.error(`Error running worker ${workerMetadata.name}: ${error}`, error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    logger.error(`Error running worker ${workerMetadata.name}: ${errorMessage}`, error);
   },
   workerMessageHandler: ({ message }) => {
     if (message === "sendUpdates") {
