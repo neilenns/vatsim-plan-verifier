@@ -9,7 +9,7 @@ router.get(
   "/quickreference/:key",
   verifyUser,
   secureQueryMiddleware,
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+   
   async (req: Request, res: Response) => {
     const { key } = req.params;
 
@@ -32,7 +32,7 @@ router.get(
   "/quickreferencelist",
   verifyUser,
   secureQueryMiddleware,
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+   
   async (_req: Request, res: Response) => {
     const result = await getQuickReferenceList();
 

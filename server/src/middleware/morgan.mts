@@ -20,7 +20,7 @@ const morganMiddleware = morgan(
 
 // Adds a userid token to show how it is done, however this is not used in the log messages to avoid including
 // data that can trace back to the user in the logs.
-morgan.token("userid", function (req: IncomingMessage & Express.CustomRequest, res) {
+morgan.token("userid", function (req: IncomingMessage & Express.CustomRequest, _res) {
   return req.user?._id;
 });
 

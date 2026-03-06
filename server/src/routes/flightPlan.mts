@@ -11,7 +11,7 @@ interface TypedFlightPlanRequestBody<T> extends Express.Request {
 }
 
 // POST route for storing a flight plan
-// eslint-disable-next-line @typescript-eslint/no-misused-promises
+ 
 router.post("/flightPlan", verifyUser, async (req: Request, res: Response) => {
   const flightPlanData: FlightPlan = req.body;
 
@@ -29,7 +29,7 @@ router.get(
   "/flightPlan/:id",
   verifyUser,
   secureQueryMiddleware,
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+   
   async (req: Request, res: Response) => {
     const { id } = req.params;
 
@@ -52,7 +52,7 @@ router.post(
   "/flightPlan/import",
   verifyUser,
   secureQueryMiddleware,
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+   
   async (req: TypedFlightPlanRequestBody<{ callsign: string }>, res: Response) => {
     const { callsign } = req.body;
 

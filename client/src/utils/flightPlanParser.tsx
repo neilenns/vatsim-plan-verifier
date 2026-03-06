@@ -151,7 +151,7 @@ export function formattedExpectIn(flightPlan: IFlightPlan): string {
 // normalize the flight plan before parsing it.
 function removeSecondSquawkCode(flightPlan: string): string {
   const regex = /\b\d{4}\s+\d{4}\b/;
-  const match = flightPlan.match(regex);
+  const match = regex.exec(flightPlan);
 
   if (match) {
     // Extract the first four-digit number

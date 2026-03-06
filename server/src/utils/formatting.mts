@@ -5,7 +5,7 @@ declare global {
   }
 }
 
-// eslint-disable-next-line no-extend-native
+ 
 Array.prototype.joinWithWord = function (this: string[], word: string): string {
   return joinWithWord(this, word);
 };

@@ -10,7 +10,7 @@ router.get(
   "/navaid/:id",
   verifyUser,
   secureQueryMiddleware,
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+   
   async (req: Request, res: Response) => {
     const { id } = req.params;
 
@@ -34,7 +34,7 @@ router.get(
   "/navaid/ident/:ident",
   verifyUser,
   secureQueryMiddleware,
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+   
   async (req: Request, res: Response) => {
     const { ident } = req.params;
 

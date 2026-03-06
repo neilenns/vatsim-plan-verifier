@@ -161,9 +161,9 @@ export async function startServer(port: number): Promise<void> {
   app.use(adminRouter);
 
   // Overall error handler
-  app.use((err: any, req: any, res: any, next: any) => {
+  app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
     logger.error(err);
-    res.status(err.status ?? 500).send({
+    res.status((err as Error & { status?: number }).status ?? 500).send({
       error: {
         message: err.message,
       },

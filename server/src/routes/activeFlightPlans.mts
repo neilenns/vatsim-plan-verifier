@@ -24,7 +24,7 @@ router.get(
   "/activeFlightPlans",
   verifyAndAddUserInfo,
   secureQueryMiddleware,
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+   
   async (req: Auth0UserRequest, res: Response) => {
     const controllerId = req.auth?.payload.sub;
 
@@ -52,7 +52,7 @@ router.post(
   "/activeFlightPlans",
   verifyAndAddUserInfo,
   secureQueryMiddleware,
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+   
   async (
     req: TypedActiveFlightPlansRequest<{ flightPlanId: string; callsign: string }>,
     res: Response
@@ -85,7 +85,7 @@ router.delete(
   "/activeFlightPlans/:id",
   verifyAndAddUserInfo,
   secureQueryMiddleware,
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+   
   async (req: Request, res: Response) => {
     const { id: flightPlanId } = req.params;
 
@@ -108,7 +108,7 @@ router.delete(
   "/activeFlightPlans",
   verifyAndAddUserInfo,
   secureQueryMiddleware,
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+   
   async (
     req: TypedActiveFlightPlansRequest<{ flightPlanId: string; callsign: string }>,
     res: Response
