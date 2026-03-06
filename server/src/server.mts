@@ -163,7 +163,7 @@ export async function startServer(port: number): Promise<void> {
   // Overall error handler
   app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
     logger.error(err);
-    res.status(err.status ?? 500).send({
+    res.status((err as Error & { status?: number }).status ?? 500).send({
       error: {
         message: err.message,
       },

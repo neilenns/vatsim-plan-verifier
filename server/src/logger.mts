@@ -42,9 +42,9 @@ const colors = {
 winston.addColors(colors);
 
 function sanitizeMongoDBConnectionString(
-  info: winston.Logform.TransformableInfo,
-): winston.Logform.TransformableInfo {
-  if (info.mongodb !== undefined && info.mongodb.connectionString !== "") {
+  info: CustomLogInfo,
+): CustomLogInfo {
+  if (info.mongodb != null && info.mongodb.connectionString !== "") {
     // Replace only the username/password part in the MongoDB connection string
     info.mongodb.connectionString = info.mongodb.connectionString.replace(
       /\/\/[^:]+:([^@]+)@/,
@@ -72,7 +72,7 @@ const consoleFormat = winston.format.combine(
   }),
   // Note the extra () on the end, see https://github.com/winstonjs/winston/issues/1392#issuecomment-402545349
   // for why.
-  winston.format((info) => sanitizeMongoDBConnectionString(info))()
+  winston.format((info) => sanitizeMongoDBConnectionString(info as CustomLogInfo))()
 );
 
 const Logger = winston.createLogger({
