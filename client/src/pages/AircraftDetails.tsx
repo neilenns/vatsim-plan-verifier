@@ -47,7 +47,7 @@ const AircraftDetails = () => {
     }
   }, [loaderData, searchParams]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSearchParams({ name: aircraftName });
   };
