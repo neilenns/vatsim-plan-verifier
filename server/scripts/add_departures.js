@@ -123,7 +123,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00024ASTORIA.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00024ASTORIA.PDF",
     },
   },
   {
@@ -141,7 +141,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/05579BEND.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/05579BEND.PDF",
     },
   },
   {
@@ -160,7 +160,7 @@ db.departures.insertMany([
     ],
     IsRNAV: false,
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00515POTOR.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00515POTOR.PDF",
     },
   },
   {
@@ -179,7 +179,7 @@ db.departures.insertMany([
     ],
     IsRNAV: false,
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00251EAGLE.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00251EAGLE.PDF",
     },
   },
   {
@@ -196,7 +196,7 @@ db.departures.insertMany([
     ],
     IsRNAV: false,
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00251JACKSON.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00251JACKSON.PDF",
     },
   },
   {
@@ -215,7 +215,7 @@ db.departures.insertMany([
     ],
     IsRNAV: true,
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00251KLAMATHFALLS.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00251KLAMATHFALLS.PDF",
     },
   },
   {
@@ -234,7 +234,7 @@ db.departures.insertMany([
     ],
     IsRNAV: false,
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00251SMKKY.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00251SMKKY.PDF",
     },
   },
   {
@@ -251,7 +251,7 @@ db.departures.insertMany([
     ],
     isRNAV: false,
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00451PENNCOVE.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00451PENNCOVE.PDF",
     },
   },
   {
@@ -268,7 +268,7 @@ db.departures.insertMany([
     ],
     isRNAV: false,
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00451NASWI.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00451NASWI.PDF",
     },
   },
   {
@@ -287,7 +287,7 @@ db.departures.insertMany([
     ],
     isRNAV: false,
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00645YELM.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00645YELM.PDF",
     },
   },
   {
@@ -308,7 +308,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00929NORTHBEND.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00929NORTHBEND.PDF",
     },
   },
   {
@@ -327,7 +327,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00474TRI-CITIES.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00474TRI-CITIES.PDF",
     },
   },
   {
@@ -346,7 +346,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00345REDMOND.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00345REDMOND.PDF",
     },
   },
   {
@@ -365,7 +365,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/05396BELLEVUE.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/05396BELLEVUE.PDF",
     },
   },
   {
@@ -384,7 +384,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/thumb/05396RENTN.jpg",
+      skyvector: "https://skyvector.com/files/tpp/2606/thumb/05396RENTN.jpg",
     },
   },
   {
@@ -403,7 +403,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00402FELTS.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00402FELTS.PDF",
     },
   },
   {
@@ -422,7 +422,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00402HAYDEN.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00402HAYDEN.PDF",
     },
   },
   {
@@ -441,7 +441,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00402MANITO.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00402MANITO.PDF",
     },
   },
   {
@@ -460,7 +460,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00361SALEM.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00361SALEM.PDF",
     },
   },
   {
@@ -479,7 +479,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00414ALDER.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00414ALDER.PDF",
     },
   },
   {
@@ -498,7 +498,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00414MOCAA.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00414MOCAA.PDF",
     },
   },
   {
@@ -517,7 +517,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00414OLYMPIC.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00414OLYMPIC.PDF",
     },
   },
   {
@@ -536,7 +536,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00414PUGET.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00414PUGET.PDF",
     },
   },
   {
@@ -555,7 +555,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/05186NARROWS.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/05186NARROWS.PDF",
     },
   },
   {
@@ -574,7 +574,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00649BLUELAKE.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00649BLUELAKE.PDF",
     },
   },
   {
@@ -593,7 +593,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/05722GLARA.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/05722GLARA.PDF",
     },
   },
   {
@@ -612,7 +612,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/05722GNNET.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/05722GNNET.PDF",
     },
   },
   {
@@ -631,7 +631,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00735NEWPORT.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00735NEWPORT.PDF",
     },
   },
   {
@@ -650,7 +650,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/10384FEGBA.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/10384FEGBA.PDF",
     },
   },
   {
@@ -669,7 +669,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/05722NEWBERG.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/05722NEWBERG.PDF",
     },
   },
   {
@@ -688,7 +688,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00465GROMO.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00465GROMO.PDF",
     },
   },
   {
@@ -707,7 +707,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00465NACHES.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00465NACHES.PDF",
     },
   },
   {
@@ -728,7 +728,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00465WENAS.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00465WENAS.PDF",
     },
   },
   {
@@ -747,7 +747,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00465YAKIMA.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00465YAKIMA.PDF",
     },
   },
   {
@@ -766,7 +766,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00465ZILLA.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00465ZILLA.PDF",
     },
   },
   {
@@ -785,7 +785,7 @@ db.departures.insertMany([
     ],
     IsRNAV: false,
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00440WALLAWALLA.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00440WALLAWALLA.PDF",
     },
   },
   {
@@ -804,7 +804,7 @@ db.departures.insertMany([
     ],
     IsRNAV: false,
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00140EUGENE.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00140EUGENE.PDF",
     },
   },
   {
@@ -823,7 +823,7 @@ db.departures.insertMany([
     ],
     IsRNAV: false,
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00403SPOKANE.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00403SPOKANE.PDF",
     },
   },
   {
@@ -842,7 +842,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/05063BERNI.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/05063BERNI.PDF",
     },
   },
   {
@@ -861,7 +861,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/05063CANBY.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/05063CANBY.PDF",
     },
   },
   {
@@ -880,7 +880,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/05063CHISM.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/05063CHISM.PDF",
     },
   },
   {
@@ -899,7 +899,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/05063FARMINGTON.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/05063FARMINGTON.PDF",
     },
   },
   {
@@ -918,7 +918,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/05063SCAPO.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/05063SCAPO.PDF",
     },
   },
   {
@@ -951,7 +951,7 @@ db.departures.insertMany([
     ],
     IsRNAV: true,
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00384CBAIN.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00384CBAIN.PDF",
     },
   },
   {
@@ -970,7 +970,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00384KENT.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00384KENT.PDF",
     },
   },
   {
@@ -989,7 +989,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00384NEEDLE.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00384NEEDLE.PDF",
     },
   },
   {
@@ -1022,7 +1022,7 @@ db.departures.insertMany([
     ],
     IsRNAV: true,
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00384NRVNA.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00384NRVNA.PDF",
     },
   },
   {
@@ -1041,7 +1041,7 @@ db.departures.insertMany([
     ],
     IsRNAV: true,
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00330WHAMY.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00330WHAMY.PDF",
     },
   },
   {
@@ -1060,7 +1060,7 @@ db.departures.insertMany([
     ],
     IsRNAV: true,
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00330CASCADE.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00330CASCADE.PDF",
     },
   },
   {
@@ -1088,7 +1088,7 @@ db.departures.insertMany([
     ],
     IsRNAV: true,
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00330HRMNS.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00330HRMNS.PDF",
     },
   },
   {
@@ -1116,7 +1116,7 @@ db.departures.insertMany([
     ],
     IsRNAV: true,
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00330LAVAA.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00330LAVAA.PDF",
     },
   },
   {
@@ -1135,7 +1135,7 @@ db.departures.insertMany([
     ],
     IsRNAV: true,
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00330MINNE.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00330MINNE.PDF",
     },
   },
   {
@@ -1192,7 +1192,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00330PORTLAND.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00330PORTLAND.PDF",
     },
   },
   {
@@ -1220,7 +1220,7 @@ db.departures.insertMany([
     ],
     IsRNAV: true,
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582ELMAA.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00582ELMAA.PDF",
     },
   },
   {
@@ -1248,7 +1248,7 @@ db.departures.insertMany([
     ],
     IsRNAV: true,
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582HAROB.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00582HAROB.PDF",
     },
   },
   {
@@ -1268,7 +1268,7 @@ db.departures.insertMany([
     Flow: "NORTH",
     IsRNAV: true,
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582ISBRG.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00582ISBRG.PDF",
     },
     DepartureValidity: {
       StartTime: 2200,
@@ -1293,7 +1293,7 @@ db.departures.insertMany([
     Flow: "NORTH",
     IsRNAV: true,
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582OZWLD.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00582OZWLD.PDF",
     },
     DepartureValidity: {
       StartTime: 2200,
@@ -1318,7 +1318,7 @@ db.departures.insertMany([
     Flow: "NORTH",
     IsRNAV: true,
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582JEFPO.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00582JEFPO.PDF",
     },
     DepartureValidity: {
       StartTime: 2200,
@@ -1350,7 +1350,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582SUMMA.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00582SUMMA.PDF",
     },
   },
   {
@@ -1394,7 +1394,7 @@ db.departures.insertMany([
     ],
     IsRNAV: true,
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582MOUNTAIN.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00582MOUNTAIN.PDF",
     },
   },
   {
@@ -1422,7 +1422,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582BANGR.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00582BANGR.PDF",
     },
   },
   {
@@ -1467,7 +1467,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00582SEATTLE.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00582SEATTLE.PDF",
     },
   },
   {
@@ -1493,7 +1493,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00142PAINE.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00142PAINE.PDF",
     },
   },
   {
@@ -1512,7 +1512,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00045KIENO.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00045KIENO.PDF",
     },
   },
   {
@@ -1531,7 +1531,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00045KLSHN.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00045KLSHN.PDF",
     },
   },
   {
@@ -1550,7 +1550,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00886WATTR.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00886WATTR.PDF",
     },
   },
   {
@@ -1569,7 +1569,7 @@ db.departures.insertMany([
       },
     ],
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00782SHEDD.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00782SHEDD.PDF",
     },
   },
   {
@@ -1588,7 +1588,7 @@ db.departures.insertMany([
     ],
     IsRNAV: false,
     Charts: {
-      skyvector: "https://skyvector.com/files/tpp/2307/pdf/00473KINGSLEY.PDF",
+      skyvector: "https://skyvector.com/files/tpp/2606/pdf/00473KINGSLEY.PDF",
     },
   },
 ]);
