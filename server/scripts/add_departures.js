@@ -1428,7 +1428,7 @@ db.departures.insertMany([
   {
     AirportCode: "KSEA",
     SID: "SEA1",
-    Telephony: "SEATTLE NINE",
+    Telephony: "SEATTLE ONE",
     IsRNAV: false,
     Fixes: [
       "BUWZO",
