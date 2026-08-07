@@ -9143,4 +9143,18 @@ db.aircraft.insertMany([
     tailHeight: 25.67,
     cwt: "G",
   },
+  {
+    equipmentCode: "BCS3",
+    manufacturer: "AIRBUS-BOMBARDIER",
+    name: "A220-300",
+    engineCount: "2",
+    engineType: "J",
+    weightClass: "L",
+    srsClass: "III",
+    aircraftClass: "J",
+    airplaneDesignGroup: 2,
+    wingspan: 115.1,
+    tailHeight: 38.7,
+    cwt: "F",
+  },
 ]);
